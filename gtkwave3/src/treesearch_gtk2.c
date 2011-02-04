@@ -1455,7 +1455,8 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     vbox = gtk_vbox_new (FALSE, 1);
     gtk_widget_show (vbox);
 
-    GLOBALS->sst_vpaned = vpan = gtk_vpaned_new (); /* GLOBALS->sst_vpaned is to be used to clone position over during reload */
+    vpan = gtk_vpaned_new (); /* GLOBALS->sst_vpaned is to be used to clone position over during reload */
+    GLOBALS->sst_vpaned = (GtkPaned *)vpan;
     gtk_widget_show (vpan);
     gtk_box_pack_start (GTK_BOX (vbox), vpan, TRUE, TRUE, 1);
 

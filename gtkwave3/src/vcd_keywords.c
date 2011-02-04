@@ -1,4 +1,4 @@
-/* C code produced by gperf version 3.0.3 */
+/* C code produced by gperf version 3.0.1 */
 /* Command-line: /usr/bin/gperf -o -i 1 -C -k '1,$' -L C -H keyword_hash -N check_identifier -tT ./vcd_keywords.gperf  */
 
 #if !((' ' == 32) && ('!' == 33) && ('"' == 34) && ('#' == 35) \
@@ -96,9 +96,6 @@ keyword_hash (str, len)
 
 #ifdef __GNUC__
 __inline
-#ifdef __GNUC_STDC_INLINE__
-__attribute__ ((__gnu_inline__))
-#endif
 #endif
 const struct vcd_keyword *
 check_identifier (str, len)
@@ -189,9 +186,9 @@ return(rc ? rc->token : V_STRING);
 }
 
 /*
- * $Id: vcd_keywords.c,v 1.4 2010/12/12 18:32:45 gtkwave Exp $
- * $Log: vcd_keywords.c,v $
- * Revision 1.4  2010/12/12 18:32:45  gtkwave
+ * $Id: vcd_keywords.gperf,v 1.3 2010/12/12 18:32:45 gtkwave Exp $
+ * $Log: vcd_keywords.gperf,v $
+ * Revision 1.3  2010/12/12 18:32:45  gtkwave
  * add "string" variable type to parsing of vcd variable declarations
  *
  * Revision 1.2  2010/02/22 21:13:36  gtkwave
