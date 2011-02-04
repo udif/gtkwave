@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "Cleaning out SVN directories..."
-find . | grep .svn | tac | awk '{print "rm -rf "$0}' | sh
+find . | grep '\.svn' | tac | awk '{print "rm -rf "$0}' | sh
 
 echo "Making distribution tarball from SVN directory..."
 cd ../
