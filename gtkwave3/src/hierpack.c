@@ -84,7 +84,7 @@ if(GLOBALS->do_hier_compress)
 
 char *compress_facility(unsigned char *key, int len)
 {
-size_t mat;
+size_t mat = 0;
 size_t plen;
 size_t i;
 unsigned char vli[VLI_SIZE]; 
