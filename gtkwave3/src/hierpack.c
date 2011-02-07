@@ -108,7 +108,6 @@ for(i=0;i<=len;i++)
 
 if(!mat) 
 	{
-        mat = 0;
         GLOBALS->hp_prev += (plen = enc_var(mat, vli));
         out_write(vli+VLI_SIZE-plen, plen);
         }
