@@ -993,4 +993,5 @@
 		Fixed crashes in hierarchy search widget for GHW where
 		standard, textio, std_logic_1164, etc. were selectable.
 		Fixed reload scroll position for bottom TreeView in SST window.
-3.3.20	05feb11	Fixed uninitialized mat variable in compress_facility().
+3.3.20	07feb11	Fixed uninitialized mat variable in compress_facility().
+		Integrating experimental horizontal slider zoom feature.

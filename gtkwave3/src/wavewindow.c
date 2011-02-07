@@ -20,6 +20,9 @@
 #include "debug.h"
 #include "main.h"
 
+/* undefine for now */
+#undef WAVE_SLIDER_ZOOM
+
 #if !defined _ISOC99_SOURCE
 #define _ISOC99_SOURCE 1
 #endif
@@ -48,6 +51,147 @@ if(GLOBALS->dual_ctx && !GLOBALS->dual_race_lock)
         GLOBALS->dual_ctx[GLOBALS->dual_id].use_new_times = 1;
         }
 }
+
+/******************************************************************/
+
+#ifdef WAVE_SLIDER_ZOOM
+
+static void (*draw_slider_p)    (GtkStyle               *style,
+                                 GdkWindow              *window,
+                                 GtkStateType            state_type,
+                                 GtkShadowType           shadow_type,
+                                 GdkRectangle           *area,
+                                 GtkWidget              *widget,
+                                 const gchar            *detail,
+                                 gint                    x,
+                                 gint                    y,
+                                 gint                    width,
+                                 gint                    height,
+                                 GtkOrientation          orientation) = NULL; /* This is intended to be global...only needed once per toolkit */
+
+
+static void draw_slider         (GtkStyle               *style,
+                                 GdkWindow              *window,
+                                 GtkStateType            state_type,
+                                 GtkShadowType           shadow_type,
+                                 GdkRectangle           *area,
+                                 GtkWidget              *widget,
+                                 const gchar            *detail,
+                                 gint                    x,
+                                 gint                    y,
+                                 gint                    width,
+                                 gint                    height,
+                                 GtkOrientation          orientation)
+{
+if((GLOBALS)&&(widget == GLOBALS->hscroll_wavewindow_c_2))
+	{
+	GLOBALS->str_wid_x = x - widget->allocation.x; 
+	GLOBALS->str_wid_width = width;
+	GLOBALS->str_wid_bigw = widget->allocation.width;	
+	GLOBALS->str_wid_height = height;
+	}
+
+draw_slider_p(style, window, state_type, shadow_type, area, widget, detail, x, y, width, height, orientation);
+}
+
+
+static gint slider_bpr(GtkWidget *widget, GdkEventButton *event)
+{
+int xi = event->x;
+int xl = GLOBALS->str_wid_x;
+int xr = GLOBALS->str_wid_x + GLOBALS->str_wid_width;
+
+if((xi > (xr-8)) && (xi < (xr+8))) 
+	{
+	GLOBALS->str_wid_state = 1; 
+	return(TRUE); 
+	}
+else if((xi < (xl+8)) && (xi > (xl-8))) 
+	{ 
+	GLOBALS->str_wid_state = -1; 
+	return(TRUE); 
+	}
+
+return(FALSE);
+}
+
+
+static gint slider_brr(GtkWidget *widget, GdkEventButton *event)
+{
+GLOBALS->str_wid_state = 0;
+return(FALSE);
+}
+
+
+static gint slider_mnr(GtkWidget *widget, GdkEventMotion *event)
+{
+gdouble x, y, pixstep, offset;
+GdkModifierType state;
+gdouble my_x, xmax, ratio;
+TimeType l_margin, r_margin;
+
+#ifdef WAVE_USE_GTK2
+gint xi, yi;
+#endif
+
+int dummy_x, dummy_y;
+get_window_xypos(&dummy_x, &dummy_y);
+
+if(event->is_hint)
+        {
+        WAVE_GDK_GET_POINTER(event->window, &x, &y, &xi, &yi, &state);
+        WAVE_GDK_GET_POINTER_COPY;
+        }
+        else
+        {
+        x = event->x;
+        y = event->y;
+        state = event->state;
+        }
+
+if((GLOBALS->str_wid_state)&&(!(state & (GDK_BUTTON1_MASK|GDK_BUTTON3_MASK))))
+	{
+	GLOBALS->str_wid_state = 0;
+	}
+
+if(GLOBALS->str_wid_state == 1)
+	{
+	my_x = event->x - GLOBALS->str_wid_height;
+	xmax = GLOBALS->str_wid_bigw - (2*GLOBALS->str_wid_height) - GLOBALS->str_wid_slider;
+	if(xmax > 1.0)
+		{
+		ratio = my_x/xmax;
+		r_margin = (gdouble)(GLOBALS->tims.last - GLOBALS->tims.first) * ratio + GLOBALS->tims.first;
+		if((r_margin > GLOBALS->tims.start) && (r_margin <= GLOBALS->tims.last))
+			{
+			service_dragzoom(GLOBALS->tims.start, r_margin);
+			}	
+		return(TRUE);
+		}
+	}
+else
+if(GLOBALS->str_wid_state == -1)
+	{
+	my_x = event->x - GLOBALS->str_wid_height;
+	xmax = GLOBALS->str_wid_bigw - (2*GLOBALS->str_wid_height) - GLOBALS->str_wid_slider;
+	if(xmax > 1.0)
+		{
+		ratio = my_x/xmax;
+		l_margin = (gdouble)(GLOBALS->tims.last - GLOBALS->tims.first) * ratio + GLOBALS->tims.first;
+		r_margin = GLOBALS->tims.end;
+		if((l_margin >= GLOBALS->tims.first) && (l_margin < GLOBALS->tims.end))
+			{
+			if(r_margin > GLOBALS->tims.last) r_margin = GLOBALS->tims.last;
+			service_dragzoom(l_margin, r_margin);
+			}	
+		return(TRUE);
+		}
+	}
+
+return(FALSE);
+}
+
+#endif
 
 /******************************************************************/
 
@@ -1547,6 +1691,30 @@ gtkwave_signal_connect(GTK_OBJECT(GLOBALS->wave_hslider), "value_changed",GTK_SI
 GLOBALS->hscroll_wavewindow_c_2=gtk_hscrollbar_new(hadj);
 /* GTK_WIDGET_SET_FLAGS(GLOBALS->hscroll_wavewindow_c_2, GTK_CAN_FOCUS); */
 gtk_widget_show(GLOBALS->hscroll_wavewindow_c_2);
+
+
+#ifdef WAVE_SLIDER_ZOOM
+#if WAVE_USE_GTK2
+if(!draw_slider_p)
+	{
+	GtkStyle *gs = gtk_widget_get_style(GLOBALS->hscroll_wavewindow_c_2); 
+	draw_slider_p = GTK_STYLE_GET_CLASS(gs)->draw_slider;
+	GTK_STYLE_GET_CLASS(gs)->draw_slider = draw_slider;
+	}
+
+{
+GValue gvalue;
+memset(&gvalue, 0, sizeof(GValue));
+g_value_init(&gvalue, G_TYPE_INT);
+gtk_widget_style_get_property(GLOBALS->hscroll_wavewindow_c_2, "min-slider-length", &gvalue);
+
+gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "button_press_event",GTK_SIGNAL_FUNC(slider_bpr), NULL);
+gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "button_release_event",GTK_SIGNAL_FUNC(slider_brr), NULL);
+gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "motion_notify_event",GTK_SIGNAL_FUNC(slider_mnr), NULL);
+}
+#endif
+#endif
+
 
 gtk_table_attach (GTK_TABLE (table), GLOBALS->hscroll_wavewindow_c_2, 0, 9, 9, 10,
                         GTK_FILL,

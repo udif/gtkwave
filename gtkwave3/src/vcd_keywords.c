@@ -1,4 +1,4 @@
-/* C code produced by gperf version 3.0.1 */
+/* C code produced by gperf version 3.0.3 */
 /* Command-line: /usr/bin/gperf -o -i 1 -C -k '1,$' -L C -H keyword_hash -N check_identifier -tT ./vcd_keywords.gperf  */
 
 #if !((' ' == 32) && ('!' == 33) && ('"' == 34) && ('#' == 35) \
@@ -96,6 +96,9 @@ keyword_hash (str, len)
 
 #ifdef __GNUC__
 __inline
+#ifdef __GNUC_STDC_INLINE__
+__attribute__ ((__gnu_inline__))
+#endif
 #endif
 const struct vcd_keyword *
 check_identifier (str, len)

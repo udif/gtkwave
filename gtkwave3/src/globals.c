@@ -1286,6 +1286,14 @@ NULL, /* gccache_w_wavewindow_c_1 */
 NULL, /* gccache_dashfill_wavewindow_c_1 */
 NULL, /* gccache_dash_wavewindow_c_1 */
 20, /* analog_redraw_skip_count */
+0, /* str_wid_x */
+0, /* str_wid_width */
+0, /* str_wid_bigw */
+0, /* str_wid_state */
+0, /* str_wid_slider */
+0, /* str_wid_height */
+
+
 /*
  * zoombuttons.c
  */
@@ -1473,6 +1481,7 @@ void reload_into_new_context(void)
 	close(GLOBALS->fd_lxt_c_1);
 	GLOBALS->fd_lxt_c_1 = -1;
 	}
+
  
  /* Marker positions */
  memcpy(new_globals->named_markers, GLOBALS->named_markers, sizeof(GLOBALS->named_markers));
@@ -1593,6 +1602,7 @@ void reload_into_new_context(void)
  new_globals->signal_hslider = GLOBALS->signal_hslider;
  new_globals->wave_vslider = GLOBALS->wave_vslider;
  new_globals->wave_hslider = GLOBALS->wave_hslider;
+ new_globals->hscroll_wavewindow_c_2 = GLOBALS->hscroll_wavewindow_c_2;
  new_globals->max_or_marker_label_currenttime_c_1 = GLOBALS->max_or_marker_label_currenttime_c_1;
  new_globals->maxtext_currenttime_c_1 = (char *) calloc_2_into_context(new_globals,1,40);
  memcpy(new_globals->maxtext_currenttime_c_1, GLOBALS->maxtext_currenttime_c_1,40); 

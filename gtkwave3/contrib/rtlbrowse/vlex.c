@@ -847,11 +847,8 @@ char *yytext;
  */
 
 /*
- * $Id: vlex.c,v 1.2 2009/10/24 01:51:40 gtkwave Exp $
- * $Log: vlex.c,v $
- * Revision 1.2  2009/10/24 01:51:40  gtkwave
- * added dynamic loading for tcl/tk via --enable-stubify
- *
+ * $Id: vlex.l,v 1.1.1.1 2007/05/30 04:25:41 gtkwave Exp $
+ * $Log: vlex.l,v $
  * Revision 1.1.1.1  2007/05/30 04:25:41  gtkwave
  * Imported sources
  *

@@ -1270,6 +1270,13 @@ GdkGC *gccache_w_wavewindow_c_1; /* from wavewindow.c */
 GdkGC *gccache_dashfill_wavewindow_c_1; /* from wavewindow.c */
 GdkGC *gccache_dash_wavewindow_c_1; /* from wavewindow.c */
 int analog_redraw_skip_count; /* from wavewindow.c */
+int str_wid_x;
+int str_wid_width;
+int str_wid_bigw;
+int str_wid_state;
+int str_wid_slider;
+int str_wid_height;
+
 
 /*
  * zoombuttons.c
