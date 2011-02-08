@@ -20,9 +20,6 @@
 #include "debug.h"
 #include "main.h"
 
-/* undefine for now */
-#undef WAVE_SLIDER_ZOOM
-
 #if !defined _ISOC99_SOURCE
 #define _ISOC99_SOURCE 1
 #endif
@@ -125,7 +122,7 @@ return(FALSE);
 
 static gint slider_mnr(GtkWidget *widget, GdkEventMotion *event)
 {
-gdouble x, y, pixstep, offset;
+gdouble x, y;
 GdkModifierType state;
 gdouble my_x, xmax, ratio;
 TimeType l_margin, r_margin;

@@ -874,6 +874,7 @@ Optional Features:
   --enable-gtk1           Causes the GTK+ frontend to be built with gtk1
                           instead of gtk2.
   --enable-fatlines       Renders lines as double width in gtkwave.
+  --enable-slider-zoom    Enables horizontal slider zoom (> GTK 1.2 only).
   --enable-ae2            Compiles in support for AE2 files via simarama.
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
@@ -2404,6 +2405,36 @@ else
 	echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
 	CPPFLAGS="-DWAVE_DOUBLE_LINE_WIDTH_MODE $CPPFLAGS"
+fi
+
+# check for "slider zoom" (simvision style zoom) mode
+echo "$as_me:$LINENO: checking if slider zoom should be enabled" >&5
+echo $ECHO_N "checking if slider zoom should be enabled... $ECHO_C" >&6
+
+SLZ=no
+# Check whether --enable-slider_zoom or --disable-slider_zoom was given.
+if test "${enable_slider_zoom+set}" = set; then
+  enableval="$enable_slider_zoom"
+
+if test "X$enable_slider_zoom" = "Xno" ; then
+	SLZ=no
+else
+	SLZ=yes
+fi
+
+else
+
+SLZ=no
+
+fi;
+
+if test "X$SLZ" = "Xno" ; then
+	echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+else
+	echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+	CPPFLAGS="-DWAVE_SLIDER_ZOOM $CPPFLAGS"
 fi
 
 
