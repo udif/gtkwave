@@ -92,17 +92,17 @@ enum Tokens   { T_VAR, T_END, T_SCOPE, T_UPSCOPE,
 		T_COMMENT, T_DATE, T_DUMPALL, T_DUMPOFF, T_DUMPON,
 		T_DUMPVARS, T_ENDDEFINITIONS, 
 		T_DUMPPORTS, T_DUMPPORTSOFF, T_DUMPPORTSON, T_DUMPPORTSALL,
-		T_TIMESCALE, T_VERSION,
+		T_TIMESCALE, T_VERSION, T_VCDCLOSE,
 		T_EOF, T_STRING, T_UNKNOWN_KEY };
 
 char *tokens[]={ "var", "end", "scope", "upscope",
 		 "comment", "date", "dumpall", "dumpoff", "dumpon",
 		 "dumpvars", "enddefinitions",
 		 "dumpports", "dumpportsoff", "dumpportson", "dumpportsall",
-		 "timescale", "version",
+		 "timescale", "version", "vcdclose",
 		 "", "", "" };
 
-#define NUM_TOKENS 17
+#define NUM_TOKENS 18
 
 static int T_MAX_STR=1024;	/* was originally a const..now it reallocs */
 static char *yytext=NULL;
@@ -1426,6 +1426,9 @@ for(;;)
                         if(current_time<0)  
                                 { start_time=current_time=end_time=0; /* lxt2_wr_set_time(lt, current_time); */ }
                         break;  
+                case T_VCDCLOSE:
+                        sync_end("VCDCLOSE:");
+                        break;  /* next token will be '#' time related followed by $end */
 		case T_END:	/* either closure for dump commands or */
 			break;	/* it's spurious                       */
 		case T_UNKNOWN_KEY:

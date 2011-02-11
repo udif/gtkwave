@@ -1752,6 +1752,7 @@ for(;;)
 				{ GLOBALS->start_time_vcd_c_1=GLOBALS->current_time_vcd_c_1=GLOBALS->end_time_vcd_c_1=0; }
 			break;
 		case T_VCDCLOSE:
+			sync_end("VCDCLOSE:");
 			break;	/* next token will be '#' time related followed by $end */
 		case T_END:	/* either closure for dump commands or */
 			break;	/* it's spurious                       */
