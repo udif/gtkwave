@@ -256,6 +256,12 @@ static void print_help(char *nam)
 #define RPC_GETOPT
 #endif
 
+#if defined(WAVE_USE_GTK2)
+#define SLIDEZOOM_OPT "  -z, --slider-zoom          enable horizontal slider stretch zoom\n"
+#else
+#define SLIDEZOOM_OPT 
+#endif
+
 printf(
 "Usage: %s [OPTION]... [DUMPFILE] [SAVEFILE] [RCFILE]\n\n"
 "  -n, --nocli=DIRPATH        use file requester for dumpfile name\n"
@@ -285,6 +291,7 @@ INTR_GETOPT
 "  -L, --legacy               use legacy VCD mode rather than the VCD recoder\n" 
 "  -v, --vcd                  use stdin as a VCD dumpfile\n"
 OUTPUT_GETOPT
+SLIDEZOOM_OPT
 "  -V, --version              display version banner then exit\n"
 "  -h, --help                 display this help then exit\n"
 "  -x, --exit                 exit after loading trace (for loader benchmarks)\n\n"
@@ -575,6 +582,9 @@ if(!GLOBALS)
 	GLOBALS->use_standard_clicking = old_g->use_standard_clicking;
 	GLOBALS->use_toolbutton_interface = old_g->use_toolbutton_interface;
 
+	GLOBALS->use_scrollwheel_as_y = old_g->use_scrollwheel_as_y;
+	GLOBALS->enable_slider_zoom = old_g->enable_slider_zoom;
+
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_logfile, &old_g->fontname_logfile);
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_signals, &old_g->fontname_signals); 
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_waves, &old_g->fontname_waves);
@@ -671,11 +681,12 @@ while (1)
                 {"repscript", 1, 0, 'R'},   
                 {"repperiod", 1, 0, 'P'},
 		{"output", 1, 0, 'O' },
+                {"slider-zoom", 0, 0, 'z'},
 		{"rpc", 1, 0, '1' },
                 {0, 0, 0, 0}
                 };
 
-        c = getopt_long (argc, argv, "f:Fon:a:Ar:di:l:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:", long_options, 
+        c = getopt_long (argc, argv, "zf:Fon:a:Ar:di:l:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:", long_options, 
 &option_index);
 
         if (c == -1) break;     /* no more args */
@@ -955,6 +966,10 @@ while (1)
 			if(output_name) free_2(output_name);
 			output_name = malloc_2(strlen(optarg)+1);
 			strcpy(output_name, optarg);
+			break;
+
+		case 'z':
+			GLOBALS->enable_slider_zoom = 1;
 			break;
 
                 case '?':

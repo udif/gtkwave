@@ -180,30 +180,6 @@ else
 	CPPFLAGS="-DWAVE_DOUBLE_LINE_WIDTH_MODE $CPPFLAGS"
 fi
 
-# check for "slider zoom" (simvision style zoom) mode
-AC_MSG_CHECKING([if slider zoom should be enabled])
-
-SLZ=no
-AC_ARG_ENABLE([slider_zoom],
-[  --enable-slider-zoom    Enables horizontal slider zoom (> GTK 1.2 only).],
-[
-if test "X$enable_slider_zoom" = "Xno" ; then
-	SLZ=no
-else
-	SLZ=yes
-fi
-],
-[
-SLZ=no
-])
-
-if test "X$SLZ" = "Xno" ; then
-	AC_MSG_RESULT([no])
-else
-	AC_MSG_RESULT([yes])
-	CPPFLAGS="-DWAVE_SLIDER_ZOOM $CPPFLAGS"
-fi
-
 
 AC_MSG_CHECKING([if ae2 support should be used])
 

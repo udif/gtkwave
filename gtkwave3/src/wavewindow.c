@@ -51,7 +51,7 @@ if(GLOBALS->dual_ctx && !GLOBALS->dual_race_lock)
 
 /******************************************************************/
 
-#ifdef WAVE_SLIDER_ZOOM
+#ifdef WAVE_USE_GTK2
 
 static void (*draw_slider_p)    (GtkStyle               *style,
                                  GdkWindow              *window,
@@ -1690,26 +1690,26 @@ GLOBALS->hscroll_wavewindow_c_2=gtk_hscrollbar_new(hadj);
 gtk_widget_show(GLOBALS->hscroll_wavewindow_c_2);
 
 
-#ifdef WAVE_SLIDER_ZOOM
 #if WAVE_USE_GTK2
-if(!draw_slider_p)
+if(GLOBALS->enable_slider_zoom)
 	{
-	GtkStyle *gs = gtk_widget_get_style(GLOBALS->hscroll_wavewindow_c_2); 
-	draw_slider_p = GTK_STYLE_GET_CLASS(gs)->draw_slider;
-	GTK_STYLE_GET_CLASS(gs)->draw_slider = draw_slider;
+	GValue gvalue;
+
+	if(!draw_slider_p)
+		{
+		GtkStyle *gs = gtk_widget_get_style(GLOBALS->hscroll_wavewindow_c_2); 
+		draw_slider_p = GTK_STYLE_GET_CLASS(gs)->draw_slider;
+		GTK_STYLE_GET_CLASS(gs)->draw_slider = draw_slider;
+		}
+	
+	memset(&gvalue, 0, sizeof(GValue));
+	g_value_init(&gvalue, G_TYPE_INT);
+	gtk_widget_style_get_property(GLOBALS->hscroll_wavewindow_c_2, "min-slider-length", &gvalue);
+	
+	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "button_press_event",GTK_SIGNAL_FUNC(slider_bpr), NULL);
+	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "button_release_event",GTK_SIGNAL_FUNC(slider_brr), NULL);
+	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "motion_notify_event",GTK_SIGNAL_FUNC(slider_mnr), NULL);
 	}
-
-{
-GValue gvalue;
-memset(&gvalue, 0, sizeof(GValue));
-g_value_init(&gvalue, G_TYPE_INT);
-gtk_widget_style_get_property(GLOBALS->hscroll_wavewindow_c_2, "min-slider-length", &gvalue);
-
-gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "button_press_event",GTK_SIGNAL_FUNC(slider_bpr), NULL);
-gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "button_release_event",GTK_SIGNAL_FUNC(slider_brr), NULL);
-gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "motion_notify_event",GTK_SIGNAL_FUNC(slider_mnr), NULL);
-}
-#endif
 #endif
 
 

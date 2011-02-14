@@ -1166,6 +1166,7 @@ NULL, /* mvlfacs_vzt_c_3 587 */
  * wavewindow.c
  */
 0, /* use_scrollwheel_as_y */
+0, /* enable_slider_zoom */
 0, /* m1x_wavewindow_c_1 589 */
 0, /* m2x_wavewindow_c_1 */
 0, /* black_and_white */
@@ -1661,6 +1662,7 @@ void reload_into_new_context(void)
  new_globals->zoom_dyn = GLOBALS->zoom_dyn;
  new_globals->zoom_dyne = GLOBALS->zoom_dyne;
  new_globals->use_scrollwheel_as_y = GLOBALS->use_scrollwheel_as_y;
+ new_globals->enable_slider_zoom = GLOBALS->enable_slider_zoom;
  new_globals->context_tabposition = GLOBALS->context_tabposition;
  new_globals->use_standard_clicking = GLOBALS->use_standard_clicking;
 
