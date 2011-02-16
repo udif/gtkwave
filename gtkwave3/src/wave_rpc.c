@@ -9,7 +9,7 @@
 
 #include "globals.h"
 #include "debug.h"
-#include "rpc.h"
+#include "wave_rpc.h"
 
 #define WAVE_S2_S_MACRO \
 	s2 = s; \

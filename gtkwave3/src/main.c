@@ -75,7 +75,7 @@
 #include <tk.h>
 #endif
 
-#include "rpc.h"
+#include "wave_rpc.h"
 
 static int suffix_check(const char *s, const char *sfx)
 {

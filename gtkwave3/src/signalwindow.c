@@ -15,7 +15,7 @@
 #include "pixmaps.h"
 #include "symbol.h"
 #include "debug.h"
-#include "rpc.h"
+#include "wave_rpc.h"
 
 #undef FOCUS_DEBUG_MSGS
 
