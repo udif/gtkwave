@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2006
+ * Copyright (c) Tony Bybell 2006-2011
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -133,6 +133,7 @@ pulldown 						{ return V_KW; }
 pullup 							{ return V_KW; }
 rcmos 							{ return V_KW; }
 real 							{ return V_KW; }
+realtime						{ return V_KW; }
 reg 							{ return V_KW; }
 release 						{ return V_KW; }
 repeat 							{ return V_KW; }
@@ -168,6 +169,7 @@ wire 							{ return V_KW; }
 wor 							{ return V_KW; }
 xnor 							{ return V_KW; }
 xor 							{ return V_KW; }
+
 task 							{ return V_KW; }
 endtask 						{ return V_KW; }
 function 						{ return V_KW; }
@@ -176,6 +178,31 @@ table 							{ return V_KW; }
 endtable 						{ return V_KW; }
 specify 						{ return V_KW; }
 endspecify 						{ return V_KW; }
+
+
+automatic						{ return V_KW_2005; }
+cell							{ return V_KW_2005; }
+config							{ return V_KW_2005; }
+design							{ return V_KW_2005; }
+endconfig						{ return V_KW_2005; }
+endgenerate						{ return V_KW_2005; }
+ifnone							{ return V_KW_2005; }
+incdir							{ return V_KW_2005; }
+include							{ return V_KW_2005; }
+instance						{ return V_KW_2005; }
+generate						{ return V_KW_2005; }
+genvar							{ return V_KW_2005; }
+liblist							{ return V_KW_2005; }
+library							{ return V_KW_2005; }
+localparam						{ return V_KW_2005; }
+noshowcancelled						{ return V_KW_2005; }
+pulsestyle_onevent					{ return V_KW_2005; }
+pulsestyle_ondetect					{ return V_KW_2005; }
+unsigned						{ return V_KW_2005; }
+showcancelled						{ return V_KW_2005; }
+signed							{ return V_KW_2005; }
+use							{ return V_KW_2005; }
+uwire							{ return V_KW_2005; }
 
 
 macromodule 						{ return V_MODULE; }

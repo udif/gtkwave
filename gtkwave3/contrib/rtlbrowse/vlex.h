@@ -17,6 +17,7 @@
 #define V_PREPROC (12)
 #define V_PREPROC_WS (13)
 #define V_KW (14)
+#define V_KW_2005 (15)
 
 extern int my_yylineno;
 extern char *v_preproc_name;

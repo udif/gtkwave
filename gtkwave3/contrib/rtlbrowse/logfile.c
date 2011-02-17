@@ -27,6 +27,7 @@
 extern ds_Tree *flattened_mod_list_root;
 extern struct gtkwave_annotate_ipc_t *anno_ctx;
 extern GtkWidget *notebook;
+extern int verilog_2005;
 
 TimeType old_marker = 0;
 unsigned old_marker_set = 0;
@@ -918,6 +919,11 @@ if(sel)
         	{
         	char *pnt = yytext;
 
+		if(!verilog_2005)
+			{
+			if(lx == V_KW_2005) lx = V_ID;
+			}
+
                 if(lx==V_ID)
                         {
 			if(!degate)
@@ -1785,6 +1791,11 @@ void bwlogbox_2(struct logfile_context_t *ctx, GtkWidget *window, GtkWidget *but
 	char *pnt = yytext;
 	struct wave_logfile_lines_t *w;
 	line_no = my_yylineno;
+
+        if(!verilog_2005)
+		{
+                if(lx == V_KW_2005) lx = V_ID;
+                }
 
 	if(!lx_module_line_locked)
 		{

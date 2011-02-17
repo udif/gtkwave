@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2006-2008.
+ * Copyright (c) Tony Bybell 2006-2011.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +28,8 @@
 extern GtkCTree *ctree_main;
 void treebox(char *title, GtkSignalFunc func, GtkWidget *old_window);
 gboolean update_ctx_when_idle(gpointer dummy);
+
+int verilog_2005 = 0; /* currently 1364-2005 keywords are disabled */
 
 int mod_cnt;
 ds_Tree **mod_list;
