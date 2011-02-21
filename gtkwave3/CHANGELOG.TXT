@@ -993,7 +993,8 @@
 		Fixed crashes in hierarchy search widget for GHW where
 		standard, textio, std_logic_1164, etc. were selectable.
 		Fixed reload scroll position for bottom TreeView in SST window.
-3.3.20	14feb11	Fixed uninitialized mat variable in compress_facility().
-		Integrating experimental horizontal slider zoom feature.
-		Added --slider-zoom option to gtkwave itself, removing 
-		--enable-slider-zoom from the configure script.
+3.3.20	21feb11	Fixed uninitialized mat variable in compress_facility().
+		Added --slider-zoom option to gtkwave to enable experimental
+		horizontal slider zoom feature (GTK2).
+		Fix vcd2fst so it can handle 0 length VCD event variables in
+		their declarations (MTI).
