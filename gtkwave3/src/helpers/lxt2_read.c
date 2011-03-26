@@ -1544,10 +1544,14 @@ if(lt)
 						strm.next_in = (unsigned char *)(zbuff+10);
 						strm.next_out = (unsigned char *)(pnt);
 
-						rc = inflateInit2(&strm, -MAX_WBITS);
-						while (Z_OK == (rc = inflate(&strm, Z_NO_FLUSH)));
-						rc = inflateEnd(&strm);
-						if(strm.total_out!=unclen)
+						if((clen != 0)&&(unclen != 0))
+							{
+							rc = inflateInit2(&strm, -MAX_WBITS);
+							while (Z_OK == (rc = inflate(&strm, Z_NO_FLUSH)));
+							rc = inflateEnd(&strm);
+							}
+
+						if((strm.total_out!=unclen)||(clen == 0)||(unclen == 0))
 							{
 							fprintf(stderr, LXT2_RDLOAD"short read on subblock %ld vs "LXT2_RD_LD" (exp), ignoring\n", strm.total_out, unclen);
 							free(b->mem); b->mem=NULL;
