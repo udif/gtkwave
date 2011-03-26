@@ -1507,8 +1507,8 @@ if(lt)
 				off_t fspos = b->filepos;
 				int rc;
 
-				char *zbuff=NULL;
-				int zlen = 0;
+				int zlen = 16;
+				char *zbuff=malloc(zlen);
 				struct z_stream_s strm;
 
 				real_uncompressed_siz = b->uncompressed_siz;
