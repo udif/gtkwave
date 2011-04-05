@@ -285,22 +285,25 @@ while(!feof(f))
 		nam = strtok(NULL, " \t"); /* name */
 		st = strtok(NULL, " \t"); /* $end */
 
-		if(strncmp(st, "$end", 4))
+		if(st)
 			{
-			*(st-1) = ' ';
-			}
-
-		node = jrb_find_int(vcd_ids, hash);
-		if(!node)
-			{
-			Jval val;
-			returnedhandle = fstWriterCreateVar(ctx, vartype, FST_VD_IMPLICIT, len, nam, 0);
-			val.i = returnedhandle;
-			jrb_insert_int(vcd_ids, hash, val)->val2.i = len;
-			}
-			else
-			{
-			fstWriterCreateVar(ctx, vartype, FST_VD_IMPLICIT, node->val2.i, nam, node->val.i);
+			if(strncmp(st, "$end", 4))
+				{
+				*(st-1) = ' ';
+				}
+	
+			node = jrb_find_int(vcd_ids, hash);
+			if(!node)
+				{
+				Jval val;
+				returnedhandle = fstWriterCreateVar(ctx, vartype, FST_VD_IMPLICIT, len, nam, 0);
+				val.i = returnedhandle;
+				jrb_insert_int(vcd_ids, hash, val)->val2.i = len;
+				}
+				else
+				{
+				fstWriterCreateVar(ctx, vartype, FST_VD_IMPLICIT, node->val2.i, nam, node->val.i);
+				}
 			}
 		}
 	else
