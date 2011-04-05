@@ -390,44 +390,46 @@ if(indirect_fname)
 			}
 		}
 	}
-
-if(1)
+	else
 	{
-	int early_out = 0;
-	fprintf(stderr, AET2_RDLOAD"Filtering BugSpray facilities...\n");
-	GLOBALS->ae2_regex_matches = 0;
-	for(i=0;i<GLOBALS->numfacs;i++)
-	        {
-	        char buf[65537];
-	        int idx = i+1;
-
-		int len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
-		buf[len] = 0;
-
-		if(buf[0] == 'B')
-			{
-			if(buf[1] == 'S')
+	if(1)
+		{
+		int early_out = 0;
+		fprintf(stderr, AET2_RDLOAD"Filtering BugSpray facilities...\n");
+		GLOBALS->ae2_regex_matches = 0;
+		for(i=0;i<GLOBALS->numfacs;i++)
+		        {
+		        char buf[65537];
+		        int idx = i+1;
+	
+			int len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
+			buf[len] = 0;
+	
+			if(buf[0] == 'B')
 				{
-				if(buf[2] == '%')
+				if(buf[1] == 'S')
 					{
-					early_out = 1;
-					continue;
+					if(buf[2] == '%')
+						{
+						early_out = 1;
+						continue;
+						}
 					}
 				}
+	
+			if(early_out) break;
+	
+			aet2_rd_set_fac_process_mask(i);
+			GLOBALS->ae2_regex_matches++;
 			}
+	
+		for(;i<GLOBALS->numfacs;i++)
+		        {
+		        int idx = i+1;
 
-		if(early_out) break;
-
-		aet2_rd_set_fac_process_mask(i);
-		GLOBALS->ae2_regex_matches++;
-		}
-
-	for(;i<GLOBALS->numfacs;i++)
-	        {
-	        int idx = i+1;
-
-		aet2_rd_set_fac_process_mask(i);
-		GLOBALS->ae2_regex_matches++;
+			aet2_rd_set_fac_process_mask(i);
+			GLOBALS->ae2_regex_matches++;
+			}
 		}
 	}
 
