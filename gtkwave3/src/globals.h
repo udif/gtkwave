@@ -881,6 +881,7 @@ struct tree *mod_tree_parent; /* from tree.c */
 char *module_tree_c_1; /* from tree.c 474 */
 int module_len_tree_c_1; /* from tree.c 475 */
 struct tree *terminals_tchain_tree_c_1; /* from tree.c 476 */
+struct tree *terminals_tchain_parent; /* from tree.c */
 char hier_delimeter; /* from tree.c 477 */
 char hier_was_explicitly_set; /* from tree.c 478 */
 char alt_hier_delimeter; /* from tree.c 479 */
