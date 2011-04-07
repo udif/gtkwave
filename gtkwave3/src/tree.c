@@ -626,7 +626,6 @@ rs:		s=get_module_name(s);
 			else
 			{
 			nt->child = prevt;			/* parent */
-			GLOBALS->terminals_tchain_parent = prevt;
 			nt->t_which = which;
 			nt->next = GLOBALS->terminals_tchain_tree_c_1;
 			GLOBALS->terminals_tchain_tree_c_1 = nt;
@@ -651,7 +650,6 @@ rs:		s=get_module_name(s);
 				else
 				{
 				nt->child = t;			/* parent */
-				GLOBALS->terminals_tchain_parent = t;
 				nt->t_which = which;
 				nt->next = GLOBALS->terminals_tchain_tree_c_1;
 				GLOBALS->terminals_tchain_tree_c_1 = nt;
@@ -681,9 +679,7 @@ else
 			GLOBALS->treeroot = t = nt;
 			}
 		}
-	
 	}
-
 }
 
 

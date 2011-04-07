@@ -603,59 +603,10 @@ if(GLOBALS->fast_tree_sort)
 
 	init_tree();		
 
-	if(0)
-	{
 	for(i=0;i<GLOBALS->numfacs;i++)	
 		{
 		build_tree_from_name(GLOBALS->facs[i]->name, i);
 		}
-	}
-	else
-	{
-	int pdot = -1;
-	int cdot = -1;
-
-	for(i=0;i<GLOBALS->numfacs;i++)	
-		{
-		char *last_dot = NULL;		
-		char *spnt = GLOBALS->facs[i]->name;
-
-		while(*spnt)
-			{
-			if(*spnt == '.') last_dot = spnt;
-			spnt++;
-			}
-
-		if(GLOBALS->terminals_tchain_parent)
-			{
-			if(last_dot)
-				{
-				cdot = last_dot - GLOBALS->facs[i]->name;
-				if(pdot == cdot)
-					{
-					if(!memrevcmp(cdot, GLOBALS->facs[i]->name, GLOBALS->facs[i-1]->name))
-						{
-						struct tree *nt=(struct tree *)talloc_2(sizeof(struct tree)+(spnt - last_dot));
-				                memcpy(nt->name, last_dot + 1, spnt - last_dot);
-
-			                        nt->child = GLOBALS->terminals_tchain_parent;
-			                        nt->t_which = i;
-			                        nt->next = GLOBALS->terminals_tchain_tree_c_1;
-						GLOBALS->terminals_tchain_tree_c_1 = nt;
-						continue;
-						}
-					}
-				}
-				else
-				{
-				cdot = -1;
-				}
-			}
-
-		build_tree_from_name(GLOBALS->facs[i]->name, i);
-		pdot = cdot;
-		}
-	}
 
 /* SPLASH */                            splash_sync(4, 5);
 	treegraft(&GLOBALS->treeroot);
