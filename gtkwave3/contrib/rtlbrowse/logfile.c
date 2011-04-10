@@ -2541,7 +2541,7 @@ skip_resolved_ae2:
 				{
 				if(node->val.i >= 0)
 					{
-					char rc[MAXFACLEN+1];
+					char rc[AE2_MAXFACLEN+1];
 					FACREF fr;
 
 					fr.s = node->val.i;
