@@ -52,20 +52,6 @@ exit(255);
 
 #else
 
-/*
- * reverse equality mem compare
- */
-static int memrevcmp(int i, const char *s1, const char *s2)
-{
-i--;
-for(;i>=0;i--)
-        {
-        if(s1[i] != s2[i]) break;
-        }
-
-return(i+1);
-}
-
 
 /*
  * iter mask manipulation util functions
@@ -428,8 +414,6 @@ if(indirect_fname)
 	
 		for(;i<GLOBALS->numfacs;i++)
 		        {
-		        int idx = i+1;
-
 			aet2_rd_set_fac_process_mask(i);
 			GLOBALS->ae2_regex_matches++;
 			}
@@ -630,8 +614,8 @@ if(GLOBALS->fast_tree_sort)
 	GLOBALS->curnode=GLOBALS->firstnode;
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
-		char *subst;
 #ifdef WAVE_HIERFIX
+		char *subst;
 		char ch;	
 #endif
 		GLOBALS->facs[i]=&monolithic_sym[i];

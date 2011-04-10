@@ -48,6 +48,7 @@
 #define FST_DOUBLE_GRANULARITY ( ( (4*1024)-(2*sizeof(void *)) ) / sizeof(double) )
 #endif     
             
+#ifndef WAVE_HAS_H_DOUBLE
 static void *double_slab_calloc(void)
 {
 if(GLOBALS->double_curr_fst==GLOBALS->double_fini_fst)
@@ -58,6 +59,7 @@ if(GLOBALS->double_curr_fst==GLOBALS->double_fini_fst)
 
 return((void *)(GLOBALS->double_curr_fst++));
 }  
+#endif
 
 /*
  * reverse equality mem compare
