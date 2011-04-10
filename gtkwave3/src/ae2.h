@@ -73,6 +73,7 @@ unsigned long 	ae2_read_num_sections(AE2_HANDLE handle);
 uint64_t* 	ae2_read_ith_section_range(AE2_HANDLE handle, unsigned long section_idx);
 time_t          ae2_read_model_timestamp(AE2_HANDLE handle);
 unsigned long	ae2_read_num_symbols(AE2_HANDLE handle);
+unsigned long 	ae2_read_match_symbol(AE2_HANDLE handle, const char* pattern, unsigned long start_symbol_idx, uint32_t* list, unsigned long num);
 unsigned long 	ae2_read_symbol_name(AE2_HANDLE handle, unsigned long symbol_idx, char* name);
 unsigned long	ae2_read_symbol_rows(AE2_HANDLE handle, unsigned long symbol_idx);
 unsigned long	ae2_read_symbol_length(AE2_HANDLE handle, unsigned long symbol_idx);
