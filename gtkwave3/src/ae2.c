@@ -278,6 +278,9 @@ sym_hash_initialize(GLOBALS);
 GLOBALS->ae2_num_sections=ae2_read_num_sections(GLOBALS->ae2);
 GLOBALS->numfacs=ae2_read_num_symbols(GLOBALS->ae2);
 GLOBALS->ae2_process_mask = calloc_2(1, GLOBALS->numfacs/8+1);
+#ifdef AE2_EXPERIMENTAL_TO_INTEGRATE
+GLOBALS->ae2_invert_idx = calloc_2(GLOBALS->numfacs + 1, sizeof(struct symbol *));
+#endif
 
 if(indirect_fname)
 	{
@@ -348,7 +351,7 @@ if(indirect_fname)
 	
 			for(i=0;i<GLOBALS->numfacs;i++)
 				{
-			        char buf[65537];
+			        char buf[AE2_MAX_NAME_LENGTH+1];
 			        int idx = i+1;
 			
 			        ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
@@ -399,7 +402,7 @@ if(indirect_fname)
 		GLOBALS->ae2_regex_matches = 0;
 		for(i=0;i<GLOBALS->numfacs;i++)
 		        {
-		        char buf[65537];
+		        char buf[AE2_MAX_NAME_LENGTH+1];
 		        int idx = i+1;
 	
 			int len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
@@ -484,7 +487,7 @@ match_idx = 0;
 for(i=0;i<GLOBALS->numfacs;i++)
         {
 	char *str;	
-        char buf[65537];
+        char buf[AE2_MAX_NAME_LENGTH+1];
         int idx = i+1;
 	unsigned long len, clen;
 	int row_iter, mx_row, mx_row_adjusted;
@@ -552,6 +555,10 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		prevsymroot = prevsym = NULL;
 		}
 		
+#ifdef AE2_EXPERIMENTAL_TO_INTEGRATE
+        GLOBALS->ae2_invert_idx[idx] = s;
+#endif
+
         mx_row = (GLOBALS->ae2_fr[match_idx].row < 1) ? 1 : GLOBALS->ae2_fr[match_idx].row;
 	mx_row_adjusted = (mx_row < 2) ? 0 : mx_row;
         n=&monolithic_node[mono_row_offset];
@@ -808,7 +815,7 @@ unsigned int i, j, r;
 uint64_t cyc, ecyc, step_cyc;
 struct ae2_ncycle_autosort *deadlist=NULL;
 struct ae2_ncycle_autosort *autofacs=NULL;
-char buf[65537];
+char buf[AE2_MAXFACLEN+1];
 
 
 GLOBALS->ae2_msg_suppress = 1;
@@ -1409,6 +1416,66 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 		}
 	}
 }
+
+
+#ifdef AE2_EXPERIMENTAL_TO_INTEGRATE
+struct symbol *symfind_ae2(char *s, unsigned int *rows_return)
+{
+char *s2 = s;
+char buf[AE2_MAX_NAME_LENGTH+1];
+char *d = buf;
+char *last_brack = NULL;
+char *last_brace = NULL;
+struct facref fr;
+ulong u;
+
+if ((!s)||(!s[0])) return(NULL);
+if(rows_return)
+        {
+        *rows_return = 0;
+        }
+
+while(*s2)
+	{
+	*d = *s2;
+
+	if(*s2 == '[')
+		{
+		last_brack = d;
+		}
+	else if(*s2 == '{')
+		{
+		last_brace = d;
+		}
+
+	s2++;
+	d++;
+	}
+*d = 0;
+
+d = buf;
+if(last_brack)
+	{
+	*last_brack = 0;
+	}
+
+if(rows_return)
+	{
+	if(last_brace)
+		{
+		*rows_return = atoi(last_brace+1);
+		}
+		else
+		{
+		*rows_return = 0;
+		}
+	}
+
+u = ae2_read_find_symbol(GLOBALS->ae2, d, &fr);
+
+return(GLOBALS->ae2_invert_idx[u]);
+}
+#endif
 
 #endif
 /* ...of AET2_IS_PRESENT */

@@ -42,7 +42,8 @@ void 		ae2_import_masked(void);
 /*
  * texsim prototypes/libae2rw interfacing...
  */
-#define	MAXFACLEN 	 65536
+#define AE2_MAX_NAME_LENGTH 2048
+#define	AE2_MAXFACLEN 	 65536
 typedef unsigned long	 FACIDX;
 
 struct facref

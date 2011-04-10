@@ -87,7 +87,9 @@ struct regex_links *ae2_regex_head;
 int ae2_regex_matches;
 int ae2_twirl_pos;
 int ae2_did_twirl;
-
+#ifdef AE2_EXPERIMENTAL_TO_INTEGRATE
+struct symbol **ae2_invert_idx;
+#endif
 
 
 /*

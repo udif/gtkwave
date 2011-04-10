@@ -86,6 +86,9 @@ NULL, /* ae2_regex_head */
 0, /* ae2_regex_matches */
 0, /* ae2_twirl_pos */
 0, /* ae2_did_twirl */
+#ifdef AE2_EXPERIMENTAL_TO_INTEGRATE
+NULL, /* ae2_invert_idx */
+#endif
 
 
 /*
