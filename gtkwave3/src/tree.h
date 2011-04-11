@@ -93,7 +93,7 @@ struct tree *child;
 int t_which;		/* 'i' for facs[i] table, value of < 0 means not a full signame */
 
 unsigned kind : 7; 	/* Kind of the leaf: ghwlib reads this as val & 0x7f so only 7 bits needed */
-unsigned children_in_gui : 1; /* indicates that the child notes are in the gtk2 tree */
+unsigned children_in_gui : 1; /* indicates that the child nodes are in the gtk2 tree */
 char name[1];
 };
 
