@@ -392,7 +392,6 @@ if(indirect_fname)
 		        int idx = i+1;
 	
 			int len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
-			buf[len] = 0;
 	
 			if(buf[0] == 'B')
 				{
@@ -478,8 +477,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 	if((GLOBALS->ae2_regex_matches)&&(!aet2_rd_get_fac_process_mask(i))) continue;
 
-	len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);	/* previously had -1, but it no longer returns the zero byte counted */
-	buf[len] = 0;					/* only being defensive here, not really necessary */
+	len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
 
 	if(GLOBALS->ae2_fr[match_idx].length>1)
 		{
