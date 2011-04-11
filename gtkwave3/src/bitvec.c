@@ -1378,7 +1378,7 @@ if(numptr)
  */
 
 #ifdef WAVE_USE_SIGCMP_INFINITE_PRECISION
-int sigcmp(char *s1, char *s2)
+inline int sigcmp_2(char *s1, char *s2)
 {
 char *n1, *n2;
 unsigned char c1, c2;
@@ -1444,7 +1444,7 @@ for(;;)
 	}
 }
 #else
-int sigcmp(char *s1, char *s2)
+inline int sigcmp_2(char *s1, char *s2)
 {
 unsigned char c1, c2;
 int u1, u2;
@@ -1484,6 +1484,18 @@ for(;;)
 	}
 }
 #endif
+
+int sigcmp(char *s1, char *s2)
+{
+int rc = sigcmp_2(s1, s2);
+if(!rc)
+	{
+	rc = strcmp(s1, s2); /* to handle leading zero "0" vs "00" cases ... we provide a definite order so bsearch doesn't fail */
+	}
+
+return(rc);
+}
+
 
 #ifndef __linux__
 /* 
