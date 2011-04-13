@@ -609,7 +609,6 @@ if(GLOBALS->fast_tree_sort)
 	}
 	else
 	{
-	GLOBALS->curnode=GLOBALS->firstnode;
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 #ifdef WAVE_HIERFIX
