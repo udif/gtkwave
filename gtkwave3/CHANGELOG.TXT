@@ -998,4 +998,5 @@
 		horizontal slider zoom feature (GTK2).
 		Fix vcd2fst so it can handle 0 length VCD event variables in
 		their declarations (MTI).
-3.3.21	25mar11	Fixed crash in LXT2 reader on malformed files.
+3.3.21	18apr11	Fixed crash in LXT2 reader on malformed files.
+		Fixed reload crash when -o flag used on non-VCD files.

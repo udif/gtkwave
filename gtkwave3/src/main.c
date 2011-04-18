@@ -391,6 +391,7 @@ char is_giga = 0;
 char fast_exit=0;
 char opt_errors_encountered=0;
 char is_missing_file = 0;
+char opt_vcd = 0;
 
 char *wname=NULL;
 char *override_rc=NULL;
@@ -773,7 +774,7 @@ while (1)
                         break;
 
 		case 'o':
-			GLOBALS->optimize_vcd = 1;
+			opt_vcd = 1;
 			break;
 
 		case 'n':
@@ -1278,11 +1279,12 @@ else	/* nothing else left so default to "something" */
 	{
 load_vcd:
 #if !defined _MSC_VER && !defined __MINGW32__
-	if(GLOBALS->optimize_vcd) {
+	if(opt_vcd) {
                   GLOBALS->unoptimized_vcd_file_name = calloc_2(1,strlen(GLOBALS->loaded_file_name) + 1);
                   strcpy(GLOBALS->unoptimized_vcd_file_name, GLOBALS->loaded_file_name);  
                   optimize_vcd_file();
                   is_vcd = 0;
+		  GLOBALS->optimize_vcd = 1;
                   goto loader_check_head;
         }
 
