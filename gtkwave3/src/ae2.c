@@ -391,7 +391,7 @@ if(indirect_fname)
 		        char buf[AE2_MAX_NAME_LENGTH+1];
 		        int idx = i+1;
 	
-			int len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
+			ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
 	
 			if(buf[0] == 'B')
 				{
