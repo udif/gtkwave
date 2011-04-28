@@ -157,7 +157,7 @@ TimeType ae2_main(char *fname, char *skip_start, char *skip_end, char *indirect_
 int i;
 int match_idx;
 struct Node *n;
-struct symbol *s, *prevsymroot=NULL, *prevsym=NULL;
+struct symbol *s;
 FILE *ind_h = NULL;
 TimeType first_cycle, last_cycle, total_cycles;
 char *info_fname = NULL;
@@ -518,7 +518,6 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			}
 		s = &monolithic_sym[match_idx];
 	        symadd_name_exists_sym_exists(s, str,0);
-		prevsymroot = prevsym = NULL;
 		}
 		else
 		{
@@ -534,7 +533,6 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			}
 		s = &monolithic_sym[match_idx];
 	        symadd_name_exists_sym_exists(s, str,0);
-		prevsymroot = prevsym = NULL;
 		}
 		
 #ifdef AE2_EXPERIMENTAL_TO_INTEGRATE
