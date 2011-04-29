@@ -1406,7 +1406,7 @@ char *d = buf;
 char *last_brack = NULL;
 char *last_brace = NULL;
 struct facref fr;
-ulong u;
+unsigned long u;
 
 if ((!s)||(!s[0])) return(NULL);
 if(rows_return)

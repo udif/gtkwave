@@ -17,6 +17,8 @@
 #include "lx2.h"
 
 #define AET2_RDLOAD "AE2LOAD | "
+
+/* these are not real facility names and will likely be removed in the future */
 #define AET2_TIMEFAC "AE2(!!TIME!!)"
 #define AET2_PRECFAC "AE2(!!PREC!!)"
 
@@ -42,9 +44,9 @@ void 		ae2_import_masked(void);
 /*
  * texsim prototypes/libae2rw interfacing...
  */
-#define AE2_MAX_NAME_LENGTH 2048
-#define	AE2_MAXFACLEN 	 65536
-typedef unsigned long	 FACIDX;
+#define AE2_MAX_NAME_LENGTH 	2048
+#define	AE2_MAXFACLEN 	 	65536
+typedef unsigned long	 	FACIDX;
 
 struct facref
 {
@@ -55,14 +57,14 @@ int length;                       /* length of reference */
 unsigned int row;                 /* row number for arrays */
 unsigned int row_high;            /* row number for arrays */
 };
-typedef struct facref FACREF;
+typedef struct facref 		FACREF;
 
-typedef void* 	AE2_HANDLE;
-typedef unsigned long 	AE2_SYMBOL;
-typedef void 	(*AE2_SEVERROR) (const char*, ...);
-typedef void 	(*AE2_MSG) (int, const char*, ...);
-typedef void* 	(*AE2_ALLOC) (size_t size);
-typedef void 	(*AE2_FREE) (void* ptr, size_t size);
+typedef void* 			AE2_HANDLE;
+typedef unsigned long 		AE2_SYMBOL;
+typedef void 			(*AE2_SEVERROR) (const char*, ...);
+typedef void 			(*AE2_MSG) (int, const char*, ...);
+typedef void* 			(*AE2_ALLOC) (size_t size);
+typedef void 			(*AE2_FREE) (void* ptr, size_t size);
 
 void 		ae2_initialize(AE2_SEVERROR error_fn, AE2_MSG msg_fn, AE2_ALLOC alloc_fn, AE2_FREE free_fn);
 AE2_HANDLE 	ae2_read_initialize(FILE* file);
@@ -87,6 +89,41 @@ void 		ae2_read_end(AE2_HANDLE handle);
 
 unsigned long	ae2_read_num_sparse_rows(AE2_HANDLE handle, unsigned long symbol_idx, uint64_t cycle);
 uint64_t 	ae2_read_ith_sparse_row(AE2_HANDLE handle, unsigned long symbol_idx, uint64_t cycle, unsigned long idx);
+
+
+/*
+ * keyword and aliases interfacing...
+ */
+typedef unsigned long 		AE2_KEYWORD;
+typedef unsigned long 		ADB_ALIAS;
+typedef unsigned long 		ADB_DB;
+typedef unsigned long 		TRIE_HANDLE;
+
+struct ADB_TERM
+{
+unsigned long id;
+unsigned short first, last;
+};
+
+typedef void* 			(*ADB_ALLOC_FN) (size_t n);
+typedef void 			(*ADB_FREE_FN) (void *p, size_t n);
+typedef void 			(*ADB_MSG_FN) (unsigned long  lvl, const char *fmt, ...);
+typedef void 			(*ADB_SEVERR_FN) (const char *fmt, ...);
+typedef unsigned long 		(*ADB_SYMBOL_FN) (const char *name, void *udata);
+
+
+AE2_KEYWORD 	ae2_read_locate_keyword(AE2_HANDLE handle, const char* kwName);
+FILE* 		ae2_read_keyword_stream(AE2_HANDLE handle, AE2_KEYWORD key);
+
+ADB_DB 		adb_open_embed (FILE* fp, const char* parms, ADB_ALLOC_FN alloc_fn, ADB_FREE_FN free_fn, ADB_MSG_FN msg_fn, ADB_SEVERR_FN severror_fn);
+TRIE_HANDLE 	adb_alias_trie (ADB_DB db);
+unsigned long  	adb_max_alias_terms (ADB_DB db);
+unsigned long 	adb_num_aliases (ADB_DB db);
+unsigned long 	adb_load_alias_def (ADB_DB db, ADB_ALIAS alias, struct ADB_TERM* def);
+ADB_ALIAS 	adb_locate_alias (ADB_DB db, const char *name);
+unsigned long 	adb_symbol_name (ADB_DB db, unsigned long id, char *dest);
+unsigned long 	adb_close_db (ADB_DB db);
+
 
 #endif
 
