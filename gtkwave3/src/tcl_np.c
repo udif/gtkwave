@@ -381,10 +381,10 @@ char *NpMyDirectoryPath(char *path, int path_max_len) {
     
     if (tcl_Init && dladdr(tcl_Init, &info)) {
       NpLog3("using dladdr '%s' => '%s'\n", libname, info.dli_fname);
-      snprintf(dllName, dllNameSize, info.dli_fname);
+      snprintf(dllName, dllNameSize, "%s", info.dli_fname); /* format arg was missing */
     } else
 #  endif
-      snprintf(dllName, dllNameSize, libname);
+      snprintf(dllName, dllNameSize, "%s", libname); /* format arg was missing */
   }
   return TCL_OK;
 }
