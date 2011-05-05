@@ -372,13 +372,13 @@ Trptr Node_to_Trptr(nptr nd)
   }
 
   if(!GLOBALS->hier_max_level) {
-    int flagged;
+    int flagged = 0;
     
     t->name = hier_decompress_flagged(nd->nname, &flagged);
     t->is_depacked = (flagged != 0);
   }
   else {
-    int flagged;
+    int flagged = 0;
     char *tbuff = hier_decompress_flagged(nd->nname, &flagged);
     if(!flagged) {
       t->name = hier_extract(nd->nname, GLOBALS->hier_max_level);

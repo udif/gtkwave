@@ -1322,7 +1322,7 @@ load_vcd:
 	}
 
 
-if((GLOBALS->loaded_file_type != FST_FILE) || (!GLOBALS->fast_tree_sort))
+if(((GLOBALS->loaded_file_type != FST_FILE) && (GLOBALS->loaded_file_type != AE2_FILE)) || (!GLOBALS->fast_tree_sort))
 	{
 	GLOBALS->do_hier_compress = 0; /* for now, add more file formats in the future */
 	}

@@ -26,6 +26,7 @@
 #include "fgetdynamic.h"
 #include "debug.h"
 #include "busy.h"
+#include "hierpack.h"
 
 
 /* 
@@ -181,6 +182,13 @@ if ( (!(GLOBALS->ae2_f=fopen(fname, "rb"))) || (!(GLOBALS->ae2 = ae2_read_initia
 
 
 GLOBALS->time_dimension = 'n';
+
+if(!GLOBALS->fast_tree_sort)
+        {
+        GLOBALS->do_hier_compress = 0;
+        }
+
+init_facility_pack();
 
 info_fname = malloc_2(strlen(fname) + 4 + 1);
 strcpy(info_fname, fname);
@@ -505,8 +513,16 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			len2 = sprintf(buf+len, "[%d:%d]", 0, GLOBALS->ae2_fr[match_idx].length-1);
 			}
 
+		clen = (len + len2 + 1);
+                if(!GLOBALS->do_hier_compress)
+                        {
+			str=malloc_2(clen);
+                        }
+                        else
+                        {
+                        str = buf;
+                        }
 
-		str=malloc_2(clen = (len + len2 + 1));
 		if(clen > GLOBALS->longestname) GLOBALS->longestname = clen;
 		if(!GLOBALS->alt_hier_delimeter)
 			{
@@ -521,7 +537,16 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		}
 		else
 		{
-		str=malloc_2(clen = (len+1));
+		clen = (len+1);
+                if(!GLOBALS->do_hier_compress)
+                        {
+			str=malloc_2(clen);
+                        }
+                        else
+                        {
+                        str = buf;
+                        }
+
 		if(clen > GLOBALS->longestname) GLOBALS->longestname = clen;
 		if(!GLOBALS->alt_hier_delimeter)
 			{
@@ -545,6 +570,11 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	s->n = n;
 	mono_row_offset += mx_row;
 
+        if(GLOBALS->do_hier_compress)
+                {
+                s->name = compress_facility((unsigned char *)str, clen - 1);
+                }
+
 	for(row_iter = 0; row_iter < mx_row; row_iter++)
 		{
 	        n[row_iter].nname=s->name;
@@ -566,6 +596,8 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 	match_idx++;
         }
+
+freeze_facility_pack();
 
 if(GLOBALS->ae2_regex_matches)
 	{
@@ -592,7 +624,9 @@ if(GLOBALS->fast_tree_sort)
 
 	for(i=0;i<GLOBALS->numfacs;i++)	
 		{
-		build_tree_from_name(GLOBALS->facs[i]->name, i);
+		int was_packed = 1;
+		char *s = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
+		build_tree_from_name(s, i);
 		}
 
 /* SPLASH */                            splash_sync(4, 5);

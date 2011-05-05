@@ -153,6 +153,7 @@ size_t val;
 char *str;
 int ob;
 int shamt;
+int avoid_strdup = *was_packed;
 
 *was_packed = GLOBALS->do_hier_compress;
 
@@ -196,7 +197,7 @@ do
 	dcd = dcd2 - val;
         } while(val);
 
-return(strdup_2(str+ob));
+return(avoid_strdup ? (str+ob) : strdup_2(str+ob));
 }
 
 

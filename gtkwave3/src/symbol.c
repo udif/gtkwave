@@ -266,7 +266,7 @@ if(!GLOBALS->facs_are_sorted)
 
 				for(i=0;i<GLOBALS->numfacs;i++)
 				        {
-				        int was_packed;
+				        int was_packed = 0;
 				        char *hfacname = NULL;
 		
 				        hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
@@ -297,7 +297,7 @@ if(!GLOBALS->facs_are_sorted)
 			mat = 0;
 			for(i=0;i<GLOBALS->numfacs;i++)
 			        {
-			        int was_packed;
+			        int was_packed = 0;
 			        char *hfacname = NULL;
 	
 			        hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
