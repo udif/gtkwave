@@ -895,6 +895,10 @@ NULL, /* clist_translate_c_4 442 */
 /*
  * tree.c
  */
+#ifdef _WAVE_HAVE_JUDY
+NULL, /* sym_tree */
+NULL, /* sym_tree_addresses */
+#endif
 NULL, /* treeroot 443 */
 NULL, /* mod_tree_parent */
 NULL, /* module_tree_c_1 444 */

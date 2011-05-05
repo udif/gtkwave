@@ -88,12 +88,43 @@ for(;;)
 
 
 /*
+ * decorated module cleanup (if judy active)
+ */
+int decorated_module_cleanup(void)
+{
+#ifdef _WAVE_HAVE_JUDY
+if(GLOBALS->sym_tree)
+	{
+	JudySLFreeArray(&GLOBALS->sym_tree, PJE0);
+	}
+
+if(GLOBALS->sym_tree_addresses)
+	{
+	int rcValue;
+	Word_t Index = 0;
+
+	for (rcValue = Judy1First(GLOBALS->sym_tree_addresses, &Index, PJE0); rcValue != 0; rcValue = Judy1Next(GLOBALS->sym_tree_addresses, &Index, PJE0))
+        	{
+        	((struct tree *)Index)->children_in_gui = 0;
+	        }
+
+	Judy1FreeArray(&GLOBALS->sym_tree_addresses, PJE0);
+	}
+
+#endif
+return(1);
+}
+
+/*
  * decorated module add
  */
 void allocate_and_decorate_module_tree_node(unsigned char ttype, const char *scopename, const char *compname, uint32_t scopename_len, uint32_t compname_len)
 {
 struct tree *t;
 int mtyp = WAVE_T_WHICH_UNDEFINED_COMPNAME;
+#ifdef _WAVE_HAVE_JUDY
+char str[2048];
+#endif
 
 if(compname && compname[0] && strcmp(scopename, compname))
 	{
@@ -109,16 +140,61 @@ if(GLOBALS->treeroot)
 	{
 	if(GLOBALS->mod_tree_parent)
 		{
-		t = GLOBALS->mod_tree_parent->child;
-		while(t)
+#ifdef _WAVE_HAVE_JUDY
+		if(GLOBALS->mod_tree_parent->children_in_gui)
 			{
-			if(!strcmp(t->name, scopename))
+			PPvoid_t PPValue;
+			/* find with judy */
+			int len = sprintf(str, "%p.", GLOBALS->mod_tree_parent);
+			strcpy(str+len, scopename);
+			PPValue = JudySLIns(&GLOBALS->sym_tree, (uint8_t *)str, PJE0);
+			if(*PPValue)
 				{
-				GLOBALS->mod_tree_parent = t;
+				GLOBALS->mod_tree_parent = *PPValue;
 				return;
 				}
-			t = t->next;
+
+			*PPValue = GLOBALS->mod_tree_parent;
 			}
+			else
+			{
+			int dep = 0;
+#endif
+			t = GLOBALS->mod_tree_parent->child;
+			while(t)
+				{
+				if(!strcmp(t->name, scopename))
+					{
+					GLOBALS->mod_tree_parent = t;
+					return;
+					}
+				t = t->next;
+#ifdef _WAVE_HAVE_JUDY
+				dep++;
+#endif
+				}
+
+#ifdef _WAVE_HAVE_JUDY
+			if(dep >= FST_TREE_SEARCH_NEXT_LIMIT)
+				{
+				PPvoid_t PPValue;
+				int len = sprintf(str, "%p.", GLOBALS->mod_tree_parent);
+				GLOBALS->mod_tree_parent->children_in_gui = 1; /* "borrowed" for tree build */
+				t = GLOBALS->mod_tree_parent->child;
+
+				Judy1Set ((Pvoid_t)&GLOBALS->sym_tree_addresses, (Word_t)GLOBALS->mod_tree_parent, PJE0);
+				/* assemble judy based on scopename + GLOBALS->mod_tree_parent pnt */
+				while(t)
+					{
+					strcpy(str+len, t->name);
+					PPValue = JudySLIns(&GLOBALS->sym_tree, (uint8_t *)str, PJE0);
+					*PPValue = GLOBALS->mod_tree_parent;
+
+					t = t->next;
+					}
+				}
+			}
+#endif
 
 		t = talloc_2(sizeof(struct tree) + scopename_len);
 		strcpy(t->name, scopename);
@@ -134,6 +210,8 @@ if(GLOBALS->treeroot)
 		}
 		else
 		{
+		int dep = 0;
+
 		t = GLOBALS->treeroot;
 			while(t)
 			{
@@ -143,6 +221,10 @@ if(GLOBALS->treeroot)
 				return;
 				}
 			t = t->next;
+			}
+
+		if(dep >= 20)
+			{
 			}
 
 		t = talloc_2(sizeof(struct tree) + scopename_len);

@@ -24,6 +24,7 @@
 #include "vcd.h"
 #include "tree_component.h"
 
+#define FST_TREE_SEARCH_NEXT_LIMIT (40)
 
 /* Kind of the tree.  */
 enum tree_kind
@@ -130,7 +131,7 @@ void maketree2(GtkCTreeNode *subtree, struct tree *t, int depth, GtkCTreeNode *g
 
 char *leastsig_hiername(char *nam);
 void allocate_and_decorate_module_tree_node(unsigned char ttype, const char *scopename, const char *compname, uint32_t scopename_len, uint32_t compname_len);
-
+int decorated_module_cleanup(void);
 
 void treesort(struct tree *t, struct tree *p);
 void order_facs_from_treesort(struct tree *t, void *v);

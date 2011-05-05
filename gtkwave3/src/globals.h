@@ -878,6 +878,10 @@ GtkWidget *clist_translate_c_4; /* from translate.c 472 */
 /*
  * tree.c
  */
+#ifdef _WAVE_HAVE_JUDY
+Pvoid_t sym_tree;
+Pvoid_t sym_tree_addresses;
+#endif
 struct tree *treeroot; /* from tree.c 473 */
 struct tree *mod_tree_parent; /* from tree.c */
 char *module_tree_c_1; /* from tree.c 474 */

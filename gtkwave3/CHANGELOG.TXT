@@ -1000,3 +1000,6 @@
 		their declarations (MTI).
 3.3.21	28apr11	Fixed crash in LXT2 reader on malformed files.
 		Fixed reload crash when -o flag used on non-VCD files.
+3.3.22	05may11	Optimize FST tree build so it can handle large amounts of
+		component instantiations (netlists) without undue slowdown.
+		-Wformat related fixes.
