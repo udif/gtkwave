@@ -212,7 +212,7 @@ static int compar_facs(const void *key, const void *v2)
 {
 struct symbol *s2;
 int rc;
-int was_packed = 0;
+int was_packed = HIER_DEPACK_ALLOC;
 char *s3;
 
 s2=*((struct symbol **)v2);

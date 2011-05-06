@@ -1020,7 +1020,7 @@ for(ii=0;ii<c;ii++)
 	unesc_len = strlen(unescaped_str);
 	for(i=0;i<GLOBALS->numfacs;i++)
 	        {
-	        int was_packed = 0;
+	        int was_packed = HIER_DEPACK_ALLOC;
 	        char *hfacname = NULL;
 	                                 
        		hfacname = hier_decompress_flagged(GLOBALS->facs[curr_srch_idx]->name, &was_packed);
@@ -1056,7 +1056,7 @@ for(ii=0;ii<c;ii++)
 	wave_regex_compile(entry_suffixed, WAVE_REGEX_DND); 
 	for(i=0;i<GLOBALS->numfacs;i++)
 	        {
-	        int was_packed = 0;
+	        int was_packed = HIER_DEPACK_ALLOC;
 	        char *hfacname = NULL;
 	                                 
        		hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
@@ -1086,7 +1086,7 @@ for(ii=0;ii<c;ii++)
 		wave_regex_compile(entry_suffixed, WAVE_REGEX_DND); 
 		for(i=0;i<GLOBALS->numfacs;i++)
 		        {
-		        int was_packed = 0;
+		        int was_packed = HIER_DEPACK_ALLOC;
 		        char *hfacname = NULL;
 		                                 
         		hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
@@ -1314,7 +1314,7 @@ char is_bus = 0;
 if(s)
 	{
 	int len;
-	int was_packed = 0;
+	int was_packed = HIER_DEPACK_ALLOC;
 	char *s2;
 
 	s = hier_decompress_flagged(s, &was_packed);	

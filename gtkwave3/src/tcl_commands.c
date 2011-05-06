@@ -136,7 +136,7 @@ char *name = NULL;
        }
      else
        {
-	 int flagged = 0;
+	 int flagged = HIER_DEPACK_ALLOC;
 
 	 name = hier_decompress_flagged(t->n.nd->nname, &flagged);
 	 if(!flagged)
@@ -192,7 +192,7 @@ if(objc == 2)
 
 	if((which >= 0) && (which < GLOBALS->numfacs))
 		{
-		int was_packed = 0;
+		int was_packed = HIER_DEPACK_ALLOC;
         	char *hfacname = NULL;
 
         	hfacname = hier_decompress_flagged(GLOBALS->facs[which]->name, &was_packed);

@@ -1674,7 +1674,7 @@ if(GLOBALS->strace_ctx->timearray)
 				nodes=t->n.vec->bits->nodes;
 				for(i=0;i<t->n.vec->bits->nnbits;i++)
 					{
-					int was_packed = 0;
+					int was_packed = HIER_DEPACK_ALLOC;
 					char *namex;
 					if(nodes[i]->expansion)
 						{
@@ -1693,7 +1693,7 @@ if(GLOBALS->strace_ctx->timearray)
 				}
 				else
 				{
-				int was_packed = 0;
+				int was_packed = HIER_DEPACK_ALLOC;
 				char *namex;
 
 				if(HasAlias(t))

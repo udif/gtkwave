@@ -547,7 +547,7 @@ recurse_build(vt, &hp_clone);
 
 for(i=0;i<nodecnt;i++)
 	{
-	int was_packed = 0;
+	int was_packed = HIER_DEPACK_ALLOC;
 	char *hname = hier_decompress_flagged(GLOBALS->hp_vcd_saver_c_1[i]->item->nname, &was_packed);
 	char *netname = lxt ? hname : output_hier(hname);
 

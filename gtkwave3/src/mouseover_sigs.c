@@ -41,7 +41,7 @@ if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
 		{
 		if(!HasAlias(t))
 			{
-			int flagged = 0;
+			int flagged = HIER_DEPACK_ALLOC;
 	                s = hier_decompress_flagged(t->n.nd->nname, &flagged);
 			if(!flagged) s = strdup_2(s);
 			}

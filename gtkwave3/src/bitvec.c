@@ -182,9 +182,9 @@ if(!s1 || !s2)
 	}
 	else
 	{
-	int ns1_was_decompressed = 0;
+	int ns1_was_decompressed = HIER_DEPACK_ALLOC;
 	char *ns1 = hier_decompress_flagged(s1, &ns1_was_decompressed);
-	int ns2_was_decompressed = 0;
+	int ns2_was_decompressed = HIER_DEPACK_ALLOC;
 	char *ns2 = hier_decompress_flagged(s2, &ns2_was_decompressed);
 
 	if(*ns1 && *ns2)
@@ -980,7 +980,7 @@ if(nodepnt)
 		else
 		{
 		char *s1, *s2;
-		int s1_was_packed = 0, s2_was_packed = 0;
+		int s1_was_packed = HIER_DEPACK_ALLOC, s2_was_packed = HIER_DEPACK_ALLOC;
 		int root1len=0, root2len=0;
 		int l1, l2;
 
@@ -1191,7 +1191,7 @@ if(nodepnt)
 		else
 		{
 		char *s1, *s2;
-		int s1_was_packed = 0, s2_was_packed = 0;
+		int s1_was_packed = HIER_DEPACK_ALLOC, s2_was_packed = HIER_DEPACK_ALLOC;
 		int root1len=0, root2len=0;
 		int l1, l2;
 
@@ -1610,7 +1610,7 @@ struct symbol *symhi = NULL, *symlo = NULL;
 char hier_delimeter2;
 char *name=NULL;
 char *s1, *s2;
-int s1_was_packed = 0, s2_was_packed = 0;
+int s1_was_packed = HIER_DEPACK_ALLOC, s2_was_packed = HIER_DEPACK_ALLOC;
 int root1len=0, root2len=0;
 int l1, l2;
 
@@ -1773,7 +1773,7 @@ if(!n->extvals)
 	else
 	{
 	char *namex;
-	int was_packed = 0;
+	int was_packed = HIER_DEPACK_ALLOC;
 
 	msb = n->msi;
 	lsb = n->lsi;
@@ -1980,7 +1980,7 @@ if(!n->extvals)
 	else
 	{
 	char *namex;
-	int was_packed = 0;
+	int was_packed = HIER_DEPACK_ALLOC;
 
 	if(n->lsi > n->msi)
 		{

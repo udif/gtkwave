@@ -295,7 +295,7 @@ Trptr is_signal_displayed(char *name) {
     *p = '\0' ;
   len = strlen(name) ;
   while(t) {
-    int was_packed = 0;
+    int was_packed = HIER_DEPACK_ALLOC;
     int cc;
     if(t->vector)
 	{
@@ -372,13 +372,13 @@ Trptr Node_to_Trptr(nptr nd)
   }
 
   if(!GLOBALS->hier_max_level) {
-    int flagged = 0;
+    int flagged = HIER_DEPACK_ALLOC;
     
     t->name = hier_decompress_flagged(nd->nname, &flagged);
     t->is_depacked = (flagged != 0);
   }
   else {
-    int flagged = 0;
+    int flagged = HIER_DEPACK_ALLOC;
     char *tbuff = hier_decompress_flagged(nd->nname, &flagged);
     if(!flagged) {
       t->name = hier_extract(nd->nname, GLOBALS->hier_max_level);
@@ -416,7 +416,7 @@ Trptr Node_to_Trptr(nptr nd)
 */
 Trptr sig_name_to_Trptr(char *name) {
   Trptr t = NULL ;
-  int was_packed = 0;
+  int was_packed = HIER_DEPACK_ALLOC;
   int i, name_len;
   char *hfacname = NULL;
   struct symbol *s = NULL, *s2 ;

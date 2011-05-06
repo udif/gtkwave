@@ -731,7 +731,7 @@ interval = (gfloat)(GLOBALS->numfacs/100.0);
 
 for(i=0;i<GLOBALS->numfacs;i++)
 	{
-	int was_packed = 0;
+	int was_packed = HIER_DEPACK_ALLOC;
 	char *hfacname = NULL;
 
 	GLOBALS->pdata->value = i;

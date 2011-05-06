@@ -197,7 +197,7 @@ do
 	dcd = dcd2 - val;
         } while(val);
 
-return(avoid_strdup ? (str+ob) : strdup_2(str+ob));
+return((avoid_strdup != HIER_DEPACK_ALLOC) ? (str+ob) : strdup_2(str+ob));
 }
 
 

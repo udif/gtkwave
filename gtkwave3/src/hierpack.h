@@ -12,6 +12,9 @@
 
 #include "globals.h"
 
+#define HIER_DEPACK_ALLOC (0)
+#define HIER_DEPACK_STATIC (1)
+
 void init_facility_pack(void);
 char *compress_facility(unsigned char *key, int len);
 void freeze_facility_pack(void);

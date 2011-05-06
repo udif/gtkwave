@@ -624,7 +624,7 @@ if(GLOBALS->fast_tree_sort)
 
 	for(i=0;i<GLOBALS->numfacs;i++)	
 		{
-		int was_packed = 1;
+		int was_packed = HIER_DEPACK_STATIC; /* no need to free_2() afterward then */
 		char *s = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
 		build_tree_from_name(s, i);
 		}

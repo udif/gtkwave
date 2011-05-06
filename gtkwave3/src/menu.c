@@ -954,7 +954,7 @@ void set_hier_cleanup(GtkWidget *widget, gpointer data, int level)
 		{
 		  if(!GLOBALS->hier_max_level)
 		      {
-			int flagged = 0;
+			int flagged = HIER_DEPACK_ALLOC;
 
 			if(t->name&&t->is_depacked) { free_2(t->name); }
 			t->name = hier_decompress_flagged(t->n.nd->nname, &flagged);
@@ -962,7 +962,7 @@ void set_hier_cleanup(GtkWidget *widget, gpointer data, int level)
 		      }
 		    else
 		      {
-			int flagged = 0;
+			int flagged = HIER_DEPACK_ALLOC;
 			char *tbuff;
 
 			if(t->name&&t->is_depacked) { free_2(t->name); }
@@ -2205,7 +2205,7 @@ static void menu_rename(GtkWidget *widget, gpointer data)
 
   if(GLOBALS->trace_to_alias_menu_c_1)
     {
-      int was_packed = 0;
+      int was_packed = HIER_DEPACK_ALLOC;
       char* current = GetFullName(GLOBALS->trace_to_alias_menu_c_1, &was_packed);
       ClearTraces();
       GLOBALS->trace_to_alias_menu_c_1->flags |= TR_HIGHLIGHT;
@@ -2529,7 +2529,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	  int ix, offset;
 	  char *nam;
 	  char *namex;
-	  int was_packed = 0;
+	  int was_packed = HIER_DEPACK_ALLOC;
 
 	  namex = hier_decompress_flagged(n[0]->nname, &was_packed);
 
@@ -3318,7 +3318,7 @@ void menu_remove_aliases(GtkWidget *widget, gpointer data)
       if(HasAlias(t) && IsSelected(t))
 	{
           char *name_full;
-          int was_packed = 0;
+          int was_packed = HIER_DEPACK_ALLOC;
 
 	  free_2(t->name_full);
 	  t->name_full = NULL;
@@ -3451,7 +3451,7 @@ void menu_alias(GtkWidget *widget, gpointer data)
 
   if(GLOBALS->trace_to_alias_menu_c_1)
     {
-      int was_packed = 0;
+      int was_packed = HIER_DEPACK_ALLOC;
       char* current = GetFullName(GLOBALS->trace_to_alias_menu_c_1, &was_packed);
       ClearTraces();
       GLOBALS->trace_to_alias_menu_c_1->flags |= TR_HIGHLIGHT;
@@ -3619,7 +3619,7 @@ entrybox("Regexp Highlight",300,GLOBALS->regexp_string_menu_c_1,NULL,128,GTK_SIG
 
 char *append_array_row(nptr n)
 {
-int was_packed = 0;
+int was_packed = HIER_DEPACK_ALLOC;
 char *hname = hier_decompress_flagged(n->nname, &was_packed);
 
 #ifdef WAVE_ARRAY_SUPPORT

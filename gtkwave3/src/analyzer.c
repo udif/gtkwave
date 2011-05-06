@@ -472,14 +472,14 @@ int AddNodeTraceReturn(nptr nd, char *aliasname, Trptr *tret)
     {
       if(!GLOBALS->hier_max_level) 
 	{
-	  int flagged = 0;
+	  int flagged = HIER_DEPACK_ALLOC;
 
 	  t->name = hier_decompress_flagged(nd->nname, &flagged);
 	  t->is_depacked = (flagged != 0);
 	}
       else
 	{
-	  int flagged = 0;
+	  int flagged = HIER_DEPACK_ALLOC;
 	  char *tbuff = hier_decompress_flagged(nd->nname, &flagged);
 	  if(!flagged)
 	    {
