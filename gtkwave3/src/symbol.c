@@ -266,7 +266,7 @@ if(!GLOBALS->facs_are_sorted)
 
 				for(i=0;i<GLOBALS->numfacs;i++)
 				        {
-				        int was_packed = HIER_DEPACK_ALLOC;
+				        int was_packed = HIER_DEPACK_STATIC;
 				        char *hfacname = NULL;
 		
 				        hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
@@ -281,7 +281,7 @@ if(!GLOBALS->facs_are_sorted)
 						s2++;
 						}
 	
-				        if(was_packed) { free_2(hfacname); }
+				        /* if(was_packed) { free_2(hfacname); } ...not needed with HIER_DEPACK_STATIC */
 					if(mat) { break; }
 				        }
 				}
@@ -297,7 +297,7 @@ if(!GLOBALS->facs_are_sorted)
 			mat = 0;
 			for(i=0;i<GLOBALS->numfacs;i++)
 			        {
-			        int was_packed = HIER_DEPACK_ALLOC;
+			        int was_packed = HIER_DEPACK_STATIC;
 			        char *hfacname = NULL;
 	
 			        hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
@@ -306,7 +306,7 @@ if(!GLOBALS->facs_are_sorted)
 					mat = 1;
 					}
 	
-			        if(was_packed) { free_2(hfacname); }
+			        /* if(was_packed) { free_2(hfacname); } ...not needed with HIER_DEPACK_STATIC */
 				if(mat)
 					{
 					sr = GLOBALS->facs[i];

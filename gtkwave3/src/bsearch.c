@@ -212,14 +212,14 @@ static int compar_facs(const void *key, const void *v2)
 {
 struct symbol *s2;
 int rc;
-int was_packed = HIER_DEPACK_ALLOC;
+int was_packed = HIER_DEPACK_STATIC;
 char *s3;
 
 s2=*((struct symbol **)v2);
 s3 = hier_decompress_flagged(s2->name, &was_packed);
 rc=sigcmp((char *)key,s3);
 
-if(was_packed) free_2(s3);
+/* if(was_packed) free_2(s3); ...not needed with HIER_DEPACK_STATIC */
 
 return(rc);
 }

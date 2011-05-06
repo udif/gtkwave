@@ -731,7 +731,7 @@ interval = (gfloat)(GLOBALS->numfacs/100.0);
 
 for(i=0;i<GLOBALS->numfacs;i++)
 	{
-	int was_packed = HIER_DEPACK_ALLOC;
+	int was_packed = HIER_DEPACK_STATIC;
 	char *hfacname = NULL;
 
 	GLOBALS->pdata->value = i;
@@ -779,12 +779,12 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		GLOBALS->num_rows_search_c_2++;
 		if(GLOBALS->num_rows_search_c_2==WAVE_MAX_CLIST_LENGTH) 
 			{
-			if(was_packed) { free_2(hfacname); }
+			/* if(was_packed) { free_2(hfacname); } ...not needed with HIER_DEPACK_STATIC */
 			break;
 			}
 		}
 
-	if(was_packed) { free_2(hfacname); }
+	/* if(was_packed) { free_2(hfacname); } ...not needed with HIER_DEPACK_STATIC */
 	}
 
 if(depack_cnt) 

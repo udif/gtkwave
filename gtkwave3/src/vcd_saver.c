@@ -547,7 +547,7 @@ recurse_build(vt, &hp_clone);
 
 for(i=0;i<nodecnt;i++)
 	{
-	int was_packed = HIER_DEPACK_ALLOC;
+	int was_packed = HIER_DEPACK_STATIC;
 	char *hname = hier_decompress_flagged(GLOBALS->hp_vcd_saver_c_1[i]->item->nname, &was_packed);
 	char *netname = lxt ? hname : output_hier(hname);
 
@@ -611,10 +611,7 @@ for(i=0;i<nodecnt;i++)
 			}
 		}
 
-	if(was_packed)
-		{
-		free_2(hname);
-		}
+	/* if(was_packed) { free_2(hname); } ...not needed for HIER_DEPACK_STATIC */
 	}
 
 row_data = malloc_2(max_len + 1);
