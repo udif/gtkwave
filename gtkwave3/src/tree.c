@@ -210,8 +210,6 @@ if(GLOBALS->treeroot)
 		}
 		else
 		{
-		int dep = 0;
-
 		t = GLOBALS->treeroot;
 			while(t)
 			{
