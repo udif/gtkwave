@@ -223,10 +223,6 @@ if(GLOBALS->treeroot)
 			t = t->next;
 			}
 
-		if(dep >= 20)
-			{
-			}
-
 		t = talloc_2(sizeof(struct tree) + scopename_len);
 		strcpy(t->name, scopename);
 		t->kind = ttype;
