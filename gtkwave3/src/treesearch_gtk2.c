@@ -1226,6 +1226,7 @@ do_tooltips:
     gtk_clist_freeze(clist);
     gtk_clist_clear(clist);
 
+    decorated_module_cleanup();
     maketree(NULL, GLOBALS->treeroot);
     gtk_clist_thaw(clist);
 
@@ -1481,6 +1482,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     gtk_clist_freeze(clist);
     gtk_clist_clear(clist);
 
+    decorated_module_cleanup();
     maketree(NULL, GLOBALS->treeroot);
     gtk_clist_thaw(clist);
 

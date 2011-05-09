@@ -389,7 +389,7 @@ if(indirect_fname)
 	}
 	else
 	{
-	if(1)
+	if(0)
 		{
 		int early_out = 0;
 		fprintf(stderr, AET2_RDLOAD"Filtering BugSpray facilities...\n");

@@ -634,8 +634,12 @@ GLOBALS->facs2_tree_c_1 = NULL;
 void build_tree_from_name(const char *s, int which)
 {
 struct tree *t, *nt;
-struct tree *tchain, *tchain_iter;
+struct tree *tchain = NULL, *tchain_iter;
 struct tree *prevt;
+#ifdef _WAVE_HAVE_JUDY
+PPvoid_t PPValue = NULL;
+char str[2048];
+#endif
 
 if(s==NULL || !s[0]) return;
 
@@ -655,9 +659,31 @@ rs:		s=get_module_name(s);
 			continue;
 			}
 
+#ifdef _WAVE_HAVE_JUDY
+		if(prevt && prevt->children_in_gui)
+			{
+			/* find with judy */
+			int len = sprintf(str, "%p.", prevt);
+			strcpy(str+len, GLOBALS->module_tree_c_1);
+			PPValue = JudySLIns(&GLOBALS->sym_tree, (uint8_t *)str, PJE0);
+			if(*PPValue)
+				{
+				t = *PPValue;
+				prevt = t;
+				t = t->child;
+				continue;
+				}
+
+			goto construct;
+			}
+#endif
+
 		tchain = tchain_iter = t;
 		if(s && t)
 			{
+#ifdef _WAVE_HAVE_JUDY
+			int dep = 0;
+#endif
 		      	nt = t->next;
 		      	while(nt)
 				{
@@ -678,15 +704,48 @@ rs:		s=get_module_name(s);
 
 				tchain_iter = nt;
 				nt = nt->next;
+#ifdef _WAVE_HAVE_JUDY
+				dep++;
+#endif
 				}
+
+#ifdef _WAVE_HAVE_JUDY
+			if(prevt && (dep >= FST_TREE_SEARCH_NEXT_LIMIT))
+				{
+				int len = sprintf(str, "%p.", prevt);
+				prevt->children_in_gui = 1; /* "borrowed" for tree build */
+				t = prevt->child;
+
+				Judy1Set ((Pvoid_t)&GLOBALS->sym_tree_addresses, (Word_t)prevt, PJE0);
+				/* assemble judy based on scopename + prevt pnt */
+				while(t)
+					{
+					strcpy(str+len, t->name);
+					PPValue = JudySLIns(&GLOBALS->sym_tree, (uint8_t *)str, PJE0);
+					*PPValue = t;
+
+					t = t->next;
+					}
+				}
+#endif
 			}
 
+#ifdef _WAVE_HAVE_JUDY
+construct:
+#endif
 		nt=(struct tree *)talloc_2(sizeof(struct tree)+GLOBALS->module_len_tree_c_1);
 		memcpy(nt->name, GLOBALS->module_tree_c_1, GLOBALS->module_len_tree_c_1);
 
 		if(s)
 			{
 			nt->t_which = WAVE_T_WHICH_UNDEFINED_COMPNAME;
+
+#ifdef _WAVE_HAVE_JUDY
+			if(prevt && prevt->children_in_gui)
+				{
+				*PPValue = nt;
+				}
+#endif
 
 			if(prevt)				/* make first in chain */
 				{
