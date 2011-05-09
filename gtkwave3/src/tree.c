@@ -188,7 +188,7 @@ if(GLOBALS->treeroot)
 					{
 					strcpy(str+len, t->name);
 					PPValue = JudySLIns(&GLOBALS->sym_tree, (uint8_t *)str, PJE0);
-					*PPValue = GLOBALS->mod_tree_parent;
+					*PPValue = t;
 
 					t = t->next;
 					}
