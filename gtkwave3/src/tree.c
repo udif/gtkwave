@@ -154,7 +154,9 @@ if(GLOBALS->treeroot)
 				return;
 				}
 
-			*PPValue = GLOBALS->mod_tree_parent;
+			t = talloc_2(sizeof(struct tree) + scopename_len);
+			*PPValue = t;
+			goto t_allocated;
 			}
 			else
 			{
@@ -192,11 +194,20 @@ if(GLOBALS->treeroot)
 
 					t = t->next;
 					}
+
+				strcpy(str+len, scopename);
+				PPValue = JudySLIns(&GLOBALS->sym_tree, (uint8_t *)str, PJE0);
+				t = talloc_2(sizeof(struct tree) + scopename_len);
+				*PPValue = t;
+				goto t_allocated;
 				}
 			}
 #endif
 
 		t = talloc_2(sizeof(struct tree) + scopename_len);
+#ifdef _WAVE_HAVE_JUDY
+t_allocated:
+#endif
 		strcpy(t->name, scopename);
 		t->kind = ttype;
 		t->t_which = mtyp;
