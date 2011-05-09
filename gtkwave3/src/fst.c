@@ -732,7 +732,7 @@ free_2(f_name_len); f_name_len = NULL;
 
 if(numvars != GLOBALS->numfacs) { GLOBALS->mvlfacs_fst_rvs_alias = realloc_2(GLOBALS->mvlfacs_fst_rvs_alias, numvars * sizeof(fstHandle)); }
 
-decorated_module_cleanup();
+decorated_module_cleanup(); /* ...also now in gtk2_treesearch.c */
 freeze_facility_pack();
 iter_through_comp_name_table();
 
