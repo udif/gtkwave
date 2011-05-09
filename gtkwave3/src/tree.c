@@ -88,6 +88,28 @@ for(;;)
 
 
 /*
+ * generate unique hierarchy pointer faster that sprintf("%p")
+ * use 7-bit string to generate less characters
+ */
+#ifdef _WAVE_HAVE_JUDY
+static int gen_hier_string(char *dest, void *pnt)
+{
+unsigned long p = (unsigned long)(pnt);
+char *dest_copy = dest;
+
+while(p)
+	{
+	*(dest++) = (p & 0x7f) | 0x80;
+	p >>= 7;
+	}
+*(dest++) = '.';
+
+return(dest - dest_copy);
+}
+#endif
+
+
+/*
  * decorated module cleanup (if judy active)
  */
 int decorated_module_cleanup(void)
@@ -145,7 +167,7 @@ if(GLOBALS->treeroot)
 			{
 			PPvoid_t PPValue;
 			/* find with judy */
-			int len = sprintf(str, "%p.", GLOBALS->mod_tree_parent);
+			int len = gen_hier_string(str, GLOBALS->mod_tree_parent);
 			strcpy(str+len, scopename);
 			PPValue = JudySLIns(&GLOBALS->sym_tree, (uint8_t *)str, PJE0);
 			if(*PPValue)
@@ -180,7 +202,7 @@ if(GLOBALS->treeroot)
 			if(dep >= FST_TREE_SEARCH_NEXT_LIMIT)
 				{
 				PPvoid_t PPValue;
-				int len = sprintf(str, "%p.", GLOBALS->mod_tree_parent);
+				int len = gen_hier_string(str, GLOBALS->mod_tree_parent);
 				GLOBALS->mod_tree_parent->children_in_gui = 1; /* "borrowed" for tree build */
 				t = GLOBALS->mod_tree_parent->child;
 
@@ -674,7 +696,7 @@ rs:		s=get_module_name(s);
 		if(prevt && prevt->children_in_gui)
 			{
 			/* find with judy */
-			int len = sprintf(str, "%p.", prevt);
+			int len = gen_hier_string(str, prevt);
 			strcpy(str+len, GLOBALS->module_tree_c_1);
 			PPValue = JudySLIns(&GLOBALS->sym_tree, (uint8_t *)str, PJE0);
 			if(*PPValue)
@@ -723,7 +745,7 @@ rs:		s=get_module_name(s);
 #ifdef _WAVE_HAVE_JUDY
 			if(prevt && (dep >= FST_TREE_SEARCH_NEXT_LIMIT))
 				{
-				int len = sprintf(str, "%p.", prevt);
+				int len = gen_hier_string(str, prevt);
 				prevt->children_in_gui = 1; /* "borrowed" for tree build */
 				t = prevt->child;
 
