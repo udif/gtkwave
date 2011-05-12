@@ -71,7 +71,7 @@ AE2_HANDLE 	ae2_read_initialize(FILE* file);
 uint64_t 	ae2_read_start_cycle(AE2_HANDLE handle);
 uint64_t 	ae2_read_end_cycle(AE2_HANDLE handle);  
 unsigned long 	ae2_read_num_sections(AE2_HANDLE handle);
-uint64_t* 	ae2_read_ith_section_range(AE2_HANDLE handle, unsigned long section_idx);
+const uint64_t* ae2_read_ith_section_range(AE2_HANDLE handle, unsigned long section_idx);
 time_t          ae2_read_model_timestamp(AE2_HANDLE handle);
 unsigned long	ae2_read_num_symbols(AE2_HANDLE handle);
 unsigned long   ae2_read_find_symbol(AE2_HANDLE handle, const char* name, FACREF* fr);

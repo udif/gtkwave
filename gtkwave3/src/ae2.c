@@ -854,7 +854,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 for(j=0;j<GLOBALS->ae2_num_sections;j++)
 	{
 	struct ae2_ncycle_autosort **autosort = NULL;
-	uint64_t *ith_range = ae2_read_ith_section_range(GLOBALS->ae2, j);
+	const uint64_t *ith_range = ae2_read_ith_section_range(GLOBALS->ae2, j);
 
 	cyc = *ith_range;
 	ecyc = *(ith_range+1);
