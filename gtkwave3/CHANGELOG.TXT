@@ -1006,3 +1006,4 @@
 		Update hier_decompress_flagged so it can also decompress into
 		its own static buffer in order to speed up temporary usage
 		cases.
+		Fix FST reader iterator to work better with --begin flag.
