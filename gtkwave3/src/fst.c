@@ -1143,7 +1143,17 @@ if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 		}
 	}
 
-fprintf(stderr, "Import: %s\n", np->nname);
+
+{
+int flagged = HIER_DEPACK_ALLOC;
+char *str = hier_decompress_flagged(np->nname, &flagged);
+fprintf(stderr, "Import: %s\n", str);
+if(flagged)
+	{
+	free_2(str);
+	}
+}
+
 
 /* new stuff */
 len = np->mv.mvlfac->len;
