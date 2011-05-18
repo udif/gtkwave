@@ -1000,10 +1000,12 @@
 		their declarations (MTI).
 3.3.21	28apr11	Fixed crash in LXT2 reader on malformed files.
 		Fixed reload crash when -o flag used on non-VCD files.
-3.3.22	08may11	Optimize tree build so it can handle large amounts of
+3.3.22	18may11	Optimize tree build so it can handle large amounts of
 		component instantiations (netlists) without undue slowdown.
 		gcc -Wformat and -Wformat-security related fixes.
 		Update hier_decompress_flagged so it can also decompress into
 		its own static buffer in order to speed up temporary usage
 		cases.
 		Fix FST reader iterator to work better with --begin flag.
+		Fixed missing facname decompression for FST files on
+		import.
