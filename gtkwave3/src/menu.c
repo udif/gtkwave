@@ -44,6 +44,44 @@
 
 static GtkItemFactoryEntry menu_items[WV_MENU_NUMITEMS];
 
+/* ruler */
+
+static void menu_def_ruler(GtkWidget *widget, gpointer data)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nDefine Time Ruler Marks");
+        help_text(
+                " changes the ruler markings such that the Baseline marker"
+		" defines the origin and the Primary marker distance from"
+		" the Baseline marker defines the period. If either the"
+		" Baseline marker or Primary marker are not present, the"
+		" default ruler markers are used. If the Baseline marker"
+		" and Primary marker have the same value, the default ruler"
+		" markers are used."
+        );
+
+	return;
+	}
+
+if((GLOBALS->tims.baseline>=0) && (GLOBALS->tims.marker>=0))
+	{
+	GLOBALS->ruler_origin = GLOBALS->tims.baseline;
+	GLOBALS->ruler_step = GLOBALS->tims.baseline - GLOBALS->tims.marker;
+	if(GLOBALS->ruler_step < 0) GLOBALS->ruler_step = -GLOBALS->ruler_step;
+	}
+	else
+	{
+	GLOBALS->ruler_origin = GLOBALS->ruler_step = LLDescriptor(0);
+	}
+
+GLOBALS->signalwindow_width_dirty=1;
+MaxSignalLength();
+signalarea_configure_event(GLOBALS->signalarea, NULL);
+wavearea_configure_event(GLOBALS->wavearea, NULL);
+}
+
+
 /* marker locking */
 
 static void lock_marker_left(GtkWidget *widget, gpointer data)
@@ -5817,6 +5855,7 @@ static GtkItemFactoryEntry menu_items[] =
     WAVE_GTKIFE("/View/Partial VCD Dynamic Zoom To End", NULL, menu_zoom_dyne, WV_MENU_VZDYNE, "<ToggleItem>"),
     WAVE_GTKIFE("/View/Full Precision", "<Alt>Pause", menu_use_full_precision, WV_MENU_VFTP, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP17, "<Separator>"),
+    WAVE_GTKIFE("/View/Define Time Ruler Marks", NULL, menu_def_ruler, WV_MENU_RULER, "<Item>"),
     WAVE_GTKIFE("/View/Remove Pattern Marks", NULL, menu_remove_marked, WV_MENU_RMRKS, "<Item>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP17A, "<Separator>"),
     WAVE_GTKIFE("/View/Use Color", NULL, menu_use_color, WV_MENU_USECOLOR, "<Item>"),

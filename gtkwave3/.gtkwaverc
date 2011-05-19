@@ -244,6 +244,7 @@ accel "/View/Partial VCD Dynamic Zoom Full" (null)
 accel "/View/Partial VCD Dynamic Zoom To End" (null)
 accel "/View/Full Precision" <Alt>Pause
 accel "/View/<separator>" (null)
+accel "/View/Define Time Ruler Marks" (null)
 accel "/View/Remove Pattern Marks" (null)
 accel "/View/<separator>" (null)
 accel "/View/Use Color" (null)

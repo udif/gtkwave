@@ -1011,3 +1011,4 @@
 		import.
 		Added support for user-specified timescale ruler using the
 		ruler_origin and ruler_step rc variables.
+		Added /View/Define Time Ruler Marks menu option.
