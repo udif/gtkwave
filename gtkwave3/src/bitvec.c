@@ -2761,6 +2761,11 @@ else if (*w2 == '[')
 		GLOBALS->strace_ctx = &GLOBALS->strace_windows[GLOBALS->strace_current_window = which_ctx];
 		}
       }
+    else if (strcmp (w2, "ruler") == 0)
+      {
+      GLOBALS->ruler_origin = GLOBALS->ruler_step = LLDescriptor(0);
+      sscanf(w, TTFormat" "TTFormat, &GLOBALS->ruler_origin, &GLOBALS->ruler_step);
+      }
     else if (strcmp (w2, "timestart") == 0)
       {
       sscanf(w, TTFormat, &GLOBALS->timestart_from_savefile);

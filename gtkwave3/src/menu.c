@@ -3680,6 +3680,11 @@ void write_save_helper(FILE *wave) {
 			}	
 		}
 
+	if(GLOBALS->ruler_step)
+		{
+		fprintf(wave, "[ruler] "TTFormat" "TTFormat"\n", GLOBALS->ruler_origin, GLOBALS->ruler_step);
+		}
+
 #if WAVE_USE_GTK2
 	if(GLOBALS->open_tree_nodes)
 		{
