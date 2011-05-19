@@ -1,4 +1,4 @@
-.TH "GTKWAVERC" "5" "3.3.14" "Anthony Bybell" "GTKWave Configuration File"
+.TH "GTKWAVERC" "5" "3.3.22" "Anthony Bybell" "GTKWave Configuration File"
 .SH "NAME"
 .LP 
 gtkwaverc \- GTKWave Configuration File
@@ -247,6 +247,12 @@ Sets the scroll amount for page left and right operations. (The buttons, not the
 .TP 
 \fBps_maxveclen\fR <\fIvalue\fP>
 sets the maximum number of characters that can be printed for a value in the signal window portion of a postscript file (not including the net name itself). Legal values are 4 through 66 (default).
+.TP 
+\fBruler_origin\fR <\fIvalue\fP>
+sets the zero origin for alternate time tick marks.
+.TP 
+\fBruler_step\fR <\fIvalue\fP>
+sets the left/right step value for the alternate time tick marks from the origin.  When this value is zero, alternate time tick marks are disabled.
 .TP 
 \fBscale_to_time_dimension\fR <\fIvalue\fP>
 The value can be any of the characters m, u, n, f, p, or s, which indicates which time dimension to convert the time values to. The default for this is * which means that time dimension conversion is disabled.
