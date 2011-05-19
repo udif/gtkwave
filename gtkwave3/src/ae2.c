@@ -1192,7 +1192,10 @@ len = f->length;
 
 if((1)||(f->row <= 1)) /* sorry, arrays not supported yet in the viewer */
 	{
-	fprintf(stderr, "Import: %s\n", np->nname);
+	int flagged = HIER_DEPACK_STATIC;
+	char *str = hier_decompress_flagged(np->nname, &flagged);
+
+	fprintf(stderr, "Import: %s\n", str);
 	if(nr<1) nr=1;
 	if(!GLOBALS->ae2_lx2_table[txidx])
 		{
@@ -1209,6 +1212,11 @@ if((1)||(f->row <= 1)) /* sorry, arrays not supported yet in the viewer */
 	}
 	else
 	{
+	int flagged = HIER_DEPACK_STATIC;
+	char *str = hier_decompress_flagged(np->nname, &flagged);
+
+	fprintf(stderr, AET2_RDLOAD"Skipping array: %s (%d rows)\n", str, f->row);
+
 	if(nr<1) nr=1;
 	if(!GLOBALS->ae2_lx2_table[txidx])
 		{
@@ -1219,7 +1227,6 @@ if((1)||(f->row <= 1)) /* sorry, arrays not supported yet in the viewer */
 	                }
 		}
 
-	fprintf(stderr, AET2_RDLOAD"Skipping array: %s (%d rows)\n", np->nname, f->row);
 	}
 
 

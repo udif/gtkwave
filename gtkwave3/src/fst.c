@@ -1145,13 +1145,9 @@ if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 
 
 {
-int flagged = HIER_DEPACK_ALLOC;
+int flagged = HIER_DEPACK_STATIC;
 char *str = hier_decompress_flagged(np->nname, &flagged);
 fprintf(stderr, "Import: %s\n", str);
-if(flagged)
-	{
-	free_2(str);
-	}
 }
 
 
