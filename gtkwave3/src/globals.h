@@ -1283,6 +1283,8 @@ int str_wid_bigw;
 int str_wid_state;
 int str_wid_slider;
 int str_wid_height;
+TimeType ruler_origin;
+TimeType ruler_step;
 
 
 /*

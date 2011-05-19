@@ -505,6 +505,20 @@ GLOBALS->use_roundcaps=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_ruler_origin(char *str)
+{
+DEBUG(printf("f_ruler_origin(\"%s\")\n",str));
+GLOBALS->ruler_origin=atoi_64(str);
+return(0);
+}
+
+int f_ruler_step(char *str)
+{
+DEBUG(printf("f_ruler_step(\"%s\")\n",str));
+GLOBALS->ruler_step=atoi_64(str);
+return(0);
+}
+
 int f_use_scrollbar_only(char *str)
 {
 DEBUG(printf("f_use_scrollbar_only(\"%s\")\n",str));
@@ -772,6 +786,8 @@ static struct rc_entry rcitems[]=
 { "lxt_clock_compress_to_z", f_lxt_clock_compress_to_z },
 { "page_divisor", f_page_divisor },
 { "ps_maxveclen", f_ps_maxveclen },
+{ "ruler_origin", f_ruler_origin },
+{ "ruler_step", f_ruler_step },
 { "scale_to_time_dimension", f_scale_to_time_dimension },
 { "show_base_symbols", f_show_base_symbols },
 { "show_grid", f_show_grid },

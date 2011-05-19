@@ -864,7 +864,7 @@ pr_renderhash (pr_context * prc, int x, TimeType tim)
   int rhs;
   int iter = 0;
   int s_ctx_iter;
-  int timearray_encountered = 0;
+  int timearray_encountered = (GLOBALS->ruler_step != 0);
 
   fhminus2 = GLOBALS->fontheight - 2;
 
@@ -976,6 +976,7 @@ pr_rendertimes (pr_context * prc)
   char timebuff[32];
   gdouble realx;
   int s_ctx_iter;  
+  int timearray_encountered = 0;
 
   pr_renderblackout (prc);
 
@@ -994,6 +995,8 @@ pr_rendertimes (pr_context * prc)
       TimeType *t, tm;
       int y = GLOBALS->fontheight + 2;
       int oldx = -1;
+
+      timearray_encountered = 1;
 
       pos = bsearch_timechain (GLOBALS->tims.start);
     top:
@@ -1036,6 +1039,50 @@ pr_rendertimes (pr_context * prc)
     }
   }
   GLOBALS->strace_ctx = &GLOBALS->strace_windows[GLOBALS->strace_current_window = 0];
+	/**********/
+
+if(GLOBALS->ruler_step && !timearray_encountered)
+        {
+        TimeType rhs = (GLOBALS->tims.end > GLOBALS->tims.last) ? GLOBALS->tims.last : GLOBALS->tims.end;
+        TimeType low_x = (GLOBALS->tims.start - GLOBALS->ruler_origin) / GLOBALS->ruler_step;
+        TimeType high_x = (rhs - GLOBALS->ruler_origin) / GLOBALS->ruler_step;
+        TimeType iter_x, tm;
+        int y=GLOBALS->fontheight+2;
+        int oldx=-1;
+
+	pr_setgray (prc, 0.90);
+
+        for(iter_x = low_x; iter_x <= high_x; iter_x++)
+                {
+                tm = GLOBALS->ruler_step * iter_x +  GLOBALS->ruler_origin;
+                x=(tm-GLOBALS->tims.start)*GLOBALS->pxns;
+                if(oldx==x)
+                        {
+                        gdouble xd,offset,pixstep;
+                        TimeType newcurr;
+
+                        xd=x+1;  /* for pix time calc */
+
+                        pixstep=((gdouble)GLOBALS->nsperframe)/((gdouble)GLOBALS->pixelsperframe);
+                        newcurr=(TimeType)(offset=((gdouble)GLOBALS->tims.start)+(xd*pixstep));
+
+                        if(offset-newcurr>0.5)  /* round to nearest integer ns */
+                                {
+                                newcurr++;
+                                }
+
+                        low_x = (newcurr - GLOBALS->ruler_origin) / GLOBALS->ruler_step;
+                        if(low_x <= iter_x) low_x = (iter_x+1);
+                        iter_x = low_x;
+                        tm = GLOBALS->ruler_step * iter_x +  GLOBALS->ruler_origin;
+                        x=(tm-GLOBALS->tims.start)*GLOBALS->pxns;
+                        }
+
+                oldx=x;
+		pr_draw_line (prc, x, y, x, GLOBALS->liney_max);
+                }
+        }
+
 	/**********/
 
   DEBUG (printf

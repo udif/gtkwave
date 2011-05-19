@@ -1300,6 +1300,8 @@ NULL, /* gccache_dash_wavewindow_c_1 */
 0, /* str_wid_state */
 0, /* str_wid_slider */
 0, /* str_wid_height */
+0, /* ruler_origin */
+0, /* ruler_step */
 
 
 /*
@@ -1642,6 +1644,9 @@ void reload_into_new_context(void)
  new_globals->fonts_layout = GLOBALS->fonts_layout;
 #endif
  new_globals->use_pango_fonts = GLOBALS->use_pango_fonts;
+
+ new_globals->ruler_origin = GLOBALS->ruler_origin;
+ new_globals->ruler_step = GLOBALS->ruler_step;
 
  /* busy.c */
  new_globals->busycursor_busy_c_1 = GLOBALS->busycursor_busy_c_1;

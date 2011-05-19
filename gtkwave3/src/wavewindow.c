@@ -2517,7 +2517,7 @@ gdouble dx;
 gdouble hashoffset;
 int iter = 0;
 int s_ctx_iter;
-int timearray_encountered = 0;
+int timearray_encountered = (GLOBALS->ruler_step != 0);
 
 fhminus2=GLOBALS->fontheight-2;
 
@@ -2567,6 +2567,7 @@ char timebuff[32];
 char prevover=0;
 gdouble realx;
 int s_ctx_iter;
+int timearray_encountered = 0;
 
 renderblackout();
 
@@ -2598,6 +2599,8 @@ WAVE_STRACE_ITERATOR_FWD(s_ctx_iter)
 		TimeType *t, tm;
 		int y=GLOBALS->fontheight+2;
 		int oldx=-1;
+
+		timearray_encountered = 1;
 
 		pos=bsearch_timechain(GLOBALS->tims.start);
 		top:
@@ -2641,6 +2644,49 @@ WAVE_STRACE_ITERATOR_FWD(s_ctx_iter)
 GLOBALS->strace_ctx = &GLOBALS->strace_windows[GLOBALS->strace_current_window = 0];
 /***********/
 
+if(GLOBALS->ruler_step && !timearray_encountered)
+	{
+	TimeType rhs = (GLOBALS->tims.end > GLOBALS->tims.last) ? GLOBALS->tims.last : GLOBALS->tims.end;
+	TimeType low_x = (GLOBALS->tims.start - GLOBALS->ruler_origin) / GLOBALS->ruler_step;
+	TimeType high_x = (rhs - GLOBALS->ruler_origin) / GLOBALS->ruler_step;
+	TimeType iter_x, tm;
+        int y=GLOBALS->fontheight+2;
+        int oldx=-1;
+
+	for(iter_x = low_x; iter_x <= high_x; iter_x++)
+		{
+		tm = GLOBALS->ruler_step * iter_x +  GLOBALS->ruler_origin;
+		x=(tm-GLOBALS->tims.start)*GLOBALS->pxns;		
+		if(oldx==x)
+			{
+			gdouble xd,offset,pixstep;
+			TimeType newcurr;
+
+			xd=x+1;  /* for pix time calc */
+
+			pixstep=((gdouble)GLOBALS->nsperframe)/((gdouble)GLOBALS->pixelsperframe);
+			newcurr=(TimeType)(offset=((gdouble)GLOBALS->tims.start)+(xd*pixstep));
+
+			if(offset-newcurr>0.5)  /* round to nearest integer ns */
+			        {
+			        newcurr++;
+			        }
+
+			low_x = (newcurr - GLOBALS->ruler_origin) / GLOBALS->ruler_step;
+			if(low_x <= iter_x) low_x = (iter_x+1);
+			iter_x = low_x;
+			tm = GLOBALS->ruler_step * iter_x +  GLOBALS->ruler_origin;
+			x=(tm-GLOBALS->tims.start)*GLOBALS->pxns;
+			}
+
+		oldx=x;
+		gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc_grid_wavewindow_c_1, x, y, x, GLOBALS->waveheight);
+		}
+	}
+
+wave_gdk_draw_line_flush(GLOBALS->wavepixmap_wavewindow_c_1); /* clear out state */
+
+/***********/
 
 DEBUG(printf("Ruler Start time: "TTFormat", Finish time: "TTFormat"\n",tims.start, tims.end));
 

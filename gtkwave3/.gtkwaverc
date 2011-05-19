@@ -1,6 +1,9 @@
 #
 # sample rc file
 #
+ruler_origin 0
+ruler_step 0
+
 strace_repeat_count 1
 enable_fast_exit yes
 disable_empty_gui off
