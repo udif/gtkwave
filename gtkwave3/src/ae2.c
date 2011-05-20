@@ -510,7 +510,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			}
 			else
 			{
-			len2 = sprintf(buf+len, "[%d:%d]", 0, GLOBALS->ae2_fr[match_idx].length-1);
+			len2 = sprintf(buf+len, "[0:%d]", GLOBALS->ae2_fr[match_idx].length-1);
 			}
 
 		clen = (len + len2 + 1);
@@ -526,7 +526,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		if(clen > GLOBALS->longestname) GLOBALS->longestname = clen;
 		if(!GLOBALS->alt_hier_delimeter)
 			{
-			strcpy(str, buf);
+			if(!GLOBALS->do_hier_compress) strcpy(str, buf);
 			}
 			else
 			{
@@ -550,7 +550,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		if(clen > GLOBALS->longestname) GLOBALS->longestname = clen;
 		if(!GLOBALS->alt_hier_delimeter)
 			{
-			strcpy(str, buf);
+			if(!GLOBALS->do_hier_compress) strcpy(str, buf);
 			}
 			else
 			{
