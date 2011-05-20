@@ -1078,6 +1078,7 @@ if(GLOBALS->ruler_step && !timearray_encountered)
                         x=(tm-GLOBALS->tims.start)*GLOBALS->pxns;
                         }
 
+		if(x>=GLOBALS->wavewidth) break;
                 oldx=x;
 		pr_draw_line (prc, x, y, x, GLOBALS->liney_max);
                 }

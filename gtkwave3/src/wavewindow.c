@@ -2679,6 +2679,7 @@ if(GLOBALS->ruler_step && !timearray_encountered)
 			x=(tm-GLOBALS->tims.start)*GLOBALS->pxns;
 			}
 
+		if(x>=GLOBALS->wavewidth) break;
 		oldx=x;
 		gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc_grid_wavewindow_c_1, x, y, x, GLOBALS->waveheight);
 		}
