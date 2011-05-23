@@ -273,7 +273,6 @@ VCD_GETOPT
 "  -r, --rcfile=FILE          specify override .rcfile name\n"
 "  -d, --defaultskip          if missing .rcfile, do not use useful defaults\n"
 DUAL_GETOPT
-"  -i, --indirect=FILE        specify indirect facs file name\n"
 "  -l, --logfile=FILE         specify simulation logfile name for time values\n"
 "  -s, --start=TIME           specify start time for LXT2/VZT block skip\n"
 "  -e, --end=TIME             specify end time for LXT2/VZT block skip\n"  
@@ -658,7 +657,6 @@ while (1)
                 {"autosavename", 0, 0, 'A'},
                 {"rcfile", 1, 0, 'r'},
                 {"defaultskip", 0, 0, 'd'},
-                {"indirect", 1, 0, 'i'},
                 {"logfile", 1, 0, 'l'},
                 {"start", 1, 0, 's'},
                 {"end", 1, 0, 'e'},
@@ -687,7 +685,7 @@ while (1)
                 {0, 0, 0, 0}
                 };
 
-        c = getopt_long (argc, argv, "zf:Fon:a:Ar:di:l:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:", long_options, 
+        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:", long_options, 
 &option_index);
 
         if (c == -1) break;     /* no more args */
@@ -837,12 +835,6 @@ while (1)
 			if(override_rc) free_2(override_rc);
 			override_rc = malloc_2(strlen(optarg)+1);
 			strcpy(override_rc, optarg);
-			break;
-
-                case 'i':
-			if(GLOBALS->indirect_fname) free_2(GLOBALS->indirect_fname);
-			GLOBALS->indirect_fname = malloc_2(strlen(optarg)+1);
-			strcpy(GLOBALS->indirect_fname, optarg);
 			break;
 
                 case 's':
@@ -1233,7 +1225,7 @@ else if(suffix_check(GLOBALS->loaded_file_name, ".aet") || suffix_check(GLOBALS-
 	strcpy(GLOBALS->aet_name, GLOBALS->loaded_file_name);
 #endif
         GLOBALS->loaded_file_type = AE2_FILE;
-	ae2_main(GLOBALS->loaded_file_name, GLOBALS->skip_start, GLOBALS->skip_end, GLOBALS->indirect_fname);
+	ae2_main(GLOBALS->loaded_file_name, GLOBALS->skip_start, GLOBALS->skip_end);
 	if(!GLOBALS->ae2)
 		{
 		fprintf(stderr, "GTKWAVE | Could not initialize '%s'%s.\n", GLOBALS->loaded_file_name, GLOBALS->vcd_jmp_buf ? "" : ", exiting");
@@ -1263,7 +1255,7 @@ else if (strlen(GLOBALS->loaded_file_name)>4)	/* case for .aet? type filenames *
 		strcpy(GLOBALS->aet_name, GLOBALS->loaded_file_name);
 #endif
                 GLOBALS->loaded_file_type = AE2_FILE;
-		ae2_main(GLOBALS->loaded_file_name, GLOBALS->skip_start, GLOBALS->skip_end, GLOBALS->indirect_fname);
+		ae2_main(GLOBALS->loaded_file_name, GLOBALS->skip_start, GLOBALS->skip_end);
 		if(!GLOBALS->ae2)
 			{
 			fprintf(stderr, "GTKWAVE | Could not initialize '%s'%s.\n", GLOBALS->loaded_file_name, GLOBALS->vcd_jmp_buf ? "" : ", exiting");

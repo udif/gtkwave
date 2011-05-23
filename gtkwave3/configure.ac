@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(gtkwave, 3.3.21, bybell@nc.rr.com)
+AC_INIT(gtkwave, 3.3.22, bybell@nc.rr.com)
 AC_CONFIG_SRCDIR([src/vcd.c])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
@@ -217,6 +217,25 @@ if test "X$AE2" = "Xyes" ; then
 
 		fi
 	fi
+
+	AC_CHECK_FILE("/afs/awd/projects/simarama/releases/latest/libaliasdb.so", AAET2_SO=yes, AAET2_SO=no)
+
+	if test "X$AAET2_SO" = "Xyes" ; then
+		AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
+		AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libaliasdb.so $AET2_LDADD"
+	else
+
+		AC_CHECK_FILE("/afs/awd/projects/simarama/releases/latest/libaliasdb.a", AET2_A=yes, AET2_A=no)
+		if test "X$AAET2_A" = "Xyes" ; then
+			AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
+			AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libaliasdb.a $AET2_LDADD"
+		else
+
+		AC_MSG_WARN([AET2 alias library not found, skipping.])
+
+		fi
+	fi
+
 
 else
 	AC_MSG_RESULT([no])

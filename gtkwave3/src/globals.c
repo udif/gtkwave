@@ -68,13 +68,20 @@ static const struct Global globals_base_values =
 /*
  * ae2.c
  */
+#ifdef AET2_ALIASDB_IS_PRESENT
+NULL, /* m_alias_stream_file */
+0, /* m_adb */
+0, /* m_adb_trie */
+0, /* m_MaxTerms */
+NULL, /* adb_terms */
+#endif
+0, /* ae2_num_facs */
+0, /* ae2_num_aliases */
 0, /* ae2_num_sections */
 NULL, /* ae2_lx2_table */
 NULL, /* ae2_f */
 NULL, /* ae2 */
 NULL, /* ae2_fr */
-NULL, /* ae2_info_f */
-NULL, /* ae2_info */
 NULL, /* ae2_time_xlate */
 LLDescriptor(0), /* ae2_start_cyc */
 LLDescriptor(0), /* ae2_end_cyc */
@@ -86,9 +93,6 @@ NULL, /* ae2_regex_head */
 0, /* ae2_regex_matches */
 0, /* ae2_twirl_pos */
 0, /* ae2_did_twirl */
-#ifdef AE2_EXPERIMENTAL_TO_INTEGRATE
-NULL, /* ae2_invert_idx */
-#endif
 
 
 /*
@@ -472,7 +476,6 @@ NULL, /* loaded_file_name */
 NULL, /* unoptimized_vcd_file_name  */
 NULL, /* skip_start */
 NULL, /* skip_end */
-NULL, /* indirect_fname */
 MISSING_FILE, /* loaded_file_type */
 0, /* is_optimized_stdin_vcd */
 NULL, /* whoami 190 */
@@ -1796,7 +1799,6 @@ void reload_into_new_context(void)
  /* lxt2.c / vzt.c / ae2.c */
  strcpy2_into_new_context(new_globals, &new_globals->skip_start, &GLOBALS->skip_start);
  strcpy2_into_new_context(new_globals, &new_globals->skip_end, &GLOBALS->skip_end);
- strcpy2_into_new_context(new_globals, &new_globals->indirect_fname, &GLOBALS->indirect_fname);
 
  /* main.c */
  new_globals->use_toolbutton_interface = GLOBALS->use_toolbutton_interface;
@@ -1891,8 +1893,11 @@ void reload_into_new_context(void)
    case FST_FILE: fstReaderClose(GLOBALS->fst_fst_c_1); GLOBALS->fst_fst_c_1 = NULL; break;
    case AE2_FILE: 
 #ifdef AET2_IS_PRESENT
+#ifdef AET2_ALIASDB_IS_PRESENT
+	if(GLOBALS->m_adb) { adb_close_db(GLOBALS->m_adb); GLOBALS->m_adb = 0; }
+	/* if(GLOBALS->m_alias_stream_file) { fclose(GLOBALS->m_alias_stream_file); GLOBALS->m_alias_stream_file = NULL; } */
 	ae2_read_end(GLOBALS->ae2); fclose(GLOBALS->ae2_f); 
-	if(GLOBALS->ae2_info) { ae2_read_end(GLOBALS->ae2_info); fclose(GLOBALS->ae2_info_f); } 
+#endif
 #endif
 	break;
   
@@ -2076,7 +2081,7 @@ void reload_into_new_context(void)
 			break;
 
    		case AE2_FILE: 
-			ae2_main(GLOBALS->loaded_file_name,GLOBALS->skip_start,GLOBALS->skip_end,GLOBALS->indirect_fname);
+			ae2_main(GLOBALS->loaded_file_name,GLOBALS->skip_start,GLOBALS->skip_end);
 			load_was_success = (GLOBALS->ae2 != NULL);
 			break;
 
@@ -2508,7 +2513,11 @@ void free_and_destroy_page_context(void)
    case FST_FILE: fstReaderClose(GLOBALS->fst_fst_c_1); GLOBALS->fst_fst_c_1 = NULL; break;
    case AE2_FILE:
 #ifdef AET2_IS_PRESENT
+#ifdef AET2_ALIASDB_IS_PRESENT
+	if(GLOBALS->m_adb) { adb_close_db(GLOBALS->m_adb); GLOBALS->m_adb = 0; }
+	/* if(GLOBALS->m_alias_stream_file) { fclose(GLOBALS->m_alias_stream_file); GLOBALS->m_alias_stream_file = NULL; } */
         ae2_read_end(GLOBALS->ae2); fclose(GLOBALS->ae2_f);
+#endif
 #endif
         break;
  

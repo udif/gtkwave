@@ -1000,7 +1000,7 @@
 		their declarations (MTI).
 3.3.21	28apr11	Fixed crash in LXT2 reader on malformed files.
 		Fixed reload crash when -o flag used on non-VCD files.
-3.3.22	19may11	Optimize tree build so it can handle large amounts of
+3.3.22	23may11	Optimize tree build so it can handle large amounts of
 		component instantiations (netlists) without undue slowdown.
 		gcc -Wformat and -Wformat-security related fixes.
 		Update hier_decompress_flagged so it can also decompress into
@@ -1012,3 +1012,4 @@
 		Added support for user-specified timescale ruler using the
 		ruler_origin and ruler_step rc variables.
 		Added /View/Define Time Ruler Marks menu option.
+		Removed indirect file support as is unneeded for 64-bit.

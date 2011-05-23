@@ -69,13 +69,20 @@ struct Global{
 /*
  * ae2.c
  */
+#ifdef AET2_ALIASDB_IS_PRESENT
+FILE *m_alias_stream_file;
+ADB_DB m_adb;
+TRIE_HANDLE m_adb_trie;
+unsigned long m_MaxTerms;
+struct ADB_TERM *adb_terms;
+#endif
+unsigned long ae2_num_facs;
+unsigned long ae2_num_aliases;
 unsigned long ae2_num_sections;
 struct lx2_entry **ae2_lx2_table;
 FILE *ae2_f;
 AE2_HANDLE *ae2;
 FACREF *ae2_fr;
-FILE *ae2_info_f;
-AE2_HANDLE *ae2_info;
 TimeType *ae2_time_xlate;
 TimeType ae2_start_cyc;
 TimeType ae2_end_cyc;
@@ -87,9 +94,6 @@ struct regex_links *ae2_regex_head;
 int ae2_regex_matches;
 int ae2_twirl_pos;
 int ae2_did_twirl;
-#ifdef AE2_EXPERIMENTAL_TO_INTEGRATE
-struct symbol **ae2_invert_idx;
-#endif
 
 
 /*
@@ -472,7 +476,6 @@ char *loaded_file_name;
 char *unoptimized_vcd_file_name;
 char *skip_start;
 char *skip_end;
-char *indirect_fname;
 enum FileType loaded_file_type;
 char is_optimized_stdin_vcd;
 char *whoami; /* from main.c 201 */

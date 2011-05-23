@@ -34,7 +34,7 @@ void *pnt;
 };
 
 
-TimeType 	ae2_main(char *fname, char *skip_start, char *skip_end, char *indirect_fname);
+TimeType 	ae2_main(char *fname, char *skip_start, char *skip_end);
 void 		import_ae2_trace(nptr np);
 void 		ae2_set_fac_process_mask(nptr np);
 void 		ae2_import_masked(void);
@@ -90,14 +90,15 @@ void 		ae2_read_end(AE2_HANDLE handle);
 unsigned long	ae2_read_num_sparse_rows(AE2_HANDLE handle, unsigned long symbol_idx, uint64_t cycle);
 uint64_t 	ae2_read_ith_sparse_row(AE2_HANDLE handle, unsigned long symbol_idx, uint64_t cycle, unsigned long idx);
 
-
+#ifdef AET2_ALIASDB_IS_PRESENT
 /*
  * keyword and aliases interfacing...
  */
 typedef unsigned long 		AE2_KEYWORD;
 typedef unsigned long 		ADB_ALIAS;
 typedef unsigned long 		ADB_DB;
-typedef unsigned long 		TRIE_HANDLE;
+typedef void *	 		TRIE_HANDLE;
+typedef unsigned long 		TRIE_NODE;
 
 struct ADB_TERM
 {
@@ -115,6 +116,8 @@ typedef unsigned long 		(*ADB_SYMBOL_FN) (const char *name, void *udata);
 AE2_KEYWORD 	ae2_read_locate_keyword(AE2_HANDLE handle, const char* kwName);
 FILE* 		ae2_read_keyword_stream(AE2_HANDLE handle, AE2_KEYWORD key);
 
+unsigned long	trie_read_ith_symbol(TRIE_HANDLE handle, TRIE_NODE idx, char* name);
+
 ADB_DB 		adb_open_embed (FILE* fp, const char* parms, ADB_ALLOC_FN alloc_fn, ADB_FREE_FN free_fn, ADB_MSG_FN msg_fn, ADB_SEVERR_FN severror_fn);
 TRIE_HANDLE 	adb_alias_trie (ADB_DB db);
 unsigned long  	adb_max_alias_terms (ADB_DB db);
@@ -123,7 +126,7 @@ unsigned long 	adb_load_alias_def (ADB_DB db, ADB_ALIAS alias, struct ADB_TERM* 
 ADB_ALIAS 	adb_locate_alias (ADB_DB db, const char *name);
 unsigned long 	adb_symbol_name (ADB_DB db, unsigned long id, char *dest);
 unsigned long 	adb_close_db (ADB_DB db);
-
+#endif
 
 #endif
 
