@@ -299,6 +299,9 @@ if(kw)
                 GLOBALS->adb_max_terms  = adb_max_alias_terms(GLOBALS->adb);
                 GLOBALS->adb_terms = calloc_2(GLOBALS->adb_max_terms + 1, sizeof(struct ADB_TERM));
 
+		GLOBALS->adb_idx_first = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
+		GLOBALS->adb_idx_last = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
+
 		fprintf(stderr, AET2_RDLOAD"Encountered %d aliases.\n", (unsigned int)GLOBALS->ae2_num_aliases);
                 }
         }
@@ -348,6 +351,9 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 			GLOBALS->ae2_fr[match_idx].length = GLOBALS->adb_terms[0].last - GLOBALS->adb_terms[0].first + 1;
 			}
 
+		GLOBALS->adb_idx_first[i] = GLOBALS->adb_terms[0].first;
+		GLOBALS->adb_idx_last[i] = GLOBALS->adb_terms[0].last;
+
 	        GLOBALS->ae2_fr[match_idx].s = idx + GLOBALS->ae2_num_facs; /* bias aliases after regular facs */
 
 		GLOBALS->ae2_fr[match_idx].facname = NULL;
@@ -363,6 +369,9 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
                 adb_symbol_name(GLOBALS->adb, GLOBALS->adb_terms[1].id, buf);
                 u = ae2_read_find_symbol(GLOBALS->ae2, buf, &GLOBALS->ae2_fr[match_idx]);
 		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[u-1], sizeof(struct facref));
+
+		GLOBALS->adb_idx_first[i] = 0;
+		GLOBALS->adb_idx_last[i] = GLOBALS->ae2_fr[u-1].length - 1;
 		}
 
 	match_idx++;
@@ -395,7 +404,9 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	unsigned long len, clen;
 	int row_iter, mx_row, mx_row_adjusted;
 
+#ifdef AET2_ALIASDB_IS_PRESENT
 	if(i < GLOBALS->ae2_num_facs)
+#endif
 		{
 		idx = i+1;
 		len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
@@ -410,7 +421,20 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 	if(GLOBALS->ae2_fr[match_idx].length>1)
 		{
-		int len2 = sprintf(buf+len, "[0:%d]", GLOBALS->ae2_fr[match_idx].length-1);
+		int len2;
+
+#ifdef AET2_ALIASDB_IS_PRESENT
+		if(i < GLOBALS->ae2_num_facs)
+#endif
+			{
+			len2 = sprintf(buf+len, "[0:%d]", GLOBALS->ae2_fr[match_idx].length-1);
+			}
+#ifdef AET2_ALIASDB_IS_PRESENT
+			else
+			{
+			len2 = sprintf(buf+len, "[%d:%d]", GLOBALS->adb_idx_first[i - GLOBALS->ae2_num_facs], GLOBALS->adb_idx_last[i - GLOBALS->ae2_num_facs]);
+			}
+#endif
 
 		clen = (len + len2 + 1);
                 if(!GLOBALS->do_hier_compress)
@@ -480,8 +504,20 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 		if(GLOBALS->ae2_fr[match_idx].length>1)
 			{
-			n[row_iter].msi = 0;
-			n[row_iter].lsi = GLOBALS->ae2_fr[match_idx].length-1;
+#ifdef AET2_ALIASDB_IS_PRESENT
+			if(i < GLOBALS->ae2_num_facs)
+#endif
+				{
+				n[row_iter].msi = 0;
+				n[row_iter].lsi = GLOBALS->ae2_fr[match_idx].length-1;
+				}
+#ifdef AET2_ALIASDB_IS_PRESENT
+				else
+				{
+				n[row_iter].msi = GLOBALS->adb_idx_first[i - GLOBALS->ae2_num_facs];
+				n[row_iter].lsi = GLOBALS->adb_idx_last[i - GLOBALS->ae2_num_facs];
+				}
+#endif
 			n[row_iter].extvals = 1;
 			}
                  
@@ -491,6 +527,11 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 	match_idx++;
         }
+
+#ifdef AET2_ALIASDB_IS_PRESENT
+free_2(GLOBALS->adb_idx_last); GLOBALS->adb_idx_last = NULL;
+free_2(GLOBALS->adb_idx_first); GLOBALS->adb_idx_first = NULL;
+#endif
 
 freeze_facility_pack();
 

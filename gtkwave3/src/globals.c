@@ -74,6 +74,8 @@ NULL, /* adb_alias_stream_file */
 0, /* adb_trie */
 0, /* adb_max_terms */
 NULL, /* adb_terms */
+NULL, /* adb_idx_first */
+NULL, /* adb_idx_last */
 #endif
 0, /* ae2_num_facs */
 0, /* ae2_num_aliases */

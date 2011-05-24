@@ -75,6 +75,8 @@ ADB_DB adb;
 TRIE_HANDLE adb_trie;
 unsigned long adb_max_terms;
 struct ADB_TERM *adb_terms;
+unsigned short *adb_idx_first;
+unsigned short *adb_idx_last;
 #endif
 unsigned long ae2_num_facs;
 unsigned long ae2_num_aliases;
