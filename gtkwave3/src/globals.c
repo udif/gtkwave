@@ -71,9 +71,10 @@ static const struct Global globals_base_values =
 #ifdef AET2_ALIASDB_IS_PRESENT
 NULL, /* adb_alias_stream_file */
 0, /* adb */
-0, /* adb_trie */
 0, /* adb_max_terms */
 NULL, /* adb_terms */
+NULL, /* adb_aliases */
+NULL, /* adb_num_terms */
 NULL, /* adb_idx_first */
 NULL, /* adb_idx_last */
 #endif

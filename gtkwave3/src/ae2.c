@@ -199,6 +199,97 @@ if(symbol_idx <= GLOBALS->ae2_num_facs)
 	}
 }
 
+
+static void ae2_read_value_2a(AE2_HANDLE handle, unsigned long idx, uint64_t cycle, char* value, int tot_length)
+{
+int i;
+int numTerms = GLOBALS->adb_num_terms[--idx];
+int length;
+int j;
+int offs = 0;
+
+if(numTerms)
+	{
+	for(i=0;i<numTerms;i++)
+		{
+		struct ADB_TERM *at = &GLOBALS->adb_aliases[idx][i];
+		FACREF fr2;
+	
+		fr2.s = at->id;
+		fr2.row = 0;
+		fr2.row_high = 0;
+		fr2.offset = at->first;
+
+		if(at->last >= at->first)
+			{
+			fr2.length = length = at->last - at->first + 1;
+			}
+			else
+			{
+			fr2.length = -(length = at->first - at->last + 1);
+			}
+
+		ae2_read_value(handle, &fr2, cycle, value+offs);
+		offs += length;
+		}
+	}
+	else
+	{
+	memset(value, 'Z', tot_length);
+	}
+
+value[tot_length] = 0;
+}
+
+
+static uint64_t ae2_read_next_value_2a(AE2_HANDLE handle, unsigned long idx, uint64_t cycle, char* value, int tot_length)
+{
+uint64_t cyc = cycle;
+uint64_t t_cyc;
+int i;
+int numTerms = GLOBALS->adb_num_terms[--idx];
+int length;
+int j;
+int offs = 0;
+
+if(numTerms)
+	{
+	for(i=0;i<numTerms;i++)
+		{
+		struct ADB_TERM *at = &GLOBALS->adb_aliases[idx][i];
+		FACREF fr2;
+	
+		fr2.s = at->id;
+		fr2.row = 0;
+		fr2.row_high = 0;
+		fr2.offset = at->first;
+
+		if(at->last >= at->first)
+			{
+			fr2.length = length = at->last - at->first + 1;
+			}
+			else
+			{
+			fr2.length = -(length = at->first - at->last + 1);
+			}
+		
+		t_cyc = ae2_read_next_value(handle, &fr2, cycle, value+offs); /* simply want to calculate next value change time */
+		if(t_cyc > cyc) { cyc = t_cyc; }
+		offs += length;
+		}
+
+	ae2_read_value_2a(handle, idx+1, cyc, value, tot_length); /* reread at that calculated value change time */
+	}
+	else
+	{
+	memset(value, 'Z', tot_length);
+	value[tot_length] = 0;
+	}
+
+return(cyc);
+}
+
+
 static void ae2_read_value_2(AE2_HANDLE handle, FACREF* fr, uint64_t cycle, char* value)
 {
 if(fr->s <= GLOBALS->ae2_num_facs)
@@ -207,10 +298,8 @@ if(fr->s <= GLOBALS->ae2_num_facs)
 	}
 	else /* complex alias not supported yet */
 	{
-	/* unsigned long idx = fr->s - GLOBALS->ae2_num_facs; */
-
-	memset(value, 'Z', fr->length);
-	value[fr->length] = 0;
+	unsigned long idx = fr->s - GLOBALS->ae2_num_facs;
+	ae2_read_value_2a(handle, idx, cycle, value, fr->length);
 	}
 }
 
@@ -223,12 +312,8 @@ if(fr->s <= GLOBALS->ae2_num_facs)
 	}
 	else /* complex alias not supported yet */
 	{
-	/* unsigned long idx = fr->s - GLOBALS->ae2_num_facs; */
-
-	memset(value, 'Z', fr->length);
-	value[fr->length] = 0;
-
-	return(cycle);
+	unsigned long idx = fr->s - GLOBALS->ae2_num_facs;
+	return(ae2_read_next_value_2a(handle, idx, cycle, value, fr->length));
 	}
 }
 
@@ -294,11 +379,12 @@ if(kw)
         GLOBALS->adb = adb_open_embed(GLOBALS->adb_alias_stream_file, "-order", alloc_fn, free_fn, adb_msg_fn, error_fn);
         if(GLOBALS->adb)
                 {
-                GLOBALS->adb_trie = adb_alias_trie(GLOBALS->adb);
                 GLOBALS->ae2_num_aliases = adb_num_aliases(GLOBALS->adb);
                 GLOBALS->adb_max_terms  = adb_max_alias_terms(GLOBALS->adb);
                 GLOBALS->adb_terms = calloc_2(GLOBALS->adb_max_terms + 1, sizeof(struct ADB_TERM));
 
+                GLOBALS->adb_aliases = calloc_2(GLOBALS->ae2_num_aliases, sizeof(struct ADB_TERM *));
+		GLOBALS->adb_num_terms = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
 		GLOBALS->adb_idx_first = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
 		GLOBALS->adb_idx_last = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
 
@@ -335,8 +421,12 @@ for(i=0;i<GLOBALS->ae2_num_facs;i++)
 #ifdef AET2_ALIASDB_IS_PRESENT
 for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	{
-        int idx = i+1;
 	unsigned long numTerms;
+	unsigned long u;
+        int idx = i+1;
+	int ii;
+	FACREF f2;
+        char buf[AE2_MAX_NAME_LENGTH+1];
 
 	total_rows++;
 
@@ -360,12 +450,22 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 		GLOBALS->ae2_fr[match_idx].row = 0;
 	        GLOBALS->ae2_fr[match_idx].row_high = 0;
 	        GLOBALS->ae2_fr[match_idx].offset = 0;
+
+		GLOBALS->adb_num_terms[i] = numTerms;
+		GLOBALS->adb_aliases[i] = malloc_2(numTerms * sizeof(struct ADB_TERM));
+
+		for(ii=0;ii<(numTerms);ii++)
+			{
+	 	       	adb_symbol_name(GLOBALS->adb, GLOBALS->adb_terms[ii+1].id, buf);
+			u = ae2_read_find_symbol(GLOBALS->ae2, buf, &f2);
+
+			GLOBALS->adb_aliases[i][ii].id = u;
+			GLOBALS->adb_aliases[i][ii].first = GLOBALS->adb_terms[ii+1].first;
+			GLOBALS->adb_aliases[i][ii].last = GLOBALS->adb_terms[ii+1].last;
+        		}
 		}
 		else
 		{
-	        char buf[AE2_MAX_NAME_LENGTH+1];
-		unsigned long u;
-
                 adb_symbol_name(GLOBALS->adb, GLOBALS->adb_terms[1].id, buf);
                 u = ae2_read_find_symbol(GLOBALS->ae2, buf, &GLOBALS->ae2_fr[match_idx]);
 		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[u-1], sizeof(struct facref));
@@ -415,7 +515,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		else
 		{
 		idx = i - GLOBALS->ae2_num_facs + 1;
-		len = trie_read_ith_symbol(GLOBALS->adb_trie, idx, buf) - 1; /* it counts the null character */
+		len = adb_alias_name(GLOBALS->adb, idx, buf) - 1; /* it counts the null character */
 		}
 #endif
 

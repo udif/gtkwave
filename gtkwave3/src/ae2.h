@@ -97,8 +97,6 @@ uint64_t 	ae2_read_ith_sparse_row(AE2_HANDLE handle, unsigned long symbol_idx, u
 typedef unsigned long 		AE2_KEYWORD;
 typedef unsigned long 		ADB_ALIAS;
 typedef unsigned long 		ADB_DB;
-typedef void *	 		TRIE_HANDLE;
-typedef unsigned long 		TRIE_NODE;
 
 struct ADB_TERM
 {
@@ -116,12 +114,10 @@ typedef unsigned long 		(*ADB_SYMBOL_FN) (const char *name, void *udata);
 AE2_KEYWORD 	ae2_read_locate_keyword(AE2_HANDLE handle, const char* kwName);
 FILE* 		ae2_read_keyword_stream(AE2_HANDLE handle, AE2_KEYWORD key);
 
-unsigned long	trie_read_ith_symbol(TRIE_HANDLE handle, TRIE_NODE idx, char* name);
-
 ADB_DB 		adb_open_embed (FILE* fp, const char* parms, ADB_ALLOC_FN alloc_fn, ADB_FREE_FN free_fn, ADB_MSG_FN msg_fn, ADB_SEVERR_FN severror_fn);
-TRIE_HANDLE 	adb_alias_trie (ADB_DB db);
 unsigned long  	adb_max_alias_terms (ADB_DB db);
 unsigned long 	adb_num_aliases (ADB_DB db);
+unsigned long 	adb_alias_name (ADB_DB db, ADB_ALIAS alias, char *dest);
 unsigned long 	adb_load_alias_def (ADB_DB db, ADB_ALIAS alias, struct ADB_TERM* def);
 ADB_ALIAS 	adb_locate_alias (ADB_DB db, const char *name);
 unsigned long 	adb_symbol_name (ADB_DB db, unsigned long id, char *dest);

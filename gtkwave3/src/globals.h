@@ -72,9 +72,10 @@ struct Global{
 #ifdef AET2_ALIASDB_IS_PRESENT
 FILE *adb_alias_stream_file;
 ADB_DB adb;
-TRIE_HANDLE adb_trie;
 unsigned long adb_max_terms;
 struct ADB_TERM *adb_terms;
+struct ADB_TERM **adb_aliases;
+unsigned short *adb_num_terms;
 unsigned short *adb_idx_first;
 unsigned short *adb_idx_last;
 #endif
