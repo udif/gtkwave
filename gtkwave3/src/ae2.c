@@ -273,13 +273,14 @@ value[tot_length] = 0;
 
 static uint64_t ae2_read_next_value_2a(AE2_HANDLE handle, unsigned long idx, uint64_t cycle, char* value, int tot_length)
 {
-uint64_t cyc = cycle;
+uint64_t cyc = GLOBALS->max_time + 1;
 uint64_t t_cyc;
 int i;
 int numTerms = GLOBALS->adb_num_terms[--idx];
 int length;
 int j;
 int offs = 0;
+int nonew = 0;
 
 if(numTerms)
 	{
@@ -303,9 +304,19 @@ if(numTerms)
 			}
 		
 		t_cyc = ae2_read_next_value(handle, &fr2, cycle, value+offs); /* simply want to calculate next value change time */
-		if(t_cyc > cyc) { cyc = t_cyc; }
+		if(t_cyc != cycle)
+			{
+			if(t_cyc < cyc) { cyc = t_cyc; }
+			}
+			else
+			{
+			nonew++;
+			}
+
 		offs += length;
 		}
+
+	if(nonew == numTerms) { cyc = cycle; }
 
 	ae2_read_value_2a(handle, idx+1, cyc, value, tot_length); /* reread at that calculated value change time */
 	}
