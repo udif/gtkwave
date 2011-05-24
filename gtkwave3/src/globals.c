@@ -69,10 +69,10 @@ static const struct Global globals_base_values =
  * ae2.c
  */
 #ifdef AET2_ALIASDB_IS_PRESENT
-NULL, /* m_alias_stream_file */
-0, /* m_adb */
-0, /* m_adb_trie */
-0, /* m_MaxTerms */
+NULL, /* adb_alias_stream_file */
+0, /* adb */
+0, /* adb_trie */
+0, /* adb_max_terms */
 NULL, /* adb_terms */
 #endif
 0, /* ae2_num_facs */
@@ -1894,7 +1894,7 @@ void reload_into_new_context(void)
    case AE2_FILE: 
 #ifdef AET2_IS_PRESENT
 #ifdef AET2_ALIASDB_IS_PRESENT
-	if(GLOBALS->m_adb) { adb_close_db(GLOBALS->m_adb); GLOBALS->m_adb = 0; }
+	if(GLOBALS->adb) { adb_close_db(GLOBALS->adb); GLOBALS->adb = 0; }
 	/* if(GLOBALS->m_alias_stream_file) { fclose(GLOBALS->m_alias_stream_file); GLOBALS->m_alias_stream_file = NULL; } */
 	ae2_read_end(GLOBALS->ae2); fclose(GLOBALS->ae2_f); 
 #endif
@@ -2514,8 +2514,8 @@ void free_and_destroy_page_context(void)
    case AE2_FILE:
 #ifdef AET2_IS_PRESENT
 #ifdef AET2_ALIASDB_IS_PRESENT
-	if(GLOBALS->m_adb) { adb_close_db(GLOBALS->m_adb); GLOBALS->m_adb = 0; }
-	/* if(GLOBALS->m_alias_stream_file) { fclose(GLOBALS->m_alias_stream_file); GLOBALS->m_alias_stream_file = NULL; } */
+	if(GLOBALS->adb) { adb_close_db(GLOBALS->adb); GLOBALS->adb = 0; }
+	/* if(GLOBALS->adb_alias_stream_file) { fclose(GLOBALS->adb_alias_stream_file); GLOBALS->adb_alias_stream_file = NULL; } */
         ae2_read_end(GLOBALS->ae2); fclose(GLOBALS->ae2_f);
 #endif
 #endif

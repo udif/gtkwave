@@ -290,14 +290,14 @@ sym_hash_initialize(GLOBALS);
 kw = ae2_read_locate_keyword(GLOBALS->ae2, "aliasdb");
 if(kw)
         {
-        GLOBALS->m_alias_stream_file = ae2_read_keyword_stream(GLOBALS->ae2, kw);
-        GLOBALS->m_adb = adb_open_embed(GLOBALS->m_alias_stream_file, "-order", alloc_fn, free_fn, adb_msg_fn, error_fn);
-        if(GLOBALS->m_adb)
+        GLOBALS->adb_alias_stream_file = ae2_read_keyword_stream(GLOBALS->ae2, kw);
+        GLOBALS->adb = adb_open_embed(GLOBALS->adb_alias_stream_file, "-order", alloc_fn, free_fn, adb_msg_fn, error_fn);
+        if(GLOBALS->adb)
                 {
-                GLOBALS->m_adb_trie = adb_alias_trie(GLOBALS->m_adb);
-                GLOBALS->ae2_num_aliases = adb_num_aliases(GLOBALS->m_adb);
-                GLOBALS->m_MaxTerms  = adb_max_alias_terms(GLOBALS->m_adb);
-                GLOBALS->adb_terms = calloc_2(GLOBALS->m_MaxTerms + 1, sizeof(struct ADB_TERM));
+                GLOBALS->adb_trie = adb_alias_trie(GLOBALS->adb);
+                GLOBALS->ae2_num_aliases = adb_num_aliases(GLOBALS->adb);
+                GLOBALS->adb_max_terms  = adb_max_alias_terms(GLOBALS->adb);
+                GLOBALS->adb_terms = calloc_2(GLOBALS->adb_max_terms + 1, sizeof(struct ADB_TERM));
 
 		fprintf(stderr, AET2_RDLOAD"Encountered %d aliases.\n", (unsigned int)GLOBALS->ae2_num_aliases);
                 }
@@ -337,7 +337,7 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 
 	total_rows++;
 
-	if((numTerms = adb_load_alias_def(GLOBALS->m_adb, idx, GLOBALS->adb_terms)))
+	if((numTerms = adb_load_alias_def(GLOBALS->adb, idx, GLOBALS->adb_terms)))
 		{
 		if(GLOBALS->adb_terms[0].first > GLOBALS->adb_terms[0].last)
 			{
@@ -360,7 +360,7 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	        char buf[AE2_MAX_NAME_LENGTH+1];
 		unsigned long u;
 
-                adb_symbol_name(GLOBALS->m_adb, GLOBALS->adb_terms[1].id, buf);
+                adb_symbol_name(GLOBALS->adb, GLOBALS->adb_terms[1].id, buf);
                 u = ae2_read_find_symbol(GLOBALS->ae2, buf, &GLOBALS->ae2_fr[match_idx]);
 		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[u-1], sizeof(struct facref));
 		}
@@ -404,7 +404,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		else
 		{
 		idx = i - GLOBALS->ae2_num_facs + 1;
-		len = trie_read_ith_symbol(GLOBALS->m_adb_trie, idx, buf) - 1; /* it counts the null character */
+		len = trie_read_ith_symbol(GLOBALS->adb_trie, idx, buf) - 1; /* it counts the null character */
 		}
 #endif
 

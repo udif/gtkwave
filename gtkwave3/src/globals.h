@@ -70,10 +70,10 @@ struct Global{
  * ae2.c
  */
 #ifdef AET2_ALIASDB_IS_PRESENT
-FILE *m_alias_stream_file;
-ADB_DB m_adb;
-TRIE_HANDLE m_adb_trie;
-unsigned long m_MaxTerms;
+FILE *adb_alias_stream_file;
+ADB_DB adb;
+TRIE_HANDLE adb_trie;
+unsigned long adb_max_terms;
 struct ADB_TERM *adb_terms;
 #endif
 unsigned long ae2_num_facs;
