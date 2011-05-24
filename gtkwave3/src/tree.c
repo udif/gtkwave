@@ -693,6 +693,7 @@ rs:		s=get_module_name(s);
 			}
 
 #ifdef _WAVE_HAVE_JUDY
+rescan:
 		if(prevt && prevt->children_in_gui)
 			{
 			/* find with judy */
@@ -759,6 +760,8 @@ rs:		s=get_module_name(s);
 
 					t = t->next;
 					}
+
+				goto rescan; /* this level of hier is built, now do insert */
 				}
 #endif
 			}
