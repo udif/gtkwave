@@ -183,6 +183,35 @@ if(ptr)
 
 
 /*
+ * dynamic alias allocator (memory written to is converted to refer to facidx instead)
+ */
+#ifdef AET2_ALIASDB_IS_PRESENT
+
+static void *adb_alloc_2(size_t siz)
+{
+if(GLOBALS->adb_alloc_pool_base)
+        {
+        if((siz + GLOBALS->adb_alloc_idx) <= WAVE_ADB_ALLOC_POOL_SIZE)
+                {
+                unsigned char *m = GLOBALS->adb_alloc_pool_base + GLOBALS->adb_alloc_idx;
+                GLOBALS->adb_alloc_idx += siz;
+                return((void *)m);
+                }
+        else
+        if(siz >= WAVE_ADB_ALLOC_ALTREQ_SIZE)
+                {
+                return(calloc_2(1, siz));
+                }
+        }
+
+GLOBALS->adb_alloc_pool_base = calloc_2(1, WAVE_ADB_ALLOC_POOL_SIZE);
+GLOBALS->adb_alloc_idx = 0;
+return(adb_alloc_2(siz));
+}
+#endif
+
+
+/*
  * dynamic alias support on reads
  */
 #ifdef AET2_ALIASDB_IS_PRESENT
@@ -452,7 +481,7 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	        GLOBALS->ae2_fr[match_idx].offset = 0;
 
 		GLOBALS->adb_num_terms[i] = numTerms;
-		GLOBALS->adb_aliases[i] = malloc_2(numTerms * sizeof(struct ADB_TERM));
+		GLOBALS->adb_aliases[i] = adb_alloc_2(numTerms * sizeof(struct ADB_TERM));
 
 		for(ii=0;ii<(numTerms);ii++)
 			{

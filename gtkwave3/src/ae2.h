@@ -122,6 +122,10 @@ unsigned long 	adb_load_alias_def (ADB_DB db, ADB_ALIAS alias, struct ADB_TERM* 
 ADB_ALIAS 	adb_locate_alias (ADB_DB db, const char *name);
 unsigned long 	adb_symbol_name (ADB_DB db, unsigned long id, char *dest);
 unsigned long 	adb_close_db (ADB_DB db);
+
+#define WAVE_ADB_ALLOC_POOL_SIZE (1024 * 1024)
+#define WAVE_ADB_ALLOC_ALTREQ_SIZE (4 * 1024)
+
 #endif
 
 #endif

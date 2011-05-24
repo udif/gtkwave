@@ -77,6 +77,8 @@ NULL, /* adb_aliases */
 NULL, /* adb_num_terms */
 NULL, /* adb_idx_first */
 NULL, /* adb_idx_last */
+NULL, /* adb_alloc_pool_base */
+0, /* adb_alloc_idx */
 #endif
 0, /* ae2_num_facs */
 0, /* ae2_num_aliases */

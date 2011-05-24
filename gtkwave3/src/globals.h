@@ -78,6 +78,8 @@ struct ADB_TERM **adb_aliases;
 unsigned short *adb_num_terms;
 unsigned short *adb_idx_first;
 unsigned short *adb_idx_last;
+unsigned char *adb_alloc_pool_base;
+size_t adb_alloc_idx;
 #endif
 unsigned long ae2_num_facs;
 unsigned long ae2_num_aliases;
