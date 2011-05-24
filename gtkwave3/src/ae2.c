@@ -381,7 +381,7 @@ int mono_row_offset = 0;
 struct Node *monolithic_node = NULL;
 struct symbol *monolithic_sym = NULL;
 #ifdef AET2_ALIASDB_IS_PRESENT
-unsigned long kw;
+unsigned long kw = 0;
 #endif
 
 ae2_initialize(error_fn, msg_fn, alloc_fn, free_fn);
@@ -412,7 +412,7 @@ init_facility_pack();
 sym_hash_initialize(GLOBALS);
 
 #ifdef AET2_ALIASDB_IS_PRESENT
-kw = ae2_read_locate_keyword(GLOBALS->ae2, "aliasdb");
+if(!GLOBALS->disable_ae2_alias) { kw = ae2_read_locate_keyword(GLOBALS->ae2, "aliasdb"); }
 if(kw)
         {
         GLOBALS->adb_alias_stream_file = ae2_read_keyword_stream(GLOBALS->ae2, kw);
@@ -669,8 +669,8 @@ for(i=0;i<GLOBALS->numfacs;i++)
         }
 
 #ifdef AET2_ALIASDB_IS_PRESENT
-free_2(GLOBALS->adb_idx_last); GLOBALS->adb_idx_last = NULL;
-free_2(GLOBALS->adb_idx_first); GLOBALS->adb_idx_first = NULL;
+if(GLOBALS->adb_idx_last) { free_2(GLOBALS->adb_idx_last); GLOBALS->adb_idx_last = NULL; }
+if(GLOBALS->adb_idx_first) { free_2(GLOBALS->adb_idx_first); GLOBALS->adb_idx_first = NULL; }
 #endif
 
 freeze_facility_pack();

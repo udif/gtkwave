@@ -99,6 +99,7 @@ struct regex_links *ae2_regex_head;
 int ae2_regex_matches;
 int ae2_twirl_pos;
 int ae2_did_twirl;
+char disable_ae2_alias;
 
 
 /*

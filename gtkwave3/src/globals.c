@@ -98,6 +98,7 @@ NULL, /* ae2_regex_head */
 0, /* ae2_regex_matches */
 0, /* ae2_twirl_pos */
 0, /* ae2_did_twirl */
+0, /* disable_ae2_alias */
 
 
 /*
@@ -1779,6 +1780,8 @@ void reload_into_new_context(void)
  new_globals->ps_maxveclen = GLOBALS->ps_maxveclen;
  new_globals->vector_padding = GLOBALS->vector_padding;
  new_globals->zoombase = GLOBALS->zoombase;
+
+ new_globals->disable_ae2_alias = GLOBALS->disable_ae2_alias;
 
  new_globals->splash_disable = 1; /* to disable splash for reload */
  new_globals->strace_repeat_count = GLOBALS->strace_repeat_count; /* for edgebuttons and also strace */

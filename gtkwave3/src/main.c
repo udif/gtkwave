@@ -575,7 +575,11 @@ if(!GLOBALS)
 	GLOBALS->zoombase = old_g->zoombase;
 	GLOBALS->splash_disable = old_g->splash_disable;
 	GLOBALS->use_pango_fonts = old_g->use_pango_fonts;
-	
+
+	GLOBALS->ruler_origin = old_g->ruler_origin;
+	GLOBALS->ruler_step = old_g->ruler_step;
+	GLOBALS->disable_ae2_alias = old_g->disable_ae2_alias;	
+
 	GLOBALS->vlist_spill_to_disk = old_g->vlist_spill_to_disk;
 	GLOBALS->vlist_prepack = old_g->vlist_prepack;
 	GLOBALS->do_dynamic_treefilter = old_g->do_dynamic_treefilter;
