@@ -25,6 +25,11 @@
 
 #define AET2_RDLOAD "AE2LOAD | "
 
+#define AE2_MAX_NAME_LENGTH 		2048
+#define	AE2_MAXFACLEN 	 		65536
+#define WAVE_ADB_ALLOC_POOL_SIZE 	(1024 * 1024)
+#define WAVE_ADB_ALLOC_ALTREQ_SIZE 	(4 * 1024)
+
 
 #ifdef WAVE_USE_STRUCT_PACKING
 #pragma pack(push)
@@ -45,18 +50,5 @@ TimeType 	ae2_main(char *fname, char *skip_start, char *skip_end);
 void 		import_ae2_trace(nptr np);
 void 		ae2_set_fac_process_mask(nptr np);
 void 		ae2_import_masked(void);
-
-
-#ifndef _MSC_VER
-/*
- * texsim prototypes/libae2rw interfacing...
- */
-#define AE2_MAX_NAME_LENGTH 	2048
-#define	AE2_MAXFACLEN 	 	65536
-
-#define WAVE_ADB_ALLOC_POOL_SIZE (1024 * 1024)
-#define WAVE_ADB_ALLOC_ALTREQ_SIZE (4 * 1024)
-
-#endif
 
 #endif

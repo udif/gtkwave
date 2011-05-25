@@ -336,7 +336,7 @@ if(fr->s <= GLOBALS->ae2_num_facs)
 	{
 	ae2_read_value(handle, fr, cycle, value);
 	}
-	else /* complex alias not supported yet */
+	else /* complex alias... */
 	{
 	unsigned long idx = fr->s - GLOBALS->ae2_num_facs;
 	ae2_read_value_2a(handle, idx, cycle, value, fr->length);
@@ -350,7 +350,7 @@ if(fr->s <= GLOBALS->ae2_num_facs)
         {
 	return(ae2_read_next_value(handle, fr, cycle, value));
 	}
-	else /* complex alias not supported yet */
+	else /* complex alias... */
 	{
 	unsigned long idx = fr->s - GLOBALS->ae2_num_facs;
 	return(ae2_read_next_value_2a(handle, idx, cycle, value, fr->length));
