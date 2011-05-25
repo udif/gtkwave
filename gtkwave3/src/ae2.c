@@ -419,7 +419,7 @@ if(!GLOBALS->disable_ae2_alias) { kw = ae2_read_locate_keyword(GLOBALS->ae2, "al
 if(kw)
         {
         GLOBALS->adb_alias_stream_file = ae2_read_keyword_stream(GLOBALS->ae2, kw);
-        GLOBALS->adb = adb_open_embed(GLOBALS->adb_alias_stream_file, "-order", alloc_fn, free_fn, adb_msg_fn, error_fn);
+        GLOBALS->adb = adb_open_embed(GLOBALS->adb_alias_stream_file, NULL, alloc_fn, free_fn, adb_msg_fn, error_fn);
         if(GLOBALS->adb)
                 {
                 GLOBALS->ae2_num_aliases = adb_num_aliases(GLOBALS->adb);
