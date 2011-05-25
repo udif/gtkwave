@@ -241,8 +241,8 @@ if(numTerms)
 	{
 	for(i=0;i<numTerms;i++)
 		{
-		struct ADB_TERM *at = &GLOBALS->adb_aliases[idx][i];
-		FACREF fr2;
+		ADB_TERM *at = &GLOBALS->adb_aliases[idx][i];
+		AE2_FACREF fr2;
 	
 		fr2.s = at->id;
 		fr2.row = 0;
@@ -286,8 +286,8 @@ if(numTerms)
 	{
 	for(i=0;i<numTerms;i++)
 		{
-		struct ADB_TERM *at = &GLOBALS->adb_aliases[idx][i];
-		FACREF fr2;
+		ADB_TERM *at = &GLOBALS->adb_aliases[idx][i];
+		AE2_FACREF fr2;
 	
 		fr2.s = at->id;
 		fr2.row = 0;
@@ -330,7 +330,7 @@ return(cyc);
 }
 
 
-static void ae2_read_value_2(AE2_HANDLE handle, FACREF* fr, uint64_t cycle, char* value)
+static void ae2_read_value_2(AE2_HANDLE handle, AE2_FACREF* fr, uint64_t cycle, char* value)
 {
 if(fr->s <= GLOBALS->ae2_num_facs)
 	{
@@ -344,7 +344,7 @@ if(fr->s <= GLOBALS->ae2_num_facs)
 }
 
 
-static uint64_t ae2_read_next_value_2(AE2_HANDLE handle, FACREF* fr, uint64_t cycle, char* value)
+static uint64_t ae2_read_next_value_2(AE2_HANDLE handle, AE2_FACREF* fr, uint64_t cycle, char* value)
 {
 if(fr->s <= GLOBALS->ae2_num_facs)
         {
@@ -421,9 +421,9 @@ if(kw)
                 {
                 GLOBALS->ae2_num_aliases = adb_num_aliases(GLOBALS->adb);
                 GLOBALS->adb_max_terms  = adb_max_alias_terms(GLOBALS->adb);
-                GLOBALS->adb_terms = calloc_2(GLOBALS->adb_max_terms + 1, sizeof(struct ADB_TERM));
+                GLOBALS->adb_terms = calloc_2(GLOBALS->adb_max_terms + 1, sizeof(ADB_TERM));
 
-                GLOBALS->adb_aliases = calloc_2(GLOBALS->ae2_num_aliases, sizeof(struct ADB_TERM *));
+                GLOBALS->adb_aliases = calloc_2(GLOBALS->ae2_num_aliases, sizeof(ADB_TERM *));
 		GLOBALS->adb_num_terms = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
 		GLOBALS->adb_idx_first = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
 		GLOBALS->adb_idx_last = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
@@ -438,7 +438,7 @@ GLOBALS->ae2_num_facs = ae2_read_num_symbols(GLOBALS->ae2);
 GLOBALS->numfacs = GLOBALS->ae2_num_facs + GLOBALS->ae2_num_aliases;
 GLOBALS->ae2_process_mask = calloc_2(1, GLOBALS->numfacs/8+1);
 
-GLOBALS->ae2_fr=calloc_2(GLOBALS->numfacs, sizeof(FACREF));
+GLOBALS->ae2_fr=calloc_2(GLOBALS->numfacs, sizeof(AE2_FACREF));
 GLOBALS->ae2_lx2_table=(struct lx2_entry **)calloc_2(GLOBALS->numfacs, sizeof(struct lx2_entry *));
 
 match_idx = 0;
@@ -465,7 +465,7 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	unsigned long u;
         int idx = i+1;
 	int ii;
-	FACREF f2;
+	AE2_FACREF f2;
         char buf[AE2_MAX_NAME_LENGTH+1];
 
 	total_rows++;
@@ -492,7 +492,7 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	        GLOBALS->ae2_fr[match_idx].offset = 0;
 
 		GLOBALS->adb_num_terms[i] = numTerms;
-		GLOBALS->adb_aliases[i] = adb_alloc_2(numTerms * sizeof(struct ADB_TERM));
+		GLOBALS->adb_aliases[i] = adb_alloc_2(numTerms * sizeof(ADB_TERM));
 
 		for(ii=0;ii<(numTerms);ii++)
 			{
@@ -508,7 +508,7 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 		{
                 adb_symbol_name(GLOBALS->adb, GLOBALS->adb_terms[1].id, buf);
                 u = ae2_read_find_symbol(GLOBALS->ae2, buf, &GLOBALS->ae2_fr[match_idx]);
-		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[u-1], sizeof(struct facref));
+		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[u-1], sizeof(AE2_FACREF));
 
 		GLOBALS->adb_idx_first[i] = 0;
 		GLOBALS->adb_idx_last[i] = GLOBALS->ae2_fr[u-1].length - 1;
@@ -638,7 +638,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		{
 	        n[row_iter].nname=s->name;
 	        n[row_iter].mv.mvlfac = (struct fac *)(GLOBALS->ae2_fr+match_idx); /* to keep from having to allocate duplicate mvlfac struct */
-							               /* use the info in the FACREF array instead                */
+							               /* use the info in the AE2_FACREF array instead                */
 		n[row_iter].array_height = mx_row_adjusted;
 		n[row_iter].this_row = row_iter;
 
@@ -836,7 +836,7 @@ static void ae2_callback(uint64_t *tim, unsigned int *facidx, char **value, unsi
 {
 struct HistEnt *htemp = histent_calloc();
 struct lx2_entry *l2e = &GLOBALS->ae2_lx2_table[*facidx][row];
-FACREF *f = GLOBALS->ae2_fr+(*facidx);
+AE2_FACREF *f = GLOBALS->ae2_fr+(*facidx);
 
 static int busycnt = 0;
 
@@ -1246,11 +1246,11 @@ void import_ae2_trace(nptr np)
 {
 struct HistEnt *htemp, *histent_tail;
 int len, i;
-FACREF *f;
+AE2_FACREF *f;
 int txidx;
 int r, nr;
 
-if(!(f=(FACREF *)(np->mv.mvlfac))) return;	/* already imported */
+if(!(f=(AE2_FACREF *)(np->mv.mvlfac))) return;	/* already imported */
 
 txidx = f - GLOBALS->ae2_fr;
 nr = ae2_read_symbol_rows_2(GLOBALS->ae2, f->s);
@@ -1372,11 +1372,11 @@ for(r = 0; r < nr; r++)
  */
 void ae2_set_fac_process_mask(nptr np)
 {
-FACREF *f;
+AE2_FACREF *f;
 int txidx;
 int r, nr;
 
-if(!(f=(FACREF *)(np->mv.mvlfac))) return;	/* already imported */
+if(!(f=(AE2_FACREF *)(np->mv.mvlfac))) return;	/* already imported */
 
 txidx = f - GLOBALS->ae2_fr;
 
@@ -1422,7 +1422,7 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 	if(aet2_rd_get_fac_process_mask(txidx))
 		{
 		struct HistEnt *htemp, *histent_tail;
-		FACREF *f = GLOBALS->ae2_fr+txidx;
+		AE2_FACREF *f = GLOBALS->ae2_fr+txidx;
 		int r, nr = ae2_read_symbol_rows_2(GLOBALS->ae2, f->s);
 		int len = f->length;
 

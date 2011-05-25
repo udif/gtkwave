@@ -874,7 +874,7 @@ Optional Features:
   --enable-gtk1           Causes the GTK+ frontend to be built with gtk1
                           instead of gtk2.
   --enable-fatlines       Renders lines as double width in gtkwave.
-  --enable-ae2            Compiles in support for AE2 files via simarama.
+  --enable-ae2            Compiles in AE2 from env var SIMARAMA_BASE location.
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
   --enable-local-libz     Use the bundled libz instead of any libz which may
@@ -1823,6 +1823,12 @@ fi
 
 
 
+
+# ------------- Set simarama base -------------------
+if test "X$SIMARAMA_BASE" = "X" ; then
+	SIMARAMA_BASE="/afs/awd/projects/simarama/releases/latest"
+fi
+
 # Checks for build options
 # ------------- Inline -------------------
 
@@ -2430,24 +2436,25 @@ AE2=no
 fi;
 
 if test "X$AE2" = "Xyes" ; then
-	echo "$as_me:$LINENO: checking for \"/afs/awd/projects/simarama/releases/latest/libae2rw.so\"" >&5
-echo $ECHO_N "checking for \"/afs/awd/projects/simarama/releases/latest/libae2rw.so\"... $ECHO_C" >&6
-if test "${ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_so_+set}" = set; then
+	as_ac_File=`echo "ac_cv_file_"$SIMARAMA_BASE/libae2rw.so"" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for \"$SIMARAMA_BASE/libae2rw.so\"" >&5
+echo $ECHO_N "checking for \"$SIMARAMA_BASE/libae2rw.so\"... $ECHO_C" >&6
+if eval "test \"\${$as_ac_File+set}\" = set"; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   test "$cross_compiling" = yes &&
   { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
 echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
    { (exit 1); exit 1; }; }
-if test -r ""/afs/awd/projects/simarama/releases/latest/libae2rw.so""; then
-  ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_so_=yes
+if test -r ""$SIMARAMA_BASE/libae2rw.so""; then
+  eval "$as_ac_File=yes"
 else
-  ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_so_=no
+  eval "$as_ac_File=no"
 fi
 fi
-echo "$as_me:$LINENO: result: $ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_so_" >&5
-echo "${ECHO_T}$ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_so_" >&6
-if test $ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_so_ = yes; then
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
+if test `eval echo '${'$as_ac_File'}'` = yes; then
   AET2_SO=yes
 else
   AET2_SO=no
@@ -2455,36 +2462,37 @@ fi
 
 
 	if test "X$AET2_SO" = "Xyes" ; then
-		AET2_CFLAGS="-DAET2_IS_PRESENT"
-		AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libae2rw.so"
+		AET2_CFLAGS="-DAET2_IS_PRESENT -I$SIMARAMA_BASE"
+		AET2_LDADD="$SIMARAMA_BASE/libae2rw.so"
 	else
 
-		echo "$as_me:$LINENO: checking for \"/afs/awd/projects/simarama/releases/latest/libae2rw.a\"" >&5
-echo $ECHO_N "checking for \"/afs/awd/projects/simarama/releases/latest/libae2rw.a\"... $ECHO_C" >&6
-if test "${ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_a_+set}" = set; then
+		as_ac_File=`echo "ac_cv_file_"$SIMARAMA_BASE/libae2rw.a"" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for \"$SIMARAMA_BASE/libae2rw.a\"" >&5
+echo $ECHO_N "checking for \"$SIMARAMA_BASE/libae2rw.a\"... $ECHO_C" >&6
+if eval "test \"\${$as_ac_File+set}\" = set"; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   test "$cross_compiling" = yes &&
   { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
 echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
    { (exit 1); exit 1; }; }
-if test -r ""/afs/awd/projects/simarama/releases/latest/libae2rw.a""; then
-  ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_a_=yes
+if test -r ""$SIMARAMA_BASE/libae2rw.a""; then
+  eval "$as_ac_File=yes"
 else
-  ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_a_=no
+  eval "$as_ac_File=no"
 fi
 fi
-echo "$as_me:$LINENO: result: $ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_a_" >&5
-echo "${ECHO_T}$ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_a_" >&6
-if test $ac_cv_file___afs_awd_projects_simarama_releases_latest_libae2rw_a_ = yes; then
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
+if test `eval echo '${'$as_ac_File'}'` = yes; then
   AET2_A=yes
 else
   AET2_A=no
 fi
 
 		if test "X$AET2_A" = "Xyes" ; then
-			AET2_CFLAGS="-DAET2_IS_PRESENT"
-			AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libae2rw.a"
+			AET2_CFLAGS="-DAET2_IS_PRESENT -I$SIMARAMA_BASE"
+			AET2_LDADD="$SIMARAMA_BASE/libae2rw.a"
 		else
 
 		{ echo "$as_me:$LINENO: WARNING: AET2 library not found, skipping." >&5
@@ -2493,24 +2501,25 @@ echo "$as_me: WARNING: AET2 library not found, skipping." >&2;}
 		fi
 	fi
 
-	echo "$as_me:$LINENO: checking for \"/afs/awd/projects/simarama/releases/latest/libaliasdb.so\"" >&5
-echo $ECHO_N "checking for \"/afs/awd/projects/simarama/releases/latest/libaliasdb.so\"... $ECHO_C" >&6
-if test "${ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_so_+set}" = set; then
+	as_ac_File=`echo "ac_cv_file_"$SIMARAMA_BASE/libaliasdb.so"" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for \"$SIMARAMA_BASE/libaliasdb.so\"" >&5
+echo $ECHO_N "checking for \"$SIMARAMA_BASE/libaliasdb.so\"... $ECHO_C" >&6
+if eval "test \"\${$as_ac_File+set}\" = set"; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   test "$cross_compiling" = yes &&
   { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
 echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
    { (exit 1); exit 1; }; }
-if test -r ""/afs/awd/projects/simarama/releases/latest/libaliasdb.so""; then
-  ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_so_=yes
+if test -r ""$SIMARAMA_BASE/libaliasdb.so""; then
+  eval "$as_ac_File=yes"
 else
-  ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_so_=no
+  eval "$as_ac_File=no"
 fi
 fi
-echo "$as_me:$LINENO: result: $ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_so_" >&5
-echo "${ECHO_T}$ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_so_" >&6
-if test $ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_so_ = yes; then
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
+if test `eval echo '${'$as_ac_File'}'` = yes; then
   AAET2_SO=yes
 else
   AAET2_SO=no
@@ -2518,36 +2527,95 @@ fi
 
 
 	if test "X$AAET2_SO" = "Xyes" ; then
-		AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
-		AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libaliasdb.so $AET2_LDADD"
-	else
-
-		echo "$as_me:$LINENO: checking for \"/afs/awd/projects/simarama/releases/latest/libaliasdb.a\"" >&5
-echo $ECHO_N "checking for \"/afs/awd/projects/simarama/releases/latest/libaliasdb.a\"... $ECHO_C" >&6
-if test "${ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_a_+set}" = set; then
+		as_ac_File=`echo "ac_cv_file_"$SIMARAMA_BASE/aliasdb.h"" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for \"$SIMARAMA_BASE/aliasdb.h\"" >&5
+echo $ECHO_N "checking for \"$SIMARAMA_BASE/aliasdb.h\"... $ECHO_C" >&6
+if eval "test \"\${$as_ac_File+set}\" = set"; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   test "$cross_compiling" = yes &&
   { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
 echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
    { (exit 1); exit 1; }; }
-if test -r ""/afs/awd/projects/simarama/releases/latest/libaliasdb.a""; then
-  ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_a_=yes
+if test -r ""$SIMARAMA_BASE/aliasdb.h""; then
+  eval "$as_ac_File=yes"
 else
-  ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_a_=no
+  eval "$as_ac_File=no"
 fi
 fi
-echo "$as_me:$LINENO: result: $ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_a_" >&5
-echo "${ECHO_T}$ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_a_" >&6
-if test $ac_cv_file___afs_awd_projects_simarama_releases_latest_libaliasdb_a_ = yes; then
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
+if test `eval echo '${'$as_ac_File'}'` = yes; then
+  AAET2_SOY=yes
+else
+  AAET2_SOY=no
+fi
+
+		if test "X$AAET2_SOY" = "Xyes" ; then
+			AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
+			AET2_LDADD="$SIMARAMA_BASE/libaliasdb.so $AET2_LDADD"
+		else
+			{ echo "$as_me:$LINENO: WARNING: AET2 alias header not found, skipping." >&5
+echo "$as_me: WARNING: AET2 alias header not found, skipping." >&2;}
+		fi
+	else
+
+		as_ac_File=`echo "ac_cv_file_"$SIMARAMA_BASE/libaliasdb.a"" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for \"$SIMARAMA_BASE/libaliasdb.a\"" >&5
+echo $ECHO_N "checking for \"$SIMARAMA_BASE/libaliasdb.a\"... $ECHO_C" >&6
+if eval "test \"\${$as_ac_File+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  test "$cross_compiling" = yes &&
+  { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
+echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
+   { (exit 1); exit 1; }; }
+if test -r ""$SIMARAMA_BASE/libaliasdb.a""; then
+  eval "$as_ac_File=yes"
+else
+  eval "$as_ac_File=no"
+fi
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
+if test `eval echo '${'$as_ac_File'}'` = yes; then
   AET2_A=yes
 else
   AET2_A=no
 fi
 
 		if test "X$AAET2_A" = "Xyes" ; then
-			AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
-			AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libaliasdb.a $AET2_LDADD"
+			as_ac_File=`echo "ac_cv_file_"$SIMARAMA_BASE/aliasdb.h"" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for \"$SIMARAMA_BASE/aliasdb.h\"" >&5
+echo $ECHO_N "checking for \"$SIMARAMA_BASE/aliasdb.h\"... $ECHO_C" >&6
+if eval "test \"\${$as_ac_File+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  test "$cross_compiling" = yes &&
+  { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
+echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
+   { (exit 1); exit 1; }; }
+if test -r ""$SIMARAMA_BASE/aliasdb.h""; then
+  eval "$as_ac_File=yes"
+else
+  eval "$as_ac_File=no"
+fi
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
+if test `eval echo '${'$as_ac_File'}'` = yes; then
+  AAET2_SOY=yes
+else
+  AAET2_SOY=no
+fi
+
+			if test "X$AAET2_SOY" = "Xyes" ; then
+				AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
+				AET2_LDADD="$SIMARAMA_BASE/libaliasdb.a $AET2_LDADD"
+			else
+				{ echo "$as_me:$LINENO: WARNING: AET2 alias header not found, skipping." >&5
+echo "$as_me: WARNING: AET2 alias header not found, skipping." >&2;}
+			fi
 		else
 
 		{ echo "$as_me:$LINENO: WARNING: AET2 alias library not found, skipping." >&5
@@ -2556,6 +2624,36 @@ echo "$as_me: WARNING: AET2 alias library not found, skipping." >&2;}
 		fi
 	fi
 
+	as_ac_File=`echo "ac_cv_file_"$SIMARAMA_BASE/ae2rw.h"" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for \"$SIMARAMA_BASE/ae2rw.h\"" >&5
+echo $ECHO_N "checking for \"$SIMARAMA_BASE/ae2rw.h\"... $ECHO_C" >&6
+if eval "test \"\${$as_ac_File+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  test "$cross_compiling" = yes &&
+  { { echo "$as_me:$LINENO: error: cannot check for file existence when cross compiling" >&5
+echo "$as_me: error: cannot check for file existence when cross compiling" >&2;}
+   { (exit 1); exit 1; }; }
+if test -r ""$SIMARAMA_BASE/ae2rw.h""; then
+  eval "$as_ac_File=yes"
+else
+  eval "$as_ac_File=no"
+fi
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_File'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_File'}'`" >&6
+if test `eval echo '${'$as_ac_File'}'` = yes; then
+  AET2_SOY=yes
+else
+  AET2_SOY=no
+fi
+
+	if test "X$AET2_SOY" = "Xno" ; then
+		AET2_CFLAGS=
+		AET2_LDADD=
+		{ echo "$as_me:$LINENO: WARNING: AET2 header not found, skipping." >&5
+echo "$as_me: WARNING: AET2 header not found, skipping." >&2;}
+	fi
 
 else
 	echo "$as_me:$LINENO: result: no" >&5

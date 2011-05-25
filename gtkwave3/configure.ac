@@ -8,6 +8,12 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
 AM_MAINTAINER_MODE
 
+
+# ------------- Set simarama base -------------------
+if test "X$SIMARAMA_BASE" = "X" ; then
+	SIMARAMA_BASE="/afs/awd/projects/simarama/releases/latest"
+fi
+
 # Checks for build options
 # ------------- Inline -------------------
 
@@ -187,7 +193,7 @@ AE2_CFLAGS=
 AET2_LDADD=
 AE2=no
 AC_ARG_ENABLE([ae2],
-[  --enable-ae2            Compiles in support for AE2 files via simarama.],
+[  --enable-ae2            Compiles in AE2 from env var SIMARAMA_BASE location.],
 [
 if test "X$enable_ae2" = "Xno" ; then
 	AE2=no
@@ -200,17 +206,17 @@ AE2=no
 ])
 
 if test "X$AE2" = "Xyes" ; then
-	AC_CHECK_FILE("/afs/awd/projects/simarama/releases/latest/libae2rw.so", AET2_SO=yes, AET2_SO=no)
+	AC_CHECK_FILE("$SIMARAMA_BASE/libae2rw.so", AET2_SO=yes, AET2_SO=no)
 
 	if test "X$AET2_SO" = "Xyes" ; then
-		AET2_CFLAGS="-DAET2_IS_PRESENT"
-		AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libae2rw.so"
+		AET2_CFLAGS="-DAET2_IS_PRESENT -I$SIMARAMA_BASE"
+		AET2_LDADD="$SIMARAMA_BASE/libae2rw.so"
 	else
 
-		AC_CHECK_FILE("/afs/awd/projects/simarama/releases/latest/libae2rw.a", AET2_A=yes, AET2_A=no)
+		AC_CHECK_FILE("$SIMARAMA_BASE/libae2rw.a", AET2_A=yes, AET2_A=no)
 		if test "X$AET2_A" = "Xyes" ; then
-			AET2_CFLAGS="-DAET2_IS_PRESENT"
-			AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libae2rw.a"
+			AET2_CFLAGS="-DAET2_IS_PRESENT -I$SIMARAMA_BASE"
+			AET2_LDADD="$SIMARAMA_BASE/libae2rw.a"
 		else
 
 		AC_MSG_WARN([AET2 library not found, skipping.])
@@ -218,17 +224,27 @@ if test "X$AE2" = "Xyes" ; then
 		fi
 	fi
 
-	AC_CHECK_FILE("/afs/awd/projects/simarama/releases/latest/libaliasdb.so", AAET2_SO=yes, AAET2_SO=no)
+	AC_CHECK_FILE("$SIMARAMA_BASE/libaliasdb.so", AAET2_SO=yes, AAET2_SO=no)
 
 	if test "X$AAET2_SO" = "Xyes" ; then
-		AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
-		AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libaliasdb.so $AET2_LDADD"
+		AC_CHECK_FILE("$SIMARAMA_BASE/aliasdb.h", AAET2_SOY=yes, AAET2_SOY=no)
+		if test "X$AAET2_SOY" = "Xyes" ; then
+			AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
+			AET2_LDADD="$SIMARAMA_BASE/libaliasdb.so $AET2_LDADD"
+		else
+			AC_MSG_WARN([AET2 alias header not found, skipping.])
+		fi
 	else
 
-		AC_CHECK_FILE("/afs/awd/projects/simarama/releases/latest/libaliasdb.a", AET2_A=yes, AET2_A=no)
+		AC_CHECK_FILE("$SIMARAMA_BASE/libaliasdb.a", AET2_A=yes, AET2_A=no)
 		if test "X$AAET2_A" = "Xyes" ; then
-			AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
-			AET2_LDADD="/afs/awd/projects/simarama/releases/latest/libaliasdb.a $AET2_LDADD"
+			AC_CHECK_FILE("$SIMARAMA_BASE/aliasdb.h", AAET2_SOY=yes, AAET2_SOY=no)
+			if test "X$AAET2_SOY" = "Xyes" ; then
+				AET2_CFLAGS="-DAET2_ALIASDB_IS_PRESENT $AET2_CFLAGS"
+				AET2_LDADD="$SIMARAMA_BASE/libaliasdb.a $AET2_LDADD"
+			else
+				AC_MSG_WARN([AET2 alias header not found, skipping.])
+			fi
 		else
 
 		AC_MSG_WARN([AET2 alias library not found, skipping.])
@@ -236,6 +252,12 @@ if test "X$AE2" = "Xyes" ; then
 		fi
 	fi
 
+	AC_CHECK_FILE("$SIMARAMA_BASE/ae2rw.h", AET2_SOY=yes, AET2_SOY=no)
+	if test "X$AET2_SOY" = "Xno" ; then
+		AET2_CFLAGS=
+		AET2_LDADD=
+		AC_MSG_WARN([AET2 header not found, skipping.])
+	fi
 
 else
 	AC_MSG_RESULT([no])
