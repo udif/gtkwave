@@ -386,6 +386,7 @@ unsigned long kw = 0;
 Pvoid_t PJArray = NULL;
 #endif
 #endif
+char buf[AE2_MAX_NAME_LENGTH+1];
 
 ae2_initialize(error_fn, msg_fn, alloc_fn, free_fn);
 
@@ -450,11 +451,17 @@ for(i=0;i<GLOBALS->ae2_num_facs;i++)
         int idx = i+1;
 
         GLOBALS->ae2_fr[match_idx].facname = NULL;
+        GLOBALS->ae2_fr[match_idx].s = idx;
         GLOBALS->ae2_fr[match_idx].row = ae2_read_symbol_rows(GLOBALS->ae2, idx);
+	if(GLOBALS->ae2_fr[match_idx].row > AE2_MAX_ROWS)
+		{
+		GLOBALS->ae2_fr[match_idx].row = AE2_MAX_ROWS;
+		ae2_read_find_symbol(GLOBALS->ae2, buf, &GLOBALS->ae2_fr[match_idx]);
+		fprintf(stderr, AET2_RDLOAD"Warning: Reduced array %s to %d rows.\n", buf, AE2_MAX_ROWS);
+		}
 	total_rows += (GLOBALS->ae2_fr[match_idx].row > 0) ? GLOBALS->ae2_fr[match_idx].row : 1;
 	if(GLOBALS->ae2_fr[match_idx].row == 1) GLOBALS->ae2_fr[match_idx].row = 0;
         GLOBALS->ae2_fr[match_idx].length = ae2_read_symbol_length(GLOBALS->ae2, idx);
-        GLOBALS->ae2_fr[match_idx].s = idx;
         GLOBALS->ae2_fr[match_idx].row_high = 0;
         GLOBALS->ae2_fr[match_idx].offset = 0;
 
@@ -469,7 +476,6 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
         int idx = i+1;
 	int ii;
 	AE2_FACREF f2;
-        char buf[AE2_MAX_NAME_LENGTH+1];
 
 	total_rows++;
 
@@ -540,6 +546,9 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 #endif
 		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[u-1], sizeof(AE2_FACREF));
 
+		GLOBALS->ae2_fr[match_idx].row = 0;		/* in case an array alias exists */
+	        GLOBALS->ae2_fr[match_idx].row_high = 0;
+
 		GLOBALS->adb_idx_first[i] = 0;
 		GLOBALS->adb_idx_last[i] = GLOBALS->ae2_fr[u-1].length - 1;
 		}
@@ -572,7 +581,6 @@ match_idx = 0;
 for(i=0;i<GLOBALS->numfacs;i++)
         {
 	char *str;	
-        char buf[AE2_MAX_NAME_LENGTH+1];
         int idx;
 	unsigned long len, clen;
 	int row_iter, mx_row, mx_row_adjusted;
@@ -930,7 +938,6 @@ uint64_t cyc, ecyc, step_cyc;
 struct ae2_ncycle_autosort *deadlist=NULL;
 struct ae2_ncycle_autosort *autofacs=NULL;
 char buf[AE2_MAXFACLEN+1];
-
 
 GLOBALS->ae2_msg_suppress = 1;
 GLOBALS->ae2_did_twirl = 0;
