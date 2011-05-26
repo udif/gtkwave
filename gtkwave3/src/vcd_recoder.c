@@ -1444,7 +1444,7 @@ for(;;)
 					break;
 				}
 
-			DEBUG(fprintf(stderr,"TIMESCALE: "TTFormat" %cs\n",time_scale, time_dimension));
+			DEBUG(fprintf(stderr,"TIMESCALE: "TTFormat" %cs\n",GLOBALS->time_scale, GLOBALS->time_dimension));
 			sync_end(NULL);
 			}
 			break;
@@ -1484,7 +1484,7 @@ for(;;)
 					}
 
 				build_slisthier();
-				DEBUG(fprintf(stderr, "SCOPE: %s\n",slisthier));
+				DEBUG(fprintf(stderr, "SCOPE: %s\n",GLOBALS->slisthier));
 				}
 			sync_end(NULL);
 			break;
@@ -1515,7 +1515,7 @@ for(;;)
 					s=s->next;
 					}
 				build_slisthier();
-				DEBUG(fprintf(stderr, "SCOPE: %s\n",slisthier));
+				DEBUG(fprintf(stderr, "SCOPE: %s\n",GLOBALS->slisthier));
 				}
 				else
 				{
@@ -1906,10 +1906,6 @@ for(;;)
 					fprintf(GLOBALS->vcd_save_handle,"%s[%d:%d]\n",v->name,v->msi,v->lsi);
 					}
 				}
-
-			DEBUG(fprintf(stderr,"VAR %s %d %s %s[%d:%d]\n",
-				vartypes[v->vartype], v->size, v->id, v->name, 
-					v->msi, v->lsi));
 
 			goto bail;
 			err:

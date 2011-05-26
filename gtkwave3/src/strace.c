@@ -191,8 +191,6 @@ GET_WV_STRACE_CURWIN(widget);
 for(i=0;i<6;i++) GLOBALS->strace_ctx->logical_mutex[i]=0;
 which_char=(char *)which;
 *which_char=1;			/* mark our choice */
-
-DEBUG(printf("picked: %s\n", logical[which_char-logical_mutex]));
 }
 
 static void stype_clicked(GtkWidget *widget, gpointer back)

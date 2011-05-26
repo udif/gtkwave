@@ -385,13 +385,13 @@ GLOBALS->dict_24_offset_lxt_c_1 = get_32(GLOBALS->zdictionary_offset_lxt_c_1+12)
 GLOBALS->dict_32_offset_lxt_c_1 = get_32(GLOBALS->zdictionary_offset_lxt_c_1+16);
 GLOBALS->dict_width_lxt_c_1 = get_32(GLOBALS->zdictionary_offset_lxt_c_1+20);
 
-DEBUG(fprintf(stderr, LXTHDR"zdictionary_offset = %08x\n", zdictionary_offset));
+DEBUG(fprintf(stderr, LXTHDR"zdictionary_offset = %08x\n", GLOBALS->zdictionary_offset_lxt_c_1));
 DEBUG(fprintf(stderr, LXTHDR"zdictionary_predec_size = %08x\n\n", GLOBALS->zdictionary_predec_size_lxt_c_1));
-DEBUG(fprintf(stderr, LXTHDR"dict_num_entries = %d\n", dict_num_entries));
-DEBUG(fprintf(stderr, LXTHDR"dict_string_mem_required = %d\n", dict_string_mem_required));
-DEBUG(fprintf(stderr, LXTHDR"dict_16_offset = %d\n", dict_16_offset));
-DEBUG(fprintf(stderr, LXTHDR"dict_24_offset = %d\n", dict_24_offset));
-DEBUG(fprintf(stderr, LXTHDR"dict_32_offset = %d\n", dict_32_offset));
+DEBUG(fprintf(stderr, LXTHDR"dict_num_entries = %d\n", GLOBALS->dict_num_entries_lxt_c_1));
+DEBUG(fprintf(stderr, LXTHDR"dict_string_mem_required = %d\n", GLOBALS->dict_string_mem_required_lxt_c_1));
+DEBUG(fprintf(stderr, LXTHDR"dict_16_offset = %d\n", GLOBALS->dict_16_offset_lxt_c_1));
+DEBUG(fprintf(stderr, LXTHDR"dict_24_offset = %d\n", GLOBALS->dict_24_offset_lxt_c_1));
+DEBUG(fprintf(stderr, LXTHDR"dict_32_offset = %d\n", GLOBALS->dict_32_offset_lxt_c_1));
 
 fprintf(stderr, LXTHDR"Dictionary compressed MVL2 change records detected...\n");
 
@@ -409,7 +409,7 @@ zhandle = gzdopen(dup(GLOBALS->fd_lxt_c_1), "rb");
 decmem = malloc_2(total_mem = GLOBALS->dict_string_mem_required_lxt_c_1);
 
 rc=gzread(zhandle, decmem, total_mem);
-DEBUG(printf(LXTHDR"section offs for name decompression = %08x of len %d\n", offs, dict_string_mem_required));
+DEBUG(printf(LXTHDR"section offs for name decompression = %08x of len %d\n", offs, GLOBALS->dict_num_entries_lxt_c_1));
 DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));	
 if(rc!=total_mem) { fprintf(stderr, LXTHDR"decompression size disparity  %d bytes (vs %d)\n", rc, total_mem); exit(255); }
 
@@ -419,7 +419,7 @@ for(i=0;i<GLOBALS->dict_num_entries_lxt_c_1;i++)
 	{
 	GLOBALS->dict_string_mem_array_lxt_c_1[i]=pnt;
 	pnt+=(strlen(pnt)+1);
-	DEBUG(printf(LXTHDR"Dict %d: '1%s'\n", i, dict_string_mem_array[i]));
+	DEBUG(printf(LXTHDR"Dict %d: '1%s'\n", i, GLOBALS->dict_string_mem_array_lxt_c_1[i]));
 	}
 
 gzclose(zhandle);
@@ -542,7 +542,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	GLOBALS->mvlfacs_lxt_c_2[i].len=(node_block[i].lsi>node_block[i].msi)?(node_block[i].lsi-node_block[i].msi+1):(node_block[i].msi-node_block[i].lsi+1);
 
 	if(GLOBALS->mvlfacs_lxt_c_2[i].len>GLOBALS->lt_len_lxt_c_1) GLOBALS->lt_len_lxt_c_1 = GLOBALS->mvlfacs_lxt_c_2[i].len;
-	DEBUG(printf(LXTHDR"%s[%d:%d]\n", mvlfacs[i].f_name, node_block[i].msi, node_block[i].lsi));
+	DEBUG(printf(LXTHDR"%s[%d:%d]\n", f_name[i], node_block[i].msi, node_block[i].lsi));
 
 	offs+=0x10;
 	}
@@ -597,9 +597,9 @@ if(GLOBALS->time_table_offset_lxt_c_1)
 	{
 	offs = GLOBALS->time_table_offset_lxt_c_1;
 
-	DEBUG(printf(LXTHDR"Time table position: %08x\n", time_table_offset + 12));
+	DEBUG(printf(LXTHDR"Time table position: %08x\n", GLOBALS->time_table_offset_lxt_c_1 + 12));
 	GLOBALS->total_cycles_lxt_c_2=get_32(offs+0);
-	DEBUG(printf(LXTHDR"Total cycles: %d\n", total_cycles));
+	DEBUG(printf(LXTHDR"Total cycles: %d\n", GLOBALS->total_cycles_lxt_c_2));
 
 	if(GLOBALS->ztime_table_size_lxt_c_1)
 		{
@@ -631,10 +631,10 @@ if(GLOBALS->time_table_offset_lxt_c_1)
 		}
 
 	GLOBALS->first_cycle_lxt_c_2=get_32(offs);
-	DEBUG(printf(LXTHDR"First cycle: %d\n", first_cycle));
+	DEBUG(printf(LXTHDR"First cycle: %d\n", GLOBALS->first_cycle_lxt_c_2));
 	GLOBALS->last_cycle_lxt_c_2=get_32(offs+4);
-	DEBUG(printf(LXTHDR"Last cycle: %d\n", last_cycle));
-	DEBUG(printf(LXTHDR"Total cycles (actual): %d\n", last_cycle-first_cycle+1));
+	DEBUG(printf(LXTHDR"Last cycle: %d\n", GLOBALS->last_cycle_lxt_c_2));
+	DEBUG(printf(LXTHDR"Total cycles (actual): %d\n", GLOBALS->last_cycle_lxt_c_2-GLOBALS->first_cycle_lxt_c_2+1));
 	
 	/* rebuild time table from its deltas... */
 
@@ -669,10 +669,10 @@ if(GLOBALS->time_table_offset_lxt_c_1)
 	{
 	offs = GLOBALS->time_table_offset64_lxt_c_1;
 
-	DEBUG(printf(LXTHDR"Time table position: %08x\n", time_table_offset64 + 20));
+	DEBUG(printf(LXTHDR"Time table position: %08x\n", GLOBALS->time_table_offset64_lxt_c_1 + 20));
 
 	GLOBALS->total_cycles_lxt_c_2=(TimeType)((unsigned int)get_32(offs+0));
-	DEBUG(printf(LXTHDR"Total cycles: %d\n", total_cycles));
+	DEBUG(printf(LXTHDR"Total cycles: %d\n", GLOBALS->total_cycles_lxt_c_2));
 
 	if(GLOBALS->ztime_table_size_lxt_c_1)
 		{
@@ -704,10 +704,10 @@ if(GLOBALS->time_table_offset_lxt_c_1)
 		}
 
 	GLOBALS->first_cycle_lxt_c_2=get_64(offs);
-	DEBUG(printf(LXTHDR"First cycle: %d\n", first_cycle));
+	DEBUG(printf(LXTHDR"First cycle: %d\n", GLOBALS->first_cycle_lxt_c_2));
 	GLOBALS->last_cycle_lxt_c_2=get_64(offs+8);
-	DEBUG(printf(LXTHDR"Last cycle: %d\n", last_cycle));
-	DEBUG(printf(LXTHDR"Total cycles (actual): %lld\n", last_cycle-first_cycle+1));
+	DEBUG(printf(LXTHDR"Last cycle: %d\n", GLOBALS->last_cycle_lxt_c_2));
+	DEBUG(printf(LXTHDR"Total cycles (actual): %lld\n", GLOBALS->last_cycle_lxt_c_2-GLOBALS->first_cycle_lxt_c_2+1));
 	
 	/* rebuild time table from its deltas... */
 
@@ -771,7 +771,6 @@ if(GLOBALS->sync_table_offset_lxt_c_1)
 		chg=get_32(offs);  offs+=4;
 		if(chg>maxchg) {maxchg=chg; maxindx=i; }
 		GLOBALS->lastchange[i]=chg;
-		DEBUG(printf(LXTHDR"Changes: %d '%s' %08x\n", i, mvlfacs[i].f_name, chg));
 		}
 
 	if(GLOBALS->zsync_table_size_lxt_c_1)
@@ -783,8 +782,6 @@ if(GLOBALS->sync_table_offset_lxt_c_1)
 		fclose(tmp);
 #endif
 		}
-
-	DEBUG(printf(LXTHDR"Maxchange at: %08x for symbol '%s' of len %d\n", maxchg, mvlfacs[maxindx].f_name,  mvlfacs[maxindx].len));
 
 	GLOBALS->maxchange_lxt_c_1=maxchg;
 	GLOBALS->maxindex_lxt_c_1=maxindx;
@@ -1448,7 +1445,7 @@ if(get_byte(GLOBALS->f_len_lxt_c_1-1)!=LT_TRLID)
 	}
 
 DEBUG(printf(LXTHDR"Loading LXT '%s'...\n", fname));
-DEBUG(printf(LXTHDR"Len: %d\n", (unsigned int)f_len));
+DEBUG(printf(LXTHDR"Len: %d\n", (unsigned int)GLOBALS->f_len_lxt_c_1));
 
 /* SPLASH */                            splash_create();
 
@@ -1535,7 +1532,7 @@ if(!GLOBALS->facname_offset_lxt_c_1)
 	}
 
 GLOBALS->numfacs=get_32(GLOBALS->facname_offset_lxt_c_1);
-DEBUG(printf(LXTHDR"Number of facs: %d\n", numfacs));
+DEBUG(printf(LXTHDR"Number of facs: %d\n", GLOBALS->numfacs));
 GLOBALS->mvlfacs_lxt_c_2=(struct fac *)calloc_2(GLOBALS->numfacs,sizeof(struct fac));
 GLOBALS->resolve_lxt_alias_to=(struct Node **)calloc_2(GLOBALS->numfacs,sizeof(struct Node *));
 GLOBALS->lastchange=(unsigned int *)calloc_2(GLOBALS->numfacs,sizeof(unsigned int));

@@ -142,21 +142,7 @@ static char *tokens[]={ "var", "end", "scope", "upscope",
 
 /******************************************************************/
 
-
-#ifdef DEBUG_PRINTF
-static char *vartypes[]={ "event", "parameter",
-                "integer", "real", "real_parameter", "realtime", "reg", "supply0",
-                "supply1", "time", "tri", "triand", "trior",
-                "trireg", "tri0", "tri1", "wand", "wire", "wor", "port", "in", "out", "inout",
-                "$end", "", "", "", ""};  
-#endif
-
-
 #define NUM_VTOKENS 23  
-
-
-/******************************************************************/
-
 
 /******************************************************************/
  
@@ -1088,7 +1074,7 @@ for(;;)
 					break;
 				}
 
-			DEBUG(fprintf(stderr,"TIMESCALE: "TTFormat" %cs\n",time_scale, time_dimension));
+			DEBUG(fprintf(stderr,"TIMESCALE: "TTFormat" %cs\n",GLOBALS->time_scale, GLOBALS->time_dimension));
 			sync_end(NULL);
 			}
 			break;
@@ -1128,7 +1114,7 @@ for(;;)
 					}
 
 				build_slisthier();
-				DEBUG(fprintf(stderr, "SCOPE: %s\n",slisthier));
+				DEBUG(fprintf(stderr, "SCOPE: %s\n",GLOBALS->slisthier));
 				}
 			sync_end(NULL);
 			break;
@@ -1159,7 +1145,7 @@ for(;;)
 					s=s->next;
 					}
 				build_slisthier();
-				DEBUG(fprintf(stderr, "SCOPE: %s\n",slisthier));
+				DEBUG(fprintf(stderr, "SCOPE: %s\n",GLOBALS->slisthier));
 				}
 				else
 				{
@@ -1542,9 +1528,6 @@ for(;;)
 				}
 			GLOBALS->numsyms_vcd_partial_c_2++;
 
-			DEBUG(fprintf(stderr,"VAR %s %d %s %s[%d:%d]\n",
-				vartypes[v->vartype], v->size, v->id, v->name, 
-					v->msi, v->lsi));
 			goto bail;
 			err:
 			if(v)

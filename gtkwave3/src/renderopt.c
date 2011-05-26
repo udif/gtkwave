@@ -74,7 +74,7 @@ FILE *wave;
 
 if(GLOBALS->filesel_ok)
         {
-        DEBUG(printf("PS Print Fini: %s\n", *fileselbox_text));
+        DEBUG(printf("PS Print Fini: %s\n", *GLOBALS->fileselbox_text));
                 
         if(!(wave=fopen(*GLOBALS->fileselbox_text,"wb")))
                 {
@@ -98,7 +98,7 @@ FILE *wave2;
 
 if(GLOBALS->filesel_ok)
         {
-        DEBUG(printf("PDF Print Fini: %s\n", *fileselbox_text));
+        DEBUG(printf("PDF Print Fini: %s\n", *GLOBALS->fileselbox_text));
                 
         if(!(wave=fopen(*GLOBALS->fileselbox_text,"wb")))
                 {
@@ -157,7 +157,7 @@ FILE *wave;
 
 if(GLOBALS->filesel_ok)
         {
-        DEBUG(printf("MIF Print Fini: %s\n", *fileselbox_text));
+        DEBUG(printf("MIF Print Fini: %s\n", *GLOBALS->fileselbox_text));
                 
         if(!(wave=fopen(*GLOBALS->fileselbox_text,"wb")))
                 {

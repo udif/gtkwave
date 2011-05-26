@@ -173,7 +173,7 @@ GLOBALS->regex_which_search_c_1=(int)((long)which);
 GLOBALS->regex_mutex_search_c_1[GLOBALS->regex_which_search_c_1] = 1; /* mark our choice */
 
   
-DEBUG(printf("picked: %s\n", regex_name[regex_which]));
+DEBUG(printf("picked: %s\n", regex_name[GLOBALS->regex_which_search_c_1]));
 }  
 
 /***************************************************************************/
@@ -199,7 +199,7 @@ if(GLOBALS->entrybox_text_local_search_c_2)
                 efix++;
                 }
 
-	DEBUG(printf("Bundle name is: %s\n",entrybox_text_local));
+	DEBUG(printf("Bundle name is: %s\n",GLOBALS->entrybox_text_local_search_c_2));
 	add_vector_selected(GLOBALS->entrybox_text_local_search_c_2, GLOBALS->selected_rows_search_c_2, GLOBALS->bundle_direction_search_c_2);
 	free_2(GLOBALS->entrybox_text_local_search_c_2);
 	}
@@ -212,7 +212,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 static void
 bundle_callback_generic(void)
 {
-DEBUG(printf("Selected_rows: %d\n",selected_rows));
+DEBUG(printf("Selected_rows: %d\n",GLOBALS->selected_rows_search_c_2));
 if(GLOBALS->selected_rows_search_c_2>0)
 	{
 	entrybox_local("Enter Bundle Name",300,"",128,GTK_SIGNAL_FUNC(bundle_cleanup));

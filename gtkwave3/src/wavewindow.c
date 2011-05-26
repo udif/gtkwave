@@ -2003,7 +2003,7 @@ char dirty_kick;
 bvptr bv;
 Trptr tscan;
 
-DEBUG(printf("signalwindow_width_dirty: %d\n",signalwindow_width_dirty));
+DEBUG(printf("signalwindow_width_dirty: %d\n",GLOBALS->signalwindow_width_dirty));
 
 if((!GLOBALS->signalwindow_width_dirty)&&(GLOBALS->use_nonprop_fonts)) return;
 
@@ -2505,7 +2505,7 @@ GLOBALS->pxns=ppf/GLOBALS->nsperframe;
 
 time_trunc_set();	/* map nspx to rounding value */
 
-DEBUG(printf("Zoom: %e Pixelsperframe: %lld, nsperframe: %e\n",z0, pixelsperframe,(float)nsperframe));
+DEBUG(printf("Zoom: %e Pixelsperframe: %d, nsperframe: %e\n",z0, (int)GLOBALS->pixelsperframe,(float)GLOBALS->nsperframe));
 }
 
 static void renderhash(int x, TimeType tim)
@@ -2537,7 +2537,7 @@ gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc_grid_wavewindow_c_
 if(tim==GLOBALS->tims.last) return;
 
 rborder=(GLOBALS->tims.last-GLOBALS->tims.start)*GLOBALS->pxns;
-DEBUG(printf("Rborder: %lld, Wavewidth: %d\n", rborder, wavewidth));
+DEBUG(printf("Rborder: %lld, Wavewidth: %d\n", rborder, GLOBALS->wavewidth));
 if(rborder>GLOBALS->wavewidth) rborder=GLOBALS->wavewidth;
 if((rhs=x+GLOBALS->pixelsperframe)>rborder) rhs=rborder;
 
@@ -2689,7 +2689,7 @@ wave_gdk_draw_line_flush(GLOBALS->wavepixmap_wavewindow_c_1); /* clear out state
 
 /***********/
 
-DEBUG(printf("Ruler Start time: "TTFormat", Finish time: "TTFormat"\n",tims.start, tims.end));
+DEBUG(printf("Ruler Start time: "TTFormat", Finish time: "TTFormat"\n",GLOBALS->tims.start, GLOBALS->tims.end));
 
 x=0;
 realx=0;
@@ -2795,7 +2795,7 @@ if(GLOBALS->topmost_trace)
 			if(!t->vector)
 				{
 				h=bsearch_node(t->n.nd, GLOBALS->tims.start - t->shift);
-				DEBUG(printf("Start time: "TTFormat", Histent time: "TTFormat"\n", tims.start,(h->time+shift_timebase)));
+				DEBUG(printf("Start time: "TTFormat", Histent time: "TTFormat"\n", GLOBALS->tims.start,(h->time+GLOBALS->shift_timebase)));
 
 				if(!t->n.nd->extvals)
 					{
@@ -2812,8 +2812,8 @@ if(GLOBALS->topmost_trace)
 				bvptr bv = t->n.vec;
 
 				v=bsearch_vector(bv, GLOBALS->tims.start - t->shift);
-				DEBUG(printf("Vector Trace: %s, %s\n", t->name, bv->name));
-				DEBUG(printf("Start time: "TTFormat", Vectorent time: "TTFormat"\n", tims.start,(v->time+shift_timebase)));
+				DEBUG(printf("Vector Trace: %s, %s\n", t->name, bv->bvname));
+				DEBUG(printf("Start time: "TTFormat", Vectorent time: "TTFormat"\n", GLOBALS->tims.start,(v->time+GLOBALS->shift_timebase)));
 				if(i>=0) draw_vptr_trace(t,v,i);
 
 				if((bv->transaction_chain) && (t->flags & TR_TTRANSLATED))

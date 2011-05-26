@@ -782,7 +782,7 @@ if(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3)
 	                efix++;
 	                }
 	 
-	        DEBUG(printf("Bundle name is: %s\n",entrybox_text_local));
+	        DEBUG(printf("Bundle name is: %s\n",GLOBALS->entrybox_text_local_treesearch_gtk2_c_3));
 	        add_vector_range(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3, 
 				fetchlow(sel)->t_which,
 				fetchhigh(sel)->t_which, 

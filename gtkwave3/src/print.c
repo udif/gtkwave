@@ -889,7 +889,7 @@ pr_renderhash (pr_context * prc, int x, TimeType tim)
     return;
 
   rborder = (GLOBALS->tims.last - GLOBALS->tims.start) * GLOBALS->pxns;
-  DEBUG (printf ("Rborder: %lld, Wavewidth: %d\n", rborder, wavewidth));
+  DEBUG (printf ("Rborder: %lld, Wavewidth: %d\n", rborder, GLOBALS->wavewidth));
 
   if (rborder > GLOBALS->wavewidth)
     rborder = GLOBALS->wavewidth;
@@ -1088,7 +1088,7 @@ if(GLOBALS->ruler_step && !timearray_encountered)
 
   DEBUG (printf
 	 ("Ruler Start time: " TTFormat ", Finish time: " TTFormat "\n",
-	  tims.start, tims.end));
+	  GLOBALS->tims.start, GLOBALS->tims.end));
 
   x = 0;
   realx = 0;
@@ -2888,7 +2888,7 @@ pr_rendertraces (pr_context * prc)
 		  h = bsearch_node (t->n.nd, GLOBALS->tims.start - t->shift);
 		  DEBUG (printf
 			 ("Start time: " TTFormat ", Histent time: " TTFormat
-			  "\n", tims.start, (h->time + shift_timebase)));
+			  "\n", GLOBALS->tims.start, (h->time + GLOBALS->shift_timebase)));
 
 		  if (!t->n.nd->extvals)
 		    {
@@ -2906,11 +2906,11 @@ pr_rendertraces (pr_context * prc)
 
 		v = bsearch_vector (bv, GLOBALS->tims.start - t->shift);
 		DEBUG (printf
-			 ("Vector Trace: %s, %s\n", t->name, t->n.vec->name));
+			 ("Vector Trace: %s, %s\n", t->name, t->n.vec->bvname));
 		DEBUG (printf
 			 ("Start time: " TTFormat ", Vectorent time: "
-			  TTFormat "\n", tims.start,
-			  (v->time + shift_timebase)));
+			  TTFormat "\n", GLOBALS->tims.start,
+			  (v->time + GLOBALS->shift_timebase)));
 		if(i>=0) pr_draw_vptr_trace (prc, t, v, i);
 
                 if((bv->transaction_chain) && (t->flags & TR_TTRANSLATED))

@@ -3690,7 +3690,7 @@ void write_save_helper(FILE *wave) {
         struct strace *st;
 	int s_ctx_iter;
 
-	DEBUG(printf("Write Save Fini: %s\n", *fileselbox_text));
+	DEBUG(printf("Write Save Fini: %s\n", *GLOBALS->fileselbox_text));
 
 	fprintf(wave, "[timestart] "TTFormat"\n", GLOBALS->tims.start);
 
@@ -4249,7 +4249,7 @@ if(GLOBALS->filesel_ok)
 	{
 	char *wname;
 
-	DEBUG(printf("Read Save Fini: %s\n", *fileselbox_text));
+	DEBUG(printf("Read Save Fini: %s\n", *GLOBALS->fileselbox_text));
 
         wname=*GLOBALS->fileselbox_text;
         read_save_helper(wname);
@@ -4291,7 +4291,7 @@ char *fname ;
 
 if(GLOBALS->filesel_ok)
 	{
-	DEBUG(printf("Read Stems Fini: %s\n", *fileselbox_text));
+	DEBUG(printf("Read Stems Fini: %s\n", *GLOBALS->fileselbox_text));
         
         fname=*GLOBALS->fileselbox_text;
 	if((fname)&&strlen(fname))
@@ -4339,7 +4339,7 @@ char *fname ;
 
 if(GLOBALS->filesel_ok)
 	{
-	DEBUG(printf("Read Log Fini: %s\n", *fileselbox_text));
+	DEBUG(printf("Read Log Fini: %s\n", *GLOBALS->fileselbox_text));
         
         fname=*GLOBALS->fileselbox_text;
 	if((fname)&&strlen(fname))
@@ -4374,7 +4374,7 @@ char *fname ;
 
 if(GLOBALS->filesel_ok)
 	{
-	DEBUG(printf("Read Script Fini: %s\n", *fileselbox_text));
+	DEBUG(printf("Read Script Fini: %s\n", *GLOBALS->fileselbox_text));
         
         fname=*GLOBALS->fileselbox_text;
 	if((fname)&&strlen(fname))

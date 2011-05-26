@@ -668,7 +668,7 @@ if(GLOBALS->entrybox_text_local_hiersearch_c_1)
 	                efix++;
 	                }
 	
-	        DEBUG(printf("Bundle name is: %s\n",entrybox_text_local));
+	        DEBUG(printf("Bundle name is: %s\n",GLOBALS->entrybox_text_local_hiersearch_c_1));
 	        add_vector_range(GLOBALS->entrybox_text_local_hiersearch_c_1,
 	                        fetchlow(GLOBALS->h_selectedtree_hiersearch_c_1)->t_which,
 	                        fetchhigh(GLOBALS->h_selectedtree_hiersearch_c_1)->t_which,
