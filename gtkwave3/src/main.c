@@ -1230,11 +1230,15 @@ else if(suffix_check(GLOBALS->loaded_file_name, ".aet") || suffix_check(GLOBALS-
 #endif
         GLOBALS->loaded_file_type = AE2_FILE;
 	ae2_main(GLOBALS->loaded_file_name, GLOBALS->skip_start, GLOBALS->skip_end);
+#ifdef AET2_IS_PRESENT
 	if(!GLOBALS->ae2)
 		{
 		fprintf(stderr, "GTKWAVE | Could not initialize '%s'%s.\n", GLOBALS->loaded_file_name, GLOBALS->vcd_jmp_buf ? "" : ", exiting");
 		vcd_exit(255);
 		}
+#else
+		/* fails in stubbed out ae2_main() */
+#endif
 	}
 else if (suffix_check(GLOBALS->loaded_file_name, ".ghw") || suffix_check(GLOBALS->loaded_file_name, ".ghw.gz") ||
 		suffix_check(GLOBALS->loaded_file_name, ".ghw.bz2"))
@@ -1259,12 +1263,16 @@ else if (strlen(GLOBALS->loaded_file_name)>4)	/* case for .aet? type filenames *
 		strcpy(GLOBALS->aet_name, GLOBALS->loaded_file_name);
 #endif
                 GLOBALS->loaded_file_type = AE2_FILE;
+#ifdef AET2_IS_PRESENT
 		ae2_main(GLOBALS->loaded_file_name, GLOBALS->skip_start, GLOBALS->skip_end);
 		if(!GLOBALS->ae2)
 			{
 			fprintf(stderr, "GTKWAVE | Could not initialize '%s'%s.\n", GLOBALS->loaded_file_name, GLOBALS->vcd_jmp_buf ? "" : ", exiting");
 			vcd_exit(255);
 			}
+#else
+		/* fails in stubbed out ae2_main() */
+#endif
 		}
 		else
 		{

@@ -69,6 +69,7 @@ struct Global{
 /*
  * ae2.c
  */
+#ifdef AET2_IS_PRESENT
 #ifdef AET2_ALIASDB_IS_PRESENT
 FILE *adb_alias_stream_file;
 ADB_DB adb;
@@ -88,9 +89,6 @@ struct lx2_entry **ae2_lx2_table;
 FILE *ae2_f;
 AE2_HANDLE *ae2;
 AE2_FACREF *ae2_fr;
-TimeType *ae2_time_xlate;
-TimeType ae2_start_cyc;
-TimeType ae2_end_cyc;
 TimeType ae2_start_limit_cyc;
 TimeType ae2_end_limit_cyc;
 char *ae2_process_mask;
@@ -99,6 +97,10 @@ struct regex_links *ae2_regex_head;
 int ae2_regex_matches;
 int ae2_twirl_pos;
 int ae2_did_twirl;
+#endif
+TimeType ae2_start_cyc;
+TimeType ae2_end_cyc;
+TimeType *ae2_time_xlate;
 char disable_ae2_alias;
 
 

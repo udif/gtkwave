@@ -68,6 +68,7 @@ static const struct Global globals_base_values =
 /*
  * ae2.c
  */
+#ifdef AET2_IS_PRESENT
 #ifdef AET2_ALIASDB_IS_PRESENT
 NULL, /* adb_alias_stream_file */
 0, /* adb */
@@ -87,9 +88,6 @@ NULL, /* ae2_lx2_table */
 NULL, /* ae2_f */
 NULL, /* ae2 */
 NULL, /* ae2_fr */
-NULL, /* ae2_time_xlate */
-LLDescriptor(0), /* ae2_start_cyc */
-LLDescriptor(0), /* ae2_end_cyc */
 LLDescriptor(0), /* ae2_start_limit_cyc */
 LLDescriptor(0), /* ae2_end_limit_cyc */
 NULL, /* ae2_process_mask */
@@ -98,6 +96,10 @@ NULL, /* ae2_regex_head */
 0, /* ae2_regex_matches */
 0, /* ae2_twirl_pos */
 0, /* ae2_did_twirl */
+#endif
+LLDescriptor(0), /* ae2_start_cyc */
+LLDescriptor(0), /* ae2_end_cyc */
+NULL, /* ae2_time_xlate */
 0, /* disable_ae2_alias */
 
 
@@ -2089,8 +2091,12 @@ void reload_into_new_context(void)
 			break;
 
    		case AE2_FILE: 
+#ifdef AET2_IS_PRESENT
 			ae2_main(GLOBALS->loaded_file_name,GLOBALS->skip_start,GLOBALS->skip_end);
 			load_was_success = (GLOBALS->ae2 != NULL);
+#else
+			load_was_success = 0; /* never executes as AE2_FILE won't be set */
+#endif
 			break;
 
    		case GHW_FILE: 
