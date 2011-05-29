@@ -264,6 +264,7 @@ if(numTerms)
 	}
 	else
 	{
+	/* should never happen */
 	memset(value, 'Z', tot_length);
 	}
 
@@ -322,6 +323,7 @@ if(numTerms)
 	}
 	else
 	{
+	/* should never happen */
 	memset(value, 'Z', tot_length);
 	value[tot_length] = 0;
 	}
