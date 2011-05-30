@@ -14,39 +14,6 @@
 #include "pccts_stdio.h"
 
 
-/*
-* $Id: verilog.g,v 1.7 2009/12/29 18:36:35 gtkwave Exp $
-* $Log: verilog.g,v $
-* Revision 1.7  2009/12/29 18:36:35  gtkwave
-* typo fix in printf
-*
-* Revision 1.6  2009/01/13 22:39:24  gtkwave
-* compile fixes for mingw
-*
-* Revision 1.5  2008/11/12 19:49:42  gtkwave
-* changed usage of usize
-*
-* Revision 1.4  2008/11/10 13:46:07  gtkwave
-* update to task enable in vermin grammar to handle hierarchical identifiers
-*
-* Revision 1.3  2008/11/08 15:39:11  gtkwave
-* updated -f argument file handling in vermin
-*
-* Revision 1.2  2007/11/25 01:42:36  gtkwave
-* added named parameter support to module instantiations in the vermin
-* parser.  (this is a verilog 2001 feature.)
-*
-* Revision 1.1.1.1  2007/05/30 04:25:47  gtkwave
-* Imported sources
-*
-* Revision 1.1  2007/04/21 21:08:51  gtkwave
-* changed from vertex to vermin
-*
-* Revision 1.2  2007/04/20 02:08:11  gtkwave
-* initial release
-*
-*/
-
 #include "attrib.h"
 #include "vpp_common.h"
 

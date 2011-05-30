@@ -293,26 +293,3 @@ unsigned int			lxt2_rd_unlimit_time_range(struct lxt2_rd_trace *lt);
 
 #endif
 
-/*
- * $Id: lxt2_read.h,v 1.5 2010/05/27 06:49:31 gtkwave Exp $
- * $Log: lxt2_read.h,v $
- * Revision 1.5  2010/05/27 06:49:31  gtkwave
- * printf warnings fixes
- *
- * Revision 1.4  2010/02/18 17:27:07  gtkwave
- * extern "C" headers / version bump
- *
- * Revision 1.3  2009/04/27 21:26:34  gtkwave
- * printf format string warning fixes
- *
- * Revision 1.2  2008/07/01 18:51:07  gtkwave
- * compiler warning fixes for amd64
- *
- * Revision 1.1.1.1  2007/05/30 04:28:18  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:18  gtkwave
- * initial release
- *
- */
-

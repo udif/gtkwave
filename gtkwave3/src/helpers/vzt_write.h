@@ -296,22 +296,3 @@ int 			vzt_wr_emit_value_bit_string(struct vzt_wr_trace *lt, struct vzt_wr_symbo
 
 #endif
 
-/*
- * $Id: vzt_write.h,v 1.4 2010/04/27 23:10:56 gtkwave Exp $
- * $Log: vzt_write.h,v $
- * Revision 1.4  2010/04/27 23:10:56  gtkwave
- * made inttype.h inclusion conditional
- *
- * Revision 1.3  2010/02/18 17:27:07  gtkwave
- * extern "C" headers / version bump
- *
- * Revision 1.2  2009/03/31 06:21:13  gtkwave
- * added support for lzma
- *
- * Revision 1.1.1.1  2007/05/30 04:28:18  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:19  gtkwave
- * initial release
- *
- */

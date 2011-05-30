@@ -125,27 +125,3 @@ void parsecomment(void);
 
 #endif
 
-/*
- * $Id: vpp_common.h,v 1.3 2008/11/10 13:46:07 gtkwave Exp $
- * $Log: vpp_common.h,v $
- * Revision 1.3  2008/11/10 13:46:07  gtkwave
- * update to task enable in vermin grammar to handle hierarchical identifiers
- *
- * Revision 1.2  2007/11/25 01:42:36  gtkwave
- * added named parameter support to module instantiations in the vermin
- * parser.  (this is a verilog 2001 feature.)
- *
- * Revision 1.1.1.1  2007/05/30 04:25:51  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/21 21:23:55  gtkwave
- * updating stray string names to vermin
- *
- * Revision 1.1  2007/04/21 21:08:51  gtkwave
- * changed from vertex to vermin
- *
- * Revision 1.2  2007/04/20 02:08:11  gtkwave
- * initial release
- *
- */
-

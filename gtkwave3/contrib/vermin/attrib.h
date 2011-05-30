@@ -36,20 +36,3 @@ extern int do_not_translate, do_not_translate_mask;
 
 #endif
 
-/*
- * $Id: attrib.h,v 1.2 2008/11/12 19:49:42 gtkwave Exp $
- * $Log: attrib.h,v $
- * Revision 1.2  2008/11/12 19:49:42  gtkwave
- * changed usage of usize
- *
- * Revision 1.1.1.1  2007/05/30 04:25:51  gtkwave
- * Imported sources
- *
- * Revision 1.1  2007/04/21 21:08:51  gtkwave
- * changed from vertex to vermin
- *
- * Revision 1.2  2007/04/20 02:08:10  gtkwave
- * initial release
- *
- */
-

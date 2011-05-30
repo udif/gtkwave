@@ -92,17 +92,3 @@ void free_2(void *ptr);
 TimeType atoi_64(char *str);
 #endif
 
-/*
- * $Id: v2l_debug_lxt2.h,v 1.2 2009/04/20 18:48:13 gtkwave Exp $
- * $Log: v2l_debug_lxt2.h,v $
- * Revision 1.2  2009/04/20 18:48:13  gtkwave
- * mingw fixes
- *
- * Revision 1.1.1.1  2007/05/30 04:28:25  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:19  gtkwave
- * initial release
- *
- */
-

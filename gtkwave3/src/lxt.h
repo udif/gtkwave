@@ -63,27 +63,3 @@ int munmap(void *start, size_t length);
 
 #endif
 
-/*
- * $Id: lxt.h,v 1.2 2007/08/26 21:35:41 gtkwave Exp $
- * $Log: lxt.h,v $
- * Revision 1.2  2007/08/26 21:35:41  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.3  2007/08/25 19:43:45  gtkwave
- * header cleanups
- *
- * Revision 1.1.1.1.2.2  2007/08/18 21:51:57  gtkwave
- * widget destroys and teardown of file formats which use external loaders
- * and are outside of malloc_2/free_2 control
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:21  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:40  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:13  gtkwave
- * initial release
- *
- */
-

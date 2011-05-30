@@ -144,33 +144,3 @@ gtk_widget_show(table2);
 return(table);
 }
    
-/*
- * $Id: pagebuttons.c,v 1.4 2007/09/12 19:24:45 gtkwave Exp $
- * $Log: pagebuttons.c,v $
- * Revision 1.4  2007/09/12 19:24:45  gtkwave
- * more ctx_swap_watchdog updates
- *
- * Revision 1.3  2007/09/12 17:26:45  gtkwave
- * experimental ctx_swap_watchdog added...still tracking down mouse thrash crashes
- *
- * Revision 1.2  2007/08/26 21:35:43  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.3  2007/08/07 03:18:55  kermin
- * Changed to pointer based GLOBAL structure and added initialization function
- *
- * Revision 1.1.1.1.2.2  2007/08/06 03:50:48  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:21  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:22  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:13  gtkwave
- * initial release
- *
- */
-

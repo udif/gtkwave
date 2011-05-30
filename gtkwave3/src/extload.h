@@ -25,14 +25,3 @@ void 		import_extload_trace(nptr np);
 
 #endif
 
-/*
- * $Id: extload.h,v 1.2 2010/04/27 23:10:56 gtkwave Exp $
- * $Log: extload.h,v $
- * Revision 1.2  2010/04/27 23:10:56  gtkwave
- * made inttype.h inclusion conditional
- *
- * Revision 1.1  2009/01/27 07:04:28  gtkwave
- * added extload external process loader capability
- *
- *
- */

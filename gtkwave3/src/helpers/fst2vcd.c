@@ -149,17 +149,3 @@ free(fstname);
 exit(0);
 }
 
-/*
- * $Id: fst2vcd.c,v 1.3 2010/07/13 05:47:11 gtkwave Exp $
- * $Log: fst2vcd.c,v $
- * Revision 1.3  2010/07/13 05:47:11  gtkwave
- * harden process hier return value checking
- *
- * Revision 1.2  2009/08/06 20:03:31  gtkwave
- * warnings fixes
- *
- * Revision 1.1  2009/06/14 19:44:18  gtkwave
- * added fst2vcd to the distro
- *
- */
-

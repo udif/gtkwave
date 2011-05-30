@@ -606,17 +606,3 @@ JRB jrb_insert_gen(JRB tree, Jval key, Jval val,
   return jrb_insert_b(jrb_find_gte_gen(tree, key, func, &fnd), key, val);
 }
 
-/*
- * $Id: jrb.c,v 1.2 2009/12/24 20:55:27 gtkwave Exp $
- * $Log: jrb.c,v $
- * Revision 1.2  2009/12/24 20:55:27  gtkwave
- * warnings cleanups
- *
- * Revision 1.1.1.1  2007/05/30 04:25:40  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:10  gtkwave
- * initial release
- *
- */
-

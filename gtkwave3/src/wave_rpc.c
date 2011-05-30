@@ -100,14 +100,3 @@ return(FALSE);
 }
 
 
-/*
- * $Id: rpc.c,v 1.2 2010/12/19 07:59:10 gtkwave Exp $
- * $Log: rpc.c,v $
- * Revision 1.2  2010/12/19 07:59:10  gtkwave
- * warnings fixes
- *
- * Revision 1.1  2010/10/06 20:15:51  gtkwave
- * preliminary version of RPC mechanism
- *
- */
-

@@ -112,17 +112,3 @@ int jrb_plength(JRB n);       /* returns the # of nodes in path from
  
 #endif
 
-/*
- * $Id: jrb.h,v 1.2 2009/06/12 19:50:08 gtkwave Exp $
- * $Log: jrb.h,v $
- * Revision 1.2  2009/06/12 19:50:08  gtkwave
- * optimize out duplicate fac finding by adding a field to jrb tree
- *
- * Revision 1.1.1.1  2007/05/30 04:25:41  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:10  gtkwave
- * initial release
- *
- */
-

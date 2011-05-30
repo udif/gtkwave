@@ -416,29 +416,3 @@ free(lxname);
 return(rc);
 }
 
-/*
- * $Id: lxt2vcd.c,v 1.6 2009/04/30 19:18:41 gtkwave Exp $
- * $Log: lxt2vcd.c,v $
- * Revision 1.6  2009/04/30 19:18:41  gtkwave
- * added space before final brackets in VCD writers
- *
- * Revision 1.5  2009/04/27 21:26:34  gtkwave
- * printf format string warning fixes
- *
- * Revision 1.4  2009/04/15 21:39:50  gtkwave
- * use XL-style identifier sequencing for VCD identifiers
- *
- * Revision 1.3  2009/03/31 18:49:49  gtkwave
- * removal of warnings under cygwin compile
- *
- * Revision 1.2  2008/07/01 18:51:07  gtkwave
- * compiler warning fixes for amd64
- *
- * Revision 1.1.1.1  2007/05/30 04:28:25  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:18  gtkwave
- * initial release
- *
- */
-

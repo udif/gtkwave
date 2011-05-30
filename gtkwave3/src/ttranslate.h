@@ -29,14 +29,3 @@ void remove_all_ttrans_filters(void);
 
 #endif
 
-/*
- * $Id: ttranslate.h,v 1.2 2010/07/19 21:12:19 gtkwave Exp $
- * $Log: ttranslate.h,v $
- * Revision 1.2  2010/07/19 21:12:19  gtkwave
- * added file/proc/trans access functions to Tcl script interpreter
- *
- * Revision 1.1  2010/03/31 15:42:47  gtkwave
- * added preliminary transaction filter support
- *
- */
-

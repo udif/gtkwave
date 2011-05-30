@@ -51,20 +51,3 @@ gint font_engine_string_measure
 
 #endif
 
-/*
- * $Id: fonts.h,v 1.3 2010/07/01 23:02:41 gtkwave Exp $
- * $Log: fonts.h,v $
- * Revision 1.3  2010/07/01 23:02:41  gtkwave
- * header file cleanup
- *
- * Revision 1.2  2008/02/10 01:08:39  gtkwave
- * speedup on mono font string length determination with pango
- *
- * Revision 1.1  2008/02/08 02:26:36  gtkwave
- * anti-aliased font support add
- *
- * Revision 1.1  2008/02/06 00:00:01  gtkwave
- * initial release
- *
- */
-

@@ -95,38 +95,3 @@ msk2|= (y2>ry2)<<3;
 return(!msk1 && !msk2); /* see if points are really inside */
 }
 
-/*
- * $Id: clipping.c,v 1.7 2010/02/22 18:57:07 gtkwave Exp $
- * $Log: clipping.c,v $
- * Revision 1.7  2010/02/22 18:57:07  gtkwave
- * added more checking in coord re-calculate eqns
- *
- * Revision 1.6  2010/02/22 17:15:11  gtkwave
- * add y-coord clamping to avoid integer round off errors
- *
- * Revision 1.5  2010/02/20 21:18:37  gtkwave
- * clarified boundary rectangle coords in a comment
- *
- * Revision 1.4  2010/02/18 18:27:33  gtkwave
- * modified clipping slope equation to use doubles for intermediate steps
- *
- * Revision 1.3  2010/02/07 20:16:34  gtkwave
- * experiment with adding line clipping to analog rendering
- *
- * Revision 1.2  2007/08/26 21:35:39  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.2  2007/08/06 03:50:45  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:19  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:24  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:11  gtkwave
- * initial release
- *
- */

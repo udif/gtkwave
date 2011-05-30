@@ -201,20 +201,3 @@ main (int argc, char **argv)
   return 0;
 }
 
-/*
- * $Id: ghwdump.c,v 1.3 2008/12/20 05:08:26 gtkwave Exp $
- * $Log: ghwdump.c,v $
- * Revision 1.3  2008/12/20 05:08:26  gtkwave
- * -Wshadow warning cleanups
- *
- * Revision 1.2  2008/07/01 18:51:07  gtkwave
- * compiler warning fixes for amd64
- *
- * Revision 1.1.1.1  2007/05/30 04:28:15  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:18  gtkwave
- * initial release
- *
- */
-

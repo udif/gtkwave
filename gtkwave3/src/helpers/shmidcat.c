@@ -317,38 +317,3 @@ return(255);
 #endif
 
 
-/*
- * $Id: shmidcat.c,v 1.9 2011/01/14 16:23:18 gtkwave Exp $
- * $Log: shmidcat.c,v $
- * Revision 1.9  2011/01/14 16:23:18  gtkwave
- * modified to exit on EOF
- *
- * Revision 1.8  2009/12/22 19:57:26  gtkwave
- * warnings fixes on postincrement p++
- *
- * Revision 1.7  2009/04/23 04:57:38  gtkwave
- * ported shmidcat and partial vcd loader function to mingw
- *
- * Revision 1.6  2008/12/16 19:28:20  gtkwave
- * more warnings cleanups
- *
- * Revision 1.5  2008/12/04 16:42:33  gtkwave
- * restart fix for shmidcat
- *
- * Revision 1.4  2008/02/12 23:35:42  gtkwave
- * preparing for 3.1.5 revision bump
- *
- * Revision 1.3  2008/02/12 16:24:05  gtkwave
- * mingw fixes
- *
- * Revision 1.2  2007/08/31 22:50:47  gtkwave
- * update shmidcat for mingw32 compile (disabled)
- *
- * Revision 1.1.1.1  2007/05/30 04:28:18  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:18  gtkwave
- * initial release
- *
- */
-

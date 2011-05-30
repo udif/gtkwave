@@ -205,19 +205,3 @@ extern void		NpDestroyInstanceInterp(Tcl_Interp *interp);
 
 #endif
 
-/*
- * $Id: tcl_np.h,v 1.4 2009/11/30 17:09:35 gtkwave Exp $
- * $Log: tcl_np.h,v $
- * Revision 1.4  2009/11/30 17:09:35  gtkwave
- * NpLog fix for 3 arguments
- *
- * Revision 1.3  2009/11/11 16:30:58  gtkwave
- * changed tcl library ordering, no tk unless --wish
- *
- * Revision 1.2  2009/10/26 22:44:01  gtkwave
- * output style fixes, remove double init for bluespec
- *
- * Revision 1.1  2009/10/24 01:45:16  gtkwave
- * initial version
- *
- */

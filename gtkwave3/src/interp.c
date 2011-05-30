@@ -354,17 +354,3 @@ bot:
   return (rc);
 }
 
-/*
- * $Id: interp.c,v 1.2 2008/05/29 15:54:16 gtkwave Exp $
- * $Log: interp.c,v $
- * Revision 1.2  2008/05/29 15:54:16  gtkwave
- * added HAVE_BZERO patches for MinGW
- *
- * Revision 1.1  2008/02/15 16:30:58  gtkwave
- * re-added after permission fix
- *
- * Revision 1.0  2008/01/23 00:00:01  gtkwave
- * initial release
- *
- */
-

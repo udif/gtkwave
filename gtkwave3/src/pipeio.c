@@ -190,39 +190,3 @@ free_2(p);
 
 #endif
 
-/*
- * $Id: pipeio.c,v 1.7 2010/08/26 18:42:23 gtkwave Exp $
- * $Log: pipeio.c,v $
- * Revision 1.7  2010/08/26 18:42:23  gtkwave
- * added support for transaction filters in mingw
- *
- * Revision 1.6  2010/08/26 00:40:29  gtkwave
- * updated filter failure so it is non-fatal on mingw
- *
- * Revision 1.5  2010/08/25 22:58:23  gtkwave
- * added process file support for mingw
- *
- * Revision 1.4  2009/09/14 03:00:08  gtkwave
- * bluespec code integration
- *
- * Revision 1.3  2008/12/25 04:07:29  gtkwave
- * -Wshadow warning fixes
- *
- * Revision 1.2  2007/08/26 21:35:43  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.2  2007/08/06 03:50:48  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:21  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:29  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:13  gtkwave
- * initial release
- *
- */
-

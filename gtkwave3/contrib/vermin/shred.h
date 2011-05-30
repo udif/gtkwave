@@ -33,17 +33,3 @@ void pop_exp_now(void);
 
 #endif
 
-/*
- * $Id: shred.h,v 1.1.1.1 2007/05/30 04:25:53 gtkwave Exp $
- * $Log: shred.h,v $
- * Revision 1.1.1.1  2007/05/30 04:25:53  gtkwave
- * Imported sources
- *
- * Revision 1.1  2007/04/21 21:08:51  gtkwave
- * changed from vertex to vermin
- *
- * Revision 1.2  2007/04/20 02:08:11  gtkwave
- * initial release
- *
- */
-

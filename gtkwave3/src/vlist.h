@@ -71,38 +71,3 @@ void vlist_packer_decompress_destroy(char *mem);
 
 #endif
 
-/*
- * $Id: vlist.h,v 1.7 2007/12/24 19:56:03 gtkwave Exp $
- * $Log: vlist.h,v $
- * Revision 1.7  2007/12/24 19:56:03  gtkwave
- * preparing for 3.1.2 version bump
- *
- * Revision 1.6  2007/12/18 03:49:51  gtkwave
- * fixed header typo (ifdef'd out so missed)
- *
- * Revision 1.5  2007/12/17 03:22:44  gtkwave
- * integration of (currently unused) vlist_packer routines
- *
- * Revision 1.4  2007/12/06 04:16:20  gtkwave
- * removed non-growable vlists
- *
- * Revision 1.3  2007/11/30 01:31:23  gtkwave
- * added vlist memory spill to disk code + fixed vcdload status bar on > 2GB
- *
- * Revision 1.2  2007/08/26 21:35:46  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.2  2007/08/25 19:43:46  gtkwave
- * header cleanups
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:28  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:22  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:18  gtkwave
- * initial release
- *
- */
-

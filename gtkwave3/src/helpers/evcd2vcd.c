@@ -500,19 +500,3 @@ free(vname);
 return(0);
 }
 
-/*
- * $Id: evcd2vcd.c,v 1.4 2010/10/02 18:58:55 gtkwave Exp $
- * $Log: evcd2vcd.c,v $
- * Revision 1.4  2010/10/02 18:58:55  gtkwave
- * ctype.h compiler warning fixes (char vs int)
- *
- * Revision 1.3  2010/04/27 23:10:56  gtkwave
- * made inttype.h inclusion conditional
- *
- * Revision 1.2  2009/08/06 20:03:31  gtkwave
- * warnings fixes
- *
- * Revision 1.1  2009/07/31 19:55:48  gtkwave
- * add evcd2vcd to the distribution
- *
- */

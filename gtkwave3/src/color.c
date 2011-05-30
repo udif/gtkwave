@@ -42,27 +42,3 @@ if((gc=gdk_gc_new(widget->window)))
 return(fallback);
 }
 
-/*
- * $Id: color.c,v 1.2 2007/08/26 21:35:39 gtkwave Exp $
- * $Log: color.c,v $
- * Revision 1.2  2007/08/26 21:35:39  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.3  2007/08/25 19:43:45  gtkwave
- * header cleanups
- *
- * Revision 1.1.1.1.2.2  2007/08/06 03:50:45  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:19  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:22  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:11  gtkwave
- * initial release
- *
- */
-

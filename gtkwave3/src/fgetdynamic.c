@@ -119,36 +119,3 @@ char *s = wave_script_args_fgetmalloc(w);
 return(stripspaces(s));
 }
 
-/*
- * $Id: fgetdynamic.c,v 1.5 2010/10/02 18:58:55 gtkwave Exp $
- * $Log: fgetdynamic.c,v $
- * Revision 1.5  2010/10/02 18:58:55  gtkwave
- * ctype.h compiler warning fixes (char vs int)
- *
- * Revision 1.4  2009/12/15 23:40:59  gtkwave
- * removed old style scripts; also removed tempfiles for Tcl args
- *
- * Revision 1.3  2007/12/06 04:16:20  gtkwave
- * removed non-growable vlists
- *
- * Revision 1.2  2007/08/26 21:35:40  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.3  2007/08/07 03:18:54  kermin
- * Changed to pointer based GLOBAL structure and added initialization function
- *
- * Revision 1.1.1.1.2.2  2007/08/06 03:50:46  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:19  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:23  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:11  gtkwave
- * initial release
- *
- */
-

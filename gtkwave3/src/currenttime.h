@@ -79,13 +79,3 @@ void exponent_to_time_scale(signed char scale);
 
 #endif
 
-/*
- * $Id: currenttime.h,v 1.82 2010/07/01 23:02:41 gtkwave Exp $
- * $Log: currenttime.h,v $
- * Revision 1.82  2010/07/01 23:02:41  gtkwave
- * header file cleanup
- *
- * Revision 1.2  2007/04/20 02:08:11  gtkwave
- * initial release
- *
- */

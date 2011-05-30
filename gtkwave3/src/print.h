@@ -90,23 +90,3 @@ void mif_draw_string(pr_context * prc, int x, int y, char *str,
 		int xsize, int ysize);
 #endif
 
-/*
- * $Id: print.h,v 1.2 2007/08/26 21:35:43 gtkwave Exp $
- * $Log: print.h,v $
- * Revision 1.2  2007/08/26 21:35:43  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.2  2007/08/25 19:43:46  gtkwave
- * header cleanups
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:22  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:55  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:13  gtkwave
- * initial release
- *
- */
-

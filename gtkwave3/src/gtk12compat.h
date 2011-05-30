@@ -31,17 +31,3 @@
 
 #endif
 
-/*
- * $Id: gtk12compat.h,v 1.2 2007/09/10 19:43:20 gtkwave Exp $
- * $Log: gtk12compat.h,v $
- * Revision 1.2  2007/09/10 19:43:20  gtkwave
- * gtk1.2 compile fixes
- *
- * Revision 1.1.1.1  2007/05/30 04:27:58  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:13  gtkwave
- * initial release
- *
- */
-

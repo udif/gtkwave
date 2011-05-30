@@ -1803,39 +1803,3 @@ ghw_disp_types (struct ghw_handler *h)
     ghw_disp_type (h, h->types[i]);
 }
 
-/*
- * $Id: ghwlib.c,v 1.7 2009/12/29 07:07:49 gtkwave Exp $
- * $Log: ghwlib.c,v $
- * Revision 1.7  2009/12/29 07:07:49  gtkwave
- * fixes for ghw files
- *
- * Revision 1.6  2009/04/27 21:26:34  gtkwave
- * printf format string warning fixes
- *
- * Revision 1.5  2008/12/20 07:44:22  gtkwave
- * experimental support for Tcl repscripts
- *
- * Revision 1.4  2008/12/20 05:08:26  gtkwave
- * -Wshadow warning cleanups
- *
- * Revision 1.3  2008/07/01 18:51:06  gtkwave
- * compiler warning fixes for amd64
- *
- * Revision 1.2  2007/08/26 21:35:40  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.3  2007/08/23 23:28:48  gtkwave
- * reload fail handling and retries
- *
- * Revision 1.1.1.1.2.2  2007/08/06 03:50:46  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.1.1.1  2007/05/30 04:27:22  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:12  gtkwave
- * initial release
- *
- */
-

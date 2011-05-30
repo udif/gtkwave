@@ -201,32 +201,3 @@ return((avoid_strdup != HIER_DEPACK_ALLOC) ? (str+ob) : strdup_2(str+ob));
 }
 
 
-/*
- * $Id: hierpack.c,v 1.8 2011/01/20 05:35:56 gtkwave Exp $
- * $Log: hierpack.c,v $
- * Revision 1.8  2011/01/20 05:35:56  gtkwave
- * fast tree sort = 0 fix
- *
- * Revision 1.7  2011/01/13 17:20:39  gtkwave
- * rewrote hierarchy / facility packing code
- *
- * Revision 1.6  2010/03/01 19:19:50  gtkwave
- * more hier_pfx code movement into hierpack.c
- *
- * Revision 1.5  2010/03/01 05:16:26  gtkwave
- * move compressed hier tree traversal to hierpack
- *
- * Revision 1.4  2008/07/20 20:48:08  gtkwave
- * compressed hierarchy support
- *
- * Revision 1.3  2008/07/20 01:29:36  gtkwave
- * added command line option --comphier
- *
- * Revision 1.2  2008/07/18 17:29:50  gtkwave
- * adding cvs headers
- *
- * Revision 1.1  2008/07/18 17:27:01  gtkwave
- * adding hierpack code
- *
- */
-

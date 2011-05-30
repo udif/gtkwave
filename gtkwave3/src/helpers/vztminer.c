@@ -326,29 +326,3 @@ free(lxname);
 return(rc);
 }
 
-/*
- * $Id: vztminer.c,v 1.6 2010/10/02 18:58:55 gtkwave Exp $
- * $Log: vztminer.c,v $
- * Revision 1.6  2010/10/02 18:58:55  gtkwave
- * ctype.h compiler warning fixes (char vs int)
- *
- * Revision 1.5  2009/04/27 21:26:34  gtkwave
- * printf format string warning fixes
- *
- * Revision 1.4  2009/03/31 18:49:49  gtkwave
- * removal of warnings under cygwin compile
- *
- * Revision 1.3  2009/03/09 23:29:12  gtkwave
- * fixed memory access violation and added comprehensive option.
- *
- * Revision 1.2  2008/07/01 18:51:07  gtkwave
- * compiler warning fixes for amd64
- *
- * Revision 1.1.1.1  2007/05/30 04:28:22  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:19  gtkwave
- * initial release
- *
- */
-

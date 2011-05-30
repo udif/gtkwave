@@ -1983,20 +1983,3 @@ if(lt)
 	}
 }
 
-/*
- * $Id: vzt_write.c,v 1.3 2009/03/31 16:10:11 gtkwave Exp $
- * $Log: vzt_write.c,v $
- * Revision 1.3  2009/03/31 16:10:11  gtkwave
- * enable flushes in lzmalib, disable flushes in vzt writer
- *
- * Revision 1.2  2009/03/31 06:21:13  gtkwave
- * added support for lzma
- *
- * Revision 1.1.1.1  2007/05/30 04:28:24  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:19  gtkwave
- * initial release
- *
- */
-

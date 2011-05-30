@@ -474,39 +474,3 @@ gtk_widget_show(table2);
 return table;
 }
 
-/*
- * $Id: zoombuttons.c,v 1.5 2008/08/05 20:14:26 gtkwave Exp $
- * $Log: zoombuttons.c,v $
- * Revision 1.5  2008/08/05 20:14:26  gtkwave
- * make step_increment equal to 1/10 of the page inc rather than pixel level
- *
- * Revision 1.4  2007/09/12 19:24:45  gtkwave
- * more ctx_swap_watchdog updates
- *
- * Revision 1.3  2007/09/12 17:26:46  gtkwave
- * experimental ctx_swap_watchdog added...still tracking down mouse thrash crashes
- *
- * Revision 1.2  2007/08/26 21:35:50  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.4  2007/08/25 19:43:46  gtkwave
- * header cleanups
- *
- * Revision 1.1.1.1.2.3  2007/08/07 03:18:56  kermin
- * Changed to pointer based GLOBAL structure and added initialization function
- *
- * Revision 1.1.1.1.2.2  2007/08/06 03:50:50  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:28  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:20  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:18  gtkwave
- * initial release
- *
- */
-

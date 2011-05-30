@@ -143,14 +143,3 @@ ds_Tree * ds_delete(char *i, ds_Tree * t) {
     return t;                         /* It wasn't there */
 }
 
-/*
- * $Id: splay.c,v 1.1.1.1 2007/05/30 04:25:38 gtkwave Exp $
- * $Log: splay.c,v $
- * Revision 1.1.1.1  2007/05/30 04:25:38  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:10  gtkwave
- * initial release
- *
- */
-

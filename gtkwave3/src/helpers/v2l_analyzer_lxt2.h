@@ -148,14 +148,3 @@ void append_vcd_slisthier(char *str);
 
 #endif
 
-/*
- * $Id: v2l_analyzer_lxt2.h,v 1.1.1.1 2007/05/30 04:28:18 gtkwave Exp $
- * $Log: v2l_analyzer_lxt2.h,v $
- * Revision 1.1.1.1  2007/05/30 04:28:18  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:19  gtkwave
- * initial release
- *
- */
-

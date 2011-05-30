@@ -371,20 +371,3 @@ print_explist(e);
 printf("CONCAT ^^^ ---------------------------------------------\n");
 }
 
-/*
- * $Id: inter.c,v 1.2 2009/12/25 01:55:44 gtkwave Exp $
- * $Log: inter.c,v $
- * Revision 1.2  2009/12/25 01:55:44  gtkwave
- * warnings fixes
- *
- * Revision 1.1.1.1  2007/05/30 04:25:42  gtkwave
- * Imported sources
- *
- * Revision 1.1  2007/04/21 21:08:51  gtkwave
- * changed from vertex to vermin
- *
- * Revision 1.2  2007/04/20 02:08:10  gtkwave
- * initial release
- *
- */
-

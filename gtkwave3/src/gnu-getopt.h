@@ -176,23 +176,3 @@ extern int _getopt_internal ();
 
 #endif /* getopt.h */
 
-/*
- * $Id: gnu-getopt.h,v 1.2 2007/08/26 21:35:41 gtkwave Exp $
- * $Log: gnu-getopt.h,v $
- * Revision 1.2  2007/08/26 21:35:41  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.2  2007/08/25 19:43:45  gtkwave
- * header cleanups
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:20  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:57  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:12  gtkwave
- * initial release
- *
- */
-

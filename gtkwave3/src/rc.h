@@ -118,34 +118,3 @@ int  f_zoom_pow10_snap (char *str);
 
 #endif
 
-/*
- * $Id: rc.h,v 1.5 2010/01/22 02:10:49 gtkwave Exp $
- * $Log: rc.h,v $
- * Revision 1.5  2010/01/22 02:10:49  gtkwave
- * added second pattern search capability
- *
- * Revision 1.4  2009/09/14 03:00:08  gtkwave
- * bluespec code integration
- *
- * Revision 1.3  2007/08/26 21:35:44  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.3  2007/08/25 19:43:46  gtkwave
- * header cleanups
- *
- * Revision 1.1.1.1.2.2  2007/08/05 02:27:23  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1.2.1  2007/07/28 19:50:40  kermin
- * Merged in the main line
- *
- * Revision 1.2  2007/07/23 23:13:08  gtkwave
- * adds for color tags in filtered trace data
- *
- * Revision 1.1.1.1  2007/05/30 04:28:00  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:17  gtkwave
- * initial release
- *
- */

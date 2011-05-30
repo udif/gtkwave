@@ -182,23 +182,3 @@ for(i=0;i<argc;i++)
 	}
 }
 
-/*
- * $Id: args.c,v 1.3 2010/10/02 18:58:55 gtkwave Exp $
- * $Log: args.c,v $
- * Revision 1.3  2010/10/02 18:58:55  gtkwave
- * ctype.h compiler warning fixes (char vs int)
- *
- * Revision 1.2  2008/11/08 15:39:11  gtkwave
- * updated -f argument file handling in vermin
- *
- * Revision 1.1.1.1  2007/05/30 04:25:41  gtkwave
- * Imported sources
- *
- * Revision 1.1  2007/04/21 21:08:51  gtkwave
- * changed from vertex to vermin
- *
- * Revision 1.2  2007/04/20 02:08:10  gtkwave
- * initial release
- *
- */
-

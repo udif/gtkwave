@@ -39,17 +39,3 @@ ds_Tree * ds_delete(char *i, ds_Tree * t);
 
 #endif
 
-/*
- * $Id: splay.h,v 1.2 2010/06/23 05:40:48 gtkwave Exp $
- * $Log: splay.h,v $
- * Revision 1.2  2010/06/23 05:40:48  gtkwave
- * added dnd from gtkwave into rtlbrowse
- *
- * Revision 1.1.1.1  2007/05/30 04:25:38  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:10  gtkwave
- * initial release
- *
- */
-

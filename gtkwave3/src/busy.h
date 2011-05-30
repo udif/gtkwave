@@ -29,28 +29,3 @@ void gtkwave_main_iteration(void);
 
 #endif
 
-/*
- * $Id: busy.h,v 1.4 2010/02/18 23:06:04 gtkwave Exp $
- * $Log: busy.h,v $
- * Revision 1.4  2010/02/18 23:06:04  gtkwave
- * change name of main iteration loop calls
- *
- * Revision 1.3  2007/09/11 02:12:50  gtkwave
- * context locking in busy spinloops (gtk_main_iteration() calls)
- *
- * Revision 1.2  2007/08/26 21:35:39  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.2  2007/08/25 19:43:45  gtkwave
- * header cleanups
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:19  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:26  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:11  gtkwave
- * initial release
- *
- */

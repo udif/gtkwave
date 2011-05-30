@@ -435,26 +435,3 @@ return(255);
 
 #endif
 
-/*
- * $Id: twinwave.c,v 1.4 2009/04/23 19:38:50 gtkwave Exp $
- * $Log: twinwave.c,v $
- * Revision 1.4  2009/04/23 19:38:50  gtkwave
- * add mingw support to twinwave
- *
- * Revision 1.3  2007/09/12 17:26:45  gtkwave
- * experimental ctx_swap_watchdog added...still tracking down mouse thrash crashes
- *
- * Revision 1.2  2007/08/26 21:35:46  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.1  2007/08/26 19:05:35  gtkwave
- * usize update to handle SST in GTK >= 2.4 in dual mode
- *
- * Revision 1.1.1.1  2007/05/30 04:27:22  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:17  gtkwave
- * initial release
- *
- */
-

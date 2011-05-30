@@ -23,23 +23,3 @@ char *hier_decompress_flagged(char *n, int *was_packed);
 
 #endif
 
-/*
- * $Id: hierpack.h,v 1.5 2011/01/13 17:20:39 gtkwave Exp $
- * $Log: hierpack.h,v $
- * Revision 1.5  2011/01/13 17:20:39  gtkwave
- * rewrote hierarchy / facility packing code
- *
- * Revision 1.4  2010/03/01 19:19:50  gtkwave
- * more hier_pfx code movement into hierpack.c
- *
- * Revision 1.3  2010/03/01 05:16:26  gtkwave
- * move compressed hier tree traversal to hierpack
- *
- * Revision 1.2  2008/07/18 17:29:50  gtkwave
- * adding cvs headers
- *
- * Revision 1.1  2008/07/18 17:27:01  gtkwave
- * adding hierpack code   
- *
- */
-

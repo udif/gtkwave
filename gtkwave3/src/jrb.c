@@ -606,20 +606,3 @@ JRB jrb_insert_gen(JRB tree, Jval key, Jval val,
   return jrb_insert_b(jrb_find_gte_gen(tree, key, func, &fnd), key, val);
 }
 
-/*
- * $Id: jrb.c,v 1.4 2011/01/18 03:06:28 gtkwave Exp $
- * $Log: jrb.c,v $
- * Revision 1.4  2011/01/18 03:06:28  gtkwave
- * added JRB support for component trees when Judy is not available
- *
- * Revision 1.3  2009/12/24 20:55:27  gtkwave
- * warnings cleanups
- *
- * Revision 1.2  2008/07/18 17:30:58  gtkwave
- * adding cvs headers
- *
- * Revision 1.1  2008/07/18 17:27:01  gtkwave
- * adding hierpack code
- *
- */
-

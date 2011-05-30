@@ -987,29 +987,3 @@ if(ics)
 	}
 }
 
-/*
- * $Id: preproc.c,v 1.5 2010/10/02 18:58:55 gtkwave Exp $
- * $Log: preproc.c,v $
- * Revision 1.5  2010/10/02 18:58:55  gtkwave
- * ctype.h compiler warning fixes (char vs int)
- *
- * Revision 1.4  2010/07/22 21:03:08  gtkwave
- * update preprocessor handling for ifdef stack
- *
- * Revision 1.3  2008/12/20 05:45:03  gtkwave
- * gtk1 compatibility and -Wshadow warning fixes
- *
- * Revision 1.2  2008/11/11 15:30:26  gtkwave
- * carriage return in defines fix
- *
- * Revision 1.1.1.1  2007/05/30 04:25:46  gtkwave
- * Imported sources
- *
- * Revision 1.1  2007/04/21 21:08:51  gtkwave
- * changed from vertex to vermin
- *
- * Revision 1.2  2007/04/20 02:08:11  gtkwave
- * initial release
- *
- */
-

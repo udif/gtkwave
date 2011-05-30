@@ -1738,29 +1738,3 @@ if(lt)
 return(blk);
 }
 
-/*
- * $Id: lxt2_read.c,v 1.6 2010/10/25 17:56:49 gtkwave Exp $
- * $Log: lxt2_read.c,v $
- * Revision 1.6  2010/10/25 17:56:49  gtkwave
- * give x86_64 priority over 386 for inline assembly
- *
- * Revision 1.5  2010/10/25 17:50:42  gtkwave
- * add conditional compiles for inline assembly code (can disable)
- *
- * Revision 1.4  2009/04/27 21:26:34  gtkwave
- * printf format string warning fixes
- *
- * Revision 1.3  2008/12/20 05:08:26  gtkwave
- * -Wshadow warning cleanups
- *
- * Revision 1.2  2008/11/13 22:52:25  gtkwave
- * x86_64 fix on xchgb
- *
- * Revision 1.1.1.1  2007/05/30 04:28:17  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:18  gtkwave
- * initial release
- *
- */
-

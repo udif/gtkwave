@@ -286,31 +286,3 @@ char *				vzt_rd_value(struct vzt_rd_trace *lt, vztint64_t simtime, vztint32_t f
 
 #endif
 
-/*
- * $Id: vzt_read.h,v 1.7 2010/05/27 06:49:31 gtkwave Exp $
- * $Log: vzt_read.h,v $
- * Revision 1.7  2010/05/27 06:49:31  gtkwave
- * printf warnings fixes
- *
- * Revision 1.6  2010/04/27 23:10:56  gtkwave
- * made inttype.h inclusion conditional
- *
- * Revision 1.5  2010/02/18 17:27:07  gtkwave
- * extern "C" headers / version bump
- *
- * Revision 1.4  2009/04/27 21:26:34  gtkwave
- * printf format string warning fixes
- *
- * Revision 1.3  2009/03/31 06:21:12  gtkwave
- * added support for lzma
- *
- * Revision 1.2  2008/07/01 18:51:07  gtkwave
- * compiler warning fixes for amd64
- *
- * Revision 1.1.1.1  2007/05/30 04:28:18  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:19  gtkwave
- * initial release
- *
- */

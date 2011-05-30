@@ -851,36 +851,3 @@ if((match=(struct wave_rgb_color *)bsearch((void *)str, (void *)colors, C_ARRAY_
 	}
 }
 
-/*
- * $Id: rgb.c,v 1.6 2010/03/31 06:37:44 gtkwave Exp $
- * $Log: rgb.c,v $
- * Revision 1.6  2010/03/31 06:37:44  gtkwave
- * fix for colors struct marked as const
- *
- * Revision 1.5  2010/03/18 17:12:37  gtkwave
- * pedantic warning cleanups
- *
- * Revision 1.4  2009/12/17 17:11:06  gtkwave
- * collapsed separate arrays into an array of a single struct
- *
- * Revision 1.3  2007/08/26 21:35:44  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.6  2007/08/07 03:18:55  kermin
- * Changed to pointer based GLOBAL structure and added initialization function
- *
- * Revision 1.1.1.1.2.5  2007/08/06 03:50:48  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.2  2007/07/23 23:13:08  gtkwave
- * adds for color tags in filtered trace data
- *
- * Revision 1.1.1.1  2007/05/30 04:27:58  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:17  gtkwave
- * initial release
- *
- */
-

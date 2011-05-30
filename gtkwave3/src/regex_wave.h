@@ -23,26 +23,3 @@ void wave_regex_alloc_free(void *pnt);
 
 #endif
 
-/*
- * $Id: regex_wave.h,v 1.3 2008/09/22 03:27:03 gtkwave Exp $
- * $Log: regex_wave.h,v $
- * Revision 1.3  2008/09/22 03:27:03  gtkwave
- * more DND adds
- *
- * Revision 1.2  2007/08/26 21:35:44  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.2  2007/08/25 19:43:46  gtkwave
- * header cleanups
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:23  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:30  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:17  gtkwave
- * initial release
- *
- */
-

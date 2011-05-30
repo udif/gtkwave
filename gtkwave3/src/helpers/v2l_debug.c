@@ -204,17 +204,3 @@ while((ch=*(str++)))
 return(nflag?(-val):val);
 }
 
-/*
- * $Id: v2l_debug.c,v 1.2 2009/04/20 18:48:12 gtkwave Exp $
- * $Log: v2l_debug.c,v $
- * Revision 1.2  2009/04/20 18:48:12  gtkwave
- * mingw fixes
- *
- * Revision 1.1.1.1  2007/05/30 04:28:18  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:19  gtkwave
- * initial release
- *
- */
-

@@ -541,14 +541,3 @@ trim-versions-without-asking: nil
 End:
 */
 
-/*
- * $Id: gnu_regex.h,v 1.1.1.1 2007/05/30 04:27:23 gtkwave Exp $
- * $Log: gnu_regex.h,v $
- * Revision 1.1.1.1  2007/05/30 04:27:23  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:13  gtkwave
- * initial release
- *
- */
-

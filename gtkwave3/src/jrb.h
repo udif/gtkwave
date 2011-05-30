@@ -110,17 +110,3 @@ int jrb_plength(JRB n);       /* returns the # of nodes in path from
  
 #endif
 
-/*
- * $Id: jrb.h,v 1.3 2011/01/18 03:06:29 gtkwave Exp $
- * $Log: jrb.h,v $
- * Revision 1.3  2011/01/18 03:06:29  gtkwave
- * added JRB support for component trees when Judy is not available
- *
- * Revision 1.2  2008/07/18 17:30:58  gtkwave
- * adding cvs headers
- *
- * Revision 1.1  2008/07/18 17:27:01  gtkwave
- * adding hierpack code
- *
- */
-

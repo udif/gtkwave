@@ -131,30 +131,3 @@ if(mreg)
 	}
 }
 
-/*
- * $Id: regex.c,v 1.3 2008/05/29 15:54:16 gtkwave Exp $
- * $Log: regex.c,v $
- * Revision 1.3  2008/05/29 15:54:16  gtkwave
- * added HAVE_BZERO patches for MinGW
- *
- * Revision 1.2  2007/08/26 21:35:44  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.3  2007/08/07 03:18:55  kermin
- * Changed to pointer based GLOBAL structure and added initialization function
- *
- * Revision 1.1.1.1.2.2  2007/08/06 03:50:48  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.1.1.1.2.1  2007/08/05 02:27:23  kermin
- * Semi working global struct
- *
- * Revision 1.1.1.1  2007/05/30 04:27:20  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:17  gtkwave
- * initial release
- *
- */
-

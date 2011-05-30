@@ -421,36 +421,3 @@ void ghw_disp_type (struct ghw_handler *h, union ghw_type *t);
 void ghw_disp_types (struct ghw_handler *h);
 #endif /* _GHWLIB_H_ */
 
-/*
- * $Id: ghwlib.h,v 1.7 2010/04/27 23:10:56 gtkwave Exp $
- * $Log: ghwlib.h,v $
- * Revision 1.7  2010/04/27 23:10:56  gtkwave
- * made inttype.h inclusion conditional
- *
- * Revision 1.6  2010/04/25 01:04:21  gtkwave
- * typo fix
- *
- * Revision 1.5  2009/12/29 07:07:49  gtkwave
- * fixes for ghw files
- *
- * Revision 1.4  2009/04/27 21:26:34  gtkwave
- * printf format string warning fixes
- *
- * Revision 1.3  2008/07/01 18:51:06  gtkwave
- * compiler warning fixes for amd64
- *
- * Revision 1.2  2007/08/26 21:35:41  gtkwave
- * integrated global context management from SystemOfCode2007 branch
- *
- * Revision 1.1.1.1.2.2  2007/08/06 03:50:46  gtkwave
- * globals support for ae2, gtk1, cygwin, mingw.  also cleaned up some machine
- * generated structs, etc.
- *
- * Revision 1.1.1.1  2007/05/30 04:28:02  gtkwave
- * Imported sources
- *
- * Revision 1.2  2007/04/20 02:08:12  gtkwave
- * initial release
- *
- */
-
