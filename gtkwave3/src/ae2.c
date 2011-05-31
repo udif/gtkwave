@@ -433,6 +433,8 @@ if(kw)
         GLOBALS->adb = adb_open_embed(GLOBALS->adb_alias_stream_file, NULL, alloc_fn, free_fn, adb_msg_fn, error_fn);
         if(GLOBALS->adb)
                 {
+		unsigned long fn;
+
                 GLOBALS->ae2_num_aliases = adb_num_aliases(GLOBALS->adb);
                 GLOBALS->adb_max_terms  = adb_max_alias_terms(GLOBALS->adb);
                 GLOBALS->adb_terms = calloc_2(GLOBALS->adb_max_terms + 1, sizeof(ADB_TERM));
@@ -442,7 +444,9 @@ if(kw)
 		GLOBALS->adb_idx_first = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
 		GLOBALS->adb_idx_last = calloc_2(GLOBALS->ae2_num_aliases, sizeof(unsigned short));
 
-		fprintf(stderr, AET2_RDLOAD"Encountered %d aliases.\n", (unsigned int)GLOBALS->ae2_num_aliases);
+		fn = adb_map_ids (GLOBALS->adb, symbol_fn, GLOBALS->ae2); /* iteratively replaces all .id with FACIDX */
+
+		fprintf(stderr, AET2_RDLOAD"Encountered %d aliases referencing %d facs.\n", (unsigned int)GLOBALS->ae2_num_aliases, fn);
                 }
         }
 #endif
@@ -479,8 +483,6 @@ for(i=0;i<GLOBALS->ae2_num_facs;i++)
 	}
 
 #ifdef AET2_ALIASDB_IS_PRESENT
-adb_map_ids (GLOBALS->adb, symbol_fn, GLOBALS->ae2); /* iteratively replaces all .id with FACIDX */
-
 for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	{
 	unsigned long numTerms;
