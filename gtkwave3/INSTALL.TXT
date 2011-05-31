@@ -71,6 +71,12 @@ cvs -z3 -d:pserver:anonymous@gtkwave.cvs.sourceforge.net:/cvsroot/gtkwave co -P 
 
 -191208ajb  bybell@nc.rr.com
 
+
+CVS is no longer being updated, for SVN access:
+svn co https://gtkwave.svn.sourceforge.net/svnroot/gtkwave gtkwave
+
+-310511ajb
+
 ===============================================================================
 
 Note (1) For Ubuntu users:
