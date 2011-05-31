@@ -105,6 +105,7 @@ va_end(ap);
 exit(255);
 }
 
+
 static char *twirler = "|/-\\";
 
 static void msg_fn(int sev, const char *format, ...)
@@ -165,13 +166,23 @@ if((!GLOBALS->ae2_msg_suppress)||(sev))
         va_end(ap);
         }
 }
+
+
+static unsigned long symbol_fn (cchar *name, void *udata)
+{
+AE2_FACREF f2;
+return(ae2_read_find_symbol(GLOBALS->ae2, name, &f2));
+}
+
 #endif
+
 
 static void *alloc_fn(size_t size)
 {        
 void *pnt = calloc_2(1, size);
 return(pnt);
 }
+
         
 static void free_fn(void* ptr, size_t size)
 {
@@ -384,9 +395,6 @@ struct Node *monolithic_node = NULL;
 struct symbol *monolithic_sym = NULL;
 #ifdef AET2_ALIASDB_IS_PRESENT
 unsigned long kw = 0;
-#ifdef _WAVE_HAVE_JUDY
-Pvoid_t PJArray = NULL;
-#endif
 #endif
 char buf[AE2_MAX_NAME_LENGTH+1];
 
@@ -471,6 +479,8 @@ for(i=0;i<GLOBALS->ae2_num_facs;i++)
 	}
 
 #ifdef AET2_ALIASDB_IS_PRESENT
+adb_map_ids (GLOBALS->adb, symbol_fn, GLOBALS->ae2); /* iteratively replaces all .id with FACIDX */
+
 for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	{
 	unsigned long numTerms;
@@ -507,46 +517,14 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 
 		for(ii=0;ii<(numTerms);ii++)
 			{
-#ifdef _WAVE_HAVE_JUDY
-			PPvoid_t p = JudyLIns(&PJArray, GLOBALS->adb_terms[ii+1].id, PJE0);
-			if(*p)	/* faster to look up cached long-long than string-string */
-				{
-				u = (unsigned long)*p;
-				}
-				else
-				{				
-		 	       	adb_symbol_name(GLOBALS->adb, GLOBALS->adb_terms[ii+1].id, buf);
-				u = ae2_read_find_symbol(GLOBALS->ae2, buf, &f2);
-				*p = (void *)u;
-				}
-#else
-	 	       	adb_symbol_name(GLOBALS->adb, GLOBALS->adb_terms[ii+1].id, buf);
-			u = ae2_read_find_symbol(GLOBALS->ae2, buf, &f2);
-#endif
-			GLOBALS->adb_aliases[i][ii].id = u;
+			GLOBALS->adb_aliases[i][ii].id = GLOBALS->adb_terms[ii+1].id;
 			GLOBALS->adb_aliases[i][ii].first = GLOBALS->adb_terms[ii+1].first;
 			GLOBALS->adb_aliases[i][ii].last = GLOBALS->adb_terms[ii+1].last;
         		}
 		}
 		else
 		{
-#ifdef _WAVE_HAVE_JUDY
-		PPvoid_t p = JudyLIns(&PJArray, GLOBALS->adb_terms[0].id, PJE0);
-		if(*p)	/* faster to look up cached long-long than string-string */
-			{
-			u = (unsigned long)*p;
-			}
-			else
-			{
-	                adb_symbol_name(GLOBALS->adb, GLOBALS->adb_terms[0].id, buf);
-	                u = ae2_read_find_symbol(GLOBALS->ae2, buf, &GLOBALS->ae2_fr[match_idx]);
-			*p = (void *)u;
-			}
-#else
-                adb_symbol_name(GLOBALS->adb, GLOBALS->adb_terms[0].id, buf);
-                u = ae2_read_find_symbol(GLOBALS->ae2, buf, &GLOBALS->ae2_fr[match_idx]);
-#endif
-		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[u-1], sizeof(AE2_FACREF));
+		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[GLOBALS->adb_terms[0].id-1], sizeof(AE2_FACREF));
 
 		GLOBALS->adb_idx_first[i] = 0;
 		GLOBALS->adb_idx_last[i] = GLOBALS->ae2_fr[u-1].length - 1;
@@ -554,9 +532,6 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 
 	match_idx++;
 	}
-#ifdef _WAVE_HAVE_JUDY
-JudyLFreeArray(&PJArray, PJE0);
-#endif
 #endif
 
 monolithic_node = calloc_2(total_rows, sizeof(struct Node));
