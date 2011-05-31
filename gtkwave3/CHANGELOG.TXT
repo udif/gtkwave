@@ -1008,9 +1008,9 @@
 		cases.
 		Fix FST reader iterator to work better with --begin flag.
 		Fixed missing facname decompression for FST files on
-		import.
+		single trace import (backup case that should never happen).
 		Added support for user-specified timescale ruler using the
 		ruler_origin and ruler_step rc variables.
-		Added /View/Define Time Ruler Marks menu option.
+		Added "/View/Define Time Ruler Marks" menu option.
 		Removed indirect file support as is unneeded for 64-bit.
 		Removed obsolete CVS modification log comments.
