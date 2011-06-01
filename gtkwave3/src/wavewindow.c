@@ -2021,8 +2021,8 @@ while(t)
 
   if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if present... */
         {
-        tscan = t;
         int bcnt = 0;
+        tscan = t;
         while((tscan) && (tscan = GivePrevTrace(tscan)))
                 {
                 if(!(tscan->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
@@ -2302,8 +2302,8 @@ if((t->asciivalue)&&(t->asciitime==GLOBALS->tims.marker))return;
 
 if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if present... */
         {
-        tscan = t;   
         int bcnt = 0;
+        tscan = t;   
         while((tscan) && (tscan = GivePrevTrace(tscan)))
                 {
                 if(!(tscan->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
