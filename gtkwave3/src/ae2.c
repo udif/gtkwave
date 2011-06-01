@@ -209,7 +209,6 @@ static void ae2_read_value_2a(AE2_HANDLE handle, unsigned long idx, uint64_t cyc
 int i;
 int numTerms = GLOBALS->adb_num_terms[--idx];
 int length;
-int j;
 int offs = 0;
 
 if(numTerms)
@@ -254,7 +253,6 @@ uint64_t t_cyc;
 int i;
 int numTerms = GLOBALS->adb_num_terms[--idx];
 int length;
-int j;
 int offs = 0;
 int nonew = 0;
 
@@ -344,6 +342,65 @@ if(fr->s <= GLOBALS->ae2_num_facs)
 
 
 /*
+ * fast itoa for decimal numbers
+ */
+static char* itoa_2(int value, char* result)
+{
+char* ptr = result, *ptr1 = result, tmp_char;
+int tmp_value;
+
+do {
+        tmp_value = value;
+        value /= 10;
+        *ptr++ = "9876543210123456789" [9 + (tmp_value - value * 10)];
+} while ( value );
+
+if (tmp_value < 0) *ptr++ = '-';
+result = ptr;
+*ptr-- = '\0';
+while(ptr1 < ptr) {
+        tmp_char = *ptr;
+        *ptr--= *ptr1;
+        *ptr1++ = tmp_char;
+}
+return(result);
+}
+
+/*
+ * preformatted sprintf statements which remove parsing latency
+ */
+static int sprintf_2_1d(char *s, int d)
+{
+char *s2 = s;
+
+*(s2++) = '[';
+*(s2++) = '0';
+*(s2++) = ':';
+s2 = itoa_2(d, s2);
+*(s2++) = ']';
+*s2 = 0;
+
+return(s2 - s);
+}
+
+#ifdef AET2_ALIASDB_IS_PRESENT
+static int sprintf_2_2d(char *s, int d1, int d2)
+{
+char *s2 = s;
+
+*(s2++) = '[';
+s2 = itoa_2(d1, s2);
+*(s2++) = ':';
+s2 = itoa_2(d2, s2);
+*(s2++) = ']';
+*s2 = 0;
+
+return(s2 - s);
+}
+#endif
+
+
+/*
  * mainline
  */
 TimeType ae2_main(char *fname, char *skip_start, char *skip_end)
@@ -410,7 +467,7 @@ if(kw)
 
 		fn = adb_map_ids (GLOBALS->adb, symbol_fn, GLOBALS->ae2); /* iteratively replaces all .id with FACIDX */
 
-		fprintf(stderr, AET2_RDLOAD"Encountered %d aliases referencing %d facs.\n", (unsigned int)GLOBALS->ae2_num_aliases, fn);
+		fprintf(stderr, AET2_RDLOAD"Encountered %lu aliases referencing %lu facs.\n", GLOBALS->ae2_num_aliases, fn);
                 }
         }
 #endif
@@ -450,10 +507,8 @@ for(i=0;i<GLOBALS->ae2_num_facs;i++)
 for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	{
 	unsigned long numTerms;
-	unsigned long u;
         int idx = i+1;
 	int ii;
-	AE2_FACREF f2;
 
 	total_rows++;
 
@@ -493,7 +548,7 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[GLOBALS->adb_terms[0].id-1], sizeof(AE2_FACREF));
 
 		GLOBALS->adb_idx_first[i] = 0;
-		GLOBALS->adb_idx_last[i] = GLOBALS->ae2_fr[u-1].length - 1;
+		GLOBALS->adb_idx_last[i] = GLOBALS->ae2_fr[match_idx].length - 1;
 		}
 
 	match_idx++;
@@ -548,12 +603,12 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		if(i < GLOBALS->ae2_num_facs)
 #endif
 			{
-			len2 = sprintf(buf+len, "[0:%d]", GLOBALS->ae2_fr[match_idx].length-1);
+			len2 = sprintf_2_1d(buf+len, GLOBALS->ae2_fr[match_idx].length-1);
 			}
 #ifdef AET2_ALIASDB_IS_PRESENT
 			else
 			{
-			len2 = sprintf(buf+len, "[%d:%d]", GLOBALS->adb_idx_first[i - GLOBALS->ae2_num_facs], GLOBALS->adb_idx_last[i - GLOBALS->ae2_num_facs]);
+			len2 = sprintf_2_2d(buf+len, GLOBALS->adb_idx_first[i - GLOBALS->ae2_num_facs], GLOBALS->adb_idx_last[i - GLOBALS->ae2_num_facs]);
 			}
 #endif
 
