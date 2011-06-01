@@ -106,65 +106,29 @@ exit(255);
 }
 
 
-static char *twirler = "|/-\\";
-
 static void msg_fn(int sev, const char *format, ...)
 {
-if((!GLOBALS->ae2_msg_suppress)||(sev))
-	{
-	va_list ap;
-	va_start(ap, format);
+va_list ap;
+va_start(ap, format);
 
-	fprintf(stderr, "AE2 %03d | ", sev);
-	vfprintf(stderr, format, ap);
-	fprintf(stderr, "\n");
+fprintf(stderr, "AE2 %03d | ", sev);
+vfprintf(stderr, format, ap);
+fprintf(stderr, "\n");
 
-	va_end(ap);
-	}
-	else
-	{
-	va_list ap;
-	va_start(ap, format);
-
-	fprintf(stderr, "AE2 %03d | ", sev);
-	vfprintf(stderr, format, ap);
-	fprintf(stderr, " %c\r", twirler[GLOBALS->ae2_twirl_pos]);
-	GLOBALS->ae2_twirl_pos = (GLOBALS->ae2_twirl_pos+1) & 3;
-	GLOBALS->ae2_did_twirl = 1;
-
-	va_end(ap);
-	}
+va_end(ap);
 }
 
 #ifdef AET2_ALIASDB_IS_PRESENT
 static void adb_msg_fn(unsigned long sev, const char *format, ...)
 {
-GLOBALS->ae2_msg_suppress = 0;
+va_list ap;
+va_start(ap, format);
 
-if((!GLOBALS->ae2_msg_suppress)||(sev))
-        {
-        va_list ap;
-        va_start(ap, format);
+fprintf(stderr, "AE2 %03d | ", (unsigned int)sev);
+vfprintf(stderr, format, ap);
+fprintf(stderr, "\n");
 
-        fprintf(stderr, "AE2 %03d | ", (unsigned int)sev);
-        vfprintf(stderr, format, ap);
-        fprintf(stderr, "\n");
-
-        va_end(ap);
-        }
-        else
-        {
-        va_list ap;
-        va_start(ap, format);
-
-        fprintf(stderr, "AE2 %03d | ", (unsigned int)sev);
-        vfprintf(stderr, format, ap);
-        fprintf(stderr, " %c\r", twirler[GLOBALS->ae2_twirl_pos]);
-        GLOBALS->ae2_twirl_pos = (GLOBALS->ae2_twirl_pos+1) & 3;
-        GLOBALS->ae2_did_twirl = 1;
-
-        va_end(ap);
-        }
+va_end(ap);
 }
 
 
@@ -915,9 +879,6 @@ struct ae2_ncycle_autosort *deadlist=NULL;
 struct ae2_ncycle_autosort *autofacs=NULL;
 char buf[AE2_MAXFACLEN+1];
 
-GLOBALS->ae2_msg_suppress = 1;
-GLOBALS->ae2_did_twirl = 0;
-
 autofacs = calloc_2(GLOBALS->numfacs, sizeof(struct ae2_ncycle_autosort));
 
 for(i=0;i<GLOBALS->numfacs;i++)
@@ -1244,13 +1205,6 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	}
 
 free_2(autofacs);
-
-GLOBALS->ae2_msg_suppress = 0;
-if(GLOBALS->ae2_did_twirl)
-	{
-	fprintf(stderr,"\n");
-	GLOBALS->ae2_did_twirl = 0;
-	}
 return(0);
 }
 

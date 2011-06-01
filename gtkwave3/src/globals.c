@@ -91,11 +91,6 @@ NULL, /* ae2_fr */
 LLDescriptor(0), /* ae2_start_limit_cyc */
 LLDescriptor(0), /* ae2_end_limit_cyc */
 NULL, /* ae2_process_mask */
-0, /* ae2_msg_suppress */
-NULL, /* ae2_regex_head */
-0, /* ae2_regex_matches */
-0, /* ae2_twirl_pos */
-0, /* ae2_did_twirl */
 #endif
 LLDescriptor(0), /* ae2_start_cyc */
 LLDescriptor(0), /* ae2_end_cyc */

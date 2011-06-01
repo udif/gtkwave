@@ -92,11 +92,6 @@ AE2_FACREF *ae2_fr;
 TimeType ae2_start_limit_cyc;
 TimeType ae2_end_limit_cyc;
 char *ae2_process_mask;
-char ae2_msg_suppress;
-struct regex_links *ae2_regex_head;
-int ae2_regex_matches;
-int ae2_twirl_pos;
-int ae2_did_twirl;
 #endif
 TimeType ae2_start_cyc;
 TimeType ae2_end_cyc;
