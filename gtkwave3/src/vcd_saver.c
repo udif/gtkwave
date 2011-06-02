@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2005-2010.
+ * Copyright (c) Tony Bybell 2005-2011.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -929,7 +929,28 @@ if(*pnt2 == '\\')
 	}
 	else
 	{
-	while((*pnt2!='.')&&(*pnt2)) pnt2++;
+	/* while((*pnt2!='.')&&(*pnt2)) pnt2++; ... does not handle dot at end of name */
+
+	while(*pnt2)
+		{
+		if(*pnt2!='.')
+			{
+			pnt2++;
+			continue;
+			}
+			else
+			{
+			if(!*(pnt2+1))	/* if dot is at end of name */
+				{
+				pnt2++;
+				continue;
+				}
+				else
+				{
+				break;
+				}
+			}
+		}
 	}
 
 s=(char *)calloc_2(1,(len=pnt2-pnt)+1);
