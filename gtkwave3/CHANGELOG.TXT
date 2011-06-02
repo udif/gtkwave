@@ -1014,3 +1014,4 @@
 		Added "/View/Define Time Ruler Marks" menu option.
 		Removed indirect file support as is unneeded for 64-bit.
 		Removed obsolete CVS modification log comments.
+		Handle vcd saver case of dot at end of signal name.
