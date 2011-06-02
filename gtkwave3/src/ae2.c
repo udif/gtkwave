@@ -795,7 +795,7 @@ if(GLOBALS->fast_tree_sort)
 	}
 
 
-if(GLOBALS->ae2_time_xlate)
+if(GLOBALS->ae2_time_xlate) /* GLOBALS->ae2_time_xlate is currently unused, but could be again in the future */
 	{
 	GLOBALS->min_time = GLOBALS->ae2_time_xlate[0];
 	GLOBALS->max_time = GLOBALS->ae2_time_xlate[last_cycle - first_cycle];
@@ -834,7 +834,7 @@ if(skip_start || skip_end)
 	GLOBALS->min_time = b_start;
 	GLOBALS->max_time = b_end;
 
-	if(GLOBALS->ae2_time_xlate)
+	if(GLOBALS->ae2_time_xlate) /* GLOBALS->ae2_time_xlate is currently unused, but could be again in the future */
 		{
 		for(lim_idx = first_cycle; lim_idx <= last_cycle; lim_idx++)
 			{
