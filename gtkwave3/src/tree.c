@@ -71,7 +71,7 @@ for(;;)
 	{
 	ch=*(s++);
 
-	if((ch==GLOBALS->hier_delimeter) || (ch == '|'))
+	if(((ch==GLOBALS->hier_delimeter) || (ch == '|')) && (*s)) /* added && null check to allow possible . at end of name */
 		{
 		*(pnt)=0;	
 		GLOBALS->module_len_tree_c_1 = pnt - GLOBALS->module_tree_c_1;
