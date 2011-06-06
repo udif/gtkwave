@@ -1106,7 +1106,7 @@ do
 	  		{
 /* commented out to reduce on visual noise...
 
-            		signalwindow_width_dirty = 1;
+            		GLOBALS->signalwindow_width_dirty = 1;
             		MaxSignalLength(  );
 
 ...commented out to reduce on visual noise */
