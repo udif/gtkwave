@@ -6356,3 +6356,192 @@ void SetTraceScrollbarRowValue(int row, unsigned location)
     }
 }
 
+
+
+#if 0
+
+/*
+ * the following is for the eventual migration to GtkMenu from the item factory.
+ * functionality such as separators, toggles, accelerators, etc. is missing.
+ * all this currently does is construct the menu hierarchy by parsing the old
+ * itemfactory structures
+ */
+
+struct menu_item_t
+{
+struct menu_item_t *next;
+struct menu_item_t *child;
+
+char *name;
+int idx;
+unsigned valid : 1;
+};
+
+
+static void decompose_path(char *pathname, int *items, char ***parts)
+{
+char *s, **slashes;
+int i;
+int slashcount = 0;
+char *p_copy = strdup_2(pathname);
+
+s = p_copy;
+while(*s)
+	{
+	if(*s == '/') slashcount++;
+	s++;
+	}
+
+*parts = calloc_2(slashcount, sizeof(char *));
+slashes = calloc_2(slashcount, sizeof(char *));
+
+s = p_copy;
+slashcount = 0;
+while(*s)
+	{
+	if(*s == '/') slashes[slashcount++] = s;;
+	s++;
+	}
+
+for(i=0;i<slashcount;i++)
+	{
+	if(i != (slashcount-1)) *(slashes[i+1]) = 0;
+	(*parts)[i] = strdup_2(slashes[i] + 1);	
+	
+	if(i != (slashcount-1)) *(slashes[i+1]) = '/';
+	}
+
+*items = slashcount;
+
+free_2(slashes);
+free_2(p_copy);
+}
+
+
+static void free_decomposed_path(int items, char **parts)
+{
+int i;
+for(i=0;i<items;i++)
+	{
+	free_2(parts[i]);
+	}
+
+free_2(parts);
+}
+
+
+static GtkWidget *alt_menu_walk(GtkItemFactoryEntry *mi, GtkWidget **wlist, struct menu_item_t *lst, int depth)
+{
+struct menu_item_t *ptr = lst;
+struct menu_item_t *optr;
+int i;
+GtkWidget *menu;
+GtkWidget *menuitem;
+
+if(depth)
+	{
+	menu = gtk_menu_new();
+	}
+	else
+	{
+	menu = gtk_menu_bar_new();
+	}
+
+while(ptr)
+	{
+	/*  mi[ptr->idx] is menu item */
+
+	menuitem = gtk_menu_item_new_with_label(ptr->name);
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu), menuitem);
+	gtk_widget_show (menuitem);
+
+	if(wlist)
+		{
+		wlist[ptr->idx] = menuitem;
+		}
+
+	if(ptr->child)
+		{
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), alt_menu_walk(mi, wlist, ptr->child, depth+1));
+		}
+
+	optr = ptr;
+	ptr = ptr->next;
+
+	free_2(optr->name);
+	free_2(optr);
+	}
+
+return(menu);
+}
+
+
+void alt_menu(void)
+{
+GtkItemFactoryEntry *mi = menu_items;
+int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
+GtkWidget **wlist = calloc_2(nmenu_items, sizeof(GtkWidget *));
+int i, j;
+struct menu_item_t *mtree = calloc_2(1, sizeof(struct menu_item_t));
+struct menu_item_t *n, *n2, *n3;
+GtkWidget *menubar = gtk_menu_bar_new();
+GtkWidget *menuitem, *menuitem2;
+
+for(i=0;i<nmenu_items;i++)
+	{
+	char **parts;
+	int items;
+
+	decompose_path(mi[i].path, &items, &parts);
+
+	n = mtree;	
+	for(j=0;j<items;j++)
+		{
+		if(n->name)
+			{
+			n2 = n;
+			while(n2)
+				{
+				if(!strcmp(n2->name, parts[j])) break;
+				n2 = n2->next;
+				}
+			}
+			else
+			{
+			n2 = NULL;
+			}
+
+
+		if(!n2)
+			{
+			n3 = (j != (items-1)) ? calloc_2(1, sizeof(struct menu_item_t)) : NULL;
+
+			if(n->name)
+				{
+				while(n->next) { n = n->next; }
+				n->next = calloc_2(1, sizeof(struct menu_item_t));
+				n = n->next;
+				}
+			n->name = strdup_2(parts[j]);
+			n->child = n3;
+
+			n2 = n;
+			n = n3;
+			}
+			else
+			{
+			n = n2->child;
+			}
+
+		}
+
+	n2->idx = i;
+	n2->valid = 1;
+
+	free_decomposed_path(items, parts);
+	}
+
+alt_menu_walk(mi, wlist, mtree, 0); /* returns a menubar */
+}
+
+#endif
