@@ -6357,14 +6357,13 @@ void SetTraceScrollbarRowValue(int row, unsigned location)
 }
 
 
-
 #if 0
 
 /*
  * the following is for the eventual migration to GtkMenu from the item factory.
  * functionality such as toggles, accelerators, etc. is missing.
  * all this currently does is construct the menu hierarchy by parsing the old
- * itemfactory structures
+ * itemfactory structures and generate callbacks
  */
 
 struct menu_item_t
@@ -6399,7 +6398,7 @@ s = p_copy;
 slashcount = 0;
 while(*s)
 	{
-	if(*s == '/') slashes[slashcount++] = s;
+	if(*s == '/') slashes[slashcount++] = s;;
 	s++;
 	}
 
@@ -6458,6 +6457,11 @@ while(ptr)
 		else
 		{
 		menuitem = gtk_menu_item_new_with_label(ptr->name);
+
+		if(!ptr->child && mi[ptr->idx].callback)
+			{
+		      	g_signal_connect (menuitem, "activate", G_CALLBACK (mi[ptr->idx].callback), (gpointer)(long)mi[ptr->idx].callback_action);
+			}
 		}
 
 	gtk_menu_shell_append(GTK_MENU_SHELL (menu), menuitem);
