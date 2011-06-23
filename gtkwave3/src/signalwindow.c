@@ -982,7 +982,7 @@ else
 
 	if(event->type == GDK_2BUTTON_PRESS)
 	  {
-	    menu_toggle_group(widget, NULL);
+	    menu_toggle_group(NULL, 0, widget);
 	    goto menu_chk;
 	  }
 

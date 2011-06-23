@@ -378,7 +378,7 @@ install_ttrans_filter(0); /* disable, 0 is always NULL */
 
 /********** procsel filter install ********/
 
-void menu_dataformat_xlate_proc_1(GtkWidget *widget, gpointer data)
+void menu_dataformat_xlate_proc_1(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -392,7 +392,7 @@ if(GLOBALS->helpbox_is_active)
 ptrans_searchbox("Select Signal Filter Process");
 }
 
-void menu_dataformat_xlate_proc_0(GtkWidget *widget, gpointer data)
+void menu_dataformat_xlate_proc_0(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -409,7 +409,7 @@ install_proc_filter(0); /* disable, 0 is always NULL */
 
 /********** filesel filter install ********/
 
-void menu_dataformat_xlate_file_1(GtkWidget *widget, gpointer data)
+void menu_dataformat_xlate_file_1(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -424,7 +424,7 @@ trans_searchbox("Select Signal Filter");
 }
 
 
-void menu_dataformat_xlate_file_0(GtkWidget *widget, gpointer data)
+void menu_dataformat_xlate_file_0(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -476,7 +476,7 @@ switch(rc)
 }
 
 void
-menu_write_lxt_file(GtkWidget *widget, gpointer data)
+menu_write_lxt_file(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -546,7 +546,7 @@ switch(rc)
 }
 
 void
-menu_write_vcd_file(GtkWidget *widget, gpointer data)
+menu_write_vcd_file(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -637,7 +637,7 @@ if(GLOBALS->traces.first)
 
 /******************************************************************/
 
-void menu_unwarp_traces_all(GtkWidget *widget, gpointer data)
+void menu_unwarp_traces_all(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 int found=0;
@@ -671,7 +671,7 @@ if(found)
 	}
 }
 
-void menu_unwarp_traces(GtkWidget *widget, gpointer data)
+void menu_unwarp_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 int found=0;
@@ -754,7 +754,7 @@ if(GLOBALS->entrybox_text)
 	wavearea_configure_event(GLOBALS->wavearea, NULL);
 }
 
-void menu_warp_traces(GtkWidget *widget, gpointer data)
+void menu_warp_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 char gt[32];
 Trptr t;
@@ -801,7 +801,7 @@ if(found)
 
 
 
-void wave_scrolling_on(GtkWidget *widget, gpointer data)
+void wave_scrolling_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -831,7 +831,7 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 /**/
 
-void menu_autocoalesce(GtkWidget *widget, gpointer data)
+void menu_autocoalesce(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -860,7 +860,7 @@ if(GLOBALS->helpbox_is_active)
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_ACOL].path))->active=(GLOBALS->autocoalesce)?TRUE:FALSE;
 }
 
-void menu_autocoalesce_reversal(GtkWidget *widget, gpointer data)
+void menu_autocoalesce_reversal(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -888,7 +888,7 @@ if(GLOBALS->helpbox_is_active)
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_ACOLR].path))->active=(GLOBALS->autocoalesce_reversal)?TRUE:FALSE;
 }
 
-void menu_autoname_bundles_on(GtkWidget *widget, gpointer data)
+void menu_autoname_bundles_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -926,7 +926,7 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 
-void menu_hgrouping(GtkWidget *widget, gpointer data)
+void menu_hgrouping(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1048,7 +1048,7 @@ if(GLOBALS->entrybox_text)
 }
 
 
-void menu_set_max_hier(GtkWidget *widget, gpointer data)
+void menu_set_max_hier(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 char za[32];
 
@@ -1090,7 +1090,7 @@ if(GLOBALS->helpbox_is_active)
 
 
 /**/
-void menu_use_roundcaps(GtkWidget *widget, gpointer data)
+void menu_use_roundcaps(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1122,7 +1122,7 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 /**/
-void menu_lxt_clk_compress(GtkWidget *widget, gpointer data)
+void menu_lxt_clk_compress(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1153,7 +1153,7 @@ if(GLOBALS->loaded_file_type == LXT_FILE)
 	}
 }
 /**/
-void menu_use_full_precision(GtkWidget *widget, gpointer data)
+void menu_use_full_precision(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1187,7 +1187,7 @@ if(GLOBALS->helpbox_is_active)
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VFTP].path))->active=(GLOBALS->use_full_precision)?TRUE:FALSE;
 }
 /**/
-void menu_remove_marked(GtkWidget *widget, gpointer data)
+void menu_remove_marked(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1258,7 +1258,7 @@ if(GLOBALS->helpbox_is_active)
 	}
 }
 /**/
-void menu_zoom10_snap(GtkWidget *widget, gpointer data)
+void menu_zoom10_snap(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1350,7 +1350,7 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 /**/
-void menu_left_justify(GtkWidget *widget, gpointer data)
+void menu_left_justify(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1369,7 +1369,7 @@ if(GLOBALS->helpbox_is_active)
 }
 
 /**/
-void menu_right_justify(GtkWidget *widget, gpointer data)
+void menu_right_justify(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1388,7 +1388,7 @@ if(GLOBALS->helpbox_is_active)
 }
 
 /**/
-void menu_enable_constant_marker_update(GtkWidget *widget, gpointer data)
+void menu_enable_constant_marker_update(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1421,7 +1421,7 @@ if(GLOBALS->helpbox_is_active)
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VCMU].path))->active=(GLOBALS->constant_marker_update)?TRUE:FALSE;
 }
 /**/
-void menu_enable_dynamic_resize(GtkWidget *widget, gpointer data)
+void menu_enable_dynamic_resize(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1454,7 +1454,7 @@ if(GLOBALS->helpbox_is_active)
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VDR].path))->active=(GLOBALS->do_resize_signals)?TRUE:FALSE;
 }
 /**/
-void menu_toggle_delta_or_frequency(GtkWidget *widget, gpointer data)
+void menu_toggle_delta_or_frequency(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1473,7 +1473,7 @@ if(GLOBALS->helpbox_is_active)
 	}
 }
 /**/
-void menu_toggle_max_or_marker(GtkWidget *widget, gpointer data)
+void menu_toggle_max_or_marker(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1492,7 +1492,7 @@ if(GLOBALS->helpbox_is_active)
 	}
 }
 /**/
-void menu_help(GtkWidget *widget, gpointer data)
+void menu_help(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1506,7 +1506,7 @@ if(GLOBALS->helpbox_is_active)
 helpbox("Wave Help",300,"Select any main window menu item");
 }
 /**/
-void menu_version(GtkWidget *widget, gpointer data)
+void menu_version(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1537,7 +1537,7 @@ if(data)
 	gtk_exit(0);
 	}
 }
-void menu_quit(GtkWidget *widget, gpointer data)
+void menu_quit(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -2104,7 +2104,7 @@ menu_expand(GtkWidget *widget, gpointer data)
 }
 
 void
-menu_toggle_group(GtkWidget *widget, gpointer data)
+menu_toggle_group(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
   Trptr t;
   unsigned dirty_group  = 0;
@@ -2143,12 +2143,12 @@ menu_toggle_group(GtkWidget *widget, gpointer data)
    {
      if(IsClosed(t))
        {
-	 menu_open_group(widget, data);
+	 menu_open_group(widget, null_data);
 	 gtkwavetcl_setvar(WAVE_TCLCB_OPEN_TRACE_GROUP, t->name, WAVE_TCLCB_OPEN_TRACE_GROUP_FLAGS);
        }
      else
        {
-	 menu_close_group(widget, data);
+	 menu_close_group(widget, null_data);
 	 gtkwavetcl_setvar(WAVE_TCLCB_CLOSE_TRACE_GROUP, t->name, WAVE_TCLCB_CLOSE_TRACE_GROUP_FLAGS);
        }
      return;
@@ -2157,7 +2157,7 @@ menu_toggle_group(GtkWidget *widget, gpointer data)
    {
      ClearTraces();
      t->flags |= TR_HIGHLIGHT;
-     menu_expand(widget, data);
+     menu_expand(widget, null_data);
      gtkwavetcl_setvar(WAVE_TCLCB_OPEN_TRACE_GROUP, t->name, WAVE_TCLCB_OPEN_TRACE_GROUP_FLAGS);
      return;
    }
@@ -2621,7 +2621,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 }
 
 void
-menu_combine_down(GtkWidget *widget, gpointer data)
+menu_combine_down(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
   bvptr v;
 
@@ -2663,7 +2663,7 @@ menu_combine_down(GtkWidget *widget, gpointer data)
       signalarea_configure_event(GLOBALS->signalarea, NULL);
       wavearea_configure_event(GLOBALS->wavearea, NULL);
 
-      menu_rename(widget, data);
+      menu_rename(widget, null_data);
     }
   else
     {
@@ -2671,7 +2671,7 @@ menu_combine_down(GtkWidget *widget, gpointer data)
 }
 
 void
-menu_combine_up(GtkWidget *widget, gpointer data)
+menu_combine_up(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
   bvptr v;
 
@@ -2713,7 +2713,7 @@ menu_combine_up(GtkWidget *widget, gpointer data)
       signalarea_configure_event(GLOBALS->signalarea, NULL);
       wavearea_configure_event(GLOBALS->wavearea, NULL);
 
-      menu_rename(widget, data);
+      menu_rename(widget, null_data);
     }
   else
     {
@@ -2726,7 +2726,7 @@ void menu_tracesearchbox_callback(GtkWidget *widget, gpointer data)
 {
 }
 
-void menu_tracesearchbox(GtkWidget *widget, gpointer data)
+void menu_tracesearchbox(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
@@ -2763,7 +2763,7 @@ if(GLOBALS->helpbox_is_active)
 	    /* at least one good trace, so do it */
 	    /* data contains WV_MENU_SPS or WV_MENU_SPS2 or ... but the base is WV_MENU_SPS*/
 	    char buf[128];
-	    long which = ((long)data) - WV_MENU_SPS;
+	    long which = ((long)callback_action) - WV_MENU_SPS;
 
 	    if((which < 0) || (which >= WAVE_NUM_STRACE_WINDOWS)) 
 			{ /* should never happen unless menus are defined wrong */
@@ -2839,7 +2839,7 @@ if(GLOBALS->filesel_ok)
 }
 
 void
-menu_new_viewer(GtkWidget *widget, gpointer data)
+menu_new_viewer(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -3017,7 +3017,7 @@ menu_reload_waveform(GtkWidget *widget, gpointer data)
 /**/
 
 void
-menu_print(GtkWidget *widget, gpointer data)
+menu_print(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -3041,7 +3041,7 @@ void menu_markerbox_callback(GtkWidget *widget, gpointer data)
 {
 }
 
-void menu_markerbox(GtkWidget *widget, gpointer data)
+void menu_markerbox(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -3059,7 +3059,7 @@ markerbox("Markers", GTK_SIGNAL_FUNC(menu_markerbox_callback));
 }
 
 /**/
-void delete_unnamed_marker(GtkWidget *widget, gpointer data)
+void delete_unnamed_marker(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -3095,7 +3095,7 @@ if(GLOBALS->tims.marker!=-1)
 }
 
 /**/
-void collect_all_named_markers(GtkWidget *widget, gpointer data)
+void collect_all_named_markers(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 int i;
 int dirty=0;
@@ -3128,7 +3128,7 @@ if(dirty)
 	}
 }
 /**/
-void collect_named_marker(GtkWidget *widget, gpointer data)
+void collect_named_marker(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 int i;
 
@@ -3159,7 +3159,7 @@ if(GLOBALS->tims.marker!=-1)
 	}
 }
 /**/
-void drop_named_marker(GtkWidget *widget, gpointer data)
+void drop_named_marker(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 int i;
 
@@ -3209,7 +3209,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 DEBUG(printf("menu_treesearch_cleanup()\n"));
 }
 
-void menu_treesearch(GtkWidget *widget, gpointer data)
+void menu_treesearch(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -3256,7 +3256,7 @@ DEBUG(printf("menu_showchangeall_cleanup()\n"));
 }
 
 void 
-menu_showchangeall(GtkWidget *widget, gpointer data)
+menu_showchangeall(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
@@ -3299,7 +3299,7 @@ DEBUG(printf("menu_showchange_cleanup()\n"));
 }
 
 void 
-menu_showchange(GtkWidget *widget, gpointer data)
+menu_showchange(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
@@ -3331,7 +3331,7 @@ while(t)
 must_sel();
 }
 /**/
-void menu_remove_aliases(GtkWidget *widget, gpointer data)
+void menu_remove_aliases(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
   Trptr t;
   int dirty=0, none_selected = 1;
@@ -3451,7 +3451,7 @@ static void alias_cleanup(GtkWidget *widget, gpointer data)
     }
 }
 
-void menu_alias(GtkWidget *widget, gpointer data)
+void menu_alias(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
   Trptr t;
 
@@ -3514,7 +3514,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 DEBUG(printf("menu_hiersearch_cleanup()\n"));
 }
 
-void menu_hiersearch(GtkWidget *widget, gpointer data)
+void menu_hiersearch(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -3539,7 +3539,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 DEBUG(printf("menu_signalsearch_cleanup()\n"));
 }
 
-void menu_signalsearch(GtkWidget *widget, gpointer data)
+void menu_signalsearch(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -3612,7 +3612,7 @@ regexp_highlight_generic(0);
 }
 
 void 
-menu_regexp_unhighlight(GtkWidget *widget, gpointer data)
+menu_regexp_unhighlight(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -3636,7 +3636,7 @@ regexp_highlight_generic(1);
 }
 
 void 
-menu_regexp_highlight(GtkWidget *widget, gpointer data)
+menu_regexp_highlight(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4048,7 +4048,7 @@ if(!(wave=fopen(*GLOBALS->fileselbox_text,"wb")))
 }
 
 void
-menu_write_save_file_as(GtkWidget *widget, gpointer data)
+menu_write_save_file_as(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -4068,7 +4068,7 @@ fileselbox("Write Save File",&GLOBALS->filesel_writesave,GTK_SIGNAL_FUNC(menu_wr
 }
 
 void
-menu_write_save_file(GtkWidget *widget, gpointer data)
+menu_write_save_file(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -4260,7 +4260,7 @@ if(GLOBALS->filesel_ok)
 
 
 void
-menu_read_save_file(GtkWidget *widget, gpointer data)
+menu_read_save_file(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -4302,7 +4302,7 @@ if(GLOBALS->filesel_ok)
 }
 /**/
 void
-menu_read_stems_file(GtkWidget *widget, gpointer data)
+menu_read_stems_file(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -4350,7 +4350,7 @@ if(GLOBALS->filesel_ok)
 }
 /**/
 void
-menu_read_log_file(GtkWidget *widget, gpointer data)
+menu_read_log_file(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -4403,7 +4403,7 @@ fileselbox("Read Script File",&GLOBALS->filesel_scriptfile_menu,GTK_SIGNAL_FUNC(
 
 /**/
 void
-menu_insert_blank_traces(GtkWidget *widget, gpointer data)
+menu_insert_blank_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {  
@@ -4426,7 +4426,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 }
 
 void
-menu_insert_analog_height_extension(GtkWidget *widget, gpointer data)
+menu_insert_analog_height_extension(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {  
@@ -4460,7 +4460,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 }
 
 void
-menu_insert_comment_traces(GtkWidget *widget, gpointer data)
+menu_insert_comment_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {  
@@ -4554,7 +4554,7 @@ if(GLOBALS->entrybox_text)
 	}
 }
 
-void menu_movetotime(GtkWidget *widget, gpointer data)
+void menu_movetotime(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 char gt[32];
 
@@ -4596,7 +4596,7 @@ if(GLOBALS->entrybox_text)
 	}
 }
 
-void menu_fetchsize(GtkWidget *widget, gpointer data)
+void menu_fetchsize(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 char fw[32];
 
@@ -4649,7 +4649,7 @@ if(GLOBALS->entrybox_text)
 	}
 }
 
-void menu_zoomsize(GtkWidget *widget, gpointer data)
+void menu_zoomsize(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 char za[32];
 
@@ -4700,7 +4700,7 @@ if(GLOBALS->entrybox_text)
 	}
 }
 
-void menu_zoombase(GtkWidget *widget, gpointer data)
+void menu_zoombase(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 char za[32];
 
@@ -4747,7 +4747,7 @@ static void dataformat(int mask, int patch)
 }
 
 void
-menu_dataformat_ascii(GtkWidget *widget, gpointer data)
+menu_dataformat_ascii(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4764,7 +4764,7 @@ dataformat( ~(TR_NUMMASK), TR_ASCII );
 }
 
 void
-menu_dataformat_real(GtkWidget *widget, gpointer data)
+menu_dataformat_real(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4818,7 +4818,7 @@ dataformat( ~(TR_REAL2BITS), 0 );
 }
 
 void
-menu_dataformat_hex(GtkWidget *widget, gpointer data)
+menu_dataformat_hex(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4835,7 +4835,7 @@ dataformat( ~(TR_NUMMASK), TR_HEX );
 }
 
 void
-menu_dataformat_dec(GtkWidget *widget, gpointer data)
+menu_dataformat_dec(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4852,7 +4852,7 @@ dataformat( ~(TR_NUMMASK), TR_DEC );
 }
 
 void
-menu_dataformat_signed(GtkWidget *widget, gpointer data)
+menu_dataformat_signed(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4869,7 +4869,7 @@ dataformat( ~(TR_NUMMASK), TR_SIGNED );
 }
 
 void
-menu_dataformat_bin(GtkWidget *widget, gpointer data)
+menu_dataformat_bin(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4886,7 +4886,7 @@ dataformat( ~(TR_NUMMASK), TR_BIN );
 }
 
 void
-menu_dataformat_oct(GtkWidget *widget, gpointer data)
+menu_dataformat_oct(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4903,7 +4903,7 @@ dataformat( ~(TR_NUMMASK), TR_OCT );
 }
 
 void
-menu_dataformat_rjustify_on(GtkWidget *widget, gpointer data)
+menu_dataformat_rjustify_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4920,7 +4920,7 @@ dataformat( ~(TR_RJUSTIFY), TR_RJUSTIFY );
 }
 
 void
-menu_dataformat_rjustify_off(GtkWidget *widget, gpointer data)
+menu_dataformat_rjustify_off(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4991,7 +4991,7 @@ dataformat( ~(TR_GRAYMASK), 0 );
 }
 
 void
-menu_dataformat_invert_on(GtkWidget *widget, gpointer data)
+menu_dataformat_invert_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5008,7 +5008,7 @@ dataformat( ~(TR_INVERT), TR_INVERT );
 }
 
 void
-menu_dataformat_invert_off(GtkWidget *widget, gpointer data)
+menu_dataformat_invert_off(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5025,7 +5025,7 @@ dataformat( ~(TR_INVERT), 0 );
 }
 
 void
-menu_dataformat_reverse_on(GtkWidget *widget, gpointer data)
+menu_dataformat_reverse_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5042,7 +5042,7 @@ dataformat( ~(TR_REVERSE), TR_REVERSE );
 }
 
 void
-menu_dataformat_reverse_off(GtkWidget *widget, gpointer data)
+menu_dataformat_reverse_off(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5059,7 +5059,7 @@ dataformat( ~(TR_REVERSE), 0 );
 }
 
 void
-menu_dataformat_exclude_on(GtkWidget *widget, gpointer data)
+menu_dataformat_exclude_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5075,7 +5075,7 @@ dataformat( ~(TR_EXCLUDE), TR_EXCLUDE );
 }
 
 void
-menu_dataformat_exclude_off(GtkWidget *widget, gpointer data)
+menu_dataformat_exclude_off(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5146,7 +5146,7 @@ dataformat( ~(TR_ZEROFILL|TR_ONEFILL), 0 );
 }
 /**/
 void
-menu_dataformat_analog_off(GtkWidget *widget, gpointer data)
+menu_dataformat_analog_off(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5162,7 +5162,7 @@ dataformat( ~(TR_ANALOGMASK), 0 );
 }
 
 void
-menu_dataformat_analog_step(GtkWidget *widget, gpointer data)
+menu_dataformat_analog_step(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5178,7 +5178,7 @@ dataformat( ~(TR_ANALOGMASK), TR_ANALOG_STEP );
 }
 
 void
-menu_dataformat_analog_interpol(GtkWidget *widget, gpointer data)
+menu_dataformat_analog_interpol(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5245,7 +5245,7 @@ if(GLOBALS->helpbox_is_active)
 dataformat( ~(TR_ANALOG_FULLSCALE), (TR_ANALOG_FULLSCALE) );
 }
 /**/
-void menu_dataformat_highlight_all(GtkWidget *widget, gpointer data)
+void menu_dataformat_highlight_all(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
@@ -5272,7 +5272,7 @@ if((t=GLOBALS->traces.first))
 	}
 }
 
-void menu_dataformat_unhighlight_all(GtkWidget *widget, gpointer data)
+void menu_dataformat_unhighlight_all(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
@@ -5299,7 +5299,7 @@ if((t=GLOBALS->traces.first))
 	}
 }
 
-void menu_lexize(GtkWidget *widget, gpointer data)
+void menu_lexize(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
@@ -5324,7 +5324,7 @@ if((t=GLOBALS->traces.first))
 	}
 }
 /**/
-void menu_alphabetize(GtkWidget *widget, gpointer data)
+void menu_alphabetize(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
@@ -5349,7 +5349,7 @@ if((t=GLOBALS->traces.first))
 	}
 }
 /**/
-void menu_alphabetize2(GtkWidget *widget, gpointer data)
+void menu_alphabetize2(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
@@ -5374,7 +5374,7 @@ if((t=GLOBALS->traces.first))
 	}
 }
 /**/
-void menu_reverse(GtkWidget *widget, gpointer data)
+void menu_reverse(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
@@ -5400,7 +5400,7 @@ if((t=GLOBALS->traces.first))
 }
 /**/
 void
-menu_cut_traces(GtkWidget *widget, gpointer data)
+menu_cut_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr cutbuffer = NULL;
 
@@ -5440,7 +5440,7 @@ if(cutbuffer)
 }
 
 void
-menu_copy_traces(GtkWidget *widget, gpointer data)
+menu_copy_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t = GLOBALS->traces.first;
 gboolean highlighted = FALSE;
@@ -5488,7 +5488,7 @@ if(!highlighted)
 }
 
 void
-menu_paste_traces(GtkWidget *widget, gpointer data)
+menu_paste_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5529,7 +5529,7 @@ if(PasteBuffer())
 
 }
 /**/
-void menu_center_zooms(GtkWidget *widget, gpointer data)
+void menu_center_zooms(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5554,7 +5554,7 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 
-void menu_show_base(GtkWidget *widget, gpointer data)
+void menu_show_base(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5581,7 +5581,7 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 /**/
-void menu_show_grid(GtkWidget *widget, gpointer data)
+void menu_show_grid(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5602,7 +5602,7 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 /**/
-void menu_show_mouseover(GtkWidget *widget, gpointer data)
+void menu_show_mouseover(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
