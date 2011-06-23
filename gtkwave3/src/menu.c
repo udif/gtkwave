@@ -6362,7 +6362,7 @@ void SetTraceScrollbarRowValue(int row, unsigned location)
 
 /*
  * the following is for the eventual migration to GtkMenu from the item factory.
- * functionality such as separators, toggles, accelerators, etc. is missing.
+ * functionality such as toggles, accelerators, etc. is missing.
  * all this currently does is construct the menu hierarchy by parsing the old
  * itemfactory structures
  */
@@ -6399,7 +6399,7 @@ s = p_copy;
 slashcount = 0;
 while(*s)
 	{
-	if(*s == '/') slashes[slashcount++] = s;;
+	if(*s == '/') slashes[slashcount++] = s;
 	s++;
 	}
 
@@ -6451,7 +6451,15 @@ while(ptr)
 	{
 	/*  mi[ptr->idx] is menu item */
 
-	menuitem = gtk_menu_item_new_with_label(ptr->name);
+	if(!strcmp(mi[ptr->idx].item_type, "<Separator>"))
+		{
+		menuitem = gtk_menu_item_new();
+		}
+		else
+		{
+		menuitem = gtk_menu_item_new_with_label(ptr->name);
+		}
+
 	gtk_menu_shell_append(GTK_MENU_SHELL (menu), menuitem);
 	gtk_widget_show (menuitem);
 
@@ -6497,7 +6505,7 @@ for(i=0;i<nmenu_items;i++)
 	n = mtree;	
 	for(j=0;j<items;j++)
 		{
-		if(n->name)
+		if(n->name && (j != (items-1))) /* 2nd comparison is to let separators through */
 			{
 			n2 = n;
 			while(n2)
