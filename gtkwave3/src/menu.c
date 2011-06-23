@@ -44,9 +44,57 @@
 
 static GtkItemFactoryEntry menu_items[WV_MENU_NUMITEMS];
 
+
+/* marshals for handling menu items vs button pressed items */
+
+static void service_zoom_in_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_zoom_in(widget, null_data)); }
+
+static void service_zoom_out_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_zoom_out(widget, null_data)); }
+
+static void service_zoom_full_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_zoom_full(widget, null_data)); }
+
+static void service_zoom_fit_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_zoom_fit(widget, null_data)); }
+
+static void service_zoom_left_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_zoom_left(widget, null_data)); }
+
+static void service_zoom_right_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_zoom_right(widget, null_data)); }
+
+static void service_zoom_undo_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_zoom_undo(widget, null_data)); }
+
+static void fetch_right_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(fetch_right(widget, null_data)); }
+
+static void fetch_left_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(fetch_left(widget, null_data)); }
+
+static void discard_right_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(discard_right(widget, null_data)); }
+
+static void discard_left_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(discard_left(widget, null_data)); }
+
+static void service_right_shift_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_right_shift(widget, null_data)); }
+
+static void service_left_shift_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_left_shift(widget, null_data)); }
+
+static void service_right_page_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_right_page(widget, null_data)); }
+
+static void service_left_page_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ return(service_left_page(widget, null_data)); }
+
 /* ruler */
 
-static void menu_def_ruler(GtkWidget *widget, gpointer data)
+static void menu_def_ruler(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -84,7 +132,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 
 /* marker locking */
 
-static void lock_marker_left(GtkWidget *widget, gpointer data)
+static void lock_marker_left(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 int ent_idx = GLOBALS->named_marker_lock_idx;
 int i;
@@ -137,7 +185,7 @@ signalarea_configure_event(GLOBALS->signalarea, NULL);
 wavearea_configure_event(GLOBALS->wavearea, NULL);
 }
 
-static void lock_marker_right(GtkWidget *widget, gpointer data)
+static void lock_marker_right(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 int ent_idx = GLOBALS->named_marker_lock_idx;
 int i;
@@ -192,7 +240,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 }
 
 
-static void unlock_marker(GtkWidget *widget, gpointer data)
+static void unlock_marker(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -215,7 +263,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 
 /* toggles for time dimension conversion */
 
-void menu_scale_to_td_x(GtkWidget *widget, gpointer data)
+void menu_scale_to_td_x(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -233,7 +281,7 @@ if(GLOBALS->helpbox_is_active)
 	}
 }
 
-void menu_scale_to_td_s(GtkWidget *widget, gpointer data)
+void menu_scale_to_td_s(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -251,7 +299,7 @@ if(GLOBALS->helpbox_is_active)
 	}
 }
 
-void menu_scale_to_td_m(GtkWidget *widget, gpointer data)
+void menu_scale_to_td_m(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -270,7 +318,7 @@ if(GLOBALS->helpbox_is_active)
 }
 
 
-void menu_scale_to_td_u(GtkWidget *widget, gpointer data)
+void menu_scale_to_td_u(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -289,7 +337,7 @@ if(GLOBALS->helpbox_is_active)
 }
 
 
-void menu_scale_to_td_n(GtkWidget *widget, gpointer data)
+void menu_scale_to_td_n(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -308,7 +356,7 @@ if(GLOBALS->helpbox_is_active)
 }
 
 
-void menu_scale_to_td_p(GtkWidget *widget, gpointer data)
+void menu_scale_to_td_p(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -327,7 +375,7 @@ if(GLOBALS->helpbox_is_active)
 }
 
 
-void menu_scale_to_td_f(GtkWidget *widget, gpointer data)
+void menu_scale_to_td_f(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -348,7 +396,7 @@ if(GLOBALS->helpbox_is_active)
 
 /********** transaction procsel filter install ********/
 
-void menu_dataformat_xlate_ttrans_1(GtkWidget *widget, gpointer data)
+void menu_dataformat_xlate_ttrans_1(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -362,7 +410,7 @@ if(GLOBALS->helpbox_is_active)
 ttrans_searchbox("Select Transaction Filter Process");
 }
 
-void menu_dataformat_xlate_ttrans_0(GtkWidget *widget, gpointer data)
+void menu_dataformat_xlate_ttrans_0(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -608,7 +656,7 @@ switch(rc)
 }
 
 void
-menu_write_tim_file(GtkWidget *widget, gpointer data)
+menu_write_tim_file(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -1071,7 +1119,7 @@ sprintf(za,"%d",GLOBALS->hier_max_level);
 entrybox("Max Hier Depth",200,za,NULL,20,GTK_SIGNAL_FUNC(max_hier_cleanup));
 }
 
-void menu_toggle_hier(GtkWidget *widget, gpointer data)
+void menu_toggle_hier(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1083,9 +1131,9 @@ if(GLOBALS->helpbox_is_active)
         }
 
  if (GLOBALS->hier_max_level)
-   set_hier_cleanup(widget, data, 0);
+   set_hier_cleanup(widget, null_data, 0);
  else
-   set_hier_cleanup(widget, data, GLOBALS->hier_max_level_shadow); /* instead of just '1' */
+   set_hier_cleanup(widget, null_data, GLOBALS->hier_max_level_shadow); /* instead of just '1' */
 }
 
 
@@ -1219,7 +1267,7 @@ if(GLOBALS->helpbox_is_active)
 	}
 }
 /**/
-void menu_use_color(GtkWidget *widget, gpointer data)
+void menu_use_color(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1238,7 +1286,7 @@ if(GLOBALS->helpbox_is_active)
 	}
 }
 /**/
-void menu_use_bw(GtkWidget *widget, gpointer data)
+void menu_use_bw(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1294,7 +1342,7 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 /**/
-void menu_zoom_dynf(GtkWidget *widget, gpointer data)
+void menu_zoom_dynf(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1322,7 +1370,7 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 /**/
-void menu_zoom_dyne(GtkWidget *widget, gpointer data)
+void menu_zoom_dyne(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1623,7 +1671,7 @@ signalarea_configure_event(GLOBALS->signalarea, NULL);
 wavearea_configure_event(GLOBALS->wavearea, NULL);
 }
 
-void menu_quit_close(GtkWidget *widget, gpointer data)
+void menu_quit_close(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -1857,7 +1905,7 @@ create_group_cleanup(GtkWidget *widget, gpointer data)
 
 
 void 
-menu_create_group(GtkWidget *widget, gpointer data)
+menu_create_group(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 
   Trptr t;
@@ -2004,7 +2052,7 @@ static unsigned expand_trace(Trptr t_top)
 }
 
 void
-menu_expand(GtkWidget *widget, gpointer data)
+menu_expand(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
   Trptr t, t_next;
   int dirty=0;
@@ -2157,7 +2205,7 @@ menu_toggle_group(gpointer null_data, guint callback_action, GtkWidget *widget)
    {
      ClearTraces();
      t->flags |= TR_HIGHLIGHT;
-     menu_expand(widget, null_data);
+     menu_expand(null_data, 0, widget);
      gtkwavetcl_setvar(WAVE_TCLCB_OPEN_TRACE_GROUP, t->name, WAVE_TCLCB_OPEN_TRACE_GROUP_FLAGS);
      return;
    }
@@ -2962,7 +3010,7 @@ if(GLOBALS->filesel_ok)
 
 
 void
-menu_new_viewer_tab(GtkWidget *widget, gpointer data)
+menu_new_viewer_tab(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -2987,7 +3035,7 @@ if(!GLOBALS->partial_vcd)
 /**/ 
 
 void
-menu_reload_waveform(GtkWidget *widget, gpointer data)
+menu_reload_waveform(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
  if(GLOBALS->helpbox_is_active)
 	{
@@ -3013,6 +3061,14 @@ menu_reload_waveform(GtkWidget *widget, gpointer data)
 
  reload_into_new_context();
 }
+
+
+void
+menu_reload_waveform_marshal(GtkWidget *widget, gpointer data)
+{
+menu_reload_waveform(data, 0, widget);
+}
+
 
 /**/
 
@@ -4385,7 +4441,7 @@ if(GLOBALS->filesel_ok)
 }
 /**/
 void
-menu_read_script_file(GtkWidget *widget, gpointer data)
+menu_read_script_file(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
 	{
@@ -4491,7 +4547,7 @@ if(GLOBALS->entrybox_text)
 	}
 }
 
-void menu_strace_repcnt(GtkWidget *widget, gpointer data)
+void menu_strace_repcnt(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 char gt[32];
 
@@ -4782,7 +4838,7 @@ dataformat( ~(TR_NUMMASK), TR_REAL );
 }
 
 void
-menu_dataformat_real2bon(GtkWidget *widget, gpointer data)
+menu_dataformat_real2bon(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4802,7 +4858,7 @@ dataformat( ~(TR_REAL2BITS|TR_NUMMASK), TR_REAL2BITS|TR_HEX );
 }
 
 void
-menu_dataformat_real2boff(GtkWidget *widget, gpointer data)
+menu_dataformat_real2boff(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4937,7 +4993,7 @@ dataformat( ~(TR_RJUSTIFY), 0 );
 }
 
 void
-menu_dataformat_bingray_on(GtkWidget *widget, gpointer data)
+menu_dataformat_bingray_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4955,7 +5011,7 @@ dataformat( ~(TR_GRAYMASK), TR_BINGRAY );
 }
 
 void
-menu_dataformat_graybin_on(GtkWidget *widget, gpointer data)
+menu_dataformat_graybin_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -4974,7 +5030,7 @@ dataformat( ~(TR_GRAYMASK), TR_GRAYBIN );
 
 
 void
-menu_dataformat_nogray(GtkWidget *widget, gpointer data)
+menu_dataformat_nogray(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5092,7 +5148,7 @@ dataformat( ~(TR_EXCLUDE), 0 );
 }
 /**/
 void
-menu_dataformat_rangefill_zero(GtkWidget *widget, gpointer data)
+menu_dataformat_rangefill_zero(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5110,7 +5166,7 @@ dataformat( ~(TR_ZEROFILL|TR_ONEFILL), TR_ZEROFILL );
 }
 
 void
-menu_dataformat_rangefill_one(GtkWidget *widget, gpointer data)
+menu_dataformat_rangefill_one(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5130,7 +5186,7 @@ dataformat( ~(TR_ZEROFILL|TR_ONEFILL), TR_ONEFILL );
 }
 
 void
-menu_dataformat_rangefill_off(GtkWidget *widget, gpointer data)
+menu_dataformat_rangefill_off(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5194,7 +5250,7 @@ dataformat( ~(TR_ANALOGMASK), TR_ANALOG_INTERPOLATED );
 }
 
 void
-menu_dataformat_analog_interpol_step(GtkWidget *widget, gpointer data)
+menu_dataformat_analog_interpol_step(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5211,7 +5267,7 @@ dataformat( ~(TR_ANALOGMASK), (TR_ANALOG_INTERPOLATED|TR_ANALOG_STEP) );
 }
 
 void
-menu_dataformat_analog_resize_screen(GtkWidget *widget, gpointer data)
+menu_dataformat_analog_resize_screen(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5228,7 +5284,7 @@ dataformat( ~(TR_ANALOG_FULLSCALE), 0 );
 }
 
 void
-menu_dataformat_analog_resize_all(GtkWidget *widget, gpointer data)
+menu_dataformat_analog_resize_all(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
         {
@@ -5796,23 +5852,23 @@ static GtkItemFactoryEntry menu_items[] =
     WAVE_GTKIFE("/Time/Move To Time", "F1", menu_movetotime, WV_MENU_TMTT, "<Item>"),
     WAVE_GTKIFE("/Time/Zoom/Zoom Amount", "F2", menu_zoomsize, WV_MENU_TZZA, "<Item>"),
     WAVE_GTKIFE("/Time/Zoom/Zoom Base", "<Shift>F2", menu_zoombase, WV_MENU_TZZB, "<Item>"),
-    WAVE_GTKIFE("/Time/Zoom/Zoom In", "<Alt>Z", service_zoom_in, WV_MENU_TZZI, "<Item>"),
-    WAVE_GTKIFE("/Time/Zoom/Zoom Out", "<Shift><Alt>Z", service_zoom_out, WV_MENU_TZZO, "<Item>"),
-    WAVE_GTKIFE("/Time/Zoom/Zoom Full", "<Alt>F", service_zoom_full, WV_MENU_TZZBFL, "<Item>"),
-    WAVE_GTKIFE("/Time/Zoom/Zoom Best Fit", "<Shift><Alt>F", service_zoom_fit, WV_MENU_TZZBF, "<Item>"),
-    WAVE_GTKIFE("/Time/Zoom/Zoom To Start", "Home", service_zoom_left, WV_MENU_TZZTS, "<Item>"),
-    WAVE_GTKIFE("/Time/Zoom/Zoom To End", "End", service_zoom_right, WV_MENU_TZZTE, "<Item>"),
-    WAVE_GTKIFE("/Time/Zoom/Undo Zoom", "<Alt>U", service_zoom_undo, WV_MENU_TZUZ, "<Item>"),
+    WAVE_GTKIFE("/Time/Zoom/Zoom In", "<Alt>Z", service_zoom_in_marshal, WV_MENU_TZZI, "<Item>"),
+    WAVE_GTKIFE("/Time/Zoom/Zoom Out", "<Shift><Alt>Z", service_zoom_out_marshal, WV_MENU_TZZO, "<Item>"),
+    WAVE_GTKIFE("/Time/Zoom/Zoom Full", "<Alt>F", service_zoom_full_marshal, WV_MENU_TZZBFL, "<Item>"),
+    WAVE_GTKIFE("/Time/Zoom/Zoom Best Fit", "<Shift><Alt>F", service_zoom_fit_marshal, WV_MENU_TZZBF, "<Item>"),
+    WAVE_GTKIFE("/Time/Zoom/Zoom To Start", "Home", service_zoom_left_marshal, WV_MENU_TZZTS, "<Item>"),
+    WAVE_GTKIFE("/Time/Zoom/Zoom To End", "End", service_zoom_right_marshal, WV_MENU_TZZTE, "<Item>"),
+    WAVE_GTKIFE("/Time/Zoom/Undo Zoom", "<Alt>U", service_zoom_undo_marshal, WV_MENU_TZUZ, "<Item>"),
       /* 90 */
     WAVE_GTKIFE("/Time/Fetch/Fetch Size", "F7", menu_fetchsize, WV_MENU_TFFS, "<Item>"),
-    WAVE_GTKIFE("/Time/Fetch/Fetch ->", "<Alt>2", fetch_right, WV_MENU_TFFR, "<Item>"),
-    WAVE_GTKIFE("/Time/Fetch/Fetch <-", "<Alt>1", fetch_left, WV_MENU_TFFL, "<Item>"),
-    WAVE_GTKIFE("/Time/Discard/Discard ->", "<Alt>4", discard_right, WV_MENU_TDDR, "<Item>"),
-    WAVE_GTKIFE("/Time/Discard/Discard <-", "<Alt>3", discard_left, WV_MENU_TDDL, "<Item>"),
-    WAVE_GTKIFE("/Time/Shift/Shift ->", "<Alt>6", service_right_shift, WV_MENU_TSSR, "<Item>"),
-    WAVE_GTKIFE("/Time/Shift/Shift <-", "<Alt>5", service_left_shift, WV_MENU_TSSL, "<Item>"),
-    WAVE_GTKIFE("/Time/Page/Page ->", "<Alt>8", service_right_page, WV_MENU_TPPR, "<Item>"),
-    WAVE_GTKIFE("/Time/Page/Page <-", "<Alt>7", service_left_page, WV_MENU_TPPL, "<Item>"),
+    WAVE_GTKIFE("/Time/Fetch/Fetch ->", "<Alt>2", fetch_right_marshal, WV_MENU_TFFR, "<Item>"),
+    WAVE_GTKIFE("/Time/Fetch/Fetch <-", "<Alt>1", fetch_left_marshal, WV_MENU_TFFL, "<Item>"),
+    WAVE_GTKIFE("/Time/Discard/Discard ->", "<Alt>4", discard_right_marshal, WV_MENU_TDDR, "<Item>"),
+    WAVE_GTKIFE("/Time/Discard/Discard <-", "<Alt>3", discard_left_marshal, WV_MENU_TDDL, "<Item>"),
+    WAVE_GTKIFE("/Time/Shift/Shift ->", "<Alt>6", service_right_shift_marshal, WV_MENU_TSSR, "<Item>"),
+    WAVE_GTKIFE("/Time/Shift/Shift <-", "<Alt>5", service_left_shift_marshal, WV_MENU_TSSL, "<Item>"),
+    WAVE_GTKIFE("/Time/Page/Page ->", "<Alt>8", service_right_page_marshal, WV_MENU_TPPR, "<Item>"),
+    WAVE_GTKIFE("/Time/Page/Page <-", "<Alt>7", service_left_page_marshal, WV_MENU_TPPL, "<Item>"),
     WAVE_GTKIFE("/Markers/Show-Change Marker Data", "<Alt>M", menu_markerbox, WV_MENU_MSCMD, "<Item>"),
       /* 100 */
     WAVE_GTKIFE("/Markers/Drop Named Marker", "<Alt>N", drop_named_marker, WV_MENU_MDNM, "<Item>"),

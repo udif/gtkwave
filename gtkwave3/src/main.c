@@ -1750,7 +1750,7 @@ if(GLOBALS->use_toolbutton_interface)
 	                                         GTK_STOCK_REFRESH,
 						 "Reload",
 						 NULL,
-						 GTK_SIGNAL_FUNC(menu_reload_waveform),
+						 GTK_SIGNAL_FUNC(menu_reload_waveform_marshal),
 						 NULL,
 						 tb_pos++);
 			style = gtk_widget_get_style(stock);
@@ -1917,7 +1917,7 @@ if(GLOBALS->use_toolbutton_interface)
 			                        GTK_FILL | GTK_EXPAND,
 			                        GTK_FILL | GTK_EXPAND | GTK_SHRINK, 1, 1);
 
-			gtk_signal_connect_object (GTK_OBJECT (b1), "clicked", GTK_SIGNAL_FUNC(menu_reload_waveform), GTK_OBJECT (table2));
+			gtk_signal_connect_object (GTK_OBJECT (b1), "clicked", GTK_SIGNAL_FUNC(menu_reload_waveform_marshal), GTK_OBJECT (table2));
 			gtk_tooltips_set_tip_2(tooltips, b1, "Reload waveform", NULL);
 			gtk_widget_show(b1);
 			gtk_container_add (GTK_CONTAINER (frame), table2);
