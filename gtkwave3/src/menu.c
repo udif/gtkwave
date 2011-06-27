@@ -6420,6 +6420,8 @@ void SetTraceScrollbarRowValue(int row, unsigned location)
  * all menu features are implemented.
  */
 
+static GtkWidget **menu_wlist=NULL;
+
 struct menu_item_t
 {
 struct menu_item_t *next;
@@ -6569,7 +6571,7 @@ return(menu);
 }
 
 
-GtkWidget *alt_menu(GtkItemFactoryEntry *mi, int nmenu_items, GtkWidget **wlist, GtkAccelGroup *accel)
+static GtkWidget *alt_menu(GtkItemFactoryEntry *mi, int nmenu_items, GtkWidget **wlist, GtkAccelGroup *accel, gboolean is_menubar)
 {
 int i, j;
 struct menu_item_t *mtree = calloc_2(1, sizeof(struct menu_item_t));
@@ -6630,7 +6632,7 @@ for(i=0;i<nmenu_items;i++)
 	free_decomposed_path(items, parts);
 	}
 
-menubar = alt_menu_walk(mi, wlist, mtree, 0, accel); /* returns a menubar */
+menubar = alt_menu_walk(mi, wlist, mtree, is_menubar ? 0 : 1, accel); /* returns a menubar */
 
 return(menubar);
 }
@@ -6647,9 +6649,7 @@ GtkWidget *mw;
 
 menu_wlist = calloc(nmenu_items, sizeof(GtkWidget *)); /* calloc, not calloc_2() */
 
-menubar = alt_menu(mi, nmenu_items, menu_wlist, global_accel);
-
-
+menubar = alt_menu(mi, nmenu_items, menu_wlist, global_accel, TRUE);
 
 GLOBALS->regexp_string_menu_c_1 = calloc_2(1, 129);
 
