@@ -6417,9 +6417,7 @@ void SetTraceScrollbarRowValue(int row, unsigned location)
 
 /*
  * the following is for the eventual migration to GtkMenu from the item factory.
- * functionality such as toggles, accelerators, etc. is missing.
- * all this currently does is construct the menu hierarchy by parsing the old
- * itemfactory structures and generate callbacks
+ * all menu features are implemented.
  */
 
 struct menu_item_t
@@ -6485,7 +6483,23 @@ free_2(parts);
 }
 
 
-static GtkWidget *alt_menu_walk(GtkItemFactoryEntry *mi, GtkWidget **wlist, struct menu_item_t *lst, int depth)
+static void alt_menu_install_accelerator(GtkAccelGroup *accel, GtkWidget *menuitem, const char *accelerator, const char *path)
+{
+if(accel && menuitem && path)
+	{
+	guint accelerator_key = 0;
+	GdkModifierType accelerator_mods = 0;
+	char full_path[1024];
+	sprintf(full_path, "<main>%s", path);
+	
+	if(accelerator) gtk_accelerator_parse(accelerator, &accelerator_key, &accelerator_mods);
+
+        gtk_accel_map_add_entry (full_path, accelerator_key, accelerator_mods);
+        gtk_widget_set_accel_path (menuitem, full_path, accel);
+	}
+}
+
+static GtkWidget *alt_menu_walk(GtkItemFactoryEntry *mi, GtkWidget **wlist, struct menu_item_t *lst, int depth, GtkAccelGroup *accel)
 {
 struct menu_item_t *ptr = lst;
 struct menu_item_t *optr;
@@ -6496,6 +6510,8 @@ GtkWidget *menuitem;
 if(depth)
 	{
 	menu = gtk_menu_new();
+
+	if(accel) gtk_menu_set_accel_group (GTK_MENU(menu), accel);
 	}
 	else
 	{
@@ -6512,12 +6528,21 @@ while(ptr)
 		}
 		else
 		{
-		menuitem = gtk_menu_item_new_with_label(ptr->name);
-
+		if((!strcmp(mi[ptr->idx].item_type, "<ToggleItem>")) && !ptr->child)
+			{
+			menuitem = gtk_check_menu_item_new_with_label(ptr->name);
+			}
+			else
+			{
+			menuitem = gtk_menu_item_new_with_label(ptr->name);
+			}
+	
 		if(!ptr->child && mi[ptr->idx].callback)
 			{
 		      	g_signal_connect (menuitem, "activate", G_CALLBACK (mi[ptr->idx].callback), (gpointer)(long)mi[ptr->idx].callback_action);
+			alt_menu_install_accelerator(accel, menuitem, mi[ptr->idx].accelerator, mi[ptr->idx].path); 
 			}
+
 		}
 
 	gtk_menu_shell_append(GTK_MENU_SHELL (menu), menuitem);
@@ -6530,7 +6555,7 @@ while(ptr)
 
 	if(ptr->child)
 		{
-		gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), alt_menu_walk(mi, wlist, ptr->child, depth+1));
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), alt_menu_walk(mi, wlist, ptr->child, depth+1, accel));
 		}
 
 	optr = ptr;
@@ -6544,16 +6569,12 @@ return(menu);
 }
 
 
-void alt_menu(void)
+GtkWidget *alt_menu(GtkItemFactoryEntry *mi, int nmenu_items, GtkWidget **wlist, GtkAccelGroup *accel)
 {
-GtkItemFactoryEntry *mi = menu_items;
-int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
-GtkWidget **wlist = calloc_2(nmenu_items, sizeof(GtkWidget *));
 int i, j;
 struct menu_item_t *mtree = calloc_2(1, sizeof(struct menu_item_t));
 struct menu_item_t *n, *n2, *n3;
-GtkWidget *menubar = gtk_menu_bar_new();
-GtkWidget *menuitem, *menuitem2;
+GtkWidget *menubar;
 
 for(i=0;i<nmenu_items;i++)
 	{
@@ -6609,7 +6630,90 @@ for(i=0;i<nmenu_items;i++)
 	free_decomposed_path(items, parts);
 	}
 
-alt_menu_walk(mi, wlist, mtree, 0); /* returns a menubar */
+menubar = alt_menu_walk(mi, wlist, mtree, 0, accel); /* returns a menubar */
+
+return(menubar);
+}
+
+
+GtkWidget *alt_menu_top(GtkWidget *window)
+{
+GtkItemFactoryEntry *mi = menu_items;
+int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
+GtkWidget *menubar;
+GtkAccelGroup *global_accel = gtk_accel_group_new();;
+int i;
+GtkWidget *mw;
+
+menu_wlist = calloc(nmenu_items, sizeof(GtkWidget *)); /* calloc, not calloc_2() */
+
+menubar = alt_menu(mi, nmenu_items, menu_wlist, global_accel);
+
+
+
+GLOBALS->regexp_string_menu_c_1 = calloc_2(1, 129);
+
+if(GLOBALS->loaded_file_type == MISSING_FILE)
+	{
+	for(i=0;i<nmenu_items;i++)
+		{
+		switch(i)
+			{
+			case WV_MENU_FONVT:
+			case WV_MENU_WCLOSE:
+#if defined(HAVE_LIBTCL)
+	    		case WV_MENU_TCLSCR:
+#endif
+			case WV_MENU_FQY:
+			case WV_MENU_HWH:
+			case WV_MENU_HWV:
+				break;
+	
+			default: 
+				mw = menu_wlist[i];
+				if(mw) gtk_widget_set_sensitive(mw, FALSE);
+				break;
+			}
+		}
+	
+#ifdef WAVE_USE_MENU_BLACKOUTS
+		for(i=0;i<(sizeof(menu_blackouts)/sizeof(char *));i++)
+			{
+			mw = menu_wlist[i];
+			if(mw) gtk_widget_set_sensitive(mw, FALSE);
+			}
+#endif
+	}
+
+if(
+  (GLOBALS->socket_xid)||
+  (GLOBALS->partial_vcd))
+	{
+	gtk_widget_destroy(menu_wlist[WV_MENU_FONVT]);
+	}
+
+if(!GLOBALS->partial_vcd)
+	{
+	gtk_widget_destroy(menu_wlist[WV_MENU_VZDYN]);
+	gtk_widget_destroy(menu_wlist[WV_MENU_VZDYNE]);
+	}
+
+if(GLOBALS->loaded_file_type == DUMPLESS_FILE)
+	{
+	gtk_widget_destroy(menu_wlist[WV_MENU_FRW]);
+	}
+
+if(GLOBALS->loaded_file_type != LXT_FILE)
+	{
+	gtk_widget_destroy(menu_wlist[WV_MENU_SEP18]);
+	gtk_widget_destroy(menu_wlist[WV_MENU_LXTCC2Z]);
+	}
+
+gtk_window_add_accel_group(GTK_WINDOW(window), global_accel);
+
+set_menu_toggles();
+
+return(menubar);
 }
 
 #endif
