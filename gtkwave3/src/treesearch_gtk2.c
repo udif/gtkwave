@@ -919,7 +919,7 @@ sig_selection_foreach_finalize (gpointer data)
 
      if (action == ACTION_REPLACE)
        {
-	Trptr t = GLOBALS->traces.first;
+	t = GLOBALS->traces.first;
 	while(t) { if(t->flags & TR_HIGHLIGHT) { numhigh++; } t = t->t_next; }
 	if(numhigh)
 	        {
