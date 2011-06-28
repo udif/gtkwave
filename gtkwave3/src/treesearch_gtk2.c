@@ -900,10 +900,14 @@ sig_selection_foreach_finalize (gpointer data)
  if (action == ACTION_REPLACE || action == ACTION_INSERT || action == ACTION_PREPEND)
    { 
      Trptr tfirst=NULL, tlast=NULL;
+     Trptr t;
+     Trptr *tp = NULL;
+     int numhigh = 0;
+     int it;
 
      if (action == ACTION_REPLACE)
        {
-	 tfirst=GLOBALS->traces.first; tlast=GLOBALS->traces.last; /* cache for highlighting */
+	tfirst=GLOBALS->traces.first; tlast=GLOBALS->traces.last; /* cache for highlighting */
        }
 
      GLOBALS->traces.buffercount=GLOBALS->traces.total;
@@ -912,6 +916,19 @@ sig_selection_foreach_finalize (gpointer data)
      GLOBALS->traces.first=GLOBALS->tcache_treesearch_gtk2_c_2.first;
      GLOBALS->traces.last=GLOBALS->tcache_treesearch_gtk2_c_2.last;
      GLOBALS->traces.total=GLOBALS->tcache_treesearch_gtk2_c_2.total;
+
+     if (action == ACTION_REPLACE)
+       {
+	Trptr t = GLOBALS->traces.first;
+	while(t) { if(t->flags & TR_HIGHLIGHT) { numhigh++; } t = t->t_next; }
+	if(numhigh)
+	        {
+	        tp = calloc_2(numhigh, sizeof(Trptr));
+	        t = GLOBALS->traces.first;
+	        it = 0;
+	        while(t) { if(t->flags & TR_HIGHLIGHT) { tp[it++] = t; } t = t->t_next; }
+	        }
+       }
 
      if(action == ACTION_PREPEND)
 	{
@@ -928,14 +945,32 @@ sig_selection_foreach_finalize (gpointer data)
      
      if (action == ACTION_REPLACE)
        {
-	 CutBuffer();
+	for(it=0;it<numhigh;it++)
+	        {
+	        tp[it]->flags |= TR_HIGHLIGHT;
+	        }
 
-	 while(tfirst)
-	   {
-	     tfirst->flags |= TR_HIGHLIGHT;
-	     if(tfirst==tlast) break;
-	     tfirst=tfirst->t_next;
-	   }
+	t = tfirst;
+	while(t)
+	        {
+	        t->flags &= ~TR_HIGHLIGHT;
+	        if(t==tlast) break;
+	        t=t->t_next;
+	        }
+
+	CutBuffer();
+
+	while(tfirst)
+	        {
+	        tfirst->flags |= TR_HIGHLIGHT;
+	        if(tfirst==tlast) break;
+	        tfirst=tfirst->t_next;
+	        }
+
+	if(tp)
+	        {
+	        free_2(tp);
+	        }
        }
    }
 }

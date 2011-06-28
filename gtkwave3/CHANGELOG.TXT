@@ -1015,9 +1015,10 @@
 		Removed indirect file support as is unneeded for 64-bit.
 		Removed obsolete CVS modification log comments.
 		Handle vcd saver case of dot at end of signal name.
-3.3.23	23jun11	Fixed ItemFactory callbacks as their argument lists did
+3.3.23	28jun11	Fixed ItemFactory callbacks as their argument lists did
 		not reflect the correct callback argument type/order
 		for callback_type=1.  This is a longstanding hidden
 		bug.  (Would prevent pattern search from working on
 		64-bit big-endian architectures.)
+		Fixed broken "replace" signal option.
 

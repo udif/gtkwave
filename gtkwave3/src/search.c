@@ -509,11 +509,39 @@ GLOBALS->traces.first=tcache.first;
 GLOBALS->traces.last=tcache.last;
 GLOBALS->traces.total=tcache.total;
 
+{
+Trptr t = GLOBALS->traces.first;
+Trptr *tp = NULL;
+int numhigh = 0;
+int it;
+
+while(t) { if(t->flags & TR_HIGHLIGHT) { numhigh++; } t = t->t_next; }
+if(numhigh)
+	{
+	tp = calloc_2(numhigh, sizeof(Trptr));
+	t = GLOBALS->traces.first;
+	it = 0;
+	while(t) { if(t->flags & TR_HIGHLIGHT) { tp[it++] = t; } t = t->t_next; }
+	}
+
 PasteBuffer();
 
 GLOBALS->traces.buffercount=tcache.buffercount;
 GLOBALS->traces.buffer=tcache.buffer;
 GLOBALS->traces.bufferlast=tcache.bufferlast;
+
+for(it=0;it<numhigh;it++)
+	{
+	tp[it]->flags |= TR_HIGHLIGHT;
+	}
+
+t = tfirst;
+while(t)
+	{
+	t->flags &= ~TR_HIGHLIGHT;
+	if(t==tlast) break;
+	t=t->t_next;
+	}
 
 CutBuffer();
 
@@ -523,6 +551,12 @@ while(tfirst)
 	if(tfirst==tlast) break;
 	tfirst=tfirst->t_next;
 	}
+
+if(tp)
+	{
+	free_2(tp);
+	}
+}
 
 MaxSignalLength();
 signalarea_configure_event(GLOBALS->signalarea, NULL);

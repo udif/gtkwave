@@ -529,7 +529,7 @@ for(i=fetchlow(GLOBALS->selectedtree_treesearch_gtk1_c)->t_which;i<=fetchhigh(GL
 
 set_window_idle(widget);
 
-tfirst=GLOBALS->traces.first; tlast=GLOBALS->traces.last;	/* cache for highlighting */
+tfirst=GLOBALS->traces.first; tlast=GLOBALS->traces.last;       /* cache for highlighting */
 
 GLOBALS->traces.buffercount=GLOBALS->traces.total;
 GLOBALS->traces.buffer=GLOBALS->traces.first;
@@ -538,20 +538,54 @@ GLOBALS->traces.first=tcache.first;
 GLOBALS->traces.last=tcache.last;
 GLOBALS->traces.total=tcache.total;
 
+{
+Trptr t = GLOBALS->traces.first;
+Trptr *tp = NULL;
+int numhigh = 0;
+int it;
+
+while(t) { if(t->flags & TR_HIGHLIGHT) { numhigh++; } t = t->t_next; }
+if(numhigh)
+        {
+        tp = calloc_2(numhigh, sizeof(Trptr));
+        t = GLOBALS->traces.first;
+        it = 0;
+        while(t) { if(t->flags & TR_HIGHLIGHT) { tp[it++] = t; } t = t->t_next; }
+        }
+
 PasteBuffer();
 
 GLOBALS->traces.buffercount=tcache.buffercount;
 GLOBALS->traces.buffer=tcache.buffer;
 GLOBALS->traces.bufferlast=tcache.bufferlast;
 
+for(i=0;i<numhigh;i++)
+        {
+        tp[i]->flags |= TR_HIGHLIGHT;
+        }
+
+t = tfirst;
+while(t)
+        {
+        t->flags &= ~TR_HIGHLIGHT;
+        if(t==tlast) break;
+        t=t->t_next;
+        }
+
 CutBuffer();
 
 while(tfirst)
-	{
-	tfirst->flags |= TR_HIGHLIGHT;
-	if(tfirst==tlast) break;
-	tfirst=tfirst->t_next;
-	}
+        {
+        tfirst->flags |= TR_HIGHLIGHT;
+        if(tfirst==tlast) break;
+        tfirst=tfirst->t_next;
+        }
+
+if(tp)
+        {
+        free_2(tp);
+        }
+}
 
 MaxSignalLength();
 signalarea_configure_event(GLOBALS->signalarea, NULL);
