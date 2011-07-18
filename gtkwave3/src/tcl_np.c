@@ -303,7 +303,7 @@ char *NpMyDirectoryPath(char *path, int path_max_len) {
     strcpy(path, me) ;
   if(me && (p = strrchr(path,'/'))) {
     *(++p) = '\0' ;
-    sprintf(libname, "%s/%s", path, TCL_LIB_FILE) ;
+    sprintf(libname, "%s%s", path, TCL_LIB_FILE) ;
     NpLog("Attempt to load from executable directory '%s'\n", libname) ;
     if(!(handle = dlopen(libname, RTLD_NOW | RTLD_GLOBAL))) {
       sprintf(libname, "%s../lib/%s", path, TCL_LIB_FILE) ;

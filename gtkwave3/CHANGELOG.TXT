@@ -1021,3 +1021,5 @@
 		bug.  (Would prevent pattern search from working on
 		64-bit big-endian architectures.)
 		Fixed broken "replace" signal option.
+3.3.24	18jul11	Improve the searching for the TCL libraries (when using 
+		stubs).

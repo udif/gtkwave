@@ -2828,75 +2828,87 @@ GLOBALS->interp = Tcl_CreateInterp();
 
 void make_tcl_interpreter(char *argv[])
 {
-int i;
-char commandName[128];
-GtkItemFactoryEntry *ife;
-int num_menu_items;
+  int i;
+  char commandName[256];
+  GtkItemFactoryEntry *ife;
+  int num_menu_items;
+  int n = 0;
+  
+#ifndef WAVE_TCL_STUBIFY
+  Tcl_FindExecutable(argv[0]);
+#endif
+#ifdef WIN32
+  if(!GetModulePathName(NULL, commandName, 256))
+    n = -1 ;
+#else
+  n = readlink("/proc/self/exe", commandName, 256) ;
+#endif
+  if(n == -1) {
+    fprintf(stderr, "GTKWAVE | Tcl_Init error: Failed to get my fullpath\n");
+    exit(EXIT_FAILURE);
+  } else {
+    commandName[n] = '\0' ;
+  }
+  set_globals_interp(commandName, 0);
 
 #ifndef WAVE_TCL_STUBIFY
- Tcl_FindExecutable(argv[0]);
+  if (TCL_OK != Tcl_Init(GLOBALS->interp)) 
+    {
+      fprintf(stderr, "GTKWAVE | Tcl_Init error: %s\n", Tcl_GetStringResult (GLOBALS->interp));
+      exit(EXIT_FAILURE);
+    }
 #endif
-
- set_globals_interp(argv[0], 0);
-
-#ifndef WAVE_TCL_STUBIFY
-if (TCL_OK != Tcl_Init(GLOBALS->interp)) 
+  
+  strcpy(commandName, "gtkwave::");
+  
+  ife = retrieve_menu_items_array(&num_menu_items);
+  for(i=0;i<num_menu_items;i++)
+    {
+      if(ife[i].callback)
 	{
-   	fprintf(stderr, "GTKWAVE | Tcl_Init error: %s\n", Tcl_GetStringResult (GLOBALS->interp));
-   	exit(EXIT_FAILURE);
-  	}
-#endif
-
-strcpy(commandName, "gtkwave::");
-
-ife = retrieve_menu_items_array(&num_menu_items);
-for(i=0;i<num_menu_items;i++)
-	{
-	if(ife[i].callback)
-		{
-		char *pnt = commandName + 9;
-		strcpy(pnt, ife[i].path);	
-		while(*pnt)
-			{
-			if(*pnt==' ') *pnt='_';
-			pnt++;
-			}
-	
-	      	Tcl_CreateObjCommand(GLOBALS->interp, commandName,
-	                (Tcl_ObjCmdProc *)menu_func,
-	                (ClientData)(ife+i), (Tcl_CmdDeleteProc *)NULL);
-		}
+	  char *pnt = commandName + 9;
+	  strcpy(pnt, ife[i].path);	
+	  while(*pnt)
+	    {
+	      if(*pnt==' ') *pnt='_';
+	      pnt++;
+	    }
+	  
+	  Tcl_CreateObjCommand(GLOBALS->interp, commandName,
+			       (Tcl_ObjCmdProc *)menu_func,
+			       (ClientData)(ife+i), (Tcl_CmdDeleteProc *)NULL);
 	}
-
-
-for (i = 0; gtkwave_commands[i].func != NULL; i++) 
-	{
-      	strcpy(commandName + 9, gtkwave_commands[i].cmdstr);
-
-      	Tcl_CreateObjCommand(GLOBALS->interp, commandName,
+    }
+  
+  
+  for (i = 0; gtkwave_commands[i].func != NULL; i++) 
+    {
+      strcpy(commandName + 9, gtkwave_commands[i].cmdstr);
+      
+      Tcl_CreateObjCommand(GLOBALS->interp, commandName,
                 (Tcl_ObjCmdProc *)gtkwave_commands[i].func,
-                (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
-   	}
-
-declare_tclcb_variables(GLOBALS->interp);
-
-if(GLOBALS->repscript_name)
+			   (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
+    }
+  
+  declare_tclcb_variables(GLOBALS->interp);
+  
+  if(GLOBALS->repscript_name)
+    {
+      FILE *f = fopen(GLOBALS->repscript_name, "rb");
+      if(f)
 	{
-	FILE *f = fopen(GLOBALS->repscript_name, "rb");
-	if(f)
-		{
-		fclose(f);
-		g_timeout_add(GLOBALS->repscript_period, repscript_timer, NULL);
-		}
-		else
-		{
-		fprintf(stderr, "GTKWAVE | Could not open repscript '%s', exiting.\n", GLOBALS->repscript_name);
-		perror("Why");
-		exit(255);
-		}
+	  fclose(f);
+	  g_timeout_add(GLOBALS->repscript_period, repscript_timer, NULL);
 	}
-
-init_setvar_timer(GLOBALS->interp);
+      else
+	{
+	  fprintf(stderr, "GTKWAVE | Could not open repscript '%s', exiting.\n", GLOBALS->repscript_name);
+	  perror("Why");
+	  exit(255);
+	}
+    }
+  
+  init_setvar_timer(GLOBALS->interp);
 }
 
 
