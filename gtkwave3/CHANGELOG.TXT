@@ -1021,5 +1021,8 @@
 		bug.  (Would prevent pattern search from working on
 		64-bit big-endian architectures.)
 		Fixed broken "replace" signal option.
-3.3.24	18jul11	Improve the searching for the TCL libraries (when using 
+3.3.24	03aug11	Improve the searching for the TCL libraries (when using 
 		stubs).
+		Fixed bug where Tcl_GetString was substituted with
+		brace removal preprocessing when unnecessary (would break
+		addSignalsFromList, etc.)

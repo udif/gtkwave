@@ -996,12 +996,12 @@ Tcl_Obj *aobj;
 
 if(objc==2)
 	{
-        char *s = get_Tcl_string(objv[1]);
+        char *s = Tcl_GetString(objv[1]); /* do not want to remove braces! */
 	char** elem = NULL;
 	int l = 0;
 
 	elem = zSplitTclList(s, &l);
- 
+
 	if(elem)
         	{
 		for(i=0;i<l;i++)
@@ -1047,7 +1047,7 @@ Tcl_Obj *aobj;
 
 if(objc==2)
 	{
-        char *s = get_Tcl_string(objv[1]);
+        char *s = Tcl_GetString(objv[1]); /* do not want to remove braces */
 	char** elem = NULL;
 	int l = 0;
 
@@ -1138,7 +1138,7 @@ Tcl_Obj *aobj;
 
 if(objc==2)
 	{
-        char *s = get_Tcl_string(objv[1]);
+        char *s = Tcl_GetString(objv[1]); /* do not want to remove braces */
 	char** elem = NULL;
 	int l = 0;
 
@@ -1225,7 +1225,7 @@ Tcl_Obj *aobj;
 
 if(objc==2)
 	{
-        char *s = get_Tcl_string(objv[1]);
+        char *s = Tcl_GetString(objv[1]); /* do not want to remove braces */
 	char** elem = NULL;
 	int l = 0;
 
@@ -1291,7 +1291,7 @@ Tcl_Obj *aobj;
 
 if(objc==2)
 	{
-        char *s = get_Tcl_string(objv[1]);
+        char *s = Tcl_GetString(objv[1]); /* do not want to remove braces */
 	char** elem = NULL;
 	int l = 0;
 
