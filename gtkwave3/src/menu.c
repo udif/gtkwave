@@ -48,49 +48,49 @@ static GtkItemFactoryEntry menu_items[WV_MENU_NUMITEMS];
 /* marshals for handling menu items vs button pressed items */
 
 static void service_zoom_in_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_zoom_in(widget, null_data)); }
+{ service_zoom_in(widget, null_data); }
 
 static void service_zoom_out_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_zoom_out(widget, null_data)); }
+{ service_zoom_out(widget, null_data); }
 
 static void service_zoom_full_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_zoom_full(widget, null_data)); }
+{ service_zoom_full(widget, null_data); }
 
 static void service_zoom_fit_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_zoom_fit(widget, null_data)); }
+{ service_zoom_fit(widget, null_data); }
 
 static void service_zoom_left_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_zoom_left(widget, null_data)); }
+{ service_zoom_left(widget, null_data); }
 
 static void service_zoom_right_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_zoom_right(widget, null_data)); }
+{ service_zoom_right(widget, null_data); }
 
 static void service_zoom_undo_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_zoom_undo(widget, null_data)); }
+{ service_zoom_undo(widget, null_data); }
 
 static void fetch_right_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(fetch_right(widget, null_data)); }
+{ fetch_right(widget, null_data); }
 
 static void fetch_left_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(fetch_left(widget, null_data)); }
+{ fetch_left(widget, null_data); }
 
 static void discard_right_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(discard_right(widget, null_data)); }
+{ discard_right(widget, null_data); }
 
 static void discard_left_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(discard_left(widget, null_data)); }
+{ discard_left(widget, null_data); }
 
 static void service_right_shift_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_right_shift(widget, null_data)); }
+{ service_right_shift(widget, null_data); }
 
 static void service_left_shift_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_left_shift(widget, null_data)); }
+{ service_left_shift(widget, null_data); }
 
 static void service_right_page_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_right_page(widget, null_data)); }
+{ service_right_page(widget, null_data); }
 
 static void service_left_page_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
-{ return(service_left_page(widget, null_data)); }
+{ service_left_page(widget, null_data); }
 
 /* ruler */
 
