@@ -1237,7 +1237,7 @@ if(!(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
         }
 
 	{
-        struct HistEnt *htemp2 = calloc_2(1, sizeof(struct HistEnt));
+        struct HistEnt *htemp2 = histent_calloc();
         htemp2->time = -1;
         if(len>1)
         	{
@@ -1413,7 +1413,7 @@ for(txidxi=0;txidxi<GLOBALS->fst_maxhandle;txidxi++)
 		        }
 
                         {
-                        struct HistEnt *htemp2 = calloc_2(1, sizeof(struct HistEnt));
+                        struct HistEnt *htemp2 = histent_calloc();
                         htemp2->time = -1;
                         if(len>1)
                                 {
