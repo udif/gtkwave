@@ -1367,7 +1367,7 @@ for(r = 0; r < nr; r++)
 
 
                 {
-                struct HistEnt *htemp2 = calloc_2(1, sizeof(struct HistEnt));
+                struct HistEnt *htemp2 = histent_calloc();
                 htemp2->time = -1;  
                 if(len>1)
                 	{
@@ -1490,7 +1490,7 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 
 
                         {
-                        struct HistEnt *htemp2 = calloc_2(1, sizeof(struct HistEnt));
+                        struct HistEnt *htemp2 = histent_calloc();
                         htemp2->time = -1;  
                         if(len>1)
                                 {
