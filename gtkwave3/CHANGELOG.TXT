@@ -1026,3 +1026,5 @@
 		Fixed bug where Tcl_GetString was substituted with
 		brace removal preprocessing when unnecessary (would break
 		addSignalsFromList, etc.)
+3.3.25	12aug11	Replaced calloc_2 with histent_calloc in loaders where
+		applicable.
