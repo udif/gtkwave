@@ -1989,6 +1989,7 @@ echo "$as_me: error: ${with_tclconfig} directory doesn't contain tclConfig.sh" >
 			`ls -d /usr/local/lib 2>/dev/null` \
 			`ls -d /usr/contrib/lib 2>/dev/null` \
 			`ls -d /usr/lib 2>/dev/null` \
+			`ls -d /usr/lib64 2>/dev/null` \
 			; do
 		    if test -f "$i/tclConfig.sh" ; then
 			ac_cv_c_tclconfig="`(cd $i; pwd)`"
@@ -2015,9 +2016,10 @@ fi
 
 
 	if test x"${ac_cv_c_tclconfig}" = x ; then
-	    TCL_BIN_DIR="# no Tcl configs found" 		      # (patch for gtkwave)
-	    # AC_MSG_WARN([Can't find Tcl configuration definitions]) 	(patch for gtkwave)
-	    # exit 0 							(patch for gtkwave)
+	    TCL_BIN_DIR="# no Tcl configs found"
+	    { { echo "$as_me:$LINENO: error: Can't find Tcl configuration definitions. Use --with-tcl to specify a directory containing tclConfig.sh" >&5
+echo "$as_me: error: Can't find Tcl configuration definitions. Use --with-tcl to specify a directory containing tclConfig.sh" >&2;}
+   { (exit 1); exit 1; }; }
 	else
 	    no_tcl=
 	    TCL_BIN_DIR="${ac_cv_c_tclconfig}"
@@ -2062,7 +2064,7 @@ echo "${ECHO_T}could not find ${TCL_BIN_DIR}/tclConfig.sh" >&6
     elif test "`uname -s`" = "Darwin"; then
 	# If Tcl was built as a framework, attempt to use the libraries
 	# from the framework at the given location so that linking works
-	# against Tcl.framework installed in an arbitary location.
+	# against Tcl.framework installed in an arbitrary location.
 	case ${TCL_DEFS} in
 	    *TCL_FRAMEWORK*)
 		if test -f "${TCL_BIN_DIR}/${TCL_LIB_FILE}"; then
@@ -2210,6 +2212,7 @@ echo "$as_me: error: ${with_tkconfig} directory doesn't contain tkConfig.sh" >&2
 			`ls -d /usr/local/lib 2>/dev/null` \
 			`ls -d /usr/contrib/lib 2>/dev/null` \
 			`ls -d /usr/lib 2>/dev/null` \
+			`ls -d /usr/lib64 2>/dev/null` \
 			; do
 		    if test -f "$i/tkConfig.sh" ; then
 			ac_cv_c_tkconfig="`(cd $i; pwd)`"
@@ -2237,9 +2240,9 @@ fi
 
 	if test x"${ac_cv_c_tkconfig}" = x ; then
 	    TK_BIN_DIR="# no Tk configs found"
-	    { echo "$as_me:$LINENO: WARNING: Can't find Tk configuration definitions" >&5
-echo "$as_me: WARNING: Can't find Tk configuration definitions" >&2;}
-	    exit 0
+	    { { echo "$as_me:$LINENO: error: Can't find Tk configuration definitions. Use --with-tk to specify a directory containing tkConfig.sh" >&5
+echo "$as_me: error: Can't find Tk configuration definitions. Use --with-tk to specify a directory containing tkConfig.sh" >&2;}
+   { (exit 1); exit 1; }; }
 	else
 	    no_tk=
 	    TK_BIN_DIR="${ac_cv_c_tkconfig}"
@@ -2284,7 +2287,7 @@ echo "${ECHO_T}could not find ${TK_BIN_DIR}/tkConfig.sh" >&6
     elif test "`uname -s`" = "Darwin"; then
 	# If Tk was built as a framework, attempt to use the libraries
 	# from the framework at the given location so that linking works
-	# against Tk.framework installed in an arbitary location.
+	# against Tk.framework installed in an arbitrary location.
 	case ${TK_DEFS} in
 	    *TK_FRAMEWORK*)
 		if test -f "${TK_BIN_DIR}/${TK_LIB_FILE}"; then
