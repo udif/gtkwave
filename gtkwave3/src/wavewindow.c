@@ -3489,7 +3489,25 @@ rect[1] = _y1;
 rect[2] = GLOBALS->wavewidth + 10;
 rect[3] = _y0;
 
-wave_lineclip(coords, rect);
+if((t->flags & (TR_ANALOG_INTERPOLATED|TR_ANALOG_STEP)) != TR_ANALOG_STEP)
+	{
+	wave_lineclip(coords, rect);
+	}
+	else
+	{
+	if(coords[0] < rect[0]) coords[0] = rect[0];
+	if(coords[2] < rect[0]) coords[2] = rect[0];
+
+	if(coords[0] > rect[2]) coords[0] = rect[2];
+	if(coords[2] > rect[2]) coords[2] = rect[2];
+
+	if(coords[1] < rect[1]) coords[1] = rect[1];
+	if(coords[3] < rect[1]) coords[3] = rect[1];
+
+	if(coords[1] > rect[3]) coords[1] = rect[3];
+	if(coords[3] > rect[3]) coords[3] = rect[3];
+	}
+	
 _x0 = coords[0];
 yt0 = coords[1];
 _x1 = coords[2];
