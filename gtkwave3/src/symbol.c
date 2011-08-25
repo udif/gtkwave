@@ -199,7 +199,7 @@ return(s);
 /*
  * find a slot already in the table...
  */
-struct symbol *symfind(char *s, unsigned int *rows_return)
+static struct symbol *symfind_2(char *s, unsigned int *rows_return)
 {
 #ifndef _WAVE_HAVE_JUDY
 int hv;
@@ -321,3 +321,27 @@ if(!GLOBALS->facs_are_sorted)
 	}
 }
 
+
+struct symbol *symfind(char *s, unsigned int *rows_return) 
+{ 
+struct symbol *s_pnt = symfind_2(s, rows_return); 
+
+if(!s_pnt) 
+	{ 
+       	int len = strlen(s); 
+       	if(len) 
+        	{
+		char ch = s[len-1];
+                if((ch != ']') && (ch != '}'))
+			{
+                       	char *s2 = wave_alloca(len + 4); 
+                       	memcpy(s2, s, len); 
+                       	strcat(s2+len, "[0]"); /* bluespec vs modelsim */
+
+                       	s_pnt = symfind_2(s2, rows_return); 
+                       	} 
+               	} 
+       	} 
+
+return(s_pnt); 
+} 
