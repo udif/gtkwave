@@ -233,7 +233,16 @@ if(pattn)
 	{
 	filter = gtk_file_filter_new();
 	gtk_file_filter_add_pattern(filter, pattn);
+	gtk_file_filter_set_name(filter, pattn);
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(pFileChoose), filter);
+
+	if(strcmp(pattn, "*"))
+		{
+		filter = gtk_file_filter_new();
+		gtk_file_filter_add_pattern(filter, "*");
+		gtk_file_filter_set_name(filter, "*");
+		gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(pFileChoose), filter);
+		}
 	}
 
 gtk_dialog_set_default_response(GTK_DIALOG(pFileChoose), GTK_RESPONSE_ACCEPT);
