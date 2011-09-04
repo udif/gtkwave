@@ -251,6 +251,9 @@ NULL, /* extload_inv_idcodes */
 /*
  * file.c
  */
+NULL, /* pFileChoose */
+NULL, /* pFileChooseFilterName */
+NULL, /* pPatternSpec */
 0, /* fs_file_c_1 86 */
 NULL, /* fileselbox_text 87 */
 0, /* filesel_ok 88 */
@@ -1793,6 +1796,7 @@ void reload_into_new_context(void)
  strcpy2_into_new_context(new_globals, &new_globals->tcl_init_cmd, &GLOBALS->tcl_init_cmd);
  strcpy2_into_new_context(new_globals, &new_globals->repscript_name, &GLOBALS->repscript_name);
  new_globals->repscript_period = GLOBALS->repscript_period;
+ strcpy2_into_new_context(new_globals, &new_globals->pFileChooseFilterName, &GLOBALS->pFileChooseFilterName);
 
  /* vlist.c */
  if(GLOBALS->vlist_handle)

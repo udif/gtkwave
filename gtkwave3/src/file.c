@@ -16,10 +16,88 @@
 #include "wavealloca.h"
 #include <string.h>
 #include <stdlib.h>
+#include <fnmatch.h>
 
 #ifdef __linux__
 extern char *canonicalize_file_name (__const char *__name);
 #endif
+
+#if GTK_CHECK_VERSION(2,4,0)
+
+static gboolean ffunc (const GtkFileFilterInfo *filter_info, gpointer data)
+{
+const char *rms = strrchr(filter_info->filename, '\\');
+const char *rms2;
+
+if(!rms) rms = filter_info->filename; else rms++;
+
+rms2 = strrchr(rms, '/');
+if(!rms2) rms2 = rms; else rms2++;
+
+if(!GLOBALS->pFileChooseFilterName || !GLOBALS->pPatternSpec) 
+	{
+	return(TRUE);
+	}
+
+if(!strchr(GLOBALS->pFileChooseFilterName, '*') && !strchr(GLOBALS->pFileChooseFilterName, '?'))
+	{
+	char *fpos = strstr(rms2, GLOBALS->pFileChooseFilterName);
+	return(fpos != NULL);
+	}
+	else
+	{
+	return(g_pattern_match_string(GLOBALS->pPatternSpec, rms2));
+	}
+}
+
+
+static
+gboolean filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
+{
+const char *t;
+gchar *folder_filename;
+
+if(GLOBALS->pFileChooseFilterName)
+        {
+        free_2((char *)GLOBALS->pFileChooseFilterName);
+        GLOBALS->pFileChooseFilterName = NULL;
+        }
+
+t = gtk_entry_get_text (GTK_ENTRY (widget));
+
+if (t == NULL || *t == 0)
+	{
+        GLOBALS->pFileChooseFilterName = NULL;
+	}
+	else
+        {
+        GLOBALS->pFileChooseFilterName = malloc_2(strlen(t) + 1);
+        strcpy(GLOBALS->pFileChooseFilterName, t);
+
+	if(GLOBALS->pPatternSpec) g_pattern_spec_free(GLOBALS->pPatternSpec);
+	GLOBALS->pPatternSpec = g_pattern_spec_new(t);
+        }
+
+/* now force refresh with new filter */
+folder_filename = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(data));
+if(folder_filename)
+	{
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(data), folder_filename);
+	g_free(folder_filename);
+	}
+}
+
+
+static   
+void press_callback (GtkWidget *widget, gpointer *data)
+{
+GdkEventKey ev;
+
+filter_edit_cb (widget, &ev, data);
+}
+
+#endif
+
 
 static void enter_callback(GtkWidget *widget, GtkFileSelection *fw)
 {
@@ -89,6 +167,10 @@ int can_set_filename = 0;
 GtkWidget *pFileChoose;
 GtkWidget *pWindowMain;
 GtkFileFilter *filter;
+GtkWidget *label;
+GtkWidget *label_ent;
+GtkWidget *box;
+GtkTooltips *tooltips;
 #endif
 
 if(!*filesel_path) /* if no name specified, hijack loaded file name path */
@@ -216,6 +298,8 @@ if(is_writemode)
 	        NULL);
 	}
 
+GLOBALS->pFileChoose = pFileChoose;
+
 if((can_set_filename) && (*filesel_path)) 
 	{
 	int flen = strlen(*filesel_path);
@@ -229,22 +313,51 @@ if((can_set_filename) && (*filesel_path))
 		}
 	}
 
+
+label=gtk_label_new("Custom Filter:");
+label_ent=gtk_entry_new_with_max_length(40);
+
+tooltips=gtk_tooltips_new_2();
+gtk_tooltips_set_delay_2(tooltips,1500);
+
+gtk_entry_set_text(GTK_ENTRY(label_ent), GLOBALS->pFileChooseFilterName ? GLOBALS->pFileChooseFilterName : "*");
+gtk_signal_connect (GTK_OBJECT (label_ent), "changed",GTK_SIGNAL_FUNC (press_callback), pFileChoose);
+box=gtk_hbox_new(FALSE, 0);
+gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
+gtk_widget_show(label);
+gtk_box_pack_start(GTK_BOX(box), label_ent, FALSE, FALSE, 0);
+gtk_widget_set_usize(GTK_WIDGET(label_ent), 300, 22);
+gtk_tooltips_set_tip_2(tooltips, label_ent, "Enter custom pattern match filter here. Note that \"string\" without * or ? achieves a match on \"*string*\".", NULL);
+gtk_widget_show(label_ent);  
+gtk_widget_show(box);  
+
+gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(pFileChoose), box);
+
 if(pattn)
 	{
 	filter = gtk_file_filter_new();
 	gtk_file_filter_add_pattern(filter, pattn);
 	gtk_file_filter_set_name(filter, pattn);
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(pFileChoose), filter);
-
-	if(strcmp(pattn, "*"))
-		{
-		filter = gtk_file_filter_new();
-		gtk_file_filter_add_pattern(filter, "*");
-		gtk_file_filter_set_name(filter, "*");
-		gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(pFileChoose), filter);
-		}
 	}
 
+if((!pattn)  || (strcmp(pattn, "*")))
+	{
+	filter = gtk_file_filter_new();
+	gtk_file_filter_add_pattern(filter, "*");
+	gtk_file_filter_set_name(filter, "*");
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(pFileChoose), filter);
+	}
+
+filter = gtk_file_filter_new();
+gtk_file_filter_add_custom(filter, GTK_FILE_FILTER_FILENAME, ffunc, NULL, NULL);
+gtk_file_filter_set_name(filter, "Custom");
+gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(pFileChoose), filter);
+if(GLOBALS->pFileChooseFilterName)
+	{
+	GLOBALS->pPatternSpec = g_pattern_spec_new(GLOBALS->pFileChooseFilterName);
+	}
+	
 gtk_dialog_set_default_response(GTK_DIALOG(pFileChoose), GTK_RESPONSE_ACCEPT);
 
 gtk_object_set_data(GTK_OBJECT(pFileChoose), "FileChooseWindow", pFileChoose);
@@ -321,6 +434,13 @@ fix_suffix:                     s2 = malloc_2(strlen(s) + strlen(suffix) + 1);
 	gtkwave_main_iteration();
 	if(GLOBALS->bad_cleanup_file_c_1) notok_func();
 	}
+
+if(GLOBALS->pPatternSpec) 
+	{
+	g_pattern_spec_free(GLOBALS->pPatternSpec);
+	GLOBALS->pPatternSpec = NULL;
+	}
+
 #endif
 }
 
