@@ -76,6 +76,7 @@ typedef uint8_t 		lxtint8_t;
 typedef uint16_t 		lxtint16_t;
 typedef uint32_t		lxtint32_t;
 typedef uint64_t	 	lxtint64_t;
+typedef int32_t			lxtsint32_t;
 #ifndef __MINGW32__
 #define LXT2_RD_LLD "%"PRId64   
 #define LXT2_RD_LD "%"PRId32
@@ -90,6 +91,7 @@ typedef unsigned __int8		lxtint8_t;
 typedef unsigned __int16	lxtint16_t;
 typedef unsigned __int32	lxtint32_t;
 typedef unsigned __int64	lxtint64_t;
+typedef          __int32	lxtsint32_t;
 #define LXT2_RD_LLD "%I64d"
 #define LXT2_RD_LD "%d"
 #define LXT2_RD_LLDESC(x) x##i64
@@ -187,7 +189,9 @@ unsigned exclude_block : 1;	 /* user marked this block off to be ignored */
 
 struct lxt2_rd_geometry
 {
-lxtint32_t rows, msb, lsb, flags, len;
+lxtint32_t rows;
+lxtsint32_t msb, lsb;
+lxtint32_t flags, len;
 };
 
 
@@ -202,7 +206,9 @@ lxtint32_t old_facidx;
 
 struct lxt2_rd_trace
 {
-lxtint32_t *rows, *msb, *lsb, *flags, *len;
+lxtint32_t *rows;
+lxtsint32_t *msb, *lsb; 
+lxtint32_t *flags, *len;
 char **value;
 
 granmsk_t *fac_map;
@@ -261,8 +267,8 @@ _LXT2_RD_INLINE lxtint32_t	lxt2_rd_get_num_facs(struct lxt2_rd_trace *lt);
 char *				lxt2_rd_get_facname(struct lxt2_rd_trace *lt, lxtint32_t facidx);
 struct lxt2_rd_geometry *	lxt2_rd_get_fac_geometry(struct lxt2_rd_trace *lt, lxtint32_t facidx);
 _LXT2_RD_INLINE lxtint32_t	lxt2_rd_get_fac_rows(struct lxt2_rd_trace *lt, lxtint32_t facidx);
-_LXT2_RD_INLINE lxtint32_t	lxt2_rd_get_fac_msb(struct lxt2_rd_trace *lt, lxtint32_t facidx);
-_LXT2_RD_INLINE lxtint32_t	lxt2_rd_get_fac_lsb(struct lxt2_rd_trace *lt, lxtint32_t facidx);
+_LXT2_RD_INLINE lxtsint32_t	lxt2_rd_get_fac_msb(struct lxt2_rd_trace *lt, lxtint32_t facidx);
+_LXT2_RD_INLINE lxtsint32_t	lxt2_rd_get_fac_lsb(struct lxt2_rd_trace *lt, lxtint32_t facidx);
 _LXT2_RD_INLINE lxtint32_t	lxt2_rd_get_fac_flags(struct lxt2_rd_trace *lt, lxtint32_t facidx);
 _LXT2_RD_INLINE lxtint32_t	lxt2_rd_get_fac_len(struct lxt2_rd_trace *lt, lxtint32_t facidx);
 _LXT2_RD_INLINE lxtint32_t	lxt2_rd_get_alias_root(struct lxt2_rd_trace *lt, lxtint32_t facidx);

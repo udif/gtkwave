@@ -907,8 +907,8 @@ if(!(lt->handle=fopen(name, "rb")))
 		pos = pos+lt->zfacgeometrysize;
 
 		lt->rows = malloc(lt->numfacs * sizeof(lxtint32_t));
-		lt->msb = malloc(lt->numfacs * sizeof(lxtint32_t));
-		lt->lsb = malloc(lt->numfacs * sizeof(lxtint32_t));
+		lt->msb = malloc(lt->numfacs * sizeof(lxtsint32_t));
+		lt->lsb = malloc(lt->numfacs * sizeof(lxtsint32_t));
 		lt->flags = malloc(lt->numfacs * sizeof(lxtint32_t));
 		lt->len = malloc(lt->numfacs * sizeof(lxtint32_t));
 		lt->value = malloc(lt->numfacs * sizeof(char *));
@@ -1140,7 +1140,7 @@ if((lt)&&(facidx<lt->numfacs))
 }
 
 
-_LXT2_RD_INLINE lxtint32_t lxt2_rd_get_fac_msb(struct lxt2_rd_trace *lt, lxtint32_t facidx)
+_LXT2_RD_INLINE lxtsint32_t lxt2_rd_get_fac_msb(struct lxt2_rd_trace *lt, lxtint32_t facidx)
 {
 if((lt)&&(facidx<lt->numfacs))
 	{
@@ -1153,7 +1153,7 @@ if((lt)&&(facidx<lt->numfacs))
 }
 
 
-_LXT2_RD_INLINE lxtint32_t lxt2_rd_get_fac_lsb(struct lxt2_rd_trace *lt, lxtint32_t facidx)
+_LXT2_RD_INLINE lxtsint32_t lxt2_rd_get_fac_lsb(struct lxt2_rd_trace *lt, lxtint32_t facidx)
 {
 if((lt)&&(facidx<lt->numfacs))
 	{
