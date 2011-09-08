@@ -1026,7 +1026,7 @@
 		Fixed bug where Tcl_GetString was substituted with
 		brace removal preprocessing when unnecessary (would break
 		addSignalsFromList, etc.)
-3.3.25	06sep11	Replaced calloc_2 with histent_calloc in loaders where
+3.3.25	07sep11	Replaced calloc_2 with histent_calloc in loaders where
 		applicable.
 		Updated tcl.m4 so /usr/lib64 can be automatically used.
 		Fixed TR_ANALOG_STEP line clipping problem.
@@ -1037,3 +1037,4 @@
 		selectable "*" pattern overrides.
 		Added custom filters to GtkFileChooser dialogue.
 		Fix in lxt2_read.c/.h for negative msb/lsb indices.
+		Fix in vzt_read.c/.h for negative msb/lsb indices.

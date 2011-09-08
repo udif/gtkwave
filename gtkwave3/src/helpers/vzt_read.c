@@ -1029,7 +1029,7 @@ if((lt)&&(facidx<lt->numfacs))
 }
 
 
-_VZT_RD_INLINE vztint32_t vzt_rd_get_fac_msb(struct vzt_rd_trace *lt, vztint32_t facidx)
+_VZT_RD_INLINE vztsint32_t vzt_rd_get_fac_msb(struct vzt_rd_trace *lt, vztint32_t facidx)
 {
 if((lt)&&(facidx<lt->numfacs))
 	{
@@ -1042,7 +1042,7 @@ if((lt)&&(facidx<lt->numfacs))
 }
 
 
-_VZT_RD_INLINE vztint32_t vzt_rd_get_fac_lsb(struct vzt_rd_trace *lt, vztint32_t facidx)
+_VZT_RD_INLINE vztsint32_t vzt_rd_get_fac_lsb(struct vzt_rd_trace *lt, vztint32_t facidx)
 {
 if((lt)&&(facidx<lt->numfacs))
 	{
@@ -1849,8 +1849,8 @@ if(!(lt->handle=fopen(name, "rb")))
 		pos = pos+lt->zfacgeometrysize;
 
 		lt->rows = malloc(lt->numfacs * sizeof(vztint32_t));
-		lt->msb = malloc(lt->numfacs * sizeof(vztint32_t));
-		lt->lsb = malloc(lt->numfacs * sizeof(vztint32_t));
+		lt->msb = malloc(lt->numfacs * sizeof(vztsint32_t));
+		lt->lsb = malloc(lt->numfacs * sizeof(vztsint32_t));
 		lt->flags = malloc(lt->numfacs * sizeof(vztint32_t));
 		lt->len = malloc(lt->numfacs * sizeof(vztint32_t));
 		lt->vindex_offset = malloc(lt->numfacs * sizeof(vztint32_t));

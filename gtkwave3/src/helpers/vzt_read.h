@@ -80,6 +80,7 @@ typedef uint8_t 		vztint8_t;
 typedef uint16_t 		vztint16_t;
 typedef uint32_t		vztint32_t;
 typedef uint64_t	 	vztint64_t;
+typedef int32_t			vztsint32_t;
 #ifndef __MINGW32__
 #define VZT_RD_LLD "%"PRId64      
 #define VZT_RD_LD "%"PRId32      
@@ -94,6 +95,7 @@ typedef unsigned __int8		vztint8_t;
 typedef unsigned __int16	vztint16_t;
 typedef unsigned __int32	vztint32_t;
 typedef unsigned __int64	vztint64_t;
+typedef          __int32	vztsint32_t;
 #define VZT_RD_LLD "%I64d"
 #define VZT_RD_LD "%d"
 #define VZT_RD_LLDESC(x) x##i64
@@ -172,7 +174,9 @@ vztint32_t last_rd_value_idx;
 
 struct vzt_rd_geometry
 {
-vztint32_t rows, msb, lsb, flags, len;
+vztint32_t rows;
+vztsint32_t msb, lsb;
+vztint32_t flags, len;
 };
 
 
@@ -187,7 +191,9 @@ vztint32_t old_facidx;
 
 struct vzt_rd_trace
 {
-vztint32_t *rows, *msb, *lsb, *flags, *len, *vindex_offset;
+vztint32_t *rows;
+vztsint32_t *msb, *lsb;
+vztint32_t *flags, *len, *vindex_offset;
 
 char *value_current_sector;
 char *value_previous_sector;
@@ -247,8 +253,8 @@ _VZT_RD_INLINE vztint32_t	vzt_rd_get_num_facs(struct vzt_rd_trace *lt);
 char *				vzt_rd_get_facname(struct vzt_rd_trace *lt, vztint32_t facidx);
 struct vzt_rd_geometry *	vzt_rd_get_fac_geometry(struct vzt_rd_trace *lt, vztint32_t facidx);
 _VZT_RD_INLINE vztint32_t	vzt_rd_get_fac_rows(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE vztint32_t	vzt_rd_get_fac_msb(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE vztint32_t	vzt_rd_get_fac_lsb(struct vzt_rd_trace *lt, vztint32_t facidx);
+_VZT_RD_INLINE vztsint32_t	vzt_rd_get_fac_msb(struct vzt_rd_trace *lt, vztint32_t facidx);
+_VZT_RD_INLINE vztsint32_t	vzt_rd_get_fac_lsb(struct vzt_rd_trace *lt, vztint32_t facidx);
 _VZT_RD_INLINE vztint32_t	vzt_rd_get_fac_flags(struct vzt_rd_trace *lt, vztint32_t facidx);
 _VZT_RD_INLINE vztint32_t	vzt_rd_get_fac_len(struct vzt_rd_trace *lt, vztint32_t facidx);
 _VZT_RD_INLINE vztint32_t	vzt_rd_get_alias_root(struct vzt_rd_trace *lt, vztint32_t facidx);
