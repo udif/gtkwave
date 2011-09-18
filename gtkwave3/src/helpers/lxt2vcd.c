@@ -313,7 +313,7 @@ printf(
 "  -n, --notruncate           do not shorten bitvectors\n"
 "  -h, --help                 display this help then exit\n\n"
 "VCD is emitted to stdout.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #else
 printf(
 "Usage: %s [OPTION]... [LXT2FILE]\n\n"
@@ -323,7 +323,7 @@ printf(
 "  -h                         display this help then exit\n\n"
 
 "VCD is emitted to stdout.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #endif
 
 exit(0);

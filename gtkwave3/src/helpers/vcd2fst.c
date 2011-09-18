@@ -786,7 +786,7 @@ printf(
 
 "Note that VCDFILE and FSTFILE are optional provided the\n"
 "--vcdname and --fstname options are specified.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #else
 printf(
 "Usage: %s [OPTION]... [VCDFILE] [FSTFILE]\n\n"
@@ -798,7 +798,7 @@ printf(
 
 "Note that VCDFILE and FSTFILE are optional provided the\n"
 "--vcdname and --fstname options are specified.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #endif
 
 exit(0);

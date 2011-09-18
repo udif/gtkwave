@@ -1870,7 +1870,7 @@ printf(
 "VCD files may be compressed with zip or gzip.  Note that VCDFILE and VZTFILE\n"
 "are optional provided the --vcdname and --vztname options are specified.\n"
 "Use \"-\" as a VCD filename to accept uncompressed input from stdin.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #else
 printf(
 "Usage: %s [OPTION]... [VCDFILE] [VZTFILE]\n\n"
@@ -1887,7 +1887,7 @@ printf(
 "VCD files may be compressed with zip or gzip.  Note that VCDFILE and VZTFILE\n"
 "are optional provided the --vcdname and --vztname options are specified.\n"
 "Use \"-\" as a VCD filename to accept uncompressed input from stdin.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #endif
 
 exit(0);

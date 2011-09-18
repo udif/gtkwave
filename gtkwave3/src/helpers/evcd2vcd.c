@@ -406,7 +406,7 @@ printf(
 
 "Note that EVCDFILE is optional provided the --filename\n" 
 "option is specified.  VCD is emitted to stdout.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #else
 printf(
 "Usage: %s [OPTION]... [EVCDFILE]\n\n"
@@ -415,7 +415,7 @@ printf(
 
 "Note that EVCDFILE is optional provided the --filename\n" 
 "option is specified.  VCD is emitted to stdout.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #endif
 
 exit(0);

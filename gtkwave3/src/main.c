@@ -301,7 +301,7 @@ SLIDEZOOM_OPT
 "Note that DUMPFILE is optional if the --dump or --nocli options are specified.\n"
 "SAVEFILE and RCFILE are always optional.\n\n"
 
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 
 exit(0);
 }

@@ -160,7 +160,7 @@ printf(
 "  -c, --comprehensive        do not stop after first match\n"
 "  -h, --help                 display this help then exit\n\n"
 "First occurrence of facnames with times and matching values are emitted to\nstdout.  Using -n generates a gtkwave save file.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #else
 printf(
 "Usage: %s [OPTION]... [VZTFILE]\n\n"
@@ -171,7 +171,7 @@ printf(
 "  -c                         do not stop after first match\n"
 "  -h                         display this help then exit (gtkwave savefile)\n\n"
 "First occurrence of facnames with times and matching values are emitted to\nstdout.  Using -n generates a gtkwave save file.\n\n"
-"Report bugs to <bybell@nc.rr.com>.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #endif
 
 exit(0);
