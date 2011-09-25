@@ -645,7 +645,7 @@ facs_debug (void)
       if (n->extvals)
 	printf ("  ext: %d - %d\n", n->msi, n->lsi);
       for (h = &n->head; h; h = h->next)
-	printf ("  time:"GHWLLD" flags:%02x vect:%p\n",
+	printf ("  time:"TTFormat" flags:%02x vect:%p\n",
 		h->time, h->flags, h->v.h_vector);
     }
 }
@@ -1149,7 +1149,7 @@ ghw_main(char *fname)
 
   GLOBALS->is_ghw = 1;
 
-  fprintf(stderr, "["GHWLLD"] start time.\n["GHWLLD"] end time.\n", GLOBALS->min_time*GLOBALS->time_scale, GLOBALS->max_time*GLOBALS->time_scale);
+  fprintf(stderr, "["TTFormat"] start time.\n["TTFormat"] end time.\n", GLOBALS->min_time*GLOBALS->time_scale, GLOBALS->max_time*GLOBALS->time_scale);
   if(GLOBALS->num_glitches_ghw_c_1) fprintf(stderr, "Warning: encountered %d glitch%s across %d glitch region%s.\n",
                 GLOBALS->num_glitches_ghw_c_1, (GLOBALS->num_glitches_ghw_c_1!=1)?"es":"",
                 GLOBALS->num_glitch_regions_ghw_c_1, (GLOBALS->num_glitch_regions_ghw_c_1!=1)?"s":"");
