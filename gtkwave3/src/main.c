@@ -31,12 +31,11 @@
 #include <sys/types.h>
 #endif
 
-#if !defined _MSC_VER && !defined OS_X && defined WAVE_USE_GTK2
+#if !defined _MSC_VER && defined WAVE_USE_GTK2
 #define WAVE_USE_XID
 #else
 #undef WAVE_USE_XID
 #endif
-
 
 #ifdef HAVE_GETOPT_LONG
 #include <getopt.h>

@@ -1038,3 +1038,4 @@
 		Added custom filters to GtkFileChooser dialogue.
 		Fix in lxt2_read.c/.h for negative msb/lsb indices.
 		Fix in vzt_read.c/.h for negative msb/lsb indices.
+3.3.26	25sep11	Removed restrictions for twinwave on OSX.

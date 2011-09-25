@@ -22,7 +22,7 @@
 
 #include "debug.h"
 
-#if !defined _MSC_VER && !defined OS_X && defined WAVE_USE_GTK2
+#if !defined _MSC_VER && defined WAVE_USE_GTK2
 
 static int plug_removed(GtkWidget *widget, gpointer data)
 {
@@ -422,10 +422,6 @@ fprintf(stderr, "Sorry, this requires GTK+-2.0 or greater to run!\n");
 
 #if defined _MSC_VER || defined __MINGW32__
 fprintf(stderr, "Sorry, this doesn't run under Win32!\n");
-#endif
-
-#ifdef OS_X
-fprintf(stderr, "Sorry, this doesn't run under OS_X!\n");
 #endif
 
 fprintf(stderr, "If you find that this program works on your platform, please report this to the maintainers.\n");
