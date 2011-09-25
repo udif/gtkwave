@@ -42,6 +42,8 @@
 #endif
 #include <string.h>
 
+/* OSX warning fix */
+#define GR_INT int
 
 #define StrSame		0
 #define fatal(err)															\
@@ -141,7 +143,7 @@ Entry **table;
 		
 		if ( q != NULL && low==0 ) low = p-table;
 		len = 0;
-		if ( q != NULL ) fprintf(stderr, "[%d]", p-table);
+		if ( q != NULL ) fprintf(stderr, "[%d]", (GR_INT)(p-table));
 		while ( q != NULL )
 		{
 			len++;

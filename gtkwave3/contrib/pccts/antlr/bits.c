@@ -38,6 +38,9 @@
 #include "generic.h"
 #include "dlgdef.h"
 
+/* OSX warning fix */
+#define GR_INT int
+
 /* char is only thing that is pretty much always known == 8 bits
  * This allows output of antlr (set stuff, anyway) to be androgynous (portable)
  */
@@ -576,12 +579,12 @@ const char *suffix;
 		fprintf(ErrFile, "SetWordType %s%s[%d] = {",
 				name,
                 suffix,
-				NumWords(TokenNum-1)*sizeof(unsigned));
+				(GR_INT)(NumWords(TokenNum-1)*sizeof(unsigned)));
 	}
 	else {
 		fprintf(ErrFile, "SetWordType zzerr%d[%d] = {",
 				esetnum,
-				NumWords(TokenNum-1)*sizeof(unsigned));
+				(GR_INT)(NumWords(TokenNum-1)*sizeof(unsigned)));
 	}
 	while ( p < endp )
 	{
@@ -642,20 +645,20 @@ const char *suffix;
 
 	if ( name!=NULL ) {
 		fprintf(Parser_h, "\tstatic SetWordType %s%s[%d];\n", name, suffix,
-				NumWords(TokenNum-1)*sizeof(unsigned));
+				(GR_INT)(NumWords(TokenNum-1)*sizeof(unsigned)));
 		fprintf(Parser_c, "SetWordType %s::%s%s[%d] = {",
 				CurrentClassName,
 				name,
 				suffix,
-				NumWords(TokenNum-1)*sizeof(unsigned));
+				(GR_INT)(NumWords(TokenNum-1)*sizeof(unsigned)));
 	}
 	else {
 		fprintf(Parser_c, "SetWordType %s::err%d[%d] = {",
 				CurrentClassName,
 				esetnum,
-				NumWords(TokenNum-1)*sizeof(unsigned));
+				(GR_INT)(NumWords(TokenNum-1)*sizeof(unsigned)));
 		fprintf(Parser_h, "\tstatic SetWordType err%d[%d];\n", esetnum,
-				NumWords(TokenNum-1)*sizeof(unsigned));
+				(GR_INT)(NumWords(TokenNum-1)*sizeof(unsigned)));
 	}
 
 	while ( p < endp )
@@ -793,7 +796,7 @@ GenParser_c_Hdr()
 						OutputLL_k,
 						FoundGuessBlk,
 						DemandLookahead,
-						NumWords(TokenNum-1)*sizeof(unsigned));
+						(GR_INT)(NumWords(TokenNum-1)*sizeof(unsigned)));
 	fprintf(Parser_c, "{\n");
 	fprintf(Parser_c, "\ttoken_tbl = _token_tbl;\n");
     if (TraceGen) {
@@ -912,7 +915,7 @@ GenErrHdr( )
 #ifdef DUM
 	if ( LexGen ) fprintf(ErrFile, "#define zzEOF_TOKEN %d\n", (TokenInd!=NULL?TokenInd[EofToken]:EofToken));
 #endif
-	fprintf(ErrFile, "#define zzSET_SIZE %d\n", NumWords(TokenNum-1)*sizeof(unsigned));
+	fprintf(ErrFile, "#define zzSET_SIZE %d\n", (GR_INT)(NumWords(TokenNum-1)*sizeof(unsigned)));
 	if ( DemandLookahead ) fprintf(ErrFile, "#define DEMAND_LOOK\n");
 	fprintf(ErrFile, "#include \"antlr.h\"\n");
 	if ( GenAST ) fprintf(ErrFile, "#include \"ast.h\"\n");
