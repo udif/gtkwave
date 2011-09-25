@@ -2848,13 +2848,13 @@ void make_tcl_interpreter(char *argv[])
 	{
 	char *p = calloc_2(1, size+1);
 	size++;
-  	if(_NSGetExecutablePath(commandName, &size) == 0)
+  	if(_NSGetExecutablePath(p, &size) == 0)
 		{
-		set_globals_interp(commandName, 0);
+		set_globals_interp(p, 0);
 		}
 		else
 		{
-		fprintf(stderr, "Problem with _NSGetExecutablePath, exiting.\n");
+		fprintf(stderr, "GTKWAVE | Problem with _NSGetExecutablePath, exiting.\n");
 		exit(255);
 		}
 	free_2(p);
