@@ -33,6 +33,9 @@
 # include <config.h>
 #endif
 
+/* fix for 64-bit OSX compiles */
+#define GR_INT int
+
 #ifndef PARAMS
 # if defined __GNUC__ || (defined __STDC__ && __STDC__)
 #  define PARAMS(args) args
@@ -686,7 +689,7 @@ print_partial_compiled_pattern (start, end)
   /* Loop over pattern commands.  */
   while (p < pend)
     {
-      printf ("%d:\t", p - start);
+      printf ("%d:\t", (GR_INT)(p - start));
 
       switch ((re_opcode_t) *p++)
 	{
@@ -776,17 +779,17 @@ print_partial_compiled_pattern (start, end)
 
 	case on_failure_jump:
           extract_number_and_incr (&mcnt, &p);
-  	  printf ("/on_failure_jump to %d", p + mcnt - start);
+  	  printf ("/on_failure_jump to %d", (GR_INT)(p + mcnt - start));
           break;
 
 	case on_failure_keep_string_jump:
           extract_number_and_incr (&mcnt, &p);
-  	  printf ("/on_failure_keep_string_jump to %d", p + mcnt - start);
+  	  printf ("/on_failure_keep_string_jump to %d", (GR_INT)(p + mcnt - start));
           break;
 
 	case dummy_failure_jump:
           extract_number_and_incr (&mcnt, &p);
-  	  printf ("/dummy_failure_jump to %d", p + mcnt - start);
+  	  printf ("/dummy_failure_jump to %d", (GR_INT)(p + mcnt - start));
           break;
 
 	case push_dummy_failure:
@@ -795,43 +798,43 @@ print_partial_compiled_pattern (start, end)
 
         case maybe_pop_jump:
           extract_number_and_incr (&mcnt, &p);
-  	  printf ("/maybe_pop_jump to %d", p + mcnt - start);
+  	  printf ("/maybe_pop_jump to %d", (GR_INT)(p + mcnt - start));
 	  break;
 
         case pop_failure_jump:
 	  extract_number_and_incr (&mcnt, &p);
-  	  printf ("/pop_failure_jump to %d", p + mcnt - start);
+  	  printf ("/pop_failure_jump to %d", (GR_INT)(p + mcnt - start));
 	  break;
 
         case jump_past_alt:
 	  extract_number_and_incr (&mcnt, &p);
-  	  printf ("/jump_past_alt to %d", p + mcnt - start);
+  	  printf ("/jump_past_alt to %d", (GR_INT)(p + mcnt - start));
 	  break;
 
         case jump:
 	  extract_number_and_incr (&mcnt, &p);
-  	  printf ("/jump to %d", p + mcnt - start);
+  	  printf ("/jump to %d", (GR_INT)(p + mcnt - start));
 	  break;
 
         case succeed_n:
           extract_number_and_incr (&mcnt, &p);
 	  p1 = p + mcnt;
           extract_number_and_incr (&mcnt2, &p);
-	  printf ("/succeed_n to %d, %d times", p1 - start, mcnt2);
+	  printf ("/succeed_n to %d, %d times", (GR_INT)(p1 - start), mcnt2);
           break;
 
         case jump_n:
           extract_number_and_incr (&mcnt, &p);
 	  p1 = p + mcnt;
           extract_number_and_incr (&mcnt2, &p);
-	  printf ("/jump_n to %d, %d times", p1 - start, mcnt2);
+	  printf ("/jump_n to %d, %d times", (GR_INT)(p1 - start), mcnt2);
           break;
 
         case set_number_at:
           extract_number_and_incr (&mcnt, &p);
 	  p1 = p + mcnt;
           extract_number_and_incr (&mcnt2, &p);
-	  printf ("/set_number_at location %d to %d", p1 - start, mcnt2);
+	  printf ("/set_number_at location %d to %d", (GR_INT)(p1 - start), mcnt2);
           break;
 
         case wordbound:
@@ -898,7 +901,7 @@ print_partial_compiled_pattern (start, end)
       putchar ('\n');
     }
 
-  printf ("%d:\tend of pattern.\n", p - start);
+  printf ("%d:\tend of pattern.\n", (GR_INT)(p - start));
 }
 
 
@@ -918,7 +921,7 @@ print_compiled_pattern (bufp)
       print_fastmap (bufp->fastmap);
     }
 
-  printf ("re_nsub: %d\t", bufp->re_nsub);
+  printf ("re_nsub: %d\t", (GR_INT)(bufp->re_nsub));
   printf ("regs_alloc: %d\t", bufp->regs_allocated);
   printf ("can_be_null: %d\t", bufp->can_be_null);
   printf ("newline_anchor: %d\n", bufp->newline_anchor);
@@ -4101,11 +4104,7 @@ re_match_2_internal (bufp, string1, size1, string2, size2, pos, regs, stop)
      fails at this starting point in the input data.  */
   for (;;)
     {
-#ifdef _LIBC
       DEBUG_PRINT2 ("\n%p: ", p);
-#else
-      DEBUG_PRINT2 ("\n0x%x: ", p);
-#endif
 
       if (p == pend)
 	{ /* End of pattern means we might have succeeded.  */
@@ -4684,11 +4683,7 @@ re_match_2_internal (bufp, string1, size1, string2, size2, pos, regs, stop)
           DEBUG_PRINT1 ("EXECUTING on_failure_keep_string_jump");
 
           EXTRACT_NUMBER_AND_INCR (mcnt, p);
-#ifdef _LIBC
           DEBUG_PRINT3 (" %d (to %p):\n", mcnt, p + mcnt);
-#else
-          DEBUG_PRINT3 (" %d (to 0x%x):\n", mcnt, p + mcnt);
-#endif
 
           PUSH_FAILURE_POINT (p + mcnt, NULL, -2);
           break;
@@ -4711,11 +4706,7 @@ re_match_2_internal (bufp, string1, size1, string2, size2, pos, regs, stop)
           DEBUG_PRINT1 ("EXECUTING on_failure_jump");
 
           EXTRACT_NUMBER_AND_INCR (mcnt, p);
-#ifdef _LIBC
           DEBUG_PRINT3 (" %d (to %p)", mcnt, p + mcnt);
-#else
-          DEBUG_PRINT3 (" %d (to 0x%x)", mcnt, p + mcnt);
-#endif
 
           /* If this on_failure_jump comes right before a group (i.e.,
              the original * applied to a group), save the information
@@ -4920,11 +4911,7 @@ re_match_2_internal (bufp, string1, size1, string2, size2, pos, regs, stop)
 	  /* Note fall through.  */
 
 	unconditional_jump:
-#ifdef _LIBC
 	  DEBUG_PRINT2 ("\n%p: ", p);
-#else
-	  DEBUG_PRINT2 ("\n0x%x: ", p);
-#endif
           /* Note fall through.  */
 
         /* Unconditionally jump (without popping any failure points).  */
@@ -4932,11 +4919,7 @@ re_match_2_internal (bufp, string1, size1, string2, size2, pos, regs, stop)
 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);	/* Get the amount to jump.  */
           DEBUG_PRINT2 ("EXECUTING jump %d ", mcnt);
 	  p += mcnt;				/* Do the jump.  */
-#ifdef _LIBC
           DEBUG_PRINT2 ("(to %p).\n", p);
-#else
-          DEBUG_PRINT2 ("(to 0x%x).\n", p);
-#endif
 	  break;
 
 
@@ -4985,19 +4968,11 @@ re_match_2_internal (bufp, string1, size1, string2, size2, pos, regs, stop)
                mcnt--;
 	       p += 2;
                STORE_NUMBER_AND_INCR (p, mcnt);
-#ifdef _LIBC
                DEBUG_PRINT3 ("  Setting %p to %d.\n", p - 2, mcnt);
-#else
-               DEBUG_PRINT3 ("  Setting 0x%x to %d.\n", p - 2, mcnt);
-#endif
             }
 	  else if (mcnt == 0)
             {
-#ifdef _LIBC
               DEBUG_PRINT2 ("  Setting two bytes from %p to no_op.\n", p+2);
-#else
-              DEBUG_PRINT2 ("  Setting two bytes from 0x%x to no_op.\n", p+2);
-#endif
 	      p[2] = (unsigned char) no_op;
               p[3] = (unsigned char) no_op;
               goto on_failure;
@@ -5013,11 +4988,7 @@ re_match_2_internal (bufp, string1, size1, string2, size2, pos, regs, stop)
             {
                mcnt--;
                STORE_NUMBER (p + 2, mcnt);
-#ifdef _LIBC
                DEBUG_PRINT3 ("  Setting %p to %d.\n", p + 2, mcnt);
-#else
-               DEBUG_PRINT3 ("  Setting 0x%x to %d.\n", p + 2, mcnt);
-#endif
 	       goto unconditional_jump;
             }
           /* If don't have to jump any more, skip over the rest of command.  */
@@ -5032,11 +5003,7 @@ re_match_2_internal (bufp, string1, size1, string2, size2, pos, regs, stop)
             EXTRACT_NUMBER_AND_INCR (mcnt, p);
             p1 = p + mcnt;
             EXTRACT_NUMBER_AND_INCR (mcnt, p);
-#ifdef _LIBC
             DEBUG_PRINT3 ("  Setting %p to %d.\n", p1, mcnt);
-#else
-            DEBUG_PRINT3 ("  Setting 0x%x to %d.\n", p1, mcnt);
-#endif
 	    STORE_NUMBER (p1, mcnt);
             break;
           }
