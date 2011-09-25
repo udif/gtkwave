@@ -2829,7 +2829,7 @@ GLOBALS->interp = Tcl_CreateInterp();
 void make_tcl_interpreter(char *argv[])
 {
   int i;
-  char commandName[256];
+  char commandName[32768];
   GtkItemFactoryEntry *ife;
   int num_menu_items;
   int n = 0;
@@ -2837,6 +2837,30 @@ void make_tcl_interpreter(char *argv[])
 #ifndef WAVE_TCL_STUBIFY
   Tcl_FindExecutable(argv[0]);
 #endif
+#if (defined(__MACH__) && defined(__APPLE__))
+  {
+  uint32_t size = sizeof(commandName);
+  if(_NSGetExecutablePath(commandName, &size) == 0)
+	{
+	set_globals_interp(commandName, 0);
+	}
+	else
+	{
+	char *p = calloc_2(1, size+1);
+	size++;
+  	if(_NSGetExecutablePath(commandName, &size) == 0)
+		{
+		set_globals_interp(commandName, 0);
+		}
+		else
+		{
+		fprintf(stderr, "Problem with _NSGetExecutablePath, exiting.\n");
+		exit(255);
+		}
+	free_2(p);
+	}
+  }
+#else
 #ifdef WIN32
   if(!GetModulePathName(NULL, commandName, 256))
     n = -1 ;
@@ -2850,6 +2874,7 @@ void make_tcl_interpreter(char *argv[])
     commandName[n] = '\0' ;
   }
   set_globals_interp(commandName, 0);
+#endif
 
 #ifndef WAVE_TCL_STUBIFY
   if (TCL_OK != Tcl_Init(GLOBALS->interp)) 

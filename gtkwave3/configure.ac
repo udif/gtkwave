@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(gtkwave, 3.3.25, bybell@nc.rr.com)
+AC_INIT(gtkwave, 3.3.26, bybell@nc.rr.com)
 AC_CONFIG_SRCDIR([src/vcd.c])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
@@ -594,8 +594,20 @@ if test "X$OSTYPE" = "Xcygwin" ; then
         fi
 	fi
 else
+if test "X$OSTYPE" = "Xdarwin" ; then
+# skip Tcl_CreateInterp check on darwin (until we figure out)...
+	if test "X$STUBIFY" = "Xyes" ; then
+	TCL_DEFADD="-DHAVE_LIBTCL -DWAVE_TCL_STUBIFY -DUSE_TCL_STUBS -DUSE_TK_STUBS"
+	TCL_LDADD="${TCL_STUB_LIB_SPEC}"
+	TK_LDADD="${TK_STUB_LIB_SPEC}"
+	else
+	TCL_DEFADD="-DHAVE_LIBTCL"
+	TCL_LDADD="${TCL_LIB_SPEC}"
+	TK_LDADD="${TK_LIB_SPEC}"
+	fi
+else
 if test "X$OSTYPE" = "Xmsys" ; then
-# skip Tcl_CreateInterp check on MingW (until we figure out)...
+# skip Tcl_CreateInterp check on mingw (until we figure out)...
 	if test "X$STUBIFY" = "Xyes" ; then
 	TCL_DEFADD="-DHAVE_LIBTCL -DWAVE_TCL_STUBIFY -DUSE_TCL_STUBS -DUSE_TK_STUBS"
 	TCL_LDADD="${TCL_STUB_LIB_SPEC}"
@@ -626,6 +638,7 @@ else
 	fi
 	fi
 LDFLAGS="${OLD_LDFLAGS}"
+fi
 fi
 fi
 fi

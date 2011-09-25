@@ -58,10 +58,10 @@
 #    define SHLIB_SUFFIX ".dll"
 #  endif
 
-#elif defined(XP_MACOSX) /* Mac OS X */
+#elif (defined(__MACH__) && defined(__APPLE__)) /* Mac OS X */
 
 #  include <stdio.h>
-#  include <Carbon/Carbon.h>
+/* #  include <Carbon/Carbon.h> */ /* Commented out: ajb 25sep11 */
 
 #  if HAVE_UNISTD_H
 #	include <sys/types.h>
