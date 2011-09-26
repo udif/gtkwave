@@ -52,7 +52,7 @@ if(!strchr(GLOBALS->pFileChooseFilterName, '*') && !strchr(GLOBALS->pFileChooseF
 
 
 static
-gboolean filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
+void filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 {
 const char *t;
 gchar *folder_filename;
