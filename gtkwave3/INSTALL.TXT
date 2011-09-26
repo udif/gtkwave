@@ -101,3 +101,15 @@ to fix your Ubuntu install or use the version of libz in gtkwave:
 -140409ajb  bybell@nc.rr.com
 
 ===============================================================================
+
+Note for Mac OSX users:
+
+./configure --prefix=/opt/local --enable-judy --enable-struct-pack CFLAGS=-I/opt/local/include -O2 -g LDFLAGS=-L/opt/local/lib --no-create --no-recursion
+
+Install the Judy and lzma/xz packages in MacPorts.
+Tcl works on OSX as of 3.3.26.  At this point all features working on Linux
+should be functional on the Mac.
+
+-260911ajb  bybell@nc.rr.com
+
+===============================================================================
