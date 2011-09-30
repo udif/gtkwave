@@ -150,7 +150,7 @@ exit(255);
 void *LZMA_fdopen(int fd, const char *mode)
 {
 static const char z7[] = "z7";
-struct lzma_handle_t *h = malloc(sizeof(struct lzma_handle_t));
+struct lzma_handle_t *h = calloc(1, sizeof(struct lzma_handle_t)); /* scan-build flagged malloc, add to h->write_cnt below */
 
 h->fd = fd;
 h->offs = 0;

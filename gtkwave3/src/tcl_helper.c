@@ -1648,7 +1648,7 @@ while(t)
 						}
 						else
 						{
-						if(strcmp(str, first_str)) { coalesce_pass = 0; break; }
+						if((!first_str /*scan-build */) || strcmp(str, first_str)) { coalesce_pass = 0; break; }
 						}
 					}
 					else

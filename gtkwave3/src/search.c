@@ -748,7 +748,7 @@ GLOBALS->num_rows_search_c_2=0;
 gtk_clist_freeze(cl=GTK_CLIST(GLOBALS->clist_search_c_3));
 gtk_clist_clear(cl);
 
-entry_suffixed=wave_alloca(strlen(entry_text)+strlen(regex_type[GLOBALS->regex_which_search_c_1])+1+((GLOBALS->regex_which_search_c_1<2)?2:0));
+entry_suffixed=wave_alloca(strlen(GLOBALS->searchbox_text_search_c_1 /* scan-build, was entry_text */)+strlen(regex_type[GLOBALS->regex_which_search_c_1])+1+((GLOBALS->regex_which_search_c_1<2)?2:0));
 *entry_suffixed=0x00;
 if(GLOBALS->regex_which_search_c_1<2) strcpy(entry_suffixed, "\\<");	/* match on word boundary */
 strcat(entry_suffixed,entry_text);
