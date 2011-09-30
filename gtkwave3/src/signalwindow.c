@@ -899,6 +899,8 @@ if((GLOBALS->traces.visible)&&(GLOBALS->signalpixmap))
 
 	if(event->state&GDK_CONTROL_MASK)
 		{
+		if(t) /* scan-build */
+		  {
 		  if(IsGroupBegin(t) && IsSelected(t))
 		    {
 		      ClearGroupTraces(t);
@@ -911,6 +913,7 @@ if((GLOBALS->traces.visible)&&(GLOBALS->signalpixmap))
 		    {
 		      t->flags ^= TR_HIGHLIGHT;
 		    }
+		  }
 		}
 	else
 	if((event->state&GDK_SHIFT_MASK)&&(GLOBALS->starting_unshifted_trace))
@@ -962,7 +965,7 @@ if((GLOBALS->traces.visible)&&(GLOBALS->signalpixmap))
 			else
 			{
 			GLOBALS->starting_unshifted_trace = t;
-			t->flags |= TR_HIGHLIGHT;
+			if(t) { t->flags |= TR_HIGHLIGHT; }  /* scan-build */
 			}
 		}
 	/*	else if(!(t->flags & TR_HIGHLIGHT)) Ben Sferrazza suggested fix rather than a regular "else" */
@@ -977,7 +980,7 @@ else
 			t2 = t2->t_next;
 			}
 
-		t->flags |= TR_HIGHLIGHT;
+		if(t) { t->flags |= TR_HIGHLIGHT; } /* scan-build */
 		}
 
 	if(event->type == GDK_2BUTTON_PRESS)

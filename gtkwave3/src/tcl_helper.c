@@ -2585,8 +2585,6 @@ GLOBALS->enable_fast_exit = 1;
 
 if(objc > 1)
 	{
-	struct wave_script_args *wc = NULL;
-
 	for(i=1;i<objc;i++)
 		{
 		char *s = Tcl_GetString(objv[i]);
@@ -2603,12 +2601,6 @@ if(objc > 1)
 			{
 			GLOBALS->wave_script_args = w;
 			w->curr = w;
-			wc = w;
-			}
-			else
-			{
-			wc->next = w; /* we later really traverse through curr->next from the head pointer */
-			wc = w;
 			}
 		}
 

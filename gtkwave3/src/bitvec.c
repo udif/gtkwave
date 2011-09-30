@@ -379,7 +379,7 @@ while(h[0])	/* should never exit through this point the way we set up histents w
 vadd=(vptr)calloc_2(1,sizeof(struct VectorEnt)+numextrabytes);
 vadd->time=MAX_HISTENT_TIME;
 for(i=0;i<=numextrabytes;i++) vadd->v[i]=AN_U; /* formerly 0x55 */
-vcurr->next=vadd;
+if(vcurr) { vcurr->next=vadd; } /* scan-build */
 regions++;
 
 bitvec=(bvptr)calloc_2(1,sizeof(struct BitVector)+
@@ -393,7 +393,7 @@ vcurr=vhead;
 for(i=0;i<regions;i++)
 	{
 	bitvec->vectors[i]=vcurr;
-	vcurr=vcurr->next;
+	if(vcurr) { vcurr=vcurr->next; } /* scan-build */
 	}
 
 return(bitvec);
@@ -681,6 +681,8 @@ struct Bits *b=NULL;
 int state = 0;
 unsigned int rows = 0;
 
+memset(ba, 0, sizeof(ba)); /* scan-build */
+
 while(1)
 {
 pnt=str;
@@ -936,6 +938,7 @@ if(!GLOBALS->vcd_explicit_zero_subscripts)	/* 0==yes, -1==no */
 	}
 
 n=(struct Node **)wave_alloca(len*sizeof(struct Node *));
+memset(n, 0, len*sizeof(struct Node *)); /* scan-build */
 
 if(!GLOBALS->autocoalesce_reversal)		/* normal case for MTI */
 	{
@@ -3084,6 +3087,7 @@ int parsewavline_lx2(char *w, char *alias, int depth)
  prefix=(char *)wave_alloca(len+1);
  suffix=(char *)wave_alloca(len+1);
  new=(char *)wave_alloca(len+1);
+ new[0] = 0; /* scan-build : in case there are weird mode problems */
 
  prefix_init = prefix;
  w2_init = new;

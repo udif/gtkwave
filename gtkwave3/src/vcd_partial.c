@@ -2389,6 +2389,7 @@ if(!nd->harray)         /* make quick array lookup for aet display */
                 fprintf( stderr, "Out of memory, can't add %s to analyzer\n",
                         nd->nname );
                 free_2(t);
+		return; /* scan-build : really can't do anything here */
                 }
         
         histpnt=&(nd->head);

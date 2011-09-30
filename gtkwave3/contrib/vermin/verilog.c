@@ -440,7 +440,7 @@ int main(int argc, char **argv)
   struct vpp_filename *lib_head=NULL, *lib_curr=NULL;
   struct vpp_filename *libext_head=NULL, *libext_curr=NULL;
   JRB node;
-  int maxarg = v_argc - 1;
+  int maxarg; /* scan build : was  int maxarg = v_argc - 1; */
   
 WAVE_LOCALE_FIX
   

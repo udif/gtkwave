@@ -531,6 +531,10 @@ if((!hash_kill) && (vcd_ids))
 	jrb_free_tree(vcd_ids);
 	vcd_ids = NULL;
 	}
+	else
+	{
+	hash_kill = 1; /* scan-build */
+	}
 
 while(!feof(f))
 	{

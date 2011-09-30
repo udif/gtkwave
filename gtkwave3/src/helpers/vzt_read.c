@@ -708,7 +708,7 @@ XDR x;
 const vztint32_t endian_matchword = 0x12345678;
 #endif
 double d;
-char xdrdata[8];
+char xdrdata[8] = { 0,0,0,0,0,0,0,0 }; /* scan-build */
 
 for(j=0;j<64;j++)
 	{

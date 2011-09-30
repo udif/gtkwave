@@ -2113,7 +2113,7 @@ menu_expand(gpointer null_data, guint callback_action, GtkWidget *widget)
 	  t=t_next;
 	}
       t=GLOBALS->traces.first;
-      t->t_grp = NULL;
+      if(t) { t->t_grp = NULL; } /* scan-build */
       while(t)
 	{
 	  if(HasWave(t) && (t->flags&TR_COLLAPSED))
@@ -2480,7 +2480,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	  b->attribs = NULL;
 	}
 
-      if(n[0]->expansion)
+      if(nodepnt && n[0] && n[0]->expansion) /* scan-build */
 	{
 	  bitblast_parent = n[0]->expansion->parent;
 	}
@@ -2494,7 +2494,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	  for(i=0;i<nodepnt;i++)
 	    {
 	      b->nodes[i]=n[i];
-	      if(n[i]->expansion)
+	      if(n[i] && n[i]->expansion) /* scan-build */
 		{
 		  if(bitblast_parent != n[i]->expansion->parent) 
 		    {
@@ -2527,7 +2527,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	  for(i=0;i<nodepnt;i++)
 	    {
 	      b->nodes[i]=n[rev--];
-	      if(n[i]->expansion)
+	      if(n[i] && n[i]->expansion) /* scan-build */
 		{
 		  if(bitblast_parent != n[i]->expansion->parent) 
 		    {
@@ -2563,11 +2563,11 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 
 	  if(direction)
 	    {
-	      aname = attempt_vecmatch(n[0]->nname, n[nodepnt-1]->nname);
+	      aname = (nodepnt && n[0]) ? attempt_vecmatch(n[0]->nname, n[nodepnt-1]->nname) : NULL;  /* scan-build */
 	    }
 	  else
 	    {
-	      aname = attempt_vecmatch(n[nodepnt-1]->nname, n[0]->nname);
+	      aname = (nodepnt && n[0]) ? attempt_vecmatch(n[nodepnt-1]->nname, n[0]->nname) : NULL; /* scan-build */
 	    }
 
 	  if(aname)

@@ -56,7 +56,7 @@ if((esc=strchr(pnt, '\\')))
 	}
 
 pnt2=pnt+len-1;
-ch=*pnt2;
+/* ch=*pnt2; */ /* scan-build : useless given loop below */
 
 for(i=0;i<len;i++)
 	{
@@ -1276,7 +1276,7 @@ for(i=0;i<GLOBALS->traces.total;i++)
         }
 
 GLOBALS->traces.last=prev;
-prev->t_next=NULL;
+if(prev) { prev->t_next=NULL; } /* scan-build */
 
 return(1);
 }  
