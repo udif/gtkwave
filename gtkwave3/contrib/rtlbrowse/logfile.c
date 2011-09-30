@@ -649,7 +649,7 @@ if(len < 4)
 	char *s2 = calloc(1, siz);
 	int idx;
 	char *pnt = s2;
-	char arr[4];
+	char arr[5] = { 0, 0, 0, 0, 0 }; /* scan-build : but arr[4] should work ok */
 
 	while(*s)
 		{
