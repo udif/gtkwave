@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2009 Tony Bybell.
+ * Copyright (c) 2003-2011 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -857,165 +857,175 @@ if(!(lt->handle=fopen(name, "rb")))
 		rcf=fread(&lt->zfacgeometrysize, 4, 1, lt->handle);	lt->zfacgeometrysize = rcf ? lxt2_rd_get_32(&lt->zfacgeometrysize,0) : 0;
 		rcf=fread(&lt->timescale, 1, 1, lt->handle);		if(!rcf) lt->timescale = 0; /* no swap necessary */
 
-		fprintf(stderr, LXT2_RDLOAD LXT2_RD_LD" facilities\n", lt->numfacs);
-		pos = ftello(lt->handle);
-		/* fprintf(stderr, LXT2_RDLOAD"gzip facnames start at pos %d (zsize=%d)\n", pos, lt->zfacnamesize); */
-
-		lt->process_mask = calloc(1, lt->numfacs/8+1);
-		lt->process_mask_compressed = calloc(1, lt->numfacs/LXT2_RD_PARTIAL_SIZE+1);
-
-		lt->zhandle = gzdopen(dup(fileno(lt->handle)), "rb");
-		m=(char *)malloc(lt->zfacname_predec_size);
-		rc=gzread(lt->zhandle, m, lt->zfacname_predec_size);
-		gzclose(lt->zhandle); lt->zhandle=NULL;
-
-		if(rc!=lt->zfacname_predec_size)
+		if(!lt->numfacs) /* scan-build for mallocs below */
 			{
-			fprintf(stderr, LXT2_RDLOAD"*** name section mangled %d (act) vs "LXT2_RD_LD" (exp)\n", rc, lt->zfacname_predec_size);
-			free(m);
-
+			fprintf(stderr, LXT2_RDLOAD"*** Nothing to do, zero facilities found.\n");
 			lxt2_rd_close(lt);
 		        lt=NULL;
-			return(lt);
-			}
-
-		lt->zfacnames = m;
-
-                lt->faccache = calloc(1, sizeof(struct lxt2_rd_facname_cache));
-                lt->faccache->old_facidx = lt->numfacs;   /* causes lxt2_rd_get_facname to initialize its unroll ptr as this is always invalid */
-                lt->faccache->bufcurr = malloc(lt->longestname+1);
-                lt->faccache->bufprev = malloc(lt->longestname+1);
-
-		fseeko(lt->handle, pos = pos+lt->zfacnamesize, SEEK_SET);
-		/* fprintf(stderr, LXT2_RDLOAD"seeking to geometry at %d (0x%08x)\n", pos, pos); */
-		lt->zhandle = gzdopen(dup(fileno(lt->handle)), "rb");
-
-		t = lt->numfacs * 4 * sizeof(lxtint32_t);
-		m=(char *)malloc(t);				
-		rc=gzread(lt->zhandle, m, t);
-		gzclose(lt->zhandle); lt->zhandle=NULL;
-		if(rc!=t)
-			{
-			fprintf(stderr, LXT2_RDLOAD"*** geometry section mangled %d (act) vs %d (exp)\n", rc, t);
-			free(m);
-
-			lxt2_rd_close(lt);
-		        lt=NULL;
-			return(lt);
-			}
-
-		pos = pos+lt->zfacgeometrysize;
-
-		lt->rows = malloc(lt->numfacs * sizeof(lxtint32_t));
-		lt->msb = malloc(lt->numfacs * sizeof(lxtsint32_t));
-		lt->lsb = malloc(lt->numfacs * sizeof(lxtsint32_t));
-		lt->flags = malloc(lt->numfacs * sizeof(lxtint32_t));
-		lt->len = malloc(lt->numfacs * sizeof(lxtint32_t));
-		lt->value = malloc(lt->numfacs * sizeof(char *));
-		lt->next_radix = malloc(lt->numfacs * sizeof(void *));
-
-		for(i=0;i<lt->numfacs;i++)
-			{
-			lt->rows[i] = lxt2_rd_get_32(m+i*16, 0);
-			lt->msb[i] = lxt2_rd_get_32(m+i*16, 4);
-			lt->lsb[i] = lxt2_rd_get_32(m+i*16, 8);
-			lt->flags[i] = lxt2_rd_get_32(m+i*16, 12);
-
-			if(!(lt->flags[i] & LXT2_RD_SYM_F_INTEGER))
-				{
-				lt->len[i] = (lt->msb[i] <= lt->lsb[i]) ? (lt->lsb[i] - lt->msb[i] + 1) : (lt->msb[i] - lt->lsb[i] + 1);
-				}
-				else
-				{
-				lt->len[i] = 32;
-				}
-			lt->value[i] = calloc(lt->len[i] + 1, sizeof(char));
-			}
-
-		for(lt->numrealfacs=0; lt->numrealfacs<lt->numfacs; lt->numrealfacs++)
-			{
-			if(lt->flags[lt->numrealfacs] & LXT2_RD_SYM_F_ALIAS)
-				{
-				break;
-				}
-			}
-		if(lt->numrealfacs > lt->numfacs) lt->numrealfacs = lt->numfacs;
-
-		lt->prev_time = ~(LXT2_RD_GRAN_0VAL);
-		free(m);
-
-		lt->fac_map = malloc(lt->numfacs * sizeof(granmsk_t));
-		lt->fac_curpos = malloc(lt->numfacs * sizeof(char *));
-
-		for(;;)
-			{
-			fseeko(lt->handle, 0L, SEEK_END);
-			fend=ftello(lt->handle);
-			if(pos>=fend) break;
-
-			fseeko(lt->handle, pos, SEEK_SET);
-			/* fprintf(stderr, LXT2_RDLOAD"seeking to block at %d (0x%08x)\n", pos, pos); */
-
-			b=calloc(1, sizeof(struct lxt2_rd_block));
-		
-			rcf = fread(&b->uncompressed_siz, 4, 1, lt->handle);	b->uncompressed_siz = rcf ? lxt2_rd_get_32(&b->uncompressed_siz,0) : 0;
-			rcf = fread(&b->compressed_siz, 4, 1, lt->handle);	b->compressed_siz = rcf ? lxt2_rd_get_32(&b->compressed_siz,0) : 0;
-			rcf = fread(&b->start, 8, 1, lt->handle);		b->start = rcf ? lxt2_rd_get_64(&b->start,0) : 0;
-			rcf = fread(&b->end, 8, 1, lt->handle);			b->end = rcf ? lxt2_rd_get_64(&b->end,0) : 0;
-			pos = ftello(lt->handle);
-			fseeko(lt->handle, pos, SEEK_SET);
-			/* fprintf(stderr, LXT2_RDLOAD"block gzip start at pos %d (0x%08x)\n", pos, pos); */
-			if(pos>=fend)
-				{
-				free(b);
-				break;
-				}
-
-			b->filepos = pos; /* mark startpos for later in case we purge it from memory */	
-			/* fprintf(stderr, LXT2_RDLOAD"un/compressed size: %d/%d\n", b->uncompressed_siz, b->compressed_siz); */
-	
-			if((b->uncompressed_siz)&&(b->compressed_siz)&&(b->end))
-				{
-				/* fprintf(stderr, LXT2_RDLOAD"block [%d] %lld / %lld\n", lt->numblocks, b->start, b->end); */
-				fseeko(lt->handle, b->compressed_siz, SEEK_CUR);
-
-				lt->numblocks++;
-				if(lt->block_curr)
-					{
-					lt->block_curr->next = b;
-					lt->block_curr = b;
-					lt->end = b->end;
-					}
-					else
-					{
-					lt->block_head = lt->block_curr = b;
-					lt->start = b->start;
-					lt->end = b->end;
-					}			
-				}
-				else
-				{
-				free(b);
-				break;
-				}
-	
-			pos+=b->compressed_siz;
-			}
-
-		if(lt->numblocks)
-			{
-			fprintf(stderr, LXT2_RDLOAD"Read %d block header%s OK\n", lt->numblocks, (lt->numblocks!=1) ? "s" : "");
-
-			fprintf(stderr, LXT2_RDLOAD"["LXT2_RD_LLD"] start time\n", lt->start);
-			fprintf(stderr, LXT2_RDLOAD"["LXT2_RD_LLD"] end time\n", lt->end);
-			fprintf(stderr, LXT2_RDLOAD"\n");
-
-			lt->value_change_callback = lxt2_rd_null_callback;
 			}
 			else
 			{
-			lxt2_rd_close(lt);
-			lt=NULL;
+			fprintf(stderr, LXT2_RDLOAD LXT2_RD_LD" facilities\n", lt->numfacs);
+
+			pos = ftello(lt->handle);
+			/* fprintf(stderr, LXT2_RDLOAD"gzip facnames start at pos %d (zsize=%d)\n", pos, lt->zfacnamesize); */
+
+			lt->process_mask = calloc(1, lt->numfacs/8+1);
+			lt->process_mask_compressed = calloc(1, lt->numfacs/LXT2_RD_PARTIAL_SIZE+1);
+
+			lt->zhandle = gzdopen(dup(fileno(lt->handle)), "rb");
+			m=(char *)malloc(lt->zfacname_predec_size);
+			rc=gzread(lt->zhandle, m, lt->zfacname_predec_size);
+			gzclose(lt->zhandle); lt->zhandle=NULL;
+	
+			if(rc!=lt->zfacname_predec_size)
+				{
+				fprintf(stderr, LXT2_RDLOAD"*** name section mangled %d (act) vs "LXT2_RD_LD" (exp)\n", rc, lt->zfacname_predec_size);
+				free(m);
+	
+				lxt2_rd_close(lt);
+			        lt=NULL;
+				return(lt);
+				}
+	
+			lt->zfacnames = m;
+
+        	        lt->faccache = calloc(1, sizeof(struct lxt2_rd_facname_cache));
+        	        lt->faccache->old_facidx = lt->numfacs;   /* causes lxt2_rd_get_facname to initialize its unroll ptr as this is always invalid */
+        	        lt->faccache->bufcurr = malloc(lt->longestname+1);
+	                lt->faccache->bufprev = malloc(lt->longestname+1);
+	
+			fseeko(lt->handle, pos = pos+lt->zfacnamesize, SEEK_SET);
+			/* fprintf(stderr, LXT2_RDLOAD"seeking to geometry at %d (0x%08x)\n", pos, pos); */
+			lt->zhandle = gzdopen(dup(fileno(lt->handle)), "rb");
+	
+			t = lt->numfacs * 4 * sizeof(lxtint32_t);
+			m=(char *)malloc(t);				
+			rc=gzread(lt->zhandle, m, t);
+			gzclose(lt->zhandle); lt->zhandle=NULL;
+			if(rc!=t)
+				{
+				fprintf(stderr, LXT2_RDLOAD"*** geometry section mangled %d (act) vs %d (exp)\n", rc, t);
+				free(m);
+	
+				lxt2_rd_close(lt);
+			        lt=NULL;
+				return(lt);
+				}
+
+			pos = pos+lt->zfacgeometrysize;
+
+			lt->rows = malloc(lt->numfacs * sizeof(lxtint32_t));
+			lt->msb = malloc(lt->numfacs * sizeof(lxtsint32_t));
+			lt->lsb = malloc(lt->numfacs * sizeof(lxtsint32_t));
+			lt->flags = malloc(lt->numfacs * sizeof(lxtint32_t));
+			lt->len = malloc(lt->numfacs * sizeof(lxtint32_t));
+			lt->value = malloc(lt->numfacs * sizeof(char *));
+			lt->next_radix = malloc(lt->numfacs * sizeof(void *));
+
+			for(i=0;i<lt->numfacs;i++)
+				{
+				lt->rows[i] = lxt2_rd_get_32(m+i*16, 0);
+				lt->msb[i] = lxt2_rd_get_32(m+i*16, 4);
+				lt->lsb[i] = lxt2_rd_get_32(m+i*16, 8);
+				lt->flags[i] = lxt2_rd_get_32(m+i*16, 12);
+	
+				if(!(lt->flags[i] & LXT2_RD_SYM_F_INTEGER))
+					{
+					lt->len[i] = (lt->msb[i] <= lt->lsb[i]) ? (lt->lsb[i] - lt->msb[i] + 1) : (lt->msb[i] - lt->lsb[i] + 1);
+					}
+					else
+					{
+					lt->len[i] = 32;
+					}
+				lt->value[i] = calloc(lt->len[i] + 1, sizeof(char));
+				}
+
+			for(lt->numrealfacs=0; lt->numrealfacs<lt->numfacs; lt->numrealfacs++)
+				{
+				if(lt->flags[lt->numrealfacs] & LXT2_RD_SYM_F_ALIAS)
+					{
+					break;
+					}
+				}
+			if(lt->numrealfacs > lt->numfacs) lt->numrealfacs = lt->numfacs;
+
+			lt->prev_time = ~(LXT2_RD_GRAN_0VAL);
+			free(m);
+
+			lt->fac_map = malloc(lt->numfacs * sizeof(granmsk_t));
+			lt->fac_curpos = malloc(lt->numfacs * sizeof(char *));
+
+			for(;;)
+				{
+				fseeko(lt->handle, 0L, SEEK_END);
+				fend=ftello(lt->handle);
+				if(pos>=fend) break;
+	
+				fseeko(lt->handle, pos, SEEK_SET);
+				/* fprintf(stderr, LXT2_RDLOAD"seeking to block at %d (0x%08x)\n", pos, pos); */
+
+				b=calloc(1, sizeof(struct lxt2_rd_block));
+		
+				rcf = fread(&b->uncompressed_siz, 4, 1, lt->handle);	b->uncompressed_siz = rcf ? lxt2_rd_get_32(&b->uncompressed_siz,0) : 0;
+				rcf = fread(&b->compressed_siz, 4, 1, lt->handle);	b->compressed_siz = rcf ? lxt2_rd_get_32(&b->compressed_siz,0) : 0;
+				rcf = fread(&b->start, 8, 1, lt->handle);		b->start = rcf ? lxt2_rd_get_64(&b->start,0) : 0;
+				rcf = fread(&b->end, 8, 1, lt->handle);			b->end = rcf ? lxt2_rd_get_64(&b->end,0) : 0;
+				pos = ftello(lt->handle);
+				fseeko(lt->handle, pos, SEEK_SET);
+				/* fprintf(stderr, LXT2_RDLOAD"block gzip start at pos %d (0x%08x)\n", pos, pos); */
+				if(pos>=fend)
+					{
+					free(b);
+					break;
+					}
+
+				b->filepos = pos; /* mark startpos for later in case we purge it from memory */	
+				/* fprintf(stderr, LXT2_RDLOAD"un/compressed size: %d/%d\n", b->uncompressed_siz, b->compressed_siz); */
+	
+				if((b->uncompressed_siz)&&(b->compressed_siz)&&(b->end))
+					{
+					/* fprintf(stderr, LXT2_RDLOAD"block [%d] %lld / %lld\n", lt->numblocks, b->start, b->end); */
+					fseeko(lt->handle, b->compressed_siz, SEEK_CUR);
+
+					lt->numblocks++;
+					if(lt->block_curr)
+						{
+						lt->block_curr->next = b;
+						lt->block_curr = b;
+						lt->end = b->end;
+						}
+						else
+						{
+						lt->block_head = lt->block_curr = b;
+						lt->start = b->start;
+						lt->end = b->end;
+						}			
+					}
+					else
+					{
+					free(b);
+					break;
+					}
+	
+				pos+=b->compressed_siz;
+				}
+
+			if(lt->numblocks)
+				{
+				fprintf(stderr, LXT2_RDLOAD"Read %d block header%s OK\n", lt->numblocks, (lt->numblocks!=1) ? "s" : "");
+	
+				fprintf(stderr, LXT2_RDLOAD"["LXT2_RD_LLD"] start time\n", lt->start);
+				fprintf(stderr, LXT2_RDLOAD"["LXT2_RD_LLD"] end time\n", lt->end);
+				fprintf(stderr, LXT2_RDLOAD"\n");
+
+				lt->value_change_callback = lxt2_rd_null_callback;
+				}
+				else
+				{
+				lxt2_rd_close(lt);
+				lt=NULL;
+				}
 			}
 		}
 	}

@@ -2367,6 +2367,8 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
       struct Bits *b=NULL;
       bvptr v=NULL;
 
+      memset(n, 0, sizeof(n)); /* scan-build */
+
       if(!single_trace_only)
 	{
       	FreeCutBuffer();

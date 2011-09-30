@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2009 Tony Bybell.
+ * Copyright (c) 2003-2011 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -475,7 +475,9 @@ if(b->num_str_entries)
 		}
 	}
 
-change_dict = malloc((num_dict_words = num_sections * num_dict_entries) * sizeof(vztint32_t));
+
+num_dict_words = (num_sections * num_dict_entries) * sizeof(vztint32_t);
+change_dict = malloc(num_dict_words ? num_dict_words : sizeof(vztint32_t)); /* scan-build */
 m = 0;
 for(i=0;i<num_dict_entries;i++)
 	{

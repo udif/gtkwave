@@ -148,7 +148,7 @@ static struct fstHier *extractNextVar(void *xc, int *msb, int *lsb, char **nam, 
 {
 struct fstHier *h;
 const char *pnts;
-char *pnt, *pntd, *lb_last = NULL, *col_last = NULL, *rb_last = NULL;
+char *pnt, *pntd, *lb_last = NULL, *col_last = NULL; /* *rb_last = NULL; */ /* scan-build : unused */
 int acc;
 char *s;
 unsigned char ttype;
@@ -195,7 +195,7 @@ while((h = fstReaderIterateHier(xc)))
 					{
 					if(*pnts == '[') { lb_last = pntd; col_last = NULL; }
 					else if(*pnts == ':') { col_last = pntd; }
-					else if(*pnts == ']') { rb_last = pntd; }
+					/* else if(*pnts == ']') { rb_last = pntd; } */ /* scan-build : unused */
 
 					*(pntd++) = *pnts;
 					}
@@ -375,7 +375,7 @@ for(activity_idx = 0; activity_idx < num_activity_changes; activity_idx++)
   
                 GLOBALS->blackout_regions = bt;
 
-		activity_idx = activity_idx2;
+		activity_idx = activity_idx2; /* scan-build says is dead, but keep to mirror code below */
 		break;
 		}
 
@@ -1081,7 +1081,7 @@ htemp->time = (tim) * (GLOBALS->time_scale);
 
 if(l2e->histent_head)
 	{
-	l2e->histent_curr->next = htemp;
+	l2e->histent_curr->next = htemp; /* scan-build : this is ok given how it's used */
 	l2e->histent_curr = htemp;
 	}
 	else
