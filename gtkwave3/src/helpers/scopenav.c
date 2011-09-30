@@ -54,8 +54,6 @@ while(nhold)
  */
 static void diff_hier(struct namehier *nh1, struct namehier *nh2)
 {
-struct namehier *nhtemp;
-
 if(!nh2)
 	{
 	while((nh1)&&(nh1->not_final))
@@ -75,7 +73,6 @@ for(;;)
 
 	if(nh2->not_final==0)	/* old hier is shorter */
 		{
-		nhtemp=nh1;
 		while((nh1)&&(nh1->not_final))
 			{
 			printf("$scope module %s $end\n", nh1->name);
@@ -86,7 +83,6 @@ for(;;)
 
 	if(nh1->not_final==0)	/* new hier is shorter */
 		{
-		nhtemp=nh2;
 		while((nh2)&&(nh2->not_final))
 			{
 			printf("$upscope $end\n");
@@ -97,14 +93,14 @@ for(;;)
 
 	if(strcmp(nh1->name, nh2->name))
 		{
-		nhtemp=nh2;				/* prune old hier */
+		/* prune old hier */
 		while((nh2)&&(nh2->not_final))
 			{
 			printf("$upscope $end\n");
 			nh2=nh2->next;
 			}
 
-		nhtemp=nh1;				/* add new hier */
+		/* add new hier */
 		while((nh1)&&(nh1->not_final))
 			{
 			printf("$scope module %s $end\n", nh1->name);

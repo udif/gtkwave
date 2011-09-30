@@ -518,8 +518,8 @@ if((vl->elem_siz == 1)&&(siz))
 
 	if(vl->offs*2 < vl->siz)
 		{
-		v2 = calloc_2(1, sizeof(struct vlist_t) + (vl->siz * vl->elem_siz));
-		memcpy(v2, vl, sizeof(struct vlist_t) + (vl->siz/2 * vl->elem_siz));
+		v2 = calloc_2(1, sizeof(struct vlist_t) + (vl->siz /* * vl->elem_siz */)); /* scan-build */
+		memcpy(v2, vl, sizeof(struct vlist_t) + (vl->siz/2 /* * vl->elem_siz */)); /* scan-build */
 		free_2(vl);
 	
 		*v = v2;
