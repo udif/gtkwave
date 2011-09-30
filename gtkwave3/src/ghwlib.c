@@ -275,9 +275,9 @@ ghw_read_range (struct ghw_handler *h)
 	r->kind = t & 0x7f;
 	r->dir = (t & 0x80) != 0;
 	if (ghw_read_byte (h, &r->left) != 0)
-	  return NULL;
+	  { free(r); return NULL; } /* scan-build */
 	if (ghw_read_byte (h, &r->right) != 0)
-	  return NULL;
+	  { free(r); return NULL; } /* scan-build */
 	return (union ghw_range *)r;
       }
     case ghdl_rtik_type_e8:
@@ -287,9 +287,9 @@ ghw_read_range (struct ghw_handler *h)
 	r->kind = t & 0x7f;
 	r->dir = (t & 0x80) != 0;
 	if (ghw_read_byte (h, &r->left) != 0)
-	  return NULL;
+	  { free(r); return NULL; } /* scan-build */
 	if (ghw_read_byte (h, &r->right) != 0)
-	  return NULL;
+	  { free(r); return NULL; } /* scan-build */
 	return (union ghw_range *)r;
       }
     case ghdl_rtik_type_i32:
@@ -300,9 +300,9 @@ ghw_read_range (struct ghw_handler *h)
 	r->kind = t & 0x7f;
 	r->dir = (t & 0x80) != 0;
 	if (ghw_read_sleb128 (h, &r->left) != 0)
-	  return NULL;
+	  { free(r); return NULL; } /* scan-build */
 	if (ghw_read_sleb128 (h, &r->right) != 0)
-	  return NULL;
+	  { free(r); return NULL; } /* scan-build */
 	return (union ghw_range *)r;
       }
     case ghdl_rtik_type_i64:
@@ -313,9 +313,9 @@ ghw_read_range (struct ghw_handler *h)
 	r->kind = t & 0x7f;
 	r->dir = (t & 0x80) != 0;
 	if (ghw_read_lsleb128 (h, &r->left) != 0)
-	  return NULL;
+	  { free(r); return NULL; } /* scan-build */
 	if (ghw_read_lsleb128 (h, &r->right) != 0)
-	  return NULL;
+	  { free(r) ; return NULL; } /* scan-build */
 	return (union ghw_range *)r;
       }
     case ghdl_rtik_type_f64:
@@ -325,9 +325,9 @@ ghw_read_range (struct ghw_handler *h)
 	r->kind = t & 0x7f;
 	r->dir = (t & 0x80) != 0;
 	if (ghw_read_f64 (h, &r->left) != 0)
-	  return NULL;
+	  { free(r); return NULL; } /* scan-build */
 	if (ghw_read_f64 (h, &r->right) != 0)
-	  return NULL;
+	  { free(r); return NULL; } /* scan-build */
 	return (union ghw_range *)r;
       }
     default:
