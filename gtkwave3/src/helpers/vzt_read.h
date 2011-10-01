@@ -64,7 +64,7 @@ typedef int pthread_mutexattr_t;
 #if __STDC_VERSION__ >= 199901L
 #define _VZT_RD_INLINE       
 #else
-#define _VZT_INLINE inline
+#define _VZT_RD_INLINE inline
 #endif
 #else
 #define _VZT_RD_INLINE
