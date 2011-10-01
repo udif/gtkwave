@@ -1110,7 +1110,7 @@ ghw_read_eoh (struct ghw_handler *h)
 int
 ghw_read_base (struct ghw_handler *h)
 {
-  unsigned char hdr[4];
+  unsigned char hdr[4] = { 0, 0, 0, 0 }; /* scan-build */
   int res;
 
   while (1)
@@ -1429,7 +1429,7 @@ ghw_read_tailer (struct ghw_handler *h)
 enum ghw_res
 ghw_read_sm_hdr (struct ghw_handler *h, int *list)
 {
-  unsigned char hdr[4];
+  unsigned char hdr[4] = { 0, 0, 0, 0 }; /* scan-build */
   int res;
 
   if (fread (hdr, sizeof (hdr), 1, h->stream) != 1)
@@ -1561,7 +1561,7 @@ ghw_read_cycle (struct ghw_handler *h)
 int
 ghw_read_dump (struct ghw_handler *h)
 {
-  unsigned char hdr[4];
+  unsigned char hdr[4] = { 0, 0, 0, 0 }; /* scan-build */
   int res;
 
   while (1)
