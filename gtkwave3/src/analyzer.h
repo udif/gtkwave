@@ -269,6 +269,12 @@ typedef struct BitAttributes
   unsigned int flags;
   } BitAttributes;
 
+
+#ifdef WAVE_USE_STRUCT_PACKING
+#pragma pack(push)
+#pragma pack(1)
+#endif
+
 typedef struct Bits
   {
     char    *name;		/* name of this vector of bits   */
@@ -277,6 +283,16 @@ typedef struct Bits
     
     nptr    nodes[1];		/* pointers to the bits (nodes)  */
   } Bits;
+
+#ifdef WAVE_USE_STRUCT_PACKING
+#pragma pack(pop)
+#endif
+
+
+#ifdef WAVE_USE_STRUCT_PACKING
+#pragma pack(push)
+#pragma pack(1)
+#endif
 
 typedef struct BitVector
   {
@@ -289,6 +305,10 @@ typedef struct BitVector
     bptr    bits;		/* pointer to Bits structs for save file */
     vptr    vectors[1];		/* pointers to the vectors               */
   } BitVector;
+
+#ifdef WAVE_USE_STRUCT_PACKING
+#pragma pack(pop)
+#endif
 
 
 typedef struct

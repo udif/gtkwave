@@ -382,8 +382,7 @@ for(i=0;i<=numextrabytes;i++) vadd->v[i]=AN_U; /* formerly 0x55 */
 if(vcurr) { vcurr->next=vadd; } /* scan-build */
 regions++;
 
-bitvec=(bvptr)calloc_2(1,sizeof(struct BitVector)+
-		(regions*sizeof(vptr)));
+bitvec=(bvptr)calloc_2(1,sizeof(struct BitVector)+((regions-1)*sizeof(vptr))); /* ajb : found "regions" by manual inspection, changed to "regions-1" as array is already [1] */
 
 strcpy(bitvec->bvname=(char *)malloc_2(strlen(b->name)+1),b->name);
 bitvec->nbits=b->nnbits;
