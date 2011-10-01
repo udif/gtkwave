@@ -61,7 +61,11 @@ typedef int pthread_mutexattr_t;
 #include <LzmaLib.h>
 
 #ifdef __GNUC__
-#define _VZT_RD_INLINE inline
+#if __STDC_VERSION__ >= 199901L
+#define _VZT_RD_INLINE       
+#else
+#define _VZT_INLINE inline
+#endif
 #else
 #define _VZT_RD_INLINE
 #endif

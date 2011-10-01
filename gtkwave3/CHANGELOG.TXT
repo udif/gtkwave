@@ -1042,4 +1042,5 @@
 		OSX compile fixes for Tcl detection, printf warning 
 		fixes (xcode gcc uses stricter warnings).
 		More generic warning fixes from recent feature adds.
-3.3.27	29sep11	Fixes of suspicious NULL pointer warnings from scan-build.
+3.3.27	30sep11	Fixes of suspicious NULL pointer warnings from scan-build.
+		Fixed inline function linker errors when using Clang.
