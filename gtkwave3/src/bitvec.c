@@ -1380,7 +1380,10 @@ if(numptr)
  */
 
 #ifdef WAVE_USE_SIGCMP_INFINITE_PRECISION
-inline int sigcmp_2(char *s1, char *s2)
+#if __STDC_VERSION__ < 199901L
+inline
+#endif
+int sigcmp_2(char *s1, char *s2)
 {
 char *n1, *n2;
 unsigned char c1, c2;
@@ -1446,7 +1449,10 @@ for(;;)
 	}
 }
 #else
-inline int sigcmp_2(char *s1, char *s2)
+#if __STDC_VERSION__ < 199901L
+inline
+#endif
+int sigcmp_2(char *s1, char *s2)
 {
 unsigned char c1, c2;
 int u1, u2;

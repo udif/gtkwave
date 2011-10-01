@@ -652,14 +652,14 @@ static void sync_end(char *hdr)
 {
 int tok;
 
-if(hdr) DEBUG(fprintf(stderr,"%s",hdr));
+if(hdr) { DEBUG(fprintf(stderr,"%s",hdr)); }
 for(;;)
 	{
 	tok=get_token();
 	if((tok==T_END)||(tok==T_EOF)) break;
-	if(hdr)DEBUG(fprintf(stderr," %s",yytext));
+	if(hdr) { DEBUG(fprintf(stderr," %s",yytext)); }
 	}
-if(hdr) DEBUG(fprintf(stderr,"\n"));
+if(hdr) { DEBUG(fprintf(stderr,"\n")); } 
 }
 
 static char *build_slisthier(void)

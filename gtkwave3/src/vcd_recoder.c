@@ -1133,14 +1133,14 @@ static void sync_end(char *hdr)
 {
 int tok;
 
-if(hdr) DEBUG(fprintf(stderr,"%s",hdr));
+if(hdr) { DEBUG(fprintf(stderr,"%s",hdr)); }
 for(;;)
 	{
 	tok=get_token();
 	if((tok==T_END)||(tok==T_EOF)) break;
-	if(hdr)DEBUG(fprintf(stderr," %s",GLOBALS->yytext_vcd_recoder_c_3));
+	if(hdr) { DEBUG(fprintf(stderr," %s",GLOBALS->yytext_vcd_recoder_c_3)); }
 	}
-if(hdr) DEBUG(fprintf(stderr,"\n"));
+if(hdr) { DEBUG(fprintf(stderr,"\n")); }
 }
 
 static int version_sync_end(char *hdr)
@@ -1148,19 +1148,19 @@ static int version_sync_end(char *hdr)
 int tok;
 int rc = 0;
 
-if(hdr) DEBUG(fprintf(stderr,"%s",hdr));
+if(hdr) { DEBUG(fprintf(stderr,"%s",hdr)); }
 for(;;)
 	{
 	tok=get_token();
 	if((tok==T_END)||(tok==T_EOF)) break;
-	if(hdr)DEBUG(fprintf(stderr," %s",GLOBALS->yytext_vcd_recoder_c_3));
+	if(hdr) { DEBUG(fprintf(stderr," %s",GLOBALS->yytext_vcd_recoder_c_3)); }
 	if(strstr(GLOBALS->yytext_vcd_recoder_c_3, "Icarus"))	/* turn off autocoalesce for Icarus */
 		{
 		GLOBALS->autocoalesce = 0;
 		rc = 1;
 		}
 	}
-if(hdr) DEBUG(fprintf(stderr,"\n"));
+if(hdr) { DEBUG(fprintf(stderr,"\n")); }
 return(rc);
 }
 
