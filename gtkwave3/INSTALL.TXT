@@ -110,6 +110,9 @@ Install the Judy and lzma/xz packages in MacPorts.
 Tcl works on OSX as of 3.3.26.  At this point all features working on Linux
 should be functional on the Mac.
 
+If you wish to use llvm, also add "CC=llvm-gcc" and change the "-O2" in CFLAGS
+to "-O4".
+
 -260911ajb  bybell@nc.rr.com
 
 ===============================================================================
