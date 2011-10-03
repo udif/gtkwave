@@ -2306,6 +2306,7 @@ int parsewavline(char *w, char *alias, int depth)
  prefix=(char *)wave_alloca(len+1);
  suffix=(char *)wave_alloca(len+1);
  new=(char *)wave_alloca(len+1);
+ memset(new, 0, len+1); /* scan-build */
 
  prefix_init = prefix;
  w2_init = new;
