@@ -375,7 +375,7 @@ for(activity_idx = 0; activity_idx < num_activity_changes; activity_idx++)
   
                 GLOBALS->blackout_regions = bt;
 
-		activity_idx = activity_idx2; /* scan-build says is dead, but keep to mirror code below */
+		/* activity_idx = activity_idx2; */ /* scan-build says is dead + assigned garbage value , which is true : code does not need to mirror for() loop below */
 		break;
 		}
 
