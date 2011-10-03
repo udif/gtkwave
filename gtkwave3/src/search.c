@@ -751,7 +751,7 @@ gtk_clist_clear(cl);
 entry_suffixed=wave_alloca(strlen(GLOBALS->searchbox_text_search_c_1 /* scan-build, was entry_text */)+strlen(regex_type[GLOBALS->regex_which_search_c_1])+1+((GLOBALS->regex_which_search_c_1<2)?2:0));
 *entry_suffixed=0x00;
 if(GLOBALS->regex_which_search_c_1<2) strcpy(entry_suffixed, "\\<");	/* match on word boundary */
-strcat(entry_suffixed,entry_text);
+strcat(entry_suffixed,GLOBALS->searchbox_text_search_c_1); /* scan-build */
 strcat(entry_suffixed,regex_type[GLOBALS->regex_which_search_c_1]);
 wave_regex_compile(entry_suffixed, WAVE_REGEX_SEARCH);
 for(i=0;i<GLOBALS->numfacs;i++)
