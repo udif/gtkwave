@@ -294,7 +294,7 @@ if(flags&TR_ASCII)
 	}
 		
 	if(GLOBALS->show_base) { *(pnt++)='"'; }
-	*(pnt++)=0x00;
+	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
 else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)))
 	{
@@ -453,7 +453,7 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)))
 		parse+=4;
 		}
 
-	*(pnt++)=0x00;
+	*(pnt)=0x00;  /* scan build : remove dead increment */
 	}
 else if(flags&TR_OCT)
 	{
@@ -491,7 +491,7 @@ else if(flags&TR_OCT)
 		parse+=3;
 		}
 
-	*(pnt++)=0x00;
+	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
 else if(flags&TR_BIN)
 	{
@@ -509,7 +509,7 @@ else if(flags&TR_BIN)
 		*(pnt++)=AN_STR[(int)(*(parse++))];
 		}
 
-	*(pnt++)=0x00;
+	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
 else if(flags&TR_SIGNED)
 	{
@@ -596,7 +596,7 @@ rl_go_binary:	len=(nbits/1)+2+1;		/* %xxxxx */
 			*(pnt++)=AN_STR[(int)(*(parse++))];
 			}
 	
-		*(pnt++)=0x00;
+		*(pnt)=0x00; /* scan build : remove dead increment */
 		}
 	}
 else	/* decimal when all else fails */
@@ -936,7 +936,7 @@ if(flags&TR_ASCII)
 	}
 		
 	if(GLOBALS->show_base) { *(pnt++)='"'; }
-	*(pnt++)=0x00;
+	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
 else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)))
 	{
@@ -1095,7 +1095,7 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)))
 		parse+=4;
 		}
 
-	*(pnt++)=0x00;
+	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
 else if(flags&TR_OCT)
 	{
@@ -1132,7 +1132,7 @@ else if(flags&TR_OCT)
 		parse+=3;
 		}
 
-	*(pnt++)=0x00;
+	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
 else if(flags&TR_BIN)
 	{
@@ -1150,7 +1150,7 @@ else if(flags&TR_BIN)
 		*(pnt++)=AN_STR[(int)(*(parse++))];
 		}
 
-	*(pnt++)=0x00;
+	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
 else if(flags&TR_SIGNED)
 	{
@@ -1237,7 +1237,7 @@ rl_go_binary:	len=(nbits/1)+2+1;		/* %xxxxx */
 			*(pnt++)=AN_STR[(int)(*(parse++))];
 			}
 	
-		*(pnt++)=0x00;
+		*(pnt)=0x00; /* scan build : remove dead increment */
 		}
 	}
 else	/* decimal when all else fails */
