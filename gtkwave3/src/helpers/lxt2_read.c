@@ -1515,7 +1515,6 @@ if(lt)
 				lxtint32_t clen, unclen, iter=0;
 				char *pnt;
 				off_t fspos = b->filepos;
-				int rc;
 
 				int zlen = 16;
 				char *zbuff=malloc(zlen);
@@ -1556,9 +1555,9 @@ if(lt)
 
 						if((clen != 0)&&(unclen != 0))
 							{
-							rc = inflateInit2(&strm, -MAX_WBITS);
-							while (Z_OK == (rc = inflate(&strm, Z_NO_FLUSH)));
-							rc = inflateEnd(&strm);
+							inflateInit2(&strm, -MAX_WBITS);
+							while (Z_OK ==  inflate(&strm, Z_NO_FLUSH));
+							inflateEnd(&strm);
 							}
 
 						if((strm.total_out!=unclen)||(clen == 0)||(unclen == 0))

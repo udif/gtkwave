@@ -207,7 +207,6 @@ int main(int argc, char **argv)
 {
 int buf_strlen = 0;
 char l_buf[32769];
-char *old_buf = "dummy";
 FILE *f;
 #ifdef __MINGW32__
 char mapName[65];
@@ -278,7 +277,7 @@ if(shmid >= 0)
 
 		if(strchr(l_buf+buf_strlen, '\n') || strchr(l_buf+buf_strlen, '\r'))
 			{
-			emit_string((old_buf = l_buf));
+			emit_string(l_buf);
 			buf_strlen = 0;
 			}
 			else

@@ -564,9 +564,8 @@ for(yytext[len++]=ch;;yytext[len++]=ch)
         ch=getch();  
         if(ch==' ')
                 {
-                signed char ch2;
                 if(match_kw) break;
-                if((ch2 = getch_peek()) == '[')
+                if(getch_peek() == '[')
                         {
                         ch = getch();
                         varsplit=yytext+len; /* keep looping so we get the *last* one */
@@ -1013,7 +1012,7 @@ int tok;
 
 for(;;)
 	{
-	switch(tok=get_token())
+	switch(get_token())
 		{
 		case T_COMMENT:
 			sync_end("COMMENT:");
@@ -1468,7 +1467,7 @@ if(!n->curr)
 	}
 	else
 	{
-	if(regadd) { t_time*=(time_scale); }
+	/* if(regadd) { t_time*=(time_scale); } */ /* scan-build : never read */
 
 	if(toupper((int)(unsigned char)ch)!=deadchar) n->notdead=1;
 	n->numtrans++;

@@ -559,9 +559,8 @@ for(yytext[len++]=ch;;yytext[len++]=ch)
         ch=getch();
         if(ch==' ')
                 {
-                signed char ch2;
                 if(match_kw) break;
-                if((ch2 = getch_peek()) == '[')
+                if(getch_peek() == '[')
                         {
                         ch = getch();
                         varsplit=yytext+len; /* keep looping so we get the *last* one */
@@ -1010,7 +1009,7 @@ int tok;
 
 for(;;)
 	{
-	switch(tok=get_token())
+	switch(get_token())
 		{
 		case T_COMMENT:
 			sync_end("COMMENT:");
@@ -1465,7 +1464,7 @@ if(!n->curr)
 	}
 	else
 	{
-	if(regadd) { t_time*=(time_scale); }
+	/* if(regadd) { t_time*=(time_scale); } */ /* scan-build : never read */
 
 	if(toupper((int)(unsigned char)ch)!=deadchar) n->notdead=1;
 	n->numtrans++;
@@ -1741,7 +1740,6 @@ while(v)
          
                         if((h1 = v->narray[i]->head.next))
                                 {
-                                h1 = v->narray[i]->head.next;
                                 while(h1)
                                         {
                                         h2 = h1->next;
@@ -1934,7 +1932,6 @@ if(argc>=3)
 		else if(!strcmp(argv[i], "-linear")) linear = 1;
 		else if(!strcmp(argv[i], "-dictpack")) 
 			{
-			dodict = 1;
 			if((i!=(argc-1))&&(argv[i+1][0]!='-'))
 				{
 				dodict = atoi(argv[++i]);
