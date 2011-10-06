@@ -240,7 +240,6 @@ if(h)
 size_t LZMA_write(void *handle, void *mem, size_t len)
 {
 struct lzma_handle_t *h = (struct lzma_handle_t *)handle;
-size_t rc = 0;
 
 if(h->state == LZMA_STATE_WRITE)
 	{
@@ -259,7 +258,7 @@ if(h->state == LZMA_STATE_WRITE)
 				{
 				memcpy(h->mem + h->offs, mem, new_len);
 				}
-			rc = LZMA_write_compress(h, h->mem, h->blksiz);
+			LZMA_write_compress(h, h->mem, h->blksiz);
 			h->offs = 0;
 			len -= new_len;
 			mem = ((char *)mem) + new_len;
