@@ -878,6 +878,12 @@ ghw_read_hie (struct ghw_handler *h)
       if (t == ghw_hie_eos)
 	{
 	  blk = blk->parent;
+          if(!blk) /* scan-build : possibly from malformed file? */
+		{
+		  fprintf (stderr, "ghw_read_hie: NULL pointer on ghw_hie_eos\n");
+		  abort ();
+		}
+
 	  if (blk->u.blk.child == NULL)
 	    last = &blk->u.blk.child;
 	  else

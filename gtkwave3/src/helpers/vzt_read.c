@@ -2001,7 +2001,7 @@ return(lt);
  */
 void vzt_rd_vectorize(struct vzt_rd_trace *lt)
 {
-if((!lt)||(lt->vectorize))
+if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 	{
 	return;
 	}
