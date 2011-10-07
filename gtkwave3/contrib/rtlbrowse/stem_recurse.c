@@ -461,11 +461,9 @@ va_end(ap);
 
 int main(int argc, char **argv)
 {
-int rc;
-
 WAVE_LOCALE_FIX
 
-rc = main_2(argc, argv);
+main_2(argc, argv);
 
 if(!gtk_init_check(&argc, &argv))
         {

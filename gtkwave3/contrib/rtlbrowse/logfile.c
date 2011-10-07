@@ -316,7 +316,7 @@ if((tr) && (tr->text))
 		tr->srch_line = tr->line;
 		tr->srch_offs = tr->offs;		
 
-		tm = gtk_text_buffer_get_insert(tb);
+		/* tm = gtk_text_buffer_get_insert(tb); */ /* scan-build : never read */
 
 		gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(tr->text), &match_start, 0.0, TRUE, 0.0, 0.5);
 		}
@@ -430,7 +430,7 @@ if((tr) && (tr->text))
 		tr->srch_line = tr->line;
 		tr->srch_offs = tr->offs;		
 
-		tm = gtk_text_buffer_get_insert(tb);
+		/* tm = gtk_text_buffer_get_insert(tb); */ /* scan-build : never read */
 		gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(tr->text), &match_start, 0.0, TRUE, 0.0, 0.5);
 		}
 		else
@@ -555,7 +555,7 @@ void create_toolbar(GtkWidget *table)
                                                  NULL,
                                                  GTK_SIGNAL_FUNC(search_forward),
                                                  NULL,
-                                                 tb_pos++);
+                                                 tb_pos); /* scan-build: removed ++ on tb_pos as never read */
 
     style = gtk_widget_get_style(stock);
     style->xthickness = style->ythickness = 0;
@@ -2050,7 +2050,7 @@ skip_resolved_fst:
 						while(jvc)
 							{
 							fstReaderGetValueFromHandleAtTime(fst, anno_ctx->marker, jvc->val.i, rc);
-							len+= strlen(rc);
+							len+= (rc ? strlen(rc) : 0); /* scan-build : possible null pointer */
 							iter++;
 							jvc = jvc->next;
 							}
@@ -2608,7 +2608,7 @@ iter_free: 			free(w->text);
 				free(wt);
 				}
 			free(pnt);
-			wlog_head = wlog_curr = NULL;
+			/* wlog_head = */ wlog_curr = NULL;
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
 #else
 			if(window) gtk_text_thaw(GTK_TEXT(text));
@@ -2634,7 +2634,7 @@ iter_free: 			free(w->text);
 		w = w->next;
 		free(wt);
 		}
-	wlog_head = wlog_curr = NULL;
+	/* wlog_head = */ wlog_curr = NULL;
 	*pnt2 = 0;
 	log_text(text, fontx, pnt);
 	free(pnt);

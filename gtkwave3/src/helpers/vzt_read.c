@@ -2142,8 +2142,11 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 						else
 						{
 						synvec_chain[j] = malloc(sizeof(struct vzt_synvec_chain));
-						synvec_chain[j]->num_entries = 1;
-						synvec_chain[j]->chain[0] = i;
+						if(synvec_chain[j]) /* scan-build : deref of null pointer below */
+							{
+							synvec_chain[j]->num_entries = 1;
+							synvec_chain[j]->chain[0] = i;
+							}
 
 						lt->flags[i] |= VZT_RD_SYM_F_SYNVEC;
 						lt->flags[i] &= ~VZT_RD_SYM_F_ALIAS;
