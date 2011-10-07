@@ -840,7 +840,7 @@ else
 
 		if(!s) nt->t_which=which; else nt->t_which = WAVE_T_WHICH_UNDEFINED_COMPNAME;
 
-		if(GLOBALS->treeroot)
+		if((GLOBALS->treeroot)&&(t)) /* scan-build : && t should be unnecessary to avoid null pointer deref, but add defensively */
 			{
 			t->child = nt;
 			t = nt;

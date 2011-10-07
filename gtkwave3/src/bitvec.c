@@ -129,6 +129,7 @@ while(*p1 && *p2)
 	}
 
 if((*p1)||(*p2)) return(NULL);
+if((!n1)||(!n2)) return(NULL); /* scan-build : null pointer on strcpy below */
 
 while(pfxlen>1)	/* backup if matching a sequence like 20..24 where the 2 matches outside of the left bracket */
 	{
@@ -1622,6 +1623,12 @@ int s1_was_packed = HIER_DEPACK_ALLOC, s2_was_packed = HIER_DEPACK_ALLOC;
 int root1len=0, root2len=0;
 int l1, l2;
 
+if(!sym)
+	{
+	fprintf(stderr, "Internal error '%s' line %d, exiting.\n", __FILE__, __LINE__);
+	exit(255);
+	}
+
 if(!GLOBALS->vcd_explicit_zero_subscripts)	/* 0==yes, -1==no */
 	{
 	hier_delimeter2=GLOBALS->hier_delimeter;
@@ -1634,6 +1641,7 @@ if(!GLOBALS->vcd_explicit_zero_subscripts)	/* 0==yes, -1==no */
 if(!GLOBALS->autocoalesce_reversal)		/* normal case for MTI */
 	{
 	symhi=sym;
+	symlo=sym; /* scan-build */
 	while(sym)
 		{
 		symlo=sym;
@@ -1643,6 +1651,7 @@ if(!GLOBALS->autocoalesce_reversal)		/* normal case for MTI */
 	else				/* for verilog XL */
 	{
 	symlo=sym;
+	symhi=sym; /* scan-build */
 	while(sym)
 		{
 		symhi=sym;

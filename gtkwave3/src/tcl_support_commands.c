@@ -560,8 +560,15 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
 	    if(dir == STRACE_FORWARD)
 	      break ;
 	    else {
+	      if(!l0_head) /* null pointer deref found by scan-build */
+			{
+		        llist_u llp; llp.p = h1;
+		        l_elem = llist_new(llp, LL_VOID_P, -1) ;
+		        l0_head = llist_append(l0_head, l_elem, &l0_tail) ;
+		        if(!l0_tail) l0_tail = l0_head ;
+			}
 	      l_elem = l0_head ;
-	      l0_head = l0_head->next ;
+	      l0_head = l0_head->next ; /* what scan-build flagged as null */
 	      l0_head->prev = NULL ;
 	      l_elem->u.p = (void *)h1 ;
 	      l_elem->next = NULL ;

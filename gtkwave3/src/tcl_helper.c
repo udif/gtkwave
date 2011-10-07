@@ -1675,7 +1675,7 @@ while(t)
 					char *pr = strrchr(strr, '[');
 					int ridx = atoi(pr+1);
 
-					int first_str_len = strlen(first_str);
+					int first_str_len = strlen(first_str ? first_str : (first_str = strdup_2("INTERNAL_ERROR"))); /* : case added for scan-build */
 					char *newname = malloc_2(first_str_len + 40);
 
 					sprintf(newname, "%s[%d:%d]", first_str, lidx, ridx); /* this disappears in make_single_tcl_list_name() but might be used in future code */

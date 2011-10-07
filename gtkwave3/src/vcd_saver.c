@@ -382,6 +382,10 @@ if(lxt)
 		}
 		else
 		{
+		if(!trans_head) /* scan-build : is programming error to get here */
+			{
+			return(VCDSAV_FILE_ERROR);
+			}
 		GLOBALS->f_vcd_saver_c_1 = trans_file;
 		}
 

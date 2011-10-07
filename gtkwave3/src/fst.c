@@ -1079,7 +1079,7 @@ else	/* string */
 
 htemp->time = (tim) * (GLOBALS->time_scale);
 
-if(l2e->histent_head)
+if(l2e->histent_curr) /* scan-build : was l2e->histent_head */
 	{
 	l2e->histent_curr->next = htemp; /* scan-build : this is ok given how it's used */
 	l2e->histent_curr = htemp;

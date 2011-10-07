@@ -1135,6 +1135,8 @@ GLOBALS->traces.dirty = 1;
 
 t=GLOBALS->traces.first;
 tsort=tsort_pnt=wave_alloca(sizeof(Trptr)*GLOBALS->traces.total);   
+memset(tsort_pnt, 0, sizeof(Trptr)*GLOBALS->traces.total);
+
 for(i=0;i<GLOBALS->traces.total;i++)
         {
         if(!t)
@@ -1173,6 +1175,8 @@ if((cptr) && (!groupsArePresent()))
 	Trptr *tsort_reduced = wave_alloca(sizeof(Trptr)*GLOBALS->traces.total);
 	int num_reduced = 0;
 	int j;
+
+	memset(tsort_reduced, 0, sizeof(Trptr)*GLOBALS->traces.total);
 
 	for(i=0;i<GLOBALS->traces.total;i++)
 	        {

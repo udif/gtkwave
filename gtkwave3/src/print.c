@@ -1332,7 +1332,7 @@ pr_draw_hptr_trace (pr_context * prc, Trptr t, hptr h, int which, int dodraw,
     {
       pr_draw_line (prc, 0, _y0, 0, _y1);
     }
-  if (dodraw)
+  if (dodraw && t)
     for (;;)
       {
 	if (!h)

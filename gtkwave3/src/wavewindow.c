@@ -2934,7 +2934,7 @@ if((h)&&(GLOBALS->tims.start==h->time))
 	gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, c, 0, _y0, 0, _y1);
 	}
 
-if(dodraw)
+if(dodraw && t)
 for(;;)
 {
 if(!h) break;

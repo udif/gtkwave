@@ -2339,7 +2339,7 @@ struct sym_chain *sym_chain=NULL, *sym_curr=NULL;
 int duphier=0;
 char hashdirty;
 struct vcdsymbol *v, *vprime;
-char *str = NULL;
+char *str = wave_alloca(1); /* quiet scan-build null pointer warning below */
 #ifdef _WAVE_HAVE_JUDY
 int ss_len, longest = 0;
 #endif
@@ -2937,6 +2937,11 @@ if(!list_size)
 			case '0':
 				len = 1;
 				chp = vlist_locate_import(v, vlist_pos++);
+				if(!chp)
+					{
+					fprintf(stderr, "Internal error file '%s' line %d, exiting.\n", __FILE__, __LINE__);
+					exit(255);
+					}
 				vartype = (unsigned int)(*chp & 0x7f);
 
 				break;
@@ -2945,6 +2950,11 @@ if(!list_size)
 			case 'R':
 			case 'S':
 				chp = vlist_locate_import(v, vlist_pos++);
+				if(!chp)
+					{
+					fprintf(stderr, "Internal error file '%s' line %d, exiting.\n", __FILE__, __LINE__);
+					exit(255);
+					}
 				vartype = (unsigned int)(*chp & 0x7f);
 
 				arr_pos = accum = 0;

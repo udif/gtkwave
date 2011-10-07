@@ -2126,7 +2126,7 @@ struct sym_chain *sym_chain=NULL, *sym_curr=NULL;
 int duphier=0;
 char hashdirty;
 struct vcdsymbol *v, *vprime;
-char *str = NULL;
+char *str = wave_alloca(1); /* quiet scan-build null pointer warning below */
 #ifdef _WAVE_HAVE_JUDY
 int ss_len, longest = 0;
 #endif

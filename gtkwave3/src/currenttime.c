@@ -299,7 +299,7 @@ if(GLOBALS->scale_to_time_dimension)
 		}
 	}
 
-if(i)
+if((i)&&(time_prefix)) /* scan-build on time_prefix, should not be necessary however */
 	{
 	sprintf(buf, TTFormat" %cs", val, time_prefix[i]);
 	}
@@ -413,7 +413,7 @@ if(GLOBALS->scale_to_time_dimension)
 		}
 	}
 
-if(i)
+if((i)&&(time_prefix)) /* scan-build on time_prefix, should not be necessary however */
 	{
 	sprintf(buf, TTFormat"%c%cs", val, blackout, time_prefix[i]);
 	}

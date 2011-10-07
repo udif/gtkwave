@@ -1478,7 +1478,12 @@ if(GLOBALS->strace_ctx->timearray_size)
 	GLOBALS->strace_ctx->timearray=t=malloc_2(sizeof(TimeType)*GLOBALS->strace_ctx->timearray_size);
 	for(i=0;i<GLOBALS->strace_ctx->timearray_size;i++)
 		{
-		*(t++)=tchead->t;
+		if(!tchead)					/* should never happen */
+			{
+			free_2(GLOBALS->strace_ctx->timearray); GLOBALS->strace_ctx->timearray = NULL;
+			break;
+			}
+		*(t++)=tchead->t;				/* scan-build null pointer deref found here */
 		tcnext=tchead->next;
 		free_2(tchead);					/* need to explicitly free this up now */
 		tchead=tcnext;
