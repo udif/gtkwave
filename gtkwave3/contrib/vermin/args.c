@@ -77,7 +77,7 @@ while(!feof(f))
 		}
 		else
 		{
-		char *srt_new = srt;
+		char *srt_new;
 		int first = 1;
 
 		while((srt_new = strtok(first ? srt : NULL, " \t")))

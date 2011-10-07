@@ -177,7 +177,7 @@ if(do_not_translate)
 
 if(ifdef_stack_top)
 		{
-		struct ifdef_stack_t *is = ifdef_stack_top;
+		struct ifdef_stack_t *is;
 
 		while(ifdef_stack_top)
 			{

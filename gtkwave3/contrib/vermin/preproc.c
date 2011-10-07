@@ -682,7 +682,7 @@ void handle_ifdef(char *def_text)
 {
 char *pnt = def_text+6;
 char *s1;
-JRB node;
+/* JRB node; */
 struct ifdef_stack_t *is;
 
 /* warn("** IFDEF in file '%s' line %d\n", zzfilename, zzline); */
@@ -705,7 +705,7 @@ is->do_not_translate = do_not_translate;
 ifdef_stack_top = is;
 
 	{
-	if(!(node=jrb_find_str(define_tree, s1)))
+	if(!(/* node= */jrb_find_str(define_tree, s1)))
 		{
 		/* skip action */
 		do_not_translate |= STMODE_XLATEOFF_IFDEF;
@@ -727,7 +727,7 @@ void handle_ifndef(char *def_text)
 {
 char *pnt = def_text+7;
 char *s1;
-JRB node;
+/* JRB node; */
 struct ifdef_stack_t *is;
 
 /* warn("** IFNDEF in file '%s' line %d\n", zzfilename, zzline); */
@@ -750,7 +750,7 @@ is->blocked = ifdef_stack_top ? ifdef_stack_top->blocked : 0;
 ifdef_stack_top = is;
 
 	{
-	if((node=jrb_find_str(define_tree, s1)))
+	if((/* node= */jrb_find_str(define_tree, s1)))
 		{
 		/* skip action */
 		do_not_translate |= STMODE_XLATEOFF_IFDEF;
