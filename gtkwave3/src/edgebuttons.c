@@ -506,7 +506,7 @@ service_left_edge(GtkWidget *text, gpointer data)
 {
 if(GLOBALS->helpbox_is_active)
         {
-        help_text_bold("\n\nFind Next Edge Left");
+        help_text_bold("\n\nFind Previous Edge");
         help_text(
                 " moves the marker to the closest transition to the left of the marker"
 		" of the first highlighted trace.  If the marker is not nailed down, it starts from max time."
@@ -524,7 +524,7 @@ service_right_edge(GtkWidget *text, gpointer data)
 {
 if(GLOBALS->helpbox_is_active)
         {
-        help_text_bold("\n\nFind Next Edge Right");
+        help_text_bold("\n\nFind Next Edge");
         help_text(
                 " moves the marker to the closest transition to the right of the marker"
 		" of the first highlighted trace.  If the marker is not nailed down, it starts from min time."

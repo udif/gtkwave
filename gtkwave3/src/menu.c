@@ -47,6 +47,12 @@ static GtkItemFactoryEntry menu_items[WV_MENU_NUMITEMS];
 
 /* marshals for handling menu items vs button pressed items */
 
+static void service_left_edge_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ service_left_edge(widget, null_data); }
+
+static void service_right_edge_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
+{ service_right_edge(widget, null_data); }
+
 static void service_zoom_in_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
 { service_zoom_in(widget, null_data); }
 
@@ -5878,6 +5884,9 @@ static GtkItemFactoryEntry menu_items[] =
     WAVE_GTKIFE("/Markers/Collect All Named Markers", "<Shift><Control><Alt>N", collect_all_named_markers, WV_MENU_MCANM, "<Item>"),
     WAVE_GTKIFE("/Markers/Delete Primary Marker", "<Shift><Alt>M", delete_unnamed_marker, WV_MENU_MDPM, "<Item>"),
     WAVE_GTKIFE("/Markers/<separator>", NULL, NULL, WV_MENU_SEP8, "<Separator>"),
+    WAVE_GTKIFE("/Markers/Find Previous Edge", NULL, service_left_edge_marshal, WV_MENU_SLE, "<Item>"),
+    WAVE_GTKIFE("/Markers/Find Next Edge", NULL, service_right_edge_marshal, WV_MENU_SRE, "<Item>"),
+    WAVE_GTKIFE("/Markers/<separator>", NULL, NULL, WV_MENU_SEP8B, "<Separator>"),
     WAVE_GTKIFE("/Markers/Wave Scrolling", "F9", wave_scrolling_on, WV_MENU_MWSON, "<ToggleItem>"),
 
     WAVE_GTKIFE("/Markers/Locking/Lock to Lesser Named Marker", "Q", lock_marker_left, WV_MENU_MLKLT, "<Item>"),

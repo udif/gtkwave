@@ -216,6 +216,9 @@ accel "/Markers/Collect Named Marker" <Shift><Alt>N
 accel "/Markers/Collect All Named Markers" <Shift><Control><Alt>N
 accel "/Markers/Delete Primary Marker" <Shift><Alt>M
 accel "/Markers/<separator>" (null)
+accel "/Markers/Find Previous Edge" (null)
+accel "/Markers/Find Next Edge" (null)
+accel "/Markers/<separator>" (null)
 accel "/Markers/Wave Scrolling" F9
 accel "/Markers/Locking/Lock to Lesser Named Marker" Q
 accel "/Markers/Locking/Lock to Greater Named Marker" W
