@@ -44,6 +44,20 @@
 
 /****************************************************************************/
 
+static int is_big_endian(void)
+{
+union 	
+	{ 
+	vztint32_t u32; 
+	unsigned char c[sizeof(vztint32_t)];
+	} u;
+
+u.u32 = 1;
+return(u.c[sizeof(vztint32_t)-1] == 1);
+}
+
+/****************************************************************************/
+
 struct vzt_ncycle_autosort
 {
 struct vzt_ncycle_autosort *next;
@@ -346,7 +360,6 @@ vztint32_t *val_dict=NULL;
 int num_time_ticks, num_sections, num_dict_entries;
 char *pnt = b->mem;
 int i, j, m, num_dict_words;
-const char endian_word[] = { 0x01, 0x02, 0x03, 0x04 };
 /* vztint32_t *block_end = (vztint32_t *)(pnt + b->uncompressed_siz); */
 vztint32_t *val_tmp;
 unsigned int num_bitplanes;
@@ -441,7 +454,7 @@ b->multi_state = (num_bitplanes > 1);
 padskip = ((long)pnt)&3; pnt += (padskip) ? 4-padskip : 0; /* skip pad to next 4 byte boundary */
 b->vindex = (vztint32_t *)(pnt);
 
-if(*((int *)((void *)endian_word)) == 0x01020304) /* have to bswap the value changes on big endian machines... */
+if(is_big_endian()) /* have to bswap the value changes on big endian machines... */
 	{
 	if(!b->rle)
 		{
