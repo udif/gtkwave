@@ -1999,7 +1999,7 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
 {
   TimeType _x0, _x1, newtime, width;
   int _y0, _y1, yu, liney, ytext;
-  TimeType tim, h2tim;
+  TimeType tim /* , h2tim */; /* scan-build */
   hptr h2, h3;
   char *ascii = NULL;
   int pixlen, ysiz;
@@ -2626,7 +2626,7 @@ pr_draw_vptr_trace (pr_context * prc, Trptr t, vptr v, int which)
 {
   TimeType _x0, _x1, newtime, width;
   int _y0, _y1, yu, liney, ytext;
-  TimeType tim, h2tim;
+  TimeType tim /* , h2tim */; /* scan-build */
   vptr h, h2, h3;
   char *ascii = NULL;
   int pixlen, ysiz;

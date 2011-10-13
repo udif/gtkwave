@@ -3615,7 +3615,7 @@ static void draw_hptr_trace_vector(Trptr t, hptr h, int which)
 {
 TimeType _x0, _x1, newtime, width;
 int _y0, _y1, yu, liney, ytext;
-TimeType tim, h2tim;
+TimeType tim /* , h2tim */; /* scan-build */
 hptr h2, h3;
 char *ascii=NULL;
 int type;
@@ -3840,7 +3840,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 		}
 		else if(GLOBALS->fill_in_smaller_rgb_areas_wavewindow_c_1)
 		{
-		char *ascii2;
+		/* char *ascii2; */ /* scan-build */
 
 		if(h->flags&HIST_REAL)
 			{
@@ -4297,7 +4297,7 @@ static void draw_vptr_trace(Trptr t, vptr v, int which)
 {
 TimeType _x0, _x1, newtime, width;
 int _y0, _y1, yu, liney, ytext;
-TimeType tim, h2tim;
+TimeType tim /* , h2tim */; /* scan-build */
 vptr h, h2, h3;
 char *ascii=NULL;
 int type;

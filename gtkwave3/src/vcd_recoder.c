@@ -2896,7 +2896,7 @@ struct vlist_t *v = np->mv.mvlfac_vlist;
 int len = 1;
 int list_size;
 unsigned char vlist_type;
-unsigned int vartype = 0;
+/* unsigned int vartype = 0; */ /* scan-build */
 unsigned int vlist_pos = 0;
 unsigned char *chp;
 unsigned int time_idx = 0;
