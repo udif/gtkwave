@@ -848,7 +848,7 @@ while(GLOBALS->nhold_vcd_saver_c_1)
  */
 static void diff_hier(struct namehier *nh1, struct namehier *nh2)
 {
-struct namehier *nhtemp;
+/* struct namehier *nhtemp; */ /* scan-build */
 
 if(!nh2)
 	{
@@ -869,7 +869,7 @@ for(;;)
 
 	if(nh2->not_final==0)	/* old hier is shorter */
 		{
-		nhtemp=nh1;
+		/* nhtemp=nh1; */ /* scan-build */
 		while((nh1)&&(nh1->not_final))
 			{
 			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$scope module %s $end\n", nh1->name);
@@ -880,7 +880,7 @@ for(;;)
 
 	if(nh1->not_final==0)	/* new hier is shorter */
 		{
-		nhtemp=nh2;
+		/* nhtemp=nh2; */ /* scan-build */
 		while((nh2)&&(nh2->not_final))
 			{
 			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$upscope $end\n");
@@ -891,14 +891,14 @@ for(;;)
 
 	if(strcmp(nh1->name, nh2->name))
 		{
-		nhtemp=nh2;				/* prune old hier */
+		/* nhtemp=nh2; */ /* prune old hier */ /* scan-build */
 		while((nh2)&&(nh2->not_final))
 			{
 			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$upscope $end\n");
 			nh2=nh2->next;
 			}
 
-		nhtemp=nh1;				/* add new hier */
+		/* nhtemp=nh1; */ /* add new hier */ /* scan-build */
 		while((nh1)&&(nh1->not_final))
 			{
 			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$scope module %s $end\n", nh1->name);

@@ -554,9 +554,8 @@ for(GLOBALS->yytext_vcd_c_1[len++]=ch;;GLOBALS->yytext_vcd_c_1[len++]=ch)
         ch=getch();
         if(ch==' ')
                 {
-                signed char ch2;
                 if(match_kw) break;
-                if((ch2 = getch_peek()) == '[')
+                if(getch_peek() == '[')
                         {
                         ch = getch();
                         GLOBALS->varsplit_vcd_c_1=GLOBALS->yytext_vcd_c_1+len;  /* keep looping so we get the *last* one */
@@ -1068,7 +1067,7 @@ int disable_autocoalesce = 0;
 
 for(;;)
 	{
-	switch(tok=get_token())
+	switch(get_token())
 		{
 		case T_COMMENT:
 			sync_end("COMMENT:");
@@ -2397,7 +2396,8 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	struct symchain *sc;
                  
         GLOBALS->facs[i]=GLOBALS->curnode->symbol;
-        if((len=strlen(subst=GLOBALS->facs[i]->name))>GLOBALS->longestname) GLOBALS->longestname=len;
+	subst=GLOBALS->facs[i]->name;
+        if((len=strlen(subst))>GLOBALS->longestname) GLOBALS->longestname=len;
 	sc = GLOBALS->curnode;
         GLOBALS->curnode=GLOBALS->curnode->next;
 	free_2(sc);

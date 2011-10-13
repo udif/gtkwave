@@ -1346,7 +1346,7 @@ if(s)
 		{
 		is_bus = 1;
 		*lbrack = 0;
-		len = lbrack - s2;
+		/* len = lbrack - s2; */ /* scan-build */
 		}
 
 	names = calloc_2(delim_cnt+1, sizeof(char *));
@@ -1378,7 +1378,7 @@ if(s)
 			{
 			len = 8 + strlen(tcllist) + 1 + 1 + 1; /* "{netBus ...} " + trailing null char */
 	
-			pnt = s2;
+			/* pnt = s2; */ /* scan-build */
 			rpnt = malloc_2(len+1);
 			strcpy(rpnt, "{netBus ");
 			pnt2 = rpnt + 8;
@@ -1387,7 +1387,7 @@ if(s)
 			{
 			len = 5 + strlen(tcllist) + 1 + 1 + 1; /* "{net ...} " + trailing null char */
 	
-			pnt = s2;
+			/* pnt = s2; */ /* scan-build */
 			rpnt = malloc_2(len+1);
 			strcpy(rpnt, "{net ");
 			pnt2 = rpnt + 5;
@@ -1401,7 +1401,7 @@ if(s)
 			{
 			len = 15 + (len_value + 1) + strlen(tcllist) + 1 + 1 + 1; /* "{netBusValue 0x...} " + trailing null char */
 	
-			pnt = s2;
+			/* pnt = s2; */ /* scan-build */
 			rpnt = malloc_2(len+1);
 			sprintf(rpnt, "{netBusValue 0x%s ", opt_value);
 			pnt2 = rpnt + 15 + (len_value + 1);
@@ -1410,7 +1410,7 @@ if(s)
 			{
 			len = 10 + (len_value + 1) + strlen(tcllist) + 1 + 1 + 1; /* "{netValue ...} " + trailing null char */
 	
-			pnt = s2;
+			/* pnt = s2; */ /* scan-build */
 			rpnt = malloc_2(len+1);
 			sprintf(rpnt, "{netValue %s ", opt_value);
 			pnt2 = rpnt + 10 + (len_value + 1);

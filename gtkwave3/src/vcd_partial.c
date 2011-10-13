@@ -531,9 +531,8 @@ for(GLOBALS->yytext_vcd_partial_c_2[len++]=ch;;GLOBALS->yytext_vcd_partial_c_2[l
 	ch=getch();
         if(ch==' ')
                 {
-                signed char ch2;
                 if(match_kw) break;
-                if((ch2 = getch_peek()) == '[')
+                if(getch_peek() == '[')
                         {
                         ch = getch();
                         GLOBALS->varsplit_vcd_partial_c_2=GLOBALS->yytext_vcd_partial_c_2+len; /* keep looping so we get the *last* one */
@@ -661,7 +660,7 @@ static void parse_valuechange(void)
 struct vcdsymbol *v;
 char *vector;
 int vlen;
-hptr hsuf;
+/* hptr hsuf; */ /* scan-build */
 
 switch(GLOBALS->yytext_vcd_partial_c_2[0])
 	{
@@ -687,7 +686,7 @@ switch(GLOBALS->yytext_vcd_partial_c_2[0])
 				DEBUG(fprintf(stderr,"%s = '%c'\n",v->name,v->value[0]));
 
 				v->narray[0]->curr = v->app_array[0];
-				hsuf = add_histent_p(GLOBALS->current_time_vcd_partial_c_2,v->narray[0],v->value[0],1, NULL);
+				/* hsuf = */ add_histent_p(GLOBALS->current_time_vcd_partial_c_2,v->narray[0],v->value[0],1, NULL); /* scan-build */
 				v->app_array[0] = v->narray[0]->curr;
 				v->narray[0]->curr->next = v->tr_array[0];
 				if(v->narray[0]->harray) { free_2(v->narray[0]->harray); v->narray[0]->harray = NULL; }
@@ -1018,7 +1017,7 @@ int disable_autocoalesce = 0;
 
 for(;;)
 	{
-	switch(tok=get_token())
+	switch(get_token())
 		{
 		case T_COMMENT:
 			sync_end("COMMENT:");

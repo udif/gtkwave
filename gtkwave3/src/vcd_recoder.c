@@ -358,7 +358,7 @@ char *pnt = GLOBALS->fastload_current;
 int rc = 0;
 guint64 v = 0, vprev = 0;
 int shamt = 0;
-unsigned int num_finalize;
+/* unsigned int num_finalize; */ /* scan-build */
 unsigned int num_in_time_table, num_blackout_regions;
 guint64 time_vlist_vcd_recoder_write;
 struct vcdsymbol *vs;
@@ -368,7 +368,7 @@ unsigned int i;
 struct blackout_region_t *bt_head = NULL, *bt_curr = NULL;
 
 v = 0; shamt = 0; do { v |= ((guint64)(*pnt & 0x7f)) << shamt; shamt += 7; } while(!(*(pnt++) & 0x80));
-num_finalize = v;
+/* num_finalize = v; */ /* scan-build */
 
 v = 0; shamt = 0; do { v |= ((guint64)(*pnt & 0x7f)) << shamt; shamt += 7; } while(!(*(pnt++) & 0x80));
 GLOBALS->time_vlist_count_vcd_recoder_c_1 = num_in_time_table = v;
@@ -711,7 +711,7 @@ if(GLOBALS->numsyms_vcd_recoder_c_3)
 
 static unsigned int vlist_emit_finalize(void)
 {
-struct vcdsymbol *v, *vprime;
+struct vcdsymbol *v /* , *vprime */; /* scan-build */
 struct vlist_t *vlist;
 char vlist_prepack = GLOBALS->vlist_prepack;
 int cnt = 0;
@@ -742,7 +742,7 @@ while(v)
 		{
 		n->mv.mvlfac_vlist = vlist_prepack ? ((struct vlist_t *)vlist_packer_create()) : vlist_create(sizeof(char));
 
-		if((vprime=bsearch_vcd(v->id, strlen(v->id)))==v) /* hash mish means dup net */
+		if((/* vprime= */ bsearch_vcd(v->id, strlen(v->id)))==v) /* hash mish means dup net */ /* scan-build */
 			{
 			switch(v->vartype)
 				{
@@ -1039,9 +1039,8 @@ for(GLOBALS->yytext_vcd_recoder_c_3[len++]=ch;;GLOBALS->yytext_vcd_recoder_c_3[l
 	ch=getch();
 	if(ch==' ')
 		{
-		signed char ch2;
 		if(match_kw) break;
-		if((ch2 = getch_peek()) == '[')
+		if(getch_peek() == '[')
 			{
 			ch = getch();
 			GLOBALS->varsplit_vcd_recoder_c_3=GLOBALS->yytext_vcd_recoder_c_3+len;	/* keep looping so we get the *last* one */
@@ -1388,7 +1387,7 @@ int disable_autocoalesce = 0;
 
 for(;;)
 	{
-	switch(tok=get_token())
+	switch(get_token())
 		{
 		case T_COMMENT:
 			sync_end("COMMENT:");
@@ -2942,8 +2941,7 @@ if(!list_size)
 					fprintf(stderr, "Internal error file '%s' line %d, exiting.\n", __FILE__, __LINE__);
 					exit(255);
 					}
-				vartype = (unsigned int)(*chp & 0x7f);
-
+				/* vartype = (unsigned int)(*chp & 0x7f); */ /*scan-build */
 				break;
 
 			case 'B':
@@ -2955,7 +2953,7 @@ if(!list_size)
 					fprintf(stderr, "Internal error file '%s' line %d, exiting.\n", __FILE__, __LINE__);
 					exit(255);
 					}
-				vartype = (unsigned int)(*chp & 0x7f);
+				/* vartype = (unsigned int)(*chp & 0x7f); */ /* scan-build */
 
 				arr_pos = accum = 0;
 	
