@@ -215,7 +215,7 @@ static gboolean DNDDragMotionCB(
         gpointer data
 )
 {
-	/* gboolean same_widget; */ /* scan-build */
+	gboolean same_widget;
 	GdkDragAction suggested_action;
 	GtkWidget *src_widget, *tar_widget;
 
@@ -228,7 +228,11 @@ static gboolean DNDDragMotionCB(
 	tar_widget = widget;
 
 	/* Note if source widget is the same as the target. */
-	/* same_widget = (src_widget == tar_widget) ? TRUE : FALSE; */ /* scan-build */
+	same_widget = (src_widget == tar_widget) ? TRUE : FALSE;
+	if(same_widget)
+		{
+		/* nothing */
+		}
 
 	GLOBALS->std_dnd_tgt_on_signalarea = (tar_widget == GLOBALS->signalarea);
 	GLOBALS->std_dnd_tgt_on_wavearea = (tar_widget == GLOBALS->wavearea);

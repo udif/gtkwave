@@ -1570,7 +1570,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
                                         {
                                         if(len) set_s_selected(t, 0);
                                         }
-                                len++;
+                                /* len++; */ /* scan-build : artifact of below being removed */
 				break; /* t=t->vec_chain; ...no longer needed because of for() loop above and handler in process_tcl_list() */
                                 }
                         }

@@ -1541,13 +1541,13 @@ pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
 				  int which, int num_extension)
 {
   TimeType _x0, _x1, newtime;
-  int _y0, _y1, yu, liney, ytext, yt0, yt1;
+  int _y0, _y1, yu, liney, /* ytext, */ yt0, yt1; /* scan-build */
   TimeType tim, h2tim;
   hptr h2, h3;
   int endcnt = 0;
-  int ysiz;
-  int type;
-  int lasttype = -1;
+  /* int ysiz; */ /* scan-build */
+  /* int type; */ /* scan-build */
+  /* int lasttype = -1; */ /* scan-build */
   double mynan = strtod ("NaN", NULL);
   double tmin = mynan, tmax = mynan, tv, tv2;
   int is_nan = 0, is_nan2 = 0, is_inf = 0, is_inf2 = 0;
@@ -1558,11 +1558,13 @@ pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
   _y1 = ((which + 1) * GLOBALS->fontheight) + 2;
   _y0 = liney - 2;
   yu = (_y0 + _y1) / 2;
-  ytext = yu - (GLOBALS->wavefont->ascent / 2) + GLOBALS->wavefont->ascent;
+  /* ytext = yu - (GLOBALS->wavefont->ascent / 2) + GLOBALS->wavefont->ascent; */ /* scan-build */
 
+  /* scan-build : unused 
   ysiz = GLOBALS->wavefont->ascent - 1;
   if (ysiz < 1)
     ysiz = 1;
+  */
 
   if (t->flags & TR_ANALOG_FULLSCALE)	/* otherwise use dynamic */
     {
@@ -1764,10 +1766,12 @@ pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
        */
 
       /* draw trans */
+      /* scan-build : unused
       type =
 	(!(h->flags & (HIST_REAL | HIST_STRING))) ? vtype (t,
 							   h->v.
 							   h_vector) : AN_0;
+      */
       tv = tv2 = mynan;
       if (h->flags & HIST_REAL)
 	{
@@ -1980,13 +1984,13 @@ yt1 = coords[3];
 	  if (h3->time > h->time)
 	    {
 	      h = h3;
-	      lasttype = type;
+	      /* lasttype = type; */
 	      continue;
 	    }
 	}
 
       h = h->next;
-      lasttype = type;
+      /* lasttype = type; */
     }
 }
 
@@ -2090,7 +2094,7 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
       h2 = h->next;
       if (!h2)
 	break;
-      h2tim = tim = (h2->time);
+      /* h2tim = */ tim = (h2->time); /* scan-build */
       if (tim > GLOBALS->tims.last)
 	tim = GLOBALS->tims.last;
       else if (tim > GLOBALS->tims.end + 1)
@@ -2271,13 +2275,13 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 			   int num_extension)
 {
   TimeType _x0, _x1, newtime;
-  int _y0, _y1, yu, liney, ytext, yt0, yt1;
+  int _y0, _y1, yu, liney, /* ytext, */ yt0, yt1; /* scan-build */
   TimeType tim, h2tim;
   vptr h, h2, h3;
   int endcnt = 0;
-  int ysiz;
-  int type;
-  int lasttype = -1;
+  /* int ysiz; */ /* scan-build */
+  /* int type; */ /* scan-build */
+  /* int lasttype = -1; */ /* scan-build */
   double mynan = strtod ("NaN", NULL);
   double tmin = mynan, tmax = mynan, tv, tv2;
   int is_nan = 0, is_nan2 = 0, is_inf = 0, is_inf2 = 0;
@@ -2288,11 +2292,14 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
   _y1 = ((which + 1) * GLOBALS->fontheight) + 2;
   _y0 = liney - 2;
   yu = (_y0 + _y1) / 2;
-  ytext = yu - (GLOBALS->wavefont->ascent / 2) + GLOBALS->wavefont->ascent;
 
+  /* ytext = yu - (GLOBALS->wavefont->ascent / 2) + GLOBALS->wavefont->ascent; */ /* scan-build */
+
+  /* scan-build : unused
   ysiz = GLOBALS->wavefont->ascent - 1;
   if (ysiz < 1)
     ysiz = 1;
+  */
 
   if (t->flags & TR_ANALOG_FULLSCALE)	/* otherwise use dynamic */
     {
@@ -2307,7 +2314,7 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 	      if ((h3->time >= GLOBALS->tims.first)
 		  && (h3->time <= GLOBALS->tims.last))
 		{
-		  tv = mynan;
+		  /* tv = mynan; */ /* scan-build */
 
 		  tv = convert_real (t, h3);
 		  if (!isnan (tv) && !isinf (tv))
@@ -2473,7 +2480,7 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
        */
 
       /* draw trans */
-      type = vtype2 (t, h);
+      /* type = vtype2 (t, h); */ /* scan-build */
       tv = convert_real (t, h);
       tv2 = convert_real (t, h2);
 
@@ -2601,13 +2608,13 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 	  if (h3->time > h->time)
 	    {
 	      h = h3;
-	      lasttype = type;
+	      /* lasttype = type; */ /* scan-build */
 	      continue;
 	    }
 	}
 
       h = h->next;
-      lasttype = type;
+      /* lasttype = type; */ /* scan-build */
     }
 
   GLOBALS->tims.start += GLOBALS->shift_timebase;
@@ -2706,7 +2713,7 @@ pr_draw_vptr_trace (pr_context * prc, Trptr t, vptr v, int which)
       h2 = h->next;
       if (!h2)
 	break;
-      h2tim = tim = (h2->time);
+      /* h2tim = */ tim = (h2->time); /* scan-build */
       if (tim > GLOBALS->tims.last)
 	tim = GLOBALS->tims.last;
       else if (tim > GLOBALS->tims.end + 1)
@@ -3093,13 +3100,13 @@ static void
 pr_RenderSigs (pr_context * prc, int trtarget)
 {
   Trptr t;
-  int i, trwhich, width;
+  int i, trwhich /* , width */; /* scan-build */
   int num_traces_displayable;
-  GtkAdjustment *hadj;
-  gint xsrc;
+  /* GtkAdjustment *hadj; */ /* scan-build */
+  /* gint xsrc; */ /* scan-build */
 
-  hadj = GTK_ADJUSTMENT (GLOBALS->signal_hslider);
-  xsrc = (gint) hadj->value;
+  /* hadj = GTK_ADJUSTMENT (GLOBALS->signal_hslider); */ /* scan-build */
+  /* xsrc = (gint) hadj->value; */ /* scan-build */
 
   num_traces_displayable =
     GLOBALS->signalarea->allocation.height / (GLOBALS->fontheight);
@@ -3112,7 +3119,7 @@ pr_RenderSigs (pr_context * prc, int trtarget)
 		GLOBALS->fontheight - 1);
   pr_setgray (prc, 0.0);
   pr_draw_string (prc, 3, GLOBALS->fontheight, "Time",
-		  (width =
+		  (/* width = */ /* scan-build */
 		   font_engine_string_measure (GLOBALS->wavefont, "Time")) * 2,
 		  GLOBALS->fontheight);
 

@@ -141,8 +141,8 @@ if(event->is_hint)
         }
         else
         {
-        x = event->x;
-        y = event->y;
+        /* x = event->x; */ /* scan-build */
+        /* y = event->y; */ /* scan-build */
         state = event->state;
         }
 
@@ -1811,7 +1811,7 @@ void populateBuffer (Trptr t, char *altname, char* buf)
 	  if((!t->vector)&&(t->n.nd)&&(t->n.nd->array_height))
 	    {
 	      sprintf(ptr, "{%d}", t->n.nd->this_row);
-	      ptr = ptr + strlen(ptr);
+	      /* ptr = ptr + strlen(ptr); */ /* scan-build */
 	    }
 #endif
 	}
@@ -1853,7 +1853,7 @@ void populateBuffer (Trptr t, char *altname, char* buf)
 		{
 		  strcpy(ptr, " {");
 		}
-	      ptr = ptr + strlen(ptr);
+	      /* ptr = ptr + strlen(ptr); */ /* scan-build */
 	    }
 	}
     }
@@ -3130,7 +3130,7 @@ TimeType tim, h2tim;
 hptr h2, h3;
 int endcnt = 0;
 int type;
-int lasttype=-1;
+/* int lasttype=-1; */ /* scan-build */
 GdkGC    *c, *ci;
 GdkGC    *cnan = GLOBALS->gc_u_wavewindow_c_1;
 GdkGC    *cinf = GLOBALS->gc_w_wavewindow_c_1;
@@ -3596,13 +3596,13 @@ yt1 = coords[3];
 	if(h3->time>h->time)
 		{
 		h=h3;
-		lasttype=type;
+		/* lasttype=type; */ /* scan-build */
 		continue;
 		}
 	}
 
 h=h->next;
-lasttype=type;
+/* lasttype=type; */ /* scan-build */
 }
 
 wave_gdk_draw_line_flush(GLOBALS->wavepixmap_wavewindow_c_1);
@@ -3688,7 +3688,7 @@ if(_x0>GLOBALS->wavewidth)
 
 h2=h->next;
 if(!h2) break;
-h2tim=tim=(h2->time);
+/* h2tim= */ tim=(h2->time); /* scan-build */
 if(tim>GLOBALS->tims.last) tim=GLOBALS->tims.last;
 	else if(tim>GLOBALS->tims.end+1) tim=GLOBALS->tims.end+1;
 _x1=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
@@ -3862,7 +3862,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 			ascii=convert_ascii_vec(t,h->v.h_vector);
 			}
 
-		ascii2 = ascii;
+		/* ascii2 = ascii; */ /* scan-build */
 		if(*ascii == '?')
 			{
 			GdkGC *cb;
@@ -3873,7 +3873,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 				cb = get_gc_from_name(ascii+1);
 				if(cb)
 					{	
-					ascii2 =  srch_for_color + 1;
+					/* ascii2 =  srch_for_color + 1; */ /* scan-build */
 					if(GLOBALS->gc_back_wavewindow_c_1 != GLOBALS->gc_white)
 						{
 						if(!GLOBALS->black_and_white) gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, cb, TRUE, _x0, _y1+1, width, (_y0-1) - (_y1+1) + 1);
@@ -3924,7 +3924,7 @@ TimeType tim, h2tim;
 vptr h, h2, h3;
 int endcnt = 0;
 int type;
-int lasttype=-1;
+/* int lasttype=-1; */ /* scan-build */
 GdkGC    *c, *ci;
 GdkGC    *cnan = GLOBALS->gc_u_wavewindow_c_1;
 GdkGC    *cinf = GLOBALS->gc_w_wavewindow_c_1;
@@ -3954,7 +3954,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
 
                         if((h3->time >= GLOBALS->tims.first) && (h3->time <= GLOBALS->tims.last))
                                 {
-                                tv = mynan;
+                                /* tv = mynan; */ /* scan-build */
 
 				tv=convert_real(t,h3);
 				if (!isnan(tv) && !isinf(tv))
@@ -4275,13 +4275,13 @@ if(_x0!=_x1)
 	if(h3->time>h->time)
 		{
 		h=h3;
-		lasttype=type;
+		/* lasttype=type; */
 		continue;
 		}
 	}
 
 h=h->next;
-lasttype=type;
+/* lasttype=type; */
 }
 
 wave_gdk_draw_line_flush(GLOBALS->wavepixmap_wavewindow_c_1);
@@ -4384,7 +4384,7 @@ if(_x0>GLOBALS->wavewidth)
 
 h2=h->next;
 if(!h2) break;
-h2tim=tim=(h2->time);
+/* h2tim= */ tim=(h2->time); /* scan-build */
 if(tim>GLOBALS->tims.last) tim=GLOBALS->tims.last;
 	else if(tim>GLOBALS->tims.end+1) tim=GLOBALS->tims.end+1;
 _x1=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
@@ -4527,11 +4527,11 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 		}
 		else if(GLOBALS->fill_in_smaller_rgb_areas_wavewindow_c_1)
 		{
-		char *ascii2;
+		/* char *ascii2; */ /* scan-build */
 
 		ascii=convert_ascii(t,h);
 
-		ascii2 = ascii;
+		/* ascii2 = ascii; */ /* scan-build */
 		if(*ascii == '?')
 			{
 			GdkGC *cb;
@@ -4542,7 +4542,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 				cb = get_gc_from_name(ascii+1);
 				if(cb)
 					{	
-					ascii2 =  srch_for_color + 1;
+					/* ascii2 =  srch_for_color + 1; */
 					if(GLOBALS->gc_back_wavewindow_c_1 != GLOBALS->gc_white)
 						{
 						if(!GLOBALS->black_and_white) gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, cb, TRUE, _x0, _y1+1, width, (_y0-1) - (_y1+1) + 1);
