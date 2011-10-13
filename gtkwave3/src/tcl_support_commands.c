@@ -535,7 +535,7 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
   }
   if (t) {			/* we have a signal */
     /* create a list of value change structs (hptrs or vptrs */
-    int nelem = 0, bw = -1 ;
+    int nelem = 0 /* , bw = -1  */ ; /* scan-build */
     TimeType tstart = (dir == STRACE_FORWARD) ? start_time : end_time ;
     TimeType tend = (dir == STRACE_FORWARD) ? end_time : start_time ;
     if ((dir == STRACE_BACKWARD) && (max_elements == 1))
@@ -545,9 +545,11 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
     if (!t->vector) {
       hptr h, h1;
       int len = 0  ;
+      /* scan-build :
       if(t->n.nd->extvals) {
 	bw = abs(t->n.nd->msi - t->n.nd->lsi) + 1 ;
       }
+      */
       h = bsearch_node(t->n.nd, tstart - t->shift) ;
       for(h1 = h; h1; h1 = h1->next) {
 	if (h1->time <= tend) {

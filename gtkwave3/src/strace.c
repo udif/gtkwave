@@ -677,7 +677,7 @@ while(s)
 		UTimeType utt;
 		TimeType  tt;
 
-		h=bsearch_node(t->n.nd, basetime - t->shift);
+		/* h= */ bsearch_node(t->n.nd, basetime - t->shift); /* scan-build */
 		hp=GLOBALS->max_compare_index;
 		if((hp==&(t->n.nd->harray[1]))||(hp==&(t->n.nd->harray[0]))) return;
 		if(basetime == ((*hp)->time+GLOBALS->shift_timebase)) hp--;
@@ -693,7 +693,7 @@ while(s)
 		UTimeType utt;
 		TimeType  tt;
 
-		v=bsearch_vector(t->n.vec, basetime - t->shift);
+		/* v= */ bsearch_vector(t->n.vec, basetime - t->shift); /* scan-build */
 		vp=GLOBALS->vmax_compare_index;
 		if((vp==&(t->n.vec->vectors[1]))||(vp==&(t->n.vec->vectors[0]))) return;
 		if(basetime == ((*vp)->time+GLOBALS->shift_timebase)) vp--;
@@ -1687,7 +1687,7 @@ if(GLOBALS->strace_ctx->timearray)
 						}
 						else
 						{
-						namex = hier_decompress_flagged(nodes[i]->nname, &was_packed);
+						/* namex = */ hier_decompress_flagged(nodes[i]->nname, &was_packed); /* scan-build */
 						mprintf(" %s",nodes[i]->nname);
 						/* if(was_packed) free_2(namex); ...not needed for HIER_DEPACK_STATIC */
 						}

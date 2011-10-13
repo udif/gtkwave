@@ -784,7 +784,7 @@ if(GLOBALS->splash_splash_c_1)
 		if(cur_bar_x != GLOBALS->prev_bar_x_splash_c_1)
 			{
 			if((current==total)||(cur_bar_x>=WAVE_SPLASH_X-4)) GLOBALS->load_complete_splash_c_1=1;
-			if(current>total) current = total; /* just in case... */
+			/* if(current>total) current = total; */ /* scan-build */
 	
 			gdk_draw_rectangle(GLOBALS->darea_splash_c_1->window, GLOBALS->splash_splash_c_1->style->black_gc, TRUE,0,WAVE_SPLASH_Y-4, (GLOBALS->prev_bar_x_splash_c_1 = cur_bar_x), 4);
 			}

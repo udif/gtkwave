@@ -139,7 +139,7 @@ static void load_ttrans_filter(int which, char *name)
 
   result = fscanf(stream, "%s", abs_path);
 
-  if(strlen(abs_path) == 0)
+  if((strlen(abs_path) == 0)||(!result))
     {
       status_text("Could not find transaction filter process!\n");
       return;
@@ -716,7 +716,7 @@ ex:     			buf[n] = 0;
 			vt->time = MAX_HISTENT_TIME - 1;
 			regions++;
 	
-			vt_curr = vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt));
+			/* vt_curr = */ vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt)); /* scan-build */
 			vt->time = MAX_HISTENT_TIME;
 			regions++;
 	

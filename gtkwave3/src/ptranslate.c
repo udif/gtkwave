@@ -134,7 +134,7 @@ static void load_proc_filter(int which, char *name)
 
   result = fscanf(stream, "%s", abs_path);
 
-  if(strlen(abs_path) == 0)
+  if((strlen(abs_path) == 0)||(!result))
     {
       status_text("Could not find filter process!\n");
       return;
