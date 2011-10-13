@@ -5365,8 +5365,6 @@ if((t=GLOBALS->traces.first))
 
 void menu_lexize(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
-Trptr t;
-
 if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nSigsort All");
@@ -5378,7 +5376,7 @@ if(GLOBALS->helpbox_is_active)
 
 if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd active */
 
-if((t=GLOBALS->traces.first))
+if(GLOBALS->traces.first)
 	{
 	if(TracesReorder(TR_SORT_LEX))
 		{
@@ -5390,8 +5388,6 @@ if((t=GLOBALS->traces.first))
 /**/
 void menu_alphabetize(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
-Trptr t;
-
 if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nAlphabetize All");
@@ -5403,7 +5399,7 @@ if(GLOBALS->helpbox_is_active)
 
 if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd active */
 
-if((t=GLOBALS->traces.first))
+if(GLOBALS->traces.first)
 	{
 	if(TracesReorder(TR_SORT_NORM))
 		{
@@ -5415,8 +5411,6 @@ if((t=GLOBALS->traces.first))
 /**/
 void menu_alphabetize2(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
-Trptr t;
-
 if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nAlphabetize All (CaseIns)");
@@ -5428,7 +5422,7 @@ if(GLOBALS->helpbox_is_active)
 
 if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd active */
 
-if((t=GLOBALS->traces.first))
+if(GLOBALS->traces.first)
 	{
 	if(TracesReorder(TR_SORT_INS))
 		{
@@ -5440,8 +5434,6 @@ if((t=GLOBALS->traces.first))
 /**/
 void menu_reverse(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
-Trptr t;
-
 if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nReverse All");
@@ -5453,7 +5445,7 @@ if(GLOBALS->helpbox_is_active)
 
 if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd active */
 
-if((t=GLOBALS->traces.first))
+if(GLOBALS->traces.first)
 	{
 	if(TracesReorder(TR_SORT_RVS))
 		{

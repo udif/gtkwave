@@ -277,7 +277,8 @@ for(i=0;i<GLOBALS->numfacs;i++)
         int len;
         struct symbol *curnode = GLOBALS->facs[i];
 
-        if((len=strlen(subst=curnode->name))>GLOBALS->longestname) GLOBALS->longestname=len;
+	subst=curnode->name;
+        if((len=strlen(subst))>GLOBALS->longestname) GLOBALS->longestname=len;
 #ifdef WAVE_HIERFIX
         while((ch=(*subst)))
                 { 

@@ -1286,7 +1286,7 @@ load_vcd:
                   GLOBALS->unoptimized_vcd_file_name = calloc_2(1,strlen(GLOBALS->loaded_file_name) + 1);
                   strcpy(GLOBALS->unoptimized_vcd_file_name, GLOBALS->loaded_file_name);  
                   optimize_vcd_file();
-                  is_vcd = 0;
+                  /* is_vcd = 0; */ /* scan-build */
 		  GLOBALS->optimize_vcd = 1;
                   goto loader_check_head;
         }
@@ -1766,7 +1766,7 @@ if(GLOBALS->use_toolbutton_interface)
                                           timebox,
                                           NULL,
 					  NULL,
-					  tb_pos++);
+					  tb_pos /* ++ */); /* scan-build */
 
 		GLOBALS->missing_file_toolbar = tb;
 		if(GLOBALS->loaded_file_type == MISSING_FILE)

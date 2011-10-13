@@ -350,11 +350,11 @@ return(rv);
 
 static TimeType bsearch_mvl_timechain(int key)
 {
-void *bsearch_dummy_rv;
+/* void *bsearch_dummy_rv; */ /* scan-build */
 
 GLOBALS->max_compare_time_tc_lxt_c_2=-1; GLOBALS->max_compare_pos_tc_lxt_c_2=-1; 
 
-bsearch_dummy_rv = bsearch((void *)&key, (void *)GLOBALS->positional_information_lxt_c_1, GLOBALS->total_cycles_lxt_c_2, sizeof(int), compar_mvl_timechain);
+/* bsearch_dummy_rv = */ bsearch((void *)&key, (void *)GLOBALS->positional_information_lxt_c_1, GLOBALS->total_cycles_lxt_c_2, sizeof(int), compar_mvl_timechain);
 if((GLOBALS->max_compare_pos_tc_lxt_c_2<=0)||(GLOBALS->max_compare_time_tc_lxt_c_2<0)) 
         {
         GLOBALS->max_compare_pos_tc_lxt_c_2=0; /* aix bsearch fix */
@@ -1426,7 +1426,7 @@ GLOBALS->mm_lxt_c_1=mmap(NULL, GLOBALS->f_len_lxt_c_1, PROT_READ, MAP_SHARED, GL
 GLOBALS->mm_lxt_mmap_addr = GLOBALS->mm_lxt_c_1;
 GLOBALS->mm_lxt_mmap_len = GLOBALS->f_len_lxt_c_1;
 
-if((i=get_16((off_t)0))!=LT_HDRID)
+if(get_16((off_t)0)!=LT_HDRID) /* scan-build, assign to i= from get_16 removed */
 	{
 	fprintf(stderr, "Not an LXT format AET, exiting.\n");
 	vcd_exit(255);

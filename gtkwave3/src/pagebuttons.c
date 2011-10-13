@@ -34,7 +34,7 @@ if(GLOBALS->helpbox_is_active)
 
 ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);	/* really don't need this var but the speed of ui code is human dependent.. */
 ntfrac=ntinc*GLOBALS->page_divisor;
-if((ntfrac<1)||(ntinc<1)) ntfrac=ntinc=1;
+if((ntfrac<1)||(ntinc<1)) ntfrac= /*ntinc=*/ 1; /* scan-build */
 
 if((GLOBALS->tims.start-ntfrac)>GLOBALS->tims.first) GLOBALS->tims.timecache=GLOBALS->tims.start-ntfrac;
 	else GLOBALS->tims.timecache=GLOBALS->tims.first;

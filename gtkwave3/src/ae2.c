@@ -409,7 +409,7 @@ int i;
 int match_idx;
 struct Node *n;
 struct symbol *s;
-TimeType first_cycle, last_cycle, total_cycles;
+TimeType first_cycle, last_cycle /* , total_cycles */; /* scan-build */
 int total_rows = 0;
 int mono_row_offset = 0;
 struct Node *monolithic_node = NULL;
@@ -563,7 +563,7 @@ fprintf(stderr, AET2_RDLOAD"Finished building %d facs.\n", match_idx);
 
 first_cycle = (TimeType) ae2_read_start_cycle(GLOBALS->ae2);
 last_cycle = (TimeType) ae2_read_end_cycle(GLOBALS->ae2);
-total_cycles = last_cycle - first_cycle + 1;
+/* total_cycles = last_cycle - first_cycle + 1; */ /* scan-build */
 
 /* do your stuff here..all useful info has been initialized by now */
 

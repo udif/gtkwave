@@ -2569,7 +2569,7 @@ if((*w2=='#')||(*w2==':'))
 
 			if(lbrack)
 				{
-				int made = 0;
+				/* int made = 0; */ /* scan-build */
 				char *w3;
 				char *rbrack           = strrchr(w2,   ']');
 				char *rightmost_lbrack = strrchr(sp+1, '[');
@@ -2581,11 +2581,12 @@ if((*w2=='#')||(*w2==':'))
 					w3 = malloc_2(strlen(w2) + 1 + strlen(rightmost_lbrack+1) + 1);
 					sprintf(w3, "%s:%s", w2, rightmost_lbrack+1);
 
-					made = maketraces(w3, alias, 1);
+					/* made = */ maketraces(w3, alias, 1); /* scan-build */
 					free_2(w3);
 					}
 
-				if(0)	/* this is overkill for now with possible delay implications so commented out */
+#if 0
+				/* this is overkill for now with possible delay implications so commented out */
 				if(!made)
 					{
 					*lbrack = 0;
@@ -2596,6 +2597,7 @@ if((*w2=='#')||(*w2==':'))
 					maketraces(w3, alias, 1);
 					free_2(w3);
 					}
+#endif
 				}
 			}
 		}

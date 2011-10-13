@@ -1395,7 +1395,8 @@ void reload_into_new_context(void)
 {
  FILE *statefile;
  struct Global *new_globals, *setjmp_globals;
- gint tree_frame_x = -1, tree_frame_y = -1;
+ /* gint tree_frame_x = -1; */ /* scan-build */
+ gint tree_frame_y = -1;
  gdouble tree_vadj_value = 0.0;
  gdouble tree_hadj_value = 0.0;
  gdouble treeview_vadj_value = 0.0;
@@ -1467,7 +1468,7 @@ void reload_into_new_context(void)
 	if(vadj) tree_vadj_value = vadj->value;
 	if(hadj) tree_hadj_value = hadj->value;
 
-	tree_frame_x = (GLOBALS->gtk2_tree_frame)->allocation.width;
+	/* tree_frame_x = (GLOBALS->gtk2_tree_frame)->allocation.width; */ /* scan-build */
 	tree_frame_y = (GLOBALS->gtk2_tree_frame)->allocation.height;
 
 	/* lower signal set */

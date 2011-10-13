@@ -1474,7 +1474,7 @@ Trptr last_good = t;
 Trptr t2;
 int oc_cnt = 0;
 int underflow_sticky = 0;
-Trptr tkill_undeflow = NULL;
+/* Trptr tkill_undeflow = NULL; */ /* scan-build */
 
 while(t)
 	{
@@ -1499,10 +1499,12 @@ while(t)
 
 		if(oc_cnt < 0) 
 			{
+			/*
 			if(!underflow_sticky)
 				{
 				tkill_undeflow = t;
 				}
+			*/ /* scan-build */
 			underflow_sticky = 1;
 			}
 		}

@@ -515,7 +515,7 @@ void logbox(char *title, int width, char *default_text)
 		w = w->next;
 		free_2(wt);
 		}
-	wlog_head = wlog_curr = NULL;
+	/* wlog_head = */ wlog_curr = NULL; /* scan-build */
 	*pnt2 = 0;
 	log_text(text, GLOBALS->font_logfile_c_1, pnt);
 	free_2(pnt);
@@ -612,7 +612,7 @@ static void logbox_reload_single(GtkWidget *window, GtkWidget *text, char *defau
 		w = w->next;
 		free_2(wt);
 		}
-	wlog_head = wlog_curr = NULL;
+	/* wlog_head = */ wlog_curr = NULL; /* scan-build */
 	*pnt2 = 0;
 	log_text(text, GLOBALS->font_logfile_c_1, pnt);
 	free_2(pnt);

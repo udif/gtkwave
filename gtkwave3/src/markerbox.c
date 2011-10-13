@@ -84,7 +84,7 @@ GtkWidget *entry;
 TimeType temp;
 G_CONST_RETURN gchar *entry_text;
 char buf[49];
-int len, i;
+int i;
 int ent_idx;
 
 ent_idx = ((int) (((long) which) & 31L)) % 26;
@@ -92,7 +92,7 @@ ent_idx = ((int) (((long) which) & 31L)) % 26;
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
-if(!(len=strlen(entry_text))) goto failure;
+if(!strlen(entry_text)) goto failure;
 if(!isdigit((int)(unsigned char)entry_text[0])) goto failure;
 
 temp=unformat_time(entry_text, GLOBALS->time_dimension);
@@ -122,11 +122,11 @@ return;
 static void enter_callback(GtkWidget *widget, gpointer which)
 {
 GtkWidget *entry;
-TimeType *modify;
+/* TimeType *modify; */ /* scan-build */
 TimeType temp;
 G_CONST_RETURN gchar *entry_text;
 char buf[49];
-int len, i;
+int i;
 int ent_idx;
 
 ent_idx = ((int) (((long) which) & 31L)) % 26;
@@ -134,7 +134,7 @@ ent_idx = ((int) (((long) which) & 31L)) % 26;
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
-if(!(len=strlen(entry_text))) goto failure;
+if(!strlen(entry_text)) goto failure;
 
 temp=unformat_time(entry_text, GLOBALS->time_dimension);
 if((temp<GLOBALS->tims.start)||(temp>GLOBALS->tims.last)) goto failure;
@@ -154,7 +154,7 @@ gtk_entry_select_region (GTK_ENTRY (entry),
 return;
 
 failure:
-modify=(TimeType *)which;
+/* modify=(TimeType *)which; */ /* scan-build */
 if(GLOBALS->shadow_markers_markerbox_c_1[ent_idx]==-1)
 	{
 	sprintf(buf,"<None>");

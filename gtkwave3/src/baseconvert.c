@@ -579,7 +579,7 @@ else if(flags&TR_REAL)
 			}
 
 		memcpy(&d, &utt, sizeof(double));
-		os=pnt=(char *)calloc_2(1,32);		
+		os=/*pnt=*/(char *)calloc_2(1,32); /* scan-build */
 		sprintf(os, "%.16g", d);
 		}
 		else
@@ -1220,7 +1220,7 @@ else if(flags&TR_REAL)
 			}
 
 		memcpy(&d, &utt, sizeof(double));
-		os=pnt=(char *)calloc_2(1,32);		
+		os=/*pnt=*/(char *)calloc_2(1,32); /* scan-build */
 		sprintf(os, "%.16g", d);
 		}
 		else
