@@ -2396,9 +2396,9 @@ char pch = 0;
 char *nxt_hd = s;
 char *pnt = s;
 char *path;
-char **url_list = calloc_2(1, sizeof(gchar *));
+char **url_list = g_malloc(sizeof(gchar *)); /* deliberate g_funcs() as context can swap out from under us */
 
-if(*pnt == '{') return(0); /* exit early if tcl list */
+if(*pnt == '{') { g_free(url_list); return(0); } /* exit early if tcl list */
 
 for(;;)
 	{
@@ -2410,7 +2410,7 @@ for(;;)
 			}
 
 		path = g_filename_from_uri(nxt_hd, NULL, NULL);
-		if(path) { url_list[url_cnt++] = path; url_list = realloc_2(url_list, (url_cnt+1) * sizeof(gchar *)); }
+		if(path) { url_list[url_cnt++] = path; url_list = g_realloc(url_list, (url_cnt+1) * sizeof(gchar *)); }
 		break;
 		}
 	else
@@ -2422,7 +2422,7 @@ for(;;)
 			*pnt = 0;
 
 			path = g_filename_from_uri(nxt_hd, NULL, NULL);
-			if(path) { url_list[url_cnt++] = path; url_list = realloc_2(url_list, (url_cnt+1) * sizeof(gchar *)); }
+			if(path) { url_list[url_cnt++] = path; url_list = g_realloc(url_list, (url_cnt+1) * sizeof(gchar *)); }
 			*pnt = sav;
 			}
 		pch = *pnt;
@@ -2463,7 +2463,7 @@ if(url_list)
 		g_free(url_list[i]);
 		}
 
-	free_2(url_list);
+	g_free(url_list);
 	}
 
 #endif
