@@ -606,7 +606,8 @@ if(GLOBALS->fast_tree_sort)
 		int len;
 
 		GLOBALS->facs[i]=&sym_block[i];
-	        if((len=strlen(subst=GLOBALS->facs[i]->name))>GLOBALS->longestname) GLOBALS->longestname=len;
+		subst=GLOBALS->facs[i]->name;
+	        if((len=strlen(subst))>GLOBALS->longestname) GLOBALS->longestname=len;
 #ifdef WAVE_HIERFIX
 		while((ch=(*subst)))
 			{	

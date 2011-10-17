@@ -1804,7 +1804,9 @@ void populateBuffer (Trptr t, char *altname, char* buf)
 	      reformat_time(ptr+1, t->shift, GLOBALS->time_dimension);
 	      ptr = ptr + strlen(ptr+1) + 1;
 	      strcpy(ptr,"\'");
-	      ptr = ptr + strlen(ptr);
+#ifdef WAVE_ARRAY_SUPPORT
+	      ptr = ptr + strlen(ptr); /* really needed for aet2 only */
+#endif
 	    }
 
 #ifdef WAVE_ARRAY_SUPPORT
