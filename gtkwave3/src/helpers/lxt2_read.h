@@ -53,7 +53,7 @@ typedef long off_t;
 
 #ifdef __GNUC__
 #if __STDC_VERSION__ >= 199901L
-#define _LXT2_RD_INLINE
+#define _LXT2_RD_INLINE inline __attribute__((__gnu_inline__))
 #else
 #define _LXT2_RD_INLINE inline
 #endif

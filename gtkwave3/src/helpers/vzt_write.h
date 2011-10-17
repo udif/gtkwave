@@ -86,7 +86,7 @@ typedef unsigned __int64        vzttime_t;
 
 #ifdef __GNUC__
 #if __STDC_VERSION__ >= 199901L
-#define _VZT_WR_INLINE       
+#define _VZT_WR_INLINE inline __attribute__((__gnu_inline__))
 #else
 #define _VZT_WR_INLINE inline
 #endif
