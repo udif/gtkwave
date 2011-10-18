@@ -28,18 +28,21 @@
 
 gboolean execute_rpc(void)
 {
-if(GLOBALS->rpc_ctx && !GLOBALS->tcl_running && !GLOBALS->busy_busy_c_1)
+struct gtkwave_rpc_ipc_t *rpc_ctx = GLOBALS->rpc_ctx;
+/* copy only in case GLOBALS->rpc_ctx somehow disappears -- which should *never* happen */
+
+if(rpc_ctx && !GLOBALS->tcl_running && !GLOBALS->busy_busy_c_1)
 	{
 	static int in_rpc = FALSE;
 
-	if(GLOBALS->rpc_ctx->valid && !GLOBALS->rpc_ctx->resp_valid && !in_rpc)
+	if(rpc_ctx->valid && !rpc_ctx->resp_valid && !in_rpc)
 		{
-		char *s = GLOBALS->rpc_ctx->membuf;
-		char *e = GLOBALS->rpc_ctx->membuf + sizeof(GLOBALS->rpc_ctx->membuf);
+		char *s = rpc_ctx->membuf;
+		char *e = rpc_ctx->membuf + sizeof(rpc_ctx->membuf);
 		char *s2;
 
 		in_rpc = TRUE;
-		GLOBALS->rpc_ctx->resp_membuf[0] = 0;
+		rpc_ctx->resp_membuf[0] = 0;
 		
 		while(s && *s)
 			{
@@ -51,12 +54,12 @@ if(GLOBALS->rpc_ctx && !GLOBALS->tcl_running && !GLOBALS->busy_busy_c_1)
 
 				if(!menu_new_viewer_tab_cleanup_2(s2)) 
 					{
-					strcat(GLOBALS->rpc_ctx->resp_membuf, "--dump fail\n");
+					strcat(rpc_ctx->resp_membuf, "--dump fail\n");
 					break;
 					}
 					else
 					{
-					strcat(GLOBALS->rpc_ctx->resp_membuf, "--dump ok\n");
+					strcat(rpc_ctx->resp_membuf, "--dump ok\n");
 					}
 				}
 			else
@@ -69,7 +72,7 @@ if(GLOBALS->rpc_ctx && !GLOBALS->tcl_running && !GLOBALS->busy_busy_c_1)
 
 				rsh_rc = read_save_helper(s2);
 				sprintf(rsh_buf, "--save %d\n", rsh_rc);
-				strcat(GLOBALS->rpc_ctx->resp_membuf, rsh_buf);
+				strcat(rpc_ctx->resp_membuf, rsh_buf);
 				}
 			else
 			if(!strcmp(s2, "--script"))
@@ -79,7 +82,7 @@ if(GLOBALS->rpc_ctx && !GLOBALS->tcl_running && !GLOBALS->busy_busy_c_1)
 				WAVE_S2_S_MACRO
 
 				srtn = rpc_script_execute(s2);
-				strcat(GLOBALS->rpc_ctx->resp_membuf, srtn);
+				strcat(rpc_ctx->resp_membuf, srtn);
 				free_2(srtn);
 				}
 			else
@@ -88,8 +91,8 @@ if(GLOBALS->rpc_ctx && !GLOBALS->tcl_running && !GLOBALS->busy_busy_c_1)
 				}
 			}
 
-		GLOBALS->rpc_ctx->resp_valid = 1;
-		GLOBALS->rpc_ctx->valid = 0;
+		rpc_ctx->resp_valid = 1;
+		rpc_ctx->valid = 0;
 
 		in_rpc = FALSE;
 		return(TRUE);
