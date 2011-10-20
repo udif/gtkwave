@@ -1049,4 +1049,4 @@
 		In process_url_list() use g_malloc/g_free as context can
 		or will change when files are loaded.
 		Added fix for DnD crash when Quartz is the GDK back-end
-		on Mac OSX.
+		on Mac OSX.  Enable fix with --enable-quartz in configure.
