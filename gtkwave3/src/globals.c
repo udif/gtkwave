@@ -957,6 +957,9 @@ NULL, /* void (*cleanup_treesearch_gtk1_c)(); */
 /*
  * treesearch_gtk2.c
  */
+#ifdef WAVE_GDK_QUARTZ
+NULL, /* dnd_helper_quartz */
+#endif
 NULL, /* treeopen_chain_head */
 NULL, /* treeopen_chain_curr */
 0, /* tree_dnd_begin */

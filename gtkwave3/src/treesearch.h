@@ -24,5 +24,9 @@ struct tree *fetchhigh(struct tree *t);
 void fetchvex(struct tree *t, char direction);
 int treebox_is_active(void);
 
+#if WAVE_USE_GTK2
+void DND_helper_quartz(char *data);
+#endif
+
 #endif
 

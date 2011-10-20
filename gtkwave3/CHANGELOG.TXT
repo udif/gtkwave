@@ -1042,9 +1042,11 @@
 		OSX compile fixes for Tcl detection, printf warning 
 		fixes (xcode gcc uses stricter warnings).
 		More generic warning fixes from recent feature adds.
-3.3.27	15oct11	Fixes of suspicious NULL pointer warnings from scan-build.
+3.3.27	20oct11	Fixes of suspicious NULL pointer warnings from scan-build.
 		Fixed inline function linker errors when using Clang.
 		Optimization of more [1] cases found in analyzer.h when
 		-DWAVE_USE_STRUCT_PACKING is active.
 		In process_url_list() use g_malloc/g_free as context can
 		or will change when files are loaded.
+		Added fix for DnD crash when Quartz is the GDK back-end
+		on Mac OSX.

@@ -626,6 +626,20 @@ event[0].deviceid = GDK_CORE_POINTER;
 
 execute_rpc();
 
+#ifdef WAVE_USE_GTK2
+#ifdef WAVE_GDK_QUARTZ
+if(GLOBALS->dnd_helper_quartz)
+        {
+        char *dhq = g_malloc(strlen(GLOBALS->dnd_helper_quartz)+1);
+        strcpy(dhq, GLOBALS->dnd_helper_quartz);
+        free_2(GLOBALS->dnd_helper_quartz);
+        GLOBALS->dnd_helper_quartz = NULL;
+        DND_helper_quartz(dhq);
+        g_free(dhq);
+        }
+#endif   
+#endif
+
 if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
 	return(TRUE);

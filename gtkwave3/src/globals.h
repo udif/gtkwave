@@ -940,6 +940,9 @@ void (*cleanup_treesearch_gtk1_c)(); /* ...end of manual adds */
 /*
  * treesearch_gtk2.c
  */
+#ifdef WAVE_GDK_QUARTZ
+char *dnd_helper_quartz;
+#endif
 struct string_chain_t *treeopen_chain_head; /* from bitvec.c */
 struct string_chain_t *treeopen_chain_curr; /* from bitvec.c */
 char tree_dnd_begin; /* from treesearch_gtk2.c */

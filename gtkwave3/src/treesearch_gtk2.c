@@ -2092,21 +2092,34 @@ static void DNDDataReceivedCB(
        (info == WAVE_DRAG_TAR_INFO_1) ||
        (info == WAVE_DRAG_TAR_INFO_2))
     {
-    int num_found ;
-
     /* printf("XXX %08x '%s'\n", selection_data->data, selection_data->data); */
-    if(!(num_found = process_url_list((char *)selection_data->data)))
-	{
-    	num_found = process_tcl_list((char *)selection_data->data, TRUE);
-	}
-	
-    if(num_found)
-	{
-	MaxSignalLength();
-	signalarea_configure_event(GLOBALS->signalarea, NULL);
-	wavearea_configure_event(GLOBALS->wavearea, NULL);
-	}
+#ifndef WAVE_GDK_QUARTZ
+    DND_helper_quartz((char *)selection_data->data);
+#else
+    if(!GLOBALS->dnd_helper_quartz)
+        {
+        GLOBALS->dnd_helper_quartz = strdup_2(selection_data->data);
+        }
+#endif
     }
+}
+
+
+void DND_helper_quartz(char *data)
+{
+int num_found;
+
+if(!(num_found = process_url_list(data)))
+        {
+        num_found = process_tcl_list(data, TRUE);
+        }
+
+if(num_found)
+        {
+        MaxSignalLength();
+        signalarea_configure_event(GLOBALS->signalarea, NULL);
+        wavearea_configure_event(GLOBALS->wavearea, NULL);
+        }
 }
 
 
