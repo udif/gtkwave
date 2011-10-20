@@ -1050,3 +1050,5 @@
 		or will change when files are loaded.
 		Added fix for DnD crash when Quartz is the GDK back-end
 		on Mac OSX.  Enable fix with --enable-quartz in configure.
+		Fixed fstWriterFlushContext() such that invocations 
+		outside the fstapi are synced with time changes.
