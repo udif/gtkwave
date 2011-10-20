@@ -17,6 +17,23 @@ fi
 # Checks for build options
 # ------------- Inline -------------------
 
+AC_MSG_CHECKING([if Quartz patches for OSX should be enabled])
+
+QTZ=no
+QUARTZ_CFLAGS=
+AC_ARG_ENABLE([quartz],
+[  --enable-quartz         Enables OSX Quartz patches (default off)],
+[
+if test "X$enable_quartz" = "Xyes" ; then
+	QTZ=yes
+        QUARTZ_CFLAGS=-DWAVE_GDK_QUARTZ
+fi
+])
+AC_MSG_RESULT([$QTZ])
+AC_SUBST(QUARTZ_CFLAGS)
+
+# ------------- Inline -------------------
+
 AC_MSG_CHECKING([if inline assembly should be enabled])
 
 INL=yes
@@ -724,6 +741,7 @@ AC_MSG_NOTICE([
   LDFLAGS          : $LDFLAGS
   LIBS             : $LIBS
   INLINE_ASM       : $INLINE_ASM
+  QUARTZ_CFLAGS    : $QUARTZ_CFLAGS
 --------------------------------------------
 ])
 
