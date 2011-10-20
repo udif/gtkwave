@@ -102,7 +102,7 @@ to fix your Ubuntu install or use the version of libz in gtkwave:
 
 ===============================================================================
 
-Note for Mac OSX users:
+Notes for Mac OSX users:
 
 ./configure --prefix=/opt/local --enable-judy --enable-struct-pack "CFLAGS=-I/opt/local/include -O2 -g" LDFLAGS=-L/opt/local/lib --no-create --no-recursion
 
@@ -113,6 +113,9 @@ should be functional on the Mac.
 If you wish to use llvm, also add "CC=llvm-gcc" and change the "-O2" in CFLAGS
 to "-O4".
 
--260911ajb  bybell@nc.rr.com
+Note that --enable-quartz is not intended for gtkwave running under X11.  It
+is only for the case where GDK was compiled with Quartz as its back end.
+
+-201011ajb  bybell@nc.rr.com
 
 ===============================================================================
