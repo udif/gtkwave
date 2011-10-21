@@ -773,7 +773,7 @@ free(node_len_array); node_len_array = NULL;
 
 if(f != stdin) fclose(f);
 
-exit(0);
+return(0);
 }
 
 
