@@ -1052,3 +1052,5 @@
 		on Mac OSX.  Enable fix with --enable-quartz in configure.
 		Fixed fstWriterFlushContext() such that invocations 
 		outside the fstapi are synced with time changes.
+		Modify main window size for twinwave on Quartz: GtkPlug
+		does not target into a GtkSocket as with X11.

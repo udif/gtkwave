@@ -95,7 +95,11 @@ if(split_point < 0)
 
 mainwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 gtk_window_set_title(GTK_WINDOW(mainwindow), "TwinWave Initializing");
+#ifndef WAVE_GDK_QUARTZ
 gtk_widget_set_usize(GTK_WIDGET(mainwindow), 820, 800);
+#else
+gtk_widget_set_usize(GTK_WIDGET(mainwindow), 400,32); /* quartz doesn't retarget into mainwindow */
+#endif
 gtk_widget_show(mainwindow);
 
 gtk_signal_connect(GTK_OBJECT(mainwindow), "destroy", GTK_SIGNAL_FUNC(quit_callback), "WM destroy");
