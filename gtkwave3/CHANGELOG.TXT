@@ -1053,4 +1053,4 @@
 		Fixed fstWriterFlushContext() such that invocations 
 		outside the fstapi are synced with time changes.
 		Modify main window size for twinwave on Quartz: GtkPlug
-		does not target into a GtkSocket as with X11.
+		window does not fit into GtkSocket as with X11.
