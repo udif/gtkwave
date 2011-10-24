@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(gtkwave, 3.3.26, bybell@nc.rr.com)
+AC_INIT(gtkwave, 3.3.27, bybell@nc.rr.com)
 AC_CONFIG_SRCDIR([src/vcd.c])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
