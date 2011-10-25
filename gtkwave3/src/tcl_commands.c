@@ -12,7 +12,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #if WAVE_USE_GTK2
-#include <glib/gconvert.h>
+#include <glib.h>
 #endif
 #include <stdio.h>
 #include <stdlib.h>
