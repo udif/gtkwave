@@ -1054,3 +1054,4 @@
 		outside the fstapi are synced with time changes.
 		Modify main window size for twinwave on Quartz: GtkPlug
 		window does not fit into GtkSocket as with X11.
+3.3.28	03nov11	Use larger more readable Apple fonts for Quartz.

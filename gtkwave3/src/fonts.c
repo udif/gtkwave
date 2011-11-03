@@ -14,6 +14,22 @@
 
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN) && GTK_CHECK_VERSION(2,8,0)
 
+#ifdef WAVE_GDK_QUARTZ
+#define WAVE_MONOSPACE_12 "Monaco 16"
+#define WAVE_MONOSPACE_10 "Monaco 14"
+#define WAVE_MONOSPACE_8  "Monaco 12"
+#define WAVE_MONOSPACE_6  "Monaco 10"
+#define WAVE_SANS_12      "Sans 22"
+#define WAVE_SANS_10      "Sans 16"
+#else
+#define WAVE_MONOSPACE_12 "Monospace 12"
+#define WAVE_MONOSPACE_10 "Monospace 10"
+#define WAVE_MONOSPACE_8  "Monospace 8"
+#define WAVE_MONOSPACE_6  "Monospace 6"
+#define WAVE_SANS_12      "Sans 12"
+#define WAVE_SANS_10      "Sans 10"
+#endif
+
 static struct font_engine_font_t *do_font_load(const char *name)
 {
 struct font_engine_font_t *fef = NULL;
@@ -26,7 +42,7 @@ if( (name) && (desc = pango_font_description_from_string(name)) )
 	fef->desc = desc;
 	fef->font = pango_font_map_load_font( pango_cairo_font_map_get_default(), GLOBALS->fonts_context,   fef->desc);
 	fef->metrics=pango_font_get_metrics(fef->font, NULL /*pango_language_get_default()*/ );
-	
+
 	fef->ascent  = pango_font_metrics_get_ascent(fef->metrics) / 1000;
 	fef->descent = pango_font_metrics_get_descent(fef->metrics) / 1000;
 
@@ -78,11 +94,11 @@ static void pango_load_all_fonts(void)
     {
       if(GLOBALS->use_big_fonts)
 	{ 
-	  GLOBALS->signalfont=do_font_load(GLOBALS->use_nonprop_fonts ? "Monospace 12" : "Sans 12");
+	  GLOBALS->signalfont=do_font_load(GLOBALS->use_nonprop_fonts ? WAVE_MONOSPACE_12 : WAVE_SANS_12);
 	}
       else
 	{
-	  GLOBALS->signalfont=do_font_load(GLOBALS->use_nonprop_fonts ? "Monospace 10" : "Sans 10");
+	  GLOBALS->signalfont=do_font_load(GLOBALS->use_nonprop_fonts ? WAVE_MONOSPACE_10 : WAVE_SANS_10);
 	}
     }
   
@@ -93,13 +109,13 @@ static void pango_load_all_fonts(void)
     {
       if(GLOBALS->use_big_fonts)
 	{
-	  GLOBALS->wavefont=do_font_load("Monospace 12");
-	  GLOBALS->wavefont_smaller=do_font_load("Monospace 10");
+	  GLOBALS->wavefont=do_font_load(WAVE_MONOSPACE_12);
+	  GLOBALS->wavefont_smaller=do_font_load(WAVE_MONOSPACE_10);
 	}
       else
 	{
-	  GLOBALS->wavefont=do_font_load("Monospace 8");
-	  GLOBALS->wavefont_smaller=do_font_load("Monospace 6");
+	  GLOBALS->wavefont=do_font_load(WAVE_MONOSPACE_8);
+	  GLOBALS->wavefont_smaller=do_font_load(WAVE_MONOSPACE_6);
 	}
     }
 
