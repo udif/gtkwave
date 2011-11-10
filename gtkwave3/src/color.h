@@ -15,6 +15,10 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
+#define WAVE_NUM_RAINBOW (7)
+#define WAVE_RAINBOW_RGB {0xFF0000, 0xFF7F00, 0xFFFF00, 0x00FF00, 0x0000FF, 0x6600FF, 0x8B00FF}
+#define WAVE_RAINBOW_INITIALIZER {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}
+
 struct wave_gcmaster_t
 {
 GdkGC *gc_ltgray;
@@ -53,6 +57,8 @@ GdkGC *gc_dash_wavewindow_c_1;
 };
 
 GdkGC *alloc_color(GtkWidget *widget, int tuple, GdkGC *fallback);	/* tuple is encoded as 32bit: --RRGGBB (>=0 is valid) */
+void dealloc_all_gcs(void); /* when tab is destroyed */
+void set_alternate_gcs(GdkGC *ctx, GdkGC *ctx_fill); /* when another t_color is encountered */
 
 #endif
 

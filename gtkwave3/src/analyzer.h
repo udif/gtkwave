@@ -382,6 +382,8 @@ typedef struct TraceEnt
     int	     p_filter;		/* process filter */
     int	     t_filter;		/* transaction process filter */
 
+    unsigned int t_color;	/* trace color index */
+
     unsigned is_alias : 1;	/* set when it's an alias (safe to free t->name then) */
     unsigned is_depacked : 1;	/* set when it's been depacked from a compressed entry (safe to free t->name then) */
     unsigned vector : 1;	/* 1 if bit vector, 0 if node */

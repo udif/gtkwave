@@ -1236,9 +1236,11 @@ NULL, /* wave_hslider */
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, /* named_markers 623 */
 -1, /* named_marker_lock_idx */
 0, /* made_gc_contexts_wavewindow_c_1 624 */
+0, /* which_t_color */
 NULL, /* gc_white 650 */
 NULL, /* gc_black 651 */
 {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}, /* gc */
+WAVE_RAINBOW_INITIALIZER, /* gc_rainbow */
 0, /* made_sgc_contexts_wavewindow_c_1 649 */
 0, /* fill_in_smaller_rgb_areas_wavewindow_c_1 659 */
 -1, /* prev_markertime */
@@ -1486,6 +1488,7 @@ void reload_into_new_context(void)
  new_globals->made_sgc_contexts_wavewindow_c_1 = GLOBALS->made_sgc_contexts_wavewindow_c_1;
  new_globals->made_gc_contexts_wavewindow_c_1 = GLOBALS->made_gc_contexts_wavewindow_c_1;
  memcpy(&new_globals->gccache, &GLOBALS->gccache, sizeof(struct wave_gcmaster_t));
+ memcpy(&new_globals->gc_rainbow, &GLOBALS->gc_rainbow, 2 * WAVE_NUM_RAINBOW * sizeof(GdkGC *));
 
  new_globals->mainwindow = GLOBALS->mainwindow;
  new_globals->signalwindow = GLOBALS->signalwindow; 
@@ -2484,6 +2487,9 @@ if(gp)
 
 	/* remove the bridge pointer */
 	if(GLOBALS->gtk_context_bridge_ptr) { free(GLOBALS->gtk_context_bridge_ptr); GLOBALS->gtk_context_bridge_ptr = NULL; }
+
+	/* Free all gcs */
+	dealloc_all_gcs();
 
 	/* Free the context */
 	free_outstanding();

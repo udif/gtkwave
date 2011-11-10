@@ -1461,12 +1461,14 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 		GLOBALS->default_flags=TR_RJUSTIFY;
 		GLOBALS->shift_timebase_default_for_add=LLDescriptor(0);
 		GLOBALS->strace_current_window = 0; /* in case there are shadow traces */
+		GLOBALS->which_t_color = 0;
 	        while((iline=fgetmalloc(wave)))
 	                {
 	                parsewavline(iline, NULL, 0);
 			GLOBALS->strace_ctx->shadow_encountered_parsewavline |= GLOBALS->strace_ctx->shadow_active;
 			free_2(iline);
 	                }
+		GLOBALS->which_t_color = 0;
 		GLOBALS->default_flags=TR_RJUSTIFY;
 		GLOBALS->shift_timebase_default_for_add=LLDescriptor(0);
 

@@ -2027,6 +2027,12 @@ char *emit_gtkwave_savefile_formatted_entries_in_tcl_list(Trptr t, gboolean use_
 			if(!flag_skip) prev_flags = def;
 			}
 
+		if(t->t_color)
+			{
+			one_entry = make_message("[color] %d\n", t->t_color);
+			WAVE_OE_ME
+			}
+
 		if((t->shift)||((prevshift)&&(!t->shift)))
 			{
 			one_entry = make_message(">"TTFormat"\n", t->shift);

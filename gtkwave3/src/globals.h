@@ -1219,9 +1219,11 @@ GtkObject *wave_hslider; /* from wavewindow.c 682 */
 TimeType named_markers[26]; /* from wavewindow.c 683 */
 int named_marker_lock_idx; /* from menu.c */
 char made_gc_contexts_wavewindow_c_1; /* from wavewindow.c 684 */
+int which_t_color;
 GdkGC *gc_white; /* from wavewindow.c 710 */
 GdkGC *gc_black; /* from wavewindow.c 711 */
 struct wave_gcmaster_t gc;
+GdkGC *gc_rainbow[2*WAVE_NUM_RAINBOW];
 char made_sgc_contexts_wavewindow_c_1; /* from wavewindow.c 709 */
 char fill_in_smaller_rgb_areas_wavewindow_c_1; /* from wavewindow.c 719 */
 TimeType prev_markertime; /* from wavewindow.c */

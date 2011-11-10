@@ -227,6 +227,12 @@ static void AddTrace( Trptr t )
 {
 GLOBALS->traces.dirty = 1;
 
+if((GLOBALS->which_t_color > 0) && (GLOBALS->which_t_color <= WAVE_NUM_RAINBOW))
+	{
+	t->t_color = GLOBALS->which_t_color;
+	GLOBALS->which_t_color = 0;
+	}
+
 if(GLOBALS->default_flags&TR_NUMMASK) t->flags=GLOBALS->default_flags;
 	else t->flags=(t->flags&TR_NUMMASK)|GLOBALS->default_flags;
 

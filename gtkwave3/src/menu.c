@@ -1957,6 +1957,7 @@ static unsigned expand_trace(Trptr t_top)
   Trptr t, tmp;
   int tmpi;
   unsigned dirty = 0;
+  int color;
 
   t = t_top;
 
@@ -1968,6 +1969,8 @@ static unsigned expand_trace(Trptr t_top)
       GLOBALS->traces.buffercount=GLOBALS->traces.total;
 
       GLOBALS->traces.first=GLOBALS->traces.last=NULL; GLOBALS->traces.total=0;
+
+      color = t->t_color;
 
       if(t->vector)
 	{
@@ -1982,6 +1985,7 @@ static unsigned expand_trace(Trptr t_top)
 	      for(i=0;i<bits->nnbits;i++)
 		{
 		  if(bits->nodes[i]->expansion) bits->nodes[i]->expansion->refcnt++;
+		  GLOBALS->which_t_color = color;
 		  AddNodeTraceReturn(bits->nodes[i],NULL, &tfix);
 		  if(bits->attribs)
 		    {
@@ -1994,6 +1998,7 @@ static unsigned expand_trace(Trptr t_top)
 	      for(i=(bits->nnbits-1);i>-1;i--)
 		{
 		  if(bits->nodes[i]->expansion) bits->nodes[i]->expansion->refcnt++;
+		  GLOBALS->which_t_color = color;
 		  AddNodeTraceReturn(bits->nodes[i],NULL, &tfix);
 		  if(bits->attribs)
 		    {
@@ -2017,6 +2022,7 @@ static unsigned expand_trace(Trptr t_top)
 	      GLOBALS->do_hier_compress = 0;
 	      for(i=0;i<e->width;i++)
 		{
+		  GLOBALS->which_t_color = color;
 		  AddNode(e->narray[i], NULL);	
 		}
 	      GLOBALS->do_hier_compress = dhc_sav;
@@ -2054,6 +2060,7 @@ static unsigned expand_trace(Trptr t_top)
 	}
     }
 
+  GLOBALS->which_t_color = 0;
   return dirty;
 }
 
@@ -3813,6 +3820,11 @@ void write_save_helper(FILE *wave) {
 
 		if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))	
 			{
+			if(t->t_color)
+				{
+				fprintf(wave, "[color] %d\n", t->t_color);
+				}
+
 			if(t->flags & TR_FTRANSLATED)
 				{
 				if(t->f_filter && GLOBALS->filesel_filter[t->f_filter])
@@ -4248,6 +4260,7 @@ int read_save_helper(char *wname) {
 		GLOBALS->strace_current_window = 0; /* in case there are shadow traces */
 
 		rc = 0;
+		GLOBALS->which_t_color = 0;
                 while((iline=fgetmalloc(wave)))
                         {
                         parsewavline(iline, NULL, 0);
@@ -4255,6 +4268,7 @@ int read_save_helper(char *wname) {
                         free_2(iline);
 			rc++;
                         }
+		GLOBALS->which_t_color = 0;
 
 		WAVE_STRACE_ITERATOR(s_ctx_iter)
 			{

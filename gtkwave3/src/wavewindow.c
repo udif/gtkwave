@@ -1366,6 +1366,9 @@ if(!GLOBALS->made_sgc_contexts_wavewindow_c_1)
 	}
 }
 
+
+static const int wave_rgb_rainbow[WAVE_NUM_RAINBOW] = {0xFF0000, 0xFF7F00, 0xFFFF00, 0x00FF00, 0x0000FF, 0x6600FF, 0x8B00FF};
+
 gint wavearea_configure_event(GtkWidget *widget, GdkEventConfigure *event)
 {
 if((!widget)||(!widget->window)) return(TRUE);
@@ -1391,6 +1394,8 @@ if(GLOBALS->wavepixmap_wavewindow_c_1)
 
 if(!GLOBALS->made_gc_contexts_wavewindow_c_1)
 	{
+	int i;
+
 	GLOBALS->gc.gc_back_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_back, GLOBALS->wavearea->style->white_gc);    
 	GLOBALS->gc.gc_baseline_wavewindow_c_1 = alloc_color(GLOBALS->wavearea, GLOBALS->color_baseline, GLOBALS->wavearea->style->bg_gc[GTK_STATE_SELECTED]);    
 	GLOBALS->gc.gc_grid_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_grid, GLOBALS->wavearea->style->bg_gc[GTK_STATE_PRELIGHT]);
@@ -1446,6 +1451,22 @@ if(!GLOBALS->made_gc_contexts_wavewindow_c_1)
 	GLOBALS->made_gc_contexts_wavewindow_c_1=~0;
 
 	memcpy(&GLOBALS->gccache, &GLOBALS->gc, sizeof(struct wave_gcmaster_t));
+
+	/* add rainbow colors */	
+	for(i=0;i<WAVE_NUM_RAINBOW;i++)
+		{
+		int col = wave_rgb_rainbow[i];
+
+		GLOBALS->gc_rainbow[i*2] = alloc_color(GLOBALS->wavearea, col, GLOBALS->wavearea->style->black_gc);
+		col >>= 1;
+		col &= 0x007F7F7F;
+		GLOBALS->gc_rainbow[i*2+1] = alloc_color(GLOBALS->wavearea, col, GLOBALS->wavearea->style->black_gc);
+
+#ifdef WAVE_DOUBLE_LINE_WIDTH_MODE
+		gdk_gc_set_line_attributes(GLOBALS->gc_rainbow[i*2], 2, GDK_LINE_SOLID, GDK_CAP_ROUND, GDK_JOIN_ROUND);
+		gdk_gc_set_line_attributes(GLOBALS->gc_rainbow[i*2+1], 2, GDK_LINE_SOLID, GDK_CAP_ROUND, GDK_JOIN_ROUND);
+#endif
+		}
 	}
 
 if(GLOBALS->timestart_from_savefile_valid)
@@ -2683,8 +2704,37 @@ rendertraces();
 update_dual();
 }
 
+
+static void gc_save(Trptr t, struct wave_gcmaster_t *gc_sav)
+{
+if((!GLOBALS->black_and_white) && (t->t_color))
+	{
+	int color = t->t_color;
+
+	color--;
+
+	memcpy(gc_sav, &GLOBALS->gc, sizeof(struct wave_gcmaster_t));
+
+	if(color < WAVE_NUM_RAINBOW)
+		{
+		set_alternate_gcs(GLOBALS->gc_rainbow[2*color], GLOBALS->gc_rainbow[2*color+1]);
+		}
+	}
+}
+
+static void gc_restore(Trptr t, struct wave_gcmaster_t *gc_sav)
+{
+if((!GLOBALS->black_and_white) && (t->t_color))
+	{
+	memcpy(&GLOBALS->gc, gc_sav, sizeof(struct wave_gcmaster_t));
+	}
+}
+
+
 static void rendertraces(void)
 {
+struct wave_gcmaster_t gc_sav;
+
 if(!GLOBALS->topmost_trace)
 	{
 	GLOBALS->topmost_trace=GLOBALS->traces.first;
@@ -2737,11 +2787,21 @@ if(GLOBALS->topmost_trace)
 
 				if(!t->n.nd->extvals)
 					{
-					if(i>=0) draw_hptr_trace(t,h,i,1,0);
+					if(i>=0) 
+						{
+						gc_save(t, &gc_sav);
+						draw_hptr_trace(t,h,i,1,0);
+						gc_restore(t, &gc_sav);
+						}
 					}
 					else
 					{
-					if(i>=0) draw_hptr_trace_vector(t,h,i);
+					if(i>=0) 
+						{
+						gc_save(t, &gc_sav);
+						draw_hptr_trace_vector(t,h,i);
+						gc_restore(t, &gc_sav);
+						}
 					}
 				}
 				else
@@ -2752,7 +2812,12 @@ if(GLOBALS->topmost_trace)
 				v=bsearch_vector(bv, GLOBALS->tims.start - t->shift);
 				DEBUG(printf("Vector Trace: %s, %s\n", t->name, bv->bvname));
 				DEBUG(printf("Start time: "TTFormat", Vectorent time: "TTFormat"\n", GLOBALS->tims.start,(v->time+GLOBALS->shift_timebase)));
-				if(i>=0) draw_vptr_trace(t,v,i);
+				if(i>=0) 
+					{
+					gc_save(t, &gc_sav);
+					draw_vptr_trace(t,v,i);
+					gc_restore(t, &gc_sav);
+					}
 
 				if((bv->transaction_chain) && (t->flags & TR_TTRANSLATED))
 					{
@@ -2768,7 +2833,12 @@ if(GLOBALS->topmost_trace)
 							if(i<num_traces_displayable)
 								{
 								v=bsearch_vector(bv, GLOBALS->tims.start - t->shift);
-								if(i>=0) draw_vptr_trace(t_orig,v,i);
+								if(i>=0) 
+									{
+									gc_save(t, &gc_sav);
+									draw_vptr_trace(t_orig,v,i);
+									gc_restore(t, &gc_sav);
+									}
 								t = tn;
 								continue;
 								}
@@ -2796,7 +2866,12 @@ if(GLOBALS->topmost_trace)
 					}
 				}
 			
-			if(i>=0) draw_hptr_trace(NULL,NULL,i,0,kill_dodraw_grid);
+			if(i>=0) 
+				{
+				gc_save(t, &gc_sav);
+				draw_hptr_trace(NULL,NULL,i,0,kill_dodraw_grid);
+				gc_restore(t, &gc_sav);
+				}
 			}
 		t=GiveNextTrace(t);
 /* bot:		1; */

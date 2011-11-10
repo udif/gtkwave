@@ -2772,6 +2772,19 @@ else if (*w2 == '[')
 	if(!GLOBALS->block_xy_update) set_window_xypos (x, y);
 	}
       }
+    else if (strcmp (w2, "color") == 0)
+      {
+      int which_col = 0;
+      sscanf (w, "%d", &which_col);
+      if((which_col>=0)&&(which_col<=WAVE_NUM_RAINBOW))
+		{
+		GLOBALS->which_t_color = which_col;
+		}
+		else
+		{
+		GLOBALS->which_t_color = 0;
+		}
+      }
     else if (strcmp (w2, "pattern_trace") == 0)
       {
       int which_ctx = 0;
