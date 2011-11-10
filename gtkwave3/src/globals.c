@@ -1236,77 +1236,13 @@ NULL, /* wave_hslider */
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, /* named_markers 623 */
 -1, /* named_marker_lock_idx */
 0, /* made_gc_contexts_wavewindow_c_1 624 */
-NULL, /* gc_back_wavewindow_c_1 625 */
-NULL, /* gc_baseline_wavewindow_c_1 626 */
-NULL, /* gc_grid_wavewindow_c_1 627 */
-NULL, /* gc_grid2_wavewindow_c_1 627 */
-NULL, /* gc_time_wavewindow_c_1 628 */
-NULL, /* gc_timeb_wavewindow_c_1 629 */
-NULL, /* gc_value_wavewindow_c_1 630 */
-NULL, /* gc_low_wavewindow_c_1 631 */
-NULL, /* gc_high_wavewindow_c_1 632 */
-NULL, /* gc_trans_wavewindow_c_1 633 */
-NULL, /* gc_mid_wavewindow_c_1 634 */
-NULL, /* gc_xfill_wavewindow_c_1 635 */
-NULL, /* gc_x_wavewindow_c_1 636 */
-NULL, /* gc_vbox_wavewindow_c_1 637 */
-NULL, /* gc_vtrans_wavewindow_c_1 638 */
-NULL, /* gc_mark_wavewindow_c_1 639 */
-NULL, /* gc_umark_wavewindow_c_1 640 */
-NULL, /* gc_0_wavewindow_c_1 641 */
-NULL, /* gc_1_wavewindow_c_1 642 */
-NULL, /* gc_ufill_wavewindow_c_1 643 */
-NULL, /* gc_u_wavewindow_c_1 644 */
-NULL, /* gc_wfill_wavewindow_c_1 645 */
-NULL, /* gc_w_wavewindow_c_1 646 */
-NULL, /* gc_dashfill_wavewindow_c_1 647 */
-NULL, /* gc_dash_wavewindow_c_1 648 */
-0, /* made_sgc_contexts_wavewindow_c_1 649 */
 NULL, /* gc_white 650 */
 NULL, /* gc_black 651 */
-NULL, /* gc_ltgray 652 */
-NULL, /* gc_normal 653 */
-NULL, /* gc_mdgray 654 */
-NULL, /* gc_dkgray 655 */
-NULL, /* gc_dkblue 656 */
-NULL, /* gc_brkred */
-NULL, /* gc_ltblue */
-NULL, /* gc_gmstrd */
+{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}, /* gc */
+0, /* made_sgc_contexts_wavewindow_c_1 649 */
 0, /* fill_in_smaller_rgb_areas_wavewindow_c_1 659 */
 -1, /* prev_markertime */
-NULL, /* gccache_ltgray */
-NULL, /* gccache_normal */
-NULL, /* gccache_mdgray */
-NULL, /* gccache_dkgray */
-NULL, /* gccache_dkblue */
-NULL, /* gccache_brkred */
-NULL, /* gccache_ltblue */
-NULL, /* gccache_gmstrd */
-NULL, /* gccache_back_wavewindow_c_1 */
-NULL, /* gccache_baseline_wavewindow_c_1 */
-NULL, /* gccache_grid_wavewindow_c_1 */
-NULL, /* gccache_grid2_wavewindow_c_1 */
-NULL, /* gccache_time_wavewindow_c_1 */
-NULL, /* gccache_timeb_wavewindow_c_1 */
-NULL, /* gccache_value_wavewindow_c_1 */
-NULL, /* gccache_low_wavewindow_c_1 */
-NULL, /* gccache_high_wavewindow_c_1 */
-NULL, /* gccache_trans_wavewindow_c_1 */
-NULL, /* gccache_mid_wavewindow_c_1 */
-NULL, /* gccache_xfill_wavewindow_c_1 */
-NULL, /* gccache_x_wavewindow_c_1 */
-NULL, /* gccache_vbox_wavewindow_c_1 */
-NULL, /* gccache_vtrans_wavewindow_c_1 */
-NULL, /* gccache_mark_wavewindow_c_1 */
-NULL, /* gccache_umark_wavewindow_c_1 */
-NULL, /* gccache_0_wavewindow_c_1 */
-NULL, /* gccache_1_wavewindow_c_1 */
-NULL, /* gccache_ufill_wavewindow_c_1 */
-NULL, /* gccache_u_wavewindow_c_1 */
-NULL, /* gccache_wfill_wavewindow_c_1 */
-NULL, /* gccache_w_wavewindow_c_1 */
-NULL, /* gccache_dashfill_wavewindow_c_1 */
-NULL, /* gccache_dash_wavewindow_c_1 */
+{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}, /* gccache */
 20, /* analog_redraw_skip_count */
 0, /* str_wid_x */
 0, /* str_wid_width */
@@ -1546,76 +1482,10 @@ void reload_into_new_context(void)
 
  new_globals->gc_white = GLOBALS->gc_white;
  new_globals->gc_black = GLOBALS->gc_black;
- new_globals->gc_ltgray = GLOBALS->gc_ltgray;
- new_globals->gc_normal = GLOBALS->gc_normal;
- new_globals->gc_mdgray = GLOBALS->gc_mdgray;
- new_globals->gc_dkgray = GLOBALS->gc_dkgray;
- new_globals->gc_dkblue = GLOBALS->gc_dkblue;
- new_globals->gc_brkred = GLOBALS->gc_brkred;
- new_globals->gc_ltblue = GLOBALS->gc_ltblue;
- new_globals->gc_gmstrd = GLOBALS->gc_gmstrd;
+ memcpy(&new_globals->gc, &GLOBALS->gc, sizeof(struct wave_gcmaster_t));
  new_globals->made_sgc_contexts_wavewindow_c_1 = GLOBALS->made_sgc_contexts_wavewindow_c_1;
-
- new_globals->gc_back_wavewindow_c_1 = GLOBALS->gc_back_wavewindow_c_1;
- new_globals->gc_baseline_wavewindow_c_1 = GLOBALS->gc_baseline_wavewindow_c_1;
- new_globals->gc_grid_wavewindow_c_1 = GLOBALS->gc_grid_wavewindow_c_1;
- new_globals->gc_grid2_wavewindow_c_1 = GLOBALS->gc_grid2_wavewindow_c_1;
- new_globals->gc_time_wavewindow_c_1 = GLOBALS->gc_time_wavewindow_c_1;
- new_globals->gc_timeb_wavewindow_c_1 = GLOBALS->gc_timeb_wavewindow_c_1;
- new_globals->gc_value_wavewindow_c_1 = GLOBALS->gc_value_wavewindow_c_1;
- new_globals->gc_low_wavewindow_c_1 = GLOBALS->gc_low_wavewindow_c_1;
- new_globals->gc_high_wavewindow_c_1 = GLOBALS->gc_high_wavewindow_c_1;
- new_globals->gc_trans_wavewindow_c_1 = GLOBALS->gc_trans_wavewindow_c_1;
- new_globals->gc_mid_wavewindow_c_1 = GLOBALS->gc_mid_wavewindow_c_1;
- new_globals->gc_xfill_wavewindow_c_1 = GLOBALS->gc_xfill_wavewindow_c_1;
- new_globals->gc_x_wavewindow_c_1 = GLOBALS->gc_x_wavewindow_c_1;
- new_globals->gc_vbox_wavewindow_c_1 = GLOBALS->gc_vbox_wavewindow_c_1;
- new_globals->gc_vtrans_wavewindow_c_1 = GLOBALS->gc_vtrans_wavewindow_c_1;
- new_globals->gc_mark_wavewindow_c_1 = GLOBALS->gc_mark_wavewindow_c_1;
- new_globals->gc_umark_wavewindow_c_1 = GLOBALS->gc_umark_wavewindow_c_1;
- new_globals->gc_0_wavewindow_c_1 = GLOBALS->gc_0_wavewindow_c_1;
- new_globals->gc_1_wavewindow_c_1 = GLOBALS->gc_1_wavewindow_c_1;
- new_globals->gc_ufill_wavewindow_c_1 = GLOBALS->gc_ufill_wavewindow_c_1;
- new_globals->gc_u_wavewindow_c_1 = GLOBALS->gc_u_wavewindow_c_1;
- new_globals->gc_wfill_wavewindow_c_1 = GLOBALS->gc_wfill_wavewindow_c_1;
- new_globals->gc_w_wavewindow_c_1 = GLOBALS->gc_w_wavewindow_c_1;
- new_globals->gc_dashfill_wavewindow_c_1 = GLOBALS->gc_dashfill_wavewindow_c_1;
- new_globals->gc_dash_wavewindow_c_1 = GLOBALS->gc_dash_wavewindow_c_1;
  new_globals->made_gc_contexts_wavewindow_c_1 = GLOBALS->made_gc_contexts_wavewindow_c_1;
-
- new_globals->gccache_ltgray = GLOBALS->gccache_ltgray;
- new_globals->gccache_normal = GLOBALS->gccache_normal;
- new_globals->gccache_mdgray = GLOBALS->gccache_mdgray;
- new_globals->gccache_dkgray = GLOBALS->gccache_dkgray;
- new_globals->gccache_dkblue = GLOBALS->gccache_dkblue;
- new_globals->gccache_brkred = GLOBALS->gccache_brkred;
- new_globals->gccache_ltblue = GLOBALS->gccache_ltblue;
- new_globals->gccache_gmstrd = GLOBALS->gccache_gmstrd;
- new_globals->gccache_back_wavewindow_c_1 = GLOBALS->gccache_back_wavewindow_c_1;
- new_globals->gccache_baseline_wavewindow_c_1 = GLOBALS->gccache_baseline_wavewindow_c_1;
- new_globals->gccache_grid_wavewindow_c_1 = GLOBALS->gccache_grid_wavewindow_c_1;
- new_globals->gccache_grid2_wavewindow_c_1 = GLOBALS->gccache_grid2_wavewindow_c_1;
- new_globals->gccache_time_wavewindow_c_1 = GLOBALS->gccache_time_wavewindow_c_1;
- new_globals->gccache_timeb_wavewindow_c_1 = GLOBALS->gccache_timeb_wavewindow_c_1;
- new_globals->gccache_value_wavewindow_c_1 = GLOBALS->gccache_value_wavewindow_c_1;
- new_globals->gccache_low_wavewindow_c_1 = GLOBALS->gccache_low_wavewindow_c_1;
- new_globals->gccache_high_wavewindow_c_1 = GLOBALS->gccache_high_wavewindow_c_1;
- new_globals->gccache_trans_wavewindow_c_1 = GLOBALS->gccache_trans_wavewindow_c_1;
- new_globals->gccache_mid_wavewindow_c_1 = GLOBALS->gccache_mid_wavewindow_c_1;
- new_globals->gccache_xfill_wavewindow_c_1 = GLOBALS->gccache_xfill_wavewindow_c_1;
- new_globals->gccache_x_wavewindow_c_1 = GLOBALS->gccache_x_wavewindow_c_1;
- new_globals->gccache_vbox_wavewindow_c_1 = GLOBALS->gccache_vbox_wavewindow_c_1;
- new_globals->gccache_vtrans_wavewindow_c_1 = GLOBALS->gccache_vtrans_wavewindow_c_1;
- new_globals->gccache_mark_wavewindow_c_1 = GLOBALS->gccache_mark_wavewindow_c_1;
- new_globals->gccache_umark_wavewindow_c_1 = GLOBALS->gccache_umark_wavewindow_c_1;
- new_globals->gccache_0_wavewindow_c_1 = GLOBALS->gccache_0_wavewindow_c_1;
- new_globals->gccache_1_wavewindow_c_1 = GLOBALS->gccache_1_wavewindow_c_1;
- new_globals->gccache_ufill_wavewindow_c_1 = GLOBALS->gccache_ufill_wavewindow_c_1;
- new_globals->gccache_u_wavewindow_c_1 = GLOBALS->gccache_u_wavewindow_c_1;
- new_globals->gccache_wfill_wavewindow_c_1 = GLOBALS->gccache_wfill_wavewindow_c_1;
- new_globals->gccache_w_wavewindow_c_1 = GLOBALS->gccache_w_wavewindow_c_1;
- new_globals->gccache_dashfill_wavewindow_c_1 = GLOBALS->gccache_dashfill_wavewindow_c_1;
- new_globals->gccache_dash_wavewindow_c_1 = GLOBALS->gccache_dash_wavewindow_c_1;
+ memcpy(&new_globals->gccache, &GLOBALS->gccache, sizeof(struct wave_gcmaster_t));
 
  new_globals->mainwindow = GLOBALS->mainwindow;
  new_globals->signalwindow = GLOBALS->signalwindow; 

@@ -40,7 +40,7 @@ if(GLOBALS->signalpixmap)
 	xsrc=(gint)hadj->value;
 	DEBUG(printf("Signal HSlider Moved to %d\n",xsrc));
 
-	gdk_draw_rectangle(GLOBALS->signalpixmap, GLOBALS->gc_mdgray, TRUE,
+	gdk_draw_rectangle(GLOBALS->signalpixmap, GLOBALS->gc.gc_mdgray, TRUE,
 	        0, -1, GLOBALS->signal_fill_width, GLOBALS->fontheight);
 	gdk_draw_line(GLOBALS->signalpixmap, GLOBALS->gc_white,  
 	        0, GLOBALS->fontheight-1, GLOBALS->signal_fill_width-1, GLOBALS->fontheight-1);
@@ -345,7 +345,7 @@ if(GLOBALS->std_dnd_tgt_on_signalarea || GLOBALS->std_dnd_tgt_on_wavearea)
 		gint ylin;
 
                 gdk_draw_rectangle(GLOBALS->signalpixmap,
-                        GLOBALS->gc_ltgray, TRUE, 0, 0,
+                        GLOBALS->gc.gc_ltgray, TRUE, 0, 0,
                         GLOBALS->signal_fill_width, GLOBALS->signalarea->allocation.height);
 
 		RenderSigs(rsig_trtarget, 0);

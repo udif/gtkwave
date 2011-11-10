@@ -1219,77 +1219,13 @@ GtkObject *wave_hslider; /* from wavewindow.c 682 */
 TimeType named_markers[26]; /* from wavewindow.c 683 */
 int named_marker_lock_idx; /* from menu.c */
 char made_gc_contexts_wavewindow_c_1; /* from wavewindow.c 684 */
-GdkGC *gc_back_wavewindow_c_1; /* from wavewindow.c 685 */
-GdkGC *gc_baseline_wavewindow_c_1; /* from wavewindow.c 686 */
-GdkGC *gc_grid_wavewindow_c_1; /* from wavewindow.c 687 */
-GdkGC *gc_grid2_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gc_time_wavewindow_c_1; /* from wavewindow.c 688 */
-GdkGC *gc_timeb_wavewindow_c_1; /* from wavewindow.c 689 */
-GdkGC *gc_value_wavewindow_c_1; /* from wavewindow.c 690 */
-GdkGC *gc_low_wavewindow_c_1; /* from wavewindow.c 691 */
-GdkGC *gc_high_wavewindow_c_1; /* from wavewindow.c 692 */
-GdkGC *gc_trans_wavewindow_c_1; /* from wavewindow.c 693 */
-GdkGC *gc_mid_wavewindow_c_1; /* from wavewindow.c 694 */
-GdkGC *gc_xfill_wavewindow_c_1; /* f */
-GdkGC *gc_x_wavewindow_c_1; /* from wavewindow.c 696 */
-GdkGC *gc_vbox_wavewindow_c_1; /* from wavewindow.c 697 */
-GdkGC *gc_vtrans_wavewindow_c_1; /* from wavewindow.c 698 */
-GdkGC *gc_mark_wavewindow_c_1; /* from wavewindow.c 699 */
-GdkGC *gc_umark_wavewindow_c_1; /* from wavewindow.c 700 */
-GdkGC *gc_0_wavewindow_c_1; /* from wavewindow.c 701 */
-GdkGC *gc_1_wavewindow_c_1; /* from wavewindow.c 702 */
-GdkGC *gc_ufill_wavewindow_c_1; /* from wavewindow.c 703 */
-GdkGC *gc_u_wavewindow_c_1; /* from wavewindow.c 704 */
-GdkGC *gc_wfill_wavewindow_c_1; /* from wavewindow.c 705 */
-GdkGC *gc_w_wavewindow_c_1; /* from wavewindow.c 706 */
-GdkGC *gc_dashfill_wavewindow_c_1; /* from wavewindow.c 707 */
-GdkGC *gc_dash_wavewindow_c_1; /* from wavewindow.c 708 */
-char made_sgc_contexts_wavewindow_c_1; /* from wavewindow.c 709 */
 GdkGC *gc_white; /* from wavewindow.c 710 */
 GdkGC *gc_black; /* from wavewindow.c 711 */
-GdkGC *gc_ltgray; /* from wavewindow.c 712 */
-GdkGC *gc_normal; /* from wavewindow.c 713 */
-GdkGC *gc_mdgray; /* from wavewindow.c 714 */
-GdkGC *gc_dkgray; /* from wavewindow.c 715 */
-GdkGC *gc_dkblue; /* from wavewindow.c 716 */
-GdkGC *gc_brkred; 
-GdkGC *gc_ltblue; 
-GdkGC *gc_gmstrd; 
+struct wave_gcmaster_t gc;
+char made_sgc_contexts_wavewindow_c_1; /* from wavewindow.c 709 */
 char fill_in_smaller_rgb_areas_wavewindow_c_1; /* from wavewindow.c 719 */
 TimeType prev_markertime; /* from wavewindow.c */
-GdkGC *gccache_ltgray; /* from wavewindow.c */
-GdkGC *gccache_normal; /* from wavewindow.c */
-GdkGC *gccache_mdgray; /* from wavewindow.c */
-GdkGC *gccache_dkgray; /* from wavewindow.c */
-GdkGC *gccache_dkblue; /* from wavewindow.c */
-GdkGC *gccache_brkred; /* from wavewindow.c */
-GdkGC *gccache_ltblue; /* from wavewindow.c */
-GdkGC *gccache_gmstrd; /* from wavewindow.c */
-GdkGC *gccache_back_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_baseline_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_grid_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_grid2_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_time_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_timeb_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_value_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_low_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_high_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_trans_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_mid_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_xfill_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_x_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_vbox_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_vtrans_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_mark_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_umark_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_0_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_1_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_ufill_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_u_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_wfill_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_w_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_dashfill_wavewindow_c_1; /* from wavewindow.c */
-GdkGC *gccache_dash_wavewindow_c_1; /* from wavewindow.c */
+struct wave_gcmaster_t gccache;
 int analog_redraw_skip_count; /* from wavewindow.c */
 int str_wid_x;
 int str_wid_width;
