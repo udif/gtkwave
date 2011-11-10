@@ -4798,6 +4798,152 @@ sprintf(za,"%g",GLOBALS->zoombase);
 entrybox("New Zoom Base Amount",200,za,NULL,20,GTK_SIGNAL_FUNC(zoombase_cleanup));
 }
 /**/
+static void colorformat(int color)
+{
+  Trptr t;
+  int fix=0;
+
+  if((t=GLOBALS->traces.first))
+    {
+      while(t)
+        {
+          if(IsSelected(t)&&!IsShadowed(t))
+            {
+              t->t_color = color;
+              fix=1;
+            }
+          t=t->t_next;
+        }
+      if(fix)
+        {
+          GLOBALS->signalwindow_width_dirty=1;
+          MaxSignalLength();
+          signalarea_configure_event(GLOBALS->signalarea, NULL);
+          wavearea_configure_event(GLOBALS->wavearea, NULL);
+        }
+    }
+}
+
+void
+menu_colorformat_0(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nColor Format Normal");
+        help_text(
+                " uses normal waveform colorings for all selected traces."
+        );
+        return;
+        }
+
+colorformat(WAVE_COLOR_NORMAL);
+}
+
+void
+menu_colorformat_1(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nColor Format Red");
+        help_text(
+                " uses red waveform colorings for all selected traces."
+        );
+        return;
+        }
+
+colorformat(WAVE_COLOR_RED);
+}
+
+void
+menu_colorformat_2(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nColor Format Orange");
+        help_text(
+                " uses orange waveform colorings for all selected traces."
+        );
+        return;
+        }
+
+colorformat(WAVE_COLOR_ORANGE);
+}
+
+void
+menu_colorformat_3(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nColor Format Yellow");
+        help_text(
+                " uses yellow waveform colorings for all selected traces."
+        );
+        return;
+        }
+
+colorformat(WAVE_COLOR_YELLOW);
+}
+
+void
+menu_colorformat_4(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nColor Format Green");
+        help_text(
+                " uses green waveform colorings for all selected traces."
+        );
+        return;
+        }
+
+colorformat(WAVE_COLOR_GREEN);
+}
+
+void
+menu_colorformat_5(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nColor Format Blue");
+        help_text(
+                " uses blue waveform colorings for all selected traces."
+        );
+        return;
+        }
+
+colorformat(WAVE_COLOR_BLUE);
+}
+
+void
+menu_colorformat_6(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nColor Format Indigo");
+        help_text(
+                " uses indigo waveform colorings for all selected traces."
+        );
+        return;
+        }
+
+colorformat(WAVE_COLOR_INDIGO);
+}
+
+void
+menu_colorformat_7(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nColor Format Violet");
+        help_text(
+                " uses violet waveform colorings for all selected traces."
+        );
+        return;
+        }
+
+colorformat(WAVE_COLOR_VIOLET);
+}
+/**/
 static void dataformat(int mask, int patch)
 {
   Trptr t;
@@ -5818,7 +5964,14 @@ static GtkItemFactoryEntry menu_items[] =
     WAVE_GTKIFE("/Edit/Data Format/Gray Filters/To Gray", NULL, menu_dataformat_bingray_on, WV_MENU_B2G, "<Item>"),
     WAVE_GTKIFE("/Edit/Data Format/Gray Filters/From Gray", NULL, menu_dataformat_graybin_on, WV_MENU_G2B, "<Item>"),
     WAVE_GTKIFE("/Edit/Data Format/Gray Filters/None", NULL, menu_dataformat_nogray,    WV_MENU_GBNONE, "<Item>"),
-
+    WAVE_GTKIFE("/Edit/Color Format/Normal", NULL, menu_colorformat_0,    WV_MENU_CLRFMT0, "<Item>"),
+    WAVE_GTKIFE("/Edit/Color Format/Red", NULL, menu_colorformat_1,    WV_MENU_CLRFMT1, "<Item>"),
+    WAVE_GTKIFE("/Edit/Color Format/Orange", NULL, menu_colorformat_2,    WV_MENU_CLRFMT2, "<Item>"),
+    WAVE_GTKIFE("/Edit/Color Format/Yellow", NULL, menu_colorformat_3,    WV_MENU_CLRFMT3, "<Item>"),
+    WAVE_GTKIFE("/Edit/Color Format/Green", NULL, menu_colorformat_4,    WV_MENU_CLRFMT4, "<Item>"),
+    WAVE_GTKIFE("/Edit/Color Format/Blue", NULL, menu_colorformat_5,    WV_MENU_CLRFMT5, "<Item>"),
+    WAVE_GTKIFE("/Edit/Color Format/Indigo", NULL, menu_colorformat_6,    WV_MENU_CLRFMT6, "<Item>"),
+    WAVE_GTKIFE("/Edit/Color Format/Violet", NULL, menu_colorformat_7,    WV_MENU_CLRFMT7, "<Item>"),
     WAVE_GTKIFE("/Edit/Show-Change All Highlighted", NULL, menu_showchangeall, WV_MENU_ESCAH, "<Item>"),
     WAVE_GTKIFE("/Edit/Show-Change First Highlighted", "<Control>F", menu_showchange, WV_MENU_ESCFH, "<Item>"),
       /* 50 */
@@ -6344,7 +6497,14 @@ static GtkItemFactoryEntry popmenu_items[] =
     WAVE_GTKIFE("/Data Format/Gray Filters/To Gray", NULL, menu_dataformat_bingray_on, WV_MENU_B2G, "<Item>"),
     WAVE_GTKIFE("/Data Format/Gray Filters/From Gray", NULL, menu_dataformat_graybin_on, WV_MENU_G2B, "<Item>"),
     WAVE_GTKIFE("/Data Format/Gray Filters/None", NULL, menu_dataformat_nogray,    WV_MENU_GBNONE, "<Item>"),
-
+    WAVE_GTKIFE("/Color Format/Normal", NULL, menu_colorformat_0,    WV_MENU_CLRFMT0, "<Item>"),
+    WAVE_GTKIFE("/Color Format/Red", NULL, menu_colorformat_1,    WV_MENU_CLRFMT1, "<Item>"),
+    WAVE_GTKIFE("/Color Format/Orange", NULL, menu_colorformat_2,    WV_MENU_CLRFMT2, "<Item>"),
+    WAVE_GTKIFE("/Color Format/Yellow", NULL, menu_colorformat_3,    WV_MENU_CLRFMT3, "<Item>"),
+    WAVE_GTKIFE("/Color Format/Green", NULL, menu_colorformat_4,    WV_MENU_CLRFMT4, "<Item>"),
+    WAVE_GTKIFE("/Color Format/Blue", NULL, menu_colorformat_5,    WV_MENU_CLRFMT5, "<Item>"),
+    WAVE_GTKIFE("/Color Format/Indigo", NULL, menu_colorformat_6,    WV_MENU_CLRFMT6, "<Item>"),
+    WAVE_GTKIFE("/Color Format/Violet", NULL, menu_colorformat_7,    WV_MENU_CLRFMT7, "<Item>"),
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP1, "<Separator>"),
     WAVE_GTKIFE("/Insert Analog Height Extension", NULL, menu_insert_analog_height_extension, WV_MENU_EIA, "<Item>"),
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP2, "<Separator>"),
