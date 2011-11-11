@@ -4802,6 +4802,8 @@ static void colorformat(int color)
 {
   Trptr t;
   int fix=0;
+  int color_prev = WAVE_COLOR_NORMAL;
+  int is_first = 0;
 
   if((t=GLOBALS->traces.first))
     {
@@ -4809,7 +4811,25 @@ static void colorformat(int color)
         {
           if(IsSelected(t)&&!IsShadowed(t))
             {
-              t->t_color = color;
+	      if(color != WAVE_COLOR_CYCLE)
+		{
+              	t->t_color = color;
+		}
+		else
+		{
+		if(!is_first)
+			{
+			is_first = 1;
+			if(t->t_color == WAVE_COLOR_NORMAL) { color_prev = WAVE_COLOR_RED; } else { color_prev = t->t_color; }
+			}
+			else
+			{
+			color_prev++;
+			}
+
+		if(color_prev > WAVE_COLOR_VIOLET) color_prev = WAVE_COLOR_RED;
+              	t->t_color = color_prev;
+		}
               fix=1;
             }
           t=t->t_next;
@@ -4942,6 +4962,21 @@ if(GLOBALS->helpbox_is_active)
         }
 
 colorformat(WAVE_COLOR_VIOLET);
+}
+
+void
+menu_colorformat_cyc(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nColor Format Cycle");
+        help_text(
+                " uses cycling waveform colorings for all selected traces."
+        );
+        return;
+        }
+
+colorformat(WAVE_COLOR_CYCLE);
 }
 /**/
 static void dataformat(int mask, int patch)
@@ -5972,6 +6007,7 @@ static GtkItemFactoryEntry menu_items[] =
     WAVE_GTKIFE("/Edit/Color Format/Blue", NULL, menu_colorformat_5,    WV_MENU_CLRFMT5, "<Item>"),
     WAVE_GTKIFE("/Edit/Color Format/Indigo", NULL, menu_colorformat_6,    WV_MENU_CLRFMT6, "<Item>"),
     WAVE_GTKIFE("/Edit/Color Format/Violet", NULL, menu_colorformat_7,    WV_MENU_CLRFMT7, "<Item>"),
+    WAVE_GTKIFE("/Edit/Color Format/Cycle", NULL, menu_colorformat_cyc,    WV_MENU_CLRFMTC, "<Item>"),
     WAVE_GTKIFE("/Edit/Show-Change All Highlighted", NULL, menu_showchangeall, WV_MENU_ESCAH, "<Item>"),
     WAVE_GTKIFE("/Edit/Show-Change First Highlighted", "<Control>F", menu_showchange, WV_MENU_ESCFH, "<Item>"),
       /* 50 */
@@ -6505,6 +6541,7 @@ static GtkItemFactoryEntry popmenu_items[] =
     WAVE_GTKIFE("/Color Format/Blue", NULL, menu_colorformat_5,    WV_MENU_CLRFMT5, "<Item>"),
     WAVE_GTKIFE("/Color Format/Indigo", NULL, menu_colorformat_6,    WV_MENU_CLRFMT6, "<Item>"),
     WAVE_GTKIFE("/Color Format/Violet", NULL, menu_colorformat_7,    WV_MENU_CLRFMT7, "<Item>"),
+    WAVE_GTKIFE("/Color Format/Cycle", NULL, menu_colorformat_cyc,    WV_MENU_CLRFMTC, "<Item>"),
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP1, "<Separator>"),
     WAVE_GTKIFE("/Insert Analog Height Extension", NULL, menu_insert_analog_height_extension, WV_MENU_EIA, "<Item>"),
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP2, "<Separator>"),

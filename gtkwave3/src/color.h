@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
+#define WAVE_COLOR_CYCLE (-1)
 #define WAVE_COLOR_NORMAL (0)
 #define WAVE_COLOR_RED (1)
 #define WAVE_COLOR_ORANGE (2)
