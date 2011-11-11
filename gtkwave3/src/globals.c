@@ -145,6 +145,7 @@ NULL, /* busycursor_busy_c_1 23 */
 /*
  * color.c
  */ 
+NULL, /* wave_gcchain */
 -1, /* color_back 25 */
 -1, /* color_baseline 26 */
 -1, /* color_grid 27 */

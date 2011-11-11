@@ -30,12 +30,19 @@ blue= (tuple)    &0x000000ff;
 if(tuple>=0)
 if((gc=gdk_gc_new(widget->window)))
 	{
+	struct wave_gcchain_t *wg = calloc_2(1, sizeof(struct wave_gcchain_t));
+
 	color.red=red*(65535/255);
 	color.blue=blue*(65535/255);  
 	color.green=green*(65535/255);
 	color.pixel=(gulong)(tuple&0x00ffffff);
 	gdk_color_alloc(gtk_widget_get_colormap(widget),&color);
 	gdk_gc_set_foreground(gc,&color);
+
+	wg->next = GLOBALS->wave_gcchain; /* remember allocated ones only, not fallbacks */
+	wg->gc = gc;
+	GLOBALS->wave_gcchain = wg;
+
 	return(gc);
 	}
 
@@ -43,60 +50,20 @@ return(fallback);
 }
 
 
-/* dealloc all gcs */
-static void w_gdk_gc_destroy(GdkGC *g)
-{
-/* currently do nothing: need to mark these somehow */
-/* gdk_gc_destroy(g); */
-}
-
-
 void dealloc_all_gcs(void)
 {
-int i;
+struct wave_gcchain_t *wg = GLOBALS->wave_gcchain;
 
-if(GLOBALS->gccache.gc_ltgray) { w_gdk_gc_destroy(GLOBALS->gccache.gc_ltgray); }
-if(GLOBALS->gccache.gc_normal) { w_gdk_gc_destroy(GLOBALS->gccache.gc_normal); }
-if(GLOBALS->gccache.gc_mdgray) { w_gdk_gc_destroy(GLOBALS->gccache.gc_mdgray); }
-if(GLOBALS->gccache.gc_dkgray) { w_gdk_gc_destroy(GLOBALS->gccache.gc_dkgray); }
-if(GLOBALS->gccache.gc_dkblue) { w_gdk_gc_destroy(GLOBALS->gccache.gc_dkblue); }
-if(GLOBALS->gccache.gc_brkred) { w_gdk_gc_destroy(GLOBALS->gccache.gc_brkred); }
-if(GLOBALS->gccache.gc_ltblue) { w_gdk_gc_destroy(GLOBALS->gccache.gc_ltblue); }
-if(GLOBALS->gccache.gc_gmstrd) { w_gdk_gc_destroy(GLOBALS->gccache.gc_gmstrd); }
-if(GLOBALS->gccache.gc_back_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_back_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_baseline_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_baseline_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_grid_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_grid_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_grid2_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_grid2_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_time_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_time_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_timeb_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_timeb_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_value_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_value_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_low_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_low_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_high_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_high_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_trans_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_trans_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_mid_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_mid_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_xfill_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_xfill_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_x_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_x_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_vbox_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_vbox_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_vtrans_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_vtrans_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_mark_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_mark_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_umark_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_umark_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_0_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_0_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_1_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_1_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_ufill_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_ufill_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_u_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_u_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_wfill_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_wfill_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_w_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_w_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_dashfill_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_dashfill_wavewindow_c_1); }
-if(GLOBALS->gccache.gc_dash_wavewindow_c_1) { w_gdk_gc_destroy(GLOBALS->gccache.gc_dash_wavewindow_c_1); }
-
-for(i=0;i<WAVE_NUM_RAINBOW;i++)
+while(wg)
 	{
-        if(GLOBALS->gc_rainbow[2*i+1]) { w_gdk_gc_destroy(GLOBALS->gc_rainbow[2*i+1]); }
-        if(GLOBALS->gc_rainbow[2*i+1]) { w_gdk_gc_destroy(GLOBALS->gc_rainbow[2*i+1]); }
-	}
+	if(wg->gc)
+		{
+		gdk_gc_destroy(wg->gc);
+		wg->gc = NULL;
+		}
 
-if(GLOBALS->gc_black) { w_gdk_gc_destroy(GLOBALS->gc_black); }
-if(GLOBALS->gc_white) { w_gdk_gc_destroy(GLOBALS->gc_white); }
+	wg = wg->next;
+	}
 }
 
 

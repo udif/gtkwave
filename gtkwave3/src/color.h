@@ -66,6 +66,14 @@ GdkGC *gc_dashfill_wavewindow_c_1;
 GdkGC *gc_dash_wavewindow_c_1;
 };
 
+
+struct wave_gcchain_t
+{
+struct wave_gcchain_t*next;
+GdkGC *gc;
+};
+
+
 GdkGC *alloc_color(GtkWidget *widget, int tuple, GdkGC *fallback);	/* tuple is encoded as 32bit: --RRGGBB (>=0 is valid) */
 void dealloc_all_gcs(void); /* when tab is destroyed */
 void set_alternate_gcs(GdkGC *ctx, GdkGC *ctx_fill); /* when another t_color is encountered */
