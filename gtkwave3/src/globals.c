@@ -145,6 +145,7 @@ NULL, /* busycursor_busy_c_1 23 */
 /*
  * color.c
  */ 
+0, /* keep_xz_colors */
 NULL, /* wave_gcchain */
 -1, /* color_back 25 */
 -1, /* color_baseline 26 */
@@ -1613,6 +1614,7 @@ void reload_into_new_context(void)
  new_globals->constant_marker_update = GLOBALS->constant_marker_update;
  new_globals->convert_to_reals = GLOBALS->convert_to_reals;
  new_globals->disable_mouseover = GLOBALS->disable_mouseover;
+ new_globals->keep_xz_colors = GLOBALS->keep_xz_colors;
  new_globals->disable_tooltips = GLOBALS->disable_tooltips;
  new_globals->do_hier_compress = GLOBALS->do_hier_compress;
  new_globals->do_initial_zoom_fit = GLOBALS->do_initial_zoom_fit;
@@ -2560,6 +2562,7 @@ switch(type)
 							GLOBALS->show_base = g_old->show_base;
 							GLOBALS->display_grid = g_old->display_grid;
 							GLOBALS->disable_mouseover = g_old->disable_mouseover;
+							GLOBALS->keep_xz_colors = g_old->keep_xz_colors;
 							GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;
 
 							GLOBALS->scale_to_time_dimension = g_old->scale_to_time_dimension;

@@ -1,4 +1,4 @@
-.TH "GTKWAVERC" "5" "3.3.22" "Anthony Bybell" "GTKWave Configuration File"
+.TH "GTKWAVERC" "5" "3.3.28" "Anthony Bybell" "GTKWave Configuration File"
 .SH "NAME"
 .LP 
 gtkwaverc \- GTKWave Configuration File
@@ -238,6 +238,9 @@ Sets the size of the initial height of the wave viewer window. Values less than 
 .TP 
 \fBinitial_window_ypos\fR <\fIvalue\fP>
 Sets the size of the initial y coordinate of the wave viewer window. \-1 will let the window manager determine the position.
+.TP 
+\fBkeep_xz_colors\fR <\fIvalue\fP>
+When nonzero, indicates that the original color scheme for non 0/1 signal values is to be used when Color Format overrides are in effect.  Default is off.
 .TP 
 \fBleft_justify_sigs\fR <\fIvalue\fP>
 When nonzero, indicates that the signal window signal name justification should default to left, else the justification is to the right (default).

@@ -1054,8 +1054,9 @@
 		outside the fstapi are synced with time changes.
 		Modify main window size for twinwave on Quartz: GtkPlug
 		window does not fit into GtkSocket as with X11.
-3.3.28	10nov11	Use larger more readable Apple fonts for Quartz.
+3.3.28	11nov11	Use larger more readable Apple fonts for Quartz.
 		Added support for colorful traces using the
 		/Edit/Color Format/... menu options.
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
+		Added keep_xz_colors gtkwaverc variable.

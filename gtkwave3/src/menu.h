@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2009.
+ * Copyright (c) Tony Bybell 1999-2011.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -129,6 +129,8 @@ WV_MENU_CLRFMT5,
 WV_MENU_CLRFMT6,
 WV_MENU_CLRFMT7,
 WV_MENU_CLRFMTC,
+WV_MENU_SEP5A,
+WV_MENU_KEEPXZ,
 WV_MENU_ESCAH,
 WV_MENU_ESCFH,
 WV_MENU_SEP6,

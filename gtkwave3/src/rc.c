@@ -265,6 +265,13 @@ GLOBALS->hide_sst=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_keep_xz_colors(char *str)
+{
+DEBUG(printf("f_keep_xz_colors(\"%s\")\n",str));
+GLOBALS->keep_xz_colors=atoi_64(str)?1:0;
+return(0);
+}
+
 int f_sst_dynamic_filter(char *str)
 {
 DEBUG(printf("f_sst_dynamic_filter(\"%s\")\n",str));
@@ -790,6 +797,7 @@ static struct rc_entry rcitems[]=
 { "initial_window_xpos", f_initial_window_xpos },
 { "initial_window_y", f_initial_window_y },
 { "initial_window_ypos", f_initial_window_ypos },
+{ "keep_xz_colors", f_keep_xz_colors },
 { "left_justify_sigs", f_left_justify_sigs },
 { "lxt_clock_compress_to_z", f_lxt_clock_compress_to_z },
 { "page_divisor", f_page_divisor },

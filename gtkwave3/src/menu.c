@@ -885,6 +885,39 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 /**/
 
+void menu_keep_xz_colors(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nKeep xz Colors");
+        help_text(
+		" when enabled"
+		" keeps the old non 0/1 signal value colors when a user specifies a color override"
+		" by using Edit/Color Format."
+        );
+        }
+	else
+	{
+	if(!GLOBALS->keep_xz_colors)
+		{
+		GLOBALS->keep_xz_colors=1;
+		}
+		else
+		{
+		GLOBALS->keep_xz_colors=0;
+		}
+	}
+
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_KEEPXZ].path))->active=(GLOBALS->keep_xz_colors)?TRUE:FALSE;
+
+GLOBALS->signalwindow_width_dirty=1;
+MaxSignalLength();
+signalarea_configure_event(GLOBALS->signalarea, NULL);
+wavearea_configure_event(GLOBALS->wavearea, NULL);
+}
+
+/**/
+
 void menu_autocoalesce(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
@@ -6008,6 +6041,8 @@ static GtkItemFactoryEntry menu_items[] =
     WAVE_GTKIFE("/Edit/Color Format/Indigo", NULL, menu_colorformat_6,    WV_MENU_CLRFMT6, "<Item>"),
     WAVE_GTKIFE("/Edit/Color Format/Violet", NULL, menu_colorformat_7,    WV_MENU_CLRFMT7, "<Item>"),
     WAVE_GTKIFE("/Edit/Color Format/Cycle", NULL, menu_colorformat_cyc,    WV_MENU_CLRFMTC, "<Item>"),
+    WAVE_GTKIFE("/Edit/Color Format/<separator>", NULL, NULL, WV_MENU_SEP5A, "<Separator>"),
+    WAVE_GTKIFE("/Edit/Color Format/Keep xz Colors", NULL, menu_keep_xz_colors, WV_MENU_KEEPXZ, "<ToggleItem>"),
     WAVE_GTKIFE("/Edit/Show-Change All Highlighted", NULL, menu_showchangeall, WV_MENU_ESCAH, "<Item>"),
     WAVE_GTKIFE("/Edit/Show-Change First Highlighted", "<Control>F", menu_showchange, WV_MENU_ESCFH, "<Item>"),
       /* 50 */
@@ -6198,6 +6233,8 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_ACOL].path))->active=(GLOBALS->autocoalesce)?TRUE:FALSE;
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_ACOLR].path))->active=(GLOBALS->autocoalesce_reversal)?TRUE:FALSE;
+
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_KEEPXZ].path))->active=(GLOBALS->keep_xz_colors)?TRUE:FALSE;
 
 if(GLOBALS->partial_vcd)
 	{

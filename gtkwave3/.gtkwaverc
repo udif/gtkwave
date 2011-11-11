@@ -4,6 +4,7 @@
 ruler_origin 0
 ruler_step 0
 disable_ae2_alias no
+keep_xz_colors no
 
 strace_repeat_count 1
 enable_fast_exit yes
@@ -166,6 +167,8 @@ accel "/Edit/Color Format/Green" (null)
 accel "/Edit/Color Format/Blue" (null)
 accel "/Edit/Color Format/Indigo" (null)
 accel "/Edit/Color Format/Violet" (null)
+accel "/Edit/Color Format/<separator>" (null)
+accel "/Edit/Color Format/Keep xz Colors" (null)
 accel "/Edit/Show-Change All Highlighted" (null)
 accel "/Edit/Show-Change First Highlighted" <Control>F
 accel "/Edit/<separator>" (null)

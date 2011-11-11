@@ -109,6 +109,7 @@ GLOBALS->use_full_precision = g_old->use_full_precision;
 GLOBALS->show_base = g_old->show_base;
 GLOBALS->display_grid = g_old->display_grid;
 GLOBALS->disable_mouseover = g_old->disable_mouseover;
+GLOBALS->keep_xz_colors = g_old->keep_xz_colors;
 GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;
 GLOBALS->zoom_dyn = g_old->zoom_dyn;
 GLOBALS->zoom_dyne = g_old->zoom_dyne;
@@ -524,6 +525,7 @@ if(!GLOBALS)
 	GLOBALS->constant_marker_update = old_g->constant_marker_update;
 	GLOBALS->convert_to_reals = old_g->convert_to_reals;
 	GLOBALS->disable_mouseover = old_g->disable_mouseover;
+	GLOBALS->keep_xz_colors = old_g->keep_xz_colors;
 	GLOBALS->disable_tooltips = old_g->disable_tooltips;
 	GLOBALS->do_initial_zoom_fit = old_g->do_initial_zoom_fit;
 	GLOBALS->do_resize_signals = old_g->do_resize_signals;

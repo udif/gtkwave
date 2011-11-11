@@ -145,6 +145,7 @@ int busy_busy_c_1; /* from busy.c 24 */
 /*
  * color.c
  */
+char keep_xz_colors;
 struct wave_gcchain_t *wave_gcchain;
 int color_back; /* from color.c 25  */
 int color_baseline; /* from color.c 26 */

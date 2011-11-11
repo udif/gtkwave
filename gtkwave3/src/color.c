@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2005.
+ * Copyright (c) Tony Bybell 1999-2011.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -72,19 +72,21 @@ void set_alternate_gcs(GdkGC *ctx, GdkGC *ctx_fill)
 GLOBALS->gc.gc_low_wavewindow_c_1 = ctx;
 GLOBALS->gc.gc_high_wavewindow_c_1 = ctx;
 GLOBALS->gc.gc_trans_wavewindow_c_1 = ctx;
-GLOBALS->gc.gc_mid_wavewindow_c_1 = ctx;
-GLOBALS->gc.gc_xfill_wavewindow_c_1 = ctx_fill;
-GLOBALS->gc.gc_x_wavewindow_c_1 = ctx;
-GLOBALS->gc.gc_vbox_wavewindow_c_1 = ctx;
-GLOBALS->gc.gc_vtrans_wavewindow_c_1 = ctx;
-GLOBALS->gc.gc_mark_wavewindow_c_1 = ctx;
-GLOBALS->gc.gc_umark_wavewindow_c_1 = ctx;
 GLOBALS->gc.gc_0_wavewindow_c_1 = ctx;
 GLOBALS->gc.gc_1_wavewindow_c_1 = ctx;
-GLOBALS->gc.gc_ufill_wavewindow_c_1 = ctx_fill;
-GLOBALS->gc.gc_u_wavewindow_c_1 = ctx;
-GLOBALS->gc.gc_wfill_wavewindow_c_1 = ctx_fill;
-GLOBALS->gc.gc_w_wavewindow_c_1 = ctx;
-GLOBALS->gc.gc_dashfill_wavewindow_c_1 = ctx_fill;
-GLOBALS->gc.gc_dash_wavewindow_c_1 = ctx;
+GLOBALS->gc.gc_vbox_wavewindow_c_1 = ctx;
+GLOBALS->gc.gc_vtrans_wavewindow_c_1 = ctx;
+
+if(!GLOBALS->keep_xz_colors)
+	{
+	GLOBALS->gc.gc_mid_wavewindow_c_1 = ctx;
+	GLOBALS->gc.gc_xfill_wavewindow_c_1 = ctx_fill;
+	GLOBALS->gc.gc_x_wavewindow_c_1 = ctx;
+	GLOBALS->gc.gc_ufill_wavewindow_c_1 = ctx_fill;
+	GLOBALS->gc.gc_u_wavewindow_c_1 = ctx;
+	GLOBALS->gc.gc_wfill_wavewindow_c_1 = ctx_fill;
+	GLOBALS->gc.gc_w_wavewindow_c_1 = ctx;
+	GLOBALS->gc.gc_dashfill_wavewindow_c_1 = ctx_fill;
+	GLOBALS->gc.gc_dash_wavewindow_c_1 = ctx;
+	}
 }
