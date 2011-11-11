@@ -1737,7 +1737,8 @@ if((GLOBALS->wavepixmap_wavewindow_c_1)&&(update_waves))
 	{
         gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_back_wavewindow_c_1, TRUE, 0, 0,GLOBALS->wavewidth, GLOBALS->waveheight);
 
-	if(GLOBALS->display_grid) rendertimes();
+	/* if(GLOBALS->display_grid) */ rendertimes();
+
 	rendertraces();
 	}
 }
