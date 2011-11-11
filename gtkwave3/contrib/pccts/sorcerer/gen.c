@@ -56,7 +56,7 @@
 #include "sym.h"
 #include "proto.h"
 
-static outfile = -1;
+static int outfile = -1; /* added missing int def : ajb 11nov11 */
 static char *current_rule;
 static ListNode *labels_for_func = NULL;
 static AST *whichRule;
@@ -289,7 +289,7 @@ AST *t;
 	whichRule=t;
 	s = (SymEntry *) hash_get(symbols, t->text);
 	require(s!=NULL, "gen_rule: sym tab broken");
-	
+
 	if ( t->file != outfile )      /* open new output file if need to */
 	{
 		if (strcmp(FileStr[t->file], "stdin")==0) output = stdout;
