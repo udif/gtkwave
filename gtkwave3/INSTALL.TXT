@@ -107,14 +107,19 @@ Notes for Mac OSX users:
 ./configure --prefix=/opt/local --enable-judy --enable-struct-pack "CFLAGS=-I/opt/local/include -O2 -g" LDFLAGS=-L/opt/local/lib --no-create --no-recursion
 
 Install the Judy and xz/xz-devel packages in MacPorts.
-Tcl works on OSX as of 3.3.26.  At this point all features working on Linux
-should be functional on the Mac.
+Tcl works on OSX starting with version 3.3.26.  
+
+At this point all features working on Linux should be functional on the Mac,
+except that twinwave does not render to a single window when Quartz is used
+instead of X11.
 
 If you wish to use llvm, also add "CC=llvm-gcc" and change the "-O2" in CFLAGS
 to "-O4".
 
 Note that --enable-quartz is not intended for gtkwave running under X11.  It
-is only for the case where GDK was compiled with Quartz as its back end.
+is only for the case where GDK was compiled with Quartz as its back end.  At
+the current time is is experimental.  Please report any bugs encountered
+compared to X11 function.
 
 -201011ajb  bybell@nc.rr.com
 
