@@ -1,4 +1,4 @@
-.TH "TWINWAVE" "1" "3.0.7" "Anthony Bybell" "Simulation Wave Viewer Multiplexer"
+.TH "TWINWAVE" "1" "3.3.28" "Anthony Bybell" "Simulation Wave Viewer Multiplexer"
 .SH "NAME"
 .LP 
 twinwave \- Wraps multiple GTKWave sessions in one window
@@ -21,6 +21,7 @@ from each other as if the viewers were spawned separately.
 Keep in mind that using the same save file for each session
 may cause unintended behavior problems if the save file is written back to disk: only the session written last will be saved.  (i.e.,
 the save file isn't cloned and made unique to each session.)
+Note that \fItwinwave\fP compiled against Quartz (not X11) on OSX does not place both sessions in a single window.
 .LP
 .SH "AUTHORS"
 .LP 
