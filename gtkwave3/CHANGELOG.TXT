@@ -1060,3 +1060,5 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
+3.3.29	14nov11	Fixed size of declaration of render_mutex_renderopt_c_1
+		as it was one element too short.

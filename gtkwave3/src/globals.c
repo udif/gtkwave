@@ -714,7 +714,7 @@ NULL, /* filesel_print_ps_renderopt_c_1 325 */
 NULL, /* filesel_print_mif_renderopt_c_1 326 */
 {0,0,0}, /* target_mutex_renderopt_c_1 328 */
 {0,0,0,0,0}, /* page_mutex_renderopt_c_1 330 */
-{0,0}, /* render_mutex_renderopt_c_1 332 */
+{0,0,0}, /* render_mutex_renderopt_c_1 332 */
 0, /* page_size_type_renderopt_c_1 333 */
 
 
