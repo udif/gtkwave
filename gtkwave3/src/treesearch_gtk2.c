@@ -2093,7 +2093,7 @@ static void DNDDataReceivedCB(
        (info == WAVE_DRAG_TAR_INFO_2))
     {
     /* printf("XXX %08x '%s'\n", selection_data->data, selection_data->data); */
-#ifndef WAVE_GDK_QUARTZ
+#ifndef MAC_INTEGRATION
     DND_helper_quartz((char *)selection_data->data);
 #else
     if(!GLOBALS->dnd_helper_quartz)

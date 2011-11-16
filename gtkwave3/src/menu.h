@@ -43,6 +43,10 @@ struct stringchain_t *next;
 char *name;
 };
 
+#ifdef MAC_INTEGRATION
+#define WAVE_USE_MLIST_T
+#endif
+
 #ifdef WAVE_USE_MLIST_T
 typedef void    (*gtkwave_mlist_callback)  ();
 

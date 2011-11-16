@@ -17,23 +17,6 @@ fi
 # Checks for build options
 # ------------- Inline -------------------
 
-AC_MSG_CHECKING([if Quartz patches for OSX should be enabled])
-
-QTZ=no
-QUARTZ_CFLAGS=
-AC_ARG_ENABLE([quartz],
-[  --enable-quartz         Enables OSX Quartz patches (default off)],
-[
-if test "X$enable_quartz" = "Xyes" ; then
-	QTZ=yes
-        QUARTZ_CFLAGS=-DWAVE_GDK_QUARTZ
-fi
-])
-AC_MSG_RESULT([$QTZ])
-AC_SUBST(QUARTZ_CFLAGS)
-
-# ------------- Inline -------------------
-
 AC_MSG_CHECKING([if inline assembly should be enabled])
 
 INL=yes
@@ -527,6 +510,14 @@ if test "X$GTK1" = "Xyes" ; then
 else
 	PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0)
 	GTK_VER=`$PKG_CONFIG gtk+-2.0 --modversion`
+
+	_gdk_tgt=`$PKG_CONFIG --variable=target gdk-2.0`
+	AM_CONDITIONAL([GDK_TARGET_QUARTZ], [test x$_gdk_tgt = xquartz])
+	if test "x$_gdk_tgt" = xquartz; then
+	   PKG_CHECK_MODULES(GTK_MAC, ige-mac-integration)
+	   AC_SUBST(GTK_MAC_LIBS)
+	   AC_SUBST(GTK_MAC_CFLAGS)
+	fi
 fi 
 
 # Checks for header files.
@@ -741,7 +732,8 @@ AC_MSG_NOTICE([
   LDFLAGS          : $LDFLAGS
   LIBS             : $LIBS
   INLINE_ASM       : $INLINE_ASM
-  QUARTZ_CFLAGS    : $QUARTZ_CFLAGS
+  GTK_MAC_CFLAGS   : $GTK_MAC_CFLAGS
+  GTK_MAC_LIBS     : $GTK_MAC_LIBS
 --------------------------------------------
 ])
 

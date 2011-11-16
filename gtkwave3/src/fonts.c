@@ -14,7 +14,7 @@
 
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN) && GTK_CHECK_VERSION(2,8,0)
 
-#ifdef WAVE_GDK_QUARTZ
+#ifdef MAC_INTEGRATION
 #define WAVE_MONOSPACE_12 "Monaco 16"
 #define WAVE_MONOSPACE_10 "Monaco 14"
 #define WAVE_MONOSPACE_8  "Monaco 12"

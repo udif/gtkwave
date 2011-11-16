@@ -95,7 +95,7 @@ if(split_point < 0)
 
 mainwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 gtk_window_set_title(GTK_WINDOW(mainwindow), "TwinWave Initializing");
-#ifndef WAVE_GDK_QUARTZ
+#ifndef MAC_INTEGRATION
 gtk_widget_set_usize(GTK_WIDGET(mainwindow), 820, 800);
 #else
 gtk_widget_set_usize(GTK_WIDGET(mainwindow), 400,32); /* quartz doesn't retarget into mainwindow */

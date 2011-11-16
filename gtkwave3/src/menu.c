@@ -7151,6 +7151,11 @@ while(ptr)
 	if(!strcmp(mi[ptr->idx].item_type, "<Separator>"))
 		{
 		menuitem = gtk_menu_item_new();
+
+#ifndef MAC_INTEGRATION
+		gtk_menu_shell_append(GTK_MENU_SHELL (menu), menuitem);
+		gtk_widget_show (menuitem);
+#endif
 		}
 		else
 		{
@@ -7169,10 +7174,10 @@ while(ptr)
 			alt_menu_install_accelerator(accel, menuitem, mi[ptr->idx].accelerator, mi[ptr->idx].path); 
 			}
 
-		}
 
-	gtk_menu_shell_append(GTK_MENU_SHELL (menu), menuitem);
-	gtk_widget_show (menuitem);
+		gtk_menu_shell_append(GTK_MENU_SHELL (menu), menuitem);
+		gtk_widget_show (menuitem);
+		}
 
 	if(wlist)
 		{
@@ -7337,6 +7342,10 @@ if(GLOBALS->loaded_file_type != LXT_FILE)
 	}
 
 gtk_window_add_accel_group(GTK_WINDOW(window), global_accel);
+
+#ifdef MAC_INTEGRATION
+gtk_widget_hide(menu_wlist[WV_MENU_FQY]);
+#endif
 
 set_menu_toggles();
 

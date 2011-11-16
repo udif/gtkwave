@@ -627,7 +627,7 @@ event[0].deviceid = GDK_CORE_POINTER;
 execute_rpc();
 
 #ifdef WAVE_USE_GTK2
-#ifdef WAVE_GDK_QUARTZ
+#ifdef MAC_INTEGRATION
 if(GLOBALS->dnd_helper_quartz)
         {
         char *dhq = g_malloc(strlen(GLOBALS->dnd_helper_quartz)+1);

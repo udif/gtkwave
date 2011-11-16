@@ -78,7 +78,8 @@ am__DEPENDENCIES_2 = ./liblzma/libgwlzma.a $(am__DEPENDENCIES_1)
 gtkwave_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_2) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) $(LIBFST_LDADD) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am_twinwave_OBJECTS = twinwave.$(OBJEXT)
 twinwave_OBJECTS = $(am_twinwave_OBJECTS)
 twinwave_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -162,6 +163,8 @@ GREP = @GREP@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_CONFIG = @GTK_CONFIG@
 GTK_LIBS = @GTK_LIBS@
+GTK_MAC_CFLAGS = @GTK_MAC_CFLAGS@
+GTK_MAC_LIBS = @GTK_MAC_LIBS@
 INLINE_ASM = @INLINE_ASM@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -194,11 +197,13 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
+PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
+PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POW_LIB = @POW_LIB@
-QUARTZ_CFLAGS = @QUARTZ_CFLAGS@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -262,7 +267,7 @@ LIBFST_CFLAGS = -I$(srcdir)/helpers/fst
 LIBFST_LDADD = ./helpers/fst/libfst.a
 LIBLZMA_CFLAGS = -I$(srcdir)/liblzma $(LIBXZ_CFLAGS)
 LIBLZMA_LDADD = ./liblzma/libgwlzma.a $(LIBXZ_LDADD)
-AM_CFLAGS = -I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(TCL_INCLUDE_SPEC) $(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(QUARTZ_CFLAGS)
+AM_CFLAGS = -I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(TCL_INCLUDE_SPEC) $(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(GTK_MAC_CFLAGS)
 gtkwave_SOURCES = \
 	baseconvert.h wavewindow.h zoombuttons.h fetchbuttons.h timeentry.h shiftbuttons.h pagebuttons.h edgebuttons.h \
 	signalwindow.h entry.h file.h status.h search.h showchange.h treesearch.h hiersearch.h renderopt.h markerbox.h \
@@ -286,7 +291,7 @@ gtkwave_SOURCES = \
 	vcd_partial.c vcd_recoder.c vcd_saver.c vcd_saver.h version.h vlist.c vlist.h vzt.c vzt.h wavealloca.h \
 	wave_rpc.c wave_rpc.h wavewindow.c zoombuttons.c
 
-gtkwave_LDADD = $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD)
+gtkwave_LDADD = $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS)
 twinwave_SOURCES = twinwave.c
 twinwave_LDADD = $(GTK_LIBS)
 BUILT_SOURCES = vcd_keywords.c
