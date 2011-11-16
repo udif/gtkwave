@@ -5167,6 +5167,13 @@ static char *icon_link[] = {
 };
 
 
+#ifdef MAC_INTEGRATION
+#define wave_gdk_pixmap_create_from_xpm_d(A,B,C,D) gdk_pixmap_create_from_xpm_d(A,NULL,C,D)
+#else
+#define wave_gdk_pixmap_create_from_xpm_d(A,B,C,D) gdk_pixmap_create_from_xpm_d(A,B,C,D)
+#endif
+
+
 void make_pixmaps(GtkWidget *window)
 {
 GtkStyle *style;
@@ -5176,36 +5183,35 @@ GdkPixbuf *gp;
 
 style=gtk_widget_get_style(window);
 
-GLOBALS->redo_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->redo_mask,
+GLOBALS->redo_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->redo_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_redo);
-
-GLOBALS->larrow_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->larrow_mask,
+GLOBALS->larrow_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->larrow_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_larrow);
-GLOBALS->rarrow_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->rarrow_mask,
+GLOBALS->rarrow_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->rarrow_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_rarrow);
 
-GLOBALS->zoomout_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoomout_mask,
+GLOBALS->zoomout_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoomout_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_zoomout);
-GLOBALS->zoomin_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoomin_mask,
+GLOBALS->zoomin_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoomin_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_zoomin);
-GLOBALS->zoomfit_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoomfit_mask,
+GLOBALS->zoomfit_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoomfit_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_zoomfit);
-GLOBALS->zoomundo_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoomundo_mask,
+GLOBALS->zoomundo_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoomundo_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_zoomundo);
 
-GLOBALS->zoom_larrow_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoom_larrow_mask,
+GLOBALS->zoom_larrow_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoom_larrow_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)zoom_larrow);
-GLOBALS->zoom_rarrow_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoom_rarrow_mask,
+GLOBALS->zoom_rarrow_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->zoom_rarrow_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)zoom_rarrow);
 
-GLOBALS->prev_page_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->prev_page_mask,
+GLOBALS->prev_page_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->prev_page_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)prev_page_xpm);
-GLOBALS->next_page_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->next_page_mask,
+GLOBALS->next_page_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->next_page_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)next_page_xpm);
 
-GLOBALS->wave_info_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_info_mask,
+GLOBALS->wave_info_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_info_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)wave_info);
-GLOBALS->wave_alert_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_alert_mask,
+GLOBALS->wave_alert_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_alert_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)wave_alert);
 
 /* Verilog */
@@ -5244,7 +5250,7 @@ GLOBALS->hiericon_portinout_pixmap=gdk_pixmap_create_from_xpm_d(window->window, 
 	&style->bg[GTK_STATE_NORMAL], (gchar **)door_open);
 GLOBALS->hiericon_buffer_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->hiericon_buffer_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_extension);
-GLOBALS->hiericon_linkage_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->hiericon_linkage_mask,
+GLOBALS->hiericon_linkage_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->hiericon_linkage_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_link);
 
 #ifdef WAVE_USE_GTK2
