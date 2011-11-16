@@ -43,6 +43,39 @@ struct stringchain_t *next;
 char *name;
 };
 
+#ifdef WAVE_USE_MLIST_T
+typedef void    (*gtkwave_mlist_callback)  ();
+
+struct gtkwave_mlist_t
+{
+  gchar *path;
+  gchar *accelerator;
+
+  gtkwave_mlist_callback callback;
+  guint                  callback_action;
+
+  /* possible values:
+   * "<Item>"           -> create a simple item
+   * "<ToggleItem>"     -> create a toggle item
+   * "<Separator>"      -> create a separator
+   */
+  gchar          *item_type;
+
+  /* Extra data for some item types:
+   *  ImageItem  -> pointer to inlined pixbuf stream
+   *  StockItem  -> name of stock item
+   */
+  gconstpointer extra_data;
+};
+
+typedef struct gtkwave_mlist_t gtkwave_mlist_t;
+
+GtkWidget *alt_menu_top(GtkWidget *window);
+GtkWidget *alt_menu(gtkwave_mlist_t *mi, int nmenu_items, GtkWidget **wlist, GtkAccelGroup *accel, gboolean is_menubar);
+
+#else
+#define gtkwave_mlist_t GtkItemFactoryEntry
+#endif
 
 enum WV_MenuItems {
 WV_MENU_FONV,
@@ -344,7 +377,7 @@ void menu_help(gpointer null_data, guint callback_action, GtkWidget *widget);
 void menu_version(gpointer null_data, guint callback_action, GtkWidget *widget);
 void menu_toggle_group(gpointer null_data, guint callback_action, GtkWidget *widget);
 
-GtkItemFactoryEntry *retrieve_menu_items_array(int *num_items);
+gtkwave_mlist_t *retrieve_menu_items_array(int *num_items);
 
 void menu_read_stems_cleanup(GtkWidget *widget, gpointer data);
 void menu_new_viewer_tab_cleanup(GtkWidget *widget, gpointer data);

@@ -562,7 +562,9 @@ NULL, /* cutcopylist */
 NULL, /* wave_script_args 237 */
 0, /* ignore_savefile_pos 238 */
 0, /* ignore_savefile_size 239 */
+#ifndef WAVE_USE_MLIST_T
 NULL, /* item_factory_menu_c_1 241 */
+#endif
 NULL, /* regexp_string_menu_c_1 242 */
 NULL, /* trace_to_alias_menu_c_1 243 */
 NULL, /* showchangeall_menu_c_1 244 */
@@ -1700,7 +1702,9 @@ void reload_into_new_context(void)
 
  /* menu.c */
  new_globals->wave_script_args = GLOBALS->wave_script_args;
+#ifndef WAVE_USE_MLIST_T
  new_globals->item_factory_menu_c_1 = GLOBALS->item_factory_menu_c_1;
+#endif
  strcpy2_into_new_context(new_globals, &new_globals->filesel_writesave, &GLOBALS->filesel_writesave);
  new_globals->save_success_menu_c_1 = GLOBALS->save_success_menu_c_1; 
  new_globals->signal_popup_menu = GLOBALS->signal_popup_menu;

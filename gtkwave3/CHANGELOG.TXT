@@ -1062,3 +1062,6 @@
 		Added keep_xz_colors gtkwaverc variable.
 3.3.29	14nov11	Fixed size of declaration of render_mutex_renderopt_c_1
 		as it was one element too short.
+		Added transition code for shifting away from using
+		GtkItemFactoryEntry (also will help with OSX menubar
+		integration which expects menu shells).

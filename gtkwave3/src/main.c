@@ -454,7 +454,9 @@ if(!GLOBALS)
 #if defined(HAVE_LIBTCL)
 	GLOBALS->interp = old_g->interp;
 #endif
+#ifndef WAVE_USE_MLIST_T
 	GLOBALS->item_factory_menu_c_1 = old_g->item_factory_menu_c_1;
+#endif
 	GLOBALS->vcd_jmp_buf = old_g->vcd_jmp_buf;
 
 	/* currenttime.c */
@@ -1568,7 +1570,11 @@ if(GLOBALS->use_toolbutton_interface)
 	
 		if(!GLOBALS->disable_menus)
 			{
+#ifdef WAVE_USE_MLIST_T
+			menubar = alt_menu_top(GLOBALS->mainwindow);
+#else
 			get_main_menu(GLOBALS->mainwindow, &menubar);
+#endif
 			gtk_widget_show(menubar);
 	
 			if(GLOBALS->force_toolbars)
@@ -1791,7 +1797,11 @@ if(GLOBALS->use_toolbutton_interface)
 	
 		if(!GLOBALS->disable_menus)
 			{
+#ifdef WAVE_USE_MLIST_T
+			menubar = alt_menu_top(GLOBALS->mainwindow);
+#else
 			get_main_menu(GLOBALS->mainwindow, &menubar);
+#endif
 			gtk_widget_show(menubar);
 	
 			if(GLOBALS->force_toolbars)

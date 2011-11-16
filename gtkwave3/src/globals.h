@@ -558,7 +558,9 @@ char enable_fast_exit; /* from menu.c 253 */
 struct wave_script_args *wave_script_args; /* from tcl_helper.c */
 char ignore_savefile_pos; /* from menu.c 255 */
 char ignore_savefile_size; /* from menu.c 256 */
+#ifndef WAVE_USE_MLIST_T
 GtkItemFactory *item_factory_menu_c_1; /* from menu.c 258 */
+#endif
 char *regexp_string_menu_c_1; /* from menu.c 259 */
 struct TraceEnt *trace_to_alias_menu_c_1; /* from menu.c 260 */
 struct TraceEnt *showchangeall_menu_c_1; /* from menu.c 261 */

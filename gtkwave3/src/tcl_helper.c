@@ -2556,7 +2556,7 @@ g_timeout_add(atoi(WAVE_TCLCB_TIMER_PERIOD_INIT), setvar_timer, (gpointer)interp
 
 static int menu_func(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
-GtkItemFactoryEntry *ife = (GtkItemFactoryEntry *)clientData;
+gtkwave_mlist_t *ife = (gtkwave_mlist_t *)clientData;
 int i;
 struct wave_script_args *old_wave_script_args = GLOBALS->wave_script_args; /* stackable args */
 char fexit = GLOBALS->enable_fast_exit;
@@ -2688,7 +2688,7 @@ void gtkUpdate(ClientData ignore)
 int  gtkwaveInterpreterInit(Tcl_Interp *interp) {
   int i;
   char commandName[128];
-  GtkItemFactoryEntry *ife;
+  gtkwave_mlist_t *ife;
   int num_menu_items;
 
 #ifdef WAVE_TCL_STUBIFY
@@ -2828,7 +2828,7 @@ void make_tcl_interpreter(char *argv[])
 {
   int i;
   char commandName[32768];
-  GtkItemFactoryEntry *ife;
+  gtkwave_mlist_t *ife;
   int num_menu_items;
   int n = 0;
   
