@@ -1066,3 +1066,6 @@
 		GtkItemFactoryEntry (also will help with OSX menubar
 		integration which expects menu shells).
 		Added support for native Quartz menu bars.
+		Removed --enable-quartz as it is auto detected now if
+		PKG_CHECK_MODULES(GTK_MAC, ige-mac-integration) is
+		true and GDK is compiled against Quartz.
