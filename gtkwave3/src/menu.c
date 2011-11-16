@@ -7118,7 +7118,18 @@ if(accel && menuitem && path)
 	char full_path[1024];
 	sprintf(full_path, "<main>%s", path);
 	
-	if(accelerator) gtk_accelerator_parse(accelerator, &accelerator_key, &accelerator_mods);
+	if(accelerator) 
+		{
+		gtk_accelerator_parse(accelerator, &accelerator_key, &accelerator_mods);
+
+#ifdef MAC_INTEGRATION
+		if(accelerator_mods & GDK_CONTROL_MASK)
+			{
+			accelerator_mods &= ~GDK_CONTROL_MASK;
+			accelerator_mods |= GDK_META_MASK;
+			}
+#endif
+		}
 
         gtk_accel_map_add_entry (full_path, accelerator_key, accelerator_mods);
         gtk_widget_set_accel_path (menuitem, full_path, accel);
