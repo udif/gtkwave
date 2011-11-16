@@ -107,7 +107,10 @@ Notes for Mac OSX users:
 Install MacPorts then
 
 sudo port -v selfupdate
-sudo potrt install Judy tcl tk xz-devel gtk2
+sudo port install Judy tcl tk xz-devel gtk2
+
+If Quartz is used:
+sudo port install gtk-osx-application
 
 ./configure --prefix=/opt/local --enable-judy --enable-struct-pack "CFLAGS=-I/opt/local/include -O2 -g" LDFLAGS=-L/opt/local/lib --no-create --no-recursion
 
@@ -120,11 +123,9 @@ instead of X11.
 If you wish to use llvm, also add "CC=llvm-gcc" and change the "-O2" in CFLAGS
 to "-O4".
 
-Note that --enable-quartz is not intended for gtkwave running under X11.  It
-is only for the case where GDK was compiled with Quartz as its back end.  At
-the current time is is experimental.  Please report any bugs encountered
-compared to X11 function.
+At the current time Quartz support is experimental.  Please report any bugs
+encountered as compared to X11 function.
 
--151111ajb  bybell@nc.rr.com
+-161111ajb  bybell@nc.rr.com
 
 ===============================================================================
