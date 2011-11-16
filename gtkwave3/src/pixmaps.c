@@ -5175,7 +5175,6 @@ GdkPixbuf *gp;
 #endif
 
 style=gtk_widget_get_style(window);
-return;
 
 GLOBALS->redo_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->redo_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)icon_redo);
