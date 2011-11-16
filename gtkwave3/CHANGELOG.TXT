@@ -1068,4 +1068,6 @@
 		Added support for native Quartz menu bars.
 		Removed --enable-quartz as it is auto detected now if
 		PKG_CHECK_MODULES(GTK_MAC, ige-mac-integration) is
-		true and GDK is compiled against Quartz.
+		true and GDK is compiled against Quartz, i.e., 
+		gtk-osx-application is installed and +no_x11 +quartz
+		is what GDK was compiled against.
