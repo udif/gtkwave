@@ -1594,6 +1594,10 @@ gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
 /* gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE); */
 gtk_osxapplication_ready(theApp);
 gtk_osxapplication_set_dock_icon_pixbuf(theApp, dock_pb);
+if(GLOBALS->loaded_file_type == MISSING_FILE)
+	{
+	gtk_osxapplication_attention_request(theApp, INFO_REQUEST);
+	}
 }
 #endif
 	
@@ -1832,6 +1836,10 @@ gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
 /* gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE); */
 gtk_osxapplication_ready(theApp);
 gtk_osxapplication_set_dock_icon_pixbuf(theApp, dock_pb);
+if(GLOBALS->loaded_file_type == MISSING_FILE)
+	{
+	gtk_osxapplication_attention_request(theApp, INFO_REQUEST);
+	}
 }
 #endif
 
