@@ -420,6 +420,9 @@ int tcl_interpreter_needs_making = 0;
 
 int splash_disable_rc_override = 0;
 int mainwindow_already_built;
+#ifdef MAC_INTEGRATION
+GdkPixbuf *dock_pb;
+#endif
 
 WAVE_LOCALE_FIX
 
@@ -1554,7 +1557,9 @@ if(!GLOBALS->socket_xid)
 #endif
 }
 
-
+#ifdef MAC_INTEGRATION
+dock_pb =
+#endif
 make_pixmaps(GLOBALS->mainwindow);
 
 #ifdef WAVE_USE_GTK2
@@ -1588,6 +1593,7 @@ gtk_widget_hide(menubar);
 gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
 /* gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE); */
 gtk_osxapplication_ready(theApp);
+gtk_osxapplication_set_dock_icon_pixbuf(theApp, dock_pb);
 }
 #endif
 	
@@ -1825,6 +1831,7 @@ gtk_widget_hide(menubar);
 gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
 /* gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE); */
 gtk_osxapplication_ready(theApp);
+gtk_osxapplication_set_dock_icon_pixbuf(theApp, dock_pb);
 }
 #endif
 

@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2009.
+ * Copyright (c) Tony Bybell 1999-2011.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -1474,7 +1474,11 @@ static char * next_page_xpm[] = {
 /* XPM */
 static char * wave_info[] = {
 "48 52 677 2",
+#ifdef MAC_INTEGRATION
+"  	c #FFFFFF",
+#else
 "  	c None",
+#endif
 ". 	c #000000",
 "+ 	c #232323",
 "@ 	c #1F1F1F",
@@ -2207,7 +2211,11 @@ static char * wave_info[] = {
 /* XPM */
 static char * wave_alert[] = {
 "48 52 677 2",
+#ifdef MAC_INTEGRATION
+"  	c #FFFFFF",
+#else
 "  	c None",
+#endif
 ". 	c #000000",
 "+ 	c #232323",
 "@ 	c #1F1F1F",
@@ -5174,7 +5182,7 @@ static char *icon_link[] = {
 #endif
 
 
-void make_pixmaps(GtkWidget *window)
+GdkPixbuf *make_pixmaps(GtkWidget *window)
 {
 GtkStyle *style;
 #ifdef WAVE_USE_GTK2
@@ -5257,6 +5265,9 @@ GLOBALS->hiericon_linkage_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->windo
 /* set icon for window manager */
 gp = xg_get_pixbuf_from_pix_and_mask(GLOBALS->wave_info_pixmap, GLOBALS->wave_info_mask, NULL);
 gtk_window_set_icon(GTK_WINDOW(window), gp);
+return(gp);
+#else
+return(NULL);
 #endif
 }
 

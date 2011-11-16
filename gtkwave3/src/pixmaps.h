@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2005.
+ * Copyright (c) Tony Bybell 1999-2011.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +14,7 @@
 
 #include <gtk/gtk.h>
 
-void make_pixmaps(GtkWidget *window);
+GdkPixbuf *make_pixmaps(GtkWidget *window);
 
 #ifdef WAVE_USE_GTK2
 
