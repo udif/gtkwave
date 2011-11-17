@@ -86,6 +86,7 @@ static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
   int len;
   char *vname="<Vector>";
   entry_text = gtk_entry_get_text(GTK_ENTRY(GLOBALS->entry_a_search_c_1));
+  entry_text = entry_text ? entry_text : "";
   DEBUG(printf("Entry contents: %s\n", entry_text));
   if(!(len=strlen(entry_text)))
 	strcpy((GLOBALS->entrybox_text_local_search_c_2=(char *)malloc_2(strlen(vname)+1)),vname);	/* make consistent with other widgets rather than producing NULL */
@@ -731,11 +732,12 @@ GLOBALS->is_searching_running_search_c_1 = ~0;
 wave_gtk_grab_add(widget);
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(GLOBALS->entry_search_c_3));
+entry_text = entry_text ? entry_text : "";
 DEBUG(printf("Entry contents: %s\n", entry_text));
 
 free_2(GLOBALS->searchbox_text_search_c_1);
 
-if((entry_text)&&(strlen(entry_text)))
+if(strlen(entry_text))
 	{
 	GLOBALS->searchbox_text_search_c_1 = strdup_2(entry_text);
 	}

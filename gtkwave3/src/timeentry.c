@@ -52,6 +52,7 @@ TimeType newlo;
 char fromstr[40];
 
 entry_text=gtk_entry_get_text(GTK_ENTRY(entry));
+entry_text = entry_text ? entry_text : "";
 DEBUG(printf("From Entry contents: %s\n",entry_text));
 
 newlo=unformat_time(entry_text, GLOBALS->time_dimension);
@@ -88,6 +89,7 @@ TimeType newhi;
 char tostr[40];
 
 entry_text=gtk_entry_get_text(GTK_ENTRY(entry));
+entry_text = entry_text ? entry_text : "";
 DEBUG(printf("To Entry contents: %s\n",entry_text));
 
 newhi=unformat_time(entry_text, GLOBALS->time_dimension);

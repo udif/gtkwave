@@ -25,7 +25,7 @@ i = ((int) (((long) which) & 31L)) % 26;
 GLOBALS->dirty_markerbox_c_1 = 1;
  
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
-if(strlen(entry_text))
+if(entry_text && strlen(entry_text))
 	{
 	if(GLOBALS->shadow_marker_names[i])
 		{
@@ -53,7 +53,7 @@ i = ((int) (((long) which) & 31L)) % 26;
 GLOBALS->dirty_markerbox_c_1 = 1;
  
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
-if(strlen(entry_text))
+if(entry_text && strlen(entry_text))
 	{
 	if(GLOBALS->shadow_marker_names[i])
 		{
@@ -92,6 +92,7 @@ ent_idx = ((int) (((long) which) & 31L)) % 26;
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
+entry_text = entry_text ? entry_text : "";
 if(!strlen(entry_text)) goto failure;
 if(!isdigit((int)(unsigned char)entry_text[0])) goto failure;
 
@@ -134,6 +135,7 @@ ent_idx = ((int) (((long) which) & 31L)) % 26;
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
+entry_text = entry_text ? entry_text : "";
 if(!strlen(entry_text)) goto failure;
 
 temp=unformat_time(entry_text, GLOBALS->time_dimension);

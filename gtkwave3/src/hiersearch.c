@@ -233,6 +233,7 @@ static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
   G_CONST_RETURN gchar *entry_text;
   int len;
   entry_text = gtk_entry_get_text(GTK_ENTRY(GLOBALS->entry_hiersearch_c_2));
+  entry_text = entry_text ? entry_text : "";
   DEBUG(printf("Entry contents: %s\n", entry_text));
   if(!(len=strlen(entry_text))) GLOBALS->entrybox_text_local_hiersearch_c_1=NULL;
 	else strcpy((GLOBALS->entrybox_text_local_hiersearch_c_1=(char *)malloc_2(len+1)),entry_text);

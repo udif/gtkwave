@@ -246,6 +246,7 @@ s=(struct strace *)strace_tmp;
 if(s->string) { free_2(s->string); s->string=NULL; }
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(widget));
+entry_text = entry_text ? entry_text : "";
 DEBUG(printf("Trace %s Entry contents: %s\n", s->trace->name, entry_text));
 
 if(!(len=strlen(entry_text))) return;

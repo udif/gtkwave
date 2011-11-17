@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	16nov11	Fixed size of declaration of render_mutex_renderopt_c_1
+3.3.29	17nov11	Fixed size of declaration of render_mutex_renderopt_c_1
 		as it was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar
@@ -1071,3 +1071,5 @@
 		true and GDK is compiled against Quartz, i.e., 
 		gtk-osx-application is installed and +no_x11 +quartz
 		is what GDK was compiled against.
+		Fixed pointer crashes on NULL returned on
+		gtk_entry_get_text() on OSX/Quartz.

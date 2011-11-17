@@ -21,6 +21,7 @@ static void enter_callback(GtkWidget *widget, GtkWidget *nothing)
   G_CONST_RETURN gchar *entry_text;
   int len;
   entry_text = gtk_entry_get_text(GTK_ENTRY(GLOBALS->entry_entry_c_1));
+  entry_text = entry_text ? entry_text : "";
   DEBUG(printf("Entry contents: %s\n", entry_text));
   if(!(len=strlen(entry_text))) GLOBALS->entrybox_text=NULL;
 	else strcpy((GLOBALS->entrybox_text=(char *)malloc_2(len+1)),entry_text);
