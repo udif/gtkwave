@@ -2412,7 +2412,11 @@ if(is_interactive)
 #endif
 	}
 
+#ifdef MAC_INTEGRATION
+exit(0); /* gtk_target_list_find crashes in OSX/Quartz is return instead of exit */
+#else
 return(0);
+#endif
 }
 
 void
