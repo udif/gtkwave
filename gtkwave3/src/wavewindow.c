@@ -1367,7 +1367,7 @@ if(!GLOBALS->made_sgc_contexts_wavewindow_c_1)
 }
 
 
-static const int wave_rgb_rainbow[WAVE_NUM_RAINBOW] = {0xFF0000, 0xFF7F00, 0xFFFF00, 0x00FF00, 0x0000FF, 0x6600FF, 0x8B00FF};
+static const int wave_rgb_rainbow[WAVE_NUM_RAINBOW] = WAVE_RAINBOW_RGB;
 
 gint wavearea_configure_event(GtkWidget *widget, GdkEventConfigure *event)
 {
