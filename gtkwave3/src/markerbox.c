@@ -183,7 +183,7 @@ if(GLOBALS->dirty_markerbox_c_1)
         wavearea_configure_event(GLOBALS->wavearea, NULL);
 	}
 
-  gtk_grab_remove(GLOBALS->window_markerbox_c_4);
+  wave_gtk_grab_remove(GLOBALS->window_markerbox_c_4);
   gtk_widget_destroy(GLOBALS->window_markerbox_c_4);
   GLOBALS->window_markerbox_c_4 = NULL;
 
@@ -200,7 +200,7 @@ int i;
   	GLOBALS->shadow_marker_names[i] = NULL;
 	}
 
-  gtk_grab_remove(GLOBALS->window_markerbox_c_4);
+  wave_gtk_grab_remove(GLOBALS->window_markerbox_c_4);
   gtk_widget_destroy(GLOBALS->window_markerbox_c_4);
   GLOBALS->window_markerbox_c_4 = NULL;
 }
@@ -331,6 +331,6 @@ void markerbox(char *title, GtkSignalFunc func)
 
     gtk_container_add (GTK_CONTAINER (GLOBALS->window_markerbox_c_4), table); /* need this table to keep ok/cancel buttons from stretching! */
     gtk_widget_show(GLOBALS->window_markerbox_c_4);
-    gtk_grab_add(GLOBALS->window_markerbox_c_4);
+    wave_gtk_grab_add(GLOBALS->window_markerbox_c_4);
 }
 

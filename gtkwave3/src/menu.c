@@ -7363,4 +7363,38 @@ set_menu_toggles();
 return(menubar);
 }
 
+#ifdef MAC_INTEGRATION
+void osx_menu_sensitivity(gboolean tr)
+{
+GtkWidget *mw;
+int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
+int i;
+
+for(i=0;i<nmenu_items;i++)
+	{
+	mw = menu_wlist[i];
+	if(mw) gtk_widget_set_sensitive(mw, tr);
+	}
+}
 #endif
+
+#endif
+
+
+void wave_gtk_grab_add(GtkWidget *w)
+{
+gtk_grab_add(w);
+
+#ifdef MAC_INTEGRATION
+osx_menu_sensitivity(FALSE);
+#endif
+}
+
+void wave_gtk_grab_remove(GtkWidget *w)
+{
+gtk_grab_add(w);
+
+#ifdef MAC_INTEGRATION
+osx_menu_sensitivity(TRUE);
+#endif
+}

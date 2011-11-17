@@ -122,7 +122,7 @@ static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
   if(!(len=strlen(entry_text))) GLOBALS->entrybox_text_local_treesearch_gtk1_c=NULL;
 	else strcpy((GLOBALS->entrybox_text_local_treesearch_gtk1_c=(char *)malloc_2(len+1)),entry_text);
 
-  gtk_grab_remove(GLOBALS->window1_treesearch_gtk1_c);
+  wave_gtk_grab_remove(GLOBALS->window1_treesearch_gtk1_c);
   gtk_widget_destroy(GLOBALS->window1_treesearch_gtk1_c);
   GLOBALS->window1_treesearch_gtk1_c = NULL;
 
@@ -133,7 +133,7 @@ static void destroy_callback_e(GtkWidget *widget, GtkWidget *nothing)
 {
   DEBUG(printf("Entry Cancel\n"));
   GLOBALS->entrybox_text_local_treesearch_gtk1_c=NULL;
-  gtk_grab_remove(GLOBALS->window1_treesearch_gtk1_c);
+  wave_gtk_grab_remove(GLOBALS->window1_treesearch_gtk1_c);
   gtk_widget_destroy(GLOBALS->window1_treesearch_gtk1_c);
   GLOBALS->window1_treesearch_gtk1_c = NULL;
 }
@@ -185,7 +185,7 @@ static void entrybox_local(char *title, int width, char *default_text, int maxch
     gtk_container_add (GTK_CONTAINER (hbox), button2);
 
     gtk_widget_show(GLOBALS->window1_treesearch_gtk1_c);
-    gtk_grab_add(GLOBALS->window1_treesearch_gtk1_c);
+    wave_gtk_grab_add(GLOBALS->window1_treesearch_gtk1_c);
 }
 
 /***************************************************************************/

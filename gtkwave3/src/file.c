@@ -114,7 +114,7 @@ if((alloclen=strlen(allocbuf)))
 	}
 
 DEBUG(printf("Filesel OK %s\n",allocbuf));
-gtk_grab_remove(GLOBALS->fs_file_c_1);
+wave_gtk_grab_remove(GLOBALS->fs_file_c_1);
 gtk_widget_destroy(GLOBALS->fs_file_c_1);
 gtkwave_main_iteration();
 GLOBALS->cleanup_file_c_2();
@@ -123,7 +123,7 @@ GLOBALS->cleanup_file_c_2();
 static void cancel_callback(GtkWidget *widget, GtkWidget *nothing)
 {
 DEBUG(printf("Filesel Entry Cancel\n"));
-gtk_grab_remove(GLOBALS->fs_file_c_1);
+wave_gtk_grab_remove(GLOBALS->fs_file_c_1);
 gtk_widget_destroy(GLOBALS->fs_file_c_1);
 gtkwave_main_iteration();
 if(GLOBALS->bad_cleanup_file_c_1) GLOBALS->bad_cleanup_file_c_1();
@@ -156,7 +156,7 @@ if(*GLOBALS->fileselbox_text) gtk_file_selection_set_filename(GTK_FILE_SELECTION
  */
 
 gtk_widget_show(GLOBALS->fs_file_c_1);
-gtk_grab_add(GLOBALS->fs_file_c_1);
+wave_gtk_grab_add(GLOBALS->fs_file_c_1);
 }
 
 
@@ -371,7 +371,7 @@ if(pWindowMain)
 	gtk_window_set_transient_for(GTK_WINDOW(pFileChoose), GTK_WINDOW(pWindowMain));
 	}
 gtk_widget_show(pFileChoose);
-gtk_grab_add(pFileChoose);
+wave_gtk_grab_add(pFileChoose);
 
 if (gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT)
 	{
@@ -419,7 +419,7 @@ fix_suffix:                     s2 = malloc_2(strlen(s) + strlen(suffix) + 1);
 	        }
 
 	DEBUG(printf("Filesel OK %s\n",allocbuf));
-	gtk_grab_remove(pFileChoose);
+	wave_gtk_grab_remove(pFileChoose);
 	gtk_widget_destroy(pFileChoose);
 
 	gtkwave_main_iteration();
@@ -428,7 +428,7 @@ fix_suffix:                     s2 = malloc_2(strlen(s) + strlen(suffix) + 1);
 	else
 	{
 	DEBUG(printf("Filesel Entry Cancel\n"));
-	gtk_grab_remove(pFileChoose);
+	wave_gtk_grab_remove(pFileChoose);
 	gtk_widget_destroy(pFileChoose);
 
 	gtkwave_main_iteration();

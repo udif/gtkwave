@@ -19,7 +19,7 @@
 static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 {
   DEBUG(printf("OK\n"));
-  gtk_grab_remove(GLOBALS->window_simplereq_c_9);
+  wave_gtk_grab_remove(GLOBALS->window_simplereq_c_9);
   gtk_widget_destroy(GLOBALS->window_simplereq_c_9);
   GLOBALS->window_simplereq_c_9 = NULL;
   if(GLOBALS->cleanup)GLOBALS->cleanup(NULL,(gpointer)1);
@@ -28,7 +28,7 @@ static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
   DEBUG(printf("Cancel\n"));
-  gtk_grab_remove(GLOBALS->window_simplereq_c_9);
+  wave_gtk_grab_remove(GLOBALS->window_simplereq_c_9);
   gtk_widget_destroy(GLOBALS->window_simplereq_c_9);
   GLOBALS->window_simplereq_c_9 = NULL;
   if(GLOBALS->cleanup)GLOBALS->cleanup(NULL,NULL);
@@ -108,6 +108,6 @@ void simplereqbox(char *title, int width, char *default_text,
 	}
 
     gtk_widget_show(GLOBALS->window_simplereq_c_9);
-    gtk_grab_add(GLOBALS->window_simplereq_c_9);
+    wave_gtk_grab_add(GLOBALS->window_simplereq_c_9);
 }
 

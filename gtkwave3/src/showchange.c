@@ -84,7 +84,7 @@ static void enter_callback(GtkWidget *widget, GtkWidget *nothing)
 
   GLOBALS->tcache_showchange_c_1->flags=GLOBALS->flags_showchange_c_1;
 
-  gtk_grab_remove(GLOBALS->window_showchange_c_8);
+  wave_gtk_grab_remove(GLOBALS->window_showchange_c_8);
   gtk_widget_destroy(GLOBALS->window_showchange_c_8);
   GLOBALS->window_showchange_c_8 = NULL;
 
@@ -94,7 +94,7 @@ static void enter_callback(GtkWidget *widget, GtkWidget *nothing)
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
-  gtk_grab_remove(GLOBALS->window_showchange_c_8);
+  wave_gtk_grab_remove(GLOBALS->window_showchange_c_8);
   gtk_widget_destroy(GLOBALS->window_showchange_c_8);
   GLOBALS->window_showchange_c_8 = NULL;
 }
@@ -259,6 +259,6 @@ void showchange(char *title, Trptr t, GtkSignalFunc func)
 
   gtk_container_add (GTK_CONTAINER (GLOBALS->window_showchange_c_8), main_vbox);
   gtk_widget_show (GLOBALS->window_showchange_c_8);
-  gtk_grab_add(GLOBALS->window_showchange_c_8);  
+  wave_gtk_grab_add(GLOBALS->window_showchange_c_8);  
 }
 

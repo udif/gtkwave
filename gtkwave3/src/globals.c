@@ -1317,7 +1317,7 @@ static void widget_ungrab_destroy(GtkWidget **wp)
 {
 if(*wp)
 	{
-	gtk_grab_remove(*wp);
+	wave_gtk_grab_remove(*wp);
 	gtk_widget_destroy(*wp);
 	*wp = NULL;
 	}
@@ -1373,9 +1373,9 @@ void reload_into_new_context(void)
  /* let all GTK/X events spin through in order to keep menus from freezing open during reload */
  if(GLOBALS->text_status_c_2)
 	{
-	gtk_grab_add(GLOBALS->text_status_c_2);			/* grab focus to a known widget with no real side effects */
+	wave_gtk_grab_add(GLOBALS->text_status_c_2);			/* grab focus to a known widget with no real side effects */
 	gtkwave_main_iteration();				/* spin on GTK event loop */
-	gtk_grab_remove(GLOBALS->text_status_c_2);		/* ungrab focus */
+	wave_gtk_grab_remove(GLOBALS->text_status_c_2);		/* ungrab focus */
 	}
 
  printf("GTKWAVE | Reloading waveform...\n");

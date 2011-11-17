@@ -25,7 +25,7 @@ static void enter_callback(GtkWidget *widget, GtkWidget *nothing)
   if(!(len=strlen(entry_text))) GLOBALS->entrybox_text=NULL;
 	else strcpy((GLOBALS->entrybox_text=(char *)malloc_2(len+1)),entry_text);
 
-  gtk_grab_remove(GLOBALS->window_entry_c_1);
+  wave_gtk_grab_remove(GLOBALS->window_entry_c_1);
   gtk_widget_destroy(GLOBALS->window_entry_c_1);
   GLOBALS->window_entry_c_1 = NULL;
 
@@ -36,7 +36,7 @@ static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
   DEBUG(printf("Entry Cancel\n"));
   GLOBALS->entrybox_text=NULL;
-  gtk_grab_remove(GLOBALS->window_entry_c_1);
+  wave_gtk_grab_remove(GLOBALS->window_entry_c_1);
   gtk_widget_destroy(GLOBALS->window_entry_c_1);
   GLOBALS->window_entry_c_1 = NULL;
 }
@@ -124,6 +124,6 @@ void entrybox(char *title, int width, char *dflt_text, char *comment, int maxch,
     gtk_container_add (GTK_CONTAINER (hbox), button2);
 
     gtk_widget_show(GLOBALS->window_entry_c_1);
-    gtk_grab_add(GLOBALS->window_entry_c_1);
+    wave_gtk_grab_add(GLOBALS->window_entry_c_1);
 }
 

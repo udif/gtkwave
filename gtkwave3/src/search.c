@@ -91,7 +91,7 @@ static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
 	strcpy((GLOBALS->entrybox_text_local_search_c_2=(char *)malloc_2(strlen(vname)+1)),vname);	/* make consistent with other widgets rather than producing NULL */
 	else strcpy((GLOBALS->entrybox_text_local_search_c_2=(char *)malloc_2(len+1)),entry_text);
 
-  gtk_grab_remove(GLOBALS->window1_search_c_2);
+  wave_gtk_grab_remove(GLOBALS->window1_search_c_2);
   gtk_widget_destroy(GLOBALS->window1_search_c_2);
   GLOBALS->window1_search_c_2 = NULL;
 
@@ -102,7 +102,7 @@ static void destroy_callback_e(GtkWidget *widget, GtkWidget *nothing)
 {
 DEBUG(printf("Entry Cancel\n"));
 GLOBALS->entrybox_text_local_search_c_2=NULL;
-gtk_grab_remove(GLOBALS->window1_search_c_2);
+wave_gtk_grab_remove(GLOBALS->window1_search_c_2);
 gtk_widget_destroy(GLOBALS->window1_search_c_2);
 GLOBALS->window1_search_c_2 = NULL;
 }
@@ -153,7 +153,7 @@ static void entrybox_local(char *title, int width, char *default_text, int maxch
     gtk_container_add (GTK_CONTAINER (hbox), button2);
 
     gtk_widget_show(GLOBALS->window1_search_c_2);
-    gtk_grab_add(GLOBALS->window1_search_c_2);
+    wave_gtk_grab_add(GLOBALS->window1_search_c_2);
 }
 
 /***************************************************************************/
@@ -248,7 +248,7 @@ gfloat interval;
 
 if(GLOBALS->is_insert_running_search_c_1) return;
 GLOBALS->is_insert_running_search_c_1 = ~0;
-gtk_grab_add(widget);
+wave_gtk_grab_add(widget);
 set_window_busy(widget);
 
 symc=NULL;
@@ -381,7 +381,7 @@ gtk_progress_set_value (GTK_PROGRESS (GLOBALS->pdata->pbar), 0.0);
 GLOBALS->pdata->oldvalue = -1.0;
 
 set_window_idle(widget);
-gtk_grab_remove(widget);
+wave_gtk_grab_remove(widget);
 GLOBALS->is_insert_running_search_c_1=0;
 }
 
@@ -396,7 +396,7 @@ gfloat interval;
 
 if(GLOBALS->is_replace_running_search_c_1) return;
 GLOBALS->is_replace_running_search_c_1 = ~0;
-gtk_grab_add(widget);
+wave_gtk_grab_add(widget);
 set_window_busy(widget);
 
 tfirst=NULL; tlast=NULL;
@@ -566,7 +566,7 @@ gtk_progress_set_value (GTK_PROGRESS (GLOBALS->pdata->pbar), 0.0);
 GLOBALS->pdata->oldvalue = -1.0;  
 
 set_window_idle(widget);
-gtk_grab_remove(widget);
+wave_gtk_grab_remove(widget);
 GLOBALS->is_replace_running_search_c_1=0;
 }
 
@@ -579,7 +579,7 @@ gfloat interval;
 
 if(GLOBALS->is_append_running_search_c_1) return;
 GLOBALS->is_append_running_search_c_1 = ~0;
-gtk_grab_add(widget);
+wave_gtk_grab_add(widget);
 set_window_busy(widget);
 
 symc=NULL;
@@ -689,7 +689,7 @@ gtk_progress_set_value (GTK_PROGRESS (GLOBALS->pdata->pbar), 0.0);
 GLOBALS->pdata->oldvalue = -1.0; 
 
 set_window_idle(widget);
-gtk_grab_remove(widget);   
+wave_gtk_grab_remove(widget);   
 GLOBALS->is_append_running_search_c_1=0;
 }
 
@@ -728,7 +728,7 @@ int depack_cnt = 0;
 
 if(GLOBALS->is_searching_running_search_c_1) return;
 GLOBALS->is_searching_running_search_c_1 = ~0;
-gtk_grab_add(widget);
+wave_gtk_grab_add(widget);
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(GLOBALS->entry_search_c_3));
 DEBUG(printf("Entry contents: %s\n", entry_text));
@@ -832,7 +832,7 @@ gtk_clist_thaw(cl);
 
 gtk_progress_set_value (GTK_PROGRESS (GLOBALS->pdata->pbar), 0.0);
 GLOBALS->pdata->oldvalue = -1.0;
-gtk_grab_remove(widget);
+wave_gtk_grab_remove(widget);
 GLOBALS->is_searching_running_search_c_1=0;
 
 if(do_warning)
