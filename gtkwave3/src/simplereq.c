@@ -57,7 +57,11 @@ void simplereqbox(char *title, int width, char *default_text,
     install_focus_cb(GLOBALS->window_simplereq_c_9, ((char *)&GLOBALS->window_simplereq_c_9) - ((char *)GLOBALS));
 
     gtk_window_set_transient_for(GTK_WINDOW(GLOBALS->window_simplereq_c_9), GTK_WINDOW(GLOBALS->mainwindow));
+#ifndef MAC_INTEGRATION
     gtk_widget_set_usize( GTK_WIDGET (GLOBALS->window_simplereq_c_9), width, 55 + 52);
+#else
+    gtk_widget_set_usize( GTK_WIDGET (GLOBALS->window_simplereq_c_9), width, 55 + 70);
+#endif
     gtk_window_set_title(GTK_WINDOW (GLOBALS->window_simplereq_c_9), title);
     gtkwave_signal_connect(GTK_OBJECT (GLOBALS->window_simplereq_c_9), "delete_event",(GtkSignalFunc) destroy_callback, NULL);
     gtk_window_set_policy(GTK_WINDOW(GLOBALS->window_simplereq_c_9), FALSE, FALSE, FALSE);

@@ -1471,6 +1471,98 @@ static char * next_page_xpm[] = {
 "                                  . .           ",
 "                                  .             "};
 
+#ifdef MAC_INTEGRATION
+/* XPM */
+static char *wave_info[] = {
+/* width height num_colors chars_per_pixel */
+"   100    70       13            1",
+/* colors */
+". c #050304",
+"# c #5a9422",
+"a c #8adf33",
+"b c #c2eb9b",
+"c c #315214",
+"d c #a2c380",
+"e c #e2e3e2",
+"f c #b8e18b",
+"g c #83956d",
+"h c #c0bfc0",
+"i c #44721c",
+"j c #1d300c",
+"k c #84a166",
+/* pixels */
+"bfbffffffbfbfbfbffbffbbfbfbbbbfbffbfbfbfbfbfbfbffbfbfbfbfbbbfbfbfbfbfbfbfbfbfbfbbfbfbbfbfbfbbfbfbfbf",
+"bbfbfbbfffffffffbfffbfffbffffffbfbfbfbfbfbbfbfbbbfbffbffbffbbfbbbfbfbfbfbfbfbfbffbfbffbfbfbfffbfbfbb",
+"bbfffffbfbbbbbbbbfbffffbfbbbbbbbbffbbfbffffbbbffbbbfbbbbfbbffbfffbfbbbfbbbfbbbfbbbfbbbfbbbfbbbbfbfbf",
+"hbbffdddddddddddddddfdfddddddddddfdddddfdfddddfddddfdddfdddfdfdfddfdddfdddfdddfdddddddfdddfdddfdfbfb",
+"bfffg............iiii................jiiii................jiiic................jiiic............ffbb",
+"bbffk............iiii.................iiii................jiiic................jiiic............dbfb",
+"bfffg............iiii................jiiii................jiiic................jiiic............ffbb",
+"effbg............iiiij................iiii................jiiii................jiiij............dbff",
+"bfffg............iiii...............aaaaaaaaaaaaaaaaaaaaaaaaaaaai..............jiiic............fbbb",
+"bbffk............iiii..............jaaaaaaaaaaaaaaaaaaaaaaaaaaaaa..............jiiic............dbfb",
+"bfffg............iiii..............iaaaaaaaaaaaaaaaaaaaaaaaaaaaaaj.............jiiic............ffbb",
+"bbfbk............iiii..............aaaaaaaaaaaaaaaaaaaaaaaaaaaaaai.............jiiij............dbfb",
+"bfbfg............iiiij............jaaaa#i#.j.j.j.j.j.j.j.jjiiaaaaa.............jiiic............fbbb",
+"hbffk............iiii.............iaaaaiii................jii#aaaaj............jiiic............dbfb",
+"bfbfg............iiii.............aaaa#iii................jiiiaaaai............jiiic............fbbb",
+"bfbfk............iiii............jaaaa#iii................jiii#aaaa............jiiic............dbfb",
+"bbffkjccccccccccciiiicccjcccccccc#aaaaiiiiccccccccccccccccciii#aaaaicccccccccccciiicccccccccccccffbb",
+"efbfaiiiiiiiiiiiiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiidbbf",
+"bffbkiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiiiiiffbb",
+"bbbfkiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiiiiidbfb",
+"bfffkjjcjjcjjjcjjiiiiccjcjjjcjjjaaaa#ciiiijjcjjjcjjcjjjcjjciiiijaaaa#jcjjcjjjcjciiicjjjcjjcjjjcjfbbb",
+"efbfk............iiii..........jaaaaj.iiii................jciic.iaaaa..........jiiic............dbfb",
+"bfffg............iiii..........iaaaa..iiii................jiiii.jaaaaj.........jiiic............fbbb",
+"bbfbk............iiiij.........aaaai.jiiii................jiiic..aaaa#.........jiiij............dbbb",
+"bfbfg............iiii.........jaaaaj..iiii................jiiic..iaaa#.........jiiic............fbbb",
+"efffk............iiii.........iaaaa...iiii................jiiic..jaaaaj........jiiic............dbbb",
+"bfbfg............iiii.........aaaai..jiiii................jiiic...aaaai........jiiic............fbfb",
+"bffbg............iiiij.......jaaaaj...iiii................jciii...iaaaa........jiiij............dbbb",
+"bbffg............iiii........iaaaa....iiii................jiiic...jaaaaj.......jiiic............fbbf",
+"effbk............iiii........aaaai....iiii................jiiic....aaaai.......jiiic............dbbb",
+"bfffg............iiiij......jaaaaj...jiiii................jiiic....#aaaa.......jiiic............fbbb",
+"bbfbk............iiii.......iaaaa.....iiii................jiiic....jaaaaj......jiiij............dbfb",
+"bbffg............iiii.......aaaai.....iiii................jiiic.....aaaai......jiiic............fbbb",
+"effbkiiiiiiiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiidbbb",
+"bfbfaiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiifbbb",
+"bbffkiiiiiiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiidbfb",
+"bffbkiiiiiiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiifbbb",
+"bbffk.j..j..j..j.iiiijj..jiaaaa.j..j.jiiii.j..j..j..j..j..jiiii.j..j.caaaaj.j..ciiic..j..j..j..jdbbb",
+"bfbfg............iiii.....aaaai......jiiii................jiiic.......aaaai....jiiic............fbbb",
+"efbfk............iiii....jaaaaj.......iiii................jiiic.......iaaaa....jiiic............dbbb",
+"bfffg............iiii....#aaaa........iiii................jiiic.......jaaaaj...jiiic............fbbb",
+"bbfbk............iiiij...#aaai........iiii................jciii........aaaa#...jiiij............dbbb",
+"bfbfg............iiii...jaaaaj.......jiiii................jiiic........iaaa#...jiiic............fbbb",
+"efbfk............iiii...iaaaa.........iiii................jiiic........jaaaaj..jiiic............dbbb",
+"bfffg............iiii...aaaai.........iiii................jiiic.........aaaai..jiiic............fbbb",
+"bbfbk............iiiij.jaaaaj.........iiii................jiiic.........iaaaa..jiiij............dbbb",
+"bfbfg............iiii..iaaaa.........jiiii................jiiic.........jaaaaj.jiiic............fbbb",
+"effbk............iiii..aaaa#..........iiii................jiiii..........aaaai.jiiic............dbbb",
+"bfbfg............iiii.jaaaaj..........iiii................jiiic..........#aaaa.jiiic............fbbb",
+"bbfbkjjjjjjjjjjjjiiiij#aaaajjjjjjjjjjjiiiijjjjjjjjjjjjjjjjjiiicjjjjjjjjjjcaaaacciiicjjjjjjjjjjjjdbbb",
+"bfffkiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiifbbb",
+"bbbbaiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiidbbb",
+"bfbfkiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiifbbb",
+"effbkcccccccccccciiiiaaaa#ccccccccccciiiiiccccccccccccccccciiiiccccccccccccaaaa#iiicccccccccccccfbbb",
+"bfbfg............iii#aaaaj............iiii................jiiic............iaaaaiiic............fbbb",
+"bfbfk............iii#aaaa.............iiii................jiiic............jaaaa#iic............dbbb",
+"bbffg............iiiaaaai............jiiii................jiiic.............aaaa#iic............fbbb",
+"effbk............ii#aaaaj.............iiii................jiiii.............iaaaaiic............dbbb",
+"bbbfg....iaaaaaaaaaaaaaa..............iiii................jiiic.............jaaaaaaaaaaaaaac....fbbb",
+"bbffk...jaaaaaaaaaaaaaai..............iiii................jciic..............aaaaaaaaaaaaaa#....ffbb",
+"bfbfg...jaaaaaaaaaaaaaaj.............jiiii................jiiic..............iaaaaaaaaaaaaaa....fbbb",
+"bbfbk....#aaaaaaaaaaaaa...............iiii................jiiii..............jaaaaaaaaaaaaac....dbbb",
+"bfbfg.......j.j.jii#ij................iiii................jiiic...............jci#ii.j.j.j......fbbb",
+"effbk............iiiij................iiii................jiiic................jiiij............dbbb",
+"bfbfg............iiii................jiiii................jiiic................jiiic............fbbb",
+"bbfbk............iiii.................iiii................jiiic................jiiic............fbbb",
+"bffbdddddddkddddkddadkddddddddddddddddddaddddddddddddddddddddaddddddddddddddddddddadddddddddddddfbbb",
+"bbfbffffbffbbfbbbbfbbbfbbbfbbfbbfbfbfbfbfbfbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+"bbbfbfbbfbbfbfbfbfbfbfbfbfbbfbbfbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+"bffbfbffbffbfbfbffbffbfbfbbfbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+};
+#else
 /* XPM */
 static char * wave_info[] = {
 "48 52 677 2",
@@ -2203,7 +2295,101 @@ static char * wave_info[] = {
 "                                                                                                ",
 "                                                                                                ",
 "                                                                                                "};
+#endif
 
+#ifdef MAC_INTEGRATION
+/* XPM */
+static char *wave_alert[] = {
+/* width height num_colors chars_per_pixel */
+"   100    70       14            1",
+/* colors */
+". c #050304",
+"# c #5a9422",
+"a c #8adf33",
+"b c #c2eb9b",
+"c c #315214",
+"d c #a2c380",
+"e c #e2e3e2",
+"f c #b8e18b",
+"g c #83956d",
+"h c #c0bfc0",
+"i c #44721c",
+"j c #1d300c",
+"k c #84a166",
+"l c #ff0000",
+/* pixels */
+"bfbffffffbfbfbfbffbffbbfbfbbbbfbffbfbfbfbfbfbfbffbfbfbfbfbbbfbfbfbfbfbfbfbfbfbfbbfbfbbfbfbfbbfbfbfbf",
+"bbfbfbbfffffffffbfffbfffbffffffbfbfbfbfbfbbfbfbbbfbffbffbffbbfbbbfbfbfbfbfbfbfbffbfbffbfbfbfffbfbfbb",
+"bbfffffbfbbbbbbbbfbffffbfbbbbbbbbffbbfbffffbbbffbbbfbbbbfbbffbfffbfbbbfbbbfbbbfbbbfbbbfbbbfbbbbfbfbf",
+"hbbffdddddddddddddddfdfddddddddddfdddddfdfddddfddddfdddfdddfdfdfddfdddfdddfdddfdddddddfdddfdddfdfbfb",
+"bfffg............iiii................jiiii................jiiic................jiiic............ffbb",
+"bbffk...llllll...iiii.................iiii................jiiic................jiiic............dbfb",
+"bfffg...llllll...iiii................jiiii................jiiic................jiiic............ffbb",
+"effbg...llllll...iiiij................iiii................jiiii................jiiij............dbff",
+"bfffg...llllll...iiii...............aaaaaaaaaaaaaaaaaaaaaaaaaaaai..............jiiic............fbbb",
+"bbffk...llllll...iiii..............jaaaaaaaaaaaaaaaaaaaaaaaaaaaaa..............jiiic............dbfb",
+"bfffg...llllll...iiii..............iaaaaaaaaaaaaaaaaaaaaaaaaaaaaaj.............jiiic............ffbb",
+"bbfbk...llllll...iiii..............aaaaaaaaaaaaaaaaaaaaaaaaaaaaaai.............jiiij............dbfb",
+"bfbfg...llllll...iiiij............jaaaa#i#.j.j.j.j.j.j.j.jjiiaaaaa.............jiiic............fbbb",
+"hbffk...llllll...iiii.............iaaaaiii................jii#aaaaj............jiiic............dbfb",
+"bfbfg...llllll...iiii.............aaaa#iii................jiiiaaaai............jiiic............fbbb",
+"bfbfk...llllll...iiii............jaaaa#iii................jiii#aaaa............jiiic............dbfb",
+"bbffkjc.llllll.cciiiicccjcccccccc#aaaaiiiiccccccccccccccccciii#aaaaicccccccccccciiicccccccccccccffbb",
+"efbfaii........iiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiidbbf",
+"bffbkii........iiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiiiiiffbb",
+"bbbfkii.llllll.iiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiiiiidbfb",
+"bfffkjj.llllll.jjiiiiccjcjjjcjjjaaaa#ciiiijjcjjjcjjcjjjcjjciiiijaaaa#jcjjcjjjcjciiicjjjcjjcjjjcjfbbb",
+"efbfk...llllll...iiii..........jaaaaj.iiii................jciic.iaaaa..........jiiic............dbfb",
+"bfffg............iiii..........iaaaa..iiii................jiiii.jaaaaj.........jiiic............fbbb",
+"bbfbk............iiiij.........aaaai.jiiii................jiiic..aaaa#.........jiiij............dbbb",
+"bfbfg............iiii.........jaaaaj..iiii................jiiic..iaaa#.........jiiic............fbbb",
+"efffk............iiii.........iaaaa...iiii................jiiic..jaaaaj........jiiic............dbbb",
+"bfbfg............iiii.........aaaai..jiiii................jiiic...aaaai........jiiic............fbfb",
+"bffbg............iiiij.......jaaaaj...iiii................jciii...iaaaa........jiiij............dbbb",
+"bbffg............iiii........iaaaa....iiii................jiiic...jaaaaj.......jiiic............fbbf",
+"effbk............iiii........aaaai....iiii................jiiic....aaaai.......jiiic............dbbb",
+"bfffg............iiiij......jaaaaj...jiiii................jiiic....#aaaa.......jiiic............fbbb",
+"bbfbk............iiii.......iaaaa.....iiii................jiiic....jaaaaj......jiiij............dbfb",
+"bbffg............iiii.......aaaai.....iiii................jiiic.....aaaai......jiiic............fbbb",
+"effbkiiiiiiiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiidbbb",
+"bfbfaiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiifbbb",
+"bbffkiiiiiiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiidbfb",
+"bffbkiiiiiiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiifbbb",
+"bbffk.j..j..j..j.iiiijj..jiaaaa.j..j.jiiii.j..j..j..j..j..jiiii.j..j.caaaaj.j..ciiic..j..j..j..jdbbb",
+"bfbfg............iiii.....aaaai......jiiii................jiiic.......aaaai....jiiic............fbbb",
+"efbfk............iiii....jaaaaj.......iiii................jiiic.......iaaaa....jiiic............dbbb",
+"bfffg............iiii....#aaaa........iiii................jiiic.......jaaaaj...jiiic............fbbb",
+"bbfbk............iiiij...#aaai........iiii................jciii........aaaa#...jiiij............dbbb",
+"bfbfg............iiii...jaaaaj.......jiiii................jiiic........iaaa#...jiiic............fbbb",
+"efbfk............iiii...iaaaa.........iiii................jiiic........jaaaaj..jiiic............dbbb",
+"bfffg............iiii...aaaai.........iiii................jiiic.........aaaai..jiiic............fbbb",
+"bbfbk............iiiij.jaaaaj.........iiii................jiiic.........iaaaa..jiiij............dbbb",
+"bfbfg............iiii..iaaaa.........jiiii................jiiic.........jaaaaj.jiiic............fbbb",
+"effbk............iiii..aaaa#..........iiii................jiiii..........aaaai.jiiic............dbbb",
+"bfbfg............iiii.jaaaaj..........iiii................jiiic..........#aaaa.jiiic............fbbb",
+"bbfbkjjjjjjjjjjjjiiiij#aaaajjjjjjjjjjjiiiijjjjjjjjjjjjjjjjjiiicjjjjjjjjjjcaaaacciiicjjjjjjjjjjjjdbbb",
+"bfffkiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiaaaa#iiiiiiiiiiiiiiiiifbbb",
+"bbbbaiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiidbbb",
+"bfbfkiiiiiiiiiiiiiiii#aaaaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii#aaaa#iiiiiiiiiiiiiiiifbbb",
+"effbkcccccccccccciiiiaaaa#ccccccccccciiiiiccccccccccccccccciiiiccccccccccccaaaa#iiicccccccccccccfbbb",
+"bfbfg............iii#aaaaj............iiii................jiiic............iaaaaiiic............fbbb",
+"bfbfk............iii#aaaa.............iiii................jiiic............jaaaa#iic............dbbb",
+"bbffg............iiiaaaai............jiiii................jiiic.............aaaa#iic............fbbb",
+"effbk............ii#aaaaj.............iiii................jiiii.............iaaaaiic............dbbb",
+"bbbfg....iaaaaaaaaaaaaaa..............iiii................jiiic.............jaaaaaaaaaaaaaac....fbbb",
+"bbffk...jaaaaaaaaaaaaaai..............iiii................jciic..............aaaaaaaaaaaaaa#....ffbb",
+"bfbfg...jaaaaaaaaaaaaaaj.............jiiii................jiiic..............iaaaaaaaaaaaaaa....fbbb",
+"bbfbk....#aaaaaaaaaaaaa...............iiii................jiiii..............jaaaaaaaaaaaaac....dbbb",
+"bfbfg.......j.j.jii#ij................iiii................jiiic...............jci#ii.j.j.j......fbbb",
+"effbk............iiiij................iiii................jiiic................jiiij............dbbb",
+"bfbfg............iiii................jiiii................jiiic................jiiic............fbbb",
+"bbfbk............iiii.................iiii................jiiic................jiiic............fbbb",
+"bffbdddddddkddddkddadkddddddddddddddddddaddddddddddddddddddddaddddddddddddddddddddadddddddddddddfbbb",
+"bbfbffffbffbbfbbbbfbbbfbbbfbbfbbfbfbfbfbfbfbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+"bbbfbfbbfbbfbfbfbfbfbfbfbfbbfbbfbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+"bffbfbffbffbfbfbffbffbfbfbbfbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+};
+#else
 /* XPM */
 static char * wave_alert[] = {
 "48 52 677 2",
@@ -2936,7 +3122,7 @@ static char * wave_alert[] = {
 "                                                                                                ",
 "                                                                                                ",
 "                                                                                                "};
-
+#endif
 
 /* XPM */
 static char *chart_organisation[] = {
@@ -5180,9 +5366,6 @@ GtkStyle *style;
 #ifdef WAVE_USE_GTK2
 GdkPixbuf *gp;
 #endif
-#ifdef MAC_INTEGRATION
-GdkColor osx_color = { 0, 0x4400, 0x0000, 0x8000 };
-#endif
 
 style=gtk_widget_get_style(window);
 
@@ -5212,17 +5395,10 @@ GLOBALS->prev_page_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLO
 GLOBALS->next_page_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->next_page_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)next_page_xpm);
 
-#ifdef MAC_INTEGRATION
-GLOBALS->wave_info_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_info_mask,
-	&osx_color, (gchar **)wave_info);
-GLOBALS->wave_alert_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_alert_mask,
-	&osx_color, (gchar **)wave_alert);
-#else
 GLOBALS->wave_info_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_info_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)wave_info);
 GLOBALS->wave_alert_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_alert_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)wave_alert);
-#endif
 
 /* Verilog */
 GLOBALS->hiericon_module_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->hiericon_module_mask,
