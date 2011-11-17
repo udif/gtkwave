@@ -1474,11 +1474,7 @@ static char * next_page_xpm[] = {
 /* XPM */
 static char * wave_info[] = {
 "48 52 677 2",
-#ifdef MAC_INTEGRATION
-"  	c #FFFFFF",
-#else
 "  	c None",
-#endif
 ". 	c #000000",
 "+ 	c #232323",
 "@ 	c #1F1F1F",
@@ -2211,11 +2207,7 @@ static char * wave_info[] = {
 /* XPM */
 static char * wave_alert[] = {
 "48 52 677 2",
-#ifdef MAC_INTEGRATION
-"  	c #FFFFFF",
-#else
 "  	c None",
-#endif
 ". 	c #000000",
 "+ 	c #232323",
 "@ 	c #1F1F1F",
@@ -5188,6 +5180,9 @@ GtkStyle *style;
 #ifdef WAVE_USE_GTK2
 GdkPixbuf *gp;
 #endif
+#ifdef MAC_INTEGRATION
+GdkColor osx_color = { 0, 0x4400, 0x0000, 0x8000 };
+#endif
 
 style=gtk_widget_get_style(window);
 
@@ -5217,10 +5212,17 @@ GLOBALS->prev_page_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLO
 GLOBALS->next_page_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->next_page_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)next_page_xpm);
 
+#ifdef MAC_INTEGRATION
+GLOBALS->wave_info_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_info_mask,
+	&osx_color, (gchar **)wave_info);
+GLOBALS->wave_alert_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_alert_mask,
+	&osx_color, (gchar **)wave_alert);
+#else
 GLOBALS->wave_info_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_info_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)wave_info);
 GLOBALS->wave_alert_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->wave_alert_mask,
 	&style->bg[GTK_STATE_NORMAL], (gchar **)wave_alert);
+#endif
 
 /* Verilog */
 GLOBALS->hiericon_module_pixmap=gdk_pixmap_create_from_xpm_d(window->window, &GLOBALS->hiericon_module_mask,
