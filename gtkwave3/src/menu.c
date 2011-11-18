@@ -6580,6 +6580,8 @@ set_scale_to_time_dimension_toggles();
 #else
 void set_menu_toggles(void)
 {
+GLOBALS->quiet_checkmenu = 1;
+
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VZPS]), GLOBALS->zoom_pow10_snap);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSG]), GLOBALS->display_grid);
 
@@ -6612,6 +6614,7 @@ if(GLOBALS->loaded_file_type == LXT_FILE)
         }
 
 set_scale_to_time_dimension_toggles();
+GLOBALS->quiet_checkmenu = 0;
 }
 #endif
 

@@ -559,6 +559,7 @@ NULL, /* cleanup_markerbox_c_4 233 */
  */ 
 NULL, /* cutcopylist */
 0, /* enable_fast_exit 236 */
+0, /* quiet_checkmenu */
 NULL, /* wave_script_args 237 */
 0, /* ignore_savefile_pos 238 */
 0, /* ignore_savefile_size 239 */

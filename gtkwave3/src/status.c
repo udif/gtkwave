@@ -22,33 +22,35 @@ a hierarchy first */
 
 void status_text(char *str)
 {
-int len = strlen(str);
-char ch = len ? str[len-1] : 0;
-
-if(GLOBALS->text_status_c_2)
+if(!GLOBALS->quiet_checkmenu) /* when gtkwave_mlist_t check menuitems are being initialized */
 	{
+	int len = strlen(str);
+	char ch = len ? str[len-1] : 0;
+
+	if(GLOBALS->text_status_c_2)
+		{
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
-        gtk_text_buffer_insert (GTK_TEXT_VIEW (GLOBALS->text_status_c_2)->buffer, &GLOBALS->iter_status_c_3, str, -1);
+	        gtk_text_buffer_insert (GTK_TEXT_VIEW (GLOBALS->text_status_c_2)->buffer, &GLOBALS->iter_status_c_3, str, -1);
 #else
-        gtk_text_insert (GTK_TEXT (GLOBALS->text_status_c_2), NULL, &GLOBALS->text_status_c_2->style->black, NULL, str, -1);
+	        gtk_text_insert (GTK_TEXT (GLOBALS->text_status_c_2), NULL, &GLOBALS->text_status_c_2->style->black, NULL, str, -1);
 #endif
-	}
-	else
+		}
+		else
+		{
+		fprintf(stderr, "GTKWAVE | %s%s", str, (ch=='\n') ? "" : "\n");
+		}
+
 	{
-	fprintf(stderr, "GTKWAVE | %s%s", str, (ch=='\n') ? "" : "\n");
+	char *stemp = wave_alloca(len+1);
+	strcpy(stemp, str);
+	
+	if(ch == '\n')
+		{
+		stemp[len-1] = 0;
+		}
+	gtkwavetcl_setvar(WAVE_TCLCB_STATUS_TEXT, stemp, WAVE_TCLCB_STATUS_TEXT_FLAGS);
 	}
-
-{
-char *stemp = wave_alloca(len+1);
-strcpy(stemp, str);
-
-if(ch == '\n')
-	{
-	stemp[len-1] = 0;
 	}
-gtkwavetcl_setvar(WAVE_TCLCB_STATUS_TEXT, stemp, WAVE_TCLCB_STATUS_TEXT_FLAGS);
-}
-
 }
 
 void

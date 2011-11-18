@@ -555,6 +555,7 @@ char *shadow_marker_names[26]; /* from markerbox.c */
  */
 char *cutcopylist; /* from menu.c */
 char enable_fast_exit; /* from menu.c 253 */
+char quiet_checkmenu;
 struct wave_script_args *wave_script_args; /* from tcl_helper.c */
 char ignore_savefile_pos; /* from menu.c 255 */
 char ignore_savefile_size; /* from menu.c 256 */
