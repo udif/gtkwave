@@ -10,3 +10,12 @@
 #
 
 ~/.local/bin/ige-mac-bundler gtkwave.bundle
+
+#
+# this is a bit of a hack as it seems ige-mac-bundler
+# should already do this...
+#
+gdk-pixbuf-query-loaders | \
+sed 's#/Users/.*loaders/#@executable_path/../Resources/lib/gdk-pixbuf-2.0/loaders/#' \
+> ~/Desktop/gtkwave.app/Contents/Resources/etc/gtk-2.0/gdk-pixbuf.loaders
+
