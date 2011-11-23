@@ -6177,12 +6177,12 @@ if test -n "$GTK_MAC_CFLAGS"; then
     pkg_cv_GTK_MAC_CFLAGS="$GTK_MAC_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"ige-mac-integration\"") >&5
-  ($PKG_CONFIG --exists --print-errors "ige-mac-integration") 2>&5
+    { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"gtk-mac-integration\"") >&5
+  ($PKG_CONFIG --exists --print-errors "gtk-mac-integration") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
-  pkg_cv_GTK_MAC_CFLAGS=`$PKG_CONFIG --cflags "ige-mac-integration" 2>/dev/null`
+  pkg_cv_GTK_MAC_CFLAGS=`$PKG_CONFIG --cflags "gtk-mac-integration" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -6193,12 +6193,12 @@ if test -n "$GTK_MAC_LIBS"; then
     pkg_cv_GTK_MAC_LIBS="$GTK_MAC_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"ige-mac-integration\"") >&5
-  ($PKG_CONFIG --exists --print-errors "ige-mac-integration") 2>&5
+    { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"gtk-mac-integration\"") >&5
+  ($PKG_CONFIG --exists --print-errors "gtk-mac-integration") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
-  pkg_cv_GTK_MAC_LIBS=`$PKG_CONFIG --libs "ige-mac-integration" 2>/dev/null`
+  pkg_cv_GTK_MAC_LIBS=`$PKG_CONFIG --libs "gtk-mac-integration" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -6216,14 +6216,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GTK_MAC_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "ige-mac-integration" 2>&1`
+	        GTK_MAC_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "gtk-mac-integration" 2>&1`
         else
-	        GTK_MAC_PKG_ERRORS=`$PKG_CONFIG --print-errors "ige-mac-integration" 2>&1`
+	        GTK_MAC_PKG_ERRORS=`$PKG_CONFIG --print-errors "gtk-mac-integration" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GTK_MAC_PKG_ERRORS" >&5
 
-	{ { $as_echo "$as_me:$LINENO: error: Package requirements (ige-mac-integration) were not met:
+	{ { $as_echo "$as_me:$LINENO: error: Package requirements (gtk-mac-integration) were not met:
 
 $GTK_MAC_PKG_ERRORS
 
@@ -6234,7 +6234,7 @@ Alternatively, you may set the environment variables GTK_MAC_CFLAGS
 and GTK_MAC_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 " >&5
-$as_echo "$as_me: error: Package requirements (ige-mac-integration) were not met:
+$as_echo "$as_me: error: Package requirements (gtk-mac-integration) were not met:
 
 $GTK_MAC_PKG_ERRORS
 
