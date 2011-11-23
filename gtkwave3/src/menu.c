@@ -7116,6 +7116,7 @@ static void alt_menu_install_accelerator(GtkAccelGroup *accel, GtkWidget *menuit
 {
 if(accel && menuitem && path)
 	{
+	int no_map = 0;
 	guint accelerator_key = 0;
 	GdkModifierType accelerator_mods = 0;
 	char full_path[1024];
@@ -7126,6 +7127,10 @@ if(accel && menuitem && path)
 		gtk_accelerator_parse(accelerator, &accelerator_key, &accelerator_mods);
 
 #ifdef MAC_INTEGRATION
+		if(accelerator_mods & GDK_MOD1_MASK)
+			{
+			no_map = 1; /* ALT not available with GTK menus on OSX? */
+			}
 		if(accelerator_mods & GDK_CONTROL_MASK)
 			{
 			accelerator_mods &= ~GDK_CONTROL_MASK;
@@ -7134,8 +7139,11 @@ if(accel && menuitem && path)
 #endif
 		}
 
-        gtk_accel_map_add_entry (full_path, accelerator_key, accelerator_mods);
-        gtk_widget_set_accel_path (menuitem, full_path, accel);
+	if(!no_map)
+		{
+	        gtk_accel_map_add_entry (full_path, accelerator_key, accelerator_mods);
+	        gtk_widget_set_accel_path (menuitem, full_path, accel);
+		}
 	}
 }
 
