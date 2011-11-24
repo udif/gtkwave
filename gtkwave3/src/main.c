@@ -80,6 +80,9 @@
 #include <gtkosxapplication.h>
 #endif
 
+char *gtkwave_argv0_cached = NULL;
+
+
 static int suffix_check(const char *s, const char *sfx)
 {
 int sfxlen = strlen(sfx);
@@ -639,6 +642,8 @@ if(!mainwindow_already_built)
 #if defined(__APPLE__)
 do_primary_inits:
 #endif
+
+if(!gtkwave_argv0_cached) gtkwave_argv0_cached = argv[0]; /* for new window option */
 
 init_filetrans_data(); /* for file translation splay trees */
 init_proctrans_data(); /* for proc translation structs */

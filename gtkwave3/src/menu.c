@@ -47,6 +47,8 @@ static gtkwave_mlist_t menu_items[WV_MENU_NUMITEMS];
 static GtkWidget **menu_wlist=NULL;
 #endif
 
+extern char *gtkwave_argv0_cached; /* for new window */
+
 /* marshals for handling menu items vs button pressed items */
 
 static void service_left_edge_marshal(gpointer null_data, guint callback_action, GtkWidget *widget)
@@ -3227,7 +3229,7 @@ menu_new_viewer_tab_cleanup_2(char *fname)
 	struct Global *g_old = GLOBALS;
 	struct Global *g_now;
 
-	argv[0] = "gtkwave";
+	argv[0] = gtkwave_argv0_cached ? gtkwave_argv0_cached : "gtkwave";
 	argv[1] = fname;
 
 	GLOBALS->vcd_jmp_buf = calloc(1, sizeof(jmp_buf));
