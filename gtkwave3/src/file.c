@@ -171,6 +171,7 @@ GtkWidget *label;
 GtkWidget *label_ent;
 GtkWidget *box;
 GtkTooltips *tooltips;
+struct Global *old_globals = GLOBALS;
 #endif
 
 if(!*filesel_path) /* if no name specified, hijack loaded file name path */
@@ -373,7 +374,10 @@ if(pWindowMain)
 gtk_widget_show(pFileChoose);
 wave_gtk_grab_add(pFileChoose);
 
-if (gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT)
+/* check against old_globals is because of DnD context swapping so make response fail */
+
+if((gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT) && 
+		(GLOBALS == old_globals) && (GLOBALS->fileselbox_text))
 	{
 	G_CONST_RETURN char *allocbuf;
 	int alloclen;
@@ -382,6 +386,7 @@ if (gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT)
 	if((alloclen=strlen(allocbuf)))
 	        {
 	        GLOBALS->filesel_ok=1;
+
 	        if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
 	        *GLOBALS->fileselbox_text=(char *)malloc_2(alloclen+1);
 	        strcpy(*GLOBALS->fileselbox_text, allocbuf);
