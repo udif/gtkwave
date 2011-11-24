@@ -1067,7 +1067,7 @@
 		integration which expects menu shells).
 		Added support for native Quartz menu bars.
 		Removed --enable-quartz as it is auto detected now if
-		PKG_CHECK_MODULES(GTK_MAC, ige-mac-integration) is
+		PKG_CHECK_MODULES(GTK_MAC, gtk-mac-integration) is
 		true and GDK is compiled against Quartz.
 		Fixed pointer crashes on NULL returned on gtk_entry_get_text()
 		on OSX/Quartz.
