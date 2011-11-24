@@ -1060,22 +1060,21 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	23nov11	Fixed size of declaration of render_mutex_renderopt_c_1
-		as it was one element too short.
+3.3.29	23nov11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+		was one element too short.
 		Added transition code for shifting away from using
-		GtkItemFactoryEntry (also will help with OSX menubar
+		GtkItemFactoryEntry (also will help with OSX menubar 
 		integration which expects menu shells).
 		Added support for native Quartz menu bars.
 		Removed --enable-quartz as it is auto detected now if
 		PKG_CHECK_MODULES(GTK_MAC, ige-mac-integration) is
-		true and GDK is compiled against Quartz, i.e., 
-		gtk-osx-application is installed and +no_x11 +quartz
-		is what GDK was compiled against.
-		Fixed pointer crashes on NULL returned on
-		gtk_entry_get_text() on OSX/Quartz.
-		Recommended usage for Quartz is jhbuild with
-		gtk-mac-integration.
+		true and GDK is compiled against Quartz.
+		Fixed pointer crashes on NULL returned on gtk_entry_get_text()
+		on OSX/Quartz.
+		Recommended usage for Quartz is now jhbuild with
+		gtk-mac-integration, not MacPorts
 		Added mac bundle info in contrib/bundle_for_osx.
-		Added gtkwave_argv0_cached as Open New Window does
-		not work if "gtkwave" is not in path or is something
-		like gtkwave-bin as in an OSX bundle.
+		Added gtkwave_argv0_cached as Open New Window does not work if
+		"gtkwave" is not in path or is something like gtkwave-bin as
+		in an OSX bundle.
+
