@@ -426,6 +426,7 @@ fix_suffix:                     s2 = malloc_2(strlen(s) + strlen(suffix) + 1);
 	DEBUG(printf("Filesel OK %s\n",allocbuf));
 	wave_gtk_grab_remove(pFileChoose);
 	gtk_widget_destroy(pFileChoose);
+	GLOBALS->pFileChoose = NULL; /* keeps DND from firing */
 
 	gtkwave_main_iteration();
 	ok_func();
@@ -435,6 +436,7 @@ fix_suffix:                     s2 = malloc_2(strlen(s) + strlen(suffix) + 1);
 	DEBUG(printf("Filesel Entry Cancel\n"));
 	wave_gtk_grab_remove(pFileChoose);
 	gtk_widget_destroy(pFileChoose);
+	GLOBALS->pFileChoose = NULL; /* keeps DND from firing */
 
 	gtkwave_main_iteration();
 	if(GLOBALS->bad_cleanup_file_c_1) notok_func();

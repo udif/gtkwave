@@ -1077,4 +1077,6 @@
 		Added gtkwave_argv0_cached as Open New Window does not work if
 		"gtkwave" is not in path or is something like gtkwave-bin as
 		in an OSX bundle.
-		Detect context swapping in file chooser from DnD.
+		Detect context swapping in file chooser from DnD to prevent
+		possible crashes.
+		Block DnD while file chooser is active.

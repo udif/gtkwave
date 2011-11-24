@@ -2120,17 +2120,30 @@ void DND_helper_quartz(char *data)
 {
 int num_found;
 
-if(!(num_found = process_url_list(data)))
-        {
-        num_found = process_tcl_list(data, TRUE);
-        }
+#if GTK_CHECK_VERSION(2,4,0)
+if(!GLOBALS->pFileChoose)
+#endif
+	{
+	if(!(num_found = process_url_list(data)))
+	        {
+	        num_found = process_tcl_list(data, TRUE);
+	        }
 
-if(num_found)
-        {
+	if(num_found)
+	        {
+	        MaxSignalLength();
+	        signalarea_configure_event(GLOBALS->signalarea, NULL);
+	        wavearea_configure_event(GLOBALS->wavearea, NULL);
+	        }
+	}
+#if GTK_CHECK_VERSION(2,4,0)
+	else
+	{
         MaxSignalLength();
         signalarea_configure_event(GLOBALS->signalarea, NULL);
         wavearea_configure_event(GLOBALS->wavearea, NULL);
-        }
+	}
+#endif
 }
 
 
