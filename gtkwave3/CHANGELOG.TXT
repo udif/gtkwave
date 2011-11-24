@@ -1072,10 +1072,9 @@
 		Fixed pointer crashes on NULL returned on gtk_entry_get_text()
 		on OSX/Quartz.
 		Recommended usage for Quartz is now jhbuild with
-		gtk-mac-integration, not MacPorts
+		gtk-mac-integration, not MacPorts.
 		Added mac bundle info in contrib/bundle_for_osx.
 		Added gtkwave_argv0_cached as Open New Window does not work if
 		"gtkwave" is not in path or is something like gtkwave-bin as
 		in an OSX bundle.
 		Detect context swapping in file chooser from DnD.
-
