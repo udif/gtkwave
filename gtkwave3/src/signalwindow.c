@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2010.
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -397,9 +397,13 @@ if(!GLOBALS || !GLOBALS->filter_entry || !event)
 	}
 	else
 	{
+#ifdef MAC_INTEGRATION
+	return (GTK_WIDGET_HAS_FOCUS(GLOBALS->filter_entry));
+#else
 	return (GTK_WIDGET_HAS_FOCUS(GLOBALS->filter_entry) && 
 	  !(event->state & GDK_CONTROL_MASK) &&
 	  !(event->state & GDK_MOD1_MASK));
+#endif
 	}
 }
 
@@ -424,6 +428,48 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
 	{
 	switch(event->keyval)
 		{
+#ifdef MAC_INTEGRATION
+		/* need to do this, otherwise if a menu accelerator it steals the key from gtk */
+		case GDK_a:
+		  if(event->state & GDK_MOD2_MASK)
+		    {
+		      menu_dataformat_highlight_all(NULL, 0, NULL);
+		      rc = TRUE;
+		    }
+		  break;
+
+		case GDK_A:
+		  if(event->state & GDK_MOD2_MASK)
+		    {
+		      menu_dataformat_unhighlight_all(NULL, 0, NULL);
+		      rc = TRUE;
+		    }
+		  break;
+
+		case GDK_x:
+		  if(event->state & GDK_MOD2_MASK)
+		    {
+		      menu_cut_traces(NULL, 0, NULL);
+		      rc = TRUE;
+		    }
+		  break;
+
+		case GDK_c:
+		  if(event->state & GDK_MOD2_MASK)
+		    {
+		      menu_copy_traces(NULL, 0, NULL);
+		      rc = TRUE;
+		    }
+		  break;
+
+		case GDK_v:
+		  if(event->state & GDK_MOD2_MASK)
+		    {
+		      menu_paste_traces(NULL, 0, NULL);
+		      rc = TRUE;
+		    }
+		  break;
+#endif
 		case GDK_Page_Up:
 		case GDK_KP_Page_Up:
 		case GDK_Page_Down:
@@ -535,7 +581,11 @@ if(GLOBALS->dnd_sigview)
 	      switch(event->keyval)
 		{
 		case GDK_a:
+#ifdef MAC_INTEGRATION
+		  if(event->state & GDK_META_MASK)
+#else
 		  if(event->state & GDK_CONTROL_MASK)
+#endif
 		    {
 		      treeview_select_all_callback();
 		      rc = TRUE;
@@ -543,7 +593,11 @@ if(GLOBALS->dnd_sigview)
 		  break;
 
 		case GDK_A:
+#ifdef MAC_INTEGRATION
+		  if(event->state & GDK_META_MASK)
+#else
 		  if(event->state & GDK_CONTROL_MASK)
+#endif
 		    {
 		      treeview_unselect_all_callback();
 		      rc = TRUE;
@@ -558,7 +612,11 @@ if(GLOBALS->dnd_sigview)
 	      switch(event->keyval)
 		{
 		case GDK_a:
+#ifdef MAC_INTEGRATION
+		  if(event->state & GDK_META_MASK)
+#else
 		  if(event->state & GDK_CONTROL_MASK)
+#endif
 		    {
 		      /* eat keystroke */
 		      rc = TRUE;
@@ -566,7 +624,11 @@ if(GLOBALS->dnd_sigview)
 		  break;
 
 		case GDK_A:
+#ifdef MAC_INTEGRATION
+		  if(event->state & GDK_META_MASK)
+#else
 		  if(event->state & GDK_CONTROL_MASK)
+#endif
 		    {
 		      /* eat keystroke */
 		      rc = TRUE;
@@ -639,6 +701,21 @@ if(GLOBALS->dnd_helper_quartz)
         }
 #endif   
 #endif
+
+#ifdef MAC_INTEGRATION
+if(GLOBALS->force_hide_show == 2)
+	{
+	gtk_widget_hide(GLOBALS->signalarea);
+	gtk_widget_show(GLOBALS->signalarea);
+	gtk_widget_hide(GLOBALS->wavearea);
+	gtk_widget_show(GLOBALS->wavearea);
+	}
+#endif
+
+if(GLOBALS->force_hide_show)
+	{
+	GLOBALS->force_hide_show--;
+	}
 
 if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
@@ -879,7 +956,11 @@ if((GLOBALS->traces.visible)&&(GLOBALS->signalpixmap))
 
 	if(which>=GLOBALS->traces.visible)
 		{
+#ifdef MAC_INTEGRATION
+		if((event->state&(GDK_META_MASK|GDK_SHIFT_MASK)) == (GDK_SHIFT_MASK))
+#else
 		if((event->state&(GDK_CONTROL_MASK|GDK_SHIFT_MASK)) == (GDK_SHIFT_MASK))
+#endif
 			{
 			/* ok for plain-vanilla shift click only */
 			which = GLOBALS->traces.visible-1;
@@ -915,7 +996,11 @@ if((GLOBALS->traces.visible)&&(GLOBALS->signalpixmap))
 	                }
 	        }
 
+#ifdef MAC_INTEGRATION
+	if(event->state & GDK_META_MASK)
+#else
 	if(event->state&GDK_CONTROL_MASK)
+#endif
 		{
 		if(t) /* scan-build */
 		  {
@@ -1045,6 +1130,13 @@ int num_traces_displayable;
 int width;
 
 if((!widget)||(!widget->window)) return(TRUE);
+
+#ifdef MAC_INTEGRATION
+if(!GLOBALS->force_hide_show)
+	{
+	GLOBALS->force_hide_show = 2;
+	}
+#endif
 
 make_sigarea_gcs(widget);
 UpdateTracesVisible();

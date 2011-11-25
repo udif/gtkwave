@@ -6274,10 +6274,15 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Edit/Insert Comment", NULL, menu_insert_comment_traces, WV_MENU_EIC, "<Item>"),
     WAVE_GTKIFE("/Edit/Insert Analog Height Extension", NULL, menu_insert_analog_height_extension, WV_MENU_EIA, "<Item>"),
 
-
+#ifdef MAC_INTEGRATION
+    WAVE_GTKIFE("/Edit/Cut", NULL, menu_cut_traces, WV_MENU_EC, "<Item>"),
+    WAVE_GTKIFE("/Edit/Copy", NULL, menu_copy_traces, WV_MENU_ECY, "<Item>"),
+    WAVE_GTKIFE("/Edit/Paste", NULL, menu_paste_traces, WV_MENU_EP, "<Item>"),
+#else
     WAVE_GTKIFE("/Edit/Cut", "<Control>X", menu_cut_traces, WV_MENU_EC, "<Item>"),
     WAVE_GTKIFE("/Edit/Copy", "<Control>C", menu_copy_traces, WV_MENU_ECY, "<Item>"),
     WAVE_GTKIFE("/Edit/Paste", "<Control>V", menu_paste_traces, WV_MENU_EP, "<Item>"),
+#endif
 
     WAVE_GTKIFE("/Edit/<separator>", NULL, NULL, WV_MENU_SEP3A, "<Separator>"),
 
@@ -6355,8 +6360,15 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Edit/<separator>", NULL, NULL, WV_MENU_SEP6A1, "<Separator>"),
     WAVE_GTKIFE("/Edit/Highlight Regexp", "<Alt>R", menu_regexp_highlight, WV_MENU_EHR, "<Item>"),
     WAVE_GTKIFE("/Edit/UnHighlight Regexp", "<Shift><Alt>R", menu_regexp_unhighlight, WV_MENU_EUHR, "<Item>"),
+
+#ifdef MAC_INTEGRATION
+    WAVE_GTKIFE("/Edit/Highlight All", NULL, menu_dataformat_highlight_all, WV_MENU_EHA, "<Item>"),
+    WAVE_GTKIFE("/Edit/UnHighlight All", NULL, menu_dataformat_unhighlight_all, WV_MENU_EUHA, "<Item>"),
+#else
     WAVE_GTKIFE("/Edit/Highlight All", "<Control>A", menu_dataformat_highlight_all, WV_MENU_EHA, "<Item>"),
     WAVE_GTKIFE("/Edit/UnHighlight All", "<Shift><Control>A", menu_dataformat_unhighlight_all, WV_MENU_EUHA, "<Item>"),
+#endif
+
     WAVE_GTKIFE("/Edit/<separator>", NULL, NULL, WV_MENU_SEP6B, "<Separator>"),
     WAVE_GTKIFE("/Edit/Sort/Alphabetize All", NULL, menu_alphabetize, WV_MENU_ALPHA, "<Item>"),
     WAVE_GTKIFE("/Edit/Sort/Alphabetize All (CaseIns)", NULL, menu_alphabetize2, WV_MENU_ALPHA2, "<Item>"),
@@ -7129,9 +7141,11 @@ if(accel && menuitem && path)
 		gtk_accelerator_parse(accelerator, &accelerator_key, &accelerator_mods);
 
 #ifdef MAC_INTEGRATION
-		if(accelerator_mods & GDK_MOD1_MASK)
+		if((accelerator_mods & GDK_MOD1_MASK) ||
+			(!accelerator_mods) || (accelerator_mods == GDK_SHIFT_MASK))
 			{
 			no_map = 1; /* ALT not available with GTK menus on OSX? */
+				    /* also remove "normal" keys to avoid conflicts with OSX menubar */
 			}
 		if(accelerator_mods & GDK_CONTROL_MASK)
 			{

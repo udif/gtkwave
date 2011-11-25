@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	23nov11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+3.3.29	25nov11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
 		was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar 
@@ -1080,3 +1080,5 @@
 		Detect context swapping in file chooser from DnD to prevent
 		possible crashes.
 		Block DnD while file chooser is active.
+		Migrate OSX to OSX key accelerators.
+		Add GLOBALS->force_hide_show to force redraws in OSX.

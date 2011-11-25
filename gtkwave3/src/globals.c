@@ -772,6 +772,7 @@ NULL, /* tcache_showchange_c_1 367 */
 NULL, /* signalarea 369 */
 NULL, /* signalfont 370 */
 NULL, /* signalpixmap 371 */
+0, /* force_hide_show */
 0, /* max_signal_name_pixel_width 372 */
 0, /* signal_pixmap_width 373 */
 0, /* signal_fill_width 374 */

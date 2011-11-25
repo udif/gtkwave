@@ -769,6 +769,7 @@ unsigned int flags_showchange_c_1; /* from showchange.c 395 */
 GtkWidget *signalarea; /* from signalwindow.c 396 */
 struct font_engine_font_t *signalfont; /* from signalwindow.c 397 */
 GdkDrawable *signalpixmap; /* from signalwindow.c 398 */
+char force_hide_show;
 int max_signal_name_pixel_width; /* from signalwindow.c 399 */
 int signal_pixmap_width; /* from signalwindow.c 400 */
 int signal_fill_width; /* from signalwindow.c 401 */

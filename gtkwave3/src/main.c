@@ -1596,7 +1596,7 @@ if(GLOBALS->use_toolbutton_interface)
 GtkOSXApplication *theApp = theApp = g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
 gtk_widget_hide(menubar);
 gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
-/* gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE); */
+gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE);
 gtk_osxapplication_ready(theApp);
 gtk_osxapplication_set_dock_icon_pixbuf(theApp, dock_pb);
 if(GLOBALS->loaded_file_type == MISSING_FILE)
@@ -1838,7 +1838,7 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 GtkOSXApplication *theApp = theApp = g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
 gtk_widget_hide(menubar);
 gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
-/* gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE); */
+gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE);
 gtk_osxapplication_ready(theApp);
 gtk_osxapplication_set_dock_icon_pixbuf(theApp, dock_pb);
 if(GLOBALS->loaded_file_type == MISSING_FILE)
