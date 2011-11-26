@@ -672,6 +672,33 @@ scroll_event( GtkWidget * widget, GdkEventScroll * event )
 #endif
 
 
+#ifdef MAC_INTEGRATION
+static gboolean osx_timer(gpointer dummy)
+{
+if(GLOBALS)
+	{
+	if(GLOBALS->force_hide_show == 2)
+		{
+		if((GLOBALS->signalarea)&&(GLOBALS->wavearea))
+			{
+			gtk_widget_hide(GLOBALS->signalarea);
+			gtk_widget_show(GLOBALS->signalarea);
+			gtk_widget_hide(GLOBALS->wavearea);
+			gtk_widget_show(GLOBALS->wavearea);
+			}
+		}
+
+	if(GLOBALS->force_hide_show)
+		{
+		GLOBALS->force_hide_show--;
+		}
+	}
+
+return(TRUE);
+}
+#endif
+
+
 static gboolean mouseover_timer(gpointer dummy)
 {
 static gboolean run_once = FALSE;
@@ -702,21 +729,6 @@ if(GLOBALS->dnd_helper_quartz)
 #endif   
 #endif
 
-#ifdef MAC_INTEGRATION
-if(GLOBALS->force_hide_show == 2)
-	{
-	gtk_widget_hide(GLOBALS->signalarea);
-	gtk_widget_show(GLOBALS->signalarea);
-	gtk_widget_hide(GLOBALS->wavearea);
-	gtk_widget_show(GLOBALS->wavearea);
-	}
-#endif
-
-if(GLOBALS->force_hide_show)
-	{
-	GLOBALS->force_hide_show--;
-	}
-
 if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
 	return(TRUE);
@@ -728,7 +740,7 @@ if(run_once == FALSE) /* avoid any race conditions with the toolkit for uninitia
 	return(TRUE);
 	}
 
-if((!GLOBALS) || (!GLOBALS->signalarea) || (!GLOBALS->signalarea->window))                 
+if((!GLOBALS->signalarea) || (!GLOBALS->signalarea->window))                 
 	{
 	return(TRUE);
 	}
@@ -1427,6 +1439,9 @@ if(GLOBALS->use_standard_clicking)
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->signalarea), "button_release_event", GTK_SIGNAL_FUNC(button_release_event_std), NULL);
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->signalarea), "motion_notify_event",GTK_SIGNAL_FUNC(motion_notify_event_std), NULL);
 	g_timeout_add(100, mouseover_timer, NULL);
+#ifdef MAC_INTEGRATION
+	g_timeout_add(20, osx_timer, NULL);
+#endif
 
 #ifdef WAVE_USE_GTK2
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->signalarea), "scroll_event",GTK_SIGNAL_FUNC(scroll_event), NULL);

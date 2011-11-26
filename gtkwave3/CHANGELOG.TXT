@@ -1082,3 +1082,4 @@
 		Block DnD while file chooser is active.
 		Migrate OSX to OSX key accelerators.
 		Add GLOBALS->force_hide_show to force redraws in OSX.
+		Added osx_timer() which controls foreced redraw.
