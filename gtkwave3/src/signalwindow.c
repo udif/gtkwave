@@ -1440,7 +1440,7 @@ if(GLOBALS->use_standard_clicking)
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->signalarea), "motion_notify_event",GTK_SIGNAL_FUNC(motion_notify_event_std), NULL);
 	g_timeout_add(100, mouseover_timer, NULL);
 #ifdef MAC_INTEGRATION
-	g_timeout_add(20, osx_timer, NULL);
+	g_timeout_add(100, osx_timer, NULL);
 #endif
 
 #ifdef WAVE_USE_GTK2
