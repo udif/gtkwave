@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Yiftach Tzori 2009-2011.
+ * Copyright (c) Yiftach Tzori 2009-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,6 +35,7 @@ GtkCTreeNode *SST_find_node_by_path(GtkCTreeRow *root, char *path) {
   GtkCTreeRow *gctr = root ;
   GtkCTreeNode *node = gctr->parent ;
   struct tree *t ;
+  int i ;
   /* in the cases of path that where generated inside a `generate-for' block
    * path name will contain '[]'. This will prompt TCL to soround PATH with
    * '{' and '}'
@@ -47,6 +48,7 @@ GtkCTreeNode *SST_find_node_by_path(GtkCTreeRow *root, char *path) {
     if ((p1 = strchr(p, '.'))) 
       *p1 = '\0' ;
     t = (struct tree *)(gctr->row.data) ;
+    i = 0 ;
     while (strcmp(t->name, p)) { /* name mis-match */
       if (!(node = gctr->sibling)) { /* no more siblings */
 	gctr = NULL ;
@@ -55,10 +57,13 @@ GtkCTreeNode *SST_find_node_by_path(GtkCTreeRow *root, char *path) {
 	gctr = GTK_CTREE_ROW(node);
 	t = (struct tree *)(gctr->row.data) ;
       }
+      i++ ;
     }
     if (gctr) {			/* normal exit from the above */
-      if(!p1) {						    /* last in chain */
-		/* node = gctr ; */
+      if(!p1) {/* first/last in chain */
+	if(i == 0)		/* first */
+	  if(gctr->children)
+	    node = GTK_CTREE_ROW(gctr->children)->parent ;
 	break ;
       } else {			/* keep going down the hierarchy */
 	if (!(node = gctr->children))
@@ -80,7 +85,10 @@ GtkCTreeNode *SST_find_node_by_path(GtkCTreeRow *root, char *path) {
 int SST_open_path(GtkCTree *ctree, GtkCTreeNode *node) {
   GtkCTreeRow *row ;
   for(row = GTK_CTREE_ROW(node) ; row->parent; row = GTK_CTREE_ROW(row->parent)) {
-    gtk_ctree_expand(ctree, row->parent);
+    if(row->parent)
+      gtk_ctree_expand(ctree, row->parent);
+    else
+      break ;
   }
   return 0 ;
 }
@@ -535,7 +543,7 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
   }
   if (t) {			/* we have a signal */
     /* create a list of value change structs (hptrs or vptrs */
-    int nelem = 0 /* , bw = -1  */ ; /* scan-build */
+    int nelem = 0 /* , bw = -1 */ ; /* scan-build */
     TimeType tstart = (dir == STRACE_FORWARD) ? start_time : end_time ;
     TimeType tend = (dir == STRACE_FORWARD) ? end_time : start_time ;
     if ((dir == STRACE_BACKWARD) && (max_elements == 1))
@@ -545,7 +553,7 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
     if (!t->vector) {
       hptr h, h1;
       int len = 0  ;
-      /* scan-build :
+      /* scan-build : 
       if(t->n.nd->extvals) {
 	bw = abs(t->n.nd->msi - t->n.nd->lsi) + 1 ;
       }
