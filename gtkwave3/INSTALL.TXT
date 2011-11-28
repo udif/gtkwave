@@ -136,6 +136,8 @@ cd contrib/bundle_for_osx
 ./make_bundle.sh
 
 This assumes that Judy arrays and XZ were both already compiled and installed.
+If Judy arrays are not installed, do not add --enable-judy.
+If XZ is not installed, add --disable-xz.
 
 -231111ajb  bybell@nc.rr.com
 
