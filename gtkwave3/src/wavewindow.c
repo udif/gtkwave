@@ -1065,7 +1065,11 @@ do
 		}
 
 	/* warp selected signals if CTRL is pressed */
+#ifdef MAC_INTEGRATION
+        if((event->state & GDK_MOD2_MASK)&&(state&GDK_BUTTON1_MASK))
+#else
         if((event->state & GDK_CONTROL_MASK)&&(state&GDK_BUTTON1_MASK))
+#endif
 		{
 	  	int warp = 0;
           	Trptr t = GLOBALS->traces.first;
@@ -1175,7 +1179,11 @@ num_traces_displayable--;
 	}
 	else
 	{
+#ifdef MAC_INTEGRATION
+      	if ( event->state & GDK_MOD2_MASK )
+#else
       	if ( event->state & GDK_CONTROL_MASK )
+#endif
         	service_left_shift(NULL, 0);
       	else if ( event->state & GDK_MOD1_MASK )
 		service_zoom_out(NULL, 0);
@@ -1196,7 +1204,11 @@ num_traces_displayable--;
 		}
 	}
 	{
+#ifdef MAC_INTEGRATION
+      	if ( event->state & GDK_MOD2_MASK )
+#else
       	if ( event->state & GDK_CONTROL_MASK )
+#endif
         	service_right_shift(NULL, 0);
       	else if ( event->state & GDK_MOD1_MASK )
 		service_zoom_in(NULL, 0);
@@ -1228,7 +1240,11 @@ if((event->button==1)||((event->button==3)&&(!GLOBALS->in_button_press_wavewindo
 		GDK_POINTER_MOTION_HINT_MASK |
 	      	GDK_BUTTON_RELEASE_MASK, NULL, NULL, event->time);
 	
+#ifdef MAC_INTEGRATION
+	if ((event->state & GDK_MOD2_MASK) && (event->button==1))
+#else
 	if ((event->state & GDK_CONTROL_MASK) && (event->button==1))
+#endif
 		{
 		Trptr t = GLOBALS->traces.first;
 
@@ -1267,7 +1283,11 @@ if((event->button)&&(event->button==GLOBALS->in_button_press_wavewindow_c_1))
 	  	int warp = 0;
           	Trptr t = GLOBALS->traces.first;
 
+#ifdef MAC_INTEGRATION
+		if(event->state & GDK_MOD2_MASK)
+#else
 		if(event->state & GDK_CONTROL_MASK)
+#endif
 			{	
 			TimeType gt, delta;
 

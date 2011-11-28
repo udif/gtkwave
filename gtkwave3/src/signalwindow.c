@@ -969,7 +969,7 @@ if((GLOBALS->traces.visible)&&(GLOBALS->signalpixmap))
 	if(which>=GLOBALS->traces.visible)
 		{
 #ifdef MAC_INTEGRATION
-		if((event->state&(GDK_META_MASK|GDK_SHIFT_MASK)) == (GDK_SHIFT_MASK))
+		if((event->state&(GDK_MOD2_MASK|GDK_SHIFT_MASK)) == (GDK_SHIFT_MASK))
 #else
 		if((event->state&(GDK_CONTROL_MASK|GDK_SHIFT_MASK)) == (GDK_SHIFT_MASK))
 #endif
@@ -1008,8 +1008,9 @@ if((GLOBALS->traces.visible)&&(GLOBALS->signalpixmap))
 	                }
 	        }
 
+
 #ifdef MAC_INTEGRATION
-	if(event->state & GDK_META_MASK)
+	if(event->state & GDK_MOD2_MASK)
 #else
 	if(event->state&GDK_CONTROL_MASK)
 #endif
