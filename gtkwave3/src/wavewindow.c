@@ -3136,7 +3136,7 @@ if(_x0!=_x1)
 		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0+2, _y1+2); 
 		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0-2, _y1+2); 
 		}
-	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start+GLOBALS->shift_timebase;	/* skip to next pixel */
+	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start/*+GLOBALS->shift_timebase*/;	/* skip to next pixel */ //
 	h3=bsearch_node(t->n.nd,newtime);
 	if(h3->time>h->time)
 		{
@@ -3625,7 +3625,7 @@ yt1 = coords[3];
 	}
 	else
 	{
-	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start+GLOBALS->shift_timebase;	/* skip to next pixel */
+	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start/*+GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	h3=bsearch_node(t->n.nd,newtime);
 	if(h3->time>h->time)
 		{
@@ -3925,7 +3925,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 	}
 	else
 	{
-	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start+GLOBALS->shift_timebase;	/* skip to next pixel */
+	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start/*+GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	h3=bsearch_node(t->n.nd,newtime);
 	if(h3->time>h->time)
 		{
@@ -4304,7 +4304,7 @@ if(_x0!=_x1)
 	}
 	else
 	{
-	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start+GLOBALS->shift_timebase;	/* skip to next pixel */
+	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start/*+GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	h3=bsearch_vector(t->n.vec,newtime);
 	if(h3->time>h->time)
 		{
@@ -4593,7 +4593,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 	}
 	else
 	{
-	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start+GLOBALS->shift_timebase;	/* skip to next pixel */
+	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start/*+GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	h3=bsearch_vector(t->n.vec,newtime);
 	if(h3->time>h->time)
 		{

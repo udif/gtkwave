@@ -1085,3 +1085,5 @@
 		Added osx_timer() which controls foreced redraw.
 		Fix for tcl code opening the root node.
 		Fix time warp cmd->control mapping for OSX.
+		Fix for time warped traces not rendering properly when
+		x-coordinate overdraw is detected.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2011. 
+ * Copyright (c) Tony Bybell 1999-2012. 
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free
@@ -1516,7 +1516,7 @@ pr_draw_hptr_trace (pr_context * prc, Trptr t, hptr h, int which, int dodraw,
                   pr_draw_line(prc, _x0, _y1, _x0-2, _y1+2);
 		}
 
-	    newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start + GLOBALS->shift_timebase;	/* skip to next pixel */
+	    newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start /*+ GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	    h3 = bsearch_node (t->n.nd, newtime);
 	    if (h3->time > h->time)
 	      {
@@ -1979,7 +1979,7 @@ yt1 = coords[3];
 	}
       else
 	{
-	  newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start + GLOBALS->shift_timebase;	/* skip to next pixel */
+	  newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start /*+ GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	  h3 = bsearch_node (t->n.nd, newtime);
 	  if (h3->time > h->time)
 	    {
@@ -2243,7 +2243,7 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
 	}
       else
 	{
-	  newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start + GLOBALS->shift_timebase;	/* skip to next pixel */
+	  newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start /*+ GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	  h3 = bsearch_node (t->n.nd, newtime);
 	  if (h3->time > h->time)
 	    {
@@ -2603,7 +2603,7 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 	}
       else
 	{
-	  newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start + GLOBALS->shift_timebase;	/* skip to next pixel */
+	  newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start /*+ GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	  h3 = bsearch_vector (t->n.vec, newtime);
 	  if (h3->time > h->time)
 	    {
@@ -2836,7 +2836,7 @@ pr_draw_vptr_trace (pr_context * prc, Trptr t, vptr v, int which)
 	}
       else
 	{
-	  newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start + GLOBALS->shift_timebase;	/* skip to next pixel */
+	  newtime = (((gdouble) (_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) + GLOBALS->tims.start /*+ GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	  h3 = bsearch_vector (t->n.vec, newtime);
 	  if (h3->time > h->time)
 	    {
