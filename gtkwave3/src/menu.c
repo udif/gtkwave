@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2011.
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -7418,7 +7418,7 @@ osx_menu_sensitivity(FALSE);
 
 void wave_gtk_grab_remove(GtkWidget *w)
 {
-gtk_grab_add(w);
+gtk_grab_remove(w);
 
 #ifdef MAC_INTEGRATION
 osx_menu_sensitivity(TRUE);
