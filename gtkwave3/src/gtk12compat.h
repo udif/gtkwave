@@ -1,6 +1,10 @@
 #ifndef WAVE_GTK12COMPAT_H
 #define WAVE_GTK12COMPAT_H
 
+#ifdef MAC_INTEGRATION
+/* #undef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND */
+#endif
+
 #if WAVE_USE_GTK2
 
 #define WAVE_GTKIFE(a,b,c,d,e) {a,b,c,d,e,NULL}

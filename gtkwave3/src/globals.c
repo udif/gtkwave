@@ -772,7 +772,9 @@ NULL, /* tcache_showchange_c_1 367 */
 NULL, /* signalarea 369 */
 NULL, /* signalfont 370 */
 NULL, /* signalpixmap 371 */
+#ifdef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND
 0, /* force_hide_show */
+#endif
 0, /* max_signal_name_pixel_width 372 */
 0, /* signal_pixmap_width 373 */
 0, /* signal_fill_width 374 */

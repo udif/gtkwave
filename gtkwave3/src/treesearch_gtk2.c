@@ -391,20 +391,24 @@ static void tree_expand_callback(GtkCTree *ctree, GtkCTreeNode *node, gpointer u
 {
 create_sst_nodes_if_necessary(node);
 generic_tree_expand_collapse_callback(1, node);
+#ifdef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND
 #ifdef MAC_INTEGRATION
 /* workaround for ctree not rendering properly in OSX */
 gtk_widget_hide(GTK_WIDGET(GLOBALS->tree_treesearch_gtk2_c_1));
 gtk_widget_show(GTK_WIDGET(GLOBALS->tree_treesearch_gtk2_c_1));
+#endif
 #endif
 }
  
 static void tree_collapse_callback(GtkCTree *ctree, GtkCTreeNode *node, gpointer user_data) 
 {
 generic_tree_expand_collapse_callback(0, node);
+#ifdef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND
 #ifdef MAC_INTEGRATION
 /* workaround for ctree not rendering properly in OSX */
 gtk_widget_hide(GTK_WIDGET(GLOBALS->tree_treesearch_gtk2_c_1));
 gtk_widget_show(GTK_WIDGET(GLOBALS->tree_treesearch_gtk2_c_1));
+#endif
 #endif
 }
 

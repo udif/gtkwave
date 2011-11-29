@@ -672,6 +672,7 @@ scroll_event( GtkWidget * widget, GdkEventScroll * event )
 #endif
 
 
+#ifdef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND
 #ifdef MAC_INTEGRATION
 static gboolean osx_timer(gpointer dummy)
 {
@@ -696,6 +697,7 @@ if(GLOBALS)
 
 return(TRUE);
 }
+#endif
 #endif
 
 
@@ -1144,11 +1146,13 @@ int width;
 
 if((!widget)||(!widget->window)) return(TRUE);
 
+#ifdef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND
 #ifdef MAC_INTEGRATION
 if(!GLOBALS->force_hide_show)
 	{
 	GLOBALS->force_hide_show = 2;
 	}
+#endif
 #endif
 
 make_sigarea_gcs(widget);
@@ -1440,8 +1444,10 @@ if(GLOBALS->use_standard_clicking)
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->signalarea), "button_release_event", GTK_SIGNAL_FUNC(button_release_event_std), NULL);
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->signalarea), "motion_notify_event",GTK_SIGNAL_FUNC(motion_notify_event_std), NULL);
 	g_timeout_add(100, mouseover_timer, NULL);
+#ifdef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND
 #ifdef MAC_INTEGRATION
 	g_timeout_add(100, osx_timer, NULL);
+#endif
 #endif
 
 #ifdef WAVE_USE_GTK2
