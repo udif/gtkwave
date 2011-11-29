@@ -1089,3 +1089,5 @@
 		needs to be set at compile time which gates redraw.
 		Add GLOBALS->force_hide_show to force redraws in OSX.
 		Added osx_timer() which controls forced redraw.
+		Abort GHW read when nbr_el<0: indicates malformed file from
+		variable/signal construct of form (7 to 0) rather than downto.
