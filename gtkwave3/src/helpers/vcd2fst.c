@@ -262,7 +262,9 @@ while(!feof(f))
 			case FST_VT_VCD_PORT: len = (len * 3) + 2; break;
 			case FST_VT_GEN_STRING: len = 0; break;
 			case FST_VT_VCD_EVENT: len = (len != 0) ? len : 1;  break;
-			default: break;
+			default: 
+				if(len == 0) { len = 1; }
+				break;
 			}
 
 		st = strtok(NULL, " \t"); /* vcdid */
