@@ -1093,3 +1093,4 @@
 		variable/signal construct of form (7 to 0) rather than downto.
 		Crash fix for non-string len zero facilities in vcd2fst.
 		Fixed overflow in draw_hptr_trace_vector_analog().
+		Added rtlbrowse and vcd2fst binary path finding code to OSX.

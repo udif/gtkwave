@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2011.
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -2705,9 +2705,31 @@ if(GLOBALS->stems_type != WAVE_ANNO_NONE)
 					else
 					{
 					char buf[64];
+#ifdef MAC_INTEGRATION
+					const gchar *p = quartz_application_get_executable_path();
+#endif
 					sprintf(buf, "%08x", shmid);
+
+#ifdef MAC_INTEGRATION
+					if(p && strstr(p, "Contents/"))
+						{
+						const char *xec = "../Resources/bin/rtlbrowse";
+						char *res = strdup_2(p);
+						char *slsh = strrchr(res, '/');
+						if(slsh)
+							{
+							*(slsh+1) = 0;
+							res = realloc_2(res, strlen(res) + strlen(xec) + 1);
+							strcat(res, xec);
+						        execlp(res, "rtlbrowse", buf, NULL);
+							fprintf(stderr, "GTKWAVE | Could not find '%s' in .app!\n", res);
+							free_2(res);
+							}
+						}
+#endif
 				        execlp("rtlbrowse", "rtlbrowse", buf, NULL);
-				        exit(0);        /* control never gets here if successful */
+					fprintf(stderr, "GTKWAVE | Could not find rtlbrowse executable, exiting!\n");
+				        exit(255); /* control never gets here if successful */
 					}
 				}
 			}
@@ -2788,7 +2810,26 @@ void optimize_vcd_file(void) {
         }					
       }
       else {
+#ifdef MAC_INTEGRATION
+	const gchar *p = quartz_application_get_executable_path();
+	if(p && strstr(p, "Contents/"))
+		{
+		const char *xec = "../Resources/bin/vcd2fst";
+		char *res = strdup_2(p);
+		char *slsh = strrchr(res, '/');
+		if(slsh)
+			{
+			*(slsh+1) = 0;
+			res = realloc_2(res, strlen(res) + strlen(xec) + 1);
+			strcat(res, xec);
+		        execlp(res, "vcd2fst", GLOBALS->unoptimized_vcd_file_name, buf, NULL);
+			fprintf(stderr, "GTKWAVE | Could not find '%s' in .app!\n", res);
+			free_2(res);
+			}
+		}
+#endif
         execlp("vcd2fst", "vcd2fst", GLOBALS->unoptimized_vcd_file_name, buf, NULL);
+	fprintf(stderr, "GTKWAVE | Could not find vcd2fst executable, exiting!\n");
 	exit(255);
       }
     }
@@ -2796,4 +2837,3 @@ void optimize_vcd_file(void) {
   }	
 }
 #endif
-
