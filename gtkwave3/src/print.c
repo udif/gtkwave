@@ -1876,11 +1876,18 @@ else if(yt1 > _y0) yt1 = _y0;
 {
 int coords[4];
 int rect[4];
-                        
-coords[0] = _x0; 
+
+if(_x0 < INT_MIN) { coords[0] = INT_MIN; }
+else if(_x0 > INT_MAX) { coords[0] = INT_MAX; }
+else { coords[0] = _x0; }
+
+if(_x1 < INT_MIN) { coords[2] = INT_MIN; }
+else if(_x1 > INT_MAX) { coords[2] = INT_MAX; }
+else { coords[2] = _x1; }
+
 coords[1] = yt0;
-coords[2] = _x1;
 coords[3] = yt1;
+
                                 
 rect[0] = -10;   
 rect[1] = _y1;
