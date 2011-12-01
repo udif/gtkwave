@@ -2559,7 +2559,6 @@ static int menu_func(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Ob
 gtkwave_mlist_t *ife = (gtkwave_mlist_t *)clientData;
 int i;
 struct wave_script_args *old_wave_script_args = GLOBALS->wave_script_args; /* stackable args */
-struct wave_script_args *wprev;
 char fexit = GLOBALS->enable_fast_exit;
 
 if(GLOBALS->in_tcl_callback) /* don't allow callbacks to call menu functions (yet) */
@@ -2588,11 +2587,12 @@ if(GLOBALS->in_tcl_callback) /* don't allow callbacks to call menu functions (ye
 	}
 
 GLOBALS->wave_script_args = NULL;
-wprev = NULL;	
 GLOBALS->enable_fast_exit = 1;
 
 if(objc > 1)
 	{
+	struct wave_script_args *wc = NULL;
+
 	for(i=1;i<objc;i++)
 		{
 		char *s = Tcl_GetString(objv[i]);
@@ -2613,10 +2613,10 @@ if(objc > 1)
 			}
 			else
 			{
-			wprev->next = w;
+			wc->next = w; /* we later really traverse through curr->next from the head pointer */
 			}
 
-		wprev = w;			
+		wc = w;
 		}
 
 	if(!GLOBALS->wave_script_args) /* create a dummy list in order to keep requesters from popping up in file.c, etc. */

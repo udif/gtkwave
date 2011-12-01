@@ -1096,3 +1096,5 @@
 		Added rtlbrowse and vcd2fst binary path finding code to OSX.
 		Changed ps2pdf to pstopdf on Mac.
 		Fixed broken wave_script_args.
+		Reverted to 3.3.26 code in menu_func() as the renderbox
+		requester did not work from TCL anymore.
