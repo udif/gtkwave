@@ -2559,6 +2559,7 @@ static int menu_func(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Ob
 gtkwave_mlist_t *ife = (gtkwave_mlist_t *)clientData;
 int i;
 struct wave_script_args *old_wave_script_args = GLOBALS->wave_script_args; /* stackable args */
+struct wave_script_args *wprev;
 char fexit = GLOBALS->enable_fast_exit;
 
 if(GLOBALS->in_tcl_callback) /* don't allow callbacks to call menu functions (yet) */
@@ -2587,6 +2588,7 @@ if(GLOBALS->in_tcl_callback) /* don't allow callbacks to call menu functions (ye
 	}
 
 GLOBALS->wave_script_args = NULL;
+wprev = NULL;	
 GLOBALS->enable_fast_exit = 1;
 
 if(objc > 1)
@@ -2603,11 +2605,18 @@ if(objc > 1)
 			}
 		w->curr = NULL; /* yes, curr is only ever used for the 1st struct, but there is no sense creating head/follower structs for this */
 		w->next = NULL;
+
 		if(!GLOBALS->wave_script_args)
 			{
 			GLOBALS->wave_script_args = w;
 			w->curr = w;
 			}
+			else
+			{
+			wprev->next = w;
+			}
+
+		wprev = w;			
 		}
 
 	if(!GLOBALS->wave_script_args) /* create a dummy list in order to keep requesters from popping up in file.c, etc. */

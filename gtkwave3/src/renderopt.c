@@ -271,6 +271,9 @@ void renderbox(char *title)
                 }
                 else
                 {
+printf("s1: '%s'\n", s1);
+printf("s2: '%s'\n", s2);
+printf("s3: '%s'\n", s3);
 		fprintf(stderr, "Missing script entries for renderbox, exiting.\n");
 		exit(255);
                 }
