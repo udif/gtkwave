@@ -512,7 +512,8 @@ else
 	GTK_VER=`$PKG_CONFIG gtk+-2.0 --modversion`
 
 	_gdk_tgt=`$PKG_CONFIG --variable=target gdk-2.0`
-	AM_CONDITIONAL([GDK_TARGET_QUARTZ], [test x$_gdk_tgt = xquartz])
+# removed...causes problems with gtk-1.2...
+# AM_CONDITIONAL([GDK_TARGET_QUARTZ], [test x$_gdk_tgt = xquartz])
 	if test "x$_gdk_tgt" = xquartz; then
 	   PKG_CHECK_MODULES(GTK_MAC, gtk-mac-integration)
 	   AC_SUBST(GTK_MAC_LIBS)
