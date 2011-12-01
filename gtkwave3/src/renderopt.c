@@ -154,7 +154,6 @@ if(GLOBALS->filesel_ok)
 				unlink(*GLOBALS->fileselbox_text);
 				}
 			free_2(sysname);
-printf("'%s'\n", zname);
 			unlink(zname);
 			}
 
