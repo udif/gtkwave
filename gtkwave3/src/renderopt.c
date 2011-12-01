@@ -111,6 +111,14 @@ if(GLOBALS->filesel_ok)
 		int len = strlen(*GLOBALS->fileselbox_text) ;
 		char *zname = malloc_2(len + 4);
 		strcpy(zname, *GLOBALS->fileselbox_text);
+
+#ifdef MAC_INTEGRATION
+		if((len > 4)&&(!strcmp(".pdf", zname+len-4)))
+			{
+			zname[len-4] = 0;
+			len-=4;
+			}
+#endif
 		strcpy(zname+len, ".ps");
 
 		if(!(wave2=fopen(zname,"wb")))		
@@ -123,10 +131,14 @@ if(GLOBALS->filesel_ok)
 			}
 			else
 			{
-			char *sysname = malloc_2(6 + 1 + len + 3 + 1 + len + 1);
+			char *sysname = malloc_2(7 + 1 + len + 3 + 1 + len + 1);
 			int rc;	
 
+#ifdef MAC_INTEGRATION
+			sprintf(sysname, "pstopdf"	/* 7 */
+#else
 			sprintf(sysname, "ps2pdf"	/* 6 */
+#endif
 					 " "		/* 1 */
 					 "%s"		/* len + 3 */
 					 " "		/* 1 */
@@ -142,6 +154,7 @@ if(GLOBALS->filesel_ok)
 				unlink(*GLOBALS->fileselbox_text);
 				}
 			free_2(sysname);
+printf("'%s'\n", zname);
 			unlink(zname);
 			}
 
