@@ -1095,3 +1095,4 @@
 		Fixed overflow in draw_hptr_trace_vector_analog().
 		Added rtlbrowse and vcd2fst binary path finding code to OSX.
 		Changed ps2pdf to pstopdf on Mac.
+		Fixed broken wave_script_args.
