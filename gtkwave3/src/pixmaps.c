@@ -5359,8 +5359,12 @@ static char *icon_link[] = {
 #define wave_gdk_pixmap_create_from_xpm_d(A,B,C,D) gdk_pixmap_create_from_xpm_d(A,B,C,D)
 #endif
 
-
-GdkPixbuf *make_pixmaps(GtkWidget *window)
+#ifdef MAC_INTEGRATION
+GdkPixbuf *
+#else
+void
+#endif
+make_pixmaps(GtkWidget *window)
 {
 GtkStyle *style;
 #ifdef WAVE_USE_GTK2
@@ -5445,7 +5449,7 @@ gp = xg_get_pixbuf_from_pix_and_mask(GLOBALS->wave_info_pixmap, GLOBALS->wave_in
 gtk_window_set_icon(GTK_WINDOW(window), gp);
 return(gp);
 #else
-return(NULL);
+return;
 #endif
 }
 

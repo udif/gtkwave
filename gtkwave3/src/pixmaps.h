@@ -14,7 +14,12 @@
 
 #include <gtk/gtk.h>
 
-GdkPixbuf *make_pixmaps(GtkWidget *window);
+#ifdef MAC_INTEGRATION
+GdkPixbuf *
+#else
+void
+#endif
+make_pixmaps(GtkWidget *window);
 
 #ifdef WAVE_USE_GTK2
 
