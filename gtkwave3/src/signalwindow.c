@@ -734,12 +734,27 @@ if(GLOBALS->dnd_helper_quartz)
 #ifdef MAC_INTEGRATION
 if(GLOBALS->finder_name_integration)
 	{
-	char *fni = g_malloc(strlen(GLOBALS->finder_name_integration) + 1);
+	int plen = strlen(GLOBALS->finder_name_integration);
+	char *fni = g_malloc(plen + 32); /* extra space for message */
+
+	sprintf(fni, "Loading %s...", GLOBALS->finder_name_integration);
+	gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
+
 	strcpy(fni, GLOBALS->finder_name_integration);
+
 	free_2(GLOBALS->finder_name_integration);
 	GLOBALS->finder_name_integration = NULL;
-	menu_new_viewer_tab_cleanup_2(fni); 
+
+	if(!menu_new_viewer_tab_cleanup_2(fni))
+		{
+		if(GLOBALS->winname)
+			{
+			gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
+			}
+		}
+
 	g_free(fni);
+	return(TRUE);
 	}
 #endif
 
