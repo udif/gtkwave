@@ -1099,3 +1099,4 @@
 		Reverted to 3.3.26 code in menu_func() as the renderbox
 		requester did not work from TCL anymore.
 		Catch NSApplicationOpenFile so files can be opened from Finder.
+		Add command line support for open for OSX.

@@ -379,12 +379,20 @@ void addPidToExecutableName(int argc, char* argv[], char* argv_mod[])
  */
 static gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
 {
-if(GLOBALS->finder_name_integration)
+if(!GLOBALS->finder_name_integration)
 	{
-	free_2(GLOBALS->finder_name_integration);
+	GLOBALS->finder_name_integration = g_malloc(sizeof(struct logfile_chain));
+	GLOBALS->finder_name_integration->name = g_strdup(path);
+	GLOBALS->finder_name_integration->next = NULL;
 	}
-
-GLOBALS->finder_name_integration = strdup_2(path);
+	else
+	{
+	struct logfile_chain *p = GLOBALS->finder_name_integration;
+	while(p->next) p = p->next;
+	p->next = g_malloc(sizeof(struct logfile_chain));
+	p->next->name = g_strdup(path);
+	p->next->next = NULL;
+	}
 
 return(TRUE);
 }

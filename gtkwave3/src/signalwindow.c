@@ -734,26 +734,37 @@ if(GLOBALS->dnd_helper_quartz)
 #ifdef MAC_INTEGRATION
 if(GLOBALS->finder_name_integration)
 	{
-	int plen = strlen(GLOBALS->finder_name_integration);
-	char *fni = g_malloc(plen + 32); /* extra space for message */
+	struct logfile_chain *lc = GLOBALS->finder_name_integration;
+	struct logfile_chain *lc_next;
 
-	sprintf(fni, "Loading %s...", GLOBALS->finder_name_integration);
-	gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
-
-	strcpy(fni, GLOBALS->finder_name_integration);
-
-	free_2(GLOBALS->finder_name_integration);
-	GLOBALS->finder_name_integration = NULL;
-
-	if(!menu_new_viewer_tab_cleanup_2(fni))
+	while(lc)
 		{
-		if(GLOBALS->winname)
+		int plen = strlen(lc->name);
+		char *fni = g_malloc(plen + 32); /* extra space for message */
+
+		sprintf(fni, "Loading %s...", lc->name);
+		gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
+
+		strcpy(fni, lc->name);
+
+		g_free(lc->name);
+
+		if(!menu_new_viewer_tab_cleanup_2(fni))
 			{
-			gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
+			if(GLOBALS->winname)
+				{
+				gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
+				}
 			}
+
+		g_free(fni);
+
+		lc_next = lc->next;
+		g_free(lc);
+		lc = lc_next;
 		}
 
-	g_free(fni);
+	GLOBALS->finder_name_integration = NULL;
 	return(TRUE);
 	}
 #endif

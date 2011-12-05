@@ -465,7 +465,7 @@ unsigned int *lastchange;
  * main.c
  */
 #ifdef MAC_INTEGRATION
-char *finder_name_integration;
+struct logfile_chain *finder_name_integration;
 #endif
 GtkWidget *missing_file_toolbar;
 char *argvlist;
