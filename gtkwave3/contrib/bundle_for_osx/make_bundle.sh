@@ -9,7 +9,8 @@
 # that jhbuild is in your path
 #
 
-~/.local/bin/ige-mac-bundler gtkwave.bundle
+# ~/.local/bin/ige-mac-bundler gtkwave.bundle
+~/.local/bin/gtk-mac-bundler gtkwave.bundle
 
 #
 # this is a bit of a hack as it seems ige-mac-bundler
