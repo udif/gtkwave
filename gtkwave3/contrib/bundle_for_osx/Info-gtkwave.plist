@@ -35,7 +35,7 @@
 				<string>vcd</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>gtkwave.icns</string>
+			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -55,7 +55,7 @@
 				<string>evcd</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>gtkwave.icns</string>
+			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -75,7 +75,7 @@
 				<string>lxt</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>gtkwave.icns</string>
+			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -95,7 +95,7 @@
 				<string>lx2</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>gtkwave.icns</string>
+			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -115,7 +115,7 @@
 				<string>vzt</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>gtkwave.icns</string>
+			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -135,7 +135,7 @@
 				<string>ghw</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>gtkwave.icns</string>
+			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -155,7 +155,7 @@
 				<string>fst</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>gtkwave.icns</string>
+			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>

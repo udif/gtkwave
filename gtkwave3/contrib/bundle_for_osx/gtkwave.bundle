@@ -125,6 +125,9 @@
   <data dest="${bundle}/Contents/Resources/gtkwave.icns">
     ${project}/gtkwave.icns
   </data>
+  <data dest="${bundle}/Contents/Resources/gtkwave_files.icns">
+    ${project}/gtkwave_files.icns
+  </data>
 
 
 
