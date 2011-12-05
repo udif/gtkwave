@@ -26,5 +26,150 @@
     <string>Copyright 1999 - 2012 Tony Bybell, GNU General Public License.</string>
     <key>LSMinimumSystemVersion</key>
     <string>10.6</string>
+
+    <key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>vcd</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Value Change Dump</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>VCD </string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>evcd</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Value Change Dump</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>EVCD</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>lxt</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Value Change Dump</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>LXT </string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>lx2</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Value Change Dump</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>LX2 </string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>vzt</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Value Change Dump</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>VZT </string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ghw</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Value Change Dump</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>GHW </string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>fst</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Value Change Dump</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>FST </string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
+	</array>
+
 </dict>
 </plist>

@@ -20,3 +20,16 @@ gdk-pixbuf-query-loaders | \
 sed 's#/Users/.*loaders/#@executable_path/../Resources/lib/gdk-pixbuf-2.0/loaders/#' \
 > ~/Desktop/gtkwave.app/Contents/Resources/etc/gtk-2.0/gdk-pixbuf.loaders
 
+
+#
+# code that might need to be added to the installer
+#
+
+# defaults write com.apple.LaunchServices LSHandlers -array-add "<dict><key>LSHandlerContentTag</key> <string>vcd</string><key>LSHandlerContentTagClass</key> <string>public.filename-extension</string><key>LSHandlerRoleAll</key> <string>com.geda.gtkwave</string></dict>"
+# defaults write com.apple.LaunchServices LSHandlers -array-add "<dict><key>LSHandlerContentTag</key> <string>evcd</string><key>LSHandlerContentTagClass</key> <string>public.filename-extension</string><key>LSHandlerRoleAll</key> <string>com.geda.gtkwave</string></dict>"
+# defaults write com.apple.LaunchServices LSHandlers -array-add "<dict><key>LSHandlerContentTag</key> <string>lxt</string><key>LSHandlerContentTagClass</key> <string>public.filename-extension</string><key>LSHandlerRoleAll</key> <string>com.geda.gtkwave</string></dict>"
+# defaults write com.apple.LaunchServices LSHandlers -array-add "<dict><key>LSHandlerContentTag</key> <string>lx2</string><key>LSHandlerContentTagClass</key> <string>public.filename-extension</string><key>LSHandlerRoleAll</key> <string>com.geda.gtkwave</string></dict>"
+# defaults write com.apple.LaunchServices LSHandlers -array-add "<dict><key>LSHandlerContentTag</key> <string>vzt</string><key>LSHandlerContentTagClass</key> <string>public.filename-extension</string><key>LSHandlerRoleAll</key> <string>com.geda.gtkwave</string></dict>"
+# defaults write com.apple.LaunchServices LSHandlers -array-add "<dict><key>LSHandlerContentTag</key> <string>ghw</string><key>LSHandlerContentTagClass</key> <string>public.filename-extension</string><key>LSHandlerRoleAll</key> <string>com.geda.gtkwave</string></dict>"
+# defaults write com.apple.LaunchServices LSHandlers -array-add "<dict><key>LSHandlerContentTag</key> <string>fst</string><key>LSHandlerContentTagClass</key> <string>public.filename-extension</string><key>LSHandlerRoleAll</key> <string>com.geda.gtkwave</string></dict>"
+# /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -domain local -domain system -domain user
