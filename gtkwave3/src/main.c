@@ -372,6 +372,23 @@ void addPidToExecutableName(int argc, char* argv[], char* argv_mod[])
   argv_mod[0] = buffer;
 }
 
+#ifdef MAC_INTEGRATION
+/*
+ * Integration with Finder...
+ * cache name and load in later off a timer (similar to caching DnD for quartz...)
+ */
+static gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
+{
+if(GLOBALS->finder_name_integration)
+	{
+	free_2(GLOBALS->finder_name_integration);
+	}
+
+GLOBALS->finder_name_integration = strdup_2(path);
+
+return(TRUE);
+}
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -1603,6 +1620,8 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
 	gtk_osxapplication_attention_request(theApp, INFO_REQUEST);
 	}
+
+g_signal_connect(theApp, "NSApplicationOpenFile", G_CALLBACK(deal_with_finder_open), NULL);
 }
 #endif
 	
@@ -1845,6 +1864,8 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
 	gtk_osxapplication_attention_request(theApp, INFO_REQUEST);
 	}
+
+g_signal_connect(theApp, "NSApplicationOpenFile", G_CALLBACK(deal_with_finder_open), NULL);
 }
 #endif
 

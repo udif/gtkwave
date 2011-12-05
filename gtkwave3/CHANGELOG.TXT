@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	01dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+3.3.29	05dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
 		was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar 
@@ -1098,3 +1098,4 @@
 		Fixed broken wave_script_args.
 		Reverted to 3.3.26 code in menu_func() as the renderbox
 		requester did not work from TCL anymore.
+		Catch NSApplicationOpenFile so files can be opened from Finder.

@@ -464,6 +464,9 @@ NULL, /* lastchange */
 /* 
  * main.c
  */
+#ifdef MAC_INTEGRATION
+NULL, /* finder_name_integration */
+#endif
 NULL, /* missing_file_toolbar */
 NULL, /* argvlist */
 #if defined(HAVE_LIBTCL)

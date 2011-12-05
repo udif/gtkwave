@@ -731,6 +731,18 @@ if(GLOBALS->dnd_helper_quartz)
 #endif   
 #endif
 
+#ifdef MAC_INTEGRATION
+if(GLOBALS->finder_name_integration)
+	{
+	char *fni = g_malloc(strlen(GLOBALS->finder_name_integration) + 1);
+	strcpy(fni, GLOBALS->finder_name_integration);
+	free_2(GLOBALS->finder_name_integration);
+	GLOBALS->finder_name_integration = NULL;
+	menu_new_viewer_tab_cleanup_2(fni); 
+	g_free(fni);
+	}
+#endif
+
 if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
 	return(TRUE);
