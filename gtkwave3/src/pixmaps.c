@@ -5447,10 +5447,10 @@ GLOBALS->hiericon_linkage_pixmap=wave_gdk_pixmap_create_from_xpm_d(window->windo
 /* set icon for window manager */
 gp = xg_get_pixbuf_from_pix_and_mask(GLOBALS->wave_info_pixmap, GLOBALS->wave_info_mask, NULL);
 gtk_window_set_icon(GTK_WINDOW(window), gp);
+#ifdef MAC_INTEGRATION
 return(gp);
+#endif
 #else
 return;
 #endif
 }
-
-
