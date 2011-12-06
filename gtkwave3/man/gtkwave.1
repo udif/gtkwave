@@ -152,7 +152,7 @@ To run interactively using shared memory handle 0x00050003:
 gtkwave \-I 00050003 dumpfile.sav
 .TP
 To run from the app bundle gtkwave.app in OSX using /bin/sh:
-GTKWAVE_CHDIR=`pwd`;export GTKWAVE_CHDIR;open \-n \-W \-a gtkwave \-\-args \-\-chdir dummy \-\-dump des.vzt \-\-save des.sav
+GTKWAVE_CHDIR=\`pwd\`;export GTKWAVE_CHDIR;open \-n \-W \-a gtkwave \-\-args \-\-chdir dummy \-\-dump des.vzt \-\-save des.sav
 .TP
 Note that to pass non-flag items which start with a dash, that it is required to specify \-\- in order to turn off flag parsing.  A second \-\- will disable parsing of any following arguments such that they can be passed on to Tcl scripts and retrieved via gtkwave::getArgv.
 .LP 
