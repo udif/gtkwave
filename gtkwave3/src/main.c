@@ -649,6 +649,7 @@ if(!mainwindow_already_built)
 	if(!gtk_init_check(&argc, &argv))
 		{
 #if defined(__APPLE__)
+#ifndef MAC_INTEGRATION
 		if(!getenv("DISPLAY"))
 			{
 			fprintf(stderr, "DISPLAY environment variable is not set.  Have you ensured\n");
@@ -661,6 +662,7 @@ if(!mainwindow_already_built)
 				goto do_primary_inits;
 				}
 			}
+#endif
 #endif
 		fprintf(stderr, "Could not initialize GTK!  Is DISPLAY env var/xhost set?\n\n");
 		print_help(argv[0]);
@@ -850,7 +852,17 @@ while (1)
 
 		case '2':
 #ifndef _MSC_VER  
-			chdir(optarg);
+			{
+			char *chdir_env = getenv("GTKWAVE_CHDIR"); 
+			if(chdir_env)
+				{
+				chdir(chdir_env);
+				}
+				else
+				{
+				chdir(optarg);
+				}
+			}
 #endif
 			break;
 

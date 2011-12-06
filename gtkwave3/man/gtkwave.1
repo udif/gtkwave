@@ -96,8 +96,8 @@ disabled in the componentized version of GTKWave when it functions as a plug-in.
 Specify RPCID of a gtkwave_server to connect to.  This is of interest only if it is intended to send remote commands to GTKWave, for example
 for simulators to signal to GTKWave that a sim job has completed and is ready to be viewed.
 .TP
-\fB\-2\fR,\fB\-\-chdir\fR <\fIRPCID\fP>
-Specify new current working directory.  This is typically used in OSX to run gtkwave if it was compiled and placed in an .app bundle.
+\fB\-2\fR,\fB\-\-chdir\fR <\fIDIRNAME\fP>
+Specify new current working directory.  This is typically used in OSX to run gtkwave if it was compiled and placed in an .app bundle.  Note that if the environment variable GTKWAVE_CHDIR is defined, the argument is a dummy argument. This is to support OSX in that the open command has difficulty in passing spaces as command line arguments and it is possible for \fIpwd\fP(1) to return spaces.
 .TP
 \fB\-I\fR,\fB\-\-interactive\fR
 Specifies that "interactive" VCD mode is to be used which allows a viewer to navigate a VCD trace while GTKWave is processing the VCD file.
@@ -151,8 +151,8 @@ gtkwave dumpfile.vcd dumpfile.sav
 To run interactively using shared memory handle 0x00050003:
 gtkwave \-I 00050003 dumpfile.sav
 .TP
-To run from the app bundle gtkwave.app in OSX:
-open \-n \-W \-a gtkwave \-\-args \-\-chdir `pwd` \-\-dump des.vzt \-\-save des.sav
+To run from the app bundle gtkwave.app in OSX using /bin/sh:
+GTKWAVE_CHDIR=`pwd`;export GTKWAVE_CHDIR;open \-n \-W \-a gtkwave \-\-args \-\-chdir dummy \-\-dump des.vzt \-\-save des.sav
 .TP
 Note that to pass non-flag items which start with a dash, that it is required to specify \-\- in order to turn off flag parsing.  A second \-\- will disable parsing of any following arguments such that they can be passed on to Tcl scripts and retrieved via gtkwave::getArgv.
 .LP 
