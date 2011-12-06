@@ -2493,7 +2493,11 @@ set_window_size (int x, int y)
       if(!GLOBALS->socket_xid)
 #endif
 	{
+#ifdef MAC_INTEGRATION
+      	gtk_window_resize(GTK_WINDOW (GLOBALS->mainwindow), x, y);
+#else
       	gtk_window_set_default_size(GTK_WINDOW (GLOBALS->mainwindow), x, y);
+#endif
 	}
     }
 }
@@ -2527,7 +2531,11 @@ if(!GLOBALS->initial_window_get_valid)
 void 
 set_window_xypos(int root_x, int root_y)
 {
+#ifdef MAC_INTEGRATION
+if(GLOBALS->num_notebook_pages > 1) return;
+#else
 if(GLOBALS->xy_ignore_main_c_1) return;
+#endif
 
 #if !defined __MINGW32__ && !defined _MSC_VER
 GLOBALS->initial_window_xpos = root_x;

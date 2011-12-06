@@ -2312,7 +2312,11 @@ switch(ftype)
         	if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
         	*GLOBALS->fileselbox_text=(char *)strdup_2(s);
 
+#ifndef MAC_INTEGRATION
 		GLOBALS->block_xy_update = 1;
+#else
+		GLOBALS->block_xy_update = (GLOBALS->num_notebook_pages > 1); /* let window always resize if 1 tab */
+#endif
 		read_save_helper(s);
 		GLOBALS->block_xy_update = 0;
 		rc = 1;

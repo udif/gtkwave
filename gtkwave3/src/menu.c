@@ -4606,12 +4606,17 @@ int read_save_helper(char *wname) {
 		signalarea_configure_event(GLOBALS->signalarea, NULL);
 		wavearea_configure_event(GLOBALS->wavearea, NULL);
 
-		if(!GLOBALS->block_xy_update)
-			{
-			int x, y;
-
-			get_window_size(&x, &y);
-			set_window_size(x, y);
+#ifdef MAC_INTEGRATION
+		if(GLOBALS->num_notebook_pages > 1)
+#endif
+			{		
+			if(!GLOBALS->block_xy_update)
+				{
+				int x, y;
+	
+				get_window_size(&x, &y);
+				set_window_size(x, y);
+				}
 			}
                 }
 

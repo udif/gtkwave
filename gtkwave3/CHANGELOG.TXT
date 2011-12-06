@@ -1102,3 +1102,5 @@
 		Added --chdir command line option to support open for OSX so
 		that gtkwave can be run at the command line directly from its
 		installed gtkwave.app.
+		Fix window resizing / repositioning to work in OSX: block once
+		viewer is on second tab, however.
