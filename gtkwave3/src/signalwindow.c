@@ -737,6 +737,8 @@ if(GLOBALS->finder_name_integration)
 	struct logfile_chain *lc = GLOBALS->finder_name_integration;
 	struct logfile_chain *lc_next;
 
+	GLOBALS->finder_name_integration = NULL; /* placed here to avoid race conditions with GLOBALS */
+
 	while(lc)
 		{
 		int plen = strlen(lc->name);
@@ -764,7 +766,6 @@ if(GLOBALS->finder_name_integration)
 		lc = lc_next;
 		}
 
-	GLOBALS->finder_name_integration = NULL;
 	return(TRUE);
 	}
 #endif
