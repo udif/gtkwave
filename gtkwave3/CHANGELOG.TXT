@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	05dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+3.3.29	06dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
 		was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar 
@@ -1099,4 +1099,6 @@
 		Reverted to 3.3.26 code in menu_func() as the renderbox
 		requester did not work from TCL anymore.
 		Catch NSApplicationOpenFile so files can be opened from Finder.
-		Add command line support for open for OSX.
+		Added --chdir command line option to support open for OSX so
+		that gtkwave can be run at the command line directly from its
+		installed gtkwave.app.

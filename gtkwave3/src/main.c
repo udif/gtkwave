@@ -258,9 +258,11 @@ static void print_help(char *nam)
 #if !defined _MSC_VER && !defined __MINGW32__
 #define OUTPUT_GETOPT "  -O, --output=FILE          specify filename for stdout/stderr redirect\n"
 #define RPC_GETOPT "  -1, --rpcid=RPCID          specify RPCID of gtkwave_server to connect to\n"
+#define CHDIR_GETOPT "  -2, --chdir=DIR            specify new current working directory\n"
 #else
 #define OUTPUT_GETOPT
 #define RPC_GETOPT
+#define CHDIR_GETOPT
 #endif
 
 #if defined(WAVE_USE_GTK2)
@@ -291,6 +293,7 @@ WAVE_GETOPT_CPUS
 REPSCRIPT_GETOPT
 XID_GETOPT
 RPC_GETOPT
+CHDIR_GETOPT
 INTR_GETOPT
 "  -C, --comphier             use compressed hierarchy names (slower)\n"
 "  -g, --giga                 use gigabyte mempacking when recoding (slower)\n"
@@ -726,10 +729,11 @@ while (1)
 		{"output", 1, 0, 'O' },
                 {"slider-zoom", 0, 0, 'z'},
 		{"rpc", 1, 0, '1' },
+		{"chdir", 1, 0, '2'},
                 {0, 0, 0, 0}
                 };
 
-        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:", long_options, 
+        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:2:", long_options, 
 &option_index);
 
         if (c == -1) break;     /* no more args */
@@ -842,6 +846,12 @@ while (1)
 
 		case '1':
 			sscanf(optarg, "%x", &GLOBALS->rpc_id);
+			break;
+
+		case '2':
+#ifndef _MSC_VER  
+			chdir(optarg);
+#endif
 			break;
 
 		case 'M':
