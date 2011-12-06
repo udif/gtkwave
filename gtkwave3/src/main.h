@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999.
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,6 +23,7 @@ char *name;
 };
 
 int main_2(int argc, char *argv[]);
+int suffix_check(const char *s, const char *sfx);
 
 GtkWidget *create_text(void);
 GtkWidget *create_zoom_buttons(void);

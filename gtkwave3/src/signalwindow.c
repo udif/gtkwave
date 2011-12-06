@@ -741,25 +741,32 @@ if(GLOBALS->finder_name_integration)
 
 	while(lc)
 		{
-		int plen = strlen(lc->name);
-		char *fni = g_malloc(plen + 32); /* extra space for message */
-
-		sprintf(fni, "Loading %s...", lc->name);
-		gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
-
-		strcpy(fni, lc->name);
-
-		g_free(lc->name);
-
-		if(!menu_new_viewer_tab_cleanup_2(fni))
+		if (suffix_check(lc->name, ".sav"))
 			{
-			if(GLOBALS->winname)
-				{
-				gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
-				}
+			read_save_helper(lc->name);
 			}
+			else
+			{
+			int plen = strlen(lc->name);
+			char *fni = g_malloc(plen + 32); /* extra space for message */
 
-		g_free(fni);
+			sprintf(fni, "Loading %s...", lc->name);
+			gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
+
+			strcpy(fni, lc->name);
+
+			g_free(lc->name);
+
+			if(!menu_new_viewer_tab_cleanup_2(fni))
+				{
+				if(GLOBALS->winname)
+					{
+					gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
+					}
+				}
+
+			g_free(fni);
+			}
 
 		lc_next = lc->next;
 		g_free(lc);

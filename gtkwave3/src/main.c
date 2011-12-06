@@ -83,7 +83,7 @@
 char *gtkwave_argv0_cached = NULL;
 
 
-static int suffix_check(const char *s, const char *sfx)
+int suffix_check(const char *s, const char *sfx)
 {
 int sfxlen = strlen(sfx);
 return((strlen(s)>=sfxlen)&&(!strcasecmp(s+strlen(s)-sfxlen,sfx)));
