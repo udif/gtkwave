@@ -1104,6 +1104,6 @@
 		installed gtkwave.app.
 		Fix window resizing / repositioning to work in OSX: block once
 		viewer is on second tab, however.
-		Added sst_width, sst_expanded, and signals_width tags into
-		save file to allow pane size and expander settings to
-		be saved to the save file.
+		Added sst_width, sst_vpaned_height, sst_expanded, and
+		signals_width tags into save file to allow pane size and
+		expander settings to be saved to the save file.

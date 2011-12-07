@@ -510,6 +510,7 @@ NULL, /* toppanedwindow 203 */
 NULL, /* panedwindow */
 0, /* toppanedwindow_size_cache */
 0, /* panedwindow_size_cache */
+0, /* vpanedwindow_size_cache */
 NULL, /* sstpane 204 */
 NULL, /* expanderwindow 205 */
 0, /* disable_window_manager 206 */

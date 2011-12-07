@@ -2816,15 +2816,37 @@ else if (*w2 == '[')
       {
       if((!GLOBALS->ignore_savefile_pos)&&(!GLOBALS->ignore_savefile_size))
 	{
-	/* signals vs waves panes position.  */
+	/* sst is expanded?  */
 	int x;
 	sscanf (w, "%d", &x);
 	GLOBALS->sst_expanded = (x != 0);
+#if GTK_CHECK_VERSION(2,4,0)
 	if(!GLOBALS->block_xy_update)
 		{
 		if(GLOBALS->expanderwindow)
 			{
 			gtk_expander_set_expanded(GTK_EXPANDER(GLOBALS->expanderwindow), GLOBALS->sst_expanded);
+			}
+		}
+#endif
+	}
+      }
+    else if (strcmp (w2, "sst_vpaned_height") == 0)
+      {
+      if((!GLOBALS->ignore_savefile_pos)&&(!GLOBALS->ignore_savefile_size))
+	{
+	/* signals vs waves panes position.  */
+	int x;
+	sscanf (w, "%d", &x);
+	if(!GLOBALS->block_xy_update)
+		{
+		if(GLOBALS->sst_vpaned)
+			{
+			gtk_paned_set_position(GTK_PANED(GLOBALS->sst_vpaned), x);
+			}
+			else
+			{
+			GLOBALS->vpanedwindow_size_cache = x;
 			}
 		}
 	}

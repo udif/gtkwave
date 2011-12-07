@@ -4117,6 +4117,10 @@ void write_save_helper(FILE *wave) {
 		GLOBALS->sst_expanded = gtk_expander_get_expanded(GTK_EXPANDER(GLOBALS->expanderwindow));
 		fprintf(wave, "[sst_expanded] %d\n", GLOBALS->sst_expanded);
 		}
+	if(GLOBALS->sst_vpaned)
+		{
+		fprintf(wave, "[sst_vpaned_height] %d\n", gtk_paned_get_position(GTK_PANED(GLOBALS->sst_vpaned)));
+		}
 #endif
 
 	t=GLOBALS->traces.first;

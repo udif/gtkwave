@@ -508,8 +508,9 @@ GtkWidget *signalwindow; /* from main.c 212 */
 GtkWidget *wavewindow; /* from main.c 213 */
 GtkWidget *toppanedwindow; /* from main.c 214 */
 GtkWidget *panedwindow;
-int toppanedwindow_size_cache;
-int panedwindow_size_cache;
+gint toppanedwindow_size_cache;
+gint panedwindow_size_cache;
+gint vpanedwindow_size_cache;
 GtkWidget *sstpane; /* from main.c 215 */
 GtkWidget *expanderwindow; /* from main.c 216 */
 char disable_window_manager; /* from main.c 217 */
