@@ -3,7 +3,7 @@ use Switch;
 
 # perl-based launcher for gtkwave app:
 # this more-or-less duplicates "normal" command line functionality
-# missing: stdin/stdout
+# missing: stdin/stdout, controlling terminal (ctrl-c/-x)
 # 06dec11ajb
 
 # directly cut and paste from main.c for gtkwave: static struct option long_options[]
@@ -107,7 +107,9 @@ for($i=0 ; $i < $arg_cnt ; $i=$i+1)
 		}
 	}
 
-$ENV{GTKWAVE_CHDIR}=`pwd`;
+
+chomp($cwd=`pwd`);
+$ENV{GTKWAVE_CHDIR}=$cwd;
 @pfx = split(' ', "open -n -W -a gtkwave --args --chdir dummy");
 @everything = (@pfx,@non_flags,@flags);
 
