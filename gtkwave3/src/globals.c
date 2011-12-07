@@ -568,6 +568,7 @@ NULL, /* cutcopylist */
 0, /* enable_fast_exit 236 */
 0, /* quiet_checkmenu */
 NULL, /* wave_script_args 237 */
+0, /* ignore_savefile_pane_pos */
 0, /* ignore_savefile_pos 238 */
 0, /* ignore_savefile_size 239 */
 #ifndef WAVE_USE_MLIST_T
@@ -1369,6 +1370,7 @@ void reload_into_new_context(void)
  int s_ctx_iter;
 
  /* save these in case we decide to write out the rc file later as a user option */
+ char cached_ignore_savefile_pane_pos = GLOBALS->ignore_savefile_pane_pos;
  char cached_ignore_savefile_pos = GLOBALS->ignore_savefile_pos;
  char cached_ignore_savefile_size = GLOBALS->ignore_savefile_size;
  char cached_splash_disable = GLOBALS->splash_disable;
@@ -1582,6 +1584,7 @@ void reload_into_new_context(void)
  new_globals->context_tabposition = GLOBALS->context_tabposition;
  new_globals->use_standard_clicking = GLOBALS->use_standard_clicking;
 
+ new_globals->ignore_savefile_pane_pos = 1; /* to keep window from resizing/jumping */
  new_globals->ignore_savefile_pos = 1; /* to keep window from resizing/jumping */
  new_globals->ignore_savefile_size = 1; /* to keep window from resizing/jumping */
 
@@ -2356,6 +2359,7 @@ void reload_into_new_context(void)
 	}
 
  /* restore these in case we decide to write out the rc file later as a user option */
+ GLOBALS->ignore_savefile_pane_pos = cached_ignore_savefile_pane_pos;
  GLOBALS->ignore_savefile_pos = cached_ignore_savefile_pos;
  GLOBALS->ignore_savefile_size = cached_ignore_savefile_size;
  GLOBALS->splash_disable = cached_splash_disable;
@@ -2584,6 +2588,10 @@ switch(type)
 							GLOBALS->scale_to_time_dimension = g_old->scale_to_time_dimension;
 							GLOBALS->zoom_dyn = g_old->zoom_dyn;
 							GLOBALS->zoom_dyne = g_old->zoom_dyne;
+
+							GLOBALS->ignore_savefile_pane_pos = g_old->ignore_savefile_pane_pos;
+							GLOBALS->ignore_savefile_pos = g_old->ignore_savefile_pos;
+							GLOBALS->ignore_savefile_size = g_old->ignore_savefile_size;
 
 							gtk_notebook_set_current_page(GTK_NOTEBOOK(GLOBALS->notebook), GLOBALS->this_context_page);
 							}

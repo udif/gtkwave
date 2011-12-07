@@ -519,6 +519,7 @@ if(!GLOBALS)
 	
 	/* rc.c */
 	GLOBALS->possibly_use_rc_defaults = old_g->possibly_use_rc_defaults;
+	GLOBALS->ignore_savefile_pane_pos = old_g->ignore_savefile_pane_pos;
 	GLOBALS->ignore_savefile_pos = old_g->ignore_savefile_pos;
 	GLOBALS->ignore_savefile_size = old_g->ignore_savefile_size;
 	

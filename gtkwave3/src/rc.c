@@ -315,6 +315,13 @@ GLOBALS->paned_pack_semantics=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_ignore_savefile_pane_pos(char *str)
+{
+DEBUG(printf("f_ignore_savefile_pane_pos(\"%s\")\n",str));
+GLOBALS->ignore_savefile_pane_pos=atoi_64(str)?1:0;
+return(0);
+}
+
 int f_ignore_savefile_pos(char *str)
 {
 DEBUG(printf("f_ignore_savefile_pos(\"%s\")\n",str));
@@ -790,6 +797,7 @@ static struct rc_entry rcitems[]=
 { "hier_grouping", f_hier_grouping },
 { "hier_max_level", f_hier_max_level },
 { "hpane_pack", f_hpane_pack },
+{ "ignore_savefile_pane_pos", f_ignore_savefile_pane_pos },
 { "ignore_savefile_pos", f_ignore_savefile_pos },
 { "ignore_savefile_size", f_ignore_savefile_size },
 { "initial_signal_window_width", f_initial_signal_window_width },

@@ -218,8 +218,12 @@ Sets the maximum hierarchy depth (from the right side) to display for trace name
 \fBhpane_pack\fR <\fIvalue\fP>
 A nonzero value indicates that the horizontal pane should be constructed using the gtk_paned_pack functions (default and recommended). A zero value indicates that gtk_paned_add will be used instead.
 .TP 
+\fBignore_savefile_pane_pos\fR <\fIvalue\fP>
+If nonzero, specifies that the pane position attributes (i.e., signal window width size, SST is expanded, etc.) are to be ignored during savefile loading and is to be skipped during saving.  Default is that the attribute is used.
+.TP 
 \fBignore_savefile_pos\fR <\fIvalue\fP>
 If nonzero, specifies that the window position attribute is to be ignored during savefile loading and is to be skipped during saving.  Default is that the position attribute is used.
+
 .TP
 \fBignore_savefile_size\fR <\fIvalue\fP>
 If nonzero, specifies that the window size attribute is to be ignored during savefile loading and is to be skipped during saving.  Default is that the size attribute is used.

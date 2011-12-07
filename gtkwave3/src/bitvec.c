@@ -2774,7 +2774,7 @@ else if (*w2 == '[')
       }
     else if (strcmp (w2, "sst_width") == 0)
       {
-      if((!GLOBALS->ignore_savefile_pos)&&(!GLOBALS->ignore_savefile_size))
+      if(!GLOBALS->ignore_savefile_pane_pos)
 	{
 	/* sst vs rhs of window position.  */
 	int x;
@@ -2794,7 +2794,7 @@ else if (*w2 == '[')
       }
     else if (strcmp (w2, "signals_width") == 0)
       {
-      if((!GLOBALS->ignore_savefile_pos)&&(!GLOBALS->ignore_savefile_size))
+      if(!GLOBALS->ignore_savefile_pane_pos)
 	{
 	/* signals vs waves panes position.  */
 	int x;
@@ -2814,7 +2814,7 @@ else if (*w2 == '[')
       }
     else if (strcmp (w2, "sst_expanded") == 0)
       {
-      if((!GLOBALS->ignore_savefile_pos)&&(!GLOBALS->ignore_savefile_size))
+      if(!GLOBALS->ignore_savefile_pane_pos)
 	{
 	/* sst is expanded?  */
 	int x;
@@ -2833,7 +2833,7 @@ else if (*w2 == '[')
       }
     else if (strcmp (w2, "sst_vpaned_height") == 0)
       {
-      if((!GLOBALS->ignore_savefile_pos)&&(!GLOBALS->ignore_savefile_size))
+      if(!GLOBALS->ignore_savefile_pane_pos)
 	{
 	/* signals vs waves panes position.  */
 	int x;
