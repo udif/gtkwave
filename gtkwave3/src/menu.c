@@ -4102,6 +4102,23 @@ void write_save_helper(FILE *wave) {
 		}
 #endif
 
+	if(GLOBALS->toppanedwindow)
+		{
+		fprintf(wave, "[sst_width] %d\n", gtk_paned_get_position(GTK_PANED(GLOBALS->toppanedwindow)));
+		}
+	if(GLOBALS->panedwindow)
+		{
+		fprintf(wave, "[signals_width] %d\n", gtk_paned_get_position(GTK_PANED(GLOBALS->panedwindow)));
+		}
+
+#if GTK_CHECK_VERSION(2,4,0)
+	if(GLOBALS->expanderwindow)
+        	{
+		GLOBALS->sst_expanded = gtk_expander_get_expanded(GTK_EXPANDER(GLOBALS->expanderwindow));
+		fprintf(wave, "[sst_expanded] %d\n", GLOBALS->sst_expanded);
+		}
+#endif
+
 	t=GLOBALS->traces.first;
 	while(t)
 		{

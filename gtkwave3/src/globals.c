@@ -507,6 +507,9 @@ NULL, /* mainwindow 200 */
 NULL, /* signalwindow 201 */
 NULL, /* wavewindow 202 */
 NULL, /* toppanedwindow 203 */
+NULL, /* panedwindow */
+0, /* toppanedwindow_size_cache */
+0, /* panedwindow_size_cache */
 NULL, /* sstpane 204 */
 NULL, /* expanderwindow 205 */
 0, /* disable_window_manager 206 */
@@ -1505,6 +1508,7 @@ void reload_into_new_context(void)
  new_globals->signalwindow = GLOBALS->signalwindow; 
  new_globals->wavewindow = GLOBALS->wavewindow;
  new_globals->toppanedwindow = GLOBALS->toppanedwindow;
+ new_globals->panedwindow = GLOBALS->panedwindow;
  new_globals->sstpane = GLOBALS->sstpane;
  new_globals->sst_vpaned = GLOBALS->sst_vpaned;
  new_globals->expanderwindow = GLOBALS->expanderwindow;

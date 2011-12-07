@@ -2772,6 +2772,63 @@ else if (*w2 == '[')
 	if(!GLOBALS->block_xy_update) set_window_xypos (x, y);
 	}
       }
+    else if (strcmp (w2, "sst_width") == 0)
+      {
+      if((!GLOBALS->ignore_savefile_pos)&&(!GLOBALS->ignore_savefile_size))
+	{
+	/* sst vs rhs of window position.  */
+	int x;
+	sscanf (w, "%d", &x);
+	if(!GLOBALS->block_xy_update)
+		{
+		if(GLOBALS->toppanedwindow)
+			{
+			gtk_paned_set_position(GTK_PANED(GLOBALS->toppanedwindow), x);
+			}
+			else
+			{
+			GLOBALS->toppanedwindow_size_cache = x;
+			}
+		}
+	}
+      }
+    else if (strcmp (w2, "signals_width") == 0)
+      {
+      if((!GLOBALS->ignore_savefile_pos)&&(!GLOBALS->ignore_savefile_size))
+	{
+	/* signals vs waves panes position.  */
+	int x;
+	sscanf (w, "%d", &x);
+	if(!GLOBALS->block_xy_update)
+		{
+		if(GLOBALS->panedwindow)
+			{
+			gtk_paned_set_position(GTK_PANED(GLOBALS->panedwindow), x);
+			}
+			else
+			{
+			GLOBALS->panedwindow_size_cache = x;
+			}
+		}
+	}
+      }
+    else if (strcmp (w2, "sst_expanded") == 0)
+      {
+      if((!GLOBALS->ignore_savefile_pos)&&(!GLOBALS->ignore_savefile_size))
+	{
+	/* signals vs waves panes position.  */
+	int x;
+	sscanf (w, "%d", &x);
+	GLOBALS->sst_expanded = (x != 0);
+	if(!GLOBALS->block_xy_update)
+		{
+		if(GLOBALS->expanderwindow)
+			{
+			gtk_expander_set_expanded(GTK_EXPANDER(GLOBALS->expanderwindow), GLOBALS->sst_expanded);
+			}
+		}
+	}
+      }
     else if (strcmp (w2, "color") == 0)
       {
       int which_col = 0;
