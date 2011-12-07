@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell and Concept Engineering GmbH 2008-2011.
+ * Copyright (c) Tony Bybell and Concept Engineering GmbH 2008-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -2617,7 +2617,10 @@ if(objc > 1)
 			}
 			else
 			{
-			wc->next = w; /* we later really traverse through curr->next from the head pointer */
+			if(wc)	/* scan-build: suppress warning, this will never happen */
+				{
+				wc->next = w; /* we later really traverse through curr->next from the head pointer */
+				}
 			}
 
 		wc = w;
