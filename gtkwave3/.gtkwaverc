@@ -1,6 +1,10 @@
 #
 # sample rc file
 #
+ignore_savefile_pane_pos no
+ignore_savefile_pos no
+ignore_savefile_size no
+
 ruler_origin 0
 ruler_step 0
 disable_ae2_alias no
