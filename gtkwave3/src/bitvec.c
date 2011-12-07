@@ -2783,7 +2783,9 @@ else if (*w2 == '[')
 		{
 		if(GLOBALS->toppanedwindow)
 			{
+#if GTK_CHECK_VERSION(2,4,0)
 			gtk_paned_set_position(GTK_PANED(GLOBALS->toppanedwindow), x);
+#endif
 			}
 			else
 			{
@@ -2803,7 +2805,9 @@ else if (*w2 == '[')
 		{
 		if(GLOBALS->panedwindow)
 			{
+#if GTK_CHECK_VERSION(2,4,0)
 			gtk_paned_set_position(GTK_PANED(GLOBALS->panedwindow), x);
+#endif
 			}
 			else
 			{
@@ -2842,7 +2846,9 @@ else if (*w2 == '[')
 		{
 		if(GLOBALS->sst_vpaned)
 			{
+#if GTK_CHECK_VERSION(2,4,0)
 			gtk_paned_set_position(GTK_PANED(GLOBALS->sst_vpaned), x);
+#endif
 			}
 			else
 			{
