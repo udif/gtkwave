@@ -130,6 +130,10 @@
   </data>
 
 
+  <data dest="${bundle}/Contents/Resources/bin/gtkwave">
+    ${project}/gtkwave.pl
+  </data>
+
 
   <!-- This is where theme commands go. You can copy them in from your
        theme of choice if they provide and example, or you can just
