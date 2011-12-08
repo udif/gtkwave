@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
+
+<!-- Remove the .sav file entry if .sav files are already in use
+     on your system and are associated with another app.  You can
+     use .gtkw in that case instead. -->
+
+
 <dict>
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
@@ -29,6 +35,7 @@
 
     <key>CFBundleDocumentTypes</key>
 	<array>
+		<!-- .vcd dumpfile icon -->
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
@@ -49,6 +56,8 @@
 			<key>NSDocumentClass</key>
 			<string>LPgtkwaveDocument</string>
 		</dict>
+
+		<!-- .evcd dumpfile icon -->
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
@@ -57,7 +66,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>Value Change Dump</string>
+			<string>Extended Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>EVCD</string>
@@ -69,6 +78,8 @@
 			<key>NSDocumentClass</key>
 			<string>LPgtkwaveDocument</string>
 		</dict>
+
+		<!-- .lxt dumpfile icon -->
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
@@ -77,7 +88,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>Value Change Dump</string>
+			<string>GTKWave LXT/LXT2 Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>LXT </string>
@@ -89,6 +100,8 @@
 			<key>NSDocumentClass</key>
 			<string>LPgtkwaveDocument</string>
 		</dict>
+
+		<!-- .lx2 dumpfile icon -->
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
@@ -97,7 +110,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>Value Change Dump</string>
+			<string>GTKWave LXT2 Value Change Dump</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>LX2 </string>
@@ -109,6 +122,8 @@
 			<key>NSDocumentClass</key>
 			<string>LPgtkwaveDocument</string>
 		</dict>
+
+		<!-- .vzt dumpfile icon -->
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
@@ -117,7 +132,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>Value Change Dump</string>
+			<string>GTKWave Verilog Zipped Trace</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>VZT </string>
@@ -129,6 +144,8 @@
 			<key>NSDocumentClass</key>
 			<string>LPgtkwaveDocument</string>
 		</dict>
+
+		<!-- .ghw dumpfile icon -->
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
@@ -137,7 +154,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>Value Change Dump</string>
+			<string>GHDL Waveform</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>GHW </string>
@@ -149,6 +166,8 @@
 			<key>NSDocumentClass</key>
 			<string>LPgtkwaveDocument</string>
 		</dict>
+
+		<!-- .fst dumpfile icon -->
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
@@ -157,7 +176,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>gtkwave_files.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>Value Change Dump</string>
+			<string>GTKWave Fast Signal Trace</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>FST </string>
@@ -169,26 +188,8 @@
 			<key>NSDocumentClass</key>
 			<string>LPgtkwaveDocument</string>
 		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>sav</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>gtkwave_savefiles.icns</string>
-			<key>CFBundleTypeName</key>
-			<string>GTKWave Save File</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>SAV </string>
-			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSCanProvideIMVideoDataSource</key>
-			<string>true</string>
-			<key>NSDocumentClass</key>
-			<string>LPgtkwaveDocument</string>
-		</dict>
+
+		<!-- .gtkw save file icon -->
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
@@ -201,6 +202,28 @@
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>GTKW</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
+
+		<!-- .sav save file icon -->
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sav</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave_savefiles.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>GTKWave Save File</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>SAV </string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
