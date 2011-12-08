@@ -4066,7 +4066,14 @@ void write_save_helper(FILE *wave) {
 
 	if(GLOBALS->loaded_file_name)
 		{
-		fprintf(wave, "[dumpfile] \"%s\"\n", GLOBALS->loaded_file_name);
+		if((GLOBALS->loaded_file_type == MISSING_FILE)||(GLOBALS->is_optimized_stdin_vcd))
+			{
+			/* don't emit dumpfile tag */
+			}
+			else
+			{
+			fprintf(wave, "[dumpfile] \"%s\"\n", GLOBALS->loaded_file_name);
+			}
 		}
 
 	fprintf(wave, "[timestart] "TTFormat"\n", GLOBALS->tims.start);
