@@ -741,7 +741,7 @@ if(GLOBALS->finder_name_integration)
 
 	while(lc)
 		{
-		if (suffix_check(lc->name, ".sav"))
+		if ((suffix_check(lc->name, ".sav")) || (suffix_check(lc->name, ".gtkw")))
 			{
 			read_save_helper(lc->name);
 			}
