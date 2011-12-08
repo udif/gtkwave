@@ -1110,3 +1110,6 @@
 		Add ignore_savefile_pane_pos .gtkwaverc variable.
 		Added dumpfile tag to save files.  OSX Finder uses these to
 		find the original dumpfile.
+		Added .gtkw as a new save file extension.  When either .sav
+		or .gtkw is encountered, the rest of a tab's session adaptively
+		follows in expecting it as the save file suffix.

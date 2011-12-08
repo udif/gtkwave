@@ -464,6 +464,7 @@ unsigned int *lastchange;
 /*
  * main.c
  */
+char is_gtkw_save_file;
 #ifdef MAC_INTEGRATION
 struct logfile_chain *finder_name_integration;
 #endif

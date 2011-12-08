@@ -4496,7 +4496,7 @@ if(GLOBALS->helpbox_is_active)
 	return;
 	}
 
-fileselbox("Write Save File",&GLOBALS->filesel_writesave,GTK_SIGNAL_FUNC(menu_write_save_cleanup), GTK_SIGNAL_FUNC(NULL), "*.sav", 1);
+fileselbox("Write Save File",&GLOBALS->filesel_writesave,GTK_SIGNAL_FUNC(menu_write_save_cleanup), GTK_SIGNAL_FUNC(NULL), GLOBALS->is_gtkw_save_file ? "*.gtkw" : "*.sav", 1);
 }
 
 void
@@ -4514,7 +4514,7 @@ if(GLOBALS->helpbox_is_active)
 
 if(!GLOBALS->filesel_writesave)
 	{
-	fileselbox("Write Save File",&GLOBALS->filesel_writesave,GTK_SIGNAL_FUNC(menu_write_save_cleanup), GTK_SIGNAL_FUNC(NULL), "*.sav", 1);
+	fileselbox("Write Save File",&GLOBALS->filesel_writesave,GTK_SIGNAL_FUNC(menu_write_save_cleanup), GTK_SIGNAL_FUNC(NULL), GLOBALS->is_gtkw_save_file ? "*.gtkw" : "*.sav", 1);
 	}
 	else
 	{
@@ -4542,6 +4542,8 @@ int read_save_helper(char *wname, char **dumpfile) {
 	char traces_already_exist = (GLOBALS->traces.first != NULL);
 	int rc = -1;
 	int extract_dumpfile_only = (dumpfile != NULL);
+
+	GLOBALS->is_gtkw_save_file = suffix_check(wname, ".gtkw");
 
         if(((strlen(wname)>2)&&(!strcmp(wname+strlen(wname)-3,".gz")))||
           ((strlen(wname)>3)&&(!strcmp(wname+strlen(wname)-4,".zip"))))
@@ -4745,7 +4747,7 @@ if(GLOBALS->helpbox_is_active)
 
 if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd active */
 
-fileselbox("Read Save File",&GLOBALS->filesel_writesave,GTK_SIGNAL_FUNC(menu_read_save_cleanup), GTK_SIGNAL_FUNC(NULL), "*.sav", 0);
+fileselbox("Read Save File",&GLOBALS->filesel_writesave,GTK_SIGNAL_FUNC(menu_read_save_cleanup), GTK_SIGNAL_FUNC(NULL), GLOBALS->is_gtkw_save_file ? "*.gtkw" : "*.sav", 0);
 }
 
 #if !defined _MSC_VER

@@ -1412,6 +1412,8 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 	int wave_is_compressed;
         char *str = NULL;
 
+	GLOBALS->is_gtkw_save_file = suffix_check(wname, ".gtkw");
+
 	if(vcd_save_handle_cached)
 		{
 		wname=vcd_autosave_name;
@@ -1473,7 +1475,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 
 	if(!wave)
 	        {
-	        fprintf(stderr, "** WARNING: Error opening .sav file '%s', skipping.\n",wname);
+	        fprintf(stderr, "** WARNING: Error opening save file '%s', skipping.\n",wname);
 	        }	
 	        else
 	        {
@@ -1516,7 +1518,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 
 			if(!wave)
 			        {
-			        fprintf(stderr, "** WARNING: Error opening .sav file '%s', skipping.\n",wname);
+			        fprintf(stderr, "** WARNING: Error opening save file '%s', skipping.\n",wname);
 				EnsureGroupsMatch();
 				goto savefile_bail;
 			        }	

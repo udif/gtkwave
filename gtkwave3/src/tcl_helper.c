@@ -2224,6 +2224,11 @@ if(dot)
 		ftype = WAVE_FTYPE_SAVEFILE;
 		}
 	else
+	if(!strcasecmp("gtkw", dot+1))
+		{
+		ftype = WAVE_FTYPE_SAVEFILE;
+		}
+	else
 	if(!strcasecmp("stems", dot+1))
 		{
 		ftype = WAVE_FTYPE_STEMSFILE;
