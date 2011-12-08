@@ -4064,6 +4064,11 @@ void write_save_helper(FILE *wave) {
 
 	DEBUG(printf("Write Save Fini: %s\n", *GLOBALS->fileselbox_text));
 
+	if(GLOBALS->loaded_file_name)
+		{
+		fprintf(wave, "[dumpfile] \"%s\"\n", GLOBALS->loaded_file_name);
+		}
+
 	fprintf(wave, "[timestart] "TTFormat"\n", GLOBALS->tims.start);
 
 	get_window_size (&sz_x, &sz_y);
@@ -4503,12 +4508,13 @@ if(!GLOBALS->filesel_writesave)
 /**/
 
 
-int read_save_helper(char *wname) { 
+int read_save_helper(char *wname, char **dumpfile) { 
         FILE *wave;
         char *str = NULL;
         int wave_is_compressed;
 	char traces_already_exist = (GLOBALS->traces.first != NULL);
 	int rc = -1;
+	int extract_dumpfile_only = (dumpfile != NULL);
 
         if(((strlen(wname)>2)&&(!strcmp(wname+strlen(wname)-3,".gz")))||
           ((strlen(wname)>3)&&(!strcmp(wname+strlen(wname)-4,".zip"))))
@@ -4528,7 +4534,7 @@ int read_save_helper(char *wname) {
 
         if(!wave)  
                 {  
-                fprintf(stderr, "Error opening save file '%s' for reading.\n",*GLOBALS->fileselbox_text);
+                fprintf(stderr, "Error opening save file '%s' for reading.\n", wname);
 		perror("Why");
 		errno=0;
                 }
@@ -4536,6 +4542,32 @@ int read_save_helper(char *wname) {
                 {
                 char *iline;      
 		int s_ctx_iter;
+
+		if(extract_dumpfile_only)
+			{
+	                while((iline=fgetmalloc(wave)))
+	                        {
+				if(!strncmp(iline,  "[dumpfile]", 10))
+					{
+					char *lhq = strchr(iline, '"');
+					char *rhq = strrchr(iline, '"');
+					if((lhq) && (rhq) && (lhq != rhq)) /* no real need to check rhq != NULL*/
+						{
+						*rhq = 0;
+						*dumpfile = strdup_2(lhq + 1);
+			                        free_2(iline);
+						rc++;
+						break;				
+						}
+					}
+
+	                        free_2(iline);
+				rc++;
+	                        }
+
+	                if(wave_is_compressed) pclose(wave); else fclose(wave);
+			return(rc);
+			}
 
                 WAVE_STRACE_ITERATOR(s_ctx_iter)
                         {
@@ -4572,7 +4604,7 @@ int read_save_helper(char *wname) {
 
 		        if(!wave)  
 		                {  
-		                fprintf(stderr, "Error opening save file '%s' for reading.\n",*GLOBALS->fileselbox_text);
+		                fprintf(stderr, "Error opening save file '%s' for reading.\n", wname);
 				perror("Why");
 				errno=0;
 				return(rc);
@@ -4659,7 +4691,7 @@ if(GLOBALS->filesel_ok)
 	DEBUG(printf("Read Save Fini: %s\n", *GLOBALS->fileselbox_text));
 
         wname=*GLOBALS->fileselbox_text;
-        read_save_helper(wname);
+        read_save_helper(wname, NULL);
   }
 }
 

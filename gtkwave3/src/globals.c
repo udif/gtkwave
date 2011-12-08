@@ -2218,7 +2218,7 @@ void reload_into_new_context(void)
  #endif
 
  /* Reload state from file */
- read_save_helper(reload_tmpfilename); 
+ read_save_helper(reload_tmpfilename, NULL); 
 
  /* again doing this here (read_save_helper does it) seems to be necessary in order to keep display in sync */
  GLOBALS->signalwindow_width_dirty=1;

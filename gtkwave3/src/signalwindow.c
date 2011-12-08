@@ -741,21 +741,59 @@ if(GLOBALS->finder_name_integration)
 
 	while(lc)
 		{
-		if ((suffix_check(lc->name, ".sav")) || (suffix_check(lc->name, ".gtkw")))
+		char *lcname = lc->name;
+		int try_to_load_file = 1;
+		int reload_save_file = 0;
+		char *dfn = NULL;
+		char *make_path = NULL;
+
+		if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 			{
-			read_save_helper(lc->name);
+			reload_save_file = 1;
+			try_to_load_file = 0;
+			read_save_helper(lcname, &dfn);
+
+			if(dfn)
+				{
+				FILE *f = fopen(dfn, "rb");
+				if(f)
+					{
+					fclose(f);
+					lcname = dfn;
+					try_to_load_file = 1;
+					}
+					else
+					{
+					char *rhs;
+
+					make_path = g_strdup(lcname);
+					rhs = strrchr(make_path, '/');
+					if(rhs)
+						{
+						*(rhs+1) = 0;
+						make_path = g_realloc(make_path, strlen(make_path) + strlen(dfn) + 1);
+						strcat(make_path, dfn);
+						f = fopen(make_path, "rb");
+						if(f)
+							{
+							fclose(f);
+							lcname = make_path;
+							try_to_load_file = 1;
+							}
+						}
+					}
+				}
 			}
-			else
+
+		if(try_to_load_file)
 			{
-			int plen = strlen(lc->name);
+			int plen = strlen(lcname);
 			char *fni = g_malloc(plen + 32); /* extra space for message */
 
-			sprintf(fni, "Loading %s...", lc->name);
+			sprintf(fni, "Loading %s...", lcname);
 			gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
 
-			strcpy(fni, lc->name);
-
-			g_free(lc->name);
+			strcpy(fni, lcname);
 
 			if(!menu_new_viewer_tab_cleanup_2(fni))
 				{
@@ -768,7 +806,17 @@ if(GLOBALS->finder_name_integration)
 			g_free(fni);
 			}
 
+		/* now do save file... */
+		if(reload_save_file)
+			{
+			read_save_helper(lc->name, NULL);
+			}
+
+		if(dfn) g_free(dfn);
+		if(make_path) g_free(make_path);
+
 		lc_next = lc->next;
+		g_free(lc->name);
 		g_free(lc);
 		lc = lc_next;
 		}

@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	06dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+3.3.29	08dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
 		was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar 
@@ -1108,3 +1108,5 @@
 		signals_width tags into save file to allow pane size and
 		expander settings to be saved to the save file.
 		Add ignore_savefile_pane_pos .gtkwaverc variable.
+		Added dumpfile tag to save files.  OSX Finder uses these to
+		find the original dumpfile.

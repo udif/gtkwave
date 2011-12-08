@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2011.
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -2945,6 +2945,10 @@ else if (*w2 == '[')
 			}
 		}
 	}
+    else if (strcmp (w2, "dumpfile") == 0)
+	{
+        /* nothing here currently...only finder/DnD processes these externally */
+        }
     else
       {
 	/* Unknown attribute.  Forget it.  */
