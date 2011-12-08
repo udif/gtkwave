@@ -765,14 +765,17 @@ if(GLOBALS->finder_name_integration)
 					else
 					{
 					char *rhs;
+					char *dfn2 = strrchr(dfn, '/');
+
+					dfn2 = dfn2 ? (dfn2+1) : dfn; /* extract filename */
 
 					make_path = g_strdup(lcname);
 					rhs = strrchr(make_path, '/');
 					if(rhs)
 						{
 						*(rhs+1) = 0;
-						make_path = g_realloc(make_path, strlen(make_path) + strlen(dfn) + 1);
-						strcat(make_path, dfn);
+						make_path = g_realloc(make_path, strlen(make_path) + strlen(dfn2) + 1);
+						strcat(make_path, dfn2);
 						f = fopen(make_path, "rb");
 						if(f)
 							{
