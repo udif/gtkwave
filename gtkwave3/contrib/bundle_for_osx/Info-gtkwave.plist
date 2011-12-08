@@ -189,6 +189,26 @@
 			<key>NSDocumentClass</key>
 			<string>LPgtkwaveDocument</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>gtkw</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave_savefiles.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>GTKWave Save File</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>GTKW</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
 	</array>
 
 </dict>
