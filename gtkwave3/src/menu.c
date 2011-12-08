@@ -4077,11 +4077,11 @@ void write_save_helper(FILE *wave) {
 			else
 			{
 #ifdef __linux__
-		        char *can = canonicalize_file_name(*GLOBALS->fileselbox_text);
+		        char *can = canonicalize_file_name(GLOBALS->loaded_file_name);
 			const int do_free = 1;
 #else
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-		        char *can = realpath(*GLOBALS->fileselbox_text, NULL);
+		        char *can = realpath(GLOBALS->loaded_file_name, NULL);
 			const int do_free = 1;
 #else
 			char *can = GLOBALS->loaded_file_name;

@@ -812,7 +812,9 @@ if(GLOBALS->finder_name_integration)
 		/* now do save file... */
 		if(reload_save_file)
 			{
-			read_save_helper(lc->name, NULL);
+			if(GLOBALS->filesel_writesave) { free_2(GLOBALS->filesel_writesave); }
+			GLOBALS->filesel_writesave = strdup_2(lc->name);
+			read_save_helper(GLOBALS->filesel_writesave, NULL);
 			}
 
 		if(dfn) g_free(dfn);
