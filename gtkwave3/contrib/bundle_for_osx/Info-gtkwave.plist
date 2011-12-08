@@ -123,6 +123,28 @@
 			<string>LPgtkwaveDocument</string>
 		</dict>
 
+		<!-- .lxt2 dumpfile icon -->
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>lxt2</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>gtkwave_files.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>GTKWave LXT2 Value Change Dump</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>LXT2</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSCanProvideIMVideoDataSource</key>
+			<string>true</string>
+			<key>NSDocumentClass</key>
+			<string>LPgtkwaveDocument</string>
+		</dict>
+
 		<!-- .vzt dumpfile icon -->
 		<dict>
 			<key>CFBundleTypeExtensions</key>
