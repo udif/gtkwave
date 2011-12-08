@@ -36,6 +36,10 @@
 #include <io.h>
 #endif
 
+#ifdef __linux__
+extern char *canonicalize_file_name (__const char *__name);
+#endif
+
 #ifdef _MSC_VER
 #define strcasecmp _stricmp
 #endif
@@ -4072,7 +4076,23 @@ void write_save_helper(FILE *wave) {
 			}
 			else
 			{
-			fprintf(wave, "[dumpfile] \"%s\"\n", GLOBALS->loaded_file_name);
+#ifdef __linux__
+		        char *can = canonicalize_file_name(*GLOBALS->fileselbox_text);
+			const int do_free = 1;
+#else
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+		        char *can = realpath(*GLOBALS->fileselbox_text, NULL);
+			const int do_free = 1;
+#else
+			char *can = GLOBALS->loaded_file_name;
+			const int do_free = 0;
+#endif
+#endif
+			fprintf(wave, "[dumpfile] \"%s\"\n", can);
+			if(do_free)
+				{
+				free(can);
+				}
 			}
 		}
 
