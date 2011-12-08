@@ -755,7 +755,13 @@ if(GLOBALS->finder_name_integration)
 
 			if(dfn)
 				{
-				FILE *f = fopen(dfn, "rb");
+				FILE *f;
+				char *old_dfn = dfn;
+
+				dfn = g_strdup(old_dfn); /* as context can change on file load */
+				free_2(old_dfn);
+
+				f = fopen(dfn, "rb");
 				if(f)
 					{
 					fclose(f);
