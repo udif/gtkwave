@@ -90,6 +90,62 @@ return((strlen(s)>=sfxlen)&&(!strcasecmp(s+strlen(s)-sfxlen,sfx)));
 }
 
 
+static char *extract_dumpname_from_save_file(char *lcname)
+{
+char *dfn = NULL;
+char *make_path = NULL;
+char *rp = NULL;
+
+if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
+	{
+	read_save_helper(lcname, &dfn);
+
+	if(dfn)
+		{
+		FILE *f = fopen(dfn, "rb");
+		if(f)
+			{
+			fclose(f);
+			rp = dfn;
+			}
+			else
+			{
+			char *rhs;
+			char *dfn2 = strrchr(dfn, '/');
+
+			dfn2 = dfn2 ? (dfn2+1) : dfn; /* extract filename */
+
+			make_path = strdup_2(lcname);
+			rhs = strrchr(make_path, '/');
+			if(rhs)
+				{
+				*(rhs+1) = 0;
+				make_path = realloc_2(make_path, strlen(make_path) + strlen(dfn2) + 1);
+				strcat(make_path, dfn2);
+				}
+				else
+				{
+				free_2(make_path);
+				make_path = strdup_2(dfn2);
+				}
+
+			f = fopen(make_path, "rb");
+			if(f)
+				{
+				fclose(f);
+				rp = make_path;
+				}
+
+			if(!rp) free_2(make_path);
+			free_2(dfn);
+			}
+		}
+	}
+
+return(rp);
+}
+
+
 static void switch_page(GtkNotebook     *notebook,
 			GtkNotebookPage *page,
 			guint            page_num,
@@ -1086,6 +1142,14 @@ if(is_wish && is_vcd)
 		"GTKWAVE | exiting!\n");
 	exit(255);
 	}
+
+
+if((!GLOBALS->loaded_file_name) && wname)
+	{
+	GLOBALS->loaded_file_name = extract_dumpname_from_save_file(wname);
+	/* still can be NULL if file not found... */
+	}
+
 
 read_rc_file(override_rc);
 GLOBALS->splash_disable |= splash_disable_rc_override;
