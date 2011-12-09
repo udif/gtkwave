@@ -464,7 +464,7 @@ NULL, /* lastchange */
 /* 
  * main.c
  */
-0, /* is_gtkw_save_file */
+1, /* is_gtkw_save_file */
 #ifdef MAC_INTEGRATION
 NULL, /* finder_name_integration */
 #endif

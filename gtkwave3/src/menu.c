@@ -4090,11 +4090,11 @@ void write_save_helper(char *savnam, FILE *wave) {
 #else
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 		        char *can = realpath(GLOBALS->loaded_file_name, NULL);
-			char *cansav = realpath(cansav, NULL);
+			char *cansav = realpath(savnam, NULL);
 			const int do_free = 1;
 #else
 			char *can = GLOBALS->loaded_file_name;
-			char *cansav = savnam);
+			char *cansav = savnam;
 			const int do_free = 0;
 #endif
 #endif
