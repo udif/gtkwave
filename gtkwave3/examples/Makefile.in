@@ -194,7 +194,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-dist_examples_DATA = des.sav des.tcl des.v des.vzt transaction.fst transaction.sav transaction.c
+dist_examples_DATA = des.gtkw des.tcl des.v des.vzt transaction.fst transaction.gtkw transaction.c
 examplesdir = $(pkgdatadir)/examples
 all: all-am
 
