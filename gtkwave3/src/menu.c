@@ -4543,10 +4543,9 @@ int read_save_helper(char *wname, char **dumpfile) {
 	int rc = -1;
 	int extract_dumpfile_only = (dumpfile != NULL);
 
-	GLOBALS->is_gtkw_save_file = suffix_check(wname, ".gtkw");
+	GLOBALS->is_gtkw_save_file = suffix_check(wname, ".gtkw") || suffix_check(wname, ".gtkw.gz") || suffix_check(wname, ".gtkw.zip");
 
-        if(((strlen(wname)>2)&&(!strcmp(wname+strlen(wname)-3,".gz")))||
-          ((strlen(wname)>3)&&(!strcmp(wname+strlen(wname)-4,".zip"))))
+	if(suffix_check(wname, ".gz") || suffix_check(wname, ".zip"))
                 {
                 str=wave_alloca(strlen(wname)+5+1);
                 strcpy(str,"zcat ");

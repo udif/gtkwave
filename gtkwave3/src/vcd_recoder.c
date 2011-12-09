@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2011.
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -2700,8 +2700,7 @@ if(!GLOBALS->hier_was_explicitly_set) /* set default hierarchy split char */
 	}
 
 flen=strlen(fname);
-if (((flen>2)&&(!strcmp(fname+flen-3,".gz")))||
-   ((flen>3)&&(!strcmp(fname+flen-4,".zip"))))
+if(suffix_check(fname, ".gz") || suffix_check(fname, ".zip"))
 	{
 	char *str;
 	int dlen;
