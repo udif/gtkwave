@@ -1476,7 +1476,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 	int wave_is_compressed;
         char *str = NULL;
 
-	GLOBALS->is_gtkw_save_file = suffix_check(wname, ".gtkw");
+	GLOBALS->is_gtkw_save_file = (!wname) || suffix_check(wname, ".gtkw");
 
 	if(vcd_save_handle_cached)
 		{
@@ -1512,9 +1512,9 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 				} while(pnt2-- != pnt);
 			}	
 
-		wname = malloc_2(strlen(pnt) + 5);
+		wname = malloc_2(strlen(pnt) + 6);
 		strcpy(wname, pnt);
-		strcat(wname, ".sav");
+		strcat(wname, ".gtkw");
 		}
 
 	if(((strlen(wname)>2)&&(!strcasecmp(wname+strlen(wname)-3,".gz")))||

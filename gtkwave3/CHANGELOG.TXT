@@ -1117,4 +1117,6 @@
 		Added [savefile] tag to save files.  The intended use is to 
 		allow reconstruction of relative paths between dump and save 
 		file.
+		Fixed --autosavename to use .gtkw as a suffix rather than the
+		.sav suffix.
 
