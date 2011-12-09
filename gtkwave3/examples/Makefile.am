@@ -1,6 +1,6 @@
 ## -*- makefile -*-
 ##
 
-dist_examples_DATA= des.sav des.tcl des.v des.vzt transaction.fst transaction.sav transaction.c
+dist_examples_DATA= des.gtkw des.tcl des.v des.vzt transaction.fst transaction.gtkw transaction.c
 examplesdir=	$(pkgdatadir)/examples
 
