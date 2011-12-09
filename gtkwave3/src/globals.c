@@ -1407,7 +1407,7 @@ void reload_into_new_context(void)
    return;
  }
  if(fd_dummy >=0) close(fd_dummy);
- write_save_helper(statefile);
+ write_save_helper(save_tmpfilename, statefile);
  fclose(statefile);
 
  reload_tmpfilename = strdup(save_tmpfilename);

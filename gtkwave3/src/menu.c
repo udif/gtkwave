@@ -4056,7 +4056,7 @@ return(GLOBALS->buf_menu_c_1);
 
 
 
-void write_save_helper(FILE *wave) {
+void write_save_helper(char *savnam, FILE *wave) {
 	Trptr t;
 	int i;
 	unsigned int def=0;
@@ -4065,8 +4065,15 @@ void write_save_helper(FILE *wave) {
 	int root_x, root_y;
         struct strace *st;
 	int s_ctx_iter;
+	time_t walltime;
 
-	DEBUG(printf("Write Save Fini: %s\n", *GLOBALS->fileselbox_text));
+	DEBUG(printf("Write Save Fini: %s\n", savnam));
+
+	time(&walltime);
+	fprintf(wave, "[*]\n");
+	fprintf(wave, "[*] "WAVE_VERSION_INFO"\n");
+	fprintf(wave, "[*] %s",asctime(localtime(&walltime)));
+	fprintf(wave, "[*]\n");
 
 	if(GLOBALS->loaded_file_name)
 		{
@@ -4078,17 +4085,21 @@ void write_save_helper(FILE *wave) {
 			{
 #ifdef __linux__
 		        char *can = canonicalize_file_name(GLOBALS->loaded_file_name);
+			char *cansav = canonicalize_file_name(savnam);
 			const int do_free = 1;
 #else
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 		        char *can = realpath(GLOBALS->loaded_file_name, NULL);
+			char *cansav = realpath(cansav, NULL);
 			const int do_free = 1;
 #else
 			char *can = GLOBALS->loaded_file_name;
+			char *cansav = savnam);
 			const int do_free = 0;
 #endif
 #endif
 			fprintf(wave, "[dumpfile] \"%s\"\n", can);
+			fprintf(wave, "[savefile] \"%s\"\n", cansav); /* emit also in order to do relative path matching in future... */
 			if(do_free)
 				{
 				free(can);
@@ -4472,7 +4483,7 @@ if(!(wave=fopen(*GLOBALS->fileselbox_text,"wb")))
         }
 	else
 	{
-          write_save_helper(wave);
+          write_save_helper(*GLOBALS->fileselbox_text, wave);
 	  GLOBALS->save_success_menu_c_1 = 1;
 	  fclose(wave);
 	}

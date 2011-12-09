@@ -2949,6 +2949,14 @@ else if (*w2 == '[')
 	{
         /* nothing here currently...only finder/DnD processes these externally */
         }
+    else if (strcmp (w2, "savefile") == 0)
+	{
+        /* nothing here currently...intended future use of this tag is to determine relative file placements */
+        }
+    else if (strcmp (w2, "[*]") == 0)
+	{
+        /* reserved for comment lines */
+        }
     else
       {
 	/* Unknown attribute.  Forget it.  */

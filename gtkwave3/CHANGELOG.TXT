@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	08dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+3.3.29	09dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
 		was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar 
@@ -1114,4 +1114,7 @@
 		Added .gtkw as a new save file extension.  When either .sav
 		or .gtkw is encountered, the rest of a tab's session adaptively
 		follows in expecting it as the save file suffix.
-		
+		Added [savefile] tag to save files.  The intended use is to 
+		allow reconstruction of relative paths between dump and save 
+		file.
+
