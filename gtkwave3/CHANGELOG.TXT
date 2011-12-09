@@ -1119,4 +1119,5 @@
 		file.
 		Fixed --autosavename to use .gtkw as a suffix rather than the
 		.sav suffix.
-
+		Reworked wave_info and wave_alert icons.  wave_info now
+		matches gtkwave.icns.
