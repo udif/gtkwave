@@ -2656,7 +2656,6 @@ if(GLOBALS->yytext_vcd_recoder_c_3)
 
 TimeType vcd_recoder_main(char *fname)
 {
-int flen;
 unsigned int finalize_cnt = 0;
 struct stat mystat;
 int stat_rc = stat(fname, &mystat);
@@ -2699,7 +2698,6 @@ if(!GLOBALS->hier_was_explicitly_set) /* set default hierarchy split char */
 	GLOBALS->hier_delimeter='.';
 	}
 
-flen=strlen(fname);
 if(suffix_check(fname, ".gz") || suffix_check(fname, ".zip"))
 	{
 	char *str;

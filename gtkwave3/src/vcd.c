@@ -2524,8 +2524,6 @@ if(GLOBALS->yytext_vcd_c_1)
 
 TimeType vcd_main(char *fname)
 {
-int flen;
-
 GLOBALS->pv_vcd_c_1=GLOBALS->rootv_vcd_c_1=NULL;
 GLOBALS->vcd_hier_delimeter[0]=GLOBALS->hier_delimeter;
 
@@ -2538,7 +2536,6 @@ if(!GLOBALS->hier_was_explicitly_set) /* set default hierarchy split char */
 	GLOBALS->hier_delimeter='.';
 	}
 
-flen=strlen(fname);
 if(suffix_check(fname, ".gz") || suffix_check(fname, ".zip"))
 	{
 	char *str;
