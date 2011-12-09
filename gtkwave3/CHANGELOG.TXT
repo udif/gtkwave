@@ -1121,3 +1121,4 @@
 		.sav suffix.
 		Reworked wave_info and wave_alert icons.  wave_info now
 		matches gtkwave.icns.
+		Renamed .sav examples to .gtkw.
