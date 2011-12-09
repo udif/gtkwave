@@ -336,10 +336,23 @@ gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(pFileChoose), box);
 
 if(pattn)
 	{
+	int is_gtkw = suffix_check(pattn, ".gtkw");
+	int is_sav = suffix_check(pattn, ".sav");
+
 	filter = gtk_file_filter_new();
 	gtk_file_filter_add_pattern(filter, pattn);
 	gtk_file_filter_set_name(filter, pattn);
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(pFileChoose), filter);
+
+	if(is_gtkw || is_sav)
+		{
+		const char *pattn2 = is_sav ? "*.gtkw" : "*.sav";
+
+		filter = gtk_file_filter_new();
+		gtk_file_filter_add_pattern(filter, pattn2);
+		gtk_file_filter_set_name(filter, pattn2);
+		gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(pFileChoose), filter);
+		}
 	}
 
 if((!pattn)  || (strcmp(pattn, "*")))
@@ -385,6 +398,8 @@ if((gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT) &&
 	allocbuf = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (pFileChoose));
 	if((alloclen=strlen(allocbuf)))
 	        {
+		int gtkw_test = 0;
+
 	        GLOBALS->filesel_ok=1;
 
 	        if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
@@ -398,6 +413,7 @@ if((gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT) &&
 			char *s2;
 			char *suffix = wave_alloca(strlen(pattn) + 1);					
 			char *term;
+			int attempt_suffix = 1;
 
 			strcpy(suffix, pattn);
 			while((*suffix) && (*suffix != '.')) suffix++;
@@ -405,21 +421,36 @@ if((gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT) &&
 			while((*term) && (isalnum((int)(unsigned char)*term))) term++;
 			*term = 0;
 
-                        if(strlen(s) > strlen(suffix))
-                                {
-                                if(strcmp(s + strlen(s) - strlen(suffix), suffix))
-                                        {
-                                        goto fix_suffix;
-                                        }
-                                }
-                                else
-                                {
-fix_suffix:                     s2 = malloc_2(strlen(s) + strlen(suffix) + 1);
-                                strcpy(s2, s);
-                                strcat(s2, suffix);
-                                free_2(s);
-				*GLOBALS->fileselbox_text = s2;
-                                }
+			gtkw_test = suffix_check(pattn, ".gtkw") || suffix_check(pattn, ".sav");
+
+			if(gtkw_test)
+				{
+				attempt_suffix = (!suffix_check(s, ".gtkw")) && (!suffix_check(s, ".sav"));
+				}
+
+			if(attempt_suffix)
+				{
+	                        if(strlen(s) > strlen(suffix))
+	                                {
+	                                if(strcmp(s + strlen(s) - strlen(suffix), suffix))
+	                                        {
+	                                        goto fix_suffix;
+	                                        }
+	                                }
+	                                else
+	                                {
+fix_suffix: 	                    	s2 = malloc_2(strlen(s) + strlen(suffix) + 1);
+	                                strcpy(s2, s);
+	                                strcat(s2, suffix);
+	                                free_2(s);
+					*GLOBALS->fileselbox_text = s2;
+	                                }
+				}
+			}
+
+		if((gtkw_test) && (*GLOBALS->fileselbox_text))
+			{
+			GLOBALS->is_gtkw_save_file = suffix_check(*GLOBALS->fileselbox_text, ".gtkw");
 			}
 	        }
 
