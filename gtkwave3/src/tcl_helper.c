@@ -2322,7 +2322,7 @@ switch(ftype)
 #else
 		GLOBALS->block_xy_update = (GLOBALS->num_notebook_pages > 1); /* let window always resize if 1 tab */
 #endif
-		read_save_helper(s, NULL);
+		read_save_helper(s, NULL, NULL);
 		GLOBALS->block_xy_update = 0;
 		rc = 1;
 		break;

@@ -93,12 +93,18 @@ return((strlen(s)>=sfxlen)&&(!strcasecmp(s+strlen(s)-sfxlen,sfx)));
 static char *extract_dumpname_from_save_file(char *lcname)
 {
 char *dfn = NULL;
+char *sfn = NULL;
 char *make_path = NULL;
 char *rp = NULL;
 
 if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 	{
-	read_save_helper(lcname, &dfn);
+	read_save_helper(lcname, &dfn, &sfn);
+
+	if(sfn)
+		{
+		free_2(sfn); /* FIXME */
+		}
 
 	if(dfn)
 		{

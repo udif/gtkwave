@@ -392,7 +392,7 @@ void set_scale_to_time_dimension_toggles(void);
 
 /* These should eventually have error values */
 void write_save_helper(char *savnam, FILE *file);
-int read_save_helper(char *wname, char **dumpfile); /* -1 = error, 0+ = number of lines read */
+int read_save_helper(char *wname, char **dumpfile, char **savefile); /* -1 = error, 0+ = number of lines read */
 
 void SetTraceScrollbarRowValue(int row, unsigned center);
 

@@ -4546,13 +4546,13 @@ if(!GLOBALS->filesel_writesave)
 /**/
 
 
-int read_save_helper(char *wname, char **dumpfile) { 
+int read_save_helper(char *wname, char **dumpfile, char **savefile) { 
         FILE *wave;
         char *str = NULL;
         int wave_is_compressed;
 	char traces_already_exist = (GLOBALS->traces.first != NULL);
 	int rc = -1;
-	int extract_dumpfile_only = (dumpfile != NULL);
+	int extract_dumpfile_savefile_only = (dumpfile != NULL) && (savefile != NULL);
 
 	GLOBALS->is_gtkw_save_file = suffix_check(wname, ".gtkw") || suffix_check(wname, ".gtkw.gz") || suffix_check(wname, ".gtkw.zip");
 
@@ -4582,7 +4582,7 @@ int read_save_helper(char *wname, char **dumpfile) {
                 char *iline;      
 		int s_ctx_iter;
 
-		if(extract_dumpfile_only)
+		if(extract_dumpfile_savefile_only)
 			{
 	                while((iline=fgetmalloc(wave)))
 	                        {
@@ -4593,10 +4593,20 @@ int read_save_helper(char *wname, char **dumpfile) {
 					if((lhq) && (rhq) && (lhq != rhq)) /* no real need to check rhq != NULL*/
 						{
 						*rhq = 0;
+						if(*dumpfile) free_2(*dumpfile);
 						*dumpfile = strdup_2(lhq + 1);
-			                        free_2(iline);
-						rc++;
-						break;				
+						}
+					}
+				else
+				if(!strncmp(iline,  "[savefile]", 10))
+					{
+					char *lhq = strchr(iline, '"');
+					char *rhq = strrchr(iline, '"');
+					if((lhq) && (rhq) && (lhq != rhq)) /* no real need to check rhq != NULL*/
+						{
+						*rhq = 0;
+						if(*savefile) free_2(*savefile);
+						*savefile = strdup_2(lhq + 1);
 						}
 					}
 
@@ -4730,7 +4740,7 @@ if(GLOBALS->filesel_ok)
 	DEBUG(printf("Read Save Fini: %s\n", *GLOBALS->fileselbox_text));
 
         wname=*GLOBALS->fileselbox_text;
-        read_save_helper(wname, NULL);
+        read_save_helper(wname, NULL, NULL);
   }
 }
 

@@ -745,13 +745,19 @@ if(GLOBALS->finder_name_integration)
 		int try_to_load_file = 1;
 		int reload_save_file = 0;
 		char *dfn = NULL;
+		char *sfn = NULL;
 		char *make_path = NULL;
 
 		if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 			{
 			reload_save_file = 1;
 			try_to_load_file = 0;
-			read_save_helper(lcname, &dfn);
+			read_save_helper(lcname, &dfn, &sfn);
+
+			if(sfn)
+				{
+				free_2(sfn); /* FIXME */
+				}
 
 			if(dfn)
 				{
