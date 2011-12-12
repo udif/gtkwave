@@ -746,6 +746,7 @@ if(GLOBALS->finder_name_integration)
 		int reload_save_file = 0;
 		char *dfn = NULL;
 		char *sfn = NULL;
+		char *fdf = NULL;
 		char *make_path = NULL;
 
 		if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
@@ -782,9 +783,12 @@ if(GLOBALS->finder_name_integration)
 		               	if(sfn)
                        			{
 		                        char *can = realpath(lcname, NULL);
-		                        char *fdf = find_dumpfile(sfn, dfn, can);
+		                        char *old_fdf = find_dumpfile(sfn, dfn, can);
 
 		                        free(can);
+					fdf = g_strdup(old_fdf);
+					free_2(old_fdf);
+
 		                       	f = fopen(fdf, "rb");
 		                        if(f)
 		                                {
@@ -792,10 +796,6 @@ if(GLOBALS->finder_name_integration)
 		                                lcname =fdf;
 						try_to_load_file = 1;
 		                               	}
-						else
-						{
-						free(fdf);
-						}
 		                        }
 #endif
 				if(!try_to_load_file)
@@ -855,6 +855,7 @@ if(GLOBALS->finder_name_integration)
 
 		if(dfn) g_free(dfn);
 		if(sfn) g_free(sfn);
+		if(fdf) g_free(fdf);
 		if(make_path) g_free(make_path);
 
 		lc_next = lc->next;
