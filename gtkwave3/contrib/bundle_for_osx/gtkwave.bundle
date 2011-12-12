@@ -159,4 +159,13 @@
     ${project}/gtkwave.pl
   </data>
 
+  <!-- Copy in the patches so users can recreate gtk from source. 
+       This might be obsolete in future versions of gtk. 
+       See bug #664894. 
+    -->
+
+  <data dest="${bundle}/Contents/Resources/share/patches/gtk_diff_against_modulesets.patch">
+    ${project}/gtk_diff_against_modulesets.patch
+  </data>
+
 </app-bundle>
