@@ -2,11 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 
-<!-- Remove the .sav file entry if .sav files are already in use
-     on your system and are associated with another app.  You can
-     use .gtkw in that case instead. -->
-
-
 <dict>
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
@@ -224,28 +219,6 @@
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>GTKW</string>
-			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSCanProvideIMVideoDataSource</key>
-			<string>true</string>
-			<key>NSDocumentClass</key>
-			<string>LPgtkwaveDocument</string>
-		</dict>
-
-		<!-- .sav save file icon -->
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>sav</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>gtkwave_savefiles.icns</string>
-			<key>CFBundleTypeName</key>
-			<string>GTKWave Save File</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>SAV </string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
