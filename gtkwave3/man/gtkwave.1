@@ -152,13 +152,16 @@ To run this program the standard way type:
 gtkwave dumpfile.vcd
 .TP 
 Alternatively you can run it with a save file as:
-gtkwave dumpfile.vcd dumpfile.sav
+gtkwave dumpfile.vcd dumpfile.gtkw
 .TP
 To run interactively using shared memory handle 0x00050003:
-gtkwave \-I 00050003 dumpfile.sav
+gtkwave \-I 00050003 dumpfile.gtkw
+.TP
+To pick up a dumpfile automatically from a save file (e.g., when launching from an icon):
+gtkwave \-\-save dumpfile.gtkw
 .TP
 To run from the app bundle gtkwave.app in OSX using /bin/sh:
-GTKWAVE_CHDIR=\`pwd\`;export GTKWAVE_CHDIR;open \-n \-W \-a gtkwave \-\-args \-\-chdir dummy \-\-dump des.vzt \-\-save des.sav
+GTKWAVE_CHDIR=\`pwd\`;export GTKWAVE_CHDIR;open \-n \-W \-a gtkwave \-\-args \-\-chdir dummy \-\-dump des.vzt \-\-save des.gtkw
 .TP
 Alternatively, run the following Perl script gtkwave.app/Contents/Resources/bin/gtkwave to process command line arguments from OSX shell scripts.
 .TP
