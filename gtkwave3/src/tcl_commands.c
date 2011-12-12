@@ -1730,7 +1730,7 @@ static int gtkwavetcl_loadFile(ClientData clientData, Tcl_Interp *interp, int ob
 	
       if(!GLOBALS->in_tcl_callback)                          
         {
-        /*	read_save_helper(s, NULL); */
+        /*	read_save_helper(s, NULL, NULL); */
         process_url_file(s);
         /*	process_url_list(s); */
         /*	gtkwave_main_iteration(); */

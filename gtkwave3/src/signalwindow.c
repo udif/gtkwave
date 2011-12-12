@@ -850,7 +850,7 @@ if(GLOBALS->finder_name_integration)
 			{
 			if(GLOBALS->filesel_writesave) { free_2(GLOBALS->filesel_writesave); }
 			GLOBALS->filesel_writesave = strdup_2(lc->name);
-			read_save_helper(GLOBALS->filesel_writesave, NULL);
+			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL);
 			}
 
 		if(dfn) g_free(dfn);
