@@ -6905,6 +6905,9 @@ void wave_gtk_grab_remove(GtkWidget *w)
 gtk_grab_remove(w);
 
 #ifdef MAC_INTEGRATION
-osx_menu_sensitivity(TRUE);
+if(GLOBALS->loaded_file_type != MISSING_FILE)
+	{
+	osx_menu_sensitivity(TRUE);
+	}
 #endif
 }
