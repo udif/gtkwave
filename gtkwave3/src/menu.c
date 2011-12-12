@@ -3210,18 +3210,26 @@ if(GLOBALS->filesel_ok)
 void
 menu_new_viewer(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
-if(GLOBALS->helpbox_is_active)
-	{
-	help_text_bold("\n\nOpen New Window");
-	help_text(
-		" will open a file requester that will ask for the name"
-		" of a VCD or AET file to view.  This will fork off a"
-		" new viewer process."
-	);
-	return;
-	}
+static int mnv = 0;
 
-fileselbox("Select a trace to view...",&GLOBALS->filesel_newviewer_menu_c_1,GTK_SIGNAL_FUNC(menu_new_viewer_cleanup), GTK_SIGNAL_FUNC(NULL), NULL, 0);
+if(!mnv && !GLOBALS->busy_busy_c_1)
+	{
+	mnv = 1;
+	if(GLOBALS->helpbox_is_active)
+		{
+		help_text_bold("\n\nOpen New Window");
+		help_text(
+			" will open a file requester that will ask for the name"
+			" of a VCD or AET file to view.  This will fork off a"
+			" new viewer process."
+		);
+		}
+		else
+		{
+		fileselbox("Select a trace to view...",&GLOBALS->filesel_newviewer_menu_c_1,GTK_SIGNAL_FUNC(menu_new_viewer_cleanup), GTK_SIGNAL_FUNC(NULL), NULL, 0);
+		}
+	mnv = 0;
+	}
 }
 
 /**/
@@ -6913,6 +6921,33 @@ gtk_grab_remove(w);
 if(GLOBALS->loaded_file_type != MISSING_FILE)
 	{
 	osx_menu_sensitivity(TRUE);
+	}
+	else
+	{
+	int i;
+	GtkWidget *mw;
+	int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
+
+	for(i=0;i<nmenu_items;i++)
+		{
+		switch(i)
+			{
+			case WV_MENU_FONVT:
+			case WV_MENU_WCLOSE:
+#if defined(HAVE_LIBTCL)
+	    		case WV_MENU_TCLSCR:
+#endif
+			case WV_MENU_FQY:
+			case WV_MENU_HWH:
+			case WV_MENU_HWV:
+				mw = menu_wlist[i];
+				if(mw) gtk_widget_set_sensitive(mw, TRUE);
+				break;
+	
+			default: 
+				break;
+			}
+		}
 	}
 #endif
 }
