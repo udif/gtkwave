@@ -36,10 +36,6 @@
 #include <io.h>
 #endif
 
-#ifdef __linux__
-extern char *canonicalize_file_name (__const char *__name);
-#endif
-
 #ifdef _MSC_VER
 #define strcasecmp _stricmp
 #endif
@@ -4083,11 +4079,6 @@ void write_save_helper(char *savnam, FILE *wave) {
 			}
 			else
 			{
-#ifdef __linux__
-		        char *can = canonicalize_file_name(GLOBALS->loaded_file_name);
-			char *cansav = canonicalize_file_name(savnam);
-			const int do_free = 1;
-#else
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 		        char *can = realpath(GLOBALS->loaded_file_name, NULL);
 			char *cansav = realpath(savnam, NULL);
@@ -4096,7 +4087,6 @@ void write_save_helper(char *savnam, FILE *wave) {
 			char *can = GLOBALS->loaded_file_name;
 			char *cansav = savnam;
 			const int do_free = 0;
-#endif
 #endif
 			fprintf(wave, "[dumpfile] \"%s\"\n", can);
 			fprintf(wave, "[savefile] \"%s\"\n", cansav); /* emit also in order to do relative path matching in future... */

@@ -18,10 +18,6 @@
 #include <stdlib.h>
 #include <fnmatch.h>
 
-#ifdef __linux__
-extern char *canonicalize_file_name (__const char *__name);
-#endif
-
 #if GTK_CHECK_VERSION(2,4,0)
 
 static gboolean ffunc (const GtkFileFilterInfo *filter_info, gpointer data)
@@ -231,19 +227,6 @@ GLOBALS->filesel_ok=0;
 
 if(*GLOBALS->fileselbox_text && (!g_path_is_absolute(*GLOBALS->fileselbox_text)))
 	{
-#ifdef __linux__
-	char *can = canonicalize_file_name(*GLOBALS->fileselbox_text);
-
-	if(can)
-		{
-		if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
-	        *GLOBALS->fileselbox_text=(char *)malloc_2(strlen(can)+1);
-	        strcpy(*GLOBALS->fileselbox_text, can);
-		free(can);
-		can_set_filename = 1;
-		}
-
-#else
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 	char *can = realpath(*GLOBALS->fileselbox_text, NULL);
 
@@ -258,7 +241,6 @@ if(*GLOBALS->fileselbox_text && (!g_path_is_absolute(*GLOBALS->fileselbox_text))
 #else
 #if __GNUC__
 #warning Absolute file path warnings might be issued by the file chooser dialogue on this system!
-#endif
 #endif
 #endif
 	}

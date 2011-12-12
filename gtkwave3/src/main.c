@@ -96,25 +96,39 @@ char *dfn = NULL;
 char *sfn = NULL;
 char *make_path = NULL;
 char *rp = NULL;
+FILE *f;
 
 if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 	{
 	read_save_helper(lcname, &dfn, &sfn);
 
-	if(sfn)
-		{
-		free_2(sfn); /* FIXME */
-		}
-
 	if(dfn)
 		{
-		FILE *f = fopen(dfn, "rb");
+		f = fopen(dfn, "rb");
 		if(f)
 			{
 			fclose(f);
-			rp = dfn;
+			rp = strdup_2(dfn);
+			goto bot;
 			}
-			else
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+		else
+		if(sfn)
+			{
+			char *can = realpath(lcname, NULL);
+			char *fdf = find_dumpfile(sfn, dfn, can);
+
+			free(can);
+			f = fopen(fdf, "rb");
+			if(f)
+				{
+				rp = fdf;
+				fclose(f);
+				goto bot;
+				}
+			}
+#endif
+		/* last chance */
 			{
 			char *rhs;
 			char *dfn2 = strrchr(dfn, '/');
@@ -143,10 +157,13 @@ if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 				}
 
 			if(!rp) free_2(make_path);
-			free_2(dfn);
 			}
 		}
 	}
+
+bot:
+if(dfn) free_2(dfn);
+if(sfn) free_2(sfn);
 
 return(rp);
 }

@@ -756,7 +756,10 @@ if(GLOBALS->finder_name_integration)
 
 			if(sfn)
 				{
-				free_2(sfn); /* FIXME */
+				char *old_sfn = sfn;
+
+				sfn = g_strdup(old_sfn); /* as context can change on file load */
+				free_2(old_sfn);
 				}
 
 			if(dfn)
@@ -774,7 +777,28 @@ if(GLOBALS->finder_name_integration)
 					lcname = dfn;
 					try_to_load_file = 1;
 					}
-					else
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+				else
+		               	if(sfn)
+                       			{
+		                        char *can = realpath(lcname, NULL);
+		                        char *fdf = find_dumpfile(sfn, dfn, can);
+
+		                        free(can);
+		                       	f = fopen(fdf, "rb");
+		                        if(f)
+		                                {
+		                                fclose(f);
+		                                lcname =fdf;
+						try_to_load_file = 1;
+		                               	}
+						else
+						{
+						free(fdf);
+						}
+		                        }
+#endif
+				if(!try_to_load_file)
 					{
 					char *rhs;
 					char *dfn2 = strrchr(dfn, '/');
@@ -830,6 +854,7 @@ if(GLOBALS->finder_name_integration)
 			}
 
 		if(dfn) g_free(dfn);
+		if(sfn) g_free(sfn);
 		if(make_path) g_free(make_path);
 
 		lc_next = lc->next;
