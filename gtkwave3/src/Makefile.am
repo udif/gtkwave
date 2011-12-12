@@ -33,7 +33,7 @@ gtkwave_SOURCES= \
 	logfile.c lx2.c lx2.h lxt.c lxt.h main.c main.h markerbox.c menu.c menu.h mouseover.c \
 	mouseover_sigs.c pagebuttons.c pipeio.c pipeio.h pixmaps.c pixmaps.h print.c print.h \
 	ptranslate.c ptranslate.h rc.c rc.h \
-	regex.c regex_wave.h renderopt.c rgb.c search.c shiftbuttons.c showchange.c \
+	regex.c regex_wave.h renderopt.c rgb.c savefile.c savefile.h search.c shiftbuttons.c showchange.c \
 	signalwindow.c simplereq.c splash.c status.c strace.c strace.h symbol.c symbol.h tcl_callbacks.h \
         tcl_commands.c tcl_helper.c tcl_helper.h tcl_np.c tcl_np.h tcl_support_commands.c tcl_support_commands.h \
 	timeentry.c translate.c translate.h tree.c tree.h treesearch.c tree_component.c tree_component.h \

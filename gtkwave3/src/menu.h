@@ -35,7 +35,6 @@ void menu_set_sensitive(void);
 int file_quit_cmd_callback (GtkWidget *widget, gpointer data);
 int set_wave_menu_accelerator(char *str);
 int execute_script(char *name, int dealloc_name);
-char *append_array_row(nptr n);
 
 struct stringchain_t
 {
@@ -389,10 +388,6 @@ int menu_new_viewer_tab_cleanup_2(char *fname);
 
 
 void set_scale_to_time_dimension_toggles(void);
-
-/* These should eventually have error values */
-void write_save_helper(char *savnam, FILE *file);
-int read_save_helper(char *wname, char **dumpfile, char **savefile); /* -1 = error, 0+ = number of lines read */
 
 void SetTraceScrollbarRowValue(int row, unsigned center);
 

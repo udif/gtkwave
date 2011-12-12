@@ -120,8 +120,6 @@ void gtk_tooltips_set_tip_2(GtkTooltips *tooltips, GtkWidget *widget,
 void gtk_tooltips_set_delay_2(GtkTooltips *tooltips, guint delay);
 GtkTooltips* gtk_tooltips_new_2(void);
 
-char *find_dumpfile(char *orig_save, char *orig_dump, char *this_save);
-
 
 #undef WAVE_USE_SIGCMP_INFINITE_PRECISION  /* define this for slow sigcmp with infinite digit accuracy */
 #define WAVE_OPT_SKIP 1			   /* make larger for more accel on traces */

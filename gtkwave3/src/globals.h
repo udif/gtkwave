@@ -45,6 +45,7 @@
 #include "ttranslate.h"
 #include "rc.h"
 #include "regex_wave.h"
+#include "savefile.h"
 #include "strace.h"
 #include "symbol.h"
 #include "tcl_helper.h"

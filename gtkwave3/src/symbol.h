@@ -108,9 +108,6 @@ struct Bits *makevec(char *, char *);
 struct Bits *makevec_annotated(char *, char *);
 int maketraces(char *, char *, int);
 
-int parsewavline(char *, char *, int);
-int parsewavline_lx2(char *, char *, int);
-
 
 /* additions to bitvec.c because of search.c/menu.c ==> formerly in analyzer.h */
 bvptr bits2vector(struct Bits *b);
