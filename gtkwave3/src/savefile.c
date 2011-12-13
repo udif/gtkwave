@@ -11,6 +11,9 @@
 #include <config.h>
 #include "savefile.h"
 #include "hierpack.h"
+#if !defined __MINGW32__ && !defined _MSC_VER
+#include <sys/stat.h>
+#endif
 
 char *append_array_row(nptr n)
 {
@@ -63,6 +66,9 @@ void write_save_helper(char *savnam, FILE *wave) {
 			}
 			else
 			{
+#if !defined __MINGW32__ && !defined _MSC_VER
+			struct stat sbuf;
+#endif
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 		        char *can = realpath(GLOBALS->loaded_file_name, NULL);
 			char *cansav = realpath(savnam, NULL);
@@ -73,6 +79,21 @@ void write_save_helper(char *savnam, FILE *wave) {
 			const int do_free = 0;
 #endif
 			fprintf(wave, "[dumpfile] \"%s\"\n", can);
+#if !defined __MINGW32__ && !defined _MSC_VER
+			if(!stat(can, &sbuf))
+				{
+				char *asct = asctime(localtime(&sbuf.st_mtime));
+				if(asct)
+					{
+					char *asct2 = strdup_2(asct);
+					char *nl = strchr(asct2, '\n');
+					if(nl) *nl = 0;
+					fprintf(wave, "[dumpfile_mtime] \"%s\"\n", asct2);
+					free_2(asct2);
+					fprintf(wave, "[dumpfile_size] %"PRIu64"\n", sbuf.st_size);
+					}
+				}
+#endif
 			fprintf(wave, "[savefile] \"%s\"\n", cansav); /* emit also in order to do relative path matching in future... */
 			if(do_free)
 				{
@@ -489,6 +510,16 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile) {
 						if(*dumpfile) free_2(*dumpfile);
 						*dumpfile = strdup_2(lhq + 1);
 						}
+					}
+				else
+				if(!strncmp(iline,  "[dumpfile_mtime]", 16))
+					{
+					/* nothing for now */
+					}
+				else
+				if(!strncmp(iline,  "[dumpfile_size]", 15))
+					{
+					/* nothing for now */
 					}
 				else
 				if(!strncmp(iline,  "[savefile]", 10))

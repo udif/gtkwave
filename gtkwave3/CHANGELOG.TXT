@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	12dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+3.3.29	13dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
 		was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar 
@@ -1125,3 +1125,4 @@
 		Added relative path comparisons for --save so when dumpfiles
 		and savefiles move in tandem, a successful load can be 
 		attempted.
+		Added [dumpfile_mtime] and [dumpfile_size] tags to save file.
