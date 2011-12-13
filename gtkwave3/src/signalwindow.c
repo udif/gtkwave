@@ -747,7 +747,7 @@ if(GLOBALS->finder_name_integration)
 		char *dfn = NULL;
 		char *sfn = NULL;
 		char *fdf = NULL;
-		char *make_path = NULL;
+		FILE *f;
 
 		if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 			{
@@ -758,17 +758,38 @@ if(GLOBALS->finder_name_integration)
 			if(sfn)
 				{
 				char *old_sfn = sfn;
-
-				sfn = g_strdup(old_sfn); /* as context can change on file load */
+				sfn = wave_alloca(strlen(sfn)+1); /* as context can change on file load */
+				strcpy(sfn, old_sfn);
 				free_2(old_sfn);
 				}
 
-			if(dfn)
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+	               	if(dfn && sfn)
+              			{
+	                        char *can = realpath(lcname, NULL);
+	                        char *old_fdf = find_dumpfile(sfn, dfn, can);
+
+	                        free(can);
+				fdf = wave_alloca(strlen(old_fdf)+1);
+				strcpy(fdf, old_fdf);
+				free_2(old_fdf);
+
+	                       	f = fopen(fdf, "rb");
+	                        if(f)
+	                                {
+	                                fclose(f);
+	                                lcname = fdf;
+					try_to_load_file = 1;
+	                               	}
+				}
+#endif
+
+			if(dfn && !try_to_load_file)
 				{
-				FILE *f;
 				char *old_dfn = dfn;
 
-				dfn = g_strdup(old_dfn); /* as context can change on file load */
+				dfn = wave_alloca(strlen(dfn)+1); /* as context can change on file load */
+				strcpy(dfn, old_dfn);
 				free_2(old_dfn);
 
 				f = fopen(dfn, "rb");
@@ -778,56 +799,13 @@ if(GLOBALS->finder_name_integration)
 					lcname = dfn;
 					try_to_load_file = 1;
 					}
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-				else
-		               	if(sfn)
-                       			{
-		                        char *can = realpath(lcname, NULL);
-		                        char *old_fdf = find_dumpfile(sfn, dfn, can);
-
-		                        free(can);
-					fdf = g_strdup(old_fdf);
-					free_2(old_fdf);
-
-		                       	f = fopen(fdf, "rb");
-		                        if(f)
-		                                {
-		                                fclose(f);
-		                                lcname =fdf;
-						try_to_load_file = 1;
-		                               	}
-		                        }
-#endif
-				if(!try_to_load_file)
-					{
-					char *rhs;
-					char *dfn2 = strrchr(dfn, '/');
-
-					dfn2 = dfn2 ? (dfn2+1) : dfn; /* extract filename */
-
-					make_path = g_strdup(lcname);
-					rhs = strrchr(make_path, '/');
-					if(rhs)
-						{
-						*(rhs+1) = 0;
-						make_path = g_realloc(make_path, strlen(make_path) + strlen(dfn2) + 1);
-						strcat(make_path, dfn2);
-						f = fopen(make_path, "rb");
-						if(f)
-							{
-							fclose(f);
-							lcname = make_path;
-							try_to_load_file = 1;
-							}
-						}
-					}
 				}
 			}
 
 		if(try_to_load_file)
 			{
 			int plen = strlen(lcname);
-			char *fni = g_malloc(plen + 32); /* extra space for message */
+			char *fni = wave_alloca(plen + 32); /* extra space for message */
 
 			sprintf(fni, "Loading %s...", lcname);
 			gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
@@ -841,8 +819,6 @@ if(GLOBALS->finder_name_integration)
 					gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
 					}
 				}
-
-			g_free(fni);
 			}
 
 		/* now do save file... */
@@ -852,11 +828,6 @@ if(GLOBALS->finder_name_integration)
 			GLOBALS->filesel_writesave = strdup_2(lc->name);
 			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL);
 			}
-
-		if(dfn) g_free(dfn);
-		if(sfn) g_free(sfn);
-		if(fdf) g_free(fdf);
-		if(make_path) g_free(make_path);
 
 		lc_next = lc->next;
 		g_free(lc->name);

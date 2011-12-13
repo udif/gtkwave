@@ -94,13 +94,29 @@ static char *extract_dumpname_from_save_file(char *lcname)
 {
 char *dfn = NULL;
 char *sfn = NULL;
-char *make_path = NULL;
 char *rp = NULL;
 FILE *f;
 
 if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 	{
 	read_save_helper(lcname, &dfn, &sfn);
+
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+	if(sfn && dfn)
+		{
+		char *can = realpath(lcname, NULL);
+		char *fdf = find_dumpfile(sfn, dfn, can);
+
+		free(can);
+		f = fopen(fdf, "rb");
+		if(f)
+			{
+			rp = fdf;
+			fclose(f);
+			goto bot;
+			}
+		}
+#endif
 
 	if(dfn)
 		{
@@ -110,53 +126,6 @@ if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 			fclose(f);
 			rp = strdup_2(dfn);
 			goto bot;
-			}
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-		else
-		if(sfn)
-			{
-			char *can = realpath(lcname, NULL);
-			char *fdf = find_dumpfile(sfn, dfn, can);
-
-			free(can);
-			f = fopen(fdf, "rb");
-			if(f)
-				{
-				rp = fdf;
-				fclose(f);
-				goto bot;
-				}
-			}
-#endif
-		/* last chance */
-			{
-			char *rhs;
-			char *dfn2 = strrchr(dfn, '/');
-
-			dfn2 = dfn2 ? (dfn2+1) : dfn; /* extract filename */
-
-			make_path = strdup_2(lcname);
-			rhs = strrchr(make_path, '/');
-			if(rhs)
-				{
-				*(rhs+1) = 0;
-				make_path = realloc_2(make_path, strlen(make_path) + strlen(dfn2) + 1);
-				strcat(make_path, dfn2);
-				}
-				else
-				{
-				free_2(make_path);
-				make_path = strdup_2(dfn2);
-				}
-
-			f = fopen(make_path, "rb");
-			if(f)
-				{
-				fclose(f);
-				rp = make_path;
-				}
-
-			if(!rp) free_2(make_path);
 			}
 		}
 	}
