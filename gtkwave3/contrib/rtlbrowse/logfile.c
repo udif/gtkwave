@@ -1293,10 +1293,17 @@ fwht_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "white_fore
 			      "foreground", "white", NULL);
 blue_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "blue_background",
 			      "background", "blue", NULL);
+#ifdef MAC_INTEGRATION
+mono_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "monospace", 
+					"family", "monospace", NULL);
+size_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "fsiz",
+					"size", 10 * PANGO_SCALE, NULL);
+#else
 mono_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "monospace", 
 					"family", "monospace", NULL);
 size_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "fsiz",
 					"size", 8 * PANGO_SCALE, NULL);
+#endif
 #else                                  
 text = gtk_text_new (NULL, NULL);
 #endif
