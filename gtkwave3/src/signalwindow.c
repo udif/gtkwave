@@ -732,110 +732,39 @@ if(GLOBALS->dnd_helper_quartz)
 #endif
 
 #ifdef MAC_INTEGRATION
-if(GLOBALS->finder_name_integration)
+if(process_finder_names_queued())
 	{
-	struct logfile_chain *lc = GLOBALS->finder_name_integration;
-	struct logfile_chain *lc_next;
-
-	GLOBALS->finder_name_integration = NULL; /* placed here to avoid race conditions with GLOBALS */
-
-	while(lc)
+	if(GLOBALS->pFileChoose)
 		{
-		char *lcname = lc->name;
-		int try_to_load_file = 1;
-		int reload_save_file = 0;
-		char *dfn = NULL;
-		char *sfn = NULL;
-		char *fdf = NULL;
-		FILE *f;
-
-		if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
+		if(!GLOBALS->window_simplereq_c_9)
 			{
-			reload_save_file = 1;
-			try_to_load_file = 0;
-			read_save_helper(lcname, &dfn, &sfn);
-
-			if(sfn)
+			char *qn = process_finder_extract_queued_name();
+			if(qn)
 				{
-				char *old_sfn = sfn;
-				sfn = wave_alloca(strlen(sfn)+1); /* as context can change on file load */
-				strcpy(sfn, old_sfn);
-				free_2(old_sfn);
-				}
-
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-	               	if(dfn && sfn)
-              			{
-	                        char *can = realpath(lcname, NULL);
-	                        char *old_fdf = find_dumpfile(sfn, dfn, can);
-
-	                        free(can);
-				fdf = wave_alloca(strlen(old_fdf)+1);
-				strcpy(fdf, old_fdf);
-				free_2(old_fdf);
-
-	                       	f = fopen(fdf, "rb");
-	                        if(f)
-	                                {
-	                                fclose(f);
-	                                lcname = fdf;
-					try_to_load_file = 1;
-	                               	}
-				}
-#endif
-
-			if(dfn && !try_to_load_file)
-				{
-				char *old_dfn = dfn;
-
-				dfn = wave_alloca(strlen(dfn)+1); /* as context can change on file load */
-				strcpy(dfn, old_dfn);
-				free_2(old_dfn);
-
-				f = fopen(dfn, "rb");
-				if(f)
+				int qn_len = strlen(qn);
+				const int mlen = 30;
+				if(qn_len < mlen)
 					{
-					fclose(f);
-					lcname = dfn;
-					try_to_load_file = 1;
+					simplereqbox("File queued for loading",300,qn,"OK", NULL, NULL, 1);
 					}
-				}
-			}
-
-		if(try_to_load_file)
-			{
-			int plen = strlen(lcname);
-			char *fni = wave_alloca(plen + 32); /* extra space for message */
-
-			sprintf(fni, "Loading %s...", lcname);
-			gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
-
-			strcpy(fni, lcname);
-
-			if(!menu_new_viewer_tab_cleanup_2(fni))
-				{
-				if(GLOBALS->winname)
+					else
 					{
-					gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
+					char *qn_2 = wave_alloca(mlen + 4);
+					strcpy(qn_2, "...");
+					strcat(qn_2, qn + qn_len - mlen);
+					simplereqbox("File queued for loading",300,qn_2,"OK", NULL, NULL, 1);
 					}
+				return(TRUE);
 				}
 			}
-
-		/* now do save file... */
-		if(reload_save_file)
-			{
-			if(GLOBALS->filesel_writesave) { free_2(GLOBALS->filesel_writesave); }
-			GLOBALS->filesel_writesave = strdup_2(lc->name);
-			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL);
-			}
-
-		lc_next = lc->next;
-		g_free(lc->name);
-		g_free(lc);
-		lc = lc_next;
 		}
-
-	return(TRUE);
+		else
+		{
+		if(process_finder_name_integration())
+			{
+			return(TRUE);
+			}
+		}
 	}
 #endif
 

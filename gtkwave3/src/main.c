@@ -423,31 +423,6 @@ void addPidToExecutableName(int argc, char* argv[], char* argv_mod[])
   argv_mod[0] = buffer;
 }
 
-#ifdef MAC_INTEGRATION
-/*
- * Integration with Finder...
- * cache name and load in later off a timer (similar to caching DnD for quartz...)
- */
-static gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
-{
-if(!GLOBALS->finder_name_integration)
-	{
-	GLOBALS->finder_name_integration = g_malloc(sizeof(struct logfile_chain));
-	GLOBALS->finder_name_integration->name = g_strdup(path);
-	GLOBALS->finder_name_integration->next = NULL;
-	}
-	else
-	{
-	struct logfile_chain *p = GLOBALS->finder_name_integration;
-	while(p->next) p = p->next;
-	p->next = g_malloc(sizeof(struct logfile_chain));
-	p->next->name = g_strdup(path);
-	p->next->next = NULL;
-	}
-
-return(TRUE);
-}
-#endif
 
 int main(int argc, char *argv[])
 {

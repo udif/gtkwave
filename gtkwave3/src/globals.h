@@ -466,9 +466,6 @@ unsigned int *lastchange;
  * main.c
  */
 char is_gtkw_save_file;
-#ifdef MAC_INTEGRATION
-struct logfile_chain *finder_name_integration;
-#endif
 GtkWidget *missing_file_toolbar;
 char *argvlist;
 #ifdef HAVE_LIBTCL

@@ -2080,3 +2080,179 @@ return(synth_nam);
 }
 
 /******************************************************************/
+
+#ifdef MAC_INTEGRATION
+
+/*
+ * deliberately kept outside of GLOBALS control
+ */
+struct finder_file_chain
+{
+struct finder_file_chain *next;
+unsigned queue_warning_presented : 1;
+char *name;
+};
+
+static struct finder_file_chain *finder_name_integration = NULL;
+
+/*
+ * Integration with Finder...
+ * cache name and load in later off a timer (similar to caching DnD for quartz...)
+ */
+gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
+{
+if(!finder_name_integration)
+        {
+        finder_name_integration = g_malloc(sizeof(struct finder_file_chain));
+        finder_name_integration->name = g_strdup(path);
+	finder_name_integration->queue_warning_presented = 0;
+        finder_name_integration->next = NULL;
+        }
+        else
+        {
+        struct finder_file_chain *p = finder_name_integration;
+        while(p->next) p = p->next;
+        p->next = g_malloc(sizeof(struct finder_file_chain));
+	p->next->queue_warning_presented = 0;
+        p->next->name = g_strdup(path);
+        p->next->next = NULL;
+        }
+
+return(TRUE);
+}
+
+/*
+ * caled in timer routine
+ */
+gboolean process_finder_names_queued(void)
+{
+return(finder_name_integration != NULL);
+}
+
+char *process_finder_extract_queued_name(void)
+{
+struct finder_file_chain *lc = finder_name_integration;
+while(lc)
+	{
+	if(!lc->queue_warning_presented)
+		{
+		lc->queue_warning_presented = 1;
+		return(lc->name);
+		}
+
+	lc = lc->next;
+	}
+
+return(NULL);
+}
+
+gboolean process_finder_name_integration(void)
+{
+struct finder_file_chain *lc = finder_name_integration;
+struct finder_file_chain *lc_next;
+
+if(lc)
+	{
+	finder_name_integration = NULL; /* placed here to avoid race conditions with GLOBALS */
+
+	while(lc)
+		{
+		char *lcname = lc->name;
+		int try_to_load_file = 1;
+		int reload_save_file = 0;
+		char *dfn = NULL;
+		char *sfn = NULL;
+		char *fdf = NULL;
+		FILE *f;
+
+		if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
+			{
+			reload_save_file = 1;
+			try_to_load_file = 0;
+			read_save_helper(lcname, &dfn, &sfn);
+
+			if(sfn)
+				{
+				char *old_sfn = sfn;
+				sfn = wave_alloca(strlen(sfn)+1); /* as context can change on file load */
+				strcpy(sfn, old_sfn);
+				free_2(old_sfn);
+				}
+
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+	               	if(dfn && sfn)
+              			{
+	                        char *can = realpath(lcname, NULL);
+	                        char *old_fdf = find_dumpfile(sfn, dfn, can);
+
+	                        free(can);
+				fdf = wave_alloca(strlen(old_fdf)+1);
+				strcpy(fdf, old_fdf);
+				free_2(old_fdf);
+
+	                       	f = fopen(fdf, "rb");
+	                        if(f)
+	                                {
+	                                fclose(f);
+	                                lcname = fdf;
+					try_to_load_file = 1;
+	                               	}
+				}
+#endif
+
+			if(dfn && !try_to_load_file)
+				{
+				char *old_dfn = dfn;
+
+				dfn = wave_alloca(strlen(dfn)+1); /* as context can change on file load */
+				strcpy(dfn, old_dfn);
+				free_2(old_dfn);
+
+				f = fopen(dfn, "rb");
+				if(f)
+					{
+					fclose(f);
+					lcname = dfn;
+					try_to_load_file = 1;
+					}
+				}
+			}
+
+		if(try_to_load_file)
+			{
+			int plen = strlen(lcname);
+			char *fni = wave_alloca(plen + 32); /* extra space for message */
+
+			sprintf(fni, "Loading %s...", lcname);
+			gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
+
+			strcpy(fni, lcname);
+
+			if(!menu_new_viewer_tab_cleanup_2(fni))
+				{
+				if(GLOBALS->winname)
+					{
+					gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
+					}
+				}
+			}
+
+		/* now do save file... */
+		if(reload_save_file)
+			{
+			if(GLOBALS->filesel_writesave) { free_2(GLOBALS->filesel_writesave); }
+			GLOBALS->filesel_writesave = strdup_2(lc->name);
+			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL);
+			}
+
+		lc_next = lc->next;
+		g_free(lc->name);
+		g_free(lc);
+		lc = lc_next;
+		}
+	return(TRUE);
+	}
+
+return(FALSE);
+}
+#endif
