@@ -2202,6 +2202,14 @@ if(lc)
 			try_to_load_file = 0;
 			read_save_helper(lcname, &dfn, &sfn);
 
+			if(dfn)
+				{
+				char *old_dfn = dfn;
+				dfn = wave_alloca(strlen(dfn)+1); /* as context can change on file load */
+				strcpy(dfn, old_dfn);
+				free_2(old_dfn);
+				}
+
 			if(sfn)
 				{
 				char *old_sfn = sfn;
@@ -2209,6 +2217,7 @@ if(lc)
 				strcpy(sfn, old_sfn);
 				free_2(old_sfn);
 				}
+
 
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 	               	if(dfn && sfn)
@@ -2233,12 +2242,6 @@ if(lc)
 
 			if(dfn && !try_to_load_file)
 				{
-				char *old_dfn = dfn;
-
-				dfn = wave_alloca(strlen(dfn)+1); /* as context can change on file load */
-				strcpy(dfn, old_dfn);
-				free_2(old_dfn);
-
 				f = fopen(dfn, "rb");
 				if(f)
 					{
@@ -2271,7 +2274,7 @@ if(lc)
 		/* now do save file... */
 		if(reload_save_file)
 			{
-			if(GLOBALS->filesel_writesave) { free_2(GLOBALS->filesel_writesave); }
+			/* let any possible dealloc get taken up by free_outstanding() */
 			GLOBALS->filesel_writesave = strdup_2(lc->name);
 			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL);
 			}
