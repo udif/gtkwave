@@ -27,6 +27,7 @@
 #include "lx2.h"
 #include "hierpack.h"
 #include "tcl_helper.h"
+#include <assert.h>
 
 #if !defined __MINGW32__ && !defined _MSC_VER
 #include <unistd.h>
@@ -6750,6 +6751,7 @@ for(i=0;i<nmenu_items;i++)
 	n = mtree;	
 	for(j=0;j<items;j++)
 		{
+		assert(n != NULL); /* scan-build */
 		if(n->name && (j != (items-1))) /* 2nd comparison is to let separators through */
 			{
 			n2 = n;
@@ -6769,6 +6771,7 @@ for(i=0;i<nmenu_items;i++)
 			{
 			n3 = (j != (items-1)) ? calloc_2(1, sizeof(struct menu_item_t)) : NULL;
 
+			assert(n != NULL); /* scan-build */
 			if(n->name)
 				{
 				while(n->next) { n = n->next; }

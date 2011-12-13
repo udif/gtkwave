@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2011 Tony Bybell.
+ * Copyright (c) 2003-2012 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1541,7 +1541,8 @@ if(lt)
 						if(clen > zlen)
 							{
 							if(zbuff) free(zbuff);
-							zbuff = malloc(zlen = clen * 2);
+							zlen = clen * 2;
+							zbuff = malloc(zlen ? zlen : 1 /* scan-build */);
 							}
 
 						if(!fread(zbuff, clen, 1, lt->handle)) { clen = 0; }
