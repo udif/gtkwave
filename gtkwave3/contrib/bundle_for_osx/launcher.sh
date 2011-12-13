@@ -165,4 +165,15 @@ if [ x`echo "x$1" | sed -e "s/^x-psn_.*//"` == x ]; then
     shift 1
 fi
 
+# export DLYD_INSERT_LIBRARIES=/usr/lib/libMallocDebug.A.dylib
+# export MallocScribble=YES
+# export MallocPreScribble=YES
+# export MallocGuardEdges=YES
+# export MallocStackLogging=YES
+# export MallocStackLoggingNoCompact=YES
+# export NSZombieEnabled=YES
+# export MallocErrorAbort=YES
+# export MallocCheckHeapEach=100
+# export MallocCheckHeapStart=100
+
 $EXEC "$bundle_contents/MacOS/$name-bin" $* $EXTRA_ARGS
