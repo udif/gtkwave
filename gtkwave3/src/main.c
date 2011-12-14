@@ -1686,6 +1686,7 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 	}
 
 g_signal_connect(theApp, "NSApplicationOpenFile", G_CALLBACK(deal_with_finder_open), NULL);
+g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_termination), NULL);
 }
 #endif
 	
@@ -1930,6 +1931,7 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 	}
 
 g_signal_connect(theApp, "NSApplicationOpenFile", G_CALLBACK(deal_with_finder_open), NULL);
+g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_termination), NULL);
 }
 #endif
 

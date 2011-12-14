@@ -2127,33 +2127,7 @@ char *name;
 static struct finder_file_chain *finder_name_integration = NULL;
 
 /*
- * Integration with Finder...
- * cache name and load in later off a timer (similar to caching DnD for quartz...)
- */
-gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
-{
-if(!finder_name_integration)
-        {
-        finder_name_integration = g_malloc(sizeof(struct finder_file_chain));
-        finder_name_integration->name = g_strdup(path);
-	finder_name_integration->queue_warning_presented = 0;
-        finder_name_integration->next = NULL;
-        }
-        else
-        {
-        struct finder_file_chain *p = finder_name_integration;
-        while(p->next) p = p->next;
-        p->next = g_malloc(sizeof(struct finder_file_chain));
-	p->next->queue_warning_presented = 0;
-        p->next->name = g_strdup(path);
-        p->next->next = NULL;
-        }
-
-return(TRUE);
-}
-
-/*
- * caled in timer routine
+ * called in timer routine
  */
 gboolean process_finder_names_queued(void)
 {
@@ -2293,4 +2267,82 @@ if(lc && !is_working)
 
 return(FALSE);
 }
+
+/******************************************************************/
+
+/*
+ * Integration with Finder...
+ * cache name and load in later off a timer (similar to caching DnD for quartz...)
+ */
+gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
+{
+const char *suffixes[] =
+{
+ ".vcd", ".evcd", ".dump",
+ ".lxt", ".lxt2", ".lx2", 
+ ".vzt", 
+ ".fst", 
+ ".ghw", 
+#ifdef EXTLOAD_SUFFIX
+ EXTLOAD_SUFFIX,
 #endif
+#ifdef AET2_IS_PRESENT
+ ".aet", ".ae2",
+#endif
+".gtkw", ".sav"
+};
+
+const int num_suffixes = sizeof(suffixes) / sizeof(const char *);
+int i, mat = 0;
+
+for(i=0;i<num_suffixes;i++)
+	{
+	mat = suffix_check(path, suffixes[i]);
+	if(mat) break;
+	}
+
+if(!mat)
+	{
+	/* generates requester "gtkwave-bin could not open files in the 'xxx' format" */
+	return(FALSE);
+	}
+
+if(!finder_name_integration)
+        {
+        finder_name_integration = g_malloc(sizeof(struct finder_file_chain));
+        finder_name_integration->name = g_strdup(path);
+	finder_name_integration->queue_warning_presented = 0;
+        finder_name_integration->next = NULL;
+        }
+        else
+        {
+        struct finder_file_chain *p = finder_name_integration;
+        while(p->next) p = p->next;
+        p->next = g_malloc(sizeof(struct finder_file_chain));
+	p->next->queue_warning_presented = 0;
+        p->next->name = g_strdup(path);
+        p->next->next = NULL;
+        }
+
+return(TRUE);
+}
+
+
+/*
+ * block termination if in the middle of something important
+ */
+gboolean deal_with_termination(GtkOSXApplication *app, gpointer user_data)
+{       
+gboolean do_not_terminate = FALSE; /* future expansion */
+        
+if(do_not_terminate)
+        {
+        status_text("GTKWAVE | Busy, quit signal blocked.\n");
+        }
+        
+return(do_not_terminate);
+}
+
+#endif
+
+
