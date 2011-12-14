@@ -2179,11 +2179,13 @@ return(NULL);
 
 gboolean process_finder_name_integration(void)
 {
+static int is_working = 0;
 struct finder_file_chain *lc = finder_name_integration;
 struct finder_file_chain *lc_next;
 
-if(lc)
+if(lc && !is_working)
 	{
+	is_working = 1;
 	finder_name_integration = NULL; /* placed here to avoid race conditions with GLOBALS */
 
 	while(lc)
@@ -2284,6 +2286,8 @@ if(lc)
 		g_free(lc);
 		lc = lc_next;
 		}
+
+	is_working = 0;
 	return(TRUE);
 	}
 
