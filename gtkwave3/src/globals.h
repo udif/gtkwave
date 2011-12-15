@@ -466,6 +466,7 @@ unsigned int *lastchange;
  * main.c
  */
 char is_gtkw_save_file;
+gboolean dumpfile_is_modified;
 GtkWidget *missing_file_toolbar;
 char *argvlist;
 #ifdef HAVE_LIBTCL

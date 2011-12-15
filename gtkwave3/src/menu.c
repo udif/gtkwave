@@ -4131,7 +4131,7 @@ if(GLOBALS->filesel_ok)
 	DEBUG(printf("Read Save Fini: %s\n", *GLOBALS->fileselbox_text));
 
         wname=*GLOBALS->fileselbox_text;
-        read_save_helper(wname, NULL, NULL);
+        read_save_helper(wname, NULL, NULL, NULL, NULL);
   }
 }
 

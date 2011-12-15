@@ -29,6 +29,7 @@
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #endif
 
 #if !defined _MSC_VER && defined WAVE_USE_GTK2
@@ -90,16 +91,18 @@ return((strlen(s)>=sfxlen)&&(!strcasecmp(s+strlen(s)-sfxlen,sfx)));
 }
 
 
-static char *extract_dumpname_from_save_file(char *lcname)
+static char *extract_dumpname_from_save_file(char *lcname, gboolean *modified)
 {
 char *dfn = NULL;
 char *sfn = NULL;
 char *rp = NULL;
 FILE *f;
+off_t dumpsiz = -1;
+time_t dumptim = -1;
 
 if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 	{
-	read_save_helper(lcname, &dfn, &sfn);
+	read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim);
 
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 	if(sfn && dfn)
@@ -133,6 +136,18 @@ if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 bot:
 if(dfn) free_2(dfn);
 if(sfn) free_2(sfn);
+
+if(modified) *modified = 0;
+#if !defined __MINGW32__ && !defined _MSC_VER
+if(modified && rp && (dumpsiz != -1) && (dumptim != -1))
+	{
+	struct stat sbuf;
+        if(!stat(rp, &sbuf))
+		{
+		*modified = (dumpsiz != sbuf.st_size) || (dumptim != sbuf.st_mtime);
+                }
+	}
+#endif
 
 return(rp);
 }
@@ -1113,7 +1128,7 @@ if(is_wish && is_vcd)
 
 if((!GLOBALS->loaded_file_name) && wname)
 	{
-	GLOBALS->loaded_file_name = extract_dumpname_from_save_file(wname);
+	GLOBALS->loaded_file_name = extract_dumpname_from_save_file(wname, &GLOBALS->dumpfile_is_modified);
 	/* still can be NULL if file not found... */
 	}
 

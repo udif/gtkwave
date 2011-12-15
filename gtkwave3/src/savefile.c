@@ -52,10 +52,12 @@ void write_save_helper(char *savnam, FILE *wave) {
 
 	DEBUG(printf("Write Save Fini: %s\n", savnam));
 
+	GLOBALS->dumpfile_is_modified = 0; /* writing a save file removes modification */
+
 	time(&walltime);
 	fprintf(wave, "[*]\n");
 	fprintf(wave, "[*] "WAVE_VERSION_INFO"\n");
-	fprintf(wave, "[*] %s",asctime(localtime(&walltime)));
+	fprintf(wave, "[*] %s",asctime(gmtime(&walltime)));
 	fprintf(wave, "[*]\n");
 
 	if(GLOBALS->loaded_file_name)
@@ -82,7 +84,7 @@ void write_save_helper(char *savnam, FILE *wave) {
 #if !defined __MINGW32__ && !defined _MSC_VER
 			if(!stat(can, &sbuf))
 				{
-				char *asct = asctime(localtime(&sbuf.st_mtime));
+				char *asct = asctime(gmtime(&sbuf.st_mtime));
 				if(asct)
 					{
 					char *asct2 = strdup_2(asct);
@@ -460,7 +462,7 @@ void write_save_helper(char *savnam, FILE *wave) {
 }
 
 
-int read_save_helper(char *wname, char **dumpfile, char **savefile) { 
+int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumpsiz, time_t *dumptim) { 
         FILE *wave;
         char *str = NULL;
         int wave_is_compressed;
@@ -502,8 +504,8 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile) {
 	                        {
 				if(!strncmp(iline,  "[dumpfile]", 10))
 					{
-					char *lhq = strchr(iline, '"');
-					char *rhq = strrchr(iline, '"');
+					char *lhq = strchr(iline+10, '"');
+					char *rhq = strrchr(iline+10, '"');
 					if((lhq) && (rhq) && (lhq != rhq)) /* no real need to check rhq != NULL*/
 						{
 						*rhq = 0;
@@ -514,18 +516,39 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile) {
 				else
 				if(!strncmp(iline,  "[dumpfile_mtime]", 16))
 					{
-					/* nothing for now */
+					if(dumptim)
+						{
+						struct tm tm;
+						time_t t;
+						char *lhq = strchr(iline+16, '"');
+						memset(&tm, 0, sizeof(struct tm));
+						
+						*dumptim = -1;
+						/* format is: "Fri Feb  4 15:50:48 2011" */
+						if((lhq)&&(strptime(lhq+1, "%a %b %d %H:%M:%S %Y", &tm) != NULL))
+							{
+							t = timegm(&tm);
+							if(t != -1)
+								{
+printf("T: is %d\n", t);
+								*dumptim = t;
+								}
+							}
+						}
 					}
 				else
 				if(!strncmp(iline,  "[dumpfile_size]", 15))
 					{
-					/* nothing for now */
+					if(dumpsiz)
+						{
+						*dumpsiz = atoi_64(iline+15);
+						}
 					}
 				else
 				if(!strncmp(iline,  "[savefile]", 10))
 					{
-					char *lhq = strchr(iline, '"');
-					char *rhq = strrchr(iline, '"');
+					char *lhq = strchr(iline+10, '"');
+					char *rhq = strrchr(iline+10, '"');
 					if((lhq) && (rhq) && (lhq != rhq)) /* no real need to check rhq != NULL*/
 						{
 						*rhq = 0;
@@ -2171,12 +2194,14 @@ if(lc && !is_working)
 		char *sfn = NULL;
 		char *fdf = NULL;
 		FILE *f;
+		off_t dumpsiz = -1;
+		time_t dumptim = -1;
 
 		if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 			{
 			reload_save_file = 1;
 			try_to_load_file = 0;
-			read_save_helper(lcname, &dfn, &sfn);
+			read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim);
 
 			if(dfn)
 				{
@@ -2245,6 +2270,18 @@ if(lc && !is_working)
 					gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
 					}
 				}
+				else
+				{
+				GLOBALS->dumpfile_is_modified = 0;
+				if((dumpsiz != -1) && (dumptim != -1))
+        				{
+				        struct stat sbuf;
+				        if(!stat(fni, &sbuf))
+				                {
+				                GLOBALS->dumpfile_is_modified = (dumpsiz != sbuf.st_size) || (dumptim != sbuf.st_mtime);
+				                }
+				        }
+				}
 			}
 
 		/* now do save file... */
@@ -2252,7 +2289,7 @@ if(lc && !is_working)
 			{
 			/* let any possible dealloc get taken up by free_outstanding() */
 			GLOBALS->filesel_writesave = strdup_2(lc->name);
-			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL);
+			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL, NULL, NULL);
 			}
 
 		lc_next = lc->next;

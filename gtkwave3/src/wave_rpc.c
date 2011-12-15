@@ -70,7 +70,7 @@ if(rpc_ctx && !GLOBALS->tcl_running && !GLOBALS->busy_busy_c_1)
 
 				WAVE_S2_S_MACRO
 
-				rsh_rc = read_save_helper(s2, NULL, NULL);
+				rsh_rc = read_save_helper(s2, NULL, NULL, NULL, NULL);
 				sprintf(rsh_buf, "--save %d\n", rsh_rc);
 				strcat(rpc_ctx->resp_membuf, rsh_buf);
 				}

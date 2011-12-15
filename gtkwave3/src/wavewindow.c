@@ -1721,7 +1721,8 @@ num_traces_displayable--;   /* for the time trace that is always there */
 
 gdk_draw_rectangle(GLOBALS->signalpixmap, GLOBALS->gc.gc_mdgray, TRUE, 0, -1, GLOBALS->signal_fill_width, GLOBALS->fontheight); 
 gdk_draw_line(GLOBALS->signalpixmap, GLOBALS->gc_white, 0, GLOBALS->fontheight-1, GLOBALS->signal_fill_width-1, GLOBALS->fontheight-1);
-font_engine_draw_string(GLOBALS->signalpixmap, GLOBALS->signalfont, GLOBALS->gc_black, 3+xsrc, GLOBALS->fontheight-4, "Time");
+font_engine_draw_string(GLOBALS->signalpixmap, GLOBALS->signalfont, GLOBALS->gc_black, 
+	3+xsrc, GLOBALS->fontheight-4, "Time");
 
 t=GLOBALS->traces.first;
 trwhich=0;
