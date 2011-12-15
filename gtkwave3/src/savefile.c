@@ -53,6 +53,7 @@ void write_save_helper(char *savnam, FILE *wave) {
 	DEBUG(printf("Write Save Fini: %s\n", savnam));
 
 	GLOBALS->dumpfile_is_modified = 0; /* writing a save file removes modification */
+	wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, GLOBALS->dumpfile_is_modified);
 
 	time(&walltime);
 	fprintf(wave, "[*]\n");
@@ -530,7 +531,6 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 							t = timegm(&tm);
 							if(t != -1)
 								{
-printf("T: is %d\n", t);
 								*dumptim = t;
 								}
 							}
@@ -2259,16 +2259,12 @@ if(lc && !is_working)
 			char *fni = wave_alloca(plen + 32); /* extra space for message */
 
 			sprintf(fni, "Loading %s...", lcname);
-			gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni);
+			wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), fni, GLOBALS->dumpfile_is_modified);
 
 			strcpy(fni, lcname);
 
 			if(!menu_new_viewer_tab_cleanup_2(fni))
 				{
-				if(GLOBALS->winname)
-					{
-					gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
-					}
 				}
 				else
 				{
@@ -2282,6 +2278,8 @@ if(lc && !is_working)
 				                }
 				        }
 				}
+
+			wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, GLOBALS->dumpfile_is_modified);
 			}
 
 		/* now do save file... */

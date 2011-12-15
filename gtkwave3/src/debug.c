@@ -571,3 +571,24 @@ return(tmpspace);
 
 #endif
 }
+
+
+void wave_gtk_window_set_title(GtkWindow *window, const gchar *title, gboolean is_modified)
+{
+if(window && title)
+	{
+	if(!is_modified)
+		{
+		gtk_window_set_title(window, title);
+		}
+		else
+		{
+		const char *pfx = "[Modified] ";
+		char *t = wave_alloca(strlen(pfx) + strlen(title) + 1);
+	
+		strcpy(t, pfx);
+		strcat(t, title);
+		gtk_window_set_title(window, t);
+		}
+	}
+}
