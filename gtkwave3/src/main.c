@@ -1125,6 +1125,7 @@ if(is_wish && is_vcd)
 	exit(255);
 	}
 
+/* attempt to load a dump+save file if only a savefile is specified at the command line */
 if((GLOBALS->loaded_file_name) && (!wname) &&
 	(suffix_check(GLOBALS->loaded_file_name, ".gtkw") || suffix_check(GLOBALS->loaded_file_name, ".sav")))
 	{
@@ -1135,7 +1136,7 @@ if((GLOBALS->loaded_file_name) && (!wname) &&
 		GLOBALS->loaded_file_name = extracted_name;
 		}
 	}
-else
+else /* same as above but with --save specified */
 if((!GLOBALS->loaded_file_name) && wname)
 	{
 	GLOBALS->loaded_file_name = extract_dumpname_from_save_file(wname, &GLOBALS->dumpfile_is_modified);
