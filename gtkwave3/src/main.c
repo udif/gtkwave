@@ -1125,7 +1125,17 @@ if(is_wish && is_vcd)
 	exit(255);
 	}
 
-
+if((GLOBALS->loaded_file_name) && (!wname) &&
+	(suffix_check(GLOBALS->loaded_file_name, ".gtkw") || suffix_check(GLOBALS->loaded_file_name, ".sav")))
+	{
+	char *extracted_name = extract_dumpname_from_save_file(GLOBALS->loaded_file_name, &GLOBALS->dumpfile_is_modified);
+	if(extracted_name)
+		{
+		wname = GLOBALS->loaded_file_name;
+		GLOBALS->loaded_file_name = extracted_name;
+		}
+	}
+else
 if((!GLOBALS->loaded_file_name) && wname)
 	{
 	GLOBALS->loaded_file_name = extract_dumpname_from_save_file(wname, &GLOBALS->dumpfile_is_modified);
