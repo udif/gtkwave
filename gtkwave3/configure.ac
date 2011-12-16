@@ -8,6 +8,21 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
 AM_MAINTAINER_MODE
 
+# ------------- XDG -------------------
+AC_ARG_WITH(xdgdatadir, [  --with-xdgdatadir=path  Change where the theme icons and mime registrations are installed [[DATADIR]]], [opt_xdgdatadir=$withval])
+
+if test x$opt_xdgdatadir = x; then
+        # path was not specified with --with-xdgdatadir
+        XDGDATADIR='${datadir}'
+ else
+        # path WAS specified with --with-xdgdatadir
+        XDGDATADIR="$opt_xdgdatadir"
+ fi
+AC_SUBST(XDGDATADIR)
+
+AC_PATH_PROG(UPDATE_MIME_DATABASE, update-mime-database, no)
+AC_PATH_PROG(UPDATE_DESKTOP_DATABASE, update-desktop-database, no)
+AM_CONDITIONAL(FDO_MIME, test x$UPDATE_MIME_DATABASE != xno -a x$UPDATE_DESKTOP_DATABASE != xno)
 
 # ------------- Set simarama base -------------------
 if test "X$SIMARAMA_BASE" = "X" ; then
@@ -688,6 +703,18 @@ AC_CONFIG_FILES([Makefile
 		src/libbz2/Makefile
 		src/libz/Makefile
 		src/helpers/fst/Makefile
+		share/Makefile
+		share/mime/Makefile
+		share/mime/packages/Makefile
+		share/icons/Makefile
+		share/icons/gnome/Makefile
+		share/icons/gnome/16x16/Makefile
+		share/icons/gnome/16x16/mimetypes/Makefile
+		share/icons/gnome/32x32/Makefile
+		share/icons/gnome/32x32/mimetypes/Makefile
+		share/icons/gnome/48x48/Makefile
+		share/icons/gnome/48x48/mimetypes/Makefile
+		share/applications/Makefile
 ])
 
 
