@@ -225,7 +225,7 @@ char disable_tooltips; /* from debug.c 80 */
 GtkWidget *window_entry_c_1; /* from entry.c 81 */
 GtkWidget *entry_entry_c_1; /* from entry.c 82 */
 char *entrybox_text; /* from entry.c 83 */
-void (*cleanup_entry_c_1)(); /* from entry.c 84 */
+void (*cleanup_entry_c_1)(void); /* from entry.c 84 */
 
 
 /* extload.c */
@@ -261,8 +261,8 @@ GPatternSpec *pPatternSpec;
 GtkWidget *fs_file_c_1; /* from file.c 87 */
 char **fileselbox_text; /* from file.c 88 */
 char filesel_ok; /* from file.c 89 */
-void (*cleanup_file_c_2)(); /* from file.c 90 */
-void (*bad_cleanup_file_c_1)(); /* from file.c 91 */
+void (*cleanup_file_c_2)(void); /* from file.c 90 */
+void (*bad_cleanup_file_c_1)(void); /* from file.c 91 */
 
 
 /* 
@@ -360,13 +360,13 @@ GtkWidget *window_hiersearch_c_3; /* from hiersearch.c 121 */
 GtkWidget *entry_main_hiersearch_c_1; /* from hiersearch.c 122 */
 GtkWidget *clist_hiersearch_c_1; /* from hiersearch.c 123 */
 char bundle_direction_hiersearch_c_1; /* from hiersearch.c 124 */
-void (*cleanup_hiersearch_c_3)(); /* from hiersearch.c 125 */
+void (*cleanup_hiersearch_c_3)(void); /* from hiersearch.c 125 */
 int num_rows_hiersearch_c_1; /* from hiersearch.c 126 */
 int selected_rows_hiersearch_c_1; /* from hiersearch.c 127 */
 GtkWidget *window1_hiersearch_c_1; /* from hiersearch.c 128 */
 GtkWidget *entry_hiersearch_c_2; /* from hiersearch.c 129 */
 char *entrybox_text_local_hiersearch_c_1; /* from hiersearch.c 130 */
-void (*cleanup_e_hiersearch_c_1)(); /* from hiersearch.c 131 */
+void (*cleanup_e_hiersearch_c_1)(void); /* from hiersearch.c 131 */
 struct tree *h_selectedtree_hiersearch_c_1; /* from hiersearch.c 132 */
 struct tree *current_tree_hiersearch_c_1; /* from hiersearch.c 133 */
 struct treechain *treechain_hiersearch_c_1; /* from hiersearch.c 134 */
@@ -551,7 +551,7 @@ char use_toolbutton_interface; /* from main.c */
  */
 GtkWidget *window_markerbox_c_4; /* from markerbox.c 248 */
 GtkWidget *entries_markerbox_c_1[26]; /* from markerbox.c 249 */
-void (*cleanup_markerbox_c_4)(); /* from markerbox.c 250 */
+void (*cleanup_markerbox_c_4)(void); /* from markerbox.c 250 */
 int dirty_markerbox_c_1; /* from markerbox.c 251 */
 TimeType shadow_markers_markerbox_c_1[26]; /* from markerbox.c 252 */
 char *marker_names[26]; /* from markerbox.c */
@@ -733,7 +733,7 @@ GtkWidget *menuitem_search[5]; /* from search.c */
 GtkWidget *window1_search_c_2; /* from search.c 359 */
 GtkWidget *entry_a_search_c_1; /* from search.c 360 */
 char *entrybox_text_local_search_c_2; /* from search.c 361 */
-void (*cleanup_e_search_c_2)(); /* from search.c 362 */
+void (*cleanup_e_search_c_2)(void); /* from search.c 362 */
 SearchProgressData *pdata; /* from search.c 363 */
 int is_active_search_c_4; /* from search.c 364 */
 char is_insert_running_search_c_1; /* from search.c 365 */
@@ -747,7 +747,7 @@ GtkWidget *entry_search_c_3; /* from search.c 374 */
 GtkWidget *clist_search_c_3; /* from search.c 375 */
 char *searchbox_text_search_c_1; /* from search.c 377 */
 char bundle_direction_search_c_2; /* from search.c 378 */
-void (*cleanup_search_c_5)(); /* from search.c 379 */
+void (*cleanup_search_c_5)(void); /* from search.c 379 */
 int num_rows_search_c_2; /* from search.c 380 */
 int selected_rows_search_c_2; /* from search.c 381 */
 
@@ -766,7 +766,7 @@ GtkWidget *toggle2_showchange_c_1; /* from showchange.c 389 */
 GtkWidget *toggle3_showchange_c_1; /* from showchange.c 390 */
 GtkWidget *toggle4_showchange_c_1; /* from showchange.c 391 */
 GtkWidget *window_showchange_c_8; /* from showchange.c 392 */
-void (*cleanup_showchange_c_6)(); /* from showchange.c 393 */
+void (*cleanup_showchange_c_6)(void); /* from showchange.c 393 */
 struct TraceEnt *tcache_showchange_c_1; /* from showchange.c 394 */
 unsigned int flags_showchange_c_1; /* from showchange.c 395 */
 
@@ -944,13 +944,13 @@ int comp_name_longest;
 GtkWidget *window1_treesearch_gtk1_c;  /* manual adds by ajb... */
 GtkWidget *entry_a_treesearch_gtk1_c; 
 char *entrybox_text_local_treesearch_gtk1_c; 
-void (*cleanup_e_treesearch_gtk1_c)();
+void (*cleanup_e_treesearch_gtk1_c)(void);
 struct tree *selectedtree_treesearch_gtk1_c; 
 int is_active_treesearch_gtk1_c; 
 GtkWidget *window_treesearch_gtk1_c; 
 GtkWidget *tree_treesearch_gtk1_c;
 char bundle_direction_treesearch_gtk1_c; 
-void (*cleanup_treesearch_gtk1_c)(); /* ...end of manual adds */
+void (*cleanup_treesearch_gtk1_c)(void); /* ...end of manual adds */
 
 
 /*
@@ -975,7 +975,7 @@ char autoname_bundles; /* from treesearch_gtk2.c 483 */
 GtkWidget *window1_treesearch_gtk2_c_3; /* from treesearch_gtk2.c 484 */
 GtkWidget *entry_a_treesearch_gtk2_c_2; /* from treesearch_gtk2.c 485 */
 char *entrybox_text_local_treesearch_gtk2_c_3; /* from treesearch_gtk2.c 486 */
-void (*cleanup_e_treesearch_gtk2_c_3)(); /* from treesearch_gtk2.c 487 */
+void (*cleanup_e_treesearch_gtk2_c_3)(void); /* from treesearch_gtk2.c 487 */
 struct tree *sig_root_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 488 */
 char *filter_str_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 489 */
 #if defined(WAVE_USE_GTK2) 
@@ -988,7 +988,7 @@ struct autocoalesce_free_list *afl_treesearch_gtk2_c_1; /* from treesearch_gtk2.
 GtkWidget *window_treesearch_gtk2_c_12; /* from treesearch_gtk2.c 495 */
 GtkWidget *tree_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 496 */
 char bundle_direction_treesearch_gtk2_c_3; /* from treesearch_gtk2.c 497 */
-void (*cleanup_treesearch_gtk2_c_8)(); /* from treesearch_gtk2.c 498 */
+void (*cleanup_treesearch_gtk2_c_8)(void); /* from treesearch_gtk2.c 498 */
 int pre_import_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 499 */
 Traces tcache_treesearch_gtk2_c_2; /* from treesearch_gtk2.c 500 */
 unsigned char dnd_tgt_on_signalarea_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 501 */

@@ -360,10 +360,10 @@ build_hierarchy_array (struct ghw_handler *h, union ghw_type *arr, int dim,
 	int32_t v;
 	char *nam;
 	struct ghw_range_i32 *r;
-	struct tree *last;
+	/* struct tree *last; */
 	int len;
 	
-	last = NULL;
+	/* last = NULL; */
 	r = &arr->sa.rngs[dim]->i32;
 	len = ghw_get_range_length ((union ghw_range *)r);
 	if (len <= 0)
@@ -390,10 +390,10 @@ build_hierarchy_array (struct ghw_handler *h, union ghw_type *arr, int dim,
 	int32_t v;
 	char *nam;
 	struct ghw_range_e8 *r;
-	struct tree *last;
+	/* struct tree *last; */
 	int len;
 	
-	last = NULL;
+	/* last = NULL; */
 	r = &arr->sa.rngs[dim]->e8;
 	len = ghw_get_range_length ((union ghw_range *)r);
 	if (len <= 0)

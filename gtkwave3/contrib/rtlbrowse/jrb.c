@@ -126,7 +126,7 @@ JRB rprev(JRB n)
   return n->parent;
 }
  
-JRB make_jrb()
+JRB make_jrb(void)
 {
   JRB head;
  

@@ -37,7 +37,7 @@ static const GdkEventMask    m_bmask[4]= {0, GDK_BUTTON1_MOTION_MASK, 0, GDK_BUT
 
 /******************************************************************/
 
-static void update_dual()
+static void update_dual(void)
 {
 if(GLOBALS->dual_ctx && !GLOBALS->dual_race_lock)
         {
@@ -3300,7 +3300,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
 		if(h3->time <= GLOBALS->tims.last) tv=convert_real_vec(t,h3->v.h_vector);
 		}
 
-	if (!isnan(tv) & !isinf(tv))
+	if (!isnan(tv) && !isinf(tv))
 		{
 		if (isnan(tmin) || tv < tmin)
 			tmin = tv;

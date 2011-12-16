@@ -93,7 +93,7 @@ struct strace *straces;
 struct strace *shadow_straces; 
 struct strace_defer_free *strace_defer_free_head; 
 GtkWidget *window_strace_c_10; 
-void (*cleanup_strace_c_7)(); 
+void (*cleanup_strace_c_7)(void); 
 
 struct mprintf_buff_t *mprintf_buff_head; 
 struct mprintf_buff_t *mprintf_buff_current; 

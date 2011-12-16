@@ -45,7 +45,7 @@ typedef struct jrb_node {
 } *JRB;
 
 
-extern JRB make_jrb();   /* Creates a new rb-tree */
+extern JRB make_jrb(void);   /* Creates a new rb-tree */
 
 
 /* Creates a node with key key and val val and inserts it into the tree.

@@ -327,7 +327,7 @@ static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 
 /* update mark count label on pattern search dialog */
 
-static void update_mark_count_label()
+static void update_mark_count_label(void)
 {
 if(GLOBALS->strace_ctx->ptr_mark_count_label_strace_c_1)
     {

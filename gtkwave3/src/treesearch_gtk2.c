@@ -551,6 +551,10 @@ if(GLOBALS->selected_hierarchy_name)
 	}
 
 t=(struct tree *)gtk_clist_get_row_data(GTK_CLIST(GLOBALS->ctree_main), row);
+if(t)
+	{
+	/* unused */
+	}
 DEBUG(printf("TU: %08x %s\n",t,t->name));
  GLOBALS->sig_root_treesearch_gtk2_c_1 = GLOBALS->treeroot;
  fill_sig_store ();
@@ -2077,6 +2081,10 @@ static void DNDDataReceivedCB(
     /* Source and target widgets are the same? */
     source_widget = gtk_drag_get_source_widget(dc);
     same = (source_widget == widget) ? TRUE : FALSE;
+    if(same)
+	{
+	/* unused */
+	}
 
     if(source_widget)
     if((source_widget == GLOBALS->clist_search_c_3) || /* from search */

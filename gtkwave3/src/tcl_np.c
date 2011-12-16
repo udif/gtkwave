@@ -405,7 +405,7 @@ static int (* tcl_createThread)(Tcl_ThreadId *, Tcl_ThreadCreateProc,
 	ClientData, int, int) = NULL;
 #endif
 
-static Tcl_Interp * (* tcl_createInterp)() = NULL;
+static Tcl_Interp * (* tcl_createInterp)(void) = NULL;
 static void (* tcl_findExecutable)(const char *) = NULL;
 /*
  * We want the Tcl_InitStubs func static to ourselves - before Tcl

@@ -202,7 +202,7 @@ llist_p *llist_append(llist_p *head, llist_p *elem, llist_p **tail) {
 * HEAD and TAIL are updated. 
  */
 
-llist_p *llist_remove_last(llist_p *head, llist_p **tail, ll_elem_type type, void *f() ) {
+llist_p *llist_remove_last(llist_p *head, llist_p **tail, ll_elem_type type, void *f(void *) ) {
   if (head) {
     llist_p *p = tail[0] ;
     switch(type) {
@@ -229,7 +229,7 @@ llist_p *llist_remove_last(llist_p *head, llist_p **tail, ll_elem_type type, voi
 * function pointer F() is called in type is LL_VOID_P
 * if TYPE is LL_STR then string is freed
 */
-void llist_free(llist_p *head, ll_elem_type type, void *f()) {
+void llist_free(llist_p *head, ll_elem_type type, void *f(void *)) {
   llist_p *p = head, *p1 ;
   while(p) {
     p1 = p->next ;
