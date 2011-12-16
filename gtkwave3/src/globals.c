@@ -1345,12 +1345,131 @@ if(*wp)
 
 
 /*
+ * setjump to avoid -Wclobbered issues
+ */
+static int handle_setjmp(void)
+{
+struct Global *setjmp_globals;
+int load_was_success = 0;
+
+GLOBALS->vcd_jmp_buf = calloc(1, sizeof(jmp_buf));
+setjmp_globals =  calloc(1,sizeof(struct Global));      /* allocate yet another copy of viewer context */
+memcpy(setjmp_globals, GLOBALS, sizeof(struct Global));	/* clone */
+GLOBALS->alloc2_chain = NULL;				/* will merge this in after load if successful */
+GLOBALS->outstanding = 0;				/* zero out count of chunks in this ctx */
+
+if(!setjmp(*(GLOBALS->vcd_jmp_buf)))			/* loader exception handling */
+	{
+	switch(GLOBALS->loaded_file_type)		/* on fail, longjmp called in these loaders */
+		{			
+   		case LXT_FILE: lxt_main(GLOBALS->loaded_file_name); break;
+   		case VCD_FILE: vcd_main(GLOBALS->loaded_file_name); break;
+		case VCD_RECODER_FILE: vcd_recoder_main(GLOBALS->loaded_file_name); break;
+		default: break;
+		}
+	
+#ifdef _WAVE_HAVE_JUDY
+	{
+	Pvoid_t  PJArray = (Pvoid_t)setjmp_globals->alloc2_chain;
+	int rcValue;
+	Word_t Index;
+
+	Index = 0;
+	for (rcValue = Judy1First(PJArray, &Index, PJE0); rcValue != 0; rcValue = Judy1Next(PJArray, &Index, PJE0))
+		{
+	        Judy1Set ((Pvoid_t)&GLOBALS->alloc2_chain, Index, PJE0);
+		}
+
+	GLOBALS->outstanding += setjmp_globals->outstanding;
+	Judy1FreeArray(&PJArray, PJE0);
+	}
+#else
+	{
+	void **t, **t2;
+
+	t = (void **)setjmp_globals->alloc2_chain;
+	while(t)
+		{
+		t2 = (void **) *(t+1);
+		if(t2)
+			{
+			t = t2;
+			}
+			else
+			{
+			*(t+1) = GLOBALS->alloc2_chain;
+			if(GLOBALS->alloc2_chain)
+				{
+				t2 = (void **)GLOBALS->alloc2_chain;
+				*(t2+0) = t;
+				}
+			GLOBALS->alloc2_chain = setjmp_globals->alloc2_chain;
+			GLOBALS->outstanding += setjmp_globals->outstanding;
+			break;					
+			}
+		}
+	}
+#endif
+	free(GLOBALS->vcd_jmp_buf); GLOBALS->vcd_jmp_buf = NULL;
+	free(setjmp_globals); setjmp_globals = NULL;
+
+	load_was_success = 1;
+	}
+	else
+	{
+	free(GLOBALS->vcd_jmp_buf); GLOBALS->vcd_jmp_buf = NULL;
+	if(GLOBALS->vcd_handle_vcd_c_1)
+		{
+		if(GLOBALS->vcd_is_compressed_vcd_c_1)
+		        {
+		        pclose(GLOBALS->vcd_handle_vcd_c_1);
+		        GLOBALS->vcd_handle_vcd_c_1 = NULL;
+		        }
+		        else
+		        {
+		        fclose(GLOBALS->vcd_handle_vcd_c_1);
+		        GLOBALS->vcd_handle_vcd_c_1 = NULL;
+		        }
+		}
+	if(GLOBALS->vcd_handle_vcd_recoder_c_2)
+		{
+		if(GLOBALS->vcd_is_compressed_vcd_recoder_c_2)
+	        				{
+	        				pclose(GLOBALS->vcd_handle_vcd_recoder_c_2);
+	        				GLOBALS->vcd_handle_vcd_recoder_c_2 = NULL;
+	        				}    
+	        				else
+	        				{
+	        				fclose(GLOBALS->vcd_handle_vcd_recoder_c_2);
+	        				GLOBALS->vcd_handle_vcd_recoder_c_2 = NULL;
+	        				}
+		}
+
+
+	if(GLOBALS->vlist_handle) { fclose(GLOBALS->vlist_handle); GLOBALS->vlist_handle = NULL; }
+	if(GLOBALS->mm_lxt_mmap_addr)
+		{                        
+		munmap(GLOBALS->mm_lxt_mmap_addr, GLOBALS->mm_lxt_mmap_len); 
+		GLOBALS->mm_lxt_mmap_addr = NULL;
+		}                        
+	free_outstanding(); /* free anything allocated in loader ctx */
+
+	memcpy(GLOBALS, setjmp_globals, sizeof(struct Global)); /* copy over old ctx */
+	free(setjmp_globals);					/* remove cached old ctx */
+	/* now try again, jump through recovery sequence below */
+	}
+
+return(load_was_success);
+}
+
+
+/*
  * reload from old into the new context
  */
 void reload_into_new_context(void)
 {
  FILE *statefile;
- struct Global *new_globals, *setjmp_globals;
+ struct Global *new_globals;
  /* gint tree_frame_x = -1; */ /* scan-build */
  gint tree_frame_y = -1;
  gdouble tree_vadj_value = 0.0;
@@ -2008,112 +2127,7 @@ void reload_into_new_context(void)
 		case LXT_FILE:
    		case VCD_FILE: 
 		case VCD_RECODER_FILE: 
-			GLOBALS->vcd_jmp_buf = calloc(1, sizeof(jmp_buf));
-			setjmp_globals =  calloc(1,sizeof(struct Global));      /* allocate yet another copy of viewer context */
-			memcpy(setjmp_globals, GLOBALS, sizeof(struct Global));	/* clone */
-			GLOBALS->alloc2_chain = NULL;				/* will merge this in after load if successful */
-			GLOBALS->outstanding = 0;				/* zero out count of chunks in this ctx */
-
-			if(!setjmp(*(GLOBALS->vcd_jmp_buf)))			/* loader exception handling */
-				{
-				switch(GLOBALS->loaded_file_type)		/* on fail, longjmp called in these loaders */
-					{			
-			   		case LXT_FILE: lxt_main(GLOBALS->loaded_file_name); break;
-			   		case VCD_FILE: vcd_main(GLOBALS->loaded_file_name); break;
-					case VCD_RECODER_FILE: vcd_recoder_main(GLOBALS->loaded_file_name); break;
-					default: break;
-					}
-				
-#ifdef _WAVE_HAVE_JUDY
-				{
-				Pvoid_t  PJArray = (Pvoid_t)setjmp_globals->alloc2_chain;
-				int rcValue;
-				Word_t Index;
-
-				Index = 0;
-				for (rcValue = Judy1First(PJArray, &Index, PJE0); rcValue != 0; rcValue = Judy1Next(PJArray, &Index, PJE0))
-					{
-				        Judy1Set ((Pvoid_t)&GLOBALS->alloc2_chain, Index, PJE0);
-					}
-
-				GLOBALS->outstanding += setjmp_globals->outstanding;
-				Judy1FreeArray(&PJArray, PJE0);
-				}
-#else
-				{
-				void **t, **t2;
-
-				t = (void **)setjmp_globals->alloc2_chain;
-				while(t)
-					{
-					t2 = (void **) *(t+1);
-					if(t2)
-						{
-						t = t2;
-						}
-						else
-						{
-						*(t+1) = GLOBALS->alloc2_chain;
-						if(GLOBALS->alloc2_chain)
-							{
-							t2 = (void **)GLOBALS->alloc2_chain;
-							*(t2+0) = t;
-							}
-						GLOBALS->alloc2_chain = setjmp_globals->alloc2_chain;
-						GLOBALS->outstanding += setjmp_globals->outstanding;
-						break;					
-						}
-					}
-				}
-#endif
-				free(GLOBALS->vcd_jmp_buf); GLOBALS->vcd_jmp_buf = NULL;
-				free(setjmp_globals); setjmp_globals = NULL;
-
-				load_was_success = 1;
-				}
-				else
-				{
-				free(GLOBALS->vcd_jmp_buf); GLOBALS->vcd_jmp_buf = NULL;
-				if(GLOBALS->vcd_handle_vcd_c_1)
-					{
-					if(GLOBALS->vcd_is_compressed_vcd_c_1)
-					        {
-					        pclose(GLOBALS->vcd_handle_vcd_c_1);
-					        GLOBALS->vcd_handle_vcd_c_1 = NULL;
-					        }
-					        else
-					        {
-					        fclose(GLOBALS->vcd_handle_vcd_c_1);
-					        GLOBALS->vcd_handle_vcd_c_1 = NULL;
-					        }
-					}
-				if(GLOBALS->vcd_handle_vcd_recoder_c_2)
-					{
-					if(GLOBALS->vcd_is_compressed_vcd_recoder_c_2)
-	        				{
-	        				pclose(GLOBALS->vcd_handle_vcd_recoder_c_2);
-	        				GLOBALS->vcd_handle_vcd_recoder_c_2 = NULL;
-	        				}    
-	        				else
-	        				{
-	        				fclose(GLOBALS->vcd_handle_vcd_recoder_c_2);
-	        				GLOBALS->vcd_handle_vcd_recoder_c_2 = NULL;
-	        				}
-					}
-
-
-				if(GLOBALS->vlist_handle) { fclose(GLOBALS->vlist_handle); GLOBALS->vlist_handle = NULL; }
-				if(GLOBALS->mm_lxt_mmap_addr)
-					{                        
-					munmap(GLOBALS->mm_lxt_mmap_addr, GLOBALS->mm_lxt_mmap_len); 
-					GLOBALS->mm_lxt_mmap_addr = NULL;
-					}                        
-				free_outstanding(); /* free anything allocated in loader ctx */
-
-				memcpy(GLOBALS, setjmp_globals, sizeof(struct Global)); /* copy over old ctx */
-				free(setjmp_globals);					/* remove cached old ctx */
-				/* now try again, jump through recovery sequence below */
-				}
+			load_was_success = handle_setjmp();
 			break;
 		default:
 			break;
