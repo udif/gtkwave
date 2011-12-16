@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=gtkwave
-MimeType=application/vnd.gtkwave-fst;
-Exec=gtkwave
-Type=Application
-StartupNotify=true
