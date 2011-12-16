@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=gtkwave
+MimeType=application/vnd.gtkwave-lx2;
+Exec=gtkwave
+Type=Application
+StartupNotify=true
+Icon=gtkwave_256x256x32.png
+
