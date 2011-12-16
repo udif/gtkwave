@@ -1129,3 +1129,4 @@
 		Can now specify just an augmented save file at the command
 		line and gtkwave will load both the dump file and the save file:
 		this makes launching from desktops easier on Linux.
+		Added mime types and icons in share/ for gnome launching.
