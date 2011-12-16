@@ -11,8 +11,10 @@ desktop_DATA = \
 	x-gtkwave-extension-lxt.desktop x-gtkwave-extension-vcd.desktop \
 	x-gtkwave-extension-vzt.desktop
 
+if FDO_MIME
 install-data-hook:
 	$(UPDATE_DESKTOP_DATABASE)
 
 uninstall-hook:
 	$(UPDATE_DESKTOP_DATABASE)
+endif

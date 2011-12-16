@@ -322,6 +322,8 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+@FDO_MIME_FALSE@install-data-hook:
+@FDO_MIME_FALSE@uninstall-hook:
 clean: clean-am
 
 clean-am: clean-generic mostlyclean-am
@@ -405,11 +407,11 @@ uninstall-am: uninstall-xmlDATA
 	uninstall-xmlDATA
 
 
-install-data-hook:
-	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
+@FDO_MIME_TRUE@install-data-hook:
+@FDO_MIME_TRUE@	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
 
-uninstall-hook:
-	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
+@FDO_MIME_TRUE@uninstall-hook:
+@FDO_MIME_TRUE@	$(UPDATE_MIME_DATABASE) "$(DESTDIR)$(mimedir)"
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
