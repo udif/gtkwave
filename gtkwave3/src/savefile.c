@@ -7,12 +7,19 @@
  * of the License, or (at your option) any later version.
  */
 
+
 #include "globals.h"
 #include <config.h>
 #include "savefile.h"
 #include "hierpack.h"
 #if !defined __MINGW32__ && !defined _MSC_VER
 #include <sys/stat.h>
+#endif
+
+#ifdef __linux__
+#ifndef _XOPEN_SOURCE
+char *strptime(const char *s, const char *format, struct tm *tm);
+#endif
 #endif
 
 char *append_array_row(nptr n)
@@ -525,8 +532,11 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 						memset(&tm, 0, sizeof(struct tm));
 						
 						*dumptim = -1;
+#if !defined _MSC_VER && !defined __MINGW32__
 						/* format is: "Fri Feb  4 15:50:48 2011" */
-						if((lhq)&&(strptime(lhq+1, "%a %b %d %H:%M:%S %Y", &tm) != NULL))
+						if((lhq)&&
+(strptime(lhq+1, "%a %b %d %H:%M:%S %Y", &tm) != NULL)
+)
 							{
 							t = timegm(&tm);
 							if(t != -1)
@@ -535,6 +545,7 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 								}
 							}
 						}
+#endif
 					}
 				else
 				if(!strncmp(iline,  "[dumpfile_size]", 15))
