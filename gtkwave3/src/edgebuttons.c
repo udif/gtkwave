@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2008-2010.
+ * Copyright (c) Tony Bybell 2008-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +14,7 @@
 #include "strace.h"
 #include "debug.h"
 
-Trptr static find_first_highlighted_trace(void)
+static Trptr find_first_highlighted_trace(void)
 {
 Trptr t = NULL;
 
@@ -33,7 +33,7 @@ for(t=GLOBALS->traces.first;t;t=t->t_next)
 return(t);
 }
 
-Trptr static find_next_highlighted_trace(Trptr t)
+static Trptr find_next_highlighted_trace(Trptr t)
 {
 if(t)
 	{	
