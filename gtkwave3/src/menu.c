@@ -1925,6 +1925,7 @@ unsigned int new_page = (this_page != np-1) ? this_page : (this_page-1);
 GtkWidget *n = GLOBALS->notebook;
 struct Global *old_g = NULL, *saved_g;
 char sstr[32];
+gboolean is_mf = (GLOBALS->loaded_file_type == MISSING_FILE);
 
 sprintf(sstr, "%d", this_page);
 gtkwavetcl_setvar(WAVE_TCLCB_CLOSE_TAB_NUMBER, sstr, WAVE_TCLCB_CLOSE_TAB_NUMBER_FLAGS);
@@ -1961,7 +1962,10 @@ saved_g = GLOBALS;
 gtkwave_main_iteration();
 
 set_GLOBALS(old_g);
-free_and_destroy_page_context();
+if(!is_mf)
+	{
+	free_and_destroy_page_context();
+	}
 set_GLOBALS(saved_g);
 
 /* need to do this if 2 pages -> 1 */
@@ -3284,15 +3288,6 @@ menu_new_viewer_tab_cleanup_2(char *fname)
 		strcpy2_into_new_context(GLOBALS, &GLOBALS->filesel_print_mif_renderopt_c_1, &g_old->filesel_print_mif_renderopt_c_1);
 #endif		
 
-		if(g_old->loaded_file_type == MISSING_FILE) /* remove original "blank" page */
-			{
-                        if(g_old->missing_file_toolbar) gtk_widget_set_sensitive(g_old->missing_file_toolbar, TRUE);
-			menu_set_sensitive();
-			gtk_notebook_set_current_page(GTK_NOTEBOOK(g_old->notebook), g_old->this_context_page);
-			menu_quit_close_callback(NULL, NULL);
-			}
-
-	
 		/* not sure what's really needed here */
 		/* for now, add back in repscript_name */
 		/* if(GLOBALS->repscript_name) free_2(GLOBALS->repscript_name); */
@@ -3302,6 +3297,17 @@ menu_new_viewer_tab_cleanup_2(char *fname)
 		GLOBALS->strace_repeat_count = g_old->strace_repeat_count;
 
 		GLOBALS->rpc_ctx = g_old->rpc_ctx;
+
+
+		if(g_old->loaded_file_type == MISSING_FILE) /* remove original "blank" page */
+			{
+                        if(g_old->missing_file_toolbar) gtk_widget_set_sensitive(g_old->missing_file_toolbar, TRUE);
+			menu_set_sensitive();
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(g_old->notebook), g_old->this_context_page);
+			set_GLOBALS(g_old);
+			menu_quit_close_callback(NULL, NULL);
+			}
+	
 		rc = 1;
 		}
                 else
