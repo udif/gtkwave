@@ -771,10 +771,13 @@ if(!GLOBALS->splash_disable)
         }
 	else
 	{
+/* commented out for now because of DnD while loading crash */
+#ifndef MAC_INTEGRATION
 	if(GLOBALS->mainwindow)
 		{
 		wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, 0);
 		}
+#endif
 	}
 }
 
@@ -801,6 +804,8 @@ if(GLOBALS->splash_splash_c_1)
 	}
 	else
 	{
+/* commented out for now because of DnD while loading crash */
+#ifndef MAC_INTEGRATION
 	if(GLOBALS->mainwindow)
 		{
 		if(!GLOBALS->splash_is_loading)
@@ -822,6 +827,7 @@ if(GLOBALS->splash_splash_c_1)
 			}
 		}
 
+#endif
 	}
 }
 
