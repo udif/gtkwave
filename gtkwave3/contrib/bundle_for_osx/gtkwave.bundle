@@ -228,6 +228,19 @@
   </data>
 
 
+  <!-- Examples files
+    -->
+  <data dest="${bundle}/Contents/Resources/examples/des.vzt">
+    ${project}/../../examples/des.vzt
+  </data>
+  <data dest="${bundle}/Contents/Resources/examples/des.gtkw">
+    ${project}/../../examples/des.gtkw
+  </data>
+  <data dest="${bundle}/Contents/Resources/examples/.gtkwaverc">
+    ${project}/../../examples/.gtkwaverc
+  </data>
+
+
   <!-- Copy in the patches so users can recreate gtk from source. 
        This might be obsolete in future versions of gtk. 
        See bug #664894. 
