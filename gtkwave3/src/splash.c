@@ -710,18 +710,21 @@ return(FALSE);
 gint splash_kill(gpointer dummy)
 {
 gulong usec;
-gint sec = (gint) g_timer_elapsed(GLOBALS->gt_splash_c_1, &usec);
-int skill = (sec>=2);
-
-if(GLOBALS->cnt_splash_c_1) GLOBALS->cnt_splash_c_1 -= GLOBALS->load_complete_splash_c_1;
-
-if((!GLOBALS->cnt_splash_c_1)&&(skill))
+if(GLOBALS && GLOBALS->gt_splash_c_1)
 	{
-	return(button_press_event(NULL,NULL));
-	}
-	else
-	{
-	if(!GLOBALS->load_complete_splash_c_1) gdk_window_raise(GTK_WIDGET(GLOBALS->splash_splash_c_1)->window);
+	gint sec = (gint) g_timer_elapsed(GLOBALS->gt_splash_c_1, &usec);
+	int skill = (sec>=2);
+
+	if(GLOBALS->cnt_splash_c_1) GLOBALS->cnt_splash_c_1 -= GLOBALS->load_complete_splash_c_1;
+
+	if((!GLOBALS->cnt_splash_c_1)&&(skill))
+		{
+		return(button_press_event(NULL,NULL));
+		}
+		else
+		{
+		if(!GLOBALS->load_complete_splash_c_1) gdk_window_raise(GTK_WIDGET(GLOBALS->splash_splash_c_1)->window);
+		}
 	}
 
 return(1);
@@ -730,7 +733,7 @@ return(1);
 
 void splash_create(void)
 {
-if(!GLOBALS->splash_disable)
+if((!GLOBALS->splash_disable)&&(!GLOBALS->splash_splash_c_1))
         {
         GtkWidget *splash_table;
 	gint dx, dy;
