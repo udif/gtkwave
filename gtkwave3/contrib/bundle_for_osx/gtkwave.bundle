@@ -153,19 +153,88 @@
     Tango
   </icon-theme -->
 
-  <!-- Copy in the shell launcher script. -->
 
+  <!-- Copy in the shell launcher script. -->
   <data dest="${bundle}/Contents/Resources/bin/gtkwave">
     ${project}/gtkwave.pl
   </data>
+
+
+  <!-- man pages and other documentation
+    -->
+  <data dest="${bundle}/Contents/Resources/man/evcd2vcd.1">
+    ${project}/../../man/evcd2vcd.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/fst2vcd.1">
+    ${project}/../../man/fst2vcd.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/ghwdump.1">
+    ${project}/../../man/ghwdump.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/gtkwave.1">
+    ${project}/../../man/gtkwave.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/gtkwaverc.5">
+    ${project}/../../man/gtkwaverc.5
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/lxt2miner.1">
+    ${project}/../../man/lxt2miner.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/lxt2vcd.1">
+    ${project}/../../man/lxt2vcd.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/rtlbrowse.1">
+    ${project}/../../man/rtlbrowse.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/shmidcat.1">
+    ${project}/../../man/shmidcat.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/twinwave.1">
+    ${project}/../../man/twinwave.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/vcd2fst.1">
+    ${project}/../../man/vcd2fst.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/vcd2lxt.1">
+    ${project}/../../man/vcd2lxt.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/vcd2lxt2.1">
+    ${project}/../../man/vcd2lxt2.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/vcd2vzt.1">
+    ${project}/../../man/vcd2vzt.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/vermin.1">
+    ${project}/../../man/vermin.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/vzt2vcd.1">
+    ${project}/../../man/vzt2vcd.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/vztminer.1">
+    ${project}/../../man/vztminer.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/doc/gtkwave.odt">
+    ${project}/../../doc/gtkwave.odt
+  </data>
+
+
+  <!-- Misc text files
+    -->
+  <data dest="${bundle}/Contents/Resources/LICENSE.TXT">
+    ${project}/../../LICENSE.TXT
+  </data>
+  <data dest="${bundle}/Contents/Resources/GNU.TXT">
+    ${project}/../../GNU.TXT
+  </data>
+
 
   <!-- Copy in the patches so users can recreate gtk from source. 
        This might be obsolete in future versions of gtk. 
        See bug #664894. 
     -->
-
   <data dest="${bundle}/Contents/Resources/share/patches/gtk_diff_against_modulesets.patch">
     ${project}/gtk_diff_against_modulesets.patch
   </data>
+
 
 </app-bundle>
