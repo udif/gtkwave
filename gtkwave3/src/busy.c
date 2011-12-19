@@ -11,7 +11,7 @@
 #include <config.h>
 #include "busy.h"
 
-static void GuiDoEvent(GdkEvent *event)
+static void GuiDoEvent(GdkEvent *event, gpointer data)
 {
 if(!GLOBALS->busy_busy_c_1)
 	{
@@ -99,7 +99,7 @@ if(GLOBALS->partial_vcd)
 void init_busy(void)
 {
 GLOBALS->busycursor_busy_c_1 = gdk_cursor_new(GDK_WATCH);
-gdk_event_handler_set((GdkEventFunc)GuiDoEvent, 0, 0);
+gdk_event_handler_set((GdkEventFunc)GuiDoEvent, NULL, NULL);
 }
 
 
