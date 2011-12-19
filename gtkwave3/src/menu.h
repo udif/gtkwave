@@ -396,6 +396,9 @@ bvptr combine_traces(int direction, Trptr single_trace_only);
 /* currently only for OSX to disable OSX menus when grabbed */
 void wave_gtk_grab_add(GtkWidget *w);
 void wave_gtk_grab_remove(GtkWidget *w);
+#ifdef MAC_INTEGRATION
+void osx_menu_sensitivity(gboolean tr);
+#endif
 
 #endif
 

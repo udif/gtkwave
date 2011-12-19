@@ -769,6 +769,13 @@ if(!GLOBALS->splash_disable)
                          
         GLOBALS->timeout_tag = gtk_timeout_add(100, splash_kill, GLOBALS->splash_splash_c_1);
         }
+	else
+	{
+	if(GLOBALS->mainwindow)
+		{
+		wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, 0);
+		}
+	}
 }
 
 void splash_sync(off_t current, off_t total)
@@ -792,6 +799,44 @@ if(GLOBALS->splash_splash_c_1)
 
 	while (gtk_events_pending()) gtk_main_iteration();
 	}
+	else
+	{
+	if(GLOBALS->mainwindow)
+		{
+		if(!GLOBALS->splash_is_loading)
+			{
+			GLOBALS->splash_is_loading = 1;
+			set_window_busy(GLOBALS->mainwindow);
+#ifdef MAC_INTEGRATION
+		        osx_menu_sensitivity(FALSE);
+#endif
+			}
+
+		cur_bar_x = 100 * ((float)current / (float)total);
+		if(cur_bar_x != GLOBALS->prev_bar_x_splash_c_1)
+			{
+			GLOBALS->prev_bar_x_splash_c_1 = cur_bar_x;
+			wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, cur_bar_x);
+
+			while (gtk_events_pending()) gtk_main_iteration();
+			}
+		}
+
+	}
+}
+
+
+void splash_finalize(void)
+{
+if(GLOBALS->splash_is_loading)
+        {
+        GLOBALS->splash_is_loading = 0;
+	GLOBALS->splash_fix_win_title = 1;
+        set_window_idle(GLOBALS->mainwindow);
+#ifdef MAC_INTEGRATION
+        osx_menu_sensitivity(TRUE);
+#endif
+        }
 }
 
 #else
@@ -806,5 +851,11 @@ void splash_sync(off_t current, off_t total)
 /* do nothing */
 }
 
+void splash_finalize(void)
+{
+/* do nothing */
+}
+
 #endif
+
 

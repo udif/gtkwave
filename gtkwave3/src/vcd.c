@@ -2656,6 +2656,7 @@ if(GLOBALS->blackout_regions)
 
 GLOBALS->is_vcd=~0;
 
+/* SPLASH */                            splash_finalize();
 return(GLOBALS->max_time);
 }
 

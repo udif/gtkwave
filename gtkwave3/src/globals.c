@@ -819,6 +819,8 @@ NULL, /* cleanup 386 */
 /*
  * splash.c
  */ 
+0, /* splash_is_loading */
+0, /* splash_fix_win_title */
 1, /* splash_disable 387 */
 NULL, /* wave_splash_pixmap 389 */
 NULL, /* wave_splash_mask 390 */

@@ -573,22 +573,36 @@ return(tmpspace);
 }
 
 
-void wave_gtk_window_set_title(GtkWindow *window, const gchar *title, gboolean is_modified)
+void wave_gtk_window_set_title(GtkWindow *window, const gchar *title, int typ, int pct)
 {
 if(window && title)
 	{
-	if(!is_modified)
+	switch(typ)
 		{
-		gtk_window_set_title(window, title);
-		}
-		else
-		{
-		const char *pfx = "[Modified] ";
-		char *t = wave_alloca(strlen(pfx) + strlen(title) + 1);
+		case WAVE_SET_TITLE_MODIFIED:
+			{
+			const char *pfx = "[Modified] ";
+			char *t = wave_alloca(strlen(pfx) + strlen(title) + 1);
 	
-		strcpy(t, pfx);
-		strcat(t, title);
-		gtk_window_set_title(window, t);
+			strcpy(t, pfx);
+			strcat(t, title);
+			gtk_window_set_title(window, t);
+			}
+			break;
+
+		case WAVE_SET_TITLE_LOADING:
+			{
+			char *t = wave_alloca(64 + strlen(title) + 1); /* make extra long */
+	
+			sprintf(t, "[Loading %d%%] %s", pct, title);
+			gtk_window_set_title(window, t);
+			}
+			break;
+
+		case WAVE_SET_TITLE_NONE:
+		default:		
+			gtk_window_set_title(window, title);
+			break;
 		}
 	}
 }

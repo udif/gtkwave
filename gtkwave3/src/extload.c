@@ -675,6 +675,7 @@ if(skip_start || skip_end)
 	GLOBALS->max_time = b_end;
 	}
 
+/* SPLASH */                            splash_finalize();
 return(GLOBALS->max_time);
 }
 

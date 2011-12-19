@@ -1801,6 +1801,7 @@ if(GLOBALS->blackout_regions)
                 }
         }
 
+/* SPLASH */                            splash_finalize();
 return(GLOBALS->max_time);
 }
 

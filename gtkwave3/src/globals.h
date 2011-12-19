@@ -818,6 +818,8 @@ void (*cleanup)(GtkWidget *, void *); /* from simplereq.c 414 */
 /*
  * splash.c
  */
+char splash_is_loading;
+char splash_fix_win_title;
 char splash_disable; /* from splash.c 415 */
 GdkDrawable *wave_splash_pixmap; /* from splash.c 417 */
 GdkDrawable *wave_splash_mask; /* from splash.c 418 */

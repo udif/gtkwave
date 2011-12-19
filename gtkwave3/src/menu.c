@@ -6896,7 +6896,7 @@ return(menubar);
 }
 
 #ifdef MAC_INTEGRATION
-static void osx_menu_sensitivity(gboolean tr)
+void osx_menu_sensitivity(gboolean tr)
 {
 GtkWidget *mw;
 int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);

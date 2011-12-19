@@ -2866,6 +2866,7 @@ if(GLOBALS->blackout_regions)
 /* is_vcd=~0; */
 GLOBALS->is_lx2 = LXT2_IS_VLIST;
 
+/* SPLASH */                            splash_finalize();
 return(GLOBALS->max_time);
 }
 

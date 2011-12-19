@@ -882,6 +882,7 @@ if(skip_start || skip_end)
 
 fstReaderIterBlocksSetNativeDoublesOnCallback(GLOBALS->fst_fst_c_1, 1); /* to avoid bin -> ascii -> bin double swap */
 
+/* SPLASH */                            splash_finalize();
 return(GLOBALS->max_time);
 }
 

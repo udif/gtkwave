@@ -122,6 +122,7 @@ char *makename_chain(struct symbol *sym);
 /* splash screen activation (version >= GTK2 only) */
 void splash_create(void);
 void splash_sync(off_t current, off_t total);  
+void splash_finalize(void);
 
 /* accessor functions for sym->selected moved (potentially) to sparse array */
 char get_s_selected(struct symbol *s);

@@ -434,6 +434,7 @@ if(skip_start || skip_end)
 		}
 	}
 
+/* SPLASH */                            splash_finalize();
 return(GLOBALS->max_time);
 }
 

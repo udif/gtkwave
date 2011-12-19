@@ -196,7 +196,7 @@ GLOBALS->keypress_handler_id = g_old->keypress_handler_id;
 
 if(GLOBALS->second_page_created)
 	{
-	wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, GLOBALS->dumpfile_is_modified);
+	wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, GLOBALS->dumpfile_is_modified ? WAVE_SET_TITLE_MODIFIED: WAVE_SET_TITLE_NONE, 0);
 
 	MaxSignalLength();
 	signalarea_configure_event(GLOBALS->signalarea, NULL);
@@ -1643,7 +1643,7 @@ if(!GLOBALS->socket_xid)
 #endif
         {
 	GLOBALS->mainwindow = gtk_window_new(GLOBALS->disable_window_manager ? GTK_WINDOW_POPUP : GTK_WINDOW_TOPLEVEL);
-	wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, GLOBALS->dumpfile_is_modified);
+	wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, GLOBALS->dumpfile_is_modified ? WAVE_SET_TITLE_MODIFIED: WAVE_SET_TITLE_NONE, 0);
 
 	if((GLOBALS->initial_window_width>0)&&(GLOBALS->initial_window_height>0))
 		{

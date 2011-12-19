@@ -861,6 +861,7 @@ if(skip_start || skip_end)
 	}
 
 fprintf(stderr, AET2_RDLOAD"["TTFormat"] start time.\n"AET2_RDLOAD"["TTFormat"] end time.\n", GLOBALS->min_time, GLOBALS->max_time);
+/* SPLASH */                            splash_finalize();
 return(GLOBALS->max_time);
 }
 
