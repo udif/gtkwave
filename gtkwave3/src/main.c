@@ -895,11 +895,21 @@ while (1)
 			char *chdir_env = getenv("GTKWAVE_CHDIR"); 
 			if(chdir_env)
 				{
-				chdir(chdir_env);
+				if(chdir(chdir_env) < 0)
+					{
+					fprintf(stderr, "GTKWAVE | Could not chdir '%s'\n", chdir_env);
+					perror("Why");
+					exit(255);
+					}
 				}
 				else
 				{
-				chdir(optarg);
+				if(chdir(optarg) < 0)
+					{
+					fprintf(stderr, "GTKWAVE | Could not chdir '%s'\n", optarg);
+					perror("Why");
+					exit(255);
+					}
 				}
 			}
 #endif

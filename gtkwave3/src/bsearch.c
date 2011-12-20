@@ -42,13 +42,15 @@ return(rv);
 
 int bsearch_timechain(TimeType key)
 {
-/* void *bsearch_dummy_rv; */ /* scan-build */
-
 GLOBALS->max_compare_time_tc_bsearch_c_1=-2; GLOBALS->max_compare_pos_tc_bsearch_c_1=NULL; 
 
 if(!GLOBALS->strace_ctx->timearray) return(-1);
 
-/* bsearch_dummy_rv = */ bsearch(&key, GLOBALS->strace_ctx->timearray, GLOBALS->strace_ctx->timearray_size, sizeof(TimeType), compar_timechain);
+if(bsearch(&key, GLOBALS->strace_ctx->timearray, GLOBALS->strace_ctx->timearray_size, sizeof(TimeType), compar_timechain))
+        {
+        /* nothing, all side effects are in bsearch */
+        }
+
 if((!GLOBALS->max_compare_pos_tc_bsearch_c_1)||(GLOBALS->max_compare_time_tc_bsearch_c_1<GLOBALS->shift_timebase)) 
 	{
 	GLOBALS->max_compare_pos_tc_bsearch_c_1=GLOBALS->strace_ctx->timearray; /* aix bsearch fix */
@@ -61,13 +63,15 @@ return(GLOBALS->max_compare_pos_tc_bsearch_c_1-GLOBALS->strace_ctx->timearray);
 
 int bsearch_aetinfo_timechain(TimeType key)
 {
-/* void *bsearch_dummy_rv; */ /* scan-build */
-
 GLOBALS->max_compare_time_tc_bsearch_c_1=-2; GLOBALS->max_compare_pos_tc_bsearch_c_1=NULL; 
 
 if(!GLOBALS->ae2_time_xlate) return(-1);
 
-/* bsearch_dummy_rv = */ bsearch(&key, GLOBALS->ae2_time_xlate, GLOBALS->ae2_end_cyc - GLOBALS->ae2_start_cyc + 1, sizeof(TimeType), compar_timechain);
+if(bsearch(&key, GLOBALS->ae2_time_xlate, GLOBALS->ae2_end_cyc - GLOBALS->ae2_start_cyc + 1, sizeof(TimeType), compar_timechain))
+        {
+        /* nothing, all side effects are in bsearch */
+        }
+
 if(!GLOBALS->max_compare_pos_tc_bsearch_c_1)
 	{
 	GLOBALS->max_compare_pos_tc_bsearch_c_1=GLOBALS->ae2_time_xlate; /* aix bsearch fix */
@@ -104,11 +108,13 @@ return(rv);
 
 hptr bsearch_node(nptr n, TimeType key)
 {
-/* void *bsearch_dummy_rv; */ /* scan-build */
-
 GLOBALS->max_compare_time_bsearch_c_1=-2; GLOBALS->max_compare_pos_bsearch_c_1=NULL; GLOBALS->max_compare_index=NULL;
 
-/* bsearch_dummy_rv = */ bsearch(&key, n->harray, n->numhist, sizeof(hptr), compar_histent);
+if(bsearch(&key, n->harray, n->numhist, sizeof(hptr), compar_histent))
+        {
+        /* nothing, all side effects are in bsearch */
+        }
+
 if((!GLOBALS->max_compare_pos_bsearch_c_1)||(GLOBALS->max_compare_time_bsearch_c_1<LLDescriptor(0))) 
 	{
 	GLOBALS->max_compare_pos_bsearch_c_1=n->harray[1]; /* aix bsearch fix */
@@ -149,11 +155,13 @@ return(rv);
 
 vptr bsearch_vector(bvptr b, TimeType key)
 {
-/* void *bsearch_dummy_rv; */ /* scan-build */
-
 GLOBALS->vmax_compare_time_bsearch_c_1=-2; GLOBALS->vmax_compare_pos_bsearch_c_1=NULL; GLOBALS->vmax_compare_index=NULL;
 
-/* bsearch_dummy_rv = */ bsearch(&key, b->vectors, b->numregions, sizeof(vptr), compar_vectorent);
+if(bsearch(&key, b->vectors, b->numregions, sizeof(vptr), compar_vectorent))
+        {
+        /* nothing, all side effects are in bsearch */
+        }
+
 if((!GLOBALS->vmax_compare_pos_bsearch_c_1)||(GLOBALS->vmax_compare_time_bsearch_c_1<LLDescriptor(0))) 
 	{
 	GLOBALS->vmax_compare_pos_bsearch_c_1=b->vectors[1]; /* aix bsearch fix */
@@ -195,14 +203,17 @@ return(key-obj);
 
 char *bsearch_trunc(char *ascii, int maxlen)
 {
-/* void *bsearch_dummy_rv; */ /* scan-build */
 int len;
 
 if((maxlen<=0)||(!ascii)||(!(len=strlen(ascii)))) return(NULL);
 
 GLOBALS->maxlen_trunc=0; GLOBALS->maxlen_trunc_pos_bsearch_c_1=NULL;
 
-/* bsearch_dummy_rv = */ bsearch(&maxlen, GLOBALS->trunc_asciibase_bsearch_c_1=ascii, len, sizeof(char), compar_trunc);
+if(bsearch(&maxlen, GLOBALS->trunc_asciibase_bsearch_c_1=ascii, len, sizeof(char), compar_trunc))
+        {
+        /* nothing, all side effects are in bsearch */
+        }
+
 return(GLOBALS->maxlen_trunc_pos_bsearch_c_1);
 }
 

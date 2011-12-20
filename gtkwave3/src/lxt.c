@@ -350,11 +350,13 @@ return(rv);
 
 static TimeType bsearch_mvl_timechain(int key)
 {
-/* void *bsearch_dummy_rv; */ /* scan-build */
-
 GLOBALS->max_compare_time_tc_lxt_c_2=-1; GLOBALS->max_compare_pos_tc_lxt_c_2=-1; 
 
-/* bsearch_dummy_rv = */ bsearch((void *)&key, (void *)GLOBALS->positional_information_lxt_c_1, GLOBALS->total_cycles_lxt_c_2, sizeof(int), compar_mvl_timechain);
+if(bsearch((void *)&key, (void *)GLOBALS->positional_information_lxt_c_1, GLOBALS->total_cycles_lxt_c_2, sizeof(int), compar_mvl_timechain))
+	{
+	/* nothing, all side effects are in bsearch */
+	}
+
 if((GLOBALS->max_compare_pos_tc_lxt_c_2<=0)||(GLOBALS->max_compare_time_tc_lxt_c_2<0)) 
         {
         GLOBALS->max_compare_pos_tc_lxt_c_2=0; /* aix bsearch fix */
