@@ -3327,6 +3327,7 @@ menu_new_viewer_tab_cleanup_2(char *fname)
 		set_window_idle(NULL);
 
 		/* load failed */
+		wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, GLOBALS->dumpfile_is_modified ? WAVE_SET_TITLE_MODIFIED: WAVE_SET_TITLE_NONE, 0);
 		printf("GTKWAVE | File load failure, new tab not created.\n");
 		rc = 0;
                 }
