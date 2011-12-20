@@ -35,26 +35,29 @@ if(!GLOBALS->busy_busy_c_1)
 
 	/* now it has been updated to remove keyboard/mouse input */
 
-	switch (event->type) 
+	if(!GLOBALS->splash_is_loading)
 		{
-		/* more may be needed to be added in the future */
-		case GDK_MOTION_NOTIFY:
-		case GDK_BUTTON_PRESS:
-		case GDK_2BUTTON_PRESS:
-		case GDK_3BUTTON_PRESS:
-		case GDK_BUTTON_RELEASE:
-		case GDK_KEY_PRESS:
-		case GDK_KEY_RELEASE:
+		switch (event->type) 
+			{
+			/* more may be needed to be added in the future */
+			case GDK_MOTION_NOTIFY:
+			case GDK_BUTTON_PRESS:
+			case GDK_2BUTTON_PRESS:
+			case GDK_3BUTTON_PRESS:
+			case GDK_BUTTON_RELEASE:
+			case GDK_KEY_PRESS:
+			case GDK_KEY_RELEASE:
 #if GTK_CHECK_VERSION(2,6,0)
-		case GDK_SCROLL:
+			case GDK_SCROLL:
 #endif
-			/* printf("event->type: %d\n", event->type); */
-			break;
-
-		default:
-	            	gtk_main_do_event(event);
-			/* printf("event->type: %d\n", event->type); */
-			break;
+				/* printf("event->type: %d\n", event->type); */
+				break;
+	
+			default:
+		            	gtk_main_do_event(event);
+				/* printf("event->type: %d\n", event->type); */
+				break;
+			}
 		}
 	}
 }

@@ -774,8 +774,8 @@ if((!GLOBALS->splash_disable)&&(!GLOBALS->splash_splash_c_1))
         }
 	else
 	{
-/* commented out for now because of DnD while loading crash */
-#if 0
+/* was commented out for now because of DnD while loading crash */
+#if 1
 	if(GLOBALS->mainwindow)
 		{
 		wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, 0);
@@ -807,8 +807,8 @@ if(GLOBALS->splash_splash_c_1)
 	}
 	else
 	{
-/* commented out for now because of DnD while loading crash */
-#if 0
+/* was commented out for now because of DnD while loading crash */
+#if 1
 	if(GLOBALS->mainwindow)
 		{
 		if(!GLOBALS->splash_is_loading)
