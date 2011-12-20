@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2005.
+ * Copyright (c) Tony Bybell 2005-2012
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -11,6 +11,8 @@
 #include <config.h>
 #include "symbol.h"
 #include "pixmaps.h"
+
+#define SPLASH_ADDED_LOADER_MESSAGES
 
 
 #ifdef WAVE_USE_GTK2
@@ -775,7 +777,7 @@ if((!GLOBALS->splash_disable)&&(!GLOBALS->splash_splash_c_1))
 	else
 	{
 /* was commented out for now because of DnD while loading crash */
-#ifndef MAC_INTEGRATION
+#ifdef SPLASH_ADDED_LOADER_MESSAGES
 	if(GLOBALS->mainwindow)
 		{
 		wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, 0);
@@ -808,7 +810,7 @@ if(GLOBALS->splash_splash_c_1)
 	else
 	{
 /* was commented out for now because of DnD while loading crash */
-#ifndef MAC_INTEGRATION
+#ifdef SPLASH_ADDED_LOADER_MESSAGES
 	if(GLOBALS->mainwindow)
 		{
 		if(!GLOBALS->splash_is_loading)
