@@ -12,8 +12,9 @@
 #include "symbol.h"
 #include "pixmaps.h"
 
+#ifndef MAC_INTEGRATION
 #define SPLASH_ADDED_LOADER_MESSAGES
-
+#endif
 
 #ifdef WAVE_USE_GTK2
 /* XPM */
