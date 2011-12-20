@@ -897,7 +897,7 @@ while (1)
 				{
 				if(chdir(chdir_env) < 0)
 					{
-					fprintf(stderr, "GTKWAVE | Could not chdir '%s'\n", chdir_env);
+					fprintf(stderr, "GTKWAVE | Could not chdir '%s', exiting.\n", chdir_env);
 					perror("Why");
 					exit(255);
 					}
@@ -906,7 +906,7 @@ while (1)
 				{
 				if(chdir(optarg) < 0)
 					{
-					fprintf(stderr, "GTKWAVE | Could not chdir '%s'\n", optarg);
+					fprintf(stderr, "GTKWAVE | Could not chdir '%s', exiting.\n", optarg);
 					perror("Why");
 					exit(255);
 					}
