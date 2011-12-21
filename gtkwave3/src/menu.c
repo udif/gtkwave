@@ -3384,7 +3384,7 @@ menu_reload_waveform(gpointer null_data, guint callback_action, GtkWidget *widge
 	return;
 	}
 
- if(GLOBALS->gt_splash_c_1)
+ if(GLOBALS->gt_splash_c_1 || GLOBALS->splash_is_loading)
 	{
 	return; /* don't attempt reload if splash screen is still active...that's pointless anyway */
 	}
