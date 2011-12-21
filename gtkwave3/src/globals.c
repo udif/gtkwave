@@ -1468,7 +1468,7 @@ return(load_was_success);
 /*
  * reload from old into the new context
  */
-void reload_into_new_context(void)
+void reload_into_new_context_2(void)
 {
  FILE *statefile;
  struct Global *new_globals;
@@ -1504,12 +1504,14 @@ void reload_into_new_context(void)
  logbox_reload();
 
  /* let all GTK/X events spin through in order to keep menus from freezing open during reload */
+#ifndef MAC_INTEGRATION
  if(GLOBALS->text_status_c_2)
 	{
-	wave_gtk_grab_add(GLOBALS->text_status_c_2);			/* grab focus to a known widget with no real side effects */
+	wave_gtk_grab_add(GLOBALS->text_status_c_2);		/* grab focus to a known widget with no real side effects */
 	gtkwave_main_iteration();				/* spin on GTK event loop */
 	wave_gtk_grab_remove(GLOBALS->text_status_c_2);		/* ungrab focus */
 	}
+#endif
 
  printf("GTKWAVE | Reloading waveform...\n");
  gtkwavetcl_setvar(WAVE_TCLCB_RELOAD_BEGIN, GLOBALS->loaded_file_name, WAVE_TCLCB_RELOAD_BEGIN_FLAGS); 
@@ -2423,6 +2425,27 @@ void reload_into_new_context(void)
 		}
 	}
 #endif
+}
+
+
+void reload_into_new_context(void)
+{
+static int reloading = 0;
+
+if(!reloading)
+	{
+#ifdef MAC_INTEGRATION   
+	osx_menu_sensitivity(FALSE);
+#endif   
+	reload_into_new_context_2();
+	reloading = 0;
+#ifdef MAC_INTEGRATION   
+	if(GLOBALS->loaded_file_type != MISSING_FILE)
+		{
+		osx_menu_sensitivity(TRUE);
+		}
+#endif   
+	}
 }
 
 

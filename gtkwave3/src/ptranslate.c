@@ -43,18 +43,21 @@ for(j=0;j<GLOBALS->num_notebook_pages;j++)
 	{
 	GLOBALS = (*GLOBALS->contexts)[j];
 
-	for(i=1;i<PROC_FILTER_MAX+1;i++)
+	if(GLOBALS)
 		{
-		if(GLOBALS->proc_filter[i])
+		for(i=1;i<PROC_FILTER_MAX+1;i++)
 			{
-			pipeio_destroy(GLOBALS->proc_filter[i]);
-			GLOBALS->proc_filter[i] = NULL;
-			}
+			if(GLOBALS->proc_filter[i])
+				{
+				pipeio_destroy(GLOBALS->proc_filter[i]);
+				GLOBALS->proc_filter[i] = NULL;
+				}
 	
-		if(GLOBALS->procsel_filter[i])
-			{
-			free_2(GLOBALS->procsel_filter[i]);
-			GLOBALS->procsel_filter[i] = NULL;
+			if(GLOBALS->procsel_filter[i])
+				{
+				free_2(GLOBALS->procsel_filter[i]);
+				GLOBALS->procsel_filter[i] = NULL;
+				}
 			}
 		}
 
