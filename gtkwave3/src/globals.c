@@ -1831,7 +1831,8 @@ void reload_into_new_context(void)
  strcpy2_into_new_context(new_globals, &new_globals->skip_end, &GLOBALS->skip_end);
 
  /* main.c */
- new_globals->is_gtkw_save_file  = GLOBALS->is_gtkw_save_file;
+ new_globals->missing_file_toolbar = GLOBALS->missing_file_toolbar;
+ new_globals->is_gtkw_save_file = GLOBALS->is_gtkw_save_file;
  new_globals->use_toolbutton_interface = GLOBALS->use_toolbutton_interface;
  new_globals->optimize_vcd = GLOBALS->optimize_vcd;
  strcpy2_into_new_context(new_globals, &new_globals->winname, &GLOBALS->winname); /* for page swapping */

@@ -816,8 +816,11 @@ if(GLOBALS->splash_splash_c_1)
 		{
 		if(!GLOBALS->splash_is_loading)
 			{
-			GLOBALS->splash_is_loading = 1;
 			set_window_busy(GLOBALS->mainwindow);
+			if(GLOBALS->missing_file_toolbar) gtk_widget_set_sensitive(GLOBALS->missing_file_toolbar, FALSE);
+			while (gtk_events_pending()) gtk_main_iteration();
+
+			GLOBALS->splash_is_loading = 1;
 #ifdef MAC_INTEGRATION
 		        osx_menu_sensitivity(FALSE);
 #endif
@@ -848,6 +851,7 @@ if(GLOBALS->splash_is_loading)
 #ifdef MAC_INTEGRATION
         osx_menu_sensitivity(TRUE);
 #endif
+	if(GLOBALS->missing_file_toolbar) gtk_widget_set_sensitive(GLOBALS->missing_file_toolbar, TRUE);
         }
 }
 
