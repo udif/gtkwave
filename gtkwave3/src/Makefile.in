@@ -71,8 +71,7 @@ am_gtkwave_OBJECTS = globals.$(OBJEXT) ae2.$(OBJEXT) \
 	tree_component.$(OBJEXT) ttranslate.$(OBJEXT) vcd.$(OBJEXT) \
 	vcd_keywords.$(OBJEXT) vcd_partial.$(OBJEXT) \
 	vcd_recoder.$(OBJEXT) vcd_saver.$(OBJEXT) vlist.$(OBJEXT) \
-	vzt.$(OBJEXT) wave_rpc.$(OBJEXT) wavewindow.$(OBJEXT) \
-	zoombuttons.$(OBJEXT)
+	vzt.$(OBJEXT) wavewindow.$(OBJEXT) zoombuttons.$(OBJEXT)
 gtkwave_OBJECTS = $(am_gtkwave_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = ./liblzma/libgwlzma.a $(am__DEPENDENCIES_1)
@@ -294,7 +293,7 @@ gtkwave_SOURCES = \
 	timeentry.c translate.c translate.h tree.c tree.h treesearch.c tree_component.c tree_component.h \
 	ttranslate.c ttranslate.h vcd.c vcd.h vcd_keywords.c \
 	vcd_partial.c vcd_recoder.c vcd_saver.c vcd_saver.h version.h vlist.c vlist.h vzt.c vzt.h wavealloca.h \
-	wave_rpc.c wave_rpc.h wavewindow.c zoombuttons.c
+	wavewindow.c zoombuttons.c
 
 gtkwave_LDADD = $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS)
 twinwave_SOURCES = twinwave.c
@@ -467,7 +466,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vlist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vzt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vzt_read.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wave_rpc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wavewindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/zoombuttons.Po@am__quote@
 

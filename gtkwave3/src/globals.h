@@ -502,8 +502,6 @@ struct gtkwave_dual_ipc_t *dual_ctx; /* from main.c 207 */
 int dual_id; /* from main.c 208 */
 unsigned int dual_attach_id_main_c_1; /* from main.c 209 */
 int dual_race_lock; /* from main.c 210 */
-struct gtkwave_rpc_ipc_t *rpc_ctx; /* from main.c */
-unsigned int rpc_id; /* from main.c */
 GtkWidget *mainwindow; /* from main.c 211 */
 GtkWidget *signalwindow; /* from main.c 212 */
 GtkWidget *wavewindow; /* from main.c 213 */

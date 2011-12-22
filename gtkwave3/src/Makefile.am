@@ -40,7 +40,7 @@ gtkwave_SOURCES= \
 	timeentry.c translate.c translate.h tree.c tree.h treesearch.c tree_component.c tree_component.h \
 	ttranslate.c ttranslate.h vcd.c vcd.h vcd_keywords.c \
 	vcd_partial.c vcd_recoder.c vcd_saver.c vcd_saver.h version.h vlist.c vlist.h vzt.c vzt.h wavealloca.h \
-	wave_rpc.c wave_rpc.h wavewindow.c zoombuttons.c
+	wavewindow.c zoombuttons.c
 
 gtkwave_LDADD= $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS)
 

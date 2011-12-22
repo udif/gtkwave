@@ -15,7 +15,6 @@
 #include "pixmaps.h"
 #include "symbol.h"
 #include "debug.h"
-#include "wave_rpc.h"
 
 #undef FOCUS_DEBUG_MSGS
 
@@ -725,8 +724,6 @@ if(GLOBALS->splash_fix_win_title)
 	GLOBALS->splash_fix_win_title = 0;
 	wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, GLOBALS->dumpfile_is_modified ? WAVE_SET_TITLE_MODIFIED: WAVE_SET_TITLE_NONE, 0);
 	}
-
-execute_rpc();
 
 #ifdef WAVE_USE_GTK2
 #ifdef MAC_INTEGRATION

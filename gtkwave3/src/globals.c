@@ -500,8 +500,6 @@ NULL, /* dual_ctx 196 */
 0, /* dual_id 197 */
 0, /* dual_attach_id_main_c_1 198 */
 0, /* dual_race_lock 199 */
-NULL, /* rpc_ctx */
-0, /* rpc_id */
 NULL, /* mainwindow 200 */
 NULL, /* signalwindow 201 */
 NULL, /* wavewindow 202 */
@@ -1899,9 +1897,6 @@ void reload_into_new_context_2(void)
 #endif
  new_globals->dual_ctx = GLOBALS->dual_ctx;
   
- new_globals->rpc_id = GLOBALS->rpc_id;
- new_globals->rpc_ctx = GLOBALS->rpc_ctx;
-
  /* Times struct */
  memcpy(&(new_globals->tims), &(GLOBALS->tims), sizeof(Times));
 

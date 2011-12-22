@@ -75,8 +75,6 @@
 #include <tk.h>
 #endif
 
-#include "wave_rpc.h"
-
 #ifdef MAC_INTEGRATION
 #include <gtkosxapplication.h>
 #endif
@@ -320,11 +318,9 @@ static void print_help(char *nam)
 
 #if !defined _MSC_VER && !defined __MINGW32__
 #define OUTPUT_GETOPT "  -O, --output=FILE          specify filename for stdout/stderr redirect\n"
-#define RPC_GETOPT "  -1, --rpcid=RPCID          specify RPCID of gtkwave_server to connect to\n"
-#define CHDIR_GETOPT "  -2, --chdir=DIR            specify new current working directory\n"
+#define CHDIR_GETOPT "  -1, --chdir=DIR            specify new current working directory\n"
 #else
 #define OUTPUT_GETOPT
-#define RPC_GETOPT
 #define CHDIR_GETOPT
 #endif
 
@@ -355,7 +351,6 @@ WAVE_GETOPT_CPUS
 "  -S, --script=FILE          specify Tcl command script file for execution\n"
 REPSCRIPT_GETOPT
 XID_GETOPT
-RPC_GETOPT
 CHDIR_GETOPT
 INTR_GETOPT
 "  -C, --comphier             use compressed hierarchy names (slower)\n"
@@ -773,12 +768,11 @@ while (1)
                 {"repperiod", 1, 0, 'P'},
 		{"output", 1, 0, 'O' },
                 {"slider-zoom", 0, 0, 'z'},
-		{"rpc", 1, 0, '1' },
-		{"chdir", 1, 0, '2'},
+		{"chdir", 1, 0, '1'},
                 {0, 0, 0, 0}
                 };
 
-        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:2:", long_options, 
+        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:", long_options, 
 &option_index);
 
         if (c == -1) break;     /* no more args */
@@ -890,10 +884,6 @@ while (1)
 #endif
 
 		case '1':
-			sscanf(optarg, "%x", &GLOBALS->rpc_id);
-			break;
-
-		case '2':
 #ifndef _MSC_VER  
 			{
 			char *chdir_env = getenv("GTKWAVE_CHDIR"); 
@@ -2355,30 +2345,11 @@ if(scriptfile)
 	scriptfile=NULL;
 	}
 
-#if !defined(_MSC_VER) && !defined(__MINGW32__)
-if(GLOBALS->rpc_id)
-	{
-	GLOBALS->rpc_ctx = shmat(GLOBALS->rpc_id, NULL, 0);
-	if(GLOBALS->rpc_ctx)
-		{
-                if(memcmp(&GLOBALS->rpc_ctx->matchword, RPC_MATCHWORD, 4))
-                        {
-                        fprintf(stderr, "RPC shared memory ID matchword mismatch, exiting.\n");
-                        exit(255);
-                        }
-		}
-		else
-		{
-                fprintf(stderr, "Not a valid RPC shared memory ID for remote operation, exiting.\n");
-                exit(255);
-		}
-	}
-
-#endif
-
+#ifdef WAVE_HAVE_GCONF
 wave_gconf_client_set_string("/current/pwd", getenv("PWD"));
 wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
 wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
+#endif
 
 #if !defined _MSC_VER
 if(GLOBALS->dual_attach_id_main_c_1)

@@ -3296,9 +3296,6 @@ menu_new_viewer_tab_cleanup_2(char *fname)
 
 		GLOBALS->strace_repeat_count = g_old->strace_repeat_count;
 
-		GLOBALS->rpc_ctx = g_old->rpc_ctx;
-
-
 		if(g_old->loaded_file_type == MISSING_FILE) /* remove original "blank" page */
 			{
                         if(g_old->missing_file_toolbar) gtk_widget_set_sensitive(g_old->missing_file_toolbar, TRUE);
