@@ -105,5 +105,6 @@ Examples of RPC manipulation:
 gconftool-2 --dump /com.geda.gtkwave
 gconftool-2 --dump /com.geda.gtkwave --recursive-unset
 gconftool-2 --type string --set /com.geda.gtkwave/open /pub/systema_packed.fst
+gconftool-2 --type string --set /com.geda.gtkwave/open `pwd`/`basename -- des.gtkw`
 
 */
