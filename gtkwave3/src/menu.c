@@ -4141,6 +4141,7 @@ if(GLOBALS->filesel_ok)
 	DEBUG(printf("Read Save Fini: %s\n", *GLOBALS->fileselbox_text));
 
         wname=*GLOBALS->fileselbox_text;
+        wave_gconf_client_set_string("/current/savefile", wname);
         read_save_helper(wname, NULL, NULL, NULL, NULL);
   }
 }

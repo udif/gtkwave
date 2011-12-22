@@ -681,7 +681,6 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
                 }
 
 	GLOBALS->current_translate_file = 0;
-	wave_gconf_client_set_string("/current/savefile", wname);
 
 return(rc);
 }
@@ -2296,6 +2295,7 @@ if(lc && !is_working)
 			/* let any possible dealloc get taken up by free_outstanding() */
 			GLOBALS->filesel_writesave = strdup_2(lc->name);
 			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL, NULL, NULL);
+			wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
 			}
 
 		lc_next = lc->next;

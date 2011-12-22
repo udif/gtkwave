@@ -1730,6 +1730,7 @@ static int gtkwavetcl_loadFile(ClientData clientData, Tcl_Interp *interp, int ob
 	
       if(!GLOBALS->in_tcl_callback)                          
         {
+	/* wave_gconf_client_set_string("/current/savefile", s); */
         /*	read_save_helper(s, NULL, NULL, NULL, NULL); */
         process_url_file(s);
         /*	process_url_list(s); */

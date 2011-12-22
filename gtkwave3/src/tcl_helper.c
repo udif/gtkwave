@@ -2322,6 +2322,7 @@ switch(ftype)
 #else
 		GLOBALS->block_xy_update = (GLOBALS->num_notebook_pages > 1); /* let window always resize if 1 tab */
 #endif
+		wave_gconf_client_set_string("/current/savefile", s);
 		read_save_helper(s, NULL, NULL, NULL, NULL);
 		GLOBALS->block_xy_update = 0;
 		rc = 1;
