@@ -534,9 +534,7 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 						*dumptim = -1;
 #if !defined _MSC_VER && !defined __MINGW32__
 						/* format is: "Fri Feb  4 15:50:48 2011" */
-						if((lhq)&&
-(strptime(lhq+1, "%a %b %d %H:%M:%S %Y", &tm) != NULL)
-)
+						if( (lhq) && (strptime(lhq+1, "%a %b %d %H:%M:%S %Y", &tm) != NULL) )
 							{
 							t = timegm(&tm);
 							if(t != -1)
