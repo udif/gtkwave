@@ -3307,6 +3307,8 @@ menu_new_viewer_tab_cleanup_2(char *fname)
 			set_GLOBALS(g_old);
 			menu_quit_close_callback(NULL, NULL);
 			}
+
+		wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
 	
 		rc = 1;
 		}
@@ -4067,6 +4069,7 @@ if(!(wave=fopen(*GLOBALS->fileselbox_text,"wb")))
 	else
 	{
           write_save_helper(*GLOBALS->fileselbox_text, wave);
+	  wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
 	  GLOBALS->save_success_menu_c_1 = 1;
 	  fclose(wave);
 	}

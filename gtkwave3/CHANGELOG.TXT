@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	20dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+3.3.29	22dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
 		was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar 
@@ -1129,6 +1129,8 @@
 		Can now specify just an augmented save file at the command
 		line and gtkwave will load both the dump file and the save file:
 		this makes launching from desktops easier on Linux.
-		Added mime types,desktops, and icons in share/ for gnome.
+		Added mime types, desktops, and icons in share/ for gnome.
 		Added percentage progress during load for most file types
 		in window title bar when splash screen not active.
+		Preliminary add of interfacing with GConf via the
+		/com.geda.gtkwave directory for keys in GConf.

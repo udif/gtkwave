@@ -714,6 +714,8 @@ if(!mainwindow_already_built)
 do_primary_inits:
 #endif
 
+wave_gconf_init(argc, argv);
+
 if(!gtkwave_argv0_cached) gtkwave_argv0_cached = argv[0]; /* for new window option */
 
 init_filetrans_data(); /* for file translation splay trees */
@@ -2373,6 +2375,10 @@ if(GLOBALS->rpc_id)
 	}
 
 #endif
+
+wave_gconf_client_set_string("/current/pwd", getenv("PWD"));
+wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
+wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
 
 #if !defined _MSC_VER
 if(GLOBALS->dual_attach_id_main_c_1)

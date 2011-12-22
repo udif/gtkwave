@@ -23,9 +23,12 @@ rtlbrowse_SOURCES = definehash.c fgetdynamic.c fgetdynamic.h \
 	$(srcdir)/../../src/helpers/lxt2_read.c splay.h \
 	vlex.l vlex.h wavelink.h $(srcdir)/../../src/liblzma/LzmaLib.c $(srcdir)/../../src/liblzma/LzmaLib.h
 
-LDADD= $(GTK_LIBS) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBLZMA_LDADD) $(AET2_LDADD) $(LIBJUDY_LDADD)
+LDADD= $(GTK_LIBS) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBLZMA_LDADD) $(AET2_LDADD) \
+	$(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS)
 AM_CFLAGS= -I$(top_srcdir) -I$(top_srcdir)/src  -I$(top_srcdir)/src/helpers \
-	$(GTK_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(QUARTZ_CFLAGS) $(GTK_MAC_CFLAGS)
+	$(GTK_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBLZMA_CFLAGS) \
+	$(LIBFST_CFLAGS) $(AET2_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) \
+	$(GTK_MAC_CFLAGS) $(GCONF_CFLAGS)
 
 definehash.c: vpp_keyword.gperf
 	$(GPERF) -C -I -N is_builtin_define $(srcdir)/vpp_keyword.gperf >definehash.c

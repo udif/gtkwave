@@ -919,6 +919,7 @@ if(GLOBALS->possibly_use_rc_defaults) vanilla_rc();
 if((override_rc)&&((handle=fopen(override_rc,"rb"))))
 	{
 	/* good, we have a handle */
+	wave_gconf_client_set_string("/current/rcfile", override_rc);
 	}
 else
 #if !defined __MINGW32__ && !defined _MSC_VER
@@ -935,9 +936,14 @@ if(!(handle=fopen(rcname,"rb")))
 
 	if(!(handle=fopen(rcpath,"rb")))
 		{
+		wave_gconf_client_set_string("/current/rcfile", "");
 		errno=0;
 		return; /* no .rc file */
 		} 
+		else
+		{
+		wave_gconf_client_set_string("/current/rcfile", rcpath);
+		}
 	}
 #else
 if(!(handle=fopen(rcname,"rb")))		/* no concept of ~ in win32 */
@@ -957,10 +963,13 @@ if(!(handle=fopen(rcname,"rb")))		/* no concept of ~ in win32 */
         }
         if ((home == NULL) || (!(handle=fopen(rcpath,"rb")))) {
             /* printf("No rc file\n"); */
+	    wave_gconf_client_set_string("/current/rcfile", "");
   	    errno=0;
 	    if(GLOBALS->possibly_use_rc_defaults) vanilla_rc();
 	    return; /* no .rc file */
 	    }
+
+	wave_gconf_client_set_string("/current/rcfile", rcpath);
 	} 
 #endif
 

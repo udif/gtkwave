@@ -683,6 +683,7 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
                 }
 
 	GLOBALS->current_translate_file = 0;
+	wave_gconf_client_set_string("/current/savefile", wname);
 
 return(rc);
 }
@@ -2146,8 +2147,6 @@ return(synth_nam);
 
 /******************************************************************/
 
-#ifdef MAC_INTEGRATION
-
 /*
  * deliberately kept outside of GLOBALS control
  */
@@ -2320,7 +2319,7 @@ return(FALSE);
  * Integration with Finder...
  * cache name and load in later off a timer (similar to caching DnD for quartz...)
  */
-gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
+gboolean deal_with_rpc_open(gchar *path, gpointer user_data)
 {
 const char *suffixes[] =
 {
@@ -2374,6 +2373,8 @@ return(TRUE);
 }
 
 
+#ifdef MAC_INTEGRATION
+
 /*
  * block termination if in the middle of something important
  */
@@ -2387,6 +2388,16 @@ if(do_not_terminate)
         }
         
 return(do_not_terminate);
+}
+
+
+/*
+ * Integration with Finder...
+ * cache name and load in later off a timer (similar to caching DnD for quartz...)
+ */
+gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
+{
+return(deal_with_rpc_open(path, user_data));
 }
 
 #endif

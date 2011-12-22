@@ -8,6 +8,14 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
 AM_MAINTAINER_MODE
 
+# ------------- GCONF -------------------
+
+AC_ARG_WITH([gconf],
+    [AS_HELP_STRING([--with-gconf],
+        [Use GConf to store preferences])],
+        [],
+        [with_gconf=check])
+
 # ------------- XDG -------------------
 AC_ARG_WITH(xdgdatadir, [  --with-xdgdatadir=path  Change where the theme icons and mime registrations are installed [[DATADIR]]], [opt_xdgdatadir=$withval])
 
@@ -534,6 +542,14 @@ else
 	   AC_SUBST(GTK_MAC_LIBS)
 	   AC_SUBST(GTK_MAC_CFLAGS)
 	fi
+
+	if test x$with_gconf = xyes; then
+          PKG_CHECK_MODULES(GCONF, gconf-2.0 >= 2.0)
+	  GCONF_CFLAGS="-DWAVE_HAVE_GCONF $GCONF_CFLAGS"
+  	  AC_SUBST(GCONF_CFLAGS)
+	  AC_SUBST(GCONF_LIBS)
+	fi
+
 fi 
 
 # Checks for header files.
@@ -762,6 +778,8 @@ AC_MSG_NOTICE([
   INLINE_ASM       : $INLINE_ASM
   GTK_MAC_CFLAGS   : $GTK_MAC_CFLAGS
   GTK_MAC_LIBS     : $GTK_MAC_LIBS
+  GCONF_CFLAGS     : $GCONF_CFLAGS
+  GCONF_LIBS       : $GCONF_LIBS
 --------------------------------------------
 ])
 

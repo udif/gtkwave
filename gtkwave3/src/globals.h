@@ -29,6 +29,7 @@
 #include "fgetdynamic.h"
 #include "fonts.h"
 #include "fstapi.h"
+#include "gconf.h"
 #include "ghw.h"
 #include "globals.h"
 #include "gnu_regex.h"

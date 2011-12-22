@@ -12,7 +12,7 @@ LIBLZMA_LDADD  = ./liblzma/libgwlzma.a $(LIBXZ_LDADD)
 
 bin_PROGRAMS=	gtkwave twinwave
 
-AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(TCL_INCLUDE_SPEC) $(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(GTK_MAC_CFLAGS)
+AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(TCL_INCLUDE_SPEC) $(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(GTK_MAC_CFLAGS) $(GCONF_CFLAGS)
 
 ./liblzma/libgwlzma.a: $(srcdir)/liblzma/LzmaLib.c $(srcdir)/liblzma/LzmaLib.h
 
@@ -26,7 +26,8 @@ gtkwave_SOURCES= \
 	bsearch.c bsearch.h busy.c busy.h \
 	clipping.c clipping.h color.c color.h currenttime.c currenttime.h \
 	debug.c debug.h discardbuttons.c edgebuttons.c \
-	entry.c extload.c extload.h fetchbuttons.c fgetdynamic.c fgetdynamic.h file.c fonts.c fonts.h fst.c fst.h getopt.c \
+	entry.c extload.c extload.h fetchbuttons.c fgetdynamic.c fgetdynamic.h file.c fonts.c fonts.h fst.c fst.h \
+	gconf.c gconf.h getopt.c \
 	getopt1.c ghw.c ghw.h ghwlib.c ghwlib.h gnu-getopt.h gnu_regex.h gtk12compat.h \
 	hierpack.c hierpack.h jrb.c jrb.h help.c helpers/lxt2_read.c \
 	helpers/lxt_write.c helpers/vzt_read.c hiersearch.c interp.c \
@@ -41,10 +42,10 @@ gtkwave_SOURCES= \
 	vcd_partial.c vcd_recoder.c vcd_saver.c vcd_saver.h version.h vlist.c vlist.h vzt.c vzt.h wavealloca.h \
 	wave_rpc.c wave_rpc.h wavewindow.c zoombuttons.c
 
-gtkwave_LDADD= $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS)
+gtkwave_LDADD= $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS)
 
 twinwave_SOURCES= twinwave.c
-twinwave_LDADD= $(GTK_LIBS)
+twinwave_LDADD= $(GTK_LIBS) $(GTK_MAC_LIBS) $(GCONF_LIBS)
 
 vcd_keywords.c: vcd_keywords.gperf
 	printf "$(GPERF) -o -i 1 -C -k 1,\044 -L C -H keyword_hash -N check_identifier -tT $(srcdir)/vcd_keywords.gperf >vcd_keywords.c" | sh

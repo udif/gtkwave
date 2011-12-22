@@ -742,7 +742,7 @@ if(GLOBALS->dnd_helper_quartz)
 #endif   
 #endif
 
-#ifdef MAC_INTEGRATION
+#if defined(MAC_INTEGRATION) || defined(WAVE_HAVE_GCONF)
 if(process_finder_names_queued())
 	{
 	if(GLOBALS->pFileChoose)

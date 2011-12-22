@@ -649,6 +649,8 @@ EGREP
 GREP
 CPP
 ALLOCA
+GCONF_LIBS
+GCONF_CFLAGS
 GTK_MAC_LIBS
 GTK_MAC_CFLAGS
 GTK_LIBS
@@ -788,6 +790,7 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_maintainer_mode
+with_gconf
 with_xdgdatadir
 enable_inline_asm
 enable_struct_pack
@@ -819,6 +822,8 @@ GTK_CFLAGS
 GTK_LIBS
 GTK_MAC_CFLAGS
 GTK_MAC_LIBS
+GCONF_CFLAGS
+GCONF_LIBS
 CPP'
 
 
@@ -1478,6 +1483,7 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-gconf            Use GConf to store preferences
   --with-xdgdatadir=path  Change where the theme icons and mime registrations are installed [DATADIR]
   --with-tcl              directory containing tcl configuration
                           (tclConfig.sh)
@@ -1498,6 +1504,9 @@ Some influential environment variables:
               C compiler flags for GTK_MAC, overriding pkg-config
   GTK_MAC_LIBS
               linker flags for GTK_MAC, overriding pkg-config
+  GCONF_CFLAGS
+              C compiler flags for GCONF, overriding pkg-config
+  GCONF_LIBS  linker flags for GCONF, overriding pkg-config
   CPP         C preprocessor
 
 Use these variables to override the choices made by `configure' or to help
@@ -2494,6 +2503,17 @@ fi
 
   MAINT=$MAINTAINER_MODE_TRUE
 
+
+
+# ------------- GCONF -------------------
+
+
+# Check whether --with-gconf was given.
+if test "${with_gconf+set}" = set; then
+  withval=$with_gconf;
+else
+  with_gconf=check
+fi
 
 
 # ------------- XDG -------------------
@@ -6386,6 +6406,122 @@ fi
 
 
 	fi
+
+	if test x$with_gconf = xyes; then
+
+pkg_failed=no
+{ $as_echo "$as_me:$LINENO: checking for GCONF" >&5
+$as_echo_n "checking for GCONF... " >&6; }
+
+if test -n "$GCONF_CFLAGS"; then
+    pkg_cv_GCONF_CFLAGS="$GCONF_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"gconf-2.0 >= 2.0\"") >&5
+  ($PKG_CONFIG --exists --print-errors "gconf-2.0 >= 2.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_GCONF_CFLAGS=`$PKG_CONFIG --cflags "gconf-2.0 >= 2.0" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$GCONF_LIBS"; then
+    pkg_cv_GCONF_LIBS="$GCONF_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"gconf-2.0 >= 2.0\"") >&5
+  ($PKG_CONFIG --exists --print-errors "gconf-2.0 >= 2.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_GCONF_LIBS=`$PKG_CONFIG --libs "gconf-2.0 >= 2.0" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GCONF_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "gconf-2.0 >= 2.0" 2>&1`
+        else
+	        GCONF_PKG_ERRORS=`$PKG_CONFIG --print-errors "gconf-2.0 >= 2.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GCONF_PKG_ERRORS" >&5
+
+	{ { $as_echo "$as_me:$LINENO: error: Package requirements (gconf-2.0 >= 2.0) were not met:
+
+$GCONF_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables GCONF_CFLAGS
+and GCONF_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+" >&5
+$as_echo "$as_me: error: Package requirements (gconf-2.0 >= 2.0) were not met:
+
+$GCONF_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables GCONF_CFLAGS
+and GCONF_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+" >&2;}
+   { (exit 1); exit 1; }; }
+elif test $pkg_failed = untried; then
+	{ { $as_echo "$as_me:$LINENO: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+{ { $as_echo "$as_me:$LINENO: error: The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables GCONF_CFLAGS
+and GCONF_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details." >&5
+$as_echo "$as_me: error: The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables GCONF_CFLAGS
+and GCONF_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details." >&2;}
+   { (exit 1); exit 1; }; }; }
+else
+	GCONF_CFLAGS=$pkg_cv_GCONF_CFLAGS
+	GCONF_LIBS=$pkg_cv_GCONF_LIBS
+        { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
+	:
+fi
+	  GCONF_CFLAGS="-DWAVE_HAVE_GCONF $GCONF_CFLAGS"
+
+
+	fi
+
 fi
 
 # Checks for header files.
@@ -13461,6 +13597,8 @@ ac_config_files="$ac_config_files Makefile doc/Makefile contrib/Makefile contrib
   INLINE_ASM       : $INLINE_ASM
   GTK_MAC_CFLAGS   : $GTK_MAC_CFLAGS
   GTK_MAC_LIBS     : $GTK_MAC_LIBS
+  GCONF_CFLAGS     : $GCONF_CFLAGS
+  GCONF_LIBS       : $GCONF_LIBS
 --------------------------------------------
 " >&5
 $as_echo "$as_me:
@@ -13507,6 +13645,8 @@ $as_echo "$as_me:
   INLINE_ASM       : $INLINE_ASM
   GTK_MAC_CFLAGS   : $GTK_MAC_CFLAGS
   GTK_MAC_LIBS     : $GTK_MAC_LIBS
+  GCONF_CFLAGS     : $GCONF_CFLAGS
+  GCONF_LIBS       : $GCONF_LIBS
 --------------------------------------------
 " >&6;}
 
