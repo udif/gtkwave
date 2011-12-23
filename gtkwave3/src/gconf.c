@@ -10,6 +10,7 @@
 #include <config.h>
 #include "gconf.h"
 #include "wavealloca.h"
+#include "globals.h"
 
 int wave_rpc_id = 0;
 
@@ -60,11 +61,65 @@ quit_callback(GConfClient* client,
     {
       if (gconf_entry_get_value (entry)->type == GCONF_VALUE_STRING)
         {
-	  char *rc = gconf_value_get_string (gconf_entry_get_value (entry));
+	  const char *rc = gconf_value_get_string (gconf_entry_get_value (entry));
 	  int rcv = atoi(rc);
 	  fprintf(stderr, "GTKWAVE | RPC Quit: exit return code %d\n", rcv);
 	  gconf_entry_set_value(entry, NULL);
 	  exit(rcv);
+        }
+      else
+        {
+          /* value is of wrong type */
+        }
+    }
+}
+
+
+static void
+writesave_callback(GConfClient* client,
+                     guint cnxn_id,
+                     GConfEntry *entry,
+                     gpointer user_data)
+{
+  if (gconf_entry_get_value (entry) == NULL)
+    {
+      /* value is unset */
+    }
+  else
+    {
+      if (gconf_entry_get_value (entry)->type == GCONF_VALUE_STRING)
+        {
+	  const char *fni = gconf_value_get_string (gconf_entry_get_value (entry));
+	  if(fni)
+		{
+		  int use_arg = strcmp(fni, "+"); /* plus filename uses default */
+		  const char *fn = use_arg ? fni : GLOBALS->filesel_writesave;
+		  if(fn)
+			{
+		  	FILE *wave = fopen(fn, "wb");
+	
+		  	if(!(wave=fopen(fn, "wb")))
+		        	{
+		        	fprintf(stderr, "GTKWAVE | RPC Writesave: error opening save file '%s' for writing.\n", fn);
+		        	perror("Why");
+		        	errno=0;
+		        	}
+		        	else
+		        	{
+		        	write_save_helper(fn, wave);
+				if(use_arg)
+					{
+					if(GLOBALS->filesel_writesave) { free_2(GLOBALS->filesel_writesave); }
+					GLOBALS->filesel_writesave = strdup_2(fn);
+					}
+		        	wave_gconf_client_set_string("/current/savefile", fn);
+		        	fclose(wave);
+		        	fprintf(stderr, "GTKWAVE | RPC Writesave: wrote save file '%s'.\n", GLOBALS->filesel_writesave);
+		        	}
+			}
+		}
+
+	  gconf_entry_set_value(entry, NULL);
         }
       else
         {
@@ -109,6 +164,12 @@ gconf_client_notify_add(client, ks,
                           quit_callback,
                           NULL, /* user data */
                           NULL, NULL);
+
+strcpy(ks + len, "/writesave");
+gconf_client_notify_add(client, ks,
+                          writesave_callback,
+                          NULL, /* user data */
+                          NULL, NULL);
 }
 
 
@@ -148,6 +209,9 @@ gconftool-2 --dump /com.geda.gtkwave --recursive-unset
 
 gconftool-2 --type string --set /com.geda.gtkwave/0/open /pub/systema_packed.fst
 gconftool-2 --type string --set /com.geda.gtkwave/0/open `pwd`/`basename -- des.gtkw`
+
+gconftool-2 --type string --set /com.geda.gtkwave/0/writesave /tmp/this.gtkw
+gconftool-2 --type string --set /com.geda.gtkwave/0/writesave +
 
 gconftool-2 --type string --set /com.geda.gtkwave/0/quit 0
 

@@ -18,7 +18,7 @@
 #define __WAVE_SAVEFILE_H__
 
 /* These should eventually have error values */
-void write_save_helper(char *savnam, FILE *file);
+void write_save_helper(const char *savnam, FILE *file);
 int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumpsiz, time_t *dumptim); /* -1 = error, 0+ = number of lines read */
 char *append_array_row(nptr n);
 
@@ -32,11 +32,12 @@ gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer use
 gboolean deal_with_termination(GtkOSXApplication *app, gpointer user_data);
 #endif
 
-gboolean deal_with_rpc_open(gchar *path, gpointer user_data);
+gboolean deal_with_rpc_open(const gchar *path, gpointer user_data);
 gboolean process_finder_names_queued(void);
 char *process_finder_extract_queued_name(void);
 gboolean process_finder_name_integration(void);
 
 void read_save_helper_relative_init(char *wname);
+int suffix_check(const char *s, const char *sfx);
 
 #endif

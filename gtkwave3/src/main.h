@@ -23,7 +23,6 @@ char *name;
 };
 
 int main_2(int argc, char *argv[]);
-int suffix_check(const char *s, const char *sfx);
 
 GtkWidget *create_text(void);
 GtkWidget *create_zoom_buttons(void);

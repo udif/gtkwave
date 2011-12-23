@@ -46,7 +46,7 @@ return(GLOBALS->buf_menu_c_1);
 }
 
 
-void write_save_helper(char *savnam, FILE *wave) {
+void write_save_helper(const char *savnam, FILE *wave) {
 	Trptr t;
 	int i;
 	unsigned int def=0;
@@ -2397,7 +2397,7 @@ return(FALSE);
  * Integration with Finder...
  * cache name and load in later off a timer (similar to caching DnD for quartz...)
  */
-gboolean deal_with_rpc_open(gchar *path, gpointer user_data)
+gboolean deal_with_rpc_open(const gchar *path, gpointer user_data)
 {
 const char *suffixes[] =
 {
@@ -2480,4 +2480,10 @@ return(deal_with_rpc_open(path, user_data));
 
 #endif
 
+
+int suffix_check(const char *s, const char *sfx)
+{
+int sfxlen = strlen(sfx);
+return((strlen(s)>=sfxlen)&&(!strcasecmp(s+strlen(s)-sfxlen,sfx)));
+}
 
