@@ -14,6 +14,7 @@
 #ifdef WAVE_HAVE_GCONF
 
 static GConfClient* client = NULL;
+int wave_rpc_id = 0;
 
 static void
 open_callback(GConfClient* client,

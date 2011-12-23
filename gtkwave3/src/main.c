@@ -318,10 +318,16 @@ static void print_help(char *nam)
 
 #if !defined _MSC_VER && !defined __MINGW32__
 #define OUTPUT_GETOPT "  -O, --output=FILE          specify filename for stdout/stderr redirect\n"
-#define CHDIR_GETOPT "  -1, --chdir=DIR            specify new current working directory\n"
+#define CHDIR_GETOPT "  -2, --chdir=DIR            specify new current working directory\n"
 #else
 #define OUTPUT_GETOPT
 #define CHDIR_GETOPT
+#endif
+
+#ifdef WAVE_HAVE_GCONF
+#define RPC_GETOPT "  -1, --rpcid=RPCID          specify RPCID of GConf session\n"
+#else
+#define RPC_GETOPT
 #endif
 
 #if defined(WAVE_USE_GTK2)
@@ -351,6 +357,7 @@ WAVE_GETOPT_CPUS
 "  -S, --script=FILE          specify Tcl command script file for execution\n"
 REPSCRIPT_GETOPT
 XID_GETOPT
+RPC_GETOPT
 CHDIR_GETOPT
 INTR_GETOPT
 "  -C, --comphier             use compressed hierarchy names (slower)\n"
@@ -768,11 +775,12 @@ while (1)
                 {"repperiod", 1, 0, 'P'},
 		{"output", 1, 0, 'O' },
                 {"slider-zoom", 0, 0, 'z'},
-		{"chdir", 1, 0, '1'},
+		{"rpc", 1, 0, '1' },
+		{"chdir", 1, 0, '2'},
                 {0, 0, 0, 0}
                 };
 
-        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:", long_options, 
+        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:2:", long_options, 
 &option_index);
 
         if (c == -1) break;     /* no more args */
@@ -884,6 +892,11 @@ while (1)
 #endif
 
 		case '1':
+			sscanf(optarg, "%d", &wave_rpc_id);
+			if(wave_rpc_id < 0) wave_rpc_id = 0;
+			break;
+
+		case '2':
 #ifndef _MSC_VER  
 			{
 			char *chdir_env = getenv("GTKWAVE_CHDIR"); 

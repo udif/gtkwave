@@ -98,7 +98,10 @@ Specify XID of window for a GtkPlug to connect to.  GTKWave does not directly re
 GtkPlug expecting a GtkSocket at the other end.  Note that there are issues with accelerators working properly so menus are
 disabled in the componentized version of GTKWave when it functions as a plug-in.
 .TP 
-\fB\-1\fR,\fB\-\-chdir\fR <\fIDIRNAME\fP>
+\fB\-1\fR,\fB\-\-rpcid\fR <\fIRPCID\fP>
+Specify RPCID of GConf session.  This is a decimal value zero or greater and is the identifier used by GConf to know what update data to listen to.
+.TP
+\fB\-2\fR,\fB\-\-chdir\fR <\fIDIRNAME\fP>
 Specify new current working directory.  This is typically used in OSX to run gtkwave if it was compiled and placed in an .app bundle.  Note that if the environment variable GTKWAVE_CHDIR is defined, the argument is a dummy argument. This is to support OSX in that the open command has difficulty in passing spaces as command line arguments and it is possible for \fIpwd\fP(1) to return spaces.
 .TP
 \fB\-I\fR,\fB\-\-interactive\fR
