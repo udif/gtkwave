@@ -17,6 +17,8 @@ int wave_rpc_id = 0;
 
 static GConfClient* client = NULL;
 
+/************************************************************/
+
 static void
 open_callback(GConfClient* client,
                      guint cnxn_id,
@@ -44,6 +46,35 @@ open_callback(GConfClient* client,
 }
 
 
+static void
+quit_callback(GConfClient* client,
+                     guint cnxn_id,
+                     GConfEntry *entry,
+                     gpointer user_data)
+{
+  if (gconf_entry_get_value (entry) == NULL)
+    {
+      /* value is unset */
+    }
+  else
+    {
+      if (gconf_entry_get_value (entry)->type == GCONF_VALUE_STRING)
+        {
+	  char *rc = gconf_value_get_string (gconf_entry_get_value (entry));
+	  int rcv = atoi(rc);
+	  fprintf(stderr, "GTKWAVE | RPC Quit: exit return code %d\n", rcv);
+	  gconf_entry_set_value(entry, NULL);
+	  exit(rcv);
+        }
+      else
+        {
+          /* value is of wrong type */
+        }
+    }
+}
+
+/************************************************************/
+
 static void remove_client(void)
 {
 if(client)
@@ -56,7 +87,7 @@ if(client)
 void wave_gconf_init(int argc, char **argv)
 {
 char *ks = wave_alloca(WAVE_GCONF_DIR_LEN + 32 + 32 + 1);
-sprintf(ks, WAVE_GCONF_DIR"/%d", wave_rpc_id);
+int len = sprintf(ks, WAVE_GCONF_DIR"/%d", wave_rpc_id);
 
 gconf_init(argc, argv, NULL);
 client = gconf_client_get_default();
@@ -67,12 +98,17 @@ gconf_client_add_dir(client,
         GCONF_CLIENT_PRELOAD_NONE,
         NULL);
 
-strcat(ks, "/open");
+strcpy(ks + len, "/open");
 gconf_client_notify_add(client, ks,
                           open_callback,
                           NULL, /* user data */
                           NULL, NULL);
 
+strcpy(ks + len, "/quit");
+gconf_client_notify_add(client, ks,
+                          quit_callback,
+                          NULL, /* user data */
+                          NULL, NULL);
 }
 
 
@@ -109,7 +145,10 @@ Examples of RPC manipulation:
 
 gconftool-2 --dump /com.geda.gtkwave
 gconftool-2 --dump /com.geda.gtkwave --recursive-unset
+
 gconftool-2 --type string --set /com.geda.gtkwave/0/open /pub/systema_packed.fst
 gconftool-2 --type string --set /com.geda.gtkwave/0/open `pwd`/`basename -- des.gtkw`
+
+gconftool-2 --type string --set /com.geda.gtkwave/0/quit 0
 
 */
