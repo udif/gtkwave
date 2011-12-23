@@ -1,5 +1,7 @@
 #!/bin/sh
 
+gcc -o ../../examples/transaction ../../examples/transaction.c -DHAVE_INTTYPES_H
+
 #
 # this assumes that gtkwave --prefix is the
 # same directory hierarchy that gtkwave via

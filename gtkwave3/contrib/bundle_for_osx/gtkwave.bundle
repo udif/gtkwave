@@ -240,6 +240,19 @@
     ${project}/../../examples/.gtkwaverc
   </data>
 
+  <data dest="${bundle}/Contents/Resources/examples/transaction.fst">
+    ${project}/../../examples/transaction.fst
+  </data>
+  <data dest="${bundle}/Contents/Resources/examples/transaction.gtkw">
+    ${project}/../../examples/transaction.gtkw
+  </data>
+  <data dest="${bundle}/Contents/Resources/examples/transaction.c">
+    ${project}/../../examples/transaction.c
+  </data>
+  <data dest="${bundle}/Contents/Resources/examples/transaction">
+    ${project}/../../examples/transaction
+  </data>
+
 
   <!-- Copy in the patches so users can recreate gtk from source. 
        This might be obsolete in future versions of gtk. 
