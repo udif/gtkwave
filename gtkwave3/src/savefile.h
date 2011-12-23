@@ -37,4 +37,6 @@ gboolean process_finder_names_queued(void);
 char *process_finder_extract_queued_name(void);
 gboolean process_finder_name_integration(void);
 
+void read_save_helper_relative_init(char *wname);
+
 #endif

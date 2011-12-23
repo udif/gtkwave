@@ -1598,6 +1598,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 			        }	
 			}
 
+		read_save_helper_relative_init(wname);
 		GLOBALS->default_flags=TR_RJUSTIFY;
 		GLOBALS->shift_timebase_default_for_add=LLDescriptor(0);
 		GLOBALS->strace_current_window = 0; /* in case there are shadow traces */

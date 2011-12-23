@@ -727,6 +727,13 @@ NULL, /* filesel_print_mif_renderopt_c_1 326 */
 
 
 /*
+ * savefile.c
+ */
+NULL, /* sfn */
+NULL, /* lcname */
+
+
+/*
  * search.c
  */
 {NULL,NULL,NULL,NULL,NULL}, /* menuitem_search */

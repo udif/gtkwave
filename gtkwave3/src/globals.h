@@ -726,6 +726,13 @@ int page_size_type_renderopt_c_1; /* from renderopt.c 351 */
 
 
 /*
+ * savefile.c
+ */
+char *sfn;
+char *lcname;
+
+
+/*
  * search.c
  */
 GtkWidget *menuitem_search[5]; /* from search.c */

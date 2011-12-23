@@ -470,6 +470,63 @@ void write_save_helper(char *savnam, FILE *wave) {
 }
 
 
+void read_save_helper_relative_init(char *wname)
+{
+/* for relative files in parsewavline() */
+if(GLOBALS->lcname)
+	{
+        free_2(GLOBALS->lcname);
+        }
+
+GLOBALS->lcname = wname ? strdup_2(wname) : NULL;
+
+if(GLOBALS->sfn)
+	{
+        free_2(GLOBALS->sfn);
+        GLOBALS->sfn = NULL;
+        }
+}
+
+
+static char *get_relative_adjusted_name(char *sfn, char *dfn, char *lcname)
+{
+char *rp = NULL;
+FILE *f;
+
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+        if(sfn && dfn)
+                {
+                char *can = realpath(lcname, NULL);
+                char *fdf = find_dumpfile(sfn, dfn, can);
+
+                free(can);
+
+                f = fopen(fdf, "rb");
+                if(f) 
+                        {
+                        rp = fdf;
+                        fclose(f);
+                        goto bot;
+                        }
+                }
+#endif
+
+        if(dfn)
+                {
+                f = fopen(dfn, "rb");
+                if(f)
+                        {
+                        fclose(f);
+                        rp = strdup_2(dfn);
+                        goto bot;
+                        }
+                }
+
+bot:
+return(rp);
+}
+
+
 int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumpsiz, time_t *dumptim) { 
         FILE *wave;
         char *str = NULL;
@@ -573,6 +630,10 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 	                if(wave_is_compressed) pclose(wave); else fclose(wave);
 			return(rc);
 			}
+
+
+		read_save_helper_relative_init(wname);
+
 
                 WAVE_STRACE_ITERATOR(s_ctx_iter)
                         {
@@ -1191,7 +1252,9 @@ else if(*w2=='^')
 				while(*fn && isspace((int)(unsigned char)*fn)) fn++;
 				if(*fn && !isspace((int)(unsigned char)*fn)) 
 					{
-					set_current_translate_proc(fn);
+					char *rp = get_relative_adjusted_name(GLOBALS->sfn, fn, GLOBALS->lcname);
+					set_current_translate_proc(rp ? rp : fn);
+					if(rp) free_2(rp);
 					}
 				}
 			}
@@ -1210,7 +1273,9 @@ else if(*w2=='^')
 				while(*fn && isspace((int)(unsigned char)*fn)) fn++;
 				if(*fn && !isspace((int)(unsigned char)*fn)) 
 					{
-					set_current_translate_ttrans(fn);
+					char *rp = get_relative_adjusted_name(GLOBALS->sfn, fn, GLOBALS->lcname);
+					set_current_translate_ttrans(rp ? rp : fn);
+					if(rp) free_2(rp);
 					}
 				}
 			}
@@ -1227,7 +1292,9 @@ else if(*w2=='^')
 				while(*fn && isspace((int)(unsigned char)*fn)) fn++;
 				if(*fn && !isspace((int)(unsigned char)*fn)) 
 					{
-					set_current_translate_file(fn);
+					char *rp = get_relative_adjusted_name(GLOBALS->sfn, fn, GLOBALS->lcname);
+					set_current_translate_file(rp ? rp : fn);
+					if(rp) free_2(rp);
 					}
 				}
 			}
@@ -1443,7 +1510,20 @@ else if (*w2 == '[')
         }
     else if (strcmp (w2, "savefile") == 0)
 	{
-        /* nothing here currently...intended future use of this tag is to determine relative file placements */
+        /* store name for relative name processing of filters */
+	char *lhq = strchr(w, '"');
+	char *rhq = strrchr(w, '"');
+
+	if(GLOBALS->sfn)
+		{
+		free_2(GLOBALS->sfn); GLOBALS->sfn = NULL; 
+		}
+
+	if((lhq) && (rhq) && (lhq != rhq)) /* no real need to check rhq != NULL*/
+		{
+		*rhq = 0;
+		GLOBALS->sfn = strdup_2(lhq + 1);
+		}
         }
     else if (strcmp (w2, "[*]") == 0)
 	{

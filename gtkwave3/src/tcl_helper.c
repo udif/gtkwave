@@ -883,6 +883,9 @@ if(!list)
 	{
 	return(0);
 	}
+
+read_save_helper_relative_init(NULL); /* should be passing canonicalized filter names here...so no need for relative processing */
+
 s_new_list = calloc_2(c, sizeof(char *));
 match_idx_list = calloc_2(c, sizeof(int *));
 match_type_list = calloc_2(c, sizeof(int *));
