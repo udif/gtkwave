@@ -54,16 +54,20 @@ if(client)
 
 void wave_gconf_init(int argc, char **argv)
 {
+char *ks = wave_alloca(WAVE_GCONF_DIR_LEN + 32 + 32 + 1);
+sprintf(ks, WAVE_GCONF_DIR"/%d", wave_rpc_id);
+
 gconf_init(argc, argv, NULL);
 client = gconf_client_get_default();
 atexit(remove_client);
 
 gconf_client_add_dir(client,
-	WAVE_GCONF_DIR,
+	ks,
         GCONF_CLIENT_PRELOAD_NONE,
         NULL);
 
-gconf_client_notify_add(client, WAVE_GCONF_DIR"/open",
+strcat(ks, "/open");
+gconf_client_notify_add(client, ks,
                           open_callback,
                           NULL, /* user data */
                           NULL, NULL);
@@ -75,10 +79,9 @@ gboolean wave_gconf_client_set_string(const gchar *key, const gchar *val)
 {
 if(key)
 	{
-	char *ks = wave_alloca(WAVE_GCONF_DIR_LEN + strlen(key) + 1);
+	char *ks = wave_alloca(WAVE_GCONF_DIR_LEN + 32 + strlen(key) + 1);
+	sprintf(ks, WAVE_GCONF_DIR"/%d%s", wave_rpc_id, key);
 
-	strcpy(ks, WAVE_GCONF_DIR);
-	strcpy(ks+WAVE_GCONF_DIR_LEN, key);
 	return(gconf_client_set_string(client, ks, val ? val : "", NULL));
 	}
 
@@ -105,7 +108,7 @@ Examples of RPC manipulation:
 
 gconftool-2 --dump /com.geda.gtkwave
 gconftool-2 --dump /com.geda.gtkwave --recursive-unset
-gconftool-2 --type string --set /com.geda.gtkwave/open /pub/systema_packed.fst
-gconftool-2 --type string --set /com.geda.gtkwave/open `pwd`/`basename -- des.gtkw`
+gconftool-2 --type string --set /com.geda.gtkwave/0/open /pub/systema_packed.fst
+gconftool-2 --type string --set /com.geda.gtkwave/0/open `pwd`/`basename -- des.gtkw`
 
 */
