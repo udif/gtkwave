@@ -3,7 +3,6 @@
 MimeType=application/vnd.gtkwave-vcd
 Exec=gtkwave
 Type=Application
-Categories=Development
 StartupNotify=true
 # Icon=gtkwave_256x256x32.png
 
