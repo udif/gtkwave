@@ -2393,7 +2393,7 @@ void reload_into_new_context_2(void)
    if((GLOBALS->dnd_sigview) && ((treeview_vadj_value != 0.0) || (treeview_hadj_value != 0.0)))
 	{
 	   struct Global *G2 = GLOBALS;
-	   while (gtk_events_pending()) gtk_main_iteration();
+	   gtk_events_pending_gtk_main_iteration();
 
 	   if((G2 == GLOBALS)&&(GLOBALS->dnd_sigview))
 		{

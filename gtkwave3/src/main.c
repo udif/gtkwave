@@ -2335,7 +2335,7 @@ if(GLOBALS->logfile)
 
 activate_stems_reader(GLOBALS->stems_name);
 
-while (gtk_events_pending()) gtk_main_iteration();
+gtk_events_pending_gtk_main_iteration();
 
 if(1)	/* here in order to calculate window manager delta if present... window is completely rendered by here */
 	{
@@ -2352,9 +2352,12 @@ if(scriptfile)
 	}
 
 #ifdef WAVE_HAVE_GCONF
-wave_gconf_client_set_string("/current/pwd", getenv("PWD"));
-wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
-wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
+if(GLOBALS->loaded_file_type != MISSING_FILE)
+	{
+	wave_gconf_client_set_string("/current/pwd", getenv("PWD"));
+	wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
+	wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
+	}
 #endif
 
 #if !defined _MSC_VER

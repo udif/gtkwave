@@ -770,10 +770,10 @@ if((!GLOBALS->splash_disable)&&(!GLOBALS->splash_splash_c_1))
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->darea_splash_c_1), "expose_event",GTK_SIGNAL_FUNC(expose_event), NULL);
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->darea_splash_c_1), "button_press_event",GTK_SIGNAL_FUNC(button_press_event), NULL);
                  
-        while (gtk_events_pending()) gtk_main_iteration();
+	gtk_events_pending_gtk_main_iteration();
                          
         gdk_draw_drawable(GLOBALS->darea_splash_c_1->window,GLOBALS->darea_splash_c_1->style->fg_gc[GTK_WIDGET_STATE (GLOBALS->darea_splash_c_1)],GLOBALS->wave_splash_pixmap,0,0,0,0,WAVE_SPLASH_X,WAVE_SPLASH_Y);
-        while (gtk_events_pending()) gtk_main_iteration();
+	gtk_events_pending_gtk_main_iteration();
                          
         GLOBALS->timeout_tag = gtk_timeout_add(100, splash_kill, GLOBALS->splash_splash_c_1);
         }
@@ -808,7 +808,7 @@ if(GLOBALS->splash_splash_c_1)
 			}
 		}
 
-	while (gtk_events_pending()) gtk_main_iteration();
+	gtk_events_pending_gtk_main_iteration();
 	}
 	else
 	{
@@ -820,7 +820,7 @@ if(GLOBALS->splash_splash_c_1)
 			{
 			set_window_busy(GLOBALS->mainwindow);
 			if(GLOBALS->missing_file_toolbar) gtk_widget_set_sensitive(GLOBALS->missing_file_toolbar, FALSE);
-			while (gtk_events_pending()) gtk_main_iteration();
+			gtk_events_pending_gtk_main_iteration();
 
 			GLOBALS->splash_is_loading = 1;
 #ifdef MAC_INTEGRATION
@@ -834,7 +834,7 @@ if(GLOBALS->splash_splash_c_1)
 			GLOBALS->prev_bar_x_splash_c_1 = cur_bar_x;
 			wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, cur_bar_x);
 
-			while (gtk_events_pending()) gtk_main_iteration();
+			gtk_events_pending_gtk_main_iteration();
 			}
 		}
 

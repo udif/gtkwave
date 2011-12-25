@@ -714,6 +714,8 @@ GdkEventMotion event[1];
 event[0].deviceid = GDK_CORE_POINTER;  
 #endif
 
+if(in_main_iteration()) return(TRUE);
+
 if(GLOBALS->splash_is_loading)
 	{
 	return(TRUE);

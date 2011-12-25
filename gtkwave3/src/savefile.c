@@ -586,18 +586,32 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 						struct tm tm;
 						time_t t;
 						char *lhq = strchr(iline+16, '"');
+						char *rhq = strrchr(iline+16, '"');
 						memset(&tm, 0, sizeof(struct tm));
 						
 						*dumptim = -1;
 #if !defined _MSC_VER && !defined __MINGW32__
 						/* format is: "Fri Feb  4 15:50:48 2011" */
-						if( (lhq) && (strptime(lhq+1, "%a %b %d %H:%M:%S %Y", &tm) != NULL) )
-							{
-							t = timegm(&tm);
-							if(t != -1)
+						if(lhq && rhq && (lhq != rhq))
+							{						
+							int slen;
+							char *strp_buf;
+
+							*rhq = 0;
+							slen = strlen(lhq+1);
+							strp_buf = calloc_2(1, slen + 32); /* workaround: linux strptime seems to overshoot its buffer */
+							strcpy(strp_buf, lhq+1);
+							
+							if(strptime(strp_buf, "%a %b %d %H:%M:%S %Y", &tm) != NULL)
 								{
-								*dumptim = t;
+								t = timegm(&tm);
+								if(t != -1)
+									{
+									*dumptim = t;
+									}
 								}
+
+							free_2(strp_buf);
 							}
 						}
 #endif

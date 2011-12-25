@@ -3231,6 +3231,8 @@ if(!mnv && !GLOBALS->busy_busy_c_1)
 		}
 		else
 		{
+		if(in_main_iteration()) { mnv = 0; return; }
+
 		fileselbox("Select a trace to view...",&GLOBALS->filesel_newviewer_menu_c_1,GTK_SIGNAL_FUNC(menu_new_viewer_cleanup), GTK_SIGNAL_FUNC(NULL), NULL, 0);
 		}
 	mnv = 0;
@@ -3305,7 +3307,9 @@ menu_new_viewer_tab_cleanup_2(char *fname)
 			menu_quit_close_callback(NULL, NULL);
 			}
 
-		wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
+	        wave_gconf_client_set_string("/current/pwd", getenv("PWD"));
+	        wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
+	        wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
 	
 		rc = 1;
 		}
@@ -3358,6 +3362,8 @@ if(GLOBALS->helpbox_is_active)
 	return;
 	}
 
+if(in_main_iteration()) return;
+
 #ifdef WAVE_USE_GTK2
 if((!GLOBALS->socket_xid)&&(!GLOBALS->partial_vcd))
 #else
@@ -3382,6 +3388,8 @@ menu_reload_waveform(gpointer null_data, guint callback_action, GtkWidget *widge
 	);
 	return;
 	}
+
+ if(in_main_iteration()) return;      
 
  if(GLOBALS->gt_splash_c_1 || GLOBALS->splash_is_loading)
 	{

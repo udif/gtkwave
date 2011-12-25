@@ -11,6 +11,21 @@
 #include <config.h>
 #include "busy.h"
 
+static int inside_iteration = 0;
+
+void gtk_events_pending_gtk_main_iteration(void)
+{
+inside_iteration++;
+while (gtk_events_pending()) gtk_main_iteration();
+inside_iteration--;
+}
+
+gboolean in_main_iteration(void)
+{
+return(inside_iteration != 0);
+}
+
+
 static void GuiDoEvent(GdkEvent *event, gpointer data)
 {
 if(!GLOBALS->busy_busy_c_1)
@@ -67,7 +82,7 @@ void gtkwave_main_iteration(void)
 {
 if(GLOBALS->partial_vcd)
 	{
-	while (gtk_events_pending()) gtk_main_iteration();
+	gtk_events_pending_gtk_main_iteration();
 	}
 	else
 	{
@@ -159,7 +174,7 @@ void busy_window_refresh(void)
 {
 if(GLOBALS->busy_busy_c_1)
 	{
-	while (gtk_events_pending()) gtk_main_iteration();
+	gtk_events_pending_gtk_main_iteration();
 	}
 }
 

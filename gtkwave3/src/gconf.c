@@ -76,6 +76,32 @@ quit_callback(GConfClient* client,
 
 
 static void
+reload_callback(GConfClient* client,
+                     guint cnxn_id,
+                     GConfEntry *entry,
+                     gpointer user_data)
+{
+  if (gconf_entry_get_value (entry) == NULL)
+    {
+      /* value is unset */
+    }
+  else
+    {
+      if (gconf_entry_get_value (entry)->type == GCONF_VALUE_STRING)
+        {
+	  if(in_main_iteration()) return;
+	  reload_into_new_context();
+	  gconf_entry_set_value(entry, NULL);
+        }
+      else
+        {
+          /* value is of wrong type */
+        }
+    }
+}
+
+
+static void
 writesave_callback(GConfClient* client,
                      guint cnxn_id,
                      GConfEntry *entry,
@@ -90,7 +116,7 @@ writesave_callback(GConfClient* client,
       if (gconf_entry_get_value (entry)->type == GCONF_VALUE_STRING)
         {
 	  const char *fni = gconf_value_get_string (gconf_entry_get_value (entry));
-	  if(fni)
+	  if(fni && !in_main_iteration())
 		{
 		  int use_arg = strcmp(fni, "+"); /* plus filename uses default */
 		  const char *fn = use_arg ? fni : GLOBALS->filesel_writesave;
@@ -170,6 +196,12 @@ gconf_client_notify_add(client, ks,
                           writesave_callback,
                           NULL, /* user data */
                           NULL, NULL);
+
+strcpy(ks + len, "/reload");
+gconf_client_notify_add(client, ks,
+                          reload_callback,
+                          NULL, /* user data */
+                          NULL, NULL);
 }
 
 
@@ -214,5 +246,7 @@ gconftool-2 --type string --set /com.geda.gtkwave/0/writesave /tmp/this.gtkw
 gconftool-2 --type string --set /com.geda.gtkwave/0/writesave +
 
 gconftool-2 --type string --set /com.geda.gtkwave/0/quit 0
+
+gconftool-2 --type string --set /com.geda.gtkwave/0/reload 0
 
 */

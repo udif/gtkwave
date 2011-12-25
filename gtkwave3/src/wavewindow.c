@@ -1122,10 +1122,7 @@ do
 
 	if(scrolled)	/* make sure counters up top update.. */
 		{
-		while(gtk_events_pending())
-			{
-			gtk_main_iteration();
-			}
+		gtk_events_pending_gtk_main_iteration();
 		}
 
 	WAVE_GDK_GET_POINTER(event->window, &x, &y, &xi, &yi, &state);
