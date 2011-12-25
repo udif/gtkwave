@@ -122,7 +122,7 @@ writesave_callback(GConfClient* client,
 		  const char *fn = use_arg ? fni : GLOBALS->filesel_writesave;
 		  if(fn)
 			{
-		  	FILE *wave = fopen(fn, "wb");
+		  	FILE *wave;
 	
 		  	if(!(wave=fopen(fn, "wb")))
 		        	{
