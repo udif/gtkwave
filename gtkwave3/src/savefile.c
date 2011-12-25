@@ -2245,6 +2245,7 @@ struct finder_file_chain
 {
 struct finder_file_chain *next;
 unsigned queue_warning_presented : 1;
+unsigned save_file_only : 1;
 char *name;
 };
 
@@ -2302,54 +2303,58 @@ if(lc && !is_working)
 			{
 			reload_save_file = 1;
 			try_to_load_file = 0;
-			read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim);
 
-			if(dfn)
+			if(!lc->save_file_only)
 				{
-				char *old_dfn = dfn;
-				dfn = wave_alloca(strlen(dfn)+1); /* as context can change on file load */
-				strcpy(dfn, old_dfn);
-				free_2(old_dfn);
-				}
+				read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim);
 
-			if(sfn)
-				{
-				char *old_sfn = sfn;
-				sfn = wave_alloca(strlen(sfn)+1); /* as context can change on file load */
-				strcpy(sfn, old_sfn);
-				free_2(old_sfn);
-				}
+				if(dfn)
+					{
+					char *old_dfn = dfn;
+					dfn = wave_alloca(strlen(dfn)+1); /* as context can change on file load */
+					strcpy(dfn, old_dfn);
+					free_2(old_dfn);
+					}
+	
+				if(sfn)
+					{
+					char *old_sfn = sfn;
+					sfn = wave_alloca(strlen(sfn)+1); /* as context can change on file load */
+					strcpy(sfn, old_sfn);
+					free_2(old_sfn);
+					}
 
 
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-	               	if(dfn && sfn)
-              			{
-	                        char *can = realpath(lcname, NULL);
-	                        char *old_fdf = find_dumpfile(sfn, dfn, can);
-
-	                        free(can);
-				fdf = wave_alloca(strlen(old_fdf)+1);
-				strcpy(fdf, old_fdf);
-				free_2(old_fdf);
-
-	                       	f = fopen(fdf, "rb");
-	                        if(f)
-	                                {
-	                                fclose(f);
-	                                lcname = fdf;
-					try_to_load_file = 1;
-	                               	}
-				}
+		               	if(dfn && sfn)
+	              			{
+		                        char *can = realpath(lcname, NULL);
+		                        char *old_fdf = find_dumpfile(sfn, dfn, can);
+	
+		                        free(can);
+					fdf = wave_alloca(strlen(old_fdf)+1);
+					strcpy(fdf, old_fdf);
+					free_2(old_fdf);
+	
+		                       	f = fopen(fdf, "rb");
+		                        if(f)
+		                                {
+		                                fclose(f);
+		                                lcname = fdf;
+						try_to_load_file = 1;
+		                               	}
+					}
 #endif
 
-			if(dfn && !try_to_load_file)
-				{
-				f = fopen(dfn, "rb");
-				if(f)
+				if(dfn && !try_to_load_file)
 					{
-					fclose(f);
-					lcname = dfn;
-					try_to_load_file = 1;
+					f = fopen(dfn, "rb");
+					if(f)
+						{
+						fclose(f);
+						lcname = dfn;
+						try_to_load_file = 1;
+						}
 					}
 				}
 			}
@@ -2411,7 +2416,7 @@ return(FALSE);
  * Integration with Finder...
  * cache name and load in later off a timer (similar to caching DnD for quartz...)
  */
-gboolean deal_with_rpc_open(const gchar *path, gpointer user_data)
+gboolean deal_with_rpc_open_2(const gchar *path, gpointer user_data, gboolean is_save_file_only)
 {
 const char *suffixes[] =
 {
@@ -2444,24 +2449,41 @@ if(!mat)
 	return(FALSE);
 	}
 
-if(!finder_name_integration)
-        {
-        finder_name_integration = g_malloc(sizeof(struct finder_file_chain));
-        finder_name_integration->name = g_strdup(path);
-	finder_name_integration->queue_warning_presented = 0;
-        finder_name_integration->next = NULL;
-        }
-        else
-        {
-        struct finder_file_chain *p = finder_name_integration;
-        while(p->next) p = p->next;
-        p->next = g_malloc(sizeof(struct finder_file_chain));
-	p->next->queue_warning_presented = 0;
-        p->next->name = g_strdup(path);
-        p->next->next = NULL;
-        }
+if(is_save_file_only)
+	{
+        struct finder_file_chain *p = g_malloc(sizeof(struct finder_file_chain));
+        p->name = g_strdup(path);
+	p->queue_warning_presented = 0;
+	p->save_file_only = 1;
+        p->next = finder_name_integration;
+	finder_name_integration = p;
+	}
+	else
+	{
+	if(!finder_name_integration)
+	        {
+	        finder_name_integration = g_malloc(sizeof(struct finder_file_chain));
+	        finder_name_integration->name = g_strdup(path);
+		finder_name_integration->queue_warning_presented = 0;
+	        finder_name_integration->next = NULL;
+	        }
+	        else
+	        {
+	        struct finder_file_chain *p = finder_name_integration;
+	        while(p->next) p = p->next;
+	        p->next = g_malloc(sizeof(struct finder_file_chain));
+		p->next->queue_warning_presented = 0;
+	        p->next->name = g_strdup(path);
+	        p->next->next = NULL;
+	        }
+	}
 
 return(TRUE);
+}
+
+gboolean deal_with_rpc_open(const gchar *path, gpointer user_data)
+{
+return(deal_with_rpc_open_2(path, user_data, FALSE));
 }
 
 

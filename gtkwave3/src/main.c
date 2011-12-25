@@ -1144,8 +1144,17 @@ if((GLOBALS->loaded_file_name) && (!wname) &&
 	char *extracted_name = extract_dumpname_from_save_file(GLOBALS->loaded_file_name, &GLOBALS->dumpfile_is_modified);
 	if(extracted_name)
 		{
-		wname = GLOBALS->loaded_file_name;
-		GLOBALS->loaded_file_name = extracted_name;
+		if(mainwindow_already_built)
+			{
+			deal_with_rpc_open_2(GLOBALS->loaded_file_name, NULL, TRUE);
+			GLOBALS->loaded_file_name = extracted_name;
+			/* wname is still NULL */
+			}
+			else
+			{
+			wname = GLOBALS->loaded_file_name;
+			GLOBALS->loaded_file_name = extracted_name;
+			}
 		}
 	}
 else /* same as above but with --save specified */

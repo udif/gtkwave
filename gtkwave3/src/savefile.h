@@ -33,6 +33,7 @@ gboolean deal_with_termination(GtkOSXApplication *app, gpointer user_data);
 #endif
 
 gboolean deal_with_rpc_open(const gchar *path, gpointer user_data);
+gboolean deal_with_rpc_open_2(const gchar *path, gpointer user_data, gboolean is_save_file);
 gboolean process_finder_names_queued(void);
 char *process_finder_extract_queued_name(void);
 gboolean process_finder_name_integration(void);
