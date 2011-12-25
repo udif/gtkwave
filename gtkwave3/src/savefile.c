@@ -2465,6 +2465,7 @@ if(is_save_file_only)
 	        finder_name_integration = g_malloc(sizeof(struct finder_file_chain));
 	        finder_name_integration->name = g_strdup(path);
 		finder_name_integration->queue_warning_presented = 0;
+		finder_name_integration->save_file_only = 0;
 	        finder_name_integration->next = NULL;
 	        }
 	        else
@@ -2473,6 +2474,7 @@ if(is_save_file_only)
 	        while(p->next) p = p->next;
 	        p->next = g_malloc(sizeof(struct finder_file_chain));
 		p->next->queue_warning_presented = 0;
+		p->next->save_file_only = 0;
 	        p->next->name = g_strdup(path);
 	        p->next->next = NULL;
 	        }
