@@ -708,7 +708,10 @@ if(!mainwindow_already_built)
 do_primary_inits:
 #endif
 
-wave_gconf_init(argc, argv);
+if(!mainwindow_already_built)
+	{
+	wave_gconf_init(argc, argv);
+	}
 
 if(!gtkwave_argv0_cached) gtkwave_argv0_cached = argv[0]; /* for new window option */
 
