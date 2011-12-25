@@ -167,47 +167,50 @@ if(client)
 
 void wave_gconf_init(int argc, char **argv)
 {
-char *ks = wave_alloca(WAVE_GCONF_DIR_LEN + 32 + 32 + 1);
-int len = sprintf(ks, WAVE_GCONF_DIR"/%d", wave_rpc_id);
+if(!client)
+	{
+	char *ks = wave_alloca(WAVE_GCONF_DIR_LEN + 32 + 32 + 1);
+	int len = sprintf(ks, WAVE_GCONF_DIR"/%d", wave_rpc_id);
 
-gconf_init(argc, argv, NULL);
-client = gconf_client_get_default();
-atexit(remove_client);
+	gconf_init(argc, argv, NULL);
+	client = gconf_client_get_default();
+	atexit(remove_client);
 
-gconf_client_add_dir(client,
-	ks,
-        GCONF_CLIENT_PRELOAD_NONE,
-        NULL);
+	gconf_client_add_dir(client,
+		ks,
+	        GCONF_CLIENT_PRELOAD_NONE,
+	        NULL);
 
-strcpy(ks + len, "/open");
-gconf_client_notify_add(client, ks,
-                          open_callback,
-                          NULL, /* user data */
-                          NULL, NULL);
+	strcpy(ks + len, "/open");
+	gconf_client_notify_add(client, ks,
+	                          open_callback,
+	                          NULL, /* user data */
+	                          NULL, NULL);
 
-strcpy(ks + len, "/quit");
-gconf_client_notify_add(client, ks,
-                          quit_callback,
-                          NULL, /* user data */
-                          NULL, NULL);
-
-strcpy(ks + len, "/writesave");
-gconf_client_notify_add(client, ks,
-                          writesave_callback,
-                          NULL, /* user data */
-                          NULL, NULL);
-
-strcpy(ks + len, "/reload");
-gconf_client_notify_add(client, ks,
-                          reload_callback,
-                          NULL, /* user data */
-                          NULL, NULL);
+	strcpy(ks + len, "/quit");
+	gconf_client_notify_add(client, ks,
+	                          quit_callback,
+	                          NULL, /* user data */
+	                          NULL, NULL);
+	
+	strcpy(ks + len, "/writesave");
+	gconf_client_notify_add(client, ks,
+	                          writesave_callback,
+	                          NULL, /* user data */
+	                          NULL, NULL);
+	
+	strcpy(ks + len, "/reload");
+	gconf_client_notify_add(client, ks,
+	                          reload_callback,
+	                          NULL, /* user data */
+	                          NULL, NULL);
+	}
 }
 
 
 gboolean wave_gconf_client_set_string(const gchar *key, const gchar *val)
 {
-if(key)
+if(key && client)
 	{
 	char *ks = wave_alloca(WAVE_GCONF_DIR_LEN + 32 + strlen(key) + 1);
 	sprintf(ks, WAVE_GCONF_DIR"/%d%s", wave_rpc_id, key);
