@@ -12,10 +12,8 @@
 #include "symbol.h"
 #include "pixmaps.h"
 
-#if 0
 #ifndef MAC_INTEGRATION
 #define SPLASH_ADDED_LOADER_MESSAGES
-#endif
 #endif
 
 #ifdef WAVE_USE_GTK2
