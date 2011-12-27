@@ -2576,6 +2576,11 @@ static gint context_swapper(GtkWindow *w, GdkEvent *event, void *data)
 {
 GdkEventType type;
 
+if(ignore_context_swap()) /* block context swap if explicitly directed (e.g., during loading) */
+	{
+	return(FALSE);
+	}
+
 type = event->type;
 
 /* printf("Window: %08x GtkEvent: %08x gpointer: %08x, type: %d\n", w, event, data, type); */

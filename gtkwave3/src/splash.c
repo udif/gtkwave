@@ -831,13 +831,12 @@ if(GLOBALS->splash_splash_c_1)
 		cur_bar_x = 100 * ((float)current / (float)total);
 		if(cur_bar_x != GLOBALS->prev_bar_x_splash_c_1)
 			{
-			GdkDisplay *g = gdk_display_get_default();
 			GLOBALS->prev_bar_x_splash_c_1 = cur_bar_x;
-			if(g)
-				{
-				wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, cur_bar_x);
-				gdk_display_flush(g);
-				}
+			wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, cur_bar_x);
+			gtk_events_pending_gtk_main_iteration();
+			/* alternate code to test instead of gtk main loop...
+				if(0) { GdkDisplay *g = gdk_display_get_default(); if(g) { gdk_display_flush(g); } }
+			*/
 			}
 		}
 

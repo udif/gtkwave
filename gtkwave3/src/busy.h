@@ -28,6 +28,7 @@ void busy_window_refresh(void);
 void gtkwave_main_iteration(void);
 void gtk_events_pending_gtk_main_iteration(void);
 gboolean in_main_iteration(void);
+gboolean ignore_context_swap(void);
 
 #endif
 

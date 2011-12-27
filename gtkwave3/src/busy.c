@@ -26,6 +26,12 @@ return(inside_iteration != 0);
 }
 
 
+gboolean ignore_context_swap(void)
+{
+return(GLOBALS->splash_is_loading != 0);
+}
+
+
 static void GuiDoEvent(GdkEvent *event, gpointer data)
 {
 if(!GLOBALS->busy_busy_c_1)
