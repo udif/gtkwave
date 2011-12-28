@@ -15,7 +15,6 @@
 #include "pccts_stdio.h"
 #line 1 "./verilog.g"
 
-
 #include "attrib.h"
 #include "vpp_common.h"
 

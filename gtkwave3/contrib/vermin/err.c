@@ -14,7 +14,6 @@
 #include "pcctscfg.h"
 #include "pccts_stdio.h"
 
-
 #include "attrib.h"
 #include "vpp_common.h"
 
