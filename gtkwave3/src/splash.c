@@ -12,6 +12,7 @@
 #include "symbol.h"
 #include "pixmaps.h"
 
+/* requires further testing */
 #if 0
 #ifndef MAC_INTEGRATION
 #define SPLASH_ADDED_LOADER_MESSAGES
@@ -812,15 +813,16 @@ if(GLOBALS->splash_splash_c_1)
 	}
 	else
 	{
-/* was commented out for now because of DnD while loading crash */
 #ifdef SPLASH_ADDED_LOADER_MESSAGES
 	if(GLOBALS->mainwindow)
 		{
 		if(!GLOBALS->splash_is_loading)
 			{
+			struct Global *g_old = GLOBALS;
+
 			set_window_busy(GLOBALS->mainwindow);
-			if(GLOBALS->missing_file_toolbar) gtk_widget_set_sensitive(GLOBALS->missing_file_toolbar, FALSE);
 			gtk_events_pending_gtk_main_iteration();
+			set_GLOBALS(g_old);
 
 			GLOBALS->splash_is_loading = 1;
 #ifdef MAC_INTEGRATION
@@ -833,10 +835,7 @@ if(GLOBALS->splash_splash_c_1)
 			{
 			GLOBALS->prev_bar_x_splash_c_1 = cur_bar_x;
 			wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, cur_bar_x);
-			gtk_events_pending_gtk_main_iteration();
-			/* alternate code to test instead of gtk main loop...
-				if(0) { GdkDisplay *g = gdk_display_get_default(); if(g) { gdk_display_flush(g); } }
-			*/
+			if(1) { GdkDisplay *g = gdk_display_get_default(); if(g) { gdk_display_flush(g); } }
 			}
 		}
 
@@ -855,7 +854,6 @@ if(GLOBALS->splash_is_loading)
 #ifdef MAC_INTEGRATION
         osx_menu_sensitivity(TRUE);
 #endif
-	if(GLOBALS->missing_file_toolbar) gtk_widget_set_sensitive(GLOBALS->missing_file_toolbar, TRUE);
         }
 }
 
