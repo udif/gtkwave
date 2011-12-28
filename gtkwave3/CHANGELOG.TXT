@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	22dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+3.3.29	28dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
 		was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar 
@@ -1134,3 +1134,4 @@
 		in window title bar when splash screen not active.
 		Preliminary add of interfacing with GConf via the
 		/com.geda.gtkwave directory for keys in GConf.
+		Memory overrun fix to symbol.c for Bluespec add from 3.3.11.
