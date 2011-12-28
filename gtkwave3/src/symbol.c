@@ -336,7 +336,7 @@ if(!s_pnt)
 			{
                        	char *s2 = wave_alloca(len + 4); 
                        	memcpy(s2, s, len); 
-                       	strcat(s2+len, "[0]"); /* bluespec vs modelsim */
+                       	strcpy(s2+len, "[0]"); /* bluespec vs modelsim */
 
                        	s_pnt = symfind_2(s2, rows_return); 
                        	} 
