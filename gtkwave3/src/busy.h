@@ -21,6 +21,7 @@
 #define WAVE_BUSY_ITER (1000)
 
 void init_busy(void); 
+void set_window_busy_no_refresh(GtkWidget *w);
 void set_window_busy(GtkWidget *w);
 void set_window_idle(GtkWidget *w);
 void busy_window_refresh(void);

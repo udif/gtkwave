@@ -2060,8 +2060,8 @@ void reload_into_new_context_2(void)
  /* erase any old tabbed contexts if they exist... */
  dead_context_sweep();
 
- /* let any destructors finalize on GLOBALS dereferences... */
- gtkwave_main_iteration();
+ /* let any destructors finalize on GLOBALS dereferences... (commented out for now) */
+ /* gtkwave_main_iteration(); */
 
  /* Free the old context */
  free_outstanding();

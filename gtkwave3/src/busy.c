@@ -16,8 +16,10 @@ static int inside_iteration = 0;
 void gtk_events_pending_gtk_main_iteration(void)
 {
 inside_iteration++;
+
 while (gtk_events_pending()) gtk_main_iteration();
-inside_iteration--;
+
+inside_iteration--; 
 }
 
 gboolean in_main_iteration(void)
@@ -56,29 +58,26 @@ if(!GLOBALS->busy_busy_c_1)
 
 	/* now it has been updated to remove keyboard/mouse input */
 
-	if(!GLOBALS->splash_is_loading)
+	switch (event->type) 
 		{
-		switch (event->type) 
-			{
-			/* more may be needed to be added in the future */
-			case GDK_MOTION_NOTIFY:
-			case GDK_BUTTON_PRESS:
-			case GDK_2BUTTON_PRESS:
-			case GDK_3BUTTON_PRESS:
-			case GDK_BUTTON_RELEASE:
-			case GDK_KEY_PRESS:
-			case GDK_KEY_RELEASE:
+		/* more may be needed to be added in the future */
+		case GDK_MOTION_NOTIFY:
+		case GDK_BUTTON_PRESS:
+		case GDK_2BUTTON_PRESS:
+		case GDK_3BUTTON_PRESS:
+		case GDK_BUTTON_RELEASE:
+		case GDK_KEY_PRESS:
+		case GDK_KEY_RELEASE:
 #if GTK_CHECK_VERSION(2,6,0)
-			case GDK_SCROLL:
+		case GDK_SCROLL:
 #endif
-				/* printf("event->type: %d\n", event->type); */
-				break;
+			/* printf("event->type: %d\n", event->type); */
+			break;
 	
-			default:
-		            	gtk_main_do_event(event);
-				/* printf("event->type: %d\n", event->type); */
-				break;
-			}
+		default:
+	            	gtk_main_do_event(event);
+			/* printf("event->type: %d\n", event->type); */
+			break;
 		}
 	}
 }
@@ -127,7 +126,7 @@ gdk_event_handler_set((GdkEventFunc)GuiDoEvent, NULL, NULL);
 }
 
 
-void set_window_busy(GtkWidget *w)
+void set_window_busy_no_refresh(GtkWidget *w)
 {
 int i;
 
@@ -146,10 +145,13 @@ for(i=0;i<GLOBALS->num_notebook_pages;i++)
         {
         (*GLOBALS->contexts)[i]->busy_busy_c_1 = GLOBALS->busy_busy_c_1;
         }
-
-busy_window_refresh();
 }
 
+void set_window_busy(GtkWidget *w)
+{
+set_window_busy_no_refresh(w);
+busy_window_refresh();
+}
 
 void set_window_idle(GtkWidget *w)
 {

@@ -13,7 +13,7 @@
 #include "pixmaps.h"
 
 /* requires further testing */
-#if 0
+#if 1
 #ifndef MAC_INTEGRATION
 #define SPLASH_ADDED_LOADER_MESSAGES
 #endif
@@ -792,6 +792,7 @@ if((!GLOBALS->splash_disable)&&(!GLOBALS->splash_splash_c_1))
 
 void splash_sync(off_t current, off_t total)
 {
+struct Global *g_old = GLOBALS;
 int cur_bar_x;
 
 if(GLOBALS->splash_splash_c_1) 
@@ -818,27 +819,33 @@ if(GLOBALS->splash_splash_c_1)
 		{
 		if(!GLOBALS->splash_is_loading)
 			{
-			struct Global *g_old = GLOBALS;
-
-			set_window_busy(GLOBALS->mainwindow);
-			gtk_events_pending_gtk_main_iteration();
-			set_GLOBALS(g_old);
-
+			set_window_busy_no_refresh(GLOBALS->mainwindow);
 			GLOBALS->splash_is_loading = 1;
 #ifdef MAC_INTEGRATION
 		        osx_menu_sensitivity(FALSE);
 #endif
 			}
 
-		cur_bar_x = 100 * ((float)current / (float)total);
-		if(cur_bar_x != GLOBALS->prev_bar_x_splash_c_1)
+		if((current)&&(total))
 			{
-			GLOBALS->prev_bar_x_splash_c_1 = cur_bar_x;
-			wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, cur_bar_x);
-			if(1) { GdkDisplay *g = gdk_display_get_default(); if(g) { gdk_display_flush(g); } }
+			cur_bar_x = 100 * ((float)current / (float)total);
+			if(cur_bar_x != GLOBALS->prev_bar_x_splash_c_1)
+				{
+				GLOBALS->prev_bar_x_splash_c_1 = cur_bar_x;
+				wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, WAVE_SET_TITLE_LOADING, cur_bar_x);
+				if(0) 	{ 
+					GdkDisplay *g = gdk_display_get_default(); 
+					if(g) gdk_display_flush(g);
+					}
+					else
+					{ 
+					gtk_events_pending_gtk_main_iteration(); 
+					set_GLOBALS(g_old);
+					}
+	
+				}
 			}
 		}
-
 #endif
 	}
 }
