@@ -100,9 +100,16 @@ disabled in the componentized version of GTKWave when it functions as a plug-in.
 .TP 
 \fB\-1\fR,\fB\-\-rpcid\fR <\fIRPCID\fP>
 Specify RPCID of GConf session.  This is a decimal value zero or greater and is the identifier used by GConf to know what update data to listen to.
+This option only works if \fB\-\-with-gconf\fR was specified during \fI./configure\fP.
 .TP
 \fB\-2\fR,\fB\-\-chdir\fR <\fIDIRNAME\fP>
 Specify new current working directory.  This is typically used in OSX to run gtkwave if it was compiled and placed in an .app bundle.  Note that if the environment variable GTKWAVE_CHDIR is defined, the argument is a dummy argument. This is to support OSX in that the open command has difficulty in passing spaces as command line arguments and it is possible for \fIpwd\fP(1) to return spaces.
+.TP
+\fB\-3\fR,\fB\-\-restore\fR
+Restore previous default (0) or  \fB\-\-rpcid\fR RPCID numbered session.  This only works for one dumpfile, savefile, rcfile, and current working directory so
+it has the effect of restoring the most recently loaded file.  If used in conjunction with the \fB\-\-rpcid\fR option, that option must
+be specified earlier in the command line than the \fB\-\-restore\fR option.  If RPCID is not specified, then the default of 0 is used.
+This option only works if \fB\-\-with-gconf\fR was specified during \fI./configure\fP.
 .TP
 \fB\-I\fR,\fB\-\-interactive\fR
 Specifies that "interactive" VCD mode is to be used which allows a viewer to navigate a VCD trace while GTKWave is processing the VCD file.

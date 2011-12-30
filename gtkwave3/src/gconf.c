@@ -222,6 +222,42 @@ return(FALSE);
 }
 
 
+static gchar *wave_gconf_client_get_string(const gchar *key)
+{
+if(key && client)
+	{
+	char *ks = wave_alloca(WAVE_GCONF_DIR_LEN + 32 + strlen(key) + 1);
+	sprintf(ks, WAVE_GCONF_DIR"/%d%s", wave_rpc_id, key);
+
+	return(gconf_client_get_string(client, ks, NULL));
+	}
+}
+
+
+void wave_gconf_restore(char **dumpfile, char **savefile, char **rcfile, char **wave_pwd)
+{
+char *s;
+
+if(dumpfile && savefile && rcfile && wave_pwd)
+	{
+	if(*dumpfile) { free_2(*dumpfile); *dumpfile = NULL; }
+	s = wave_gconf_client_get_string("/current/dumpfile");
+	if(s) { if(s[0]) *dumpfile = strdup_2(s); g_free(s); }
+
+	if(*savefile) { free_2(*savefile); *savefile = NULL; }
+	s = wave_gconf_client_get_string("/current/savefile");
+	if(s) { if(s[0]) *savefile = strdup_2(s); g_free(s); }
+
+	if(*rcfile) { free_2(*rcfile); *rcfile = NULL; }
+	s = wave_gconf_client_get_string("/current/rcfile");
+	if(s) { if(s[0]) *rcfile = strdup_2(s); g_free(s); }
+
+	if(*wave_pwd) { free_2(*wave_pwd); *wave_pwd = NULL; }
+	s = wave_gconf_client_get_string("/current/pwd");
+	if(s) { if(s[0]) *wave_pwd = strdup_2(s); g_free(s); }
+	}
+}
+
 #else
 
 void wave_gconf_init(int argc, char **argv)
@@ -231,6 +267,11 @@ void wave_gconf_init(int argc, char **argv)
 gboolean wave_gconf_client_set_string(const gchar *key, const gchar *val)
 {
 return(FALSE);
+}
+
+void wave_gconf_restore(char **dumpfile, char **savefile, char **rcfile, char **wave_pwd)
+{
+/* nothing */
 }
 
 #endif

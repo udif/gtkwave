@@ -317,9 +317,11 @@ static void print_help(char *nam)
 #endif
 
 #ifdef WAVE_HAVE_GCONF
-#define RPC_GETOPT "  -1, --rpcid=RPCID          specify RPCID of GConf session\n"
+#define RPC_GETOPT  "  -1, --rpcid=RPCID          specify RPCID of GConf session\n"
+#define RPC_GETOPT3 "  -3, --restore              restore previous RPCID numbered session\n"
 #else
 #define RPC_GETOPT
+#define RPC_GETOPT3
 #endif
 
 #if defined(WAVE_USE_GTK2)
@@ -351,6 +353,7 @@ REPSCRIPT_GETOPT
 XID_GETOPT
 RPC_GETOPT
 CHDIR_GETOPT
+RPC_GETOPT3
 INTR_GETOPT
 "  -C, --comphier             use compressed hierarchy names (slower)\n"
 "  -g, --giga                 use gigabyte mempacking when recoding (slower)\n"
@@ -444,6 +447,7 @@ static char *winprefix="GTKWave - ";
 static char *winstd="GTKWave (stdio) ";
 static char *vcd_autosave_name="vcd_autosave.sav";
 char *output_name = NULL;
+char *chdir_cache = NULL;
 
 int i;
 int c;
@@ -772,10 +776,11 @@ while (1)
                 {"slider-zoom", 0, 0, 'z'},
 		{"rpc", 1, 0, '1' },
 		{"chdir", 1, 0, '2'},
+		{"restore", 0, 0, '3'},
                 {0, 0, 0, 0}
                 };
 
-        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:2:", long_options, 
+        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:2:3", long_options, 
 &option_index);
 
         if (c == -1) break;     /* no more args */
@@ -895,26 +900,41 @@ while (1)
 #ifndef _MSC_VER  
 			{
 			char *chdir_env = getenv("GTKWAVE_CHDIR"); 
-			if(chdir_env)
+
+			if(chdir_cache)
 				{
-				if(chdir(chdir_env) < 0)
-					{
-					fprintf(stderr, "GTKWAVE | Could not chdir '%s', exiting.\n", chdir_env);
-					perror("Why");
-					exit(255);
-					}
+				free_2(chdir_cache);
 				}
-				else
+
+			chdir_cache = strdup_2(chdir_env ? chdir_env : optarg);
+			if(chdir(chdir_cache) < 0)
 				{
-				if(chdir(optarg) < 0)
-					{
-					fprintf(stderr, "GTKWAVE | Could not chdir '%s', exiting.\n", optarg);
-					perror("Why");
-					exit(255);
-					}
+				fprintf(stderr, "GTKWAVE | Could not chdir '%s', exiting.\n", chdir_cache);
+				perror("Why");
+				exit(255);
 				}
 			}
 #endif
+			break;
+
+		case '3':
+			{
+			is_vcd = 0;
+			wave_gconf_restore(&GLOBALS->loaded_file_name, &wname, &override_rc, &chdir_cache);
+                        if(chdir_cache)
+                                {
+                                if(chdir(chdir_cache) < 0)
+                                        {
+                                        fprintf(stderr, "GTKWAVE | Could not chdir '%s', exiting.\n", chdir_cache);
+                                        perror("Why");
+                                        exit(255);
+                                        }
+                                }
+			fprintf(stderr, "GTKWAVE | restore cwd  '%s'\n", chdir_cache ? chdir_cache : "(none)");
+			fprintf(stderr, "GTKWAVE | restore dump '%s'\n", GLOBALS->loaded_file_name ? GLOBALS->loaded_file_name : "(none)");
+			fprintf(stderr, "GTKWAVE | restore save '%s'\n", wname ? wname : "(none)");
+			fprintf(stderr, "GTKWAVE | restore rc   '%s'\n", override_rc ? override_rc : "(none)");
+			}
 			break;
 
 		case 'M':
@@ -2366,7 +2386,7 @@ if(scriptfile)
 #ifdef WAVE_HAVE_GCONF
 if(GLOBALS->loaded_file_type != MISSING_FILE)
 	{
-	wave_gconf_client_set_string("/current/pwd", getenv("PWD"));
+	if(!chdir_cache) { wave_gconf_client_set_string("/current/pwd", getenv("PWD")); }
 	wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
 	wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
 	}
