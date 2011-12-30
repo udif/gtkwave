@@ -774,7 +774,7 @@ while (1)
                 {"repperiod", 1, 0, 'P'},
 		{"output", 1, 0, 'O' },
                 {"slider-zoom", 0, 0, 'z'},
-		{"rpc", 1, 0, '1' },
+		{"rpcid", 1, 0, '1' },
 		{"chdir", 1, 0, '2'},
 		{"restore", 0, 0, '3'},
                 {0, 0, 0, 0}
