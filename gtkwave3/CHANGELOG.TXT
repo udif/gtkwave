@@ -1060,7 +1060,18 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	30dec11	Fixed size of declaration of render_mutex_renderopt_c_1 as it
+3.3.29	30dec11	<< short descriptions >>
+		Added OSX integration when compiled against gtk-osx.
+		Added mime types and icons for file types and desktop menus.
+		Changed .sav (deprecated but not removed) to .gtkw, with
+		.gtkw itself being able to bring up the original dumpfile.
+		Numerous bug fixes.
+		Preliminary GConf support supporting session ID-based restore.
+		Preliminary GConf support to emulate OSX "open" 
+		functionality such that dumpfiles/savefiles can be targeted
+		to an open gtkwave viewer / session ID.
+		<< long descriptions >>
+		Fixed size of declaration of render_mutex_renderopt_c_1 as it
 		was one element too short.
 		Added transition code for shifting away from using
 		GtkItemFactoryEntry (also will help with OSX menubar 
