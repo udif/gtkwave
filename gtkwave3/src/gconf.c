@@ -21,7 +21,7 @@ static GConfClient* client = NULL;
 /************************************************************/
 
 static void
-open_callback(GConfClient* client,
+open_callback(GConfClient* gclient,
                      guint cnxn_id,
                      GConfEntry *entry,
                      gpointer user_data)
@@ -48,7 +48,7 @@ open_callback(GConfClient* client,
 
 
 static void
-quit_callback(GConfClient* client,
+quit_callback(GConfClient* gclient,
                      guint cnxn_id,
                      GConfEntry *entry,
                      gpointer user_data)
@@ -76,7 +76,7 @@ quit_callback(GConfClient* client,
 
 
 static void
-reload_callback(GConfClient* client,
+reload_callback(GConfClient* gclient,
                      guint cnxn_id,
                      GConfEntry *entry,
                      gpointer user_data)
@@ -102,7 +102,7 @@ reload_callback(GConfClient* client,
 
 
 static void
-writesave_callback(GConfClient* client,
+writesave_callback(GConfClient* gclient,
                      guint cnxn_id,
                      GConfEntry *entry,
                      gpointer user_data)
@@ -231,6 +231,8 @@ if(key && client)
 
 	return(gconf_client_get_string(client, ks, NULL));
 	}
+
+return(NULL);
 }
 
 
