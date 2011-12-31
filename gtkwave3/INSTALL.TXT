@@ -126,6 +126,8 @@ to "-O4".
 At the current time Quartz support is experimental.  Please report any bugs
 encountered as compared to X11 function.
 
+===
+
 Note that the preferred environment for Quartz builds is jhbuild.  To build
 gtkwave as an app bundle (while in jhbuild shell):
 
@@ -139,6 +141,10 @@ This assumes that Judy arrays and XZ were both already compiled and installed.
 If Judy arrays are not installed, do not add --enable-judy.
 If XZ is not installed, add --disable-xz.
 
--231111ajb  bybell@nc.rr.com
+The current environment used is modulesets.  Bug 664894 has an interim fix in
+the binary distribution by applying patches using the
+contrib/bundle_for_osx/gtk_diff_against_modulesets.patch file.
+
+-311211ajb  bybell@nc.rr.com
 
 ===============================================================================
