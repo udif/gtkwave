@@ -1060,7 +1060,7 @@
 		Fixed rendertimes bug where times did not always display
 		when grid is turned off.
 		Added keep_xz_colors gtkwaverc variable.
-3.3.29	30dec11	<< short descriptions >>
+3.3.29	31dec11	<< short descriptions >>
 		Added OSX integration when compiled against gtk-osx.
 		Added mime types and icons for file types and desktop menus.
 		Changed .sav (deprecated but not removed) to .gtkw, with
