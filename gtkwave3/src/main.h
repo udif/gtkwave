@@ -22,7 +22,7 @@ struct logfile_chain *next;
 char *name;
 };
 
-int main_2(int argc, char *argv[]);
+int main_2(int opt_vcd, int argc, char *argv[]);
 
 GtkWidget *create_text(void);
 GtkWidget *create_zoom_buttons(void);

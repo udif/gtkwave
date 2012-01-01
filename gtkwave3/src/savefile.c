@@ -79,12 +79,13 @@ void write_save_helper(const char *savnam, FILE *wave) {
 #if !defined __MINGW32__ && !defined _MSC_VER
 			struct stat sbuf;
 #endif
+			char *unopt = GLOBALS->unoptimized_vcd_file_name ? GLOBALS->unoptimized_vcd_file_name: GLOBALS->loaded_file_name;
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-		        char *can = realpath(GLOBALS->optimize_vcd ? GLOBALS->unoptimized_vcd_file_name : GLOBALS->loaded_file_name, NULL);
+		        char *can = realpath(GLOBALS->optimize_vcd ? unopt : GLOBALS->loaded_file_name, NULL);
 			char *cansav = realpath(savnam, NULL);
 			const int do_free = 1;
 #else
-			char *can = GLOBALS->optimize_vcd ? GLOBALS->unoptimized_vcd_file_name : GLOBALS->loaded_file_name;
+			char *can = GLOBALS->optimize_vcd ? unopt : GLOBALS->loaded_file_name;
 			char *cansav = savnam;
 			const int do_free = 0;
 #endif
@@ -104,6 +105,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 					}
 				}
 #endif
+			if(GLOBALS->optimize_vcd && GLOBALS->unoptimized_vcd_file_name) { fprintf(wave, "[optimize_vcd]\n"); }
 			fprintf(wave, "[savefile] \"%s\"\n", cansav); /* emit also in order to do relative path matching in future... */
 			if(do_free)
 				{
@@ -527,7 +529,7 @@ return(rp);
 }
 
 
-int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumpsiz, time_t *dumptim) { 
+int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumpsiz, time_t *dumptim, int *opt_vcd) {  
         FILE *wave;
         char *str = NULL;
         int wave_is_compressed;
@@ -635,6 +637,11 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 						if(*savefile) free_2(*savefile);
 						*savefile = strdup_2(lhq + 1);
 						}
+					}
+				else
+				if(!strncmp(iline,  "[optimize_vcd]", 14))
+					{
+					if(opt_vcd) { *opt_vcd = 1; }
 					}
 
 	                        free_2(iline);
@@ -2298,6 +2305,7 @@ if(lc && !is_working)
 		FILE *f;
 		off_t dumpsiz = -1;
 		time_t dumptim = -1;
+		int optimize_vcd = 0;
 
 		if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 			{
@@ -2306,7 +2314,7 @@ if(lc && !is_working)
 
 			if(!lc->save_file_only)
 				{
-				read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim);
+				read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim, &optimize_vcd);
 
 				if(dfn)
 					{
@@ -2369,7 +2377,7 @@ if(lc && !is_working)
 
 			strcpy(fni, lcname);
 
-			if(!menu_new_viewer_tab_cleanup_2(fni))
+			if(!menu_new_viewer_tab_cleanup_2(fni, optimize_vcd))
 				{
 				}
 				else
@@ -2393,7 +2401,7 @@ if(lc && !is_working)
 			{
 			/* let any possible dealloc get taken up by free_outstanding() */
 			GLOBALS->filesel_writesave = strdup_2(lc->name);
-			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL, NULL, NULL);
+			read_save_helper(GLOBALS->filesel_writesave, NULL, NULL, NULL, NULL, NULL);
 			wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
 			}
 

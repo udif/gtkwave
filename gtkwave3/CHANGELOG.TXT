@@ -1149,3 +1149,4 @@
 		Added --restore command line option to gtkwave.
 3.3.30 31dec11	Updated ./configure to add --disable-mime-update flag.
 		Fix --optimize for --restore.
+		Add [optimize_vcd] savefile tag.

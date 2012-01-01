@@ -234,7 +234,7 @@ if(t->right)
 
 
 
-int main_2(int argc, char **argv)
+int main_2r(int argc, char **argv)
 {
 FILE *f;
 ds_Tree *modules = NULL;
@@ -463,7 +463,7 @@ int main(int argc, char **argv)
 {
 WAVE_LOCALE_FIX
 
-main_2(argc, argv);
+main_2r(argc, argv);
 
 if(!gtk_init_check(&argc, &argv))
         {

@@ -3242,7 +3242,7 @@ if(!mnv && !GLOBALS->busy_busy_c_1)
 /**/
 
 int
-menu_new_viewer_tab_cleanup_2(char *fname)
+menu_new_viewer_tab_cleanup_2(char *fname, int optimize_vcd)
 {
 	int rc = 0;
 	char *argv[2];
@@ -3259,7 +3259,7 @@ menu_new_viewer_tab_cleanup_2(char *fname)
 
 	if(!setjmp(*(GLOBALS->vcd_jmp_buf)))
 		{
-		main_2(2, argv);
+		main_2(optimize_vcd, 2, argv);
 
 		g_now = GLOBALS;
 		set_GLOBALS(g_old);
@@ -3347,7 +3347,7 @@ menu_new_viewer_tab_cleanup(GtkWidget *widget, gpointer data)
 {
 if(GLOBALS->filesel_ok)
         { 
-	menu_new_viewer_tab_cleanup_2(*GLOBALS->fileselbox_text);
+	menu_new_viewer_tab_cleanup_2(*GLOBALS->fileselbox_text, GLOBALS->optimize_vcd);
 	}
 }
 
@@ -4150,7 +4150,7 @@ if(GLOBALS->filesel_ok)
 
         wname=*GLOBALS->fileselbox_text;
         wave_gconf_client_set_string("/current/savefile", wname);
-        read_save_helper(wname, NULL, NULL, NULL, NULL);
+        read_save_helper(wname, NULL, NULL, NULL, NULL, NULL);
   }
 }
 

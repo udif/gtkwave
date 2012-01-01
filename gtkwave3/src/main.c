@@ -81,7 +81,7 @@
 
 char *gtkwave_argv0_cached = NULL;
 
-static char *extract_dumpname_from_save_file(char *lcname, gboolean *modified)
+static char *extract_dumpname_from_save_file(char *lcname, gboolean *modified, int *opt_vcd)
 {
 char *dfn = NULL;
 char *sfn = NULL;
@@ -92,7 +92,7 @@ time_t dumptim = -1;
 
 if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 	{
-	read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim);
+	read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim, opt_vcd);
 
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 	if(sfn && dfn)
@@ -438,10 +438,10 @@ void addPidToExecutableName(int argc, char* argv[], char* argv_mod[])
 
 int main(int argc, char *argv[])
 {
-return(main_2(argc, argv));
+return(main_2(0, argc, argv));
 }
 
-int main_2(int argc, char *argv[])
+int main_2(int opt_vcd, int argc, char *argv[])
 {
 static char *winprefix="GTKWave - ";
 static char *winstd="GTKWave (stdio) ";
@@ -461,7 +461,6 @@ char is_giga = 0;
 char fast_exit=0;
 char opt_errors_encountered=0;
 char is_missing_file = 0;
-char opt_vcd = 0;
 
 char *wname=NULL;
 char *override_rc=NULL;
@@ -930,11 +929,11 @@ while (1)
                                         exit(255);
                                         }
                                 }
-			fprintf(stderr, "GTKWAVE | restore cwd  '%s'\n", chdir_cache ? chdir_cache : "(none)");
-			fprintf(stderr, "GTKWAVE | restore dump '%s'\n", GLOBALS->loaded_file_name ? GLOBALS->loaded_file_name : "(none)");
-			fprintf(stderr, "GTKWAVE | restore save '%s'\n", wname ? wname : "(none)");
-			fprintf(stderr, "GTKWAVE | restore rc   '%s'\n", override_rc ? override_rc : "(none)");
-			fprintf(stderr, "GTKWAVE | restore opt  '%s'\n", opt_vcd ? "yes" : "no");
+			fprintf(stderr, "GTKWAVE | restore cwd      '%s'\n", chdir_cache ? chdir_cache : "(none)");
+			fprintf(stderr, "GTKWAVE | restore dumpfile '%s'\n", GLOBALS->loaded_file_name ? GLOBALS->loaded_file_name : "(none)");
+			fprintf(stderr, "GTKWAVE | restore savefile '%s'\n", wname ? wname : "(none)");
+			fprintf(stderr, "GTKWAVE | restore rcfile   '%s'\n", override_rc ? override_rc : "(none)");
+			fprintf(stderr, "GTKWAVE | restore optimize '%s'\n", opt_vcd ? "yes" : "no");
 			}
 			break;
 
@@ -1162,7 +1161,7 @@ if(is_wish && is_vcd)
 if((GLOBALS->loaded_file_name) && (!wname) &&
 	(suffix_check(GLOBALS->loaded_file_name, ".gtkw") || suffix_check(GLOBALS->loaded_file_name, ".sav")))
 	{
-	char *extracted_name = extract_dumpname_from_save_file(GLOBALS->loaded_file_name, &GLOBALS->dumpfile_is_modified);
+	char *extracted_name = extract_dumpname_from_save_file(GLOBALS->loaded_file_name, &GLOBALS->dumpfile_is_modified, &opt_vcd);
 	if(extracted_name)
 		{
 		if(mainwindow_already_built)
@@ -1181,7 +1180,7 @@ if((GLOBALS->loaded_file_name) && (!wname) &&
 else /* same as above but with --save specified */
 if((!GLOBALS->loaded_file_name) && wname)
 	{
-	GLOBALS->loaded_file_name = extract_dumpname_from_save_file(wname, &GLOBALS->dumpfile_is_modified);
+	GLOBALS->loaded_file_name = extract_dumpname_from_save_file(wname, &GLOBALS->dumpfile_is_modified, &opt_vcd);
 	/* still can be NULL if file not found... */
 	}
 
