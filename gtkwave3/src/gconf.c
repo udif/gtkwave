@@ -236,11 +236,11 @@ return(NULL);
 }
 
 
-void wave_gconf_restore(char **dumpfile, char **savefile, char **rcfile, char **wave_pwd)
+void wave_gconf_restore(char **dumpfile, char **savefile, char **rcfile, char **wave_pwd, int *opt_vcd)
 {
 char *s;
 
-if(dumpfile && savefile && rcfile && wave_pwd)
+if(dumpfile && savefile && rcfile && wave_pwd && opt_vcd)
 	{
 	if(*dumpfile) { free_2(*dumpfile); *dumpfile = NULL; }
 	s = wave_gconf_client_get_string("/current/dumpfile");
@@ -257,6 +257,9 @@ if(dumpfile && savefile && rcfile && wave_pwd)
 	if(*wave_pwd) { free_2(*wave_pwd); *wave_pwd = NULL; }
 	s = wave_gconf_client_get_string("/current/pwd");
 	if(s) { if(s[0]) *wave_pwd = strdup_2(s); g_free(s); }
+
+	s = wave_gconf_client_get_string("/current/optimized_vcd");
+	if(s) { if(s[0]) *opt_vcd = atoi(s); g_free(s); }
 	}
 }
 

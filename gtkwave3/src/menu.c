@@ -3308,7 +3308,10 @@ menu_new_viewer_tab_cleanup_2(char *fname)
 			}
 
 	        wave_gconf_client_set_string("/current/pwd", getenv("PWD"));
-	        wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
+
+	        wave_gconf_client_set_string("/current/dumpfile", GLOBALS->optimize_vcd ? GLOBALS->unoptimized_vcd_file_name : GLOBALS->loaded_file_name);
+	        wave_gconf_client_set_string("/current/optimized_vcd", GLOBALS->optimize_vcd ? "1" : "0");  
+
 	        wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
 	
 		rc = 1;

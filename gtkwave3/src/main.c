@@ -920,7 +920,7 @@ while (1)
 		case '3':
 			{
 			is_vcd = 0;
-			wave_gconf_restore(&GLOBALS->loaded_file_name, &wname, &override_rc, &chdir_cache);
+			wave_gconf_restore(&GLOBALS->loaded_file_name, &wname, &override_rc, &chdir_cache, &opt_vcd);
                         if(chdir_cache)
                                 {
                                 if(chdir(chdir_cache) < 0)
@@ -934,6 +934,7 @@ while (1)
 			fprintf(stderr, "GTKWAVE | restore dump '%s'\n", GLOBALS->loaded_file_name ? GLOBALS->loaded_file_name : "(none)");
 			fprintf(stderr, "GTKWAVE | restore save '%s'\n", wname ? wname : "(none)");
 			fprintf(stderr, "GTKWAVE | restore rc   '%s'\n", override_rc ? override_rc : "(none)");
+			fprintf(stderr, "GTKWAVE | restore opt  '%s'\n", opt_vcd ? "yes" : "no");
 			}
 			break;
 
@@ -2387,7 +2388,8 @@ if(scriptfile)
 if(GLOBALS->loaded_file_type != MISSING_FILE)
 	{
 	if(!chdir_cache) { wave_gconf_client_set_string("/current/pwd", getenv("PWD")); }
-	wave_gconf_client_set_string("/current/dumpfile", GLOBALS->loaded_file_name);
+	wave_gconf_client_set_string("/current/dumpfile", GLOBALS->optimize_vcd ? GLOBALS->unoptimized_vcd_file_name : GLOBALS->loaded_file_name);
+	wave_gconf_client_set_string("/current/optimized_vcd", GLOBALS->optimize_vcd ? "1" : "0");
 	wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
 	}
 #endif

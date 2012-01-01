@@ -80,11 +80,11 @@ void write_save_helper(const char *savnam, FILE *wave) {
 			struct stat sbuf;
 #endif
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-		        char *can = realpath(GLOBALS->loaded_file_name, NULL);
+		        char *can = realpath(GLOBALS->optimize_vcd ? GLOBALS->unoptimized_vcd_file_name : GLOBALS->loaded_file_name, NULL);
 			char *cansav = realpath(savnam, NULL);
 			const int do_free = 1;
 #else
-			char *can = GLOBALS->loaded_file_name;
+			char *can = GLOBALS->optimize_vcd ? GLOBALS->unoptimized_vcd_file_name : GLOBALS->loaded_file_name;
 			char *cansav = savnam;
 			const int do_free = 0;
 #endif
