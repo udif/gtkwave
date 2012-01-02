@@ -274,7 +274,7 @@ gboolean wave_gconf_client_set_string(const gchar *key, const gchar *val)
 return(FALSE);
 }
 
-void wave_gconf_restore(char **dumpfile, char **savefile, char **rcfile, char **wave_pwd)
+void wave_gconf_restore(char **dumpfile, char **savefile, char **rcfile, char **wave_pwd, int *opt_vcd)
 {
 /* nothing */
 }
