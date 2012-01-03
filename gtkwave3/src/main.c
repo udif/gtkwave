@@ -917,6 +917,7 @@ while (1)
 			break;
 
 		case '3':
+#ifdef WAVE_HAVE_GCONF
 			{
 			is_vcd = 0;
 			wave_gconf_restore(&GLOBALS->loaded_file_name, &wname, &override_rc, &chdir_cache, &opt_vcd);
@@ -935,6 +936,7 @@ while (1)
 			fprintf(stderr, "GTKWAVE | restore rcfile   '%s'\n", override_rc ? override_rc : "(none)");
 			fprintf(stderr, "GTKWAVE | restore optimize '%s'\n", opt_vcd ? "yes" : "no");
 			}
+#endif
 			break;
 
 		case 'M':
