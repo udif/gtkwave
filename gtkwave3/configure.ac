@@ -28,38 +28,8 @@ if test x$opt_xdgdatadir = x; then
  fi
 AC_SUBST(XDGDATADIR)
 
-
-AC_MSG_CHECKING([if MIME and desktop updates should be disabled])
-
-EMIM=yes
-DMIM=no
-AC_ARG_ENABLE([mime_update],
-[  --disable-mime-update   Disables MIME type and desktop/icon updating],
-[
-if test "X$enable_mime_update" = "Xno" ; then
-	EMIM=no
-	DMIM=yes
-else
-	EMIM=yes
-	DMIM=no
-fi
-],
-[
-EMIM=yes
-])
-AC_MSG_RESULT([$DMIM])
-
-
-
-if test "X$EMIM" = "Xno" ; then
-	UPDATE_MIME_DATABASE=no
-	UPDATE_DESKTOP_DATABASE=no
-else
-	AC_PATH_PROG(UPDATE_MIME_DATABASE, update-mime-database, no)
-	AC_PATH_PROG(UPDATE_DESKTOP_DATABASE, update-desktop-database, no)
-fi
-
-
+AC_PATH_PROG(UPDATE_MIME_DATABASE, update-mime-database, no)
+AC_PATH_PROG(UPDATE_DESKTOP_DATABASE, update-desktop-database, no)
 AM_CONDITIONAL(FDO_MIME, test x$UPDATE_MIME_DATABASE != xno -a x$UPDATE_DESKTOP_DATABASE != xno)
 
 # ------------- Set simarama base -------------------
