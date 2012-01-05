@@ -792,6 +792,7 @@ enable_option_checking
 enable_maintainer_mode
 with_gconf
 with_xdgdatadir
+enable_mime_update
 enable_inline_asm
 enable_struct_pack
 enable_tcl
@@ -1453,6 +1454,7 @@ Optional Features:
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-maintainer-mode  enable make rules and dependencies not useful
 			  (and sometimes confusing) to the casual installer
+  --disable-mime-update   Disables MIME type and desktop/icon updating
   --disable-inline-asm    Disables usage of inline x86 assembly
   --enable-struct-pack    Enables C language structure packing pragmas
                           intended for use on architectures which support
@@ -2533,6 +2535,34 @@ if test x$opt_xdgdatadir = x; then
  fi
 
 
+
+
+{ $as_echo "$as_me:$LINENO: checking if MIME and desktop updates should be disabled" >&5
+$as_echo_n "checking if MIME and desktop updates should be disabled... " >&6; }
+
+EMIM=yes
+DMIM=no
+# Check whether --enable-mime_update was given.
+if test "${enable_mime_update+set}" = set; then
+  enableval=$enable_mime_update;
+if test "X$enable_mime_update" = "Xno" ; then
+        EMIM=no
+        DMIM=yes
+else
+    	EMIM=yes
+        DMIM=no
+fi
+
+else
+
+EMIM=yes
+
+fi
+
+{ $as_echo "$as_me:$LINENO: result: $DMIM" >&5
+$as_echo "$DMIM" >&6; }
+
+
 # Extract the first word of "update-mime-database", so it can be a program name with args.
 set dummy update-mime-database; ac_word=$2
 { $as_echo "$as_me:$LINENO: checking for $ac_word" >&5
@@ -2612,6 +2642,12 @@ $as_echo "$UPDATE_DESKTOP_DATABASE" >&6; }
 else
   { $as_echo "$as_me:$LINENO: result: no" >&5
 $as_echo "no" >&6; }
+fi
+
+
+if test "X$DMIM" = "Xyes" ; then
+	UPDATE_MIME_DATABASE=/bin/true
+	UPDATE_DESKTOP_DATABASE=/bin/true
 fi
 
 
