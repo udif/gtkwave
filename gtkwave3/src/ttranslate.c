@@ -225,10 +225,11 @@ if(GLOBALS->traces.first)
 
 				if(!which)
 					{
-					t->flags &= (~TR_TTRANSLATED);
+					t->flags &= (~(TR_TTRANSLATED|TR_ANALOGMASK));
 					}
 					else
 					{
+					t->flags &= (~(TR_ANALOGMASK));
 					t->flags |= TR_TTRANSLATED;
 					traverse_vector_nodes(t);
 					}
@@ -760,7 +761,7 @@ ex:     			buf[n] = 0;
 		else
 		{
 		/* failed */
-		t->flags &= ~TR_TTRANSLATED;
+		t->flags &= ~(TR_TTRANSLATED|TR_ANALOGMASK);
 		}
 	}
 

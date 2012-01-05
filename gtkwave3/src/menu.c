@@ -4837,7 +4837,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK), TR_ASCII );
+dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_ASCII );
 }
 
 void
@@ -4855,7 +4855,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK), TR_REAL );
+dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_REAL );
 }
 
 void
@@ -4875,7 +4875,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_REAL2BITS|TR_NUMMASK), TR_REAL2BITS|TR_HEX );
+dataformat( ~(TR_REAL2BITS|TR_NUMMASK|TR_ANALOGMASK), TR_REAL2BITS|TR_HEX );
 }
 
 void
@@ -4891,7 +4891,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_REAL2BITS), 0 );
+dataformat( ~(TR_REAL2BITS|TR_ANALOGMASK), 0 );
 }
 
 void
@@ -4908,7 +4908,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK), TR_HEX );
+dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_HEX );
 }
 
 void
@@ -4925,7 +4925,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK), TR_DEC );
+dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_DEC );
 }
 
 void
@@ -4942,7 +4942,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK), TR_SIGNED );
+dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_SIGNED );
 }
 
 void
@@ -4959,7 +4959,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK), TR_BIN );
+dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_BIN );
 }
 
 void
@@ -4976,7 +4976,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK), TR_OCT );
+dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_OCT );
 }
 
 void
@@ -5028,7 +5028,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }  
 
-dataformat( ~(TR_GRAYMASK), TR_BINGRAY );
+dataformat( ~(TR_GRAYMASK|TR_ANALOGMASK), TR_BINGRAY );
 }
 
 void
@@ -5046,7 +5046,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }  
 
-dataformat( ~(TR_GRAYMASK), TR_GRAYBIN );
+dataformat( ~(TR_GRAYMASK|TR_ANALOGMASK), TR_GRAYBIN );
 }
 
 
@@ -5064,7 +5064,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }  
 
-dataformat( ~(TR_GRAYMASK), 0 );
+dataformat( ~(TR_GRAYMASK|TR_ANALOGMASK), 0 );
 }
 
 void
@@ -5183,7 +5183,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }  
 
-dataformat( ~(TR_ZEROFILL|TR_ONEFILL), TR_ZEROFILL );
+dataformat( ~(TR_ZEROFILL|TR_ONEFILL|TR_ANALOGMASK), TR_ZEROFILL );
 }
 
 void
@@ -5203,7 +5203,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }  
 
-dataformat( ~(TR_ZEROFILL|TR_ONEFILL), TR_ONEFILL );
+dataformat( ~(TR_ZEROFILL|TR_ONEFILL|TR_ANALOGMASK), TR_ONEFILL );
 }
 
 void
@@ -5219,7 +5219,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }  
 
-dataformat( ~(TR_ZEROFILL|TR_ONEFILL), 0 );
+dataformat( ~(TR_ZEROFILL|TR_ONEFILL|TR_ANALOGMASK), 0 );
 }
 /**/
 void

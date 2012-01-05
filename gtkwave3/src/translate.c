@@ -275,10 +275,11 @@ if(GLOBALS->traces.first)
 				t->p_filter = 0;
 				if(!which)
 					{
-					t->flags &= (~(TR_FTRANSLATED|TR_PTRANSLATED));
+					t->flags &= (~(TR_FTRANSLATED|TR_PTRANSLATED|TR_ANALOGMASK));
 					}
 					else
 					{
+					t->flags &= (~(TR_ANALOGMASK));
 					t->flags |= TR_FTRANSLATED;
 					}
                                 found++;
