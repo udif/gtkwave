@@ -1,6 +1,6 @@
 [Desktop Entry]
 # Name=gtkwave
-MimeType=application/vnd.gtkwave-evcd
+MimeType=application/vnd.gtkwave-evcd;
 Exec=gtkwave
 Type=Application
 StartupNotify=true
