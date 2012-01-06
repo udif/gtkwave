@@ -3158,6 +3158,9 @@ pid_t pid;
 
 if(GLOBALS->filesel_ok)
 	{
+	/* fix problem where ungrab doesn't occur if button pressed + simultaneous accelerator key occurs */
+    	if(GLOBALS->in_button_press_wavewindow_c_1) { gdk_pointer_ungrab(GDK_CURRENT_TIME); }
+
 #if !defined __MINGW32__ && !defined _MSC_VER
 	/*
 	 * for some reason, X won't let us double-fork in order to cleanup zombies.. *shrug*
@@ -3251,6 +3254,9 @@ menu_new_viewer_tab_cleanup_2(char *fname, int optimize_vcd)
 
 	argv[0] = gtkwave_argv0_cached ? gtkwave_argv0_cached : "gtkwave";
 	argv[1] = fname;
+
+	/* fix problem where ungrab doesn't occur if button pressed + simultaneous accelerator key occurs */
+    	if(GLOBALS->in_button_press_wavewindow_c_1) { gdk_pointer_ungrab(GDK_CURRENT_TIME); }
 
 	GLOBALS->vcd_jmp_buf = calloc(1, sizeof(jmp_buf));
 
