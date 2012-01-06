@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Kermin Elliott Fleming 2007-2011.
+ * Copyright (c) Kermin Elliott Fleming 2007-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -1507,6 +1507,9 @@ void reload_into_new_context_2(void)
 	}
 
  logbox_reload();
+
+ /* fix problem where ungrab doesn't occur if button pressed + simultaneous reload accelerator key occurs */
+ if(GLOBALS->in_button_press_wavewindow_c_1) { gdk_pointer_ungrab(GDK_CURRENT_TIME); }
 
  /* let all GTK/X events spin through in order to keep menus from freezing open during reload */
 #ifndef MAC_INTEGRATION
