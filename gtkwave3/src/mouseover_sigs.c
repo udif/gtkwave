@@ -100,7 +100,16 @@ if((flags & TR_BINGRAY) != 0) { ch[pos++] = 'G'; }
 /* [10] */
 if((flags & TR_GRAYBIN) != 0) { ch[pos++] = 'g'; }
 
-/* [11]  (at worst case this front part needs 12 characters) */
+/* [11] */
+if((flags & TR_FTRANSLATED) != 0) { ch[pos++] = 'F'; }
+
+/* [12] */
+if((flags & TR_PTRANSLATED) != 0) { ch[pos++] = 'P'; }
+
+/* [13] */
+if((flags & TR_TTRANSLATED) != 0) { ch[pos++] = 'T'; }
+
+/* [14]  (at worst case this needs 14 characters) */
 ch[pos] = 0;
 
 if(!t->vector)

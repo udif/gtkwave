@@ -5720,6 +5720,9 @@ if(GLOBALS->helpbox_is_active)
                 " 1 = Range Fill with 1s\n"
 		" G = Binary to Gray\n"
 		" g = Gray to Binary\n"
+		" F = File Filter\n"
+		" P = Process Filter\n"
+		" T = Transaction Filter\n"
         );
         }
 	else

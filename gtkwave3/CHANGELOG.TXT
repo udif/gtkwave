@@ -1152,3 +1152,4 @@
 		Add [optimize_vcd] savefile tag.
 		Disable analog during mutually incompatible mode selection
 		(binary, filters, etc).
+		Added F/P/T flags to mouseover for the filters.
