@@ -351,6 +351,9 @@ void tracesearchbox(const char *title, GtkSignalFunc func, gpointer data)
     GLOBALS->strace_current_window = (int)(long)data; /* arg for which search box going in */
     GLOBALS->strace_ctx = &GLOBALS->strace_windows[GLOBALS->strace_current_window];
 
+    /* fix problem where ungrab doesn't occur if button pressed + simultaneous accelerator key occurs */
+    if(GLOBALS->in_button_press_wavewindow_c_1) { gdk_pointer_ungrab(GDK_CURRENT_TIME); }
+
     if(GLOBALS->strace_ctx->straces) 
 	{
 	gdk_window_raise(GLOBALS->strace_ctx->window_strace_c_10->window);

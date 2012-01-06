@@ -46,6 +46,9 @@ void simplereqbox(char *title, int width, char *default_text,
 
     GLOBALS->cleanup=WAVE_GTK_SFUNCAST(func);
 
+    /* fix problem where ungrab doesn't occur if button pressed + simultaneous accelerator key occurs */
+    if(GLOBALS->in_button_press_wavewindow_c_1) { gdk_pointer_ungrab(GDK_CURRENT_TIME); }
+
     if(GLOBALS->wave_script_args)
 	{
 	if(GLOBALS->cleanup)GLOBALS->cleanup(NULL,(gpointer)1);
