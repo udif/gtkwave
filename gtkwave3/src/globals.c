@@ -2745,6 +2745,9 @@ if(line)
 
 if(GLOBALS != g)
 	{
+	/* fix problem where ungrab doesn't occur if button pressed + simultaneous context swap occurs */
+ 	if(GLOBALS && GLOBALS->in_button_press_wavewindow_c_1) { gdk_pointer_ungrab(GDK_CURRENT_TIME); }
+
 	GLOBALS = g;
 	sprintf(sstr, "%d", GLOBALS->this_context_page);
 	gtkwavetcl_setvar(WAVE_TCLCB_CURRENT_ACTIVE_TAB, sstr, WAVE_TCLCB_CURRENT_ACTIVE_TAB_FLAGS);
