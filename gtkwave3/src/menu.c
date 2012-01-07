@@ -4814,6 +4814,7 @@ static void dataformat(int mask, int patch)
 	{
 	  if(IsSelected(t)&&!IsShadowed(t))
 	    {
+	      t->minmax_valid = 0; /* force analog traces to regenerate if necessary */
 	      t->flags=((t->flags)&mask)|patch;
 	      fix=1;
 	    }
