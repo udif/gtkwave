@@ -236,8 +236,8 @@
   <data dest="${bundle}/Contents/Resources/examples/des.gtkw">
     ${project}/../../examples/des.gtkw
   </data>
-  <data dest="${bundle}/Contents/Resources/examples/.gtkwaverc">
-    ${project}/../../examples/.gtkwaverc
+  <data dest="${bundle}/Contents/Resources/examples/gtkwaverc">
+    ${project}/../../examples/gtkwaverc
   </data>
 
   <data dest="${bundle}/Contents/Resources/examples/transaction.fst">
