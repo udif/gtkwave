@@ -3973,6 +3973,7 @@ double tmin = mynan, tmax = mynan, tv=0.0, tv2;
 gint rmargin;
 int is_nan = 0, is_nan2 = 0, is_inf = 0, is_inf2 = 0;
 int any_infs = 0, any_infp = 0, any_infm = 0;
+int skipcnt = 0;
 
 ci = GLOBALS->gc.gc_baseline_wavewindow_c_1;
 
@@ -4211,8 +4212,17 @@ if((is_nan2 = isnan(tv2)))
 	yt1 = _y0 + (tv2 - tmin) * tmax;
 	}
 
-if(_x0!=_x1)
+if((_x0!=_x1)||(skipcnt < GLOBALS->analog_redraw_skip_count)) /* lower number = better performance */
 	{
+        if(_x0==_x1)
+                {
+                skipcnt++;
+                }  
+                else
+                {
+                skipcnt = 0;
+                }   
+
 	if(type == AN_0) 
 		{
 		c = GLOBALS->gc.gc_vbox_wavewindow_c_1; 

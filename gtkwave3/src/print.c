@@ -2293,6 +2293,7 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
   double tmin = mynan, tmax = mynan, tv, tv2;
   int is_nan = 0, is_nan2 = 0, is_inf = 0, is_inf2 = 0;
   int any_infs = 0, any_infp = 0, any_infm = 0;
+  int skipcnt = 0;
 
   h = v;
   liney = ((which + 2 + num_extension) * GLOBALS->fontheight) - 2;
@@ -2531,8 +2532,17 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 	  yt1 = _y0 + (tv2 - tmin) * tmax;
 	}
 
-      if (_x0 != _x1)
+      if((_x0!=_x1)||(skipcnt < GLOBALS->analog_redraw_skip_count)) /* lower number = better performance */
 	{
+          if(_x0==_x1)
+                {
+                skipcnt++; 
+                }
+                else
+                {
+                skipcnt = 0;
+                }
+
 	  if (h->next)
 	    {
 	      if (h->next->time > GLOBALS->max_time)
