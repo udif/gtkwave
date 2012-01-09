@@ -1,5 +1,7 @@
 #
 # sample rc file
+# (rename to .gtkwaverc and copy 
+# to home directory to be loaded automatically)
 #
 ignore_savefile_pane_pos no
 ignore_savefile_pos no
