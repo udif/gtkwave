@@ -177,7 +177,7 @@ if(GLOBALS->traces.first)
                         {
 			if(!t->vector)
 				{
-				bvptr v = combine_traces(0, t); /* make single signal a vector */
+				bvptr v = combine_traces(1, t); /* down: make single signal a vector */
 				if(v)
 					{
 					t->vector = 1;
