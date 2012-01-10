@@ -1157,3 +1157,5 @@
 		simultaneous reload accelerator key occurs.
 		Fix combine direction in transaction filter to down.
 		Fix vector analog render/print routine to use skipcnt.
+		Fixed transaction filter to cache hptr node if converted
+		(i.e., do not place bitblasted in save file if avoidable).

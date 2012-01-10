@@ -175,11 +175,12 @@ if(GLOBALS->traces.first)
                 {
                 if(t->flags&TR_HIGHLIGHT)
                         {
-			if(!t->vector)
+			if((!t->vector) && (which))
 				{
 				bvptr v = combine_traces(1, t); /* down: make single signal a vector */
 				if(v)
 					{
+					v->transaction_nd = t->n.nd; /* cache for savefile, disable */
 					t->vector = 1;
 					t->n.vec = v;		/* splice in */
 					}
@@ -188,7 +189,6 @@ if(GLOBALS->traces.first)
                         if((t->vector) && (!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))))
                                 {
                                 t->t_filter = which;
-
 				t->t_filter_converted = 0;
 
 				/* back out allocation to revert (if any) */
@@ -197,8 +197,13 @@ if(GLOBALS->traces.first)
 					int i;
 					bvptr bv = t->n.vec;
 					bvptr bv2;
+					nptr ndcache = NULL;
 
 					t->n.vec = bv->transaction_cache;
+					if((t->n.vec->transaction_nd) && (!which))
+						{
+						ndcache = t->n.vec->transaction_nd;
+						}
 
 					while(bv)
 						{
@@ -221,6 +226,13 @@ if(GLOBALS->traces.first)
 					t->name = t->n.vec->bvname;
 	                  		if(GLOBALS->hier_max_level)
 	                    			t->name = hier_extract(t->name, GLOBALS->hier_max_level);
+
+					if(ndcache)
+						{
+						t->n.nd = ndcache;
+						t->vector = 0;
+						/* still need to deallocate old t->n.vec! */
+						}
 					}
 
 				if(!which)

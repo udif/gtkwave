@@ -2088,7 +2088,7 @@ char *emit_gtkwave_savefile_formatted_entries_in_tcl_list(Trptr t, gboolean use_
 					}
 				}
 
-			if(t->vector)
+			if(t->vector && !(t->n.vec->transaction_cache && t->n.vec->transaction_cache->transaction_nd))
 				{
 				int i;
 				nptr *nodes;
@@ -2129,29 +2129,32 @@ char *emit_gtkwave_savefile_formatted_entries_in_tcl_list(Trptr t, gboolean use_
 				}
 				else
 				{
+				  nptr nd = (t->vector && t->n.vec->transaction_cache && t->n.vec->transaction_cache->transaction_nd) ?
+						t->n.vec->transaction_cache->transaction_nd : t->n.nd;
+			
 				  if(HasAlias(t))
 					{
-					if(t->n.nd->expansion)
+					if(nd->expansion)
 						{
-						one_entry = make_message("+{%s} (%d)%s\n",t->name_full,t->n.nd->expansion->parentbit, append_array_row(t->n.nd->expansion->parent));
+						one_entry = make_message("+{%s} (%d)%s\n",t->name_full,nd->expansion->parentbit, append_array_row(nd->expansion->parent));
 						WAVE_OE_ME
 						}
 						else
 						{
-						one_entry = make_message("+{%s} %s\n",t->name_full,append_array_row(t->n.nd));
+						one_entry = make_message("+{%s} %s\n",t->name_full,append_array_row(nd));
 						WAVE_OE_ME
 						}
 					}
 					else
 					{
-					if(t->n.nd->expansion)
+					if(nd->expansion)
 						{
-						one_entry = make_message("(%d)%s\n",t->n.nd->expansion->parentbit, append_array_row(t->n.nd->expansion->parent));
+						one_entry = make_message("(%d)%s\n",nd->expansion->parentbit, append_array_row(nd->expansion->parent));
 						WAVE_OE_ME
 						}
 						else
 						{
-						one_entry = make_message("%s\n",append_array_row(t->n.nd));
+						one_entry = make_message("%s\n",append_array_row(nd));
 						WAVE_OE_ME
 						}
 					}

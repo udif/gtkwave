@@ -236,7 +236,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 					}
 				}
 
-			if(t->vector)
+			if(t->vector && !(t->n.vec->transaction_cache && t->n.vec->transaction_cache->transaction_nd))
 				{
 				int ix;
 				nptr *nodes;
@@ -270,26 +270,29 @@ void write_save_helper(const char *savnam, FILE *wave) {
 				}
 				else
 				{
+				nptr nd = (t->vector && t->n.vec->transaction_cache && t->n.vec->transaction_cache->transaction_nd) ?
+						t->n.vec->transaction_cache->transaction_nd : t->n.nd;
+
 				if(HasAlias(t))
 					{
-					if(t->n.nd->expansion)
+					if(nd->expansion)
 						{
-						fprintf(wave,"+{%s} (%d)%s\n",t->name_full,t->n.nd->expansion->parentbit, append_array_row(t->n.nd->expansion->parent));
+						fprintf(wave,"+{%s} (%d)%s\n",t->name_full,nd->expansion->parentbit, append_array_row(nd->expansion->parent));
 						}
 						else
 						{
-						fprintf(wave,"+{%s} %s\n",t->name_full,append_array_row(t->n.nd));
+						fprintf(wave,"+{%s} %s\n",t->name_full,append_array_row(nd));
 						}
 					}
 					else
 					{
-					if(t->n.nd->expansion)
+					if(nd->expansion)
 						{
-						fprintf(wave,"(%d)%s\n",t->n.nd->expansion->parentbit, append_array_row(t->n.nd->expansion->parent));
+						fprintf(wave,"(%d)%s\n",nd->expansion->parentbit, append_array_row(nd->expansion->parent));
 						}
 						else
 						{
-						fprintf(wave,"%s\n",append_array_row(t->n.nd));
+						fprintf(wave,"%s\n",append_array_row(nd));
 						}
 					}
 				}
@@ -386,7 +389,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 						}
 
 
-					if(t->vector)
+				if(t->vector && !(t->n.vec->transaction_cache && t->n.vec->transaction_cache->transaction_nd))
 						{
 						int ix;
                                                 nptr *nodes;
@@ -421,26 +424,29 @@ void write_save_helper(const char *savnam, FILE *wave) {
 						}
 						else
 						{
+						nptr nd = (t->vector && t->n.vec->transaction_cache && t->n.vec->transaction_cache->transaction_nd) ?
+								t->n.vec->transaction_cache->transaction_nd : t->n.nd;
+
 						if(HasAlias(t))
 							{
-							if(t->n.nd->expansion)
+							if(nd->expansion)
 								{
-								fprintf(wave,"+{%s} (%d)%s\n",t->name_full,t->n.nd->expansion->parentbit, append_array_row(t->n.nd->expansion->parent));
+								fprintf(wave,"+{%s} (%d)%s\n",t->name_full,nd->expansion->parentbit, append_array_row(nd->expansion->parent));
 								}
 								else
 								{
-								fprintf(wave,"+{%s} %s\n",t->name_full,append_array_row(t->n.nd));
+								fprintf(wave,"+{%s} %s\n",t->name_full,append_array_row(nd));
 								}
 							}
 							else
 							{
-							if(t->n.nd->expansion)
+							if(nd->expansion)
 								{
-								fprintf(wave,"(%d)%s\n",t->n.nd->expansion->parentbit, append_array_row(t->n.nd->expansion->parent));
+								fprintf(wave,"(%d)%s\n",nd->expansion->parentbit, append_array_row(nd->expansion->parent));
 								}
 								else
 								{
-								fprintf(wave,"%s\n",append_array_row(t->n.nd));
+								fprintf(wave,"%s\n",append_array_row(nd));
 								}
 							}
 						}

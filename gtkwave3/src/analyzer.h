@@ -298,6 +298,7 @@ typedef struct BitVector
   {
     bvptr   transaction_cache;  /* for TR_TTRANSLATED traces */
     bvptr   transaction_chain;	/* for TR_TTRANSLATED traces */
+    nptr    transaction_nd;	/* for TR_TTRANSLATED traces */
 
     char    *bvname;		/* name of this vector of bits           */
     int     nbits;		/* number of bits in this vector         */

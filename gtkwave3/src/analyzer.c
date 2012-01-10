@@ -250,7 +250,32 @@ if(GLOBALS->default_flags & TR_PTRANSLATED)
 if(GLOBALS->default_flags & TR_TTRANSLATED)
 	{
 	t->t_filter = GLOBALS->current_translate_ttrans;
-	traverse_vector_nodes(t);
+	if(t->t_filter)
+		{
+		if(!t->vector)
+			{
+			bvptr v;
+			int cache_hi = t->flags & TR_HIGHLIGHT;
+
+			t->flags |= TR_HIGHLIGHT;
+                        v = combine_traces(1, t); /* down: make single signal a vector */
+                      	if(v)
+                              	{
+                                v->transaction_nd = t->n.nd; /* cache for savefile, disable */
+                                t->vector = 1;
+                             	t->n.vec = v;           /* splice in */
+                               	}
+
+			t->flags &= ~TR_HIGHLIGHT;
+			t->flags |= cache_hi;
+			}
+
+		traverse_vector_nodes(t);
+		}
+		else
+		{
+		t->flags &= ~TR_TTRANSLATED; /* malformed filter syntax?  should never have "which" of zero here */
+		}
 	}
 
  if (IsGroupBegin(t)) {
