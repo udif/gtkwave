@@ -1,6 +1,6 @@
 [*]
-[*] GTKWave Analyzer v3.3.29 (w)1999-2012 BSI
-[*] Fri Dec 23 10:13:46 2011
+[*] GTKWave Analyzer v3.3.30 (w)1999-2012 BSI
+[*] Thu Jan 12 20:06:57 2012
 [*]
 [dumpfile] "/home/bybell/gtkwave/gtkwave3/examples/transaction.fst"
 [dumpfile_mtime] "Fri Feb  4 20:50:48 2011"
@@ -25,27 +25,14 @@ top.val[7:0]
 -
 -
 -
-@10c00022
-^<1 ./transaction
-#{top.val[7:0]} (0)top.val[7:0] (1)top.val[7:0] (2)top.val[7:0] (3)top.val[7:0] (4)top.val[7:0] (5)top.val[7:0] (6)top.val[7:0] (7)top.val[7:0]
-@c00022
+@10000023
+^<1 /home/bybell/gtkwave/gtkwave3/examples/./transaction
 top.val[7:0]
-@28
-(0)top.val[7:0]
-(1)top.val[7:0]
-(2)top.val[7:0]
-(3)top.val[7:0]
-(4)top.val[7:0]
-(5)top.val[7:0]
-(6)top.val[7:0]
-(7)top.val[7:0]
-@1401200
--group_end
--group_end
+@201
+-
+-
+-
 @200
--
--
--
 -
 [pattern_trace] 1
 [pattern_trace] 0
