@@ -369,6 +369,7 @@ typedef struct TraceEnt
     TimeType shift_drag;	/* cached initial offset for CTRL+LMB drag on highlighted */
 
     double   d_minval, d_maxval; /* cached value for when auto scaling is turned off */
+    int      d_num_ext;		/* need to regen if differs from current in analog! */
 
     union
       {

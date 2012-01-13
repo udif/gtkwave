@@ -1568,7 +1568,7 @@ pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
 
   if (t->flags & TR_ANALOG_FULLSCALE)	/* otherwise use dynamic */
     {
-      if (!t->minmax_valid)
+      if((!t->minmax_valid)||(t->d_num_ext != num_extension))
 	{
 	  h3 = &t->n.nd->head;
 	  for (;;)
@@ -1644,6 +1644,7 @@ pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
 	  t->minmax_valid = 1;
 	  t->d_minval = tmin;
 	  t->d_maxval = tmax;
+          t->d_num_ext = num_extension;
 	}
       else
 	{
@@ -2311,7 +2312,7 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 
   if (t->flags & TR_ANALOG_FULLSCALE)	/* otherwise use dynamic */
     {
-      if (!t->minmax_valid)
+      if((!t->minmax_valid)||(t->d_num_ext != num_extension))
 	{
 	  h3 = t->n.vec->vectors[0];
 	  for (;;)
@@ -2376,6 +2377,7 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 	  t->minmax_valid = 1;
 	  t->d_minval = tmin;
 	  t->d_maxval = tmax;
+          t->d_num_ext = num_extension;
 	}
       else
 	{

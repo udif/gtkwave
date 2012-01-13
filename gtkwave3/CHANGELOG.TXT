@@ -1159,3 +1159,5 @@
 		Fix vector analog render/print routine to use skipcnt.
 		Fixed transaction filter to cache hptr node if converted
 		(i.e., do not place bitblasted in save file if avoidable).
+		Fixed min/max of cached autoscaling sizing when number of
+		extension traces changes.
