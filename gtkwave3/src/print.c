@@ -1538,7 +1538,7 @@ pr_draw_hptr_trace (pr_context * prc, Trptr t, hptr h, int which, int dodraw,
  */
 static void
 pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
-				  int which, int num_extension)
+				  int which, int num_extension_clip, int num_extension)
 {
   TimeType _x0, _x1, newtime;
   int _y0, _y1, yu, liney, /* ytext, */ yt0, yt1; /* scan-build */
@@ -2055,6 +2055,7 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
     {
       Trptr te = GiveNextTrace(t);
       int ext = 0;
+      int ext_total;
       int num_traces_displayable =
 	GLOBALS->signalarea->allocation.height / GLOBALS->fontheight;
 
@@ -2071,6 +2072,7 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
 	    }
 	}
 
+      ext_total = ext;
       if (which + ext > num_traces_displayable - 2)
 	{
 	  ext = num_traces_displayable - which - 2;
@@ -2078,7 +2080,7 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
 	    ext = 0;		/* just in case of a one-off */
 	}
 
-      pr_draw_hptr_trace_vector_analog (prc, t, h, which, ext);
+      pr_draw_hptr_trace_vector_analog (prc, t, h, which, ext, ext_total);
       GLOBALS->tims.start -= GLOBALS->shift_timebase;
       GLOBALS->tims.end -= GLOBALS->shift_timebase;
       return;
@@ -2280,7 +2282,7 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
  */
 static void
 pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
-			   int num_extension)
+			   int num_extension_clip, int num_extension)
 {
   TimeType _x0, _x1, newtime;
   int _y0, _y1, yu, liney, /* ytext, */ yt0, yt1; /* scan-build */
@@ -2556,6 +2558,62 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 	  if ((is_nan2) && (h2tim > GLOBALS->max_time))
 	    is_nan2 = 0;
 
+/* clamp to top/bottom because of integer rounding errors */
+
+if(yt0 < _y1) yt0 = _y1;
+else if(yt0 > _y0) yt0 = _y0;
+                        
+if(yt1 < _y1) yt1 = _y1;
+else if(yt1 > _y0) yt1 = _y0;
+
+/* clipping... */
+{
+int coords[4];
+int rect[4];
+
+if(_x0 < INT_MIN) { coords[0] = INT_MIN; }
+else if(_x0 > INT_MAX) { coords[0] = INT_MAX; }
+else { coords[0] = _x0; }
+
+if(_x1 < INT_MIN) { coords[2] = INT_MIN; }
+else if(_x1 > INT_MAX) { coords[2] = INT_MAX; }
+else { coords[2] = _x1; }
+
+coords[1] = yt0;
+coords[3] = yt1;
+
+                                
+rect[0] = -10;   
+rect[1] = _y1;
+rect[2] = GLOBALS->wavewidth + 10;
+rect[3] = _y0;          
+                                
+if((t->flags & (TR_ANALOG_INTERPOLATED|TR_ANALOG_STEP)) != TR_ANALOG_STEP)
+        {
+        wave_lineclip(coords, rect);
+        }
+        else
+        {
+        if(coords[0] < rect[0]) coords[0] = rect[0];
+        if(coords[2] < rect[0]) coords[2] = rect[0];
+
+        if(coords[0] > rect[2]) coords[0] = rect[2];
+        if(coords[2] > rect[2]) coords[2] = rect[2];
+
+        if(coords[1] < rect[1]) coords[1] = rect[1];
+        if(coords[3] < rect[1]) coords[3] = rect[1];
+
+        if(coords[1] > rect[3]) coords[1] = rect[3];
+        if(coords[3] > rect[3]) coords[3] = rect[3];
+        }
+
+_x0 = coords[0];
+yt0 = coords[1];
+_x1 = coords[2];
+yt1 = coords[3];
+}
+/* ...clipping */
+
 	  if (is_nan || is_nan2)
 	    {
 	      if (is_nan)
@@ -2693,6 +2751,9 @@ pr_draw_vptr_trace (pr_context * prc, Trptr t, vptr v, int which)
     {
       Trptr te = GiveNextTrace(t);
       int ext = 0;
+      int ext_total;
+      int num_traces_displayable =
+	GLOBALS->signalarea->allocation.height / GLOBALS->fontheight;
 
       while (te)
 	{
@@ -2707,7 +2768,15 @@ pr_draw_vptr_trace (pr_context * prc, Trptr t, vptr v, int which)
 	    }
 	}
 
-      pr_draw_vptr_trace_analog (prc, t, v, which, ext);
+      ext_total = ext;
+      if (which + ext > num_traces_displayable - 2)
+	{
+	  ext = num_traces_displayable - which - 2;
+	  if (ext < 0)
+	    ext = 0;		/* just in case of a one-off */
+	}
+
+      pr_draw_vptr_trace_analog (prc, t, v, which, ext, ext_total);
 
       GLOBALS->tims.start+=GLOBALS->shift_timebase;
       GLOBALS->tims.end+=GLOBALS->shift_timebase;
