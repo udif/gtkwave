@@ -1542,6 +1542,7 @@ pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
 {
   TimeType _x0, _x1, newtime;
   int _y0, _y1, yu, liney, /* ytext, */ yt0, yt1; /* scan-build */
+  int _y0c;
   TimeType tim, h2tim;
   hptr h2, h3;
   int endcnt = 0;
@@ -1553,10 +1554,12 @@ pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
   int is_nan = 0, is_nan2 = 0, is_inf = 0, is_inf2 = 0;
   int any_infs = 0, any_infp = 0, any_infm = 0;
   int skipcnt = 0;
+  int line_in_range;
 
   liney = ((which + 2 + num_extension) * GLOBALS->fontheight) - 2;
   _y1 = ((which + 1) * GLOBALS->fontheight) + 2;
   _y0 = liney - 2;
+  _y0c = (((which + 2 + num_extension_clip) * GLOBALS->fontheight) - 2) - 2;
   yu = (_y0 + _y1) / 2;
   /* ytext = yu - (GLOBALS->wavefont->ascent / 2) + GLOBALS->wavefont->ascent; */ /* scan-build */
 
@@ -1893,14 +1896,16 @@ coords[3] = yt1;
 rect[0] = -10;   
 rect[1] = _y1;
 rect[2] = GLOBALS->wavewidth + 10;
-rect[3] = _y0;          
+rect[3] = _y0c;          
                                 
 if((t->flags & (TR_ANALOG_INTERPOLATED|TR_ANALOG_STEP)) != TR_ANALOG_STEP)
         {
-        wave_lineclip(coords, rect);
+        line_in_range = wave_lineclip(coords, rect);
         }
         else
         {
+	line_in_range = 1;
+
         if(coords[0] < rect[0]) coords[0] = rect[0];
         if(coords[2] < rect[0]) coords[2] = rect[0];
 
@@ -1923,6 +1928,8 @@ yt1 = coords[3];
 
 	  if (is_nan || is_nan2)
 	    {
+	    if(line_in_range)
+	      {
 	      if (is_nan)
 		{
 		  pr_setgray (prc, 0.70);
@@ -1962,18 +1969,24 @@ yt1 = coords[3];
 		      pr_draw_line (prc, _x1, _y1 - 1, _x1, _y1 + 1);
 		    }
 		}
+              }
 	    }
 	  else if (t->flags & TR_ANALOG_INTERPOLATED && !is_inf && !is_inf2)
 	    {
+	    if(line_in_range)
+              {
 	      pr_draw_line (prc, _x0, yt0, _x1, yt1);
 	      if (t->flags & TR_ANALOG_STEP)
 		{
 		  pr_draw_line (prc, _x0 - 1, yt0, _x0 + 1, yt0);
 		  pr_draw_line (prc, _x0, yt0 - 1, _x0, yt0 + 1);
 		}
+              }
 	    }
 	  else			/* if (t->flags & TR_ANALOG_STEP) */
 	    {
+            if(line_in_range)
+              {
 	      pr_draw_line (prc, _x0, yt0, _x1, yt0);
 	      pr_draw_line (prc, _x1, yt0, _x1, yt1);
 
@@ -1983,6 +1996,7 @@ yt1 = coords[3];
 		  pr_draw_line (prc, _x0 - 1, yt0, _x0 + 1, yt0);
 		  pr_draw_line (prc, _x0, yt0 - 1, _x0, yt0 + 1);
 		}
+              }
 	    }
 	}
       else
@@ -2286,6 +2300,7 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 {
   TimeType _x0, _x1, newtime;
   int _y0, _y1, yu, liney, /* ytext, */ yt0, yt1; /* scan-build */
+  int _y0c;
   TimeType tim, h2tim;
   vptr h, h2, h3;
   int endcnt = 0;
@@ -2297,11 +2312,13 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
   int is_nan = 0, is_nan2 = 0, is_inf = 0, is_inf2 = 0;
   int any_infs = 0, any_infp = 0, any_infm = 0;
   int skipcnt = 0;
+  int line_in_range;
 
   h = v;
   liney = ((which + 2 + num_extension) * GLOBALS->fontheight) - 2;
   _y1 = ((which + 1) * GLOBALS->fontheight) + 2;
   _y0 = liney - 2;
+  _y0c = (((which + 2 + num_extension_clip) * GLOBALS->fontheight) - 2) - 2;
   yu = (_y0 + _y1) / 2;
 
   /* ytext = yu - (GLOBALS->wavefont->ascent / 2) + GLOBALS->wavefont->ascent; */ /* scan-build */
@@ -2586,14 +2603,16 @@ coords[3] = yt1;
 rect[0] = -10;   
 rect[1] = _y1;
 rect[2] = GLOBALS->wavewidth + 10;
-rect[3] = _y0;          
+rect[3] = _y0c;          
                                 
 if((t->flags & (TR_ANALOG_INTERPOLATED|TR_ANALOG_STEP)) != TR_ANALOG_STEP)
         {
-        wave_lineclip(coords, rect);
+        line_in_range = wave_lineclip(coords, rect);
         }
         else
         {
+	line_in_range = 1;
+
         if(coords[0] < rect[0]) coords[0] = rect[0];
         if(coords[2] < rect[0]) coords[2] = rect[0];
 
@@ -2616,6 +2635,8 @@ yt1 = coords[3];
 
 	  if (is_nan || is_nan2)
 	    {
+	    if(line_in_range)
+	      {
 	      if (is_nan)
 		{
 		  pr_setgray (prc, 0.70);
@@ -2655,18 +2676,24 @@ yt1 = coords[3];
 		      pr_draw_line (prc, _x1, _y1 - 1, _x1, _y1 + 1);
 		    }
 		}
+              }
 	    }
 	  else if ((t->flags & TR_ANALOG_INTERPOLATED) && !is_inf && !is_inf2)
 	    {
+	    if(line_in_range)
+	      {
 	      pr_draw_line (prc, _x0, yt0, _x1, yt1);
 	      if (t->flags & TR_ANALOG_STEP)
 		{
 		  pr_draw_line (prc, _x0 - 1, yt0, _x0 + 1, yt0);
 		  pr_draw_line (prc, _x0, yt0 - 1, _x0, yt0 + 1);
 		}
+              }
 	    }
 	  else			/* if (t->flags & TR_ANALOG_STEP) */
 	    {
+	    if(line_in_range)
+	      {
 	      pr_draw_line (prc, _x0, yt0, _x1, yt0);
 	      pr_draw_line (prc, _x1, yt0, _x1, yt1);
 
@@ -2676,6 +2703,7 @@ yt1 = coords[3];
 		  pr_draw_line (prc, _x0 - 1, yt0, _x0 + 1, yt0);
 		  pr_draw_line (prc, _x0, yt0 - 1, _x0, yt0 + 1);
 		}
+              }
 	    }
 	}
       else
