@@ -1147,7 +1147,7 @@
 		/com.geda.gtkwave directory for keys in GConf.
 		Memory overrun fix to symbol.c for Bluespec add from 3.3.11.
 		Added --restore command line option to gtkwave.
-3.3.30 09jan12	Updated ./configure to add --disable-mime-update flag.
+3.3.30 17jan12	Updated ./configure to add --disable-mime-update flag.
 		Fix --optimize for --restore.
 		Add [optimize_vcd] savefile tag.
 		Disable analog during mutually incompatible mode selection
