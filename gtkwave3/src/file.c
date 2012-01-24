@@ -17,9 +17,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <fnmatch.h>
+#ifdef MAC_INTEGRATION
+#include <cocoa_misc.h>
+#endif
 
 #if GTK_CHECK_VERSION(2,4,0)
 
+#ifndef MAC_INTEGRATION
 static gboolean ffunc (const GtkFileFilterInfo *filter_info, gpointer data)
 {
 const char *rms = strrchr(filter_info->filename, '\\');
@@ -45,7 +49,6 @@ if(!strchr(GLOBALS->pFileChooseFilterName, '*') && !strchr(GLOBALS->pFileChooseF
 	return(g_pattern_match_string(GLOBALS->pPatternSpec, rms2));
 	}
 }
-
 
 static
 void filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
@@ -92,6 +95,7 @@ GdkEventKey ev;
 filter_edit_cb (widget, &ev, data);
 }
 
+#endif
 #endif
 
 
@@ -158,6 +162,7 @@ wave_gtk_grab_add(GLOBALS->fs_file_c_1);
 
 void fileselbox(char *title, char **filesel_path, GtkSignalFunc ok_func, GtkSignalFunc notok_func, char *pattn, int is_writemode)
 {
+#ifndef MAC_INTEGRATION
 int can_set_filename = 0;
 #if GTK_CHECK_VERSION(2,4,0)
 GtkWidget *pFileChoose;
@@ -168,6 +173,7 @@ GtkWidget *label_ent;
 GtkWidget *box;
 GtkTooltips *tooltips;
 struct Global *old_globals = GLOBALS;
+#endif
 #endif
 
 /* fix problem where ungrab doesn't occur if button pressed + simultaneous accelerator key occurs */
@@ -192,7 +198,7 @@ if(!*filesel_path) /* if no name specified, hijack loaded file name path */
 		}
 	}
 
- 
+
 if(GLOBALS->wave_script_args)
 	{
 	char *s = NULL;
@@ -215,6 +221,27 @@ if(GLOBALS->wave_script_args)
 	return;
 	}
 
+#ifdef MAC_INTEGRATION
+
+GLOBALS->fileselbox_text=filesel_path;
+GLOBALS->filesel_ok=0;
+char *rc = gtk_file_req_bridge(title, *filesel_path, pattn, is_writemode); 
+if(rc)
+	{
+        GLOBALS->filesel_ok=1;
+
+        if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
+        *GLOBALS->fileselbox_text=strdup_2(rc);
+	g_free(rc);
+	if(ok_func) ok_func();
+	}
+	else
+	{
+	if(notok_func) notok_func();
+	}
+return;
+
+#else
 
 #if defined __MINGW32__ || !GTK_CHECK_VERSION(2,4,0)
 
@@ -463,6 +490,8 @@ if(GLOBALS->pPatternSpec)
 	g_pattern_spec_free(GLOBALS->pPatternSpec);
 	GLOBALS->pPatternSpec = NULL;
 	}
+
+#endif
 
 #endif
 }

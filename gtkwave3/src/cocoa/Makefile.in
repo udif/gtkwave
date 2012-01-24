@@ -32,7 +32,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-subdir = src/libbz2
+subdir = src/cocoa
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -45,12 +45,12 @@ CONFIG_CLEAN_VPATH_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 AR = ar
 ARFLAGS = cru
-libbz2_a_AR = $(AR) $(ARFLAGS)
-libbz2_a_LIBADD =
-am_libbz2_a_OBJECTS = blocksort.$(OBJEXT) compress.$(OBJEXT) \
-	decompress.$(OBJEXT) randtable.$(OBJEXT) bzlib.$(OBJEXT) \
-	crctable.$(OBJEXT) huffman.$(OBJEXT)
-libbz2_a_OBJECTS = $(am_libbz2_a_OBJECTS)
+libgtkwmacintegration_a_AR = $(AR) $(ARFLAGS)
+libgtkwmacintegration_a_LIBADD =
+am_libgtkwmacintegration_a_OBJECTS =  \
+	libgtkwmacintegration_a-cocoa_misc.$(OBJEXT)
+libgtkwmacintegration_a_OBJECTS =  \
+	$(am_libgtkwmacintegration_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -59,8 +59,8 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(libbz2_a_SOURCES)
-DIST_SOURCES = $(libbz2_a_SOURCES)
+SOURCES = $(libgtkwmacintegration_a_SOURCES)
+DIST_SOURCES = $(libgtkwmacintegration_a_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -200,11 +200,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-noinst_LIBRARIES = libbz2.a
-libbz2_a_SOURCES = blocksort.c  bzlib.h          compress.c  decompress.c  randtable.c \
-	bzlib.c      bzlib_private.h  crctable.c  huffman.c
-
-EXTRA_DIST = bzlib.h LICENSE
+noinst_LIBRARIES = libgtkwmacintegration.a
+libgtkwmacintegration_a_CFLAGS = $(COCOA_GTK_CFLAGS) $(GTK_CFLAGS) $(GTK_MAC_CFLAGS)
+libgtkwmacintegration_a_OBJCFLAGS = 
+libgtkwmacintegration_a_SOURCES = cocoa_misc.c cocoa_misc.h
 all: all-am
 
 .SUFFIXES:
@@ -218,9 +217,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/libbz2/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/cocoa/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src/libbz2/Makefile
+	  $(AUTOMAKE) --foreign src/cocoa/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -242,10 +241,10 @@ $(am__aclocal_m4_deps):
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libbz2.a: $(libbz2_a_OBJECTS) $(libbz2_a_DEPENDENCIES) 
-	-rm -f libbz2.a
-	$(libbz2_a_AR) libbz2.a $(libbz2_a_OBJECTS) $(libbz2_a_LIBADD)
-	$(RANLIB) libbz2.a
+libgtkwmacintegration.a: $(libgtkwmacintegration_a_OBJECTS) $(libgtkwmacintegration_a_DEPENDENCIES) 
+	-rm -f libgtkwmacintegration.a
+	$(libgtkwmacintegration_a_AR) libgtkwmacintegration.a $(libgtkwmacintegration_a_OBJECTS) $(libgtkwmacintegration_a_LIBADD)
+	$(RANLIB) libgtkwmacintegration.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -253,13 +252,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/blocksort.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bzlib.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compress.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crctable.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/decompress.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/huffman.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/randtable.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgtkwmacintegration_a-cocoa_misc.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -274,6 +267,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+
+libgtkwmacintegration_a-cocoa_misc.o: cocoa_misc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgtkwmacintegration_a_CFLAGS) $(CFLAGS) -MT libgtkwmacintegration_a-cocoa_misc.o -MD -MP -MF $(DEPDIR)/libgtkwmacintegration_a-cocoa_misc.Tpo -c -o libgtkwmacintegration_a-cocoa_misc.o `test -f 'cocoa_misc.c' || echo '$(srcdir)/'`cocoa_misc.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libgtkwmacintegration_a-cocoa_misc.Tpo $(DEPDIR)/libgtkwmacintegration_a-cocoa_misc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='cocoa_misc.c' object='libgtkwmacintegration_a-cocoa_misc.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgtkwmacintegration_a_CFLAGS) $(CFLAGS) -c -o libgtkwmacintegration_a-cocoa_misc.o `test -f 'cocoa_misc.c' || echo '$(srcdir)/'`cocoa_misc.c
+
+libgtkwmacintegration_a-cocoa_misc.obj: cocoa_misc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgtkwmacintegration_a_CFLAGS) $(CFLAGS) -MT libgtkwmacintegration_a-cocoa_misc.obj -MD -MP -MF $(DEPDIR)/libgtkwmacintegration_a-cocoa_misc.Tpo -c -o libgtkwmacintegration_a-cocoa_misc.obj `if test -f 'cocoa_misc.c'; then $(CYGPATH_W) 'cocoa_misc.c'; else $(CYGPATH_W) '$(srcdir)/cocoa_misc.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libgtkwmacintegration_a-cocoa_misc.Tpo $(DEPDIR)/libgtkwmacintegration_a-cocoa_misc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='cocoa_misc.c' object='libgtkwmacintegration_a-cocoa_misc.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgtkwmacintegration_a_CFLAGS) $(CFLAGS) -c -o libgtkwmacintegration_a-cocoa_misc.obj `if test -f 'cocoa_misc.c'; then $(CYGPATH_W) 'cocoa_misc.c'; else $(CYGPATH_W) '$(srcdir)/cocoa_misc.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

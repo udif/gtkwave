@@ -1,5 +1,5 @@
-/* 
- * Copyright (c) Tony Bybell 2010-2012.
+/*
+ * Copyright (c) Tony Bybell 2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -7,9 +7,15 @@
  * of the License, or (at your option) any later version.
  */
 
-#ifndef WAVE_VERSION_H
-#define WAVE_VERSION_H
+#ifndef __COCOA_MISC_H__
+#define __COCOA_MISC_H__
 
-#define WAVE_VERSION_INFO "GTKWave Analyzer v3.3.31 (w)1999-2012 BSI"
+#ifdef WAVE_COCOA_GTK
+#import <Cocoa/Cocoa.h>
+#endif
+#include <gtk/gtk.h>
+
+char *gtk_file_req_bridge(const char *title, const char *fpath, const char *pattn, int is_writemode);
 
 #endif
+

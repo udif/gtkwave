@@ -1,22 +1,26 @@
 ## -*- makefile -*-
 ##
 
-SUBDIRS=	$(LIBZ_DIR) $(LIBBZ2_DIR) liblzma helpers helpers/fst
-DIST_SUBDIRS=	libz libbz2 liblzma helpers helpers/fst
+SUBDIRS=	$(LIBZ_DIR) $(LIBBZ2_DIR) liblzma helpers helpers/fst cocoa
+DIST_SUBDIRS=	libz libbz2 liblzma helpers helpers/fst cocoa
 
 LIBFST_CFLAGS  = -I$(srcdir)/helpers/fst
 LIBFST_LDADD   = ./helpers/fst/libfst.a
 LIBLZMA_CFLAGS = -I$(srcdir)/liblzma $(LIBXZ_CFLAGS)
 LIBLZMA_LDADD  = ./liblzma/libgwlzma.a $(LIBXZ_LDADD)
+LIBCOCOA_CFLAGS = -I$(srcdir)/cocoa
+LIBCOCOA_LDADD = ./cocoa/libgtkwmacintegration.a $(COCOA_GTK_LDADD)
 #DEBUGS = -DDEBUG_FACILITIES -DDEBUG_PRINTF -DDEBUG_MALLOC -DSTRICT_VCD_ONLY -DDEBUG_MALLOC_LINES
 
 bin_PROGRAMS=	gtkwave twinwave
 
-AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(TCL_INCLUDE_SPEC) $(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(GTK_MAC_CFLAGS) $(GCONF_CFLAGS)
+AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(TCL_INCLUDE_SPEC) $(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(GTK_MAC_CFLAGS) $(GCONF_CFLAGS) $(LIBCOCOA_CFLAGS)
 
 ./liblzma/libgwlzma.a: $(srcdir)/liblzma/LzmaLib.c $(srcdir)/liblzma/LzmaLib.h
 
 ./helpers/fst/libfst.a: $(srcdir)/helpers/fst/fastlz.c $(srcdir)/helpers/fst/fastlz.h $(srcdir)/helpers/fst/fstapi.c $(srcdir)/helpers/fst/fstapi.h
+
+./cocoa/libgtkwmacintegration.a: $(srcdir)/cocoa/cocoa_misc.c $(srcdir)/cocoa/cocoa_misc.h
 
 gtkwave_SOURCES= \
 	baseconvert.h wavewindow.h zoombuttons.h fetchbuttons.h timeentry.h shiftbuttons.h pagebuttons.h edgebuttons.h \
@@ -42,7 +46,9 @@ gtkwave_SOURCES= \
 	vcd_partial.c vcd_recoder.c vcd_saver.c vcd_saver.h version.h vlist.c vlist.h vzt.c vzt.h wavealloca.h \
 	wavewindow.c zoombuttons.c
 
-gtkwave_LDADD= $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS)
+gtkwave_LDADD= $(LIBCOCOA_LDADD) $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS)
+gtkwave_LDFLAGS = $(COCOA_GTK_LDFLAGS)
+
 
 twinwave_SOURCES= twinwave.c
 twinwave_LDADD= $(GTK_LIBS) $(GTK_MAC_LIBS) $(GCONF_LIBS)
