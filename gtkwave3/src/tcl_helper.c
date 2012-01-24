@@ -41,6 +41,10 @@
 #define strcasecmp _stricmp
 #endif
 
+#if (defined(__MACH__) && defined(__APPLE__))
+#include <mach-o/dyld.h>
+#endif
+
 /*----------------------------------------------------------------------
  * tclBackslash -- Figure out how to handle a backslash sequence in tcl list.
  *

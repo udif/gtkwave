@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tristan Gingold and Tony Bybell 2006-2011.
+ * Copyright (c) Tristan Gingold and Tony Bybell 2006-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -2132,7 +2132,7 @@ static void DNDDataReceivedCB(
 #else
     if(!GLOBALS->dnd_helper_quartz)
         {
-        GLOBALS->dnd_helper_quartz = strdup_2(selection_data->data);
+        GLOBALS->dnd_helper_quartz = strdup_2((const char *)selection_data->data);
         }
 #endif
     }
