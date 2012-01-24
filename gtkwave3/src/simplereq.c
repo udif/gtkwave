@@ -15,7 +15,7 @@
 #include "debug.h"
 #include "pixmaps.h"
 
-
+#ifndef MAC_INTEGRATION
 static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 {
   DEBUG(printf("OK\n"));
@@ -33,14 +33,17 @@ static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
   GLOBALS->window_simplereq_c_9 = NULL;
   if(GLOBALS->cleanup)GLOBALS->cleanup(NULL,NULL);
 }
+#endif
 
 void simplereqbox(char *title, int width, char *default_text,
 	char *oktext, char *canceltext, GtkSignalFunc func, int is_alert)
 {
+#ifndef MAC_INTEGRATION
     GtkWidget *vbox, *hbox;
     GtkWidget *button1, *button2;
     GtkWidget *label, *separator;
     GtkWidget *pixmapwid1;
+#endif
 
     if(GLOBALS->window_simplereq_c_9) return; /* only should happen with GtkPlug */
 
@@ -54,6 +57,21 @@ void simplereqbox(char *title, int width, char *default_text,
 	if(GLOBALS->cleanup)GLOBALS->cleanup(NULL,(gpointer)1);
 	return;
 	}
+
+#ifdef MAC_INTEGRATION
+    /* requester is modal so it will block */
+    switch(gtk_simplereqbox_req_bridge(title, default_text, oktext, canceltext, is_alert))
+	{
+	case 1:	if(GLOBALS->cleanup)GLOBALS->cleanup(NULL,(gpointer)1);
+		break;
+
+	case 2:	if(GLOBALS->cleanup)GLOBALS->cleanup(NULL,NULL);
+		break;
+
+	default:
+		break;
+	}
+#else
 
     /* create a new modal window */
     GLOBALS->window_simplereq_c_9 = gtk_window_new(GLOBALS->disable_window_manager ? GTK_WINDOW_POPUP : GTK_WINDOW_TOPLEVEL);
@@ -112,5 +130,6 @@ void simplereqbox(char *title, int width, char *default_text,
 
     gtk_widget_show(GLOBALS->window_simplereq_c_9);
     wave_gtk_grab_add(GLOBALS->window_simplereq_c_9);
+#endif
 }
 

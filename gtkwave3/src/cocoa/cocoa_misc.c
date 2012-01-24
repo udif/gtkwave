@@ -13,6 +13,10 @@
 
 #include <sys/stat.h>
 
+/*************************/
+/* file.c                */
+/*************************/
+
 static char *gtk_open_file_req_bridge(const char *title, const char *fpath, const char *pattn)
 {
         NSOpenPanel * zOpenPanel = [NSOpenPanel openPanel];
@@ -183,11 +187,71 @@ if(is_writemode)
 return(rc);
 }
 
+
+/*************************/
+/* simplereq.c           */
+/*************************/
+
+int gtk_simplereqbox_req_bridge(char *title, char *default_text, char *oktext, char *canceltext, int is_alert)
+{
+NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+int rc = 0;
+
+if(oktext)
+	{
+	[alert addButtonWithTitle: [NSString stringWithUTF8String:oktext]];
+
+	if(canceltext)
+		{
+		[alert addButtonWithTitle: [NSString stringWithUTF8String:canceltext]];
+		}
+	}
+
+if(title)
+	{
+	[alert setMessageText: [NSString stringWithUTF8String:title]];
+	}
+
+if(default_text)
+	{
+	[alert setInformativeText: [NSString stringWithUTF8String:default_text]];
+	}
+
+if(is_alert)
+	{
+	[alert setAlertStyle:NSCriticalAlertStyle];
+	}
+	else
+	{
+	[alert setAlertStyle:NSInformationalAlertStyle];
+	}
+
+NSInteger zIntResult = [alert runModal];
+if(zIntResult == NSAlertFirstButtonReturn)
+	{
+	rc = 1;
+	}
+else
+if(zIntResult == NSAlertSecondButtonReturn)
+	{
+	rc = 2;
+	}
+
+return(rc);
+}
+
+
 #else
 
 char *gtk_file_req_bridge(const char *title, const char *fpath, const char *pattn, int is_writemode)
 {
 return(NULL); /* dummy compilation unit */
+}
+
+
+int gtk_simplereqbox_req_bridge(char *title, char *default_text, char *oktext, char *canceltext, int is_alert)
+{
+return(0); /* dummy compilation unit */
 }
 
 #endif

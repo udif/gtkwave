@@ -16,6 +16,7 @@
 #include <gtk/gtk.h>
 
 char *gtk_file_req_bridge(const char *title, const char *fpath, const char *pattn, int is_writemode);
+int gtk_simplereqbox_req_bridge(char *title, char *default_text, char *oktext, char *canceltext, int is_alert);
 
 #endif
 

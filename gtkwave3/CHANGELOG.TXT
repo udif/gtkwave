@@ -1162,5 +1162,6 @@
 		Fixed min/max of cached autoscaling sizing when number of
 		extension traces changes.
 3.3.31 24jan12	Added support for native file requesters in OSX Quartz.
+		Added support for native alert dialogs in OSX Quartz.
 		Clang warning fixes.
 		Added missing config.guess and config.sub.
