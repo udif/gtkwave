@@ -15,7 +15,12 @@
 #include "debug.h"
 #include "pixmaps.h"
 
-#ifndef MAC_INTEGRATION
+#ifdef MAC_INTEGRATION
+
+#include <cocoa_misc.h>
+
+#else
+
 static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 {
   DEBUG(printf("OK\n"));
