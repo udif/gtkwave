@@ -285,15 +285,9 @@ return(rc);
 
 #else
 
-char *gtk_file_req_bridge(const char *title, const char *fpath, const char *pattn, int is_writemode)
+char *cocoa_misc_dummy_compilation_unit(void)
 {
 return(NULL); /* dummy compilation unit */
-}
-
-
-int gtk_simplereqbox_req_bridge(char *title, char *default_text, char *oktext, char *canceltext, int is_alert)
-{
-return(0); /* dummy compilation unit */
 }
 
 #endif
