@@ -15,7 +15,12 @@
 #include "debug.h"
 #include <string.h>
 
+#ifdef MAC_INTEGRATION
+/* disabled for now as we can't get it to auto enable when it comes up */
+/* #define WAVE_MAC_USE_ENTRY */
+#endif
 
+#ifndef WAVE_MAC_USE_ENTRY
 static void enter_callback(GtkWidget *widget, GtkWidget *nothing)
 {
   G_CONST_RETURN gchar *entry_text;
@@ -41,6 +46,7 @@ static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
   gtk_widget_destroy(GLOBALS->window_entry_c_1);
   GLOBALS->window_entry_c_1 = NULL;
 }
+#endif
 
 void entrybox(char *title, int width, char *dflt_text, char *comment, int maxch, GtkSignalFunc func)
 {
@@ -71,6 +77,26 @@ void entrybox(char *title, int width, char *dflt_text, char *comment, int maxch,
 
 	return;
 	}
+
+#ifdef WAVE_MAC_USE_ENTRY
+{
+char *out_text_entry = NULL;
+int rc = entrybox_req_bridge(title, width, dflt_text, comment, maxch, &out_text_entry);
+if(out_text_entry)
+	{
+	int len=strlen(out_text_entry);
+	if(!len) GLOBALS->entrybox_text=NULL;
+	else strcpy((GLOBALS->entrybox_text=(char *)malloc_2(len+1)),out_text_entry);
+	free(out_text_entry);
+	GLOBALS->cleanup_entry_c_1();
+	}
+	else
+	{
+	GLOBALS->entrybox_text = NULL;
+	}
+return;
+}
+#else
 
     /* create a new modal window */
     GLOBALS->window_entry_c_1 = gtk_window_new(GLOBALS->disable_window_manager ? GTK_WINDOW_POPUP : GTK_WINDOW_TOPLEVEL);
@@ -129,5 +155,6 @@ void entrybox(char *title, int width, char *dflt_text, char *comment, int maxch,
 
     gtk_widget_show(GLOBALS->window_entry_c_1);
     wave_gtk_grab_add(GLOBALS->window_entry_c_1);
+#endif
 }
 

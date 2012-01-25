@@ -189,10 +189,11 @@ return(rc);
 
 
 /*************************/
-/* simplereq.c           */
+/* simplereq.c / entry.c */
 /*************************/
 
-int gtk_simplereqbox_req_bridge(char *title, char *default_text, char *oktext, char *canceltext, int is_alert)
+static int gtk_simplereqbox_req_bridge_2(char *title, char *default_text, char *oktext, char *canceltext, 
+	int is_alert, int is_entry, char *default_in_text_entry, char **out_text_entry, int width)
 {
 NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 int rc = 0;
@@ -226,15 +227,56 @@ if(is_alert)
 	[alert setAlertStyle:NSInformationalAlertStyle];
 	}
 
+NSTextField *input = nil;
+if(is_entry && default_in_text_entry && out_text_entry)
+	{
+	input = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, width, 24)];
+	[input setStringValue:[NSString stringWithUTF8String:default_in_text_entry]];
+	[input selectText:input];
+	[alert setAccessoryView:input];
+	}
+
 NSInteger zIntResult = [alert runModal];
 if(zIntResult == NSAlertFirstButtonReturn)
 	{
 	rc = 1;
+	if(is_entry && default_in_text_entry && out_text_entry)
+		{
+		[input validateEditing];
+		*out_text_entry = strdup([[input stringValue] UTF8String]);
+		}
 	}
 else
 if(zIntResult == NSAlertSecondButtonReturn)
 	{
 	rc = 2;
+	}
+
+return(rc);
+}
+
+
+int gtk_simplereqbox_req_bridge(char *title, char *default_text, char *oktext, char *canceltext, int is_alert)
+{
+return(gtk_simplereqbox_req_bridge_2(title, default_text, oktext, canceltext, is_alert, 0, NULL, 0, 0));
+}
+
+
+int entrybox_req_bridge(char *title, int width, char *dflt_text, char *comment, int maxch, char **out_text_entry)
+{
+int rc = gtk_simplereqbox_req_bridge_2(title, comment, "OK", "Cancel", 
+	0, 1, dflt_text, out_text_entry, width);
+
+if((rc == 1)&&(*out_text_entry))
+	{
+	int len = strlen(*out_text_entry);
+	if(len > maxch)
+		{
+		char *s2 = calloc(1, maxch+1);
+		memcpy(s2, *out_text_entry, maxch);
+		free(*out_text_entry);
+		*out_text_entry = s2;
+		}
 	}
 
 return(rc);
