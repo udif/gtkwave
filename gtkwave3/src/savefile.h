@@ -41,4 +41,6 @@ gboolean process_finder_name_integration(void);
 void read_save_helper_relative_init(char *wname);
 int suffix_check(const char *s, const char *sfx);
 
+char *extract_dumpname_from_save_file(char *lcname, gboolean *modified, int *opt_vcd);
+
 #endif

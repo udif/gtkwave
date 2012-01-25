@@ -59,6 +59,7 @@ void menu_reload_waveform_marshal(GtkWidget *widget, gpointer data);
 /* function for spawning vcd conversions */
 void optimize_vcd_file(void);
 
+
 enum FileType {
   MISSING_FILE,
   LXT_FILE,

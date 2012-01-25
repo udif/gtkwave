@@ -22,6 +22,68 @@ char *strptime(const char *s, const char *format, struct tm *tm);
 #endif
 #endif
 
+char *extract_dumpname_from_save_file(char *lcname, gboolean *modified, int *opt_vcd)
+{
+char *dfn = NULL;
+char *sfn = NULL;
+char *rp = NULL;
+FILE *f;
+off_t dumpsiz = -1;
+time_t dumptim = -1;
+
+if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
+	{
+	read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim, opt_vcd);
+
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+	if(sfn && dfn)
+		{
+		char *can = realpath(lcname, NULL);
+		char *fdf = find_dumpfile(sfn, dfn, can);
+
+		free(can);
+		f = fopen(fdf, "rb");
+		if(f)
+			{
+			rp = fdf;
+			fclose(f);
+			goto bot;
+			}
+		}
+#endif
+
+	if(dfn)
+		{
+		f = fopen(dfn, "rb");
+		if(f)
+			{
+			fclose(f);
+			rp = strdup_2(dfn);
+			goto bot;
+			}
+		}
+	}
+
+bot:
+if(dfn) free_2(dfn);
+if(sfn) free_2(sfn);
+
+if(modified) *modified = 0;
+#if !defined __MINGW32__ && !defined _MSC_VER
+if(modified && rp && (dumpsiz != -1) && (dumptim != -1))
+	{
+	struct stat sbuf;
+        if(!stat(rp, &sbuf))
+		{
+		*modified = (dumpsiz != sbuf.st_size) || (dumptim != sbuf.st_mtime);
+                }
+	}
+#endif
+
+return(rp);
+}
+
+
 char *append_array_row(nptr n)
 {
 int was_packed = HIER_DEPACK_ALLOC;

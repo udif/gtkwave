@@ -2315,6 +2315,8 @@ return(ftype);
  */
 int process_url_file(char *s)
 {
+static int processing_missing_file = 0; /* in case of malformed save files causing recursion */
+
 int rc = 0;
 char *dotpnt = NULL;
 int ftype = determine_ftype(s, &dotpnt);
@@ -2322,6 +2324,26 @@ int ftype = determine_ftype(s, &dotpnt);
 switch(ftype)
 	{
 	case WAVE_FTYPE_SAVEFILE:
+		if((GLOBALS->loaded_file_type == MISSING_FILE)&&(!processing_missing_file))
+			{
+			gboolean modified;
+			int opt_vcd;
+			char *dfn = extract_dumpname_from_save_file(s, &modified, &opt_vcd);
+			if(dfn)
+				{
+				char *dfn_local = strdup(dfn);
+				free_2(dfn);
+				
+				processing_missing_file = 1;
+				if(process_url_file(dfn_local))
+					{
+					GLOBALS->dumpfile_is_modified = modified;
+					}
+				free(dfn_local);
+				processing_missing_file = 0;
+				}
+			}
+
 		GLOBALS->fileselbox_text = &GLOBALS->filesel_writesave;
 	        GLOBALS->filesel_ok=1;
         	if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
