@@ -11,6 +11,7 @@
 
 #ifdef WAVE_COCOA_GTK
 
+#include "alert_sheet.m"
 #include <sys/stat.h>
 
 /*************************/
@@ -236,11 +237,11 @@ if(is_entry && default_in_text_entry && out_text_entry)
 	[input setImportsGraphics:NO];
 	[[alert window] makeFirstResponder:input];
 	[input setStringValue:[NSString stringWithUTF8String:default_in_text_entry]];
-	/* [input selectText:input]; */
+	[input selectText:input];
 	[alert setAccessoryView:input];
 	}
 
-NSInteger zIntResult = [alert runModal];
+NSInteger zIntResult = [alert runModalSheet];
 if(zIntResult == NSAlertFirstButtonReturn)
 	{
 	rc = 1;

@@ -17,7 +17,7 @@
 
 #ifdef MAC_INTEGRATION
 /* disabled for now as we can't get it to auto enable when it comes up */
-/* #define WAVE_MAC_USE_ENTRY */
+#define WAVE_MAC_USE_ENTRY
 #endif
 
 #ifndef WAVE_MAC_USE_ENTRY
