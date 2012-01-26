@@ -231,8 +231,12 @@ NSTextField *input = nil;
 if(is_entry && default_in_text_entry && out_text_entry)
 	{
 	input = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, width, 24)];
+	[input setSelectable:YES];
+	[input setEditable:YES];
+	[input setImportsGraphics:NO];
+	[[alert window] makeFirstResponder:input];
 	[input setStringValue:[NSString stringWithUTF8String:default_in_text_entry]];
-	[input selectText:input];
+	/* [input selectText:input]; */
 	[alert setAccessoryView:input];
 	}
 
