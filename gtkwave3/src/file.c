@@ -16,7 +16,7 @@
 #include "wavealloca.h"
 #include <string.h>
 #include <stdlib.h>
-#include <fnmatch.h>
+/* #include <fnmatch.h> */
 #ifdef MAC_INTEGRATION
 #include <cocoa_misc.h>
 #endif

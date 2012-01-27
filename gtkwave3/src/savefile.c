@@ -144,11 +144,11 @@ void write_save_helper(const char *savnam, FILE *wave) {
 			char *unopt = GLOBALS->unoptimized_vcd_file_name ? GLOBALS->unoptimized_vcd_file_name: GLOBALS->loaded_file_name;
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 		        char *can = realpath(GLOBALS->optimize_vcd ? unopt : GLOBALS->loaded_file_name, NULL);
-			char *cansav = realpath(savnam, NULL);
+			const char *cansav = realpath(savnam, NULL);
 			const int do_free = 1;
 #else
 			char *can = GLOBALS->optimize_vcd ? unopt : GLOBALS->loaded_file_name;
-			char *cansav = savnam;
+			const char *cansav = savnam;
 			const int do_free = 0;
 #endif
 			fprintf(wave, "[dumpfile] \"%s\"\n", can);
@@ -683,8 +683,8 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 
 							free_2(strp_buf);
 							}
-						}
 #endif
+						}
 					}
 				else
 				if(!strncmp(iline,  "[dumpfile_size]", 15))
