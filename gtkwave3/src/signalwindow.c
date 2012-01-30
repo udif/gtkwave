@@ -741,10 +741,11 @@ if(GLOBALS->dnd_helper_quartz)
 #endif   
 #endif
 
-#if defined(MAC_INTEGRATION) || defined(WAVE_HAVE_GCONF)
 if(process_finder_names_queued())
 	{
+#if GTK_CHECK_VERSION(2,4,0)
 	if(GLOBALS->pFileChoose)
+#endif
 		{
 		if(!GLOBALS->window_simplereq_c_9)
 			{
@@ -776,7 +777,6 @@ if(process_finder_names_queued())
 			}
 		}
 	}
-#endif
 
 if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
