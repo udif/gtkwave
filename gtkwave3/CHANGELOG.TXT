@@ -1165,6 +1165,7 @@
 		Added support for native alert dialogs in OSX Quartz.
 		Clang warning fixes.
 		Added missing config.guess and config.sub.
-		Allow drag of .gtkw (when is missing file) to load the
-		corresponding dump file.
+		Allow drag of .gtkw (when viewer still does not have a file
+		loaded) to load the corresponding dump file.
 		Fix MinGW compiles broken from recent changes.
+		Documentation updates.
