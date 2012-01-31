@@ -2365,8 +2365,6 @@ if(lc && !is_working)
 	while(lc)
 		{
 		char *lcname = lc->name;
-
-printf("lcname: '%s'\n", lcname);
 		int try_to_load_file = 1;
 		int reload_save_file = 0;
 		char *dfn = NULL;
