@@ -60,4 +60,4 @@ BUILT_SOURCES= vcd_keywords.c
 
 # I'm listing treesearch_gtk2.c here instead of in SOURCES because we don't directly
 # compile it.  Rather it is #include'd by treesearch.c.
-EXTRA_DIST= treesearch_gtk1.c treesearch_gtk2.c vcd_keywords.gperf
+EXTRA_DIST= treesearch_gtk1.c treesearch_gtk2.c vcd_keywords.gperf gnu_regex.c

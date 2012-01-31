@@ -1102,16 +1102,20 @@ if((GLOBALS->loaded_file_name) && (!wname) &&
 	(suffix_check(GLOBALS->loaded_file_name, ".gtkw") || suffix_check(GLOBALS->loaded_file_name, ".sav")))
 	{
 	char *extracted_name = extract_dumpname_from_save_file(GLOBALS->loaded_file_name, &GLOBALS->dumpfile_is_modified, &opt_vcd);
+printf("FILE: '%s' LINE: %d\n", __FILE__, __LINE__);
 	if(extracted_name)
 		{
+printf("FILE: '%s' LINE: %d\n", __FILE__, __LINE__);
 		if(mainwindow_already_built)
 			{
+printf("FILE: '%s' LINE: %d\n", __FILE__, __LINE__);
 			deal_with_rpc_open_2(GLOBALS->loaded_file_name, NULL, TRUE);
 			GLOBALS->loaded_file_name = extracted_name;
 			/* wname is still NULL */
 			}
 			else
 			{
+printf("FILE: '%s' LINE: %d\n", __FILE__, __LINE__);
 			wname = GLOBALS->loaded_file_name;
 			GLOBALS->loaded_file_name = extracted_name;
 			}
@@ -1120,6 +1124,7 @@ if((GLOBALS->loaded_file_name) && (!wname) &&
 else /* same as above but with --save specified */
 if((!GLOBALS->loaded_file_name) && wname)
 	{
+printf("FILE: '%s' LINE: %d\n", __FILE__, __LINE__);
 	GLOBALS->loaded_file_name = extract_dumpname_from_save_file(wname, &GLOBALS->dumpfile_is_modified, &opt_vcd);
 	/* still can be NULL if file not found... */
 	}
