@@ -22,7 +22,7 @@
 
 /*
  * to compile: gcc -o transaction transaction.c -DHAVE_INTTYPES_H
- * then in this directory run: gtkwave transaction.fst transaction.gtkw
+ * then in this directory run: gtkwave transaction.gtkw
  */
 
 #include <stdio.h>
