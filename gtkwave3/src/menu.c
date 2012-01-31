@@ -2825,9 +2825,16 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 		    {
 		      if(i==1)
 			{
-			  bitblast_delta = n[1]->expansion->actual - n[0]->expansion->actual;
-			  if(bitblast_delta<-1) bitblast_delta=0;
-			  else if(bitblast_delta>1) bitblast_delta=0;
+		          if(n[0] && n[0]->expansion) /* scan-build */
+				{
+				bitblast_delta = n[1]->expansion->actual - n[0]->expansion->actual;
+				if(bitblast_delta<-1) bitblast_delta=0;
+				else if(bitblast_delta>1) bitblast_delta=0;
+				}
+				else
+				{
+				bitblast_delta = 0;
+				}
 			}
 		      else if((bitblast_delta)&&(i>1))
 			{
@@ -2858,9 +2865,16 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 		    {
 		      if(i==1)
 			{
-			  bitblast_delta = n[1]->expansion->actual - n[0]->expansion->actual;
-			  if(bitblast_delta<-1) bitblast_delta=0;
-			  else if(bitblast_delta>1) bitblast_delta=0;
+		          if(n[0] && n[0]->expansion) /* scan-build */
+				{
+			  	bitblast_delta = n[1]->expansion->actual - n[0]->expansion->actual;
+			  	if(bitblast_delta<-1) bitblast_delta=0;
+			  	else if(bitblast_delta>1) bitblast_delta=0;
+				}
+				else
+				{
+				bitblast_delta=0;
+				}
 			}
 		      else if((bitblast_delta)&&(i>1))
 			{
