@@ -54,8 +54,8 @@ AC_MSG_RESULT([$DMIM])
 AC_PATH_PROG(UPDATE_MIME_DATABASE, update-mime-database, no)
 AC_PATH_PROG(UPDATE_DESKTOP_DATABASE, update-desktop-database, no)
 if test "X$DMIM" = "Xyes" ; then
-	UPDATE_MIME_DATABASE=/bin/true
-	UPDATE_DESKTOP_DATABASE=/bin/true
+	UPDATE_MIME_DATABASE=:
+	UPDATE_DESKTOP_DATABASE=:
 fi
 
 

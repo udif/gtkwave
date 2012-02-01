@@ -2649,8 +2649,8 @@ fi
 
 
 if test "X$DMIM" = "Xyes" ; then
-	UPDATE_MIME_DATABASE=/bin/true
-	UPDATE_DESKTOP_DATABASE=/bin/true
+	UPDATE_MIME_DATABASE=:
+	UPDATE_DESKTOP_DATABASE=:
 fi
 
 
