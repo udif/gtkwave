@@ -769,6 +769,7 @@ if(process_finder_names_queued())
 				}
 			}
 		}
+#if GTK_CHECK_VERSION(2,4,0)
 		else
 		{
 		if(process_finder_name_integration())
@@ -776,6 +777,7 @@ if(process_finder_names_queued())
 			return(TRUE);
 			}
 		}
+#endif
 	}
 
 if(GLOBALS->loaded_file_type == MISSING_FILE)
