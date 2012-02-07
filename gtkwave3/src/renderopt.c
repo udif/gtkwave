@@ -400,6 +400,10 @@ void renderbox(char *title)
 // sudo apt-get install libcupsys2-dev
 // gcc -o cups `cups-config --cflags` cups.c `cups-config --libs`
 
+// see also:
+// <gtk/gtkunixprint.h>
+// <gtk/gtkprintunixdialog.h>
+
 #include <stdio.h>
 #include <cups/cups.h>
 
