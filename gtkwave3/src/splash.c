@@ -13,9 +13,9 @@
 #include "pixmaps.h"
 
 /* requires further testing */
-/* #ifndef MAC_INTEGRATION */
+#if !defined _MSC_VER && !defined __MINGW32__ && !defined __CYGWIN__
 #define SPLASH_ADDED_LOADER_MESSAGES
-/* #endif */
+#endif
 
 #ifdef WAVE_USE_GTK2
 /* XPM */
