@@ -393,3 +393,42 @@ void renderbox(char *title)
     gtk_widget_show(GLOBALS->window_renderopt_c_6);
 }
 
+
+/*
+ * sample cups example for possible future feature add use...
+
+// sudo apt-get install libcupsys2-dev
+// gcc -o cups `cups-config --cflags` cups.c `cups-config --libs`
+
+#include <stdio.h>
+#include <cups/cups.h>
+
+int main(void)
+{
+  int i;
+  cups_dest_t *dests, *dest;
+  int num_dests = cupsGetDests(&dests); // default is first
+
+  for (i = num_dests, dest = dests; i > 0; i --, dest ++)
+  {
+    if (dest->instance)
+      printf("%s/%s\n", dest->name, dest->instance);
+    else
+      puts(dest->name);
+  }
+
+int id = cupsPrintFile ( // returns 0 on error
+    "PDF", // corresponds to dest->name
+    "./zoop.ps",
+    "<title>",
+    0,
+    NULL
+);
+
+printf("id: %d\n", id);
+
+  return (0);
+}
+
+*/
+
