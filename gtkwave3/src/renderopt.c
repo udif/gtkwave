@@ -199,7 +199,7 @@ if(user_data)
 	const char *ban = "Sent print job";
 	char *buf = wave_alloca(strlen(ban) + strlen(user_data) + 32);
 
-	sprintf(buf, "%s '%s'", ban, user_data);
+	sprintf(buf, "%s '%s'", ban, (char *)user_data);
 	status_text(buf);
 
 	unlink(user_data);
@@ -216,6 +216,11 @@ gint gd_rc;
 
 if(GLOBALS->gprs) { gtk_print_unix_dialog_set_settings(GTK_PRINT_UNIX_DIALOG(ropt), GLOBALS->gprs); }
 if(GLOBALS->gps) { gtk_print_unix_dialog_set_page_setup(GTK_PRINT_UNIX_DIALOG(ropt), GLOBALS->gps); }
+
+gtk_print_unix_dialog_set_manual_capabilities(GTK_PRINT_UNIX_DIALOG(ropt), 
+	GTK_PRINT_CAPABILITY_GENERATE_PS |
+	GTK_PRINT_CAPABILITY_COPIES
+	);
 
 gd_rc = gtk_dialog_run(GTK_DIALOG (ropt));
 if(gd_rc == GTK_RESPONSE_OK)
