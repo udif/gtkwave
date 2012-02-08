@@ -715,12 +715,17 @@ NULL, /* regex_ok_regex_c_1 322 */
 /*
  * renderopt.c
  */
+#ifdef WAVE_GTK_UNIX_PRINT
+NULL, /* gprs */
+NULL, /* gps */
+NULL, /* gp_tfn */
+#endif
 0, /* is_active_renderopt_c_3 323 */
 0, /* window_renderopt_c_6 324 */
 NULL, /* filesel_print_pdf_renderopt_c_1 */
 NULL, /* filesel_print_ps_renderopt_c_1 325 */
 NULL, /* filesel_print_mif_renderopt_c_1 326 */
-{0,0,0}, /* target_mutex_renderopt_c_1 328 */
+{0,0,0,0}, /* target_mutex_renderopt_c_1 328 */
 {0,0,0,0,0}, /* page_mutex_renderopt_c_1 330 */
 {0,0,0}, /* render_mutex_renderopt_c_1 332 */
 0, /* page_size_type_renderopt_c_1 333 */
@@ -1867,6 +1872,13 @@ void reload_into_new_context_2(void)
  strcpy2_into_new_context(new_globals, &new_globals->fcurr_ptranslate_c_1, &GLOBALS->fcurr_ptranslate_c_1);
  strcpy2_into_new_context(new_globals, &new_globals->fcurr_translate_c_2, &GLOBALS->fcurr_translate_c_2);
  
+
+ /* renderopt.c */
+#ifdef WAVE_GTK_UNIX_PRINT
+ new_globals->gprs = GLOBALS->gprs;
+ new_globals->gps = GLOBALS->gps;
+#endif
+
 
  /* status.c */
  new_globals->text_status_c_2 = GLOBALS->text_status_c_2;

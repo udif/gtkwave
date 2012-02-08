@@ -714,12 +714,17 @@ int *regex_ok_regex_c_1; /* from regex.c 340 */
 /* 
  * renderopt.c
  */
+#ifdef WAVE_GTK_UNIX_PRINT
+GtkPrintSettings *gprs;
+GtkPageSetup *gps;
+char *gp_tfn;
+#endif
 char is_active_renderopt_c_3; /* from renderopt.c 341 */
 GtkWidget *window_renderopt_c_6; /* from renderopt.c 342 */
 char *filesel_print_pdf_renderopt_c_1; /* from renderopt.c */
 char *filesel_print_ps_renderopt_c_1; /* from renderopt.c 343 */
 char *filesel_print_mif_renderopt_c_1; /* from renderopt.c 344 */
-char target_mutex_renderopt_c_1[3]; /* from renderopt.c 346 */
+char target_mutex_renderopt_c_1[4]; /* from renderopt.c 346 */
 char page_mutex_renderopt_c_1[5]; /* from renderopt.c 348 */
 char render_mutex_renderopt_c_1[3]; /* from renderopt.c 350 */
 int page_size_type_renderopt_c_1; /* from renderopt.c 351 */

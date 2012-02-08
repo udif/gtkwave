@@ -588,6 +588,13 @@ else
 	  AC_SUBST(GCONF_LIBS)
 	fi
 
+	PKG_CHECK_MODULES(GTK_UNIX_PRINT,gtk+-unix-print-2.0, GUP_F="yes", GUP_F="no")
+	if test "x$GUP_F" = xyes; then
+		GTK_UNIX_PRINT_CFLAGS="${GTK_UNIX_PRINT_CFLAGS} -DWAVE_GTK_UNIX_PRINT"
+	fi
+        AC_SUBST(GTK_UNIX_PRINT_LIBS)
+        AC_SUBST(GTK_UNIX_PRINT_CFLAGS)
+
 fi 
 
 # Checks for header files.
@@ -777,52 +784,56 @@ AC_MSG_NOTICE([
 --------------------------------------------
   Configuration summary:
 
-  FASTTREE_CFLAGS   : $FASTTREE_CFLAGS
+  FASTTREE_CFLAGS       : $FASTTREE_CFLAGS
 
-  gtk1              : $GTK1
-  gtk version       : $GTK_VER
-  GTK_CFLAGS        : $GTK_CFLAGS
-  GTK_LIBS          : $GTK_LIBS
+  gtk1                  : $GTK1
+  gtk version           : $GTK_VER
+  GTK_CFLAGS            : $GTK_CFLAGS
+  GTK_LIBS              : $GTK_LIBS
 
-  LIBZ_CFLAGS       : $LIBZ_CFLAGS
-  LIBZ_LDADD        : $LIBZ_LDADD
+  LIBZ_CFLAGS           : $LIBZ_CFLAGS
+  LIBZ_LDADD            : $LIBZ_LDADD
 
-  LIBBZ2_CFLAGS     : $LIBBZ2_CFLAGS
-  LIBBZ2_LDADD      : $LIBBZ2_LDADD
+  LIBBZ2_CFLAGS         : $LIBBZ2_CFLAGS
+  LIBBZ2_LDADD          : $LIBBZ2_LDADD
 
-  LIBXZ_CFLAGS      : $LIBXZ_CFLAGS
-  LIBXZ_LDADD       : $LIBXZ_LDADD
+  LIBXZ_CFLAGS          : $LIBXZ_CFLAGS
+  LIBXZ_LDADD           : $LIBXZ_LDADD
 
-  LIBJUDY_CFLAGS    : $LIBJUDY_CFLAGS
-  LIBJUDY_LDADD     : $LIBJUDY_LDADD
+  LIBJUDY_CFLAGS        : $LIBJUDY_CFLAGS
+  LIBJUDY_LDADD         : $LIBJUDY_LDADD
 
-  AET2_CFLAGS       : $AET2_CFLAGS
-  AET2_LDADD        : $AET2_LDADD
+  AET2_CFLAGS           : $AET2_CFLAGS
+  AET2_LDADD            : $AET2_LDADD
 
-  EXTLOAD_CFLAGS    : $EXTLOAD_CFLAGS
+  EXTLOAD_CFLAGS        : $EXTLOAD_CFLAGS
 
-  TCL_INCLUDE_SPEC  : $TCL_INCLUDE_SPEC
-  TCL_LIB_SPEC      : $TCL_LIB_SPEC
-  TCL_LDADD         : $TCL_LDADD
-  TCL_DEFADD        : $TCL_DEFADD  
+  TCL_INCLUDE_SPEC      : $TCL_INCLUDE_SPEC
+  TCL_LIB_SPEC          : $TCL_LIB_SPEC
+  TCL_LDADD             : $TCL_LDADD
+  TCL_DEFADD            : $TCL_DEFADD  
 
-  TK_INCLUDE_SPEC   : $TK_INCLUDE_SPEC
-  TK_LIB_SPEC       : $TK_LIB_SPEC
-  TK_LDADD          : $TK_LDADD
+  TK_INCLUDE_SPEC       : $TK_INCLUDE_SPEC
+  TK_LIB_SPEC           : $TK_LIB_SPEC
+  TK_LDADD              : $TK_LDADD
 
-  CPPFLAGS          : $CPPFLAGS
-  CFLAGS            : $CFLAGS
-  LDFLAGS           : $LDFLAGS
-  LIBS              : $LIBS
-  INLINE_ASM        : $INLINE_ASM
-  GTK_MAC_CFLAGS    : $GTK_MAC_CFLAGS
-  GTK_MAC_LIBS      : $GTK_MAC_LIBS
-  GCONF_CFLAGS      : $GCONF_CFLAGS
-  GCONF_LIBS        : $GCONF_LIBS
-  COCOA_GTK_CFLAGS  : $COCOA_GTK_CFLAGS
-  COCOA_GTK_LDADD   : $COCOA_GTK_LDADD
-  COCOA_GTK_LDFLAGS : $COCOA_GTK_LDFLAGS
+  CPPFLAGS              : $CPPFLAGS
+  CFLAGS                : $CFLAGS
+  LDFLAGS               : $LDFLAGS
+  LIBS                  : $LIBS
+  INLINE_ASM            : $INLINE_ASM
 
+  GTK_MAC_CFLAGS        : $GTK_MAC_CFLAGS
+  GTK_MAC_LIBS          : $GTK_MAC_LIBS
+  COCOA_GTK_CFLAGS      : $COCOA_GTK_CFLAGS
+  COCOA_GTK_LDADD       : $COCOA_GTK_LDADD
+  COCOA_GTK_LDFLAGS     : $COCOA_GTK_LDFLAGS
+
+  GCONF_CFLAGS          : $GCONF_CFLAGS
+  GCONF_LIBS            : $GCONF_LIBS
+
+  GTK_UNIX_PRINT_CFLAGS : $GTK_UNIX_PRINT_CFLAGS
+  GTK_UNIX_PRINT_LIBS   : $GTK_UNIX_PRINT_LIBS
 --------------------------------------------
 ])
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2012
  *
  * This program is free software; you can redistribute it and/or
@@ -14,8 +14,13 @@
 #include "menu.h"
 #include <errno.h>
 
+#ifdef WAVE_GTK_UNIX_PRINT
+#include <gtk/gtkunixprint.h>
+#include <gtk/gtkprintunixdialog.h>
+#endif
+
 static char *render_targets[]=
-        {"PDF", "PS", "MIF"};
+        {"PDF", "PS", "MIF", "UNIX"};
 
 static char *page_size[]=
         {"Letter (8.5\" x 11\")", "A4 (11.68\" x 8.26\")", "Legal (14\" x 8.5\")", "Letter Prop (6.57\" x 8.5\")", "A4 Prop (8.26\" x 5.84\")"};
@@ -34,7 +39,7 @@ static void render_clicked(GtkWidget *widget, gpointer which)
 {
 int i;
 
-for(i=0;i<3;i++) GLOBALS->target_mutex_renderopt_c_1[i]=0;
+for(i=0;i<4;i++) GLOBALS->target_mutex_renderopt_c_1[i]=0;
 
 i = (int)((long)which);
 GLOBALS->target_mutex_renderopt_c_1[i] = 1; /* mark our choice */
@@ -186,6 +191,95 @@ if(GLOBALS->filesel_ok)
 }
 
 
+#ifdef WAVE_GTK_UNIX_PRINT
+static void wave_GtkPrintJobCompleteFunc(GtkPrintJob *print_job, gpointer user_data, GError *error)
+{
+if(user_data)
+	{
+	const char *ban = "Sent print job";
+	char *buf = wave_alloca(strlen(ban) + strlen(user_data) + 32);
+
+	sprintf(buf, "%s '%s'", ban, user_data);
+	status_text(buf);
+
+	unlink(user_data);
+	}
+}
+#endif
+
+static void
+unix_print_cleanup(GtkWidget *widget, gpointer data)
+{
+#ifdef WAVE_GTK_UNIX_PRINT
+GtkWidget *ropt = gtk_print_unix_dialog_new("GTK Print UNIX Options", GTK_WINDOW(GLOBALS->mainwindow));
+
+if(GLOBALS->gprs) { gtk_print_unix_dialog_set_settings(GTK_PRINT_UNIX_DIALOG(ropt), GLOBALS->gprs); }
+if(GLOBALS->gps) { gtk_print_unix_dialog_set_page_setup(GTK_PRINT_UNIX_DIALOG(ropt), GLOBALS->gps); }
+
+if((gtk_dialog_run(GTK_DIALOG (ropt)) == GTK_RESPONSE_OK))
+	{
+	GtkPrinter *gp = gtk_print_unix_dialog_get_selected_printer(GTK_PRINT_UNIX_DIALOG(ropt));
+	GtkPrintSettings *gprs = gtk_print_unix_dialog_get_settings(GTK_PRINT_UNIX_DIALOG(ropt));
+	GtkPageSetup *gps = gtk_print_unix_dialog_get_page_setup(GTK_PRINT_UNIX_DIALOG(ropt));
+	GtkPrintJob *gpj = gtk_print_job_new(GLOBALS->loaded_file_name, gp, gprs, gps);
+	gboolean job_stat;
+	GError *job_error = NULL;
+	FILE *wave;
+	char *save_tmpfilename;
+	int fd_dummy = -1;
+
+	if(gtk_printer_accepts_ps(gp))
+		{
+		save_tmpfilename = tmpnam_2(NULL, &fd_dummy);
+
+	       	if(!(wave=fopen(save_tmpfilename, "r+b")))
+	               	{
+	               	fprintf(stderr, "Error opening PS output file '%s' for writing.\n", save_tmpfilename);
+	               	perror("Why");   
+	               	errno=0;                
+	               	}
+	               	else      
+	               	{
+			if(GLOBALS->gp_tfn) free_2(GLOBALS->gp_tfn);
+			GLOBALS->gp_tfn = strdup_2(save_tmpfilename);
+	
+                	print_ps_image(wave,px[GLOBALS->page_size_type_renderopt_c_1],py[GLOBALS->page_size_type_renderopt_c_1]);
+			fflush(wave);
+			fclose(wave);
+			job_stat = gtk_print_job_set_source_file(gpj,
+                                                        GLOBALS->gp_tfn,
+                                                        &job_error);
+			if(job_stat)
+				{
+				gtk_print_job_send(gpj, wave_GtkPrintJobCompleteFunc, 
+						GLOBALS->gp_tfn,
+						NULL);
+				GLOBALS->gprs = gtk_print_settings_copy(gprs);
+				GLOBALS->gps = gtk_page_setup_copy(gps);
+				}
+				else
+				{
+				unlink(GLOBALS->gp_tfn);
+				}
+			}
+
+#if !defined _MSC_VER && !defined __MINGW32__
+		free_2(save_tmpfilename);
+#endif
+		if(fd_dummy >=0) close(fd_dummy);
+               	}
+		else
+		{
+		status_text("gtk_printer_accepts_ps() == FALSE, cannot print.");
+		}            
+	}
+
+gtk_widget_destroy(ropt);
+#endif
+}
+
+
+
 static void ok_callback(void)
 {
 GLOBALS->ps_fullpage=GLOBALS->render_mutex_renderopt_c_1[0];
@@ -199,9 +293,13 @@ if(GLOBALS->target_mutex_renderopt_c_1[1])
 	fileselbox("Print To PS File",&GLOBALS->filesel_print_ps_renderopt_c_1,GTK_SIGNAL_FUNC(ps_print_cleanup), GTK_SIGNAL_FUNC(NULL), "*.ps", 1);
 	}
 else
-/* if(GLOBALS->target_mutex_renderopt_c_1[2]) */
+if(GLOBALS->target_mutex_renderopt_c_1[2])
 	{
 	fileselbox("Print To MIF File",&GLOBALS->filesel_print_mif_renderopt_c_1,GTK_SIGNAL_FUNC(mif_print_cleanup), GTK_SIGNAL_FUNC(NULL), "*.fm", 1);
+	}
+else
+	{
+	unix_print_cleanup(NULL,NULL);
 	}
 }
 
@@ -237,12 +335,16 @@ void renderbox(char *title)
         if(s1 && s2 && s3)
                 {
 		memset(GLOBALS->target_mutex_renderopt_c_1, 0, 2); GLOBALS->target_mutex_renderopt_c_1[0] = 1; /* PS */
+#ifdef WAVE_GTK_UNIX_PRINT
+		for(i=0;i<4;i++)
+#else
 		for(i=0;i<3;i++)
+#endif
 			{
 			if(!strcmp(s1, render_targets[i]))
 				{
 				fprintf(stderr, "GTKWAVE | Print using '%s'\n",  render_targets[i]);
-				memset(GLOBALS->target_mutex_renderopt_c_1, 0, 3); GLOBALS->target_mutex_renderopt_c_1[i] = 1; break;
+				memset(GLOBALS->target_mutex_renderopt_c_1, 0, 4); GLOBALS->target_mutex_renderopt_c_1[i] = 1; break;
 				}
 			}
 
@@ -285,9 +387,13 @@ void renderbox(char *title)
 
     if(GLOBALS->is_active_renderopt_c_3) 
 	{
-	gdk_window_raise(GLOBALS->window_renderopt_c_6->window);
+	if(GLOBALS->window_renderopt_c_6)
+		{
+		gdk_window_raise(GLOBALS->window_renderopt_c_6->window);
+		}
 	return;
 	}
+
     GLOBALS->is_active_renderopt_c_3=1;
 
     /* create a new window */
@@ -309,14 +415,22 @@ void renderbox(char *title)
     menu = gtk_menu_new ();
     group=NULL;
 
-    for(i=0;i<3;i++)
+    for(i=0;i<4;i++)
 	{
+	GLOBALS->target_mutex_renderopt_c_1[i]=0;
+
+#ifndef WAVE_GTK_UNIX_PRINT
+	if(i==3)
+		{
+		break;		
+		}
+#endif
+
     	menuitem = gtk_radio_menu_item_new_with_label (group, render_targets[i]);
     	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
     	gtk_menu_append (GTK_MENU (menu), menuitem);
     	gtk_widget_show (menuitem);
         gtkwave_signal_connect(GTK_OBJECT (menuitem), "activate", GTK_SIGNAL_FUNC(render_clicked), (void *)((long)i));
-	GLOBALS->target_mutex_renderopt_c_1[i]=0;
 	}
 
 	GLOBALS->target_mutex_renderopt_c_1[0]=1;	/* "ps" */
@@ -392,47 +506,3 @@ void renderbox(char *title)
 
     gtk_widget_show(GLOBALS->window_renderopt_c_6);
 }
-
-
-/*
- * sample cups example for possible future feature add use...
-
-// sudo apt-get install libcupsys2-dev
-// gcc -o cups `cups-config --cflags` cups.c `cups-config --libs`
-
-// see also:
-// <gtk/gtkunixprint.h>
-// <gtk/gtkprintunixdialog.h>
-
-#include <stdio.h>
-#include <cups/cups.h>
-
-int main(void)
-{
-  int i;
-  cups_dest_t *dests, *dest;
-  int num_dests = cupsGetDests(&dests); // default is first
-
-  for (i = num_dests, dest = dests; i > 0; i --, dest ++)
-  {
-    if (dest->instance)
-      printf("%s/%s\n", dest->name, dest->instance);
-    else
-      puts(dest->name);
-  }
-
-int id = cupsPrintFile ( // returns 0 on error
-    "PDF", // corresponds to dest->name
-    "./zoop.ps",
-    "<title>",
-    0,
-    NULL
-);
-
-printf("id: %d\n", id);
-
-  return (0);
-}
-
-*/
-
