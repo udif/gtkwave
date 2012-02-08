@@ -13,9 +13,9 @@
 #include "pixmaps.h"
 
 /* requires further testing */
-#if !defined _MSC_VER && !defined __MINGW32__ && !defined __CYGWIN__
+/* #if !defined _MSC_VER && !defined __MINGW32__ && !defined __CYGWIN__ */
 #define SPLASH_ADDED_LOADER_MESSAGES
-#endif
+/* #endif */
 
 #ifdef WAVE_USE_GTK2
 /* XPM */
@@ -813,7 +813,7 @@ if(GLOBALS->splash_splash_c_1)
 	else
 	{
 #ifdef SPLASH_ADDED_LOADER_MESSAGES
-	if(GLOBALS->mainwindow)
+	if((GLOBALS->mainwindow)&&(!GLOBALS->tcl_running))
 		{
 		if(!GLOBALS->splash_is_loading)
 			{
