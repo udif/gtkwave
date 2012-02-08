@@ -194,6 +194,9 @@ ps_header (pr_context * prc)
   fprintf (prc->handle,
 	   "%%!PS-Adobe-2.0 EPSF-1.2\n"
 	   "%%%%BoundingBox: %d %d %d %d\n"
+	   "%%%%Pages: 1\n"
+	   "%%%%EndComments\n"
+	   "%%%%Page: (1) 1\n"
 	   "/box { %% stack: _x1 _y1 x2 y2\n"
 	   "\tnewpath\n"
 	   "\t2 copy moveto %% x2 y2\n"

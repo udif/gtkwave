@@ -212,11 +212,13 @@ unix_print_cleanup(GtkWidget *widget, gpointer data)
 {
 #ifdef WAVE_GTK_UNIX_PRINT
 GtkWidget *ropt = gtk_print_unix_dialog_new("GTK Print UNIX Options", GTK_WINDOW(GLOBALS->mainwindow));
+gint gd_rc;
 
 if(GLOBALS->gprs) { gtk_print_unix_dialog_set_settings(GTK_PRINT_UNIX_DIALOG(ropt), GLOBALS->gprs); }
 if(GLOBALS->gps) { gtk_print_unix_dialog_set_page_setup(GTK_PRINT_UNIX_DIALOG(ropt), GLOBALS->gps); }
 
-if((gtk_dialog_run(GTK_DIALOG (ropt)) == GTK_RESPONSE_OK))
+gd_rc = gtk_dialog_run(GTK_DIALOG (ropt));
+if(gd_rc == GTK_RESPONSE_OK)
 	{
 	GtkPrinter *gp = gtk_print_unix_dialog_get_selected_printer(GTK_PRINT_UNIX_DIALOG(ropt));
 	GtkPrintSettings *gprs = gtk_print_unix_dialog_get_settings(GTK_PRINT_UNIX_DIALOG(ropt));
@@ -272,6 +274,11 @@ if((gtk_dialog_run(GTK_DIALOG (ropt)) == GTK_RESPONSE_OK))
 		{
 		status_text("gtk_printer_accepts_ps() == FALSE, cannot print.");
 		}            
+	}
+else
+if(gd_rc == GTK_RESPONSE_APPLY)
+	{
+	status_text("Preview not available.");
 	}
 
 gtk_widget_destroy(ropt);
