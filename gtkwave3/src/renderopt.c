@@ -222,6 +222,10 @@ gtk_print_unix_dialog_set_manual_capabilities(GTK_PRINT_UNIX_DIALOG(ropt),
 	GTK_PRINT_CAPABILITY_COPIES
 	);
 
+#ifdef MAC_INTEGRATION
+osx_menu_sensitivity(FALSE);
+#endif
+
 gd_rc = gtk_dialog_run(GTK_DIALOG (ropt));
 if(gd_rc == GTK_RESPONSE_OK)
 	{
@@ -287,6 +291,11 @@ if(gd_rc == GTK_RESPONSE_APPLY)
 	}
 
 gtk_widget_destroy(ropt);
+
+#ifdef MAC_INTEGRATION
+osx_menu_sensitivity(TRUE);
+#endif
+
 #endif
 }
 
