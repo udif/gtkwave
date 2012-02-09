@@ -1171,6 +1171,7 @@
 		Documentation updates.
 		Fixed broken ifdef in signalwindow.c that degated savefile
 		loading .gtkw dump+save properly if not gconf2 or Mac.
-3.3.32 08feb12	Turn off loader messages when Tcl is executing a command.
+3.3.32 09feb12	Turn off loader messages when Tcl is executing a command.
 		Added gtk_print_unix_dialog support for printing to
 		real printers by using the "UNIX" type.
+		Automatically kill splash screen on reload/new tab.

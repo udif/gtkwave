@@ -688,9 +688,9 @@ return(FALSE);
 }
 
 
-static gint button_press_event(GtkWidget *widget, GdkEventExpose *event)
+gint splash_button_press_event(GtkWidget *widget, GdkEventExpose *event)
 {
-gtk_timeout_remove(GLOBALS->timeout_tag);
+if(GLOBALS->timeout_tag) { gtk_timeout_remove(GLOBALS->timeout_tag); GLOBALS->timeout_tag = NULL; }
 
 if(GLOBALS->wave_splash_pixmap)
       	{
@@ -723,7 +723,7 @@ if(GLOBALS && GLOBALS->gt_splash_c_1)
 
 	if((!GLOBALS->cnt_splash_c_1)&&(skill))
 		{
-		return(button_press_event(NULL,NULL));
+		return(splash_button_press_event(NULL,NULL));
 		}
 		else
 		{
@@ -767,7 +767,7 @@ if((!GLOBALS->splash_disable)&&(!GLOBALS->splash_splash_c_1))
         gtk_widget_show(splash_table);
         gtk_container_add(GTK_CONTAINER(GLOBALS->splash_splash_c_1), splash_table);
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->darea_splash_c_1), "expose_event",GTK_SIGNAL_FUNC(expose_event), NULL);
-	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->darea_splash_c_1), "button_press_event",GTK_SIGNAL_FUNC(button_press_event), NULL);
+	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->darea_splash_c_1), "button_press_event",GTK_SIGNAL_FUNC(splash_button_press_event), NULL);
                  
 	gtk_events_pending_gtk_main_iteration();
                          
@@ -863,6 +863,12 @@ if(GLOBALS->splash_is_loading)
 }
 
 #else
+
+gint splash_button_press_event(GtkWidget *widget, GdkEventExpose *event)
+{
+/* do nothing */
+return(FALSE);
+}
 
 void splash_create(void)
 {

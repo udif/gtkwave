@@ -3274,6 +3274,7 @@ menu_new_viewer_tab_cleanup_2(char *fname, int optimize_vcd)
 
 	GLOBALS->vcd_jmp_buf = calloc(1, sizeof(jmp_buf));
 
+	splash_button_press_event(NULL, NULL); /* kill any possible splash screens (e.g., if automated) */
 	set_window_busy(NULL);
 	gtkwave_main_iteration();
 

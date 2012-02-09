@@ -123,6 +123,7 @@ char *makename_chain(struct symbol *sym);
 void splash_create(void);
 void splash_sync(off_t current, off_t total);  
 void splash_finalize(void);
+gint splash_button_press_event(GtkWidget *widget, GdkEventExpose *event);
 
 /* accessor functions for sym->selected moved (potentially) to sparse array */
 char get_s_selected(struct symbol *s);

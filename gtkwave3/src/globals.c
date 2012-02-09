@@ -1513,6 +1513,9 @@ void reload_into_new_context_2(void)
 
  logbox_reload();
 
+ /* kill any pending splash screens (e.g., from Tcl "wish") */
+ splash_button_press_event(NULL, NULL);
+
  /* fix problem where ungrab doesn't occur if button pressed + simultaneous reload accelerator key occurs */
  if(GLOBALS->in_button_press_wavewindow_c_1) { gdk_pointer_ungrab(GDK_CURRENT_TIME); }
 
