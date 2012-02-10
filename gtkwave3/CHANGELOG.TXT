@@ -1161,7 +1161,7 @@
 		(i.e., do not place bitblasted in save file if avoidable).
 		Fixed min/max of cached autoscaling sizing when number of
 		extension traces changes.
-3.3.31 30feb12	Added support for native file requesters in OSX Quartz.
+3.3.31 30jan12	Added support for native file requesters in OSX Quartz.
 		Added support for native alert dialogs in OSX Quartz.
 		Clang warning fixes.
 		Added missing config.guess and config.sub.
