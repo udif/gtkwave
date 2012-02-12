@@ -1022,6 +1022,7 @@ int is_active_ttranslate_c_2;
 char *fcurr_ttranslate_c_1;
 GtkWidget *window_ttranslate_c_5;
 GtkWidget *clist_ttranslate_c_2;
+char *ttranslate_args;
 
 
 /*

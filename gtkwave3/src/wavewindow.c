@@ -4433,7 +4433,7 @@ if((GLOBALS->display_grid)&&(GLOBALS->enable_horiz_grid))
 	}
 
 h = v;
-/*
+/* obsolete:
 if(t->flags & TR_TTRANSLATED)
 	{
 	traverse_vector_nodes(t);

@@ -288,9 +288,24 @@ void write_save_helper(const char *savnam, FILE *wave) {
 			/* NOT an else! */
 			if(t->flags & TR_TTRANSLATED)
 				{
+				if(t->transaction_args)
+					{
+					fprintf(wave, "[transaction_args] \"%s\"\n", t->transaction_args);
+					}
+					else
+					{
+					fprintf(wave, "[transaction_args] \"%s\"\n", "");
+					}
+
 				if(t->t_filter && GLOBALS->ttranssel_filter[t->t_filter])
 					{
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+			                char *can = realpath(GLOBALS->ttranssel_filter[t->t_filter], NULL);
+					fprintf(wave, "^<%d %s\n", t->t_filter, can);
+					free(can);
+#else
 					fprintf(wave, "^<%d %s\n", t->t_filter, GLOBALS->ttranssel_filter[t->t_filter]);
+#endif
 					}
 					else
 					{
@@ -440,9 +455,24 @@ void write_save_helper(const char *savnam, FILE *wave) {
 					/* NOT an else! */
 					if(t->flags & TR_TTRANSLATED)
 						{
+						if(t->transaction_args)
+							{
+							fprintf(wave, "[transaction_args] \"%s\"\n", t->transaction_args);
+							}
+							else
+							{
+							fprintf(wave, "[transaction_args] \"%s\"\n", "");
+							}
+
 						if(t->t_filter && GLOBALS->ttranssel_filter[t->t_filter])
 							{
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+					                char *can = realpath(GLOBALS->ttranssel_filter[t->t_filter], NULL);
+							fprintf(wave, "^<%d %s\n", t->t_filter, can);
+							free(can);
+#else
 							fprintf(wave, "^<%d %s\n", t->t_filter, GLOBALS->ttranssel_filter[t->t_filter]);
+#endif
 							}
 							else
 							{
@@ -1614,9 +1644,25 @@ else if (*w2 == '[')
 		GLOBALS->sfn = strdup_2(lhq + 1);
 		}
         }
-    else if (strcmp (w2, "[*]") == 0)
+    else if (strcmp (w2, "transaction_args") == 0)
 	{
-        /* reserved for comment lines */
+	char *lhq = strchr(w, '"');
+	char *rhq = strrchr(w, '"');
+
+	if(GLOBALS->ttranslate_args)
+		{
+		free_2(GLOBALS->ttranslate_args); GLOBALS->ttranslate_args = NULL; 
+		}
+
+	if((lhq) && (rhq) && (lhq != rhq)) /* no real need to check rhq != NULL*/
+		{
+		*rhq = 0;
+		GLOBALS->ttranslate_args = strdup_2(lhq + 1);
+		}
+        }
+    else if (strcmp (w2, "*") == 0)
+	{
+        /* reserved for [*] comment lines */
         }
     else
       {

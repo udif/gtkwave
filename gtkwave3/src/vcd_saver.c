@@ -543,6 +543,10 @@ if(lxt)
 if(export_typ == WAVE_EXPORT_TRANS)
 	{
         w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment max_seqn %d $end\n", nodecnt);
+	if(t && t->transaction_args)
+		{
+		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment args \"%s\" $end\n", t->transaction_args);
+		}
         }
 
 /* write out netnames here ... */

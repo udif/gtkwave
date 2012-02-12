@@ -270,6 +270,15 @@ if(GLOBALS->default_flags & TR_TTRANSLATED)
 			t->flags |= cache_hi;
 			}
 
+		if(GLOBALS->ttranslate_args)
+                	{
+                        t->transaction_args = strdup_2(GLOBALS->ttranslate_args);
+                        }
+                        else
+                        {
+                        t->transaction_args = NULL;
+                        }
+
 		traverse_vector_nodes(t);
 		}
 		else
@@ -703,6 +712,7 @@ if(t->vector)
  if(t->is_depacked) free_2(t->name);
  if(t->asciivalue) free_2(t->asciivalue);
  if(t->name_full)  free_2(t->name_full);
+ if(t->transaction_args) free_2(t->transaction_args);
  free_2( t );
 }
 

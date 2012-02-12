@@ -364,6 +364,7 @@ typedef struct TraceEnt
     char     *name;		/* current name */
     char     *name_full;   	/* full name */
     char     *asciivalue;	/* value that marker points to */
+    char     *transaction_args; /* for TR_TTRANSLATED traces */
     TimeType asciitime;		/* time this value corresponds with */
     TimeType shift;		/* offset added to all entries in the trace */
     TimeType shift_drag;	/* cached initial offset for CTRL+LMB drag on highlighted */

@@ -1037,6 +1037,7 @@ NULL, /* ttrans_filter */
 NULL, /* fcurr_ttranslate_c_1 */
 NULL, /* window_ttranslate_c_5 */
 NULL, /* clist_ttranslate_c_2 */
+NULL, /* ttranslate_args */
 
 
 /*
@@ -1836,6 +1837,9 @@ void reload_into_new_context_2(void)
 #if GTK_CHECK_VERSION(2,4,0)
  strcpy2_into_new_context(new_globals, &new_globals->pFileChooseFilterName, &GLOBALS->pFileChooseFilterName);
 #endif
+
+ /* ttranslate.c */
+ strcpy2_into_new_context(new_globals, &new_globals->ttranslate_args, &GLOBALS->ttranslate_args);
 
  /* vlist.c */
  if(GLOBALS->vlist_handle)

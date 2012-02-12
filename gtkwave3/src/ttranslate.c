@@ -20,6 +20,23 @@
 #define strcasecmp _stricmp
 #endif
 
+static void args_entry_callback(GtkWidget *widget, GtkWidget *entry)
+{
+G_CONST_RETURN gchar *entry_text;
+
+entry_text=gtk_entry_get_text(GTK_ENTRY(entry));
+entry_text = entry_text ? entry_text : "";
+
+if(GLOBALS->ttranslate_args)
+	{
+	free_2(GLOBALS->ttranslate_args);
+	}
+GLOBALS->ttranslate_args = strdup_2(entry_text);
+
+DEBUG(printf("Args Entry contents: %s\n",entry_text));
+}
+
+
 void init_ttrans_data(void)
 {
 int i;
@@ -243,6 +260,15 @@ if(GLOBALS->traces.first)
 					{
 					t->flags &= (~(TR_ANALOGMASK));
 					t->flags |= TR_TTRANSLATED;
+					if(t->transaction_args) free_2(t->transaction_args);
+					if(GLOBALS->ttranslate_args)
+						{
+						t->transaction_args = strdup_2(GLOBALS->ttranslate_args);
+						}
+						else
+						{
+						t->transaction_args = NULL;
+						}
 					traverse_vector_nodes(t);
 					}
                                 found++;
@@ -371,6 +397,8 @@ void ttrans_searchbox(char *title)
     GtkWidget *frame2, *frameh, *frameh0;
     GtkWidget *table;
     GtkTooltips *tooltips;
+    GtkWidget *label;
+    GtkWidget *entry;
 
     if(GLOBALS->is_active_ttranslate_c_2) 
 	{
@@ -402,7 +430,7 @@ void ttrans_searchbox(char *title)
     gtk_container_border_width (GTK_CONTAINER (frame2), 3);
     gtk_widget_show(frame2);
 
-    gtk_table_attach (GTK_TABLE (table), frame2, 0, 1, 0, 254,
+    gtk_table_attach (GTK_TABLE (table), frame2, 0, 1, 0, 253,
                         GTK_FILL | GTK_EXPAND,
                         GTK_FILL | GTK_EXPAND | GTK_SHRINK, 1, 1);
 
@@ -437,7 +465,7 @@ void ttrans_searchbox(char *title)
     frameh0 = gtk_frame_new (NULL);
     gtk_container_border_width (GTK_CONTAINER (frameh0), 3);
     gtk_widget_show(frameh0);
-    gtk_table_attach (GTK_TABLE (table), frameh0, 0, 1, 254, 255,
+    gtk_table_attach (GTK_TABLE (table), frameh0, 0, 1, 253, 254,
                         GTK_FILL | GTK_EXPAND,
                         GTK_FILL | GTK_EXPAND | GTK_SHRINK, 1, 1);
 
@@ -455,6 +483,33 @@ void ttrans_searchbox(char *title)
     gtk_box_pack_start (GTK_BOX (hbox0), button6, TRUE, FALSE, 0);
     gtk_container_add (GTK_CONTAINER (frameh0), hbox0);
 
+    	/* args entry box */
+	{
+    	frameh0 = gtk_frame_new (NULL);
+    	gtk_container_border_width (GTK_CONTAINER (frameh0), 3);
+    	gtk_widget_show(frameh0);
+    	gtk_table_attach (GTK_TABLE (table), frameh0, 0, 1, 254, 255, 
+                        GTK_FILL | GTK_EXPAND,
+                        GTK_FILL | GTK_EXPAND | GTK_SHRINK, 1, 1);
+        
+	label=gtk_label_new("Args:");
+	entry=gtk_entry_new_with_max_length(1025);
+    
+	gtk_entry_set_text(GTK_ENTRY(entry), GLOBALS->ttranslate_args ? GLOBALS->ttranslate_args : "");
+	gtk_signal_connect (GTK_OBJECT (entry), "activate",GTK_SIGNAL_FUNC (args_entry_callback), entry);
+	gtk_signal_connect (GTK_OBJECT (entry), "changed",GTK_SIGNAL_FUNC (args_entry_callback), entry);
+	hbox0=gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox0), label, FALSE, FALSE, 0);
+	gtk_widget_show(label);
+	gtk_box_pack_start(GTK_BOX(hbox0), entry, TRUE, TRUE, 0);
+	gtk_widget_set_usize(GTK_WIDGET(entry), 90, 22);
+	gtk_widget_show(entry);
+	gtk_widget_show(hbox0);
+
+	gtk_container_add (GTK_CONTAINER (frameh0), hbox0);
+	}
+
+    /* bottom OK/Cancel part */
     frameh = gtk_frame_new (NULL);
     gtk_container_border_width (GTK_CONTAINER (frameh), 3);
     gtk_widget_show(frameh);
@@ -779,4 +834,3 @@ ex:     			buf[n] = 0;
 
 return(cvt_ok);
 }
-

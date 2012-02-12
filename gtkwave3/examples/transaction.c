@@ -67,6 +67,7 @@ struct tim_t *t_tmp;
 int hcnt;
 uint64_t control_start = 0, control_end = 0;
 int blks;
+int my_arg = 0;
 
 struct event_t *hdr_head = NULL, *hdr_curr = NULL;
 struct event_t *data_head = NULL, *data_curr = NULL;
@@ -156,6 +157,14 @@ while(1) /* reading input from stdin until data_end comment received */
 			{
 			if(strstr(buf, "$comment"))
 				{
+				if((pnt = strstr(buf, "args")))
+					{
+					char *lhq = strchr(pnt, '\"');
+					if(lhq) my_arg = atoi(lhq+1);
+
+					OPTIONAL_DEBUG { fprintf(stderr, "args: %s\n", buf); }
+					}
+				else
 				if((pnt = strstr(buf, "min_time")))
 					{
 					sscanf(pnt + 9, "%"SCNu64, &min_time);
@@ -206,7 +215,14 @@ while(t_tmp)
 			}
 		if(sync_cnt==16)
 			{
-			printf("#%"PRIu64" ?darkblue?Sync\n", t_start); /* write out sync xact */
+			if(!my_arg)
+				{
+				printf("#%"PRIu64" ?darkblue?Sync\n", t_start); /* write out sync xact */
+				}
+				else
+				{
+				printf("#%"PRIu64" ?blue?Sync\n", t_start); /* write out sync xact */
+				}
 			printf("#%"PRIu64"\n", p_tim - 4); 		/* 'z' midline is no value after time */
 			printf("MA%"PRIu64" Start\n", t_start);		/* set position/name for marker A */
 			control_start = t_start;
@@ -358,7 +374,14 @@ t_head = t_curr = NULL;
 printf("$next\n");		/* indicate there is a next trace */
 printf("$name Control\n");	/* next trace name */
 printf("#0\n");       
-printf("#%"PRIu64" ?darkblue?%02X blks\n", control_start, blks);
+if(!my_arg)
+	{
+	printf("#%"PRIu64" ?darkblue?%02X blks\n", control_start, blks);
+	}
+	else
+	{
+	printf("#%"PRIu64" ?blue?%02X blks\n", control_start, blks);
+	}
 printf("#%"PRIu64"\n", control_end);
 
 
