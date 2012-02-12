@@ -485,6 +485,22 @@ void ttrans_searchbox(char *title)
 
     	/* args entry box */
 	{
+	Trptr t=GLOBALS->traces.first; 
+	while(t) 
+	        {
+		if(t->flags&TR_HIGHLIGHT)
+			{
+			if(t->transaction_args)
+				{
+				if(GLOBALS->ttranslate_args) free_2(GLOBALS->ttranslate_args);
+				GLOBALS->ttranslate_args = strdup_2(t->transaction_args);
+				break;
+				}
+	                }
+
+	        t=t->t_next;
+	        }      
+
     	frameh0 = gtk_frame_new (NULL);
     	gtk_container_border_width (GTK_CONTAINER (frameh0), 3);
     	gtk_widget_show(frameh0);
