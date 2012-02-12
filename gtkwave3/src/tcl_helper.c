@@ -2080,6 +2080,17 @@ char *emit_gtkwave_savefile_formatted_entries_in_tcl_list(Trptr t, gboolean use_
 			/* NOT an else! */
 			if(t->flags & TR_TTRANSLATED)
 				{
+                                if(t->transaction_args)
+                                        {
+                                        one_entry = make_message("[transaction_args] \"%s\"\n", t->transaction_args);
+					WAVE_OE_ME
+                                        }
+                                        else
+                                        {
+                                        one_entry = make_message("[transaction_args] \"%s\"\n", "");
+					WAVE_OE_ME
+                                        }
+
 				if(t->t_filter && GLOBALS->ttranssel_filter[t->t_filter])
 					{
 					one_entry = make_message("^<%d %s\n", t->t_filter, GLOBALS->ttranssel_filter[t->t_filter]);
