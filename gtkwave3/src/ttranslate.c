@@ -518,7 +518,6 @@ void ttrans_searchbox(char *title)
 	gtk_box_pack_start(GTK_BOX(hbox0), label, FALSE, FALSE, 0);
 	gtk_widget_show(label);
 	gtk_box_pack_start(GTK_BOX(hbox0), entry, TRUE, TRUE, 0);
-	gtk_widget_set_usize(GTK_WIDGET(entry), 90, 22);
 	gtk_widget_show(entry);
 	gtk_widget_show(hbox0);
 
