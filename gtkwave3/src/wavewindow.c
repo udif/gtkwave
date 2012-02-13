@@ -1153,6 +1153,172 @@ gtk_signal_emit_by_name (GTK_OBJECT (wadj), "changed"); /* force bar update */
 gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /* force text update */
 }
 
+
+/*
+ * Sane code starts here... :)
+ * TomB 05Feb2012
+ */
+
+#define SANE_INCREMENT 0.25 
+/* don't want to increment a whole page thereby completely losing where I am... */
+
+void
+alt_move_left(GtkWidget *text, gpointer data)
+{
+  TimeType ntinc, ntfrac;
+
+  ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);	/* really don't need this var but the speed of ui code is human dependent.. */
+  ntfrac=ntinc*GLOBALS->page_divisor*SANE_INCREMENT;
+
+  if((GLOBALS->tims.start-ntfrac)>GLOBALS->tims.first)
+    GLOBALS->tims.timecache=GLOBALS->tims.start-ntfrac;
+  else
+    GLOBALS->tims.timecache=GLOBALS->tims.first;
+
+  GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache;
+  time_update();
+
+  DEBUG(printf("Alternate move left\n"));
+}
+
+void
+alt_move_right(GtkWidget *text, gpointer data)
+{
+  TimeType ntinc, ntfrac;
+
+  ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
+  ntfrac=ntinc*GLOBALS->page_divisor*SANE_INCREMENT;
+
+  if((GLOBALS->tims.start+ntfrac)<(GLOBALS->tims.last-ntinc+1))
+  {
+    GLOBALS->tims.timecache=GLOBALS->tims.start+ntfrac;
+  }
+  else
+  {
+    GLOBALS->tims.timecache=GLOBALS->tims.last-ntinc+1;
+    if(GLOBALS->tims.timecache<GLOBALS->tims.first)
+      GLOBALS->tims.timecache=GLOBALS->tims.first;
+  }
+
+  GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache;
+  time_update();
+
+  DEBUG(printf("Alternate move right\n"));
+}
+
+
+void alt_zoom_out(GtkWidget *text, gpointer data)
+{
+  TimeType middle=0, width;
+  TimeType marker = GLOBALS->cached_currenttimeval_currenttime_c_1;
+  /* Zoom on mouse cursor, not marker */
+
+  if(GLOBALS->do_zoom_center)
+  {
+    if((marker<0)||(marker<GLOBALS->tims.first)||(marker>GLOBALS->tims.last))
+    {
+      if(GLOBALS->tims.end>GLOBALS->tims.last)
+        GLOBALS->tims.end=GLOBALS->tims.last;
+
+      middle=(GLOBALS->tims.start/2)+(GLOBALS->tims.end/2);
+      if((GLOBALS->tims.start&1)&&(GLOBALS->tims.end&1))
+        middle++;
+    }
+    else
+    {
+      middle=marker;
+    }
+  }
+
+  GLOBALS->tims.prevzoom=GLOBALS->tims.zoom;
+
+  GLOBALS->tims.zoom--;
+  calczoom(GLOBALS->tims.zoom);
+
+  if(GLOBALS->do_zoom_center)
+  {
+    width=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
+    GLOBALS->tims.start=time_trunc(middle-(width/2));
+    if(GLOBALS->tims.start+width>GLOBALS->tims.last)
+      GLOBALS->tims.start=time_trunc(GLOBALS->tims.last-width);
+
+    if(GLOBALS->tims.start<GLOBALS->tims.first)
+      GLOBALS->tims.start=GLOBALS->tims.first;
+
+    GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache=GLOBALS->tims.start;
+  }
+  else
+  {
+    GLOBALS->tims.timecache=0;
+  }
+
+  fix_wavehadj();
+
+  gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed"); /* force zoom update */
+  gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */
+
+  DEBUG(printf("Alternate Zoom out\n"));
+}
+
+void alt_zoom_in(GtkWidget *text, gpointer data)
+{
+  if(GLOBALS->tims.zoom<0)		/* otherwise it's ridiculous and can cause */
+  {		/* overflow problems in the scope          */
+    TimeType middle=0, width;
+    TimeType marker = GLOBALS->cached_currenttimeval_currenttime_c_1;
+    /* Zoom on mouse cursor, not marker */
+
+    if(GLOBALS->do_zoom_center)
+    {
+      if((marker<0)||(marker<GLOBALS->tims.first)||(marker>GLOBALS->tims.last))
+      {
+        if(GLOBALS->tims.end>GLOBALS->tims.last)
+          GLOBALS->tims.end=GLOBALS->tims.last;
+
+        middle=(GLOBALS->tims.start/2)+(GLOBALS->tims.end/2);
+        if((GLOBALS->tims.start&1)&&(GLOBALS->tims.end&1))
+          middle++;
+      }
+      else
+      {
+        middle=marker;
+      }
+    }
+
+    GLOBALS->tims.prevzoom=GLOBALS->tims.zoom;
+
+    GLOBALS->tims.zoom++;
+    calczoom(GLOBALS->tims.zoom);
+
+    if(GLOBALS->do_zoom_center)
+    {
+      width=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
+      GLOBALS->tims.start=time_trunc(middle-(width/2));
+      if(GLOBALS->tims.start+width>GLOBALS->tims.last)
+        GLOBALS->tims.start=time_trunc(GLOBALS->tims.last-width);
+
+      if(GLOBALS->tims.start<GLOBALS->tims.first)
+        GLOBALS->tims.start=GLOBALS->tims.first;
+
+      GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache=GLOBALS->tims.start;
+    }
+    else
+    {
+    GLOBALS->tims.timecache=0;
+    }
+
+    fix_wavehadj();
+
+    gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed"); /* force zoom update */
+    gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */
+
+    DEBUG(printf("Alternate zoom in\n"));
+  }
+}
+
+
+
+
 static        gint
 scroll_event( GtkWidget * widget, GdkEventScroll * event )
 {
@@ -1160,6 +1326,42 @@ int num_traces_displayable=(GLOBALS->signalarea->allocation.height)/(GLOBALS->fo
 num_traces_displayable--;
 
   DEBUG(printf("Mouse Scroll Event\n"));
+
+  if(GLOBALS->alt_wheel_mode)
+  {
+    /* TomB mouse wheel handling */
+#ifdef MAC_INTEGRATION
+      if ( event->state & GDK_MOD2_MASK )
+#else
+      if ( event->state & GDK_CONTROL_MASK )
+#endif
+      {
+        /* CTRL+wheel - zoom in/out around current mouse cursor position */
+        if(event->direction == GDK_SCROLL_UP)
+          alt_zoom_in(NULL, 0);
+        else if(event->direction == GDK_SCROLL_DOWN)
+          alt_zoom_out(NULL, 0);
+      }
+      else if( event->state & GDK_MOD1_MASK )
+      {
+        /* ALT+wheel - edge left/right mode */
+        if(event->direction == GDK_SCROLL_UP)
+          service_left_edge(NULL, 0);
+        else if(event->direction == GDK_SCROLL_DOWN)
+          service_right_edge(NULL, 0);
+      }
+      else
+      {
+        /* wheel alone - scroll part of a page along */
+        if(event->direction == GDK_SCROLL_UP)
+          alt_move_left(NULL, 0);
+        else if(event->direction == GDK_SCROLL_DOWN)
+          alt_move_right(NULL, 0);
+      }
+  }
+  else
+  {
+    /* Original 3.3.31 mouse wheel handling */
   switch ( event->direction )
   {
     case GDK_SCROLL_UP:
@@ -1200,6 +1402,7 @@ num_traces_displayable--;
 		alternate_y_scroll(1);
 		}
 	}
+
 	{
 #ifdef MAC_INTEGRATION
       	if ( event->state & GDK_MOD2_MASK )
@@ -1216,6 +1419,7 @@ num_traces_displayable--;
 
     default:
       break;
+  }
   }
   return(TRUE);
 }

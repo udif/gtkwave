@@ -1214,6 +1214,7 @@ NULL, /* mvlfacs_vzt_c_3 587 */
 /*
  * wavewindow.c
  */
+1, /* alt_wheel_mode */
 0, /* use_scrollwheel_as_y */
 0, /* enable_slider_zoom */
 0, /* m1x_wavewindow_c_1 589 */
@@ -1775,6 +1776,7 @@ void reload_into_new_context_2(void)
  new_globals->do_hier_compress = GLOBALS->do_hier_compress;
  new_globals->do_initial_zoom_fit = GLOBALS->do_initial_zoom_fit;
  new_globals->do_resize_signals = GLOBALS->do_resize_signals;
+ new_globals->alt_wheel_mode = GLOBALS->alt_wheel_mode;
  new_globals->initial_signal_window_width = GLOBALS->initial_signal_window_width;
  new_globals->enable_fast_exit = GLOBALS->enable_fast_exit;
  new_globals->enable_ghost_marker = GLOBALS->enable_ghost_marker;
@@ -2646,6 +2648,7 @@ switch(type)
 							GLOBALS->do_zoom_center = g_old->do_zoom_center;
 							GLOBALS->use_roundcaps = g_old->use_roundcaps;
 							GLOBALS->do_resize_signals = g_old->do_resize_signals;
+							GLOBALS->alt_wheel_mode = g_old->alt_wheel_mode;
 							GLOBALS->initial_signal_window_width = g_old->initial_signal_window_width;
 							GLOBALS->use_full_precision = g_old->use_full_precision;
 							GLOBALS->show_base = g_old->show_base;

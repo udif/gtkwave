@@ -90,9 +90,9 @@ if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nZoom Out");
         help_text(
-		" is used to decrease the zoom factor."
+		" is used to decrease the zoom factor around the marker."
 #ifdef WAVE_USE_GTK2
-		" Alt + Scrollwheel Up also performs this function."
+		" Alt + Scrollwheel Up also hits this button in non-alternative wheel mode."
 #endif
         );
         return;
@@ -144,9 +144,9 @@ if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nZoom In");
         help_text(
-                " is used to increase the zoom factor."  
+                " is used to increase the zoom factor around the marker."
 #ifdef WAVE_USE_GTK2
-		" Alt + Scrollwheel Down also performs this function."
+		" Alt + Scrollwheel Down also hits this button in non-alternative wheel mode."
 #endif
         );
         return;

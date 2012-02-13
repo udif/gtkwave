@@ -918,6 +918,50 @@ if(found)
 
 
 
+void menu_altwheel(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+  if(GLOBALS->helpbox_is_active)
+  {
+    help_text_bold("\n\nAlternate Wheel Mode");
+    help_text(
+		" Makes the mouse wheel act how TomB expects it to."
+		" Wheel alone will pan part of a page (so you can still"
+		" see where you were).  Ctrl+Wheel will zoom around the"
+		" cursor (not where the marker is), and Alt+Wheel will"
+		" edge left or right on the selected signal.");
+  }
+	else
+	{
+#ifndef WAVE_USE_MLIST_T
+	if(!GLOBALS->alt_wheel_mode)
+		{
+		status_text("Alternate Wheel Mode On.\n");
+		GLOBALS->alt_wheel_mode=1;
+		}
+		else
+		{
+		status_text("Alternate Wheel Mode Off.\n");
+		GLOBALS->alt_wheel_mode=0;
+		}
+#else
+        GLOBALS->alt_wheel_mode = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_HSWM]));
+        if(GLOBALS->alt_wheel_mode)
+        {
+          status_text("Alternate Wheel Mode On.\n");
+        }
+        else
+        {
+          status_text("Alternate Wheel Mode Off.\n");
+        }
+#endif
+	}
+#ifndef WAVE_USE_MLIST_T
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_HSWM].path))->active=(GLOBALS->alt_wheel_mode)?TRUE:FALSE;
+#endif
+}
+
+
+
 
 void wave_scrolling_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
@@ -956,11 +1000,14 @@ if(GLOBALS->helpbox_is_active)
                 }
 #endif
 	}
-
 #ifndef WAVE_USE_MLIST_T
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_MWSON].path))->active=(GLOBALS->wave_scrolling)?TRUE:FALSE;
 #endif
 }
+
+
+
+
 /**/
 
 void menu_keep_xz_colors(gpointer null_data, guint callback_action, GtkWidget *widget)
@@ -3482,6 +3529,33 @@ if(GLOBALS->helpbox_is_active)
 markerbox("Markers", GTK_SIGNAL_FUNC(menu_markerbox_callback));
 }
 
+
+void copy_pri_b_marker(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nCopy Primary -> B Marker");
+        help_text(
+                " copies the primary marker position to the B marker (handy for measuring deltas)."
+        );
+        return;
+        }
+
+  DEBUG(printf("copy_pri_b_marker()\n"));
+
+  if(GLOBALS->tims.marker!=-1)
+  {
+    GLOBALS->tims.baseline = GLOBALS->tims.marker;
+    update_basetime(GLOBALS->tims.baseline);
+    GLOBALS->signalwindow_width_dirty=1;
+    MaxSignalLength();
+    signalarea_configure_event(GLOBALS->signalarea, NULL);
+    wavearea_configure_event(GLOBALS->wavearea, NULL);
+  }
+}
+
+
+
 /**/
 void delete_unnamed_marker(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
@@ -5959,11 +6033,17 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Markers/Drop Named Marker", "<Alt>N", drop_named_marker, WV_MENU_MDNM, "<Item>"),
     WAVE_GTKIFE("/Markers/Collect Named Marker", "<Shift><Alt>N", collect_named_marker, WV_MENU_MCNM, "<Item>"),
     WAVE_GTKIFE("/Markers/Collect All Named Markers", "<Shift><Control><Alt>N", collect_all_named_markers, WV_MENU_MCANM, "<Item>"),
+#ifdef MAC_INTEGRATION
+    WAVE_GTKIFE("/Markers/Copy Primary->B Marker", NULL, copy_pri_b_marker, WV_MENU_MCAB, "<Item>"),
+#else
+    WAVE_GTKIFE("/Markers/Copy Primary->B Marker", "B", copy_pri_b_marker, WV_MENU_MCAB, "<Item>"),
+#endif
     WAVE_GTKIFE("/Markers/Delete Primary Marker", "<Shift><Alt>M", delete_unnamed_marker, WV_MENU_MDPM, "<Item>"),
     WAVE_GTKIFE("/Markers/<separator>", NULL, NULL, WV_MENU_SEP8, "<Separator>"),
     WAVE_GTKIFE("/Markers/Find Previous Edge", NULL, service_left_edge_marshal, WV_MENU_SLE, "<Item>"),
     WAVE_GTKIFE("/Markers/Find Next Edge", NULL, service_right_edge_marshal, WV_MENU_SRE, "<Item>"),
     WAVE_GTKIFE("/Markers/<separator>", NULL, NULL, WV_MENU_SEP8B, "<Separator>"),
+    WAVE_GTKIFE("/Markers/Alternate Wheel Mode", NULL, menu_altwheel, WV_MENU_HSWM, "<ToggleItem>"),
     WAVE_GTKIFE("/Markers/Wave Scrolling", "F9", wave_scrolling_on, WV_MENU_MWSON, "<ToggleItem>"),
 
     WAVE_GTKIFE("/Markers/Locking/Lock to Lesser Named Marker", "Q", lock_marker_left, WV_MENU_MLKLT, "<Item>"),
@@ -6092,6 +6172,8 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VSG].path))->active=(GLOBALS->display_grid)?TRUE:FALSE;
 
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_HSWM].path))->active=(GLOBALS->alt_wheel_mode)?TRUE:FALSE;
+
 #if !defined __MINGW32__ && !defined _MSC_VER
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1,menu_items[WV_MENU_VSMO].path))->active=(GLOBALS->disable_mouseover)?FALSE:TRUE;
 #endif
@@ -6140,6 +6222,8 @@ GLOBALS->quiet_checkmenu = 1;
 
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VZPS]), GLOBALS->zoom_pow10_snap);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSG]), GLOBALS->display_grid);
+gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_HSWM]), GLOBALS->alt_wheel_mode);
+
 
 #if !defined __MINGW32__ && !defined _MSC_VER
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSMO]), !GLOBALS->disable_mouseover);

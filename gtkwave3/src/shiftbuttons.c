@@ -27,7 +27,7 @@ if(GLOBALS->helpbox_is_active)
                 " scrolls the display window left one tick worth of data."
                 "  The net action is that the data scrolls right a tick."
 #ifdef WAVE_USE_GTK2
-                " Ctrl + Scrollwheel Up also performs this function."
+                " Ctrl + Scrollwheel Up also does this in non-alternative wheel mode."
 #endif
         );
         return;
@@ -63,7 +63,7 @@ if(GLOBALS->helpbox_is_active)
                 " scrolls the display window right one tick worth of data."
                 "  The net action is that the data scrolls left a tick."
 #ifdef WAVE_USE_GTK2
-                " Ctrl + Scrollwheel Down also performs this function."
+                " Ctrl + Scrollwheel Down also does this in non-alternative wheel mode."
 #endif
         );
         return;

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2010.
  *
  * This program is free software; you can redistribute it and/or
@@ -8,7 +8,7 @@
  */
 
 
-/* AIX may need this for alloca to work */ 
+/* AIX may need this for alloca to work */
 #if defined _AIX
   #pragma alloca
 #endif
@@ -19,13 +19,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <sys/stat.h> 
-#include <fcntl.h>   
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <errno.h>
 #include <sys/types.h>
 #include "analyzer.h"
 #include "currenttime.h"
-#include "symbol.h"  
+#include "symbol.h"
 #include "vcd.h"
 #include "wavealloca.h"
 #include "fgetdynamic.h"
@@ -36,8 +36,8 @@
 #include "vlist.h"
 #include "rc.h"
 
-#ifndef _MSC_VER   
-#ifndef __MINGW32__ 
+#ifndef _MSC_VER
+#ifndef __MINGW32__
         #include <unistd.h>
         #include <pwd.h>
         static char *rcname=".gtkwaverc";       /* name of environment file--POSIX */
@@ -74,7 +74,7 @@ int f_analog_redraw_skip_count(char *str)
 {
 DEBUG(printf("f_analog_redraw_skip_count(\"%s\")\n",str));
 GLOBALS->analog_redraw_skip_count=atoi_64(str);
-if(GLOBALS->analog_redraw_skip_count < 0) 
+if(GLOBALS->analog_redraw_skip_count < 0)
 	{
 	GLOBALS->analog_redraw_skip_count = 0;
 	}
@@ -668,6 +668,12 @@ GLOBALS->zoom_pow10_snap=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_alt_wheel_mode(char *str)
+{
+DEBUG(printf("f_alt_wheel_mode(\"%s\")\n",str));
+GLOBALS->alt_wheel_mode=atoi_64(str)?1:0;
+}
+
 
 int rc_compare(const void *v1, const void *v2)
 {
@@ -727,11 +733,12 @@ color_make(gmstrd)
 
 /*
  * rc variables...these MUST be in alphabetical order for the bsearch!
- */ 
+ */
 static struct rc_entry rcitems[]=
 {
 { "accel", f_accel },
 { "alt_hier_delimeter", f_alt_hier_delimeter },
+{ "alt_wheel_mode", f_alt_wheel_mode },
 { "analog_redraw_skip_count", f_analog_redraw_skip_count },
 { "append_vcd_hier", f_append_vcd_hier },
 { "atomic_vectors", f_atomic_vectors },
@@ -785,13 +792,13 @@ static struct rc_entry rcitems[]=
 { "dynamic_resizing", f_dynamic_resizing },
 { "enable_fast_exit", f_enable_fast_exit },
 { "enable_ghost_marker", f_enable_ghost_marker },
-{ "enable_horiz_grid", f_enable_horiz_grid }, 
+{ "enable_horiz_grid", f_enable_horiz_grid },
 { "enable_vcd_autosave", f_enable_vcd_autosave },
-{ "enable_vert_grid", f_enable_vert_grid }, 
-{ "fontname_logfile", f_fontname_logfile }, 
-{ "fontname_signals", f_fontname_signals }, 
-{ "fontname_waves", f_fontname_waves }, 
-{ "force_toolbars", f_force_toolbars }, 
+{ "enable_vert_grid", f_enable_vert_grid },
+{ "fontname_logfile", f_fontname_logfile },
+{ "fontname_signals", f_fontname_signals },
+{ "fontname_waves", f_fontname_waves },
+{ "force_toolbars", f_force_toolbars },
 { "hide_sst", f_hide_sst },
 { "hier_delimeter", f_hier_delimeter },
 { "hier_grouping", f_hier_grouping },
@@ -816,7 +823,7 @@ static struct rc_entry rcitems[]=
 { "show_base_symbols", f_show_base_symbols },
 { "show_grid", f_show_grid },
 { "splash_disable", f_splash_disable },
-{ "sst_dynamic_filter", f_sst_dynamic_filter },  
+{ "sst_dynamic_filter", f_sst_dynamic_filter },
 { "sst_expanded", f_sst_expanded },
 { "strace_repeat_count", f_strace_repeat_count },
 { "use_big_fonts", f_use_big_fonts },
@@ -849,6 +856,7 @@ static struct rc_entry rcitems[]=
 static void vanilla_rc(void)
 {
 f_enable_fast_exit 	("on");
+f_alt_wheel_mode 	("on");
 f_splash_disable 	("off");
 f_zoom_pow10_snap	("on");
 f_hier_max_level	("1");
@@ -896,7 +904,7 @@ f_color_brkred		("cc0000"); /* brick */
 f_color_ltblue	        ("5dbebb"); /* light blue    */
 f_color_gmstrd          ("7d8104"); /* green mustard */
 }
- 
+
 
 void read_rc_file(char *override_rc)
 {
@@ -927,7 +935,7 @@ if(!(handle=fopen(rcname,"rb")))
 	{
 	char *home;
 	char *rcpath;
-	
+
 	home=getpwuid(geteuid())->pw_dir;
 	rcpath=(char *)alloca(strlen(home)+1+strlen(rcname)+1);
 	strcpy(rcpath,home);
@@ -939,7 +947,7 @@ if(!(handle=fopen(rcname,"rb")))
 		wave_gconf_client_set_string("/current/rcfile", "");
 		errno=0;
 		return; /* no .rc file */
-		} 
+		}
 		else
 		{
 		wave_gconf_client_set_string("/current/rcfile", rcpath);
@@ -970,7 +978,7 @@ if(!(handle=fopen(rcname,"rb")))		/* no concept of ~ in win32 */
 	    }
 
 	wave_gconf_client_set_string("/current/rcfile", rcpath);
-	} 
+	}
 #endif
 
 GLOBALS->rc_line_no=0;
@@ -995,14 +1003,14 @@ while(!feof(handle))
 					if((str[i]==' ')||(str[i]=='\t'))
 						{
 						str[i]=0; /* null term envname */
-	
+
 						for(i=i+1;i<len;i++)
 							{
 							struct rc_entry *r;
-	
+
 							if((str[i]==' ')||(str[i]=='\t')) continue;
-							if((r=bsearch((void *)(str+pos), (void *)rcitems, 
-								sizeof(rcitems)/sizeof(struct rc_entry), 
+							if((r=bsearch((void *)(str+pos), (void *)rcitems,
+								sizeof(rcitems)/sizeof(struct rc_entry),
 								sizeof(struct rc_entry), rc_compare)))
 								{
 								int j;

@@ -17,70 +17,76 @@
 void
 service_left_page(GtkWidget *text, gpointer data)
 {
-TimeType ntinc, ntfrac;
+  TimeType ntinc, ntfrac;
 
-if(GLOBALS->helpbox_is_active)
+  if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nPage Left");
         help_text(
                 " scrolls the display window left one page worth of data."
 		"  The net action is that the data scrolls right a page."
 #ifdef WAVE_USE_GTK2
-                " Scrollwheel Up also performs this function."
+    " Scrollwheel Up also hits this button in non-alternative wheel mode."
 #endif
         );
         return;
         }
 
-ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);	/* really don't need this var but the speed of ui code is human dependent.. */
-ntfrac=ntinc*GLOBALS->page_divisor;
-if((ntfrac<1)||(ntinc<1)) ntfrac= /*ntinc=*/ 1; /* scan-build */
+  ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);	/* really don't need this var but the speed of ui code is human dependent.. */
+  ntfrac=ntinc*GLOBALS->page_divisor;
+  if((ntfrac<1)||(ntinc<1))
+    ntfrac= /*ntinc=*/ 1; /* scan-build */
 
-if((GLOBALS->tims.start-ntfrac)>GLOBALS->tims.first) GLOBALS->tims.timecache=GLOBALS->tims.start-ntfrac;
-	else GLOBALS->tims.timecache=GLOBALS->tims.first;
+  if((GLOBALS->tims.start-ntfrac)>GLOBALS->tims.first)
+    GLOBALS->tims.timecache=GLOBALS->tims.start-ntfrac;
+  else
+    GLOBALS->tims.timecache=GLOBALS->tims.first;
 
-GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache;
-time_update();
+  GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache;
+  time_update();
 
-DEBUG(printf("Left Page\n"));
+  DEBUG(printf("Left Page\n"));
 }
 
 void
 service_right_page(GtkWidget *text, gpointer data)
 {
-TimeType ntinc, ntfrac;
+  TimeType ntinc, ntfrac;
 
-if(GLOBALS->helpbox_is_active)
+  if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nPage Right");
         help_text(
 		" scrolls the display window right one page worth of data."
 		"  The net action is that the data scrolls left a page."
 #ifdef WAVE_USE_GTK2
-                " Scrollwheel Down also performs this function."
+    " Scrollwheel Down also hits this button in non-alternative wheel mode."
 #endif
         );
         return;
         }
 
-ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
-ntfrac=ntinc*GLOBALS->page_divisor;
-if((ntfrac<1)||(ntinc<1)) ntfrac=ntinc=1;
+  ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
+  ntfrac=ntinc*GLOBALS->page_divisor;
 
-if((GLOBALS->tims.start+ntfrac)<(GLOBALS->tims.last-ntinc+1)) 
+  if((ntfrac<1)||(ntinc<1))
+    ntfrac=ntinc=1;
+
+  if((GLOBALS->tims.start+ntfrac)<(GLOBALS->tims.last-ntinc+1))
 	{
 	GLOBALS->tims.timecache=GLOBALS->tims.start+ntfrac;
 	}
         else 
 	{
 	GLOBALS->tims.timecache=GLOBALS->tims.last-ntinc+1;
-	if(GLOBALS->tims.timecache<GLOBALS->tims.first) GLOBALS->tims.timecache=GLOBALS->tims.first;
+    if(GLOBALS->tims.timecache<GLOBALS->tims.first)
+      GLOBALS->tims.timecache=GLOBALS->tims.first;
 	}
 
-GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache;
-time_update();
+  GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache;
+  time_update();
 
-DEBUG(printf("Right Page\n"));
+  DEBUG(printf("Right Page\n"));
 }
 
 
