@@ -2135,21 +2135,36 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
 
       /* draw trans */
       if(!(h->flags&(HIST_REAL|HIST_STRING)))
-	{
-	type = vtype(t,h->v.h_vector);
-	}
-	else
-	{
-	/* s\000 ID is special "z" case */
-	if((h->flags&HIST_STRING)&&(h->v.h_vector)&&(!h->v.h_vector[0]))
-		{  
-	        type = AN_Z;
-	        }
-	        else
-	        {   
-	        type = AN_0;
-	        }   
-	}
+        {
+        type = vtype(t,h->v.h_vector);
+        }
+        else
+        {
+        /* s\000 ID is special "z" case */
+        type = AN_0;         
+
+        if(h->flags&HIST_STRING)                 
+                {
+                if(h->v.h_vector)
+                        {
+                        if(!h->v.h_vector[0])
+                                {
+                                type = AN_Z;                  
+                                }
+                        else
+                                {
+                                if(!strcmp(h->v.h_vector, "UNDEF")) 
+                                        {
+                                        type = AN_X;
+                                        }
+                                }
+                        }
+                        else
+                        {
+                        type = AN_X;
+                        }
+                }   
+        }       
       /* type = !(h->flags & (HIST_REAL | HIST_STRING))) ? vtype (t, h->v.h_vector) : AN_0; */
       if (_x0 > -1)
 	{
