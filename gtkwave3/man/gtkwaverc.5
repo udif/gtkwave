@@ -20,6 +20,11 @@ menu item.
 .TP 
 \fBalt_hier_delimeter\fR <\fIvalue\fP>
 This allows another character in addition to the hier_delimeter to be used to delimit levels in the hierarchy for VCD. Only the first character in the value is significant. Note that this is normally off. The intended use is to resolve the hierarchies of netlist based models that often contain slashes to delimit hierarchy inside of $var statements.
+.TP
+\fBalt_wheel_mode\fR <\fIvalue\fP> 
+Default is on.  Scrollwheel alone pans along a quarter at a time rather than a full page, so you don't get lost. 
+Ctrl+wheel zooms in/out around the mouse cursor position, not the marker position. 
+Alt+wheel edges left/right based on the currently selected signal.  This makes measuring deltas easier. 
 .TP 
 \fBanalog_redraw_skip_count\fR <\fIvalue\fP>
 Specifies how many overlapping analog segments can be drawn for a given X position onscreen.  (Default: 20)  If there are
