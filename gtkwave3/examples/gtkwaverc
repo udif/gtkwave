@@ -3,6 +3,8 @@
 # (rename to .gtkwaverc and copy 
 # to home directory to be loaded automatically)
 #
+alt_wheel_mode yes
+
 ignore_savefile_pane_pos no
 ignore_savefile_pos no
 ignore_savefile_size no
