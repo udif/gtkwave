@@ -685,7 +685,14 @@ for(;;)
 					int vlen = fstUtilityBinToEsc((unsigned char *)vec_escaped, (unsigned char *)vec, vec_slen);
 
 					vec_escaped[vlen] = 0;
-					w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "s%s %s\n", vec_escaped, vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
+					if(vlen)
+						{
+						w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "s%s %s\n", vec_escaped, vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
+						}
+						else
+						{
+						w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "s\\000 %s\n", vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
+						}
 					free_2(vec_escaped);
 					}
 				}
