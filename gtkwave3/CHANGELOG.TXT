@@ -1178,3 +1178,6 @@
 		Added transaction_args savefile tag and support for passing
 		args to transaction filters via the args $comment.
 		Added string value of \000 which renders as high-z.
+		Integrated alt_wheel_mode code provided by Tom Browne.
+		Fixes for some rc file variables not getting clobbered on 
+		2nd tab opening.
