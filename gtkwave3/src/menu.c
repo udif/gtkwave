@@ -924,7 +924,7 @@ void menu_altwheel(gpointer null_data, guint callback_action, GtkWidget *widget)
   {
     help_text_bold("\n\nAlternate Wheel Mode");
     help_text(
-		" Makes the mouse wheel act how TomB expects it to."
+		" makes the mouse wheel act how TomB expects it to."
 		" Wheel alone will pan part of a page (so you can still"
 		" see where you were).  Ctrl+Wheel will zoom around the"
 		" cursor (not where the marker is), and Alt+Wheel will"
