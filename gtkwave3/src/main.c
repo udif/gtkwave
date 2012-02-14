@@ -422,6 +422,7 @@ GtkWidget *panedwindow;
 GtkWidget *dummy1, *dummy2;
 GtkWidget *toolhandle=NULL;
 int tcl_interpreter_needs_making = 0;
+struct Global *old_g = NULL;
 
 int splash_disable_rc_override = 0;
 int mainwindow_already_built;
@@ -432,6 +433,7 @@ GdkPixbuf *dock_pb;
 WAVE_LOCALE_FIX
 
 /* Initialize the GLOBALS structure for the first time... */ 
+
 if(!GLOBALS)
 	{
 	set_GLOBALS(initialize_globals());
@@ -442,7 +444,7 @@ if(!GLOBALS)
 	}
 	else
 	{
-	struct Global *old_g = GLOBALS;
+	old_g = GLOBALS;
 
 	set_GLOBALS(initialize_globals());
 
@@ -607,6 +609,12 @@ if(!GLOBALS)
 	GLOBALS->enable_slider_zoom = old_g->enable_slider_zoom;
 
 	GLOBALS->missing_file_toolbar = old_g->missing_file_toolbar;
+
+	GLOBALS->analog_redraw_skip_count = old_g->analog_redraw_skip_count;
+	GLOBALS->context_tabposition = old_g->context_tabposition;
+	GLOBALS->disable_empty_gui =  old_g->disable_empty_gui;
+	GLOBALS->make_vcd_save_file = old_g->make_vcd_save_file;
+	GLOBALS->strace_repeat_count = old_g->strace_repeat_count;
 
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_logfile, &old_g->fontname_logfile);
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_signals, &old_g->fontname_signals); 
@@ -1127,7 +1135,11 @@ if((!GLOBALS->loaded_file_name) && wname)
 	}
 
 
-read_rc_file(override_rc);
+if(!old_g) /* copy all variables earlier when old_g is set */
+	{
+	read_rc_file(override_rc);
+	}
+
 GLOBALS->splash_disable |= splash_disable_rc_override;
 
 if(!GLOBALS->loaded_file_name)
