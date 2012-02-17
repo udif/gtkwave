@@ -672,6 +672,7 @@ int f_alt_wheel_mode(char *str)
 {
 DEBUG(printf("f_alt_wheel_mode(\"%s\")\n",str));
 GLOBALS->alt_wheel_mode=atoi_64(str)?1:0;
+return(0);
 }
 
 

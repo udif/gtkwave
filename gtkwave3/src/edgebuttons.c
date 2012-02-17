@@ -210,7 +210,11 @@ s=s_head;
 totaltraces=0;	/* increment when not don't care */
 while(s)
 	{
+/* commented out, maybe will have possible future expansion later,
+ * this was cut and pasted from strace.c */
+#if 0
 	char str[2];
+#endif
 	t=s->trace;
 	s->search_result=0;	/* explicitly must set this */
 	GLOBALS->shift_timebase=t->shift;
@@ -222,6 +226,9 @@ while(s)
 			s->his.h=bsearch_node(t->n.nd, maxbase - t->shift);
 			while(s->his.h->next && s->his.h->time==s->his.h->next->time) s->his.h=s->his.h->next;
 			}
+/* commented out, maybe will have possible future expansion later,
+ * this was cut and pasted from strace.c */
+#if 0
 		if(t->flags&TR_INVERT)  
                 	{
                         str[0]=AN_STR_INV[s->his.h->v.h_val];
@@ -231,6 +238,7 @@ while(s)
                         str[0]=AN_STR[s->his.h->v.h_val];
                         }
 		str[1]=0x00;
+#endif
 
 		switch(s->value)
 			{

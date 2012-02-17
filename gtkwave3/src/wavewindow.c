@@ -122,7 +122,9 @@ return(FALSE);
 
 static gint slider_mnr(GtkWidget *widget, GdkEventMotion *event)
 {
+#ifndef WAVE_USE_GTK2
 gdouble x, y;
+#endif
 GdkModifierType state;
 gdouble my_x, xmax, ratio;
 TimeType l_margin, r_margin;
@@ -137,7 +139,9 @@ get_window_xypos(&dummy_x, &dummy_y);
 if(event->is_hint)
         {
         WAVE_GDK_GET_POINTER(event->window, &x, &y, &xi, &yi, &state);
+#ifndef WAVE_USE_GTK2
         WAVE_GDK_GET_POINTER_COPY;
+#endif
         }
         else
         {
