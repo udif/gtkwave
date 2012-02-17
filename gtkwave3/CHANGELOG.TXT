@@ -1179,5 +1179,6 @@
 		args to transaction filters via the args $comment.
 		Added string value of \000 which renders as high-z.
 		Integrated alt_wheel_mode code provided by Tom Browne.
-		Fixes for some rc file variables not getting clobbered on 
-		2nd tab opening.
+		Fixes for some rc file variables to keep them from getting 
+		clobbered on 2nd tab opening.
+		Warning fixes when compiled on Ubuntu.
