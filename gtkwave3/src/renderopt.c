@@ -15,7 +15,7 @@
 #include <errno.h>
 
 #ifdef WAVE_GTK_UNIX_PRINT
-#include <gtk/gtkunixprint.h>
+/* #include <gtk/gtkunixprint.h> */
 #include <gtk/gtkprintunixdialog.h>
 #endif
 
