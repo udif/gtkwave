@@ -307,6 +307,8 @@ guint64 nval;
 char buf[33];
 char *pnt;
 
+memset(buf, 0, sizeof(buf)); /* scan-build */
+
 vlist_packer_emit_uv64((struct vlist_packer_t **)(void *)&vlist_summary_index, (guint64)mystat->st_size);
 vlist_packer_emit_uv64((struct vlist_packer_t **)(void *)&vlist_summary_index, (guint64)mystat->st_mtime);
 
