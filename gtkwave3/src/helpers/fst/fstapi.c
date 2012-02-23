@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2011 Tony Bybell.
+ * Copyright (c) 2009-2012 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -53,7 +53,7 @@ void **JenkinsIns(void *base_i, unsigned char *mem, uint32_t length, uint32_t ha
 #define FST_ID_NAM_SIZ 			(512)
 #define FST_DOUBLE_ENDTEST 		(2.7182818284590452354)
 #define FST_HDR_SIM_VERSION_SIZE 	(128)
-#define FST_HDR_DATE_SIZE 		(128)
+#define FST_HDR_DATE_SIZE 		(120)
 #define FST_GZIO_LEN			(32768)
 
 #if defined(__i386__) || defined(__x86_64__) || defined(_AIX)
@@ -480,6 +480,7 @@ unsigned vc_emitted : 1;
 unsigned is_initial_time : 1;
 unsigned fastpack : 1;
 
+int64_t timezero;
 off_t section_header_truncpos;
 uint32_t tchn_cnt, tchn_idx;
 uint64_t curtime;
@@ -631,7 +632,12 @@ time(&walltime);
 strcpy(dbuf, asctime(localtime(&walltime)));
 fstFwrite(dbuf, FST_HDR_DATE_SIZE, 1, xc->handle);	/* +202 date */
 
-#define FST_HDR_LENGTH				(FST_HDR_OFFS_DATE + FST_HDR_DATE_SIZE)
+/* date size is deliberately overspecified at 120 bytes in order to provide backfill for new args */
+
+#define FST_HDR_OFFS_TIMEZERO			(FST_HDR_OFFS_DATE + FST_HDR_DATE_SIZE)
+fstWriterUint64(xc->handle, xc->timezero);	/* +322 timezero */
+
+#define FST_HDR_LENGTH				(FST_HDR_OFFS_TIMEZERO + 8)
 						/* +330 next section starts here */
 fflush(xc->handle);
 }
@@ -1661,6 +1667,20 @@ if(xc && s)
 }
 
 
+void fstWriterSetTimezero(void *ctx, int64_t tim)
+{
+struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+if(xc)
+        {
+	off_t fpos = ftello(xc->handle);
+	fseeko(xc->handle, FST_HDR_OFFS_TIMEZERO, SEEK_SET);
+	fstWriterUint64(xc->handle, (xc->timezero = tim));
+	fflush(xc->handle);
+	fseeko(xc->handle, fpos, SEEK_SET);
+	}
+}
+
+
 void fstWriterSetPackType(void *ctx, int typ)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
@@ -2071,6 +2091,7 @@ unsigned limit_range_valid : 1;		/* valid for limit_range_start, limit_range_end
 
 char version[FST_HDR_SIM_VERSION_SIZE + 1];
 char date[FST_HDR_DATE_SIZE + 1];
+int64_t timezero;
 
 char *filename, *filename_unpacked;
 off_t hier_pos;
@@ -2408,6 +2429,12 @@ const char *fstReaderGetDateString(void *ctx)
 {
 struct fstReaderContext *xc = (struct fstReaderContext *)ctx;
 return(xc ? xc->date : NULL);
+}
+
+int64_t fstReaderGetTimezero(void *ctx)
+{
+struct fstReaderContext *xc = (struct fstReaderContext *)ctx;
+return(xc ? xc->timezero : 0);
 }
 
 
@@ -2784,6 +2811,7 @@ if(fv)
 
 	fprintf(fv, "$date\n\t%s\n$end\n", xc->date);
 	fprintf(fv, "$version\n\t%s\n$end\n", xc->version);
+	if(xc->timezero) fprintf(fv, "$timezero\n\t%"PRId64"\n$end\n", xc->timezero);
 	
         switch(xc->timescale)
                 {
@@ -3117,6 +3145,7 @@ if(gzread_pass_status)
 				xc->version[FST_HDR_SIM_VERSION_SIZE] = 0;
 				fstFread(xc->date, FST_HDR_DATE_SIZE, 1, xc->f);
 				xc->date[FST_HDR_DATE_SIZE] = 0;
+				xc->timezero = fstReaderUint64(xc->f);
 				}
 			}
 		else if((sectype == FST_BL_VCDATA) || (sectype == FST_BL_VCDATA_DYN_ALIAS))

@@ -1182,4 +1182,7 @@
 		Fixes for some rc file variables to keep them from getting 
 		clobbered on 2nd tab opening.
 		Warning fixes when compiled on Ubuntu.
-3.3.33 22feb12	Scan-build fix in vcd_recoder.c.
+3.3.33 23feb12	Scan-build fix in vcd_recoder.c.
+		Added $timezero tag to VCD files which allows offsetting all
+		the values in a trace to provide potentially negative time 
+		values.  Currently only VCD and FST support this.

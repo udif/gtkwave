@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2006-2011.
+ * Copyright (c) Tony Bybell 2006-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,6 +39,7 @@ struct gtkwave_annotate_ipc_t *anno_ctx = NULL;
 struct vzt_rd_trace  *vzt=NULL;
 struct lxt2_rd_trace *lx2=NULL;
 void *fst=NULL;
+int64_t timezero = 0; /* only currently used for FST */
 
 #ifdef AET2_IS_PRESENT
 FILE *aetf;
@@ -482,6 +483,10 @@ if(anno_ctx)
 			        fprintf(stderr, "Could not initialize '%s', exiting.\n", anno_ctx->aet_name);
 			        exit(255);
 			        }   
+				else
+				{
+				timezero = fstReaderGetTimezero(fst);
+				}
 			break;
 
 		case WAVE_ANNO_VZT:

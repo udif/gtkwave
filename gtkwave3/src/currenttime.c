@@ -215,6 +215,13 @@ void reformat_time_simple(char *buf, TimeType val, char dim)
 char *pnt;
 int i, offset;
 
+if(val < LLDescriptor(0))
+        {
+        val = -val;
+        buf[0] = '-';
+        buf++;              
+        }
+
 pnt=strchr(time_prefix, (int)dim);
 if(pnt) { offset=pnt-time_prefix; } else offset=0;
 
@@ -238,6 +245,13 @@ void reformat_time(char *buf, TimeType val, char dim)
 {
 char *pnt;
 int i, offset, offsetfix;
+
+if(val < LLDescriptor(0))
+        {
+        val = -val;
+        buf[0] = '-';
+        buf++;              
+        }
 
 pnt=strchr(time_prefix, (int)dim);
 if(pnt) { offset=pnt-time_prefix; } else offset=0;
@@ -443,7 +457,7 @@ if(GLOBALS->anno_ctx)
 			GLOBALS->anno_ctx->marker = ((TimeType)rvs_xlate) + GLOBALS->ae2_start_cyc;
 			}
 
-		reformat_time(GLOBALS->anno_ctx->time_string, val, GLOBALS->time_dimension);
+		reformat_time(GLOBALS->anno_ctx->time_string, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 
 		GLOBALS->anno_ctx->marker_set = 1;
 		}
@@ -471,7 +485,7 @@ if(!GLOBALS->use_maxtime_display)
 					}
 					else
 					{
-					reformat_time(GLOBALS->maxtext_currenttime_c_1+2, val, GLOBALS->time_dimension);
+					reformat_time(GLOBALS->maxtext_currenttime_c_1+2, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 					}
 				}
 				else
@@ -482,7 +496,7 @@ if(!GLOBALS->use_maxtime_display)
 					}
 					else
 					{
-					reformat_time(GLOBALS->maxtext_currenttime_c_1+1, val, GLOBALS->time_dimension);
+					reformat_time(GLOBALS->maxtext_currenttime_c_1+1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 					}
 				}
 			}
@@ -499,17 +513,17 @@ if(!GLOBALS->use_maxtime_display)
 				if(val>=0)
 					{
 					*GLOBALS->maxtext_currenttime_c_1='+';
-					reformat_time(GLOBALS->maxtext_currenttime_c_1+1, val, GLOBALS->time_dimension);
+					reformat_time(GLOBALS->maxtext_currenttime_c_1+1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 					}
 					else
 					{
-					reformat_time(GLOBALS->maxtext_currenttime_c_1, val, GLOBALS->time_dimension);
+					reformat_time(GLOBALS->maxtext_currenttime_c_1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 					}
 				}
 			}
 		else
 			{
-			reformat_time(GLOBALS->maxtext_currenttime_c_1, val, GLOBALS->time_dimension);
+			reformat_time(GLOBALS->maxtext_currenttime_c_1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 			}
 		}
 		else
@@ -541,12 +555,12 @@ void update_basetime(TimeType val)
 if(val>=0)
 	{
 	gtk_label_set(GTK_LABEL(GLOBALS->base_or_curtime_label_currenttime_c_1), (!GLOBALS->use_toolbutton_interface) ? "Base Marker" : "Base");
-	reformat_time(GLOBALS->curtext_currenttime_c_1, val, GLOBALS->time_dimension);
+	reformat_time(GLOBALS->curtext_currenttime_c_1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	}
 	else
 	{
 	gtk_label_set(GTK_LABEL(GLOBALS->base_or_curtime_label_currenttime_c_1), (!GLOBALS->use_toolbutton_interface) ? "Current Time" : "Cursor");
-	reformat_time_blackout(GLOBALS->curtext_currenttime_c_1, GLOBALS->cached_currenttimeval_currenttime_c_1, GLOBALS->time_dimension);
+	reformat_time_blackout(GLOBALS->curtext_currenttime_c_1, GLOBALS->cached_currenttimeval_currenttime_c_1 + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	}
 
 gtk_label_set(GTK_LABEL(GLOBALS->curtimewid_currenttime_c_1), GLOBALS->curtext_currenttime_c_1);
@@ -559,7 +573,7 @@ GLOBALS->max_time=val;
 
 if(GLOBALS->use_maxtime_display)
 	{
-	reformat_time(GLOBALS->maxtext_currenttime_c_1, val, GLOBALS->time_dimension);
+	reformat_time(GLOBALS->maxtext_currenttime_c_1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	gtk_label_set(GTK_LABEL(GLOBALS->maxtimewid_currenttime_c_1), GLOBALS->maxtext_currenttime_c_1);
 	}
 }
@@ -572,7 +586,7 @@ GLOBALS->cached_currenttimeval_currenttime_c_1 = val;
 if(GLOBALS->tims.baseline<0)
 	{
 	GLOBALS->currenttime=val;
-	reformat_time_blackout(GLOBALS->curtext_currenttime_c_1, val, GLOBALS->time_dimension);
+	reformat_time_blackout(GLOBALS->curtext_currenttime_c_1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	gtk_label_set(GTK_LABEL(GLOBALS->curtimewid_currenttime_c_1), GLOBALS->curtext_currenttime_c_1);
 	}
 }

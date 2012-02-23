@@ -187,6 +187,7 @@ NULL, /* wave_gcchain */
 /*
  * currenttime.c
  */
+LLDescriptor(0), /* global_time_offset */
 0, /* is_vcd 56 */
 0, /* partial_vcd */
 1, /* use_maxtime_display 57 */

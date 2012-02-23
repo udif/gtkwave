@@ -534,17 +534,17 @@ enum Tokens   { T_VAR, T_END, T_SCOPE, T_UPSCOPE,
 		T_COMMENT, T_DATE, T_DUMPALL, T_DUMPOFF, T_DUMPON,
 		T_DUMPVARS, T_ENDDEFINITIONS, 
 		T_DUMPPORTS, T_DUMPPORTSOFF, T_DUMPPORTSON, T_DUMPPORTSALL,
-		T_TIMESCALE, T_VERSION, T_VCDCLOSE,
+		T_TIMESCALE, T_VERSION, T_VCDCLOSE, T_TIMEZERO,
 		T_EOF, T_STRING, T_UNKNOWN_KEY };
 
 static char *tokens[]={ "var", "end", "scope", "upscope",
                  "comment", "date", "dumpall", "dumpoff", "dumpon",
                  "dumpvars", "enddefinitions",
                  "dumpports", "dumpportsoff", "dumpportson", "dumpportsall",
-                 "timescale", "version", "vcdclose",
+                 "timescale", "version", "vcdclose", "timezero",
                  "", "", "" };
 
-#define NUM_TOKENS 18
+#define NUM_TOKENS 19
 
 
 #define T_GET tok=get_token();if((tok==T_END)||(tok==T_EOF))break;
@@ -1399,6 +1399,16 @@ for(;;)
 			break;
 		case T_VERSION:
 			disable_autocoalesce = version_sync_end("VERSION:");
+			break;
+		case T_TIMEZERO:
+			{
+			int vtok=get_token();
+			if((vtok==T_END)||(vtok==T_EOF)) break;
+			GLOBALS->global_time_offset=atoi_64(GLOBALS->yytext_vcd_recoder_c_3);
+
+			DEBUG(fprintf(stderr,"TIMEZERO: "TTFormat"\n",GLOBALS->global_time_offset));
+			sync_end(NULL);
+			}
 			break;
 		case T_TIMESCALE:
 			{

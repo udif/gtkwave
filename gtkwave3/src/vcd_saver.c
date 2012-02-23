@@ -529,12 +529,14 @@ if(lxt)
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$end\n");
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$version\n\t"WAVE_VERSION_INFO"\n$end\n");
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$timescale\n\t%d%c%s\n$end\n", (int)GLOBALS->time_scale, GLOBALS->time_dimension, (GLOBALS->time_dimension=='s') ? "" : "s");
+		if(GLOBALS->global_time_offset) { w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$timezero\n\t"TTFormat"\n$end\n",GLOBALS->global_time_offset); }
 		}
 		else
 		{
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment data_start %p $end\n", (void *)trans_head); /* arbitrary hex identifier */
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment name %s $end\n", trans_head->name ? trans_head->name : "UNKNOWN");
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$timescale %d%c%s $end\n", (int)GLOBALS->time_scale, GLOBALS->time_dimension, (GLOBALS->time_dimension=='s') ? "" : "s");
+		if(GLOBALS->global_time_offset) { w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$timezero "TTFormat" $end\n",GLOBALS->global_time_offset); }
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment min_time "TTFormat" $end\n", GLOBALS->min_time / GLOBALS->time_scale);
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment max_time "TTFormat" $end\n", GLOBALS->max_time / GLOBALS->time_scale);
 		}

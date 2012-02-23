@@ -94,9 +94,13 @@ entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
 entry_text = entry_text ? entry_text : "";
 if(!strlen(entry_text)) goto failure;
-if(!isdigit((int)(unsigned char)entry_text[0])) goto failure;
+if(entry_text[0] != '-')
+	{
+	if(!isdigit((int)(unsigned char)entry_text[0])) goto failure;
+	}
 
 temp=unformat_time(entry_text, GLOBALS->time_dimension);
+temp -= GLOBALS->global_time_offset;
 if((temp<GLOBALS->tims.start)||(temp>GLOBALS->tims.last)) goto failure;
 
 for(i=0;i<26;i++)
@@ -111,7 +115,7 @@ for(i=0;i<26;i++)
 		}
         }
 
-reformat_time_simple(buf, temp, GLOBALS->time_dimension);
+reformat_time_simple(buf, temp + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 
 GLOBALS->shadow_markers_markerbox_c_1[ent_idx]=temp;
 GLOBALS->dirty_markerbox_c_1=1;
@@ -139,6 +143,7 @@ entry_text = entry_text ? entry_text : "";
 if(!strlen(entry_text)) goto failure;
 
 temp=unformat_time(entry_text, GLOBALS->time_dimension);
+temp -= GLOBALS->global_time_offset;
 if((temp<GLOBALS->tims.start)||(temp>GLOBALS->tims.last)) goto failure;
 
 for(i=0;i<26;i++)
@@ -146,7 +151,7 @@ for(i=0;i<26;i++)
         if(temp==GLOBALS->shadow_markers_markerbox_c_1[i]) goto failure;
         }
 
-reformat_time_simple(buf, temp, GLOBALS->time_dimension);
+reformat_time_simple(buf, temp +  GLOBALS->global_time_offset, GLOBALS->time_dimension);
 gtk_entry_set_text (GTK_ENTRY (entry), buf);
 
 GLOBALS->shadow_markers_markerbox_c_1[ent_idx]=temp;
@@ -163,7 +168,7 @@ if(GLOBALS->shadow_markers_markerbox_c_1[ent_idx]==-1)
 	}
 	else
 	{
-	reformat_time_simple(buf, GLOBALS->shadow_markers_markerbox_c_1[ent_idx], GLOBALS->time_dimension);
+	reformat_time_simple(buf, GLOBALS->shadow_markers_markerbox_c_1[ent_idx] + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	}
 gtk_entry_set_text (GTK_ENTRY (entry), buf);
 }
@@ -289,7 +294,7 @@ void markerbox(char *title, GtkSignalFunc func)
 	}
 	else
 	{
-	reformat_time_simple(buf, GLOBALS->shadow_markers_markerbox_c_1[i], GLOBALS->time_dimension);
+	reformat_time_simple(buf, GLOBALS->shadow_markers_markerbox_c_1[i] + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	}
 
     gtk_entry_set_text (GTK_ENTRY (entry), buf);

@@ -21,14 +21,14 @@ char str[40];
 
 if(GLOBALS->from_entry)
 	{
-	reformat_time(str, GLOBALS->tims.first, GLOBALS->time_dimension);
+	reformat_time(str, GLOBALS->tims.first + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	gtk_entry_set_text(GTK_ENTRY(GLOBALS->from_entry),str);
 	gtkwavetcl_setvar(WAVE_TCLCB_FROM_ENTRY_UPDATED, str, WAVE_TCLCB_FROM_ENTRY_UPDATED_FLAGS);
 	}
 
 if(GLOBALS->to_entry)
 	{
-	reformat_time(str, GLOBALS->tims.last, GLOBALS->time_dimension);
+	reformat_time(str, GLOBALS->tims.last + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	gtk_entry_set_text(GTK_ENTRY(GLOBALS->to_entry),str);
 	gtkwavetcl_setvar(WAVE_TCLCB_TO_ENTRY_UPDATED, str, WAVE_TCLCB_TO_ENTRY_UPDATED_FLAGS);
 	}
@@ -56,6 +56,7 @@ entry_text = entry_text ? entry_text : "";
 DEBUG(printf("From Entry contents: %s\n",entry_text));
 
 newlo=unformat_time(entry_text, GLOBALS->time_dimension);
+newlo -= GLOBALS->global_time_offset;
 
 if(newlo<GLOBALS->min_time) 
 	{
@@ -67,7 +68,7 @@ if(newlo<(GLOBALS->tims.last))
 	GLOBALS->tims.first=newlo;
 	if(GLOBALS->tims.start<GLOBALS->tims.first) GLOBALS->tims.timecache=GLOBALS->tims.start=GLOBALS->tims.first;
 
-	reformat_time(fromstr, GLOBALS->tims.first, GLOBALS->time_dimension);
+	reformat_time(fromstr, GLOBALS->tims.first + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	gtk_entry_set_text(GTK_ENTRY(entry),fromstr);
 	time_update(); 
 	gtkwavetcl_setvar(WAVE_TCLCB_FROM_ENTRY_UPDATED, fromstr, WAVE_TCLCB_FROM_ENTRY_UPDATED_FLAGS);
@@ -75,7 +76,7 @@ if(newlo<(GLOBALS->tims.last))
 	}
 	else
 	{
-	reformat_time(fromstr, GLOBALS->tims.first, GLOBALS->time_dimension);
+	reformat_time(fromstr, GLOBALS->tims.first + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	gtk_entry_set_text(GTK_ENTRY(entry),fromstr);
 	gtkwavetcl_setvar(WAVE_TCLCB_FROM_ENTRY_UPDATED, fromstr, WAVE_TCLCB_FROM_ENTRY_UPDATED_FLAGS);
 	return;
@@ -93,6 +94,7 @@ entry_text = entry_text ? entry_text : "";
 DEBUG(printf("To Entry contents: %s\n",entry_text));
 
 newhi=unformat_time(entry_text, GLOBALS->time_dimension);
+newhi -= GLOBALS->global_time_offset;
 
 if(newhi>GLOBALS->max_time) 
 	{
@@ -102,7 +104,7 @@ if(newhi>GLOBALS->max_time)
 if(newhi>(GLOBALS->tims.first)) 
 	{ 
 	GLOBALS->tims.last=newhi;
-	reformat_time(tostr, GLOBALS->tims.last, GLOBALS->time_dimension);
+	reformat_time(tostr, GLOBALS->tims.last + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	gtk_entry_set_text(GTK_ENTRY(entry),tostr);
 	time_update(); 
 	gtkwavetcl_setvar(WAVE_TCLCB_TO_ENTRY_UPDATED, tostr, WAVE_TCLCB_TO_ENTRY_UPDATED_FLAGS);
@@ -110,7 +112,7 @@ if(newhi>(GLOBALS->tims.first))
 	}
 	else
 	{
-	reformat_time(tostr, GLOBALS->tims.last, GLOBALS->time_dimension);
+	reformat_time(tostr, GLOBALS->tims.last + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 	gtk_entry_set_text(GTK_ENTRY(entry),tostr);
 	gtkwavetcl_setvar(WAVE_TCLCB_TO_ENTRY_UPDATED, tostr, WAVE_TCLCB_TO_ENTRY_UPDATED_FLAGS);
 	return;
@@ -135,7 +137,7 @@ gtk_tooltips_set_delay_2(tooltips,1500);
 label=gtk_label_new("From:");
 GLOBALS->from_entry=gtk_entry_new_with_max_length(40);
 
-reformat_time(fromstr, GLOBALS->min_time, GLOBALS->time_dimension);
+reformat_time(fromstr, GLOBALS->min_time + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 
 gtk_entry_set_text(GTK_ENTRY(GLOBALS->from_entry),fromstr);
 gtk_signal_connect (GTK_OBJECT (GLOBALS->from_entry), "activate",GTK_SIGNAL_FUNC (from_entry_callback), GLOBALS->from_entry);
@@ -151,7 +153,7 @@ gtk_widget_show(GLOBALS->from_entry);
 label2=gtk_label_new("To:");
 GLOBALS->to_entry=gtk_entry_new_with_max_length(40);
 
-reformat_time(tostr, GLOBALS->max_time, GLOBALS->time_dimension);
+reformat_time(tostr, GLOBALS->max_time + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 
 gtk_entry_set_text(GTK_ENTRY(GLOBALS->to_entry),tostr);
 gtk_signal_connect (GTK_OBJECT (GLOBALS->to_entry), "activate",GTK_SIGNAL_FUNC (to_entry_callback), GLOBALS->to_entry);

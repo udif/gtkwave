@@ -113,9 +113,9 @@ GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;
 GLOBALS->zoom_dyn = g_old->zoom_dyn;
 GLOBALS->zoom_dyne = g_old->zoom_dyne;
 
-reformat_time(timestr, GLOBALS->tims.first, GLOBALS->time_dimension);
+reformat_time(timestr, GLOBALS->tims.first + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 gtk_entry_set_text(GTK_ENTRY(GLOBALS->from_entry),timestr);
-reformat_time(timestr, GLOBALS->tims.last, GLOBALS->time_dimension);
+reformat_time(timestr, GLOBALS->tims.last +  GLOBALS->global_time_offset, GLOBALS->time_dimension);
 gtk_entry_set_text(GTK_ENTRY(GLOBALS->to_entry),timestr);
 
 update_maxmarker_labels();

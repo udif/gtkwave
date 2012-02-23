@@ -4518,6 +4518,7 @@ if(GLOBALS->entrybox_text)
                 else
                 {
                 gt=unformat_time(GLOBALS->entrybox_text, GLOBALS->time_dimension);
+		gt -= GLOBALS->global_time_offset;
                 }
 	free_2(GLOBALS->entrybox_text);
 	GLOBALS->entrybox_text=NULL;
@@ -4537,7 +4538,7 @@ if(GLOBALS->entrybox_text)
         	if(GLOBALS->tims.timecache<GLOBALS->tims.first) GLOBALS->tims.timecache=GLOBALS->tims.first;
         	}
 
-	reformat_time(timval,GLOBALS->tims.timecache,GLOBALS->time_dimension);
+	reformat_time(timval,GLOBALS->tims.timecache + GLOBALS->global_time_offset,GLOBALS->time_dimension);
 	sprintf(update_string, "Moved to time: %s\n", timval);
 	status_text(update_string);
 
@@ -4560,7 +4561,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-reformat_time(gt, GLOBALS->tims.start, GLOBALS->time_dimension);
+reformat_time(gt, GLOBALS->tims.start + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 
 entrybox("Move To Time",200,gt,NULL,20,GTK_SIGNAL_FUNC(movetotime_cleanup));
 }

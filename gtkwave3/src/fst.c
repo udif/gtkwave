@@ -327,6 +327,8 @@ if(!allowed_to_autocoalesce)
 scale=(signed char)fstReaderGetTimescale(GLOBALS->fst_fst_c_1);
 exponent_to_time_scale(scale);
 
+GLOBALS->global_time_offset = fstReaderGetTimezero(GLOBALS->fst_fst_c_1);
+
 f_name = calloc_2(F_NAME_MODULUS+1,sizeof(char *));
 f_name_len = calloc_2(F_NAME_MODULUS+1,sizeof(int));
 f_name_max_len = calloc_2(F_NAME_MODULUS+1,sizeof(int));

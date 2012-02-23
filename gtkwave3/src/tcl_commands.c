@@ -222,6 +222,12 @@ TimeType value = GLOBALS->max_time;
 return(gtkwavetcl_printTimeType(clientData, interp, objc, objv, value));
 }
 
+static int gtkwavetcl_getTimeZero(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+{
+TimeType value = GLOBALS->global_time_offset;
+return(gtkwavetcl_printTimeType(clientData, interp, objc, objv, value));
+}
+
 static int gtkwavetcl_getTimeDimension(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 Tcl_Obj *aobj;
@@ -2050,6 +2056,7 @@ tcl_cmdstruct gtkwave_commands[] =
 	{"getSaveFileName",			gtkwavetcl_getSaveFileName},
 	{"getStemsFileName",			gtkwavetcl_getStemsFileName},
 	{"getTimeDimension", 			gtkwavetcl_getTimeDimension},
+	{"getTimeZero", 			gtkwavetcl_getTimeZero},
 	{"getToEntry",				gtkwavetcl_getToEntry},
 	{"getTotalNumTraces",  			gtkwavetcl_getTotalNumTraces},
 	{"getTraceFlagsFromIndex", 		gtkwavetcl_getTraceFlagsFromIndex},

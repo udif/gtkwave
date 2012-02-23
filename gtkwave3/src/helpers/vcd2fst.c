@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2010 Tony Bybell.
+ * Copyright (c) 2009-2012 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -356,6 +356,30 @@ while(!feof(f))
 	if(!strncmp(buf, "$endd", 5))
 		{
 		break;
+		}
+	else
+	if(!strncmp(buf, "$timezero", 9))
+		{
+		char *pnt;
+		uint64_t tzero = 0;
+
+		if((pnt = strstr(buf, "$end")))
+			{
+			*pnt = 0;
+			sscanf(buf+10, "%"SCNd64, &tzero);
+			}
+		else
+                        {
+                        ss = getline_replace(&wbuf, &buf, &glen, f);
+                        if(ss == -1)
+                                {
+                                break;
+                                }
+                        line++;             
+			sscanf(buf, "%"SCNd64, &tzero);
+                        }
+
+		fstWriterSetTimezero(ctx, tzero);
 		}
 	else
 	if(!strncmp(buf, "$timescale", 10))

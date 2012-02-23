@@ -1110,9 +1110,9 @@ if(GLOBALS->ruler_step && !timearray_encountered)
   for (;;)
     {
       pr_renderhash (prc, realx, tim);
-      if (tim)
+      if (tim + GLOBALS->global_time_offset)
 	{
-	  reformat_time (timebuff, time_trunc (tim), GLOBALS->time_dimension);
+	  reformat_time (timebuff, time_trunc (tim + GLOBALS->global_time_offset), GLOBALS->time_dimension);
 	}
       else
 	{
