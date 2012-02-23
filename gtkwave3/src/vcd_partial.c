@@ -2353,6 +2353,7 @@ vcd_cleanup();
 
 GLOBALS->min_time=GLOBALS->start_time_vcd_partial_c_2*GLOBALS->time_scale;
 GLOBALS->max_time=GLOBALS->end_time_vcd_partial_c_2*GLOBALS->time_scale;
+GLOBALS->global_time_offset = GLOBALS->global_time_offset * GLOBALS->time_scale;
 
 if((GLOBALS->min_time==GLOBALS->max_time)||(GLOBALS->max_time==0))
         {

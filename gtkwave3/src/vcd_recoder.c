@@ -2850,6 +2850,7 @@ if(GLOBALS->vcd_is_compressed_vcd_recoder_c_2)
 
 GLOBALS->min_time=GLOBALS->start_time_vcd_recoder_c_3*GLOBALS->time_scale;
 GLOBALS->max_time=GLOBALS->end_time_vcd_recoder_c_3*GLOBALS->time_scale;
+GLOBALS->global_time_offset = GLOBALS->global_time_offset * GLOBALS->time_scale;
 
 if((GLOBALS->min_time==GLOBALS->max_time)&&(GLOBALS->max_time==LLDescriptor(-1)))
         {

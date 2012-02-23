@@ -327,8 +327,6 @@ if(!allowed_to_autocoalesce)
 scale=(signed char)fstReaderGetTimescale(GLOBALS->fst_fst_c_1);
 exponent_to_time_scale(scale);
 
-GLOBALS->global_time_offset = fstReaderGetTimezero(GLOBALS->fst_fst_c_1);
-
 f_name = calloc_2(F_NAME_MODULUS+1,sizeof(char *));
 f_name_len = calloc_2(F_NAME_MODULUS+1,sizeof(int));
 f_name_max_len = calloc_2(F_NAME_MODULUS+1,sizeof(int));
@@ -358,6 +356,7 @@ fprintf(stderr, FST_RDLOAD"Processing %d facs.\n", GLOBALS->numfacs);
 GLOBALS->first_cycle_fst_c_3 = (TimeType) fstReaderGetStartTime(GLOBALS->fst_fst_c_1) * GLOBALS->time_scale;
 GLOBALS->last_cycle_fst_c_3 = (TimeType) fstReaderGetEndTime(GLOBALS->fst_fst_c_1) * GLOBALS->time_scale;
 GLOBALS->total_cycles_fst_c_3 = GLOBALS->last_cycle_fst_c_3 - GLOBALS->first_cycle_fst_c_3 + 1;
+GLOBALS->global_time_offset = fstReaderGetTimezero(GLOBALS->fst_fst_c_1) * GLOBALS->time_scale;
 
 /* blackout region processing */
 num_activity_changes = fstReaderGetNumberDumpActivityChanges(GLOBALS->fst_fst_c_1);

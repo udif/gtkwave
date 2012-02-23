@@ -1186,3 +1186,4 @@
 		Added $timezero tag to VCD files which allows offsetting all
 		the values in a trace to provide potentially negative time 
 		values.  Currently only VCD and FST support this.
+		Fix for timescale 10s and 100s.

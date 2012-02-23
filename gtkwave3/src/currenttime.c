@@ -727,7 +727,9 @@ void exponent_to_time_scale(signed char scale)
 {
 switch(scale)
         {
-        case 0:         GLOBALS->time_dimension = 's'; break;
+        case 2:        GLOBALS->time_scale = LLDescriptor(100); GLOBALS->time_dimension = 's'; break;
+        case 1:        GLOBALS->time_scale = LLDescriptor(10);
+        case 0:                                        GLOBALS->time_dimension = 's'; break;
 
         case -1:        GLOBALS->time_scale = LLDescriptor(100); GLOBALS->time_dimension = 'm'; break;
         case -2:        GLOBALS->time_scale = LLDescriptor(10);
