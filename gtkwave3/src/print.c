@@ -1114,7 +1114,7 @@ if(GLOBALS->ruler_step && !timearray_encountered)
 	{
           if(tim != GLOBALS->min_time)
 		{
-	  	reformat_time (timebuff, time_trunc (tim + GLOBALS->global_time_offset), GLOBALS->time_dimension);
+	  	reformat_time (timebuff, time_trunc (tim) + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 		}
 		else
 		{
