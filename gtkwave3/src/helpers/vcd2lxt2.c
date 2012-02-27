@@ -77,6 +77,7 @@ static TimeType start_time=-1;
 static TimeType end_time=-1;
 static TimeType current_time=-1;
 static TimeType time_scale=1;	/* multiplier is 1, 10, 100 */
+static TimeType time_zero=0;
 
 static char vcd_hier_delimeter[2]={0, 0};   /* fill in after rc reading code */
 
@@ -92,17 +93,17 @@ enum Tokens   { T_VAR, T_END, T_SCOPE, T_UPSCOPE,
 		T_COMMENT, T_DATE, T_DUMPALL, T_DUMPOFF, T_DUMPON,
 		T_DUMPVARS, T_ENDDEFINITIONS, 
 		T_DUMPPORTS, T_DUMPPORTSOFF, T_DUMPPORTSON, T_DUMPPORTSALL,
-		T_TIMESCALE, T_VERSION, T_VCDCLOSE,
+		T_TIMESCALE, T_VERSION, T_VCDCLOSE, T_TIMEZERO,
 		T_EOF, T_STRING, T_UNKNOWN_KEY };
 
 char *tokens[]={ "var", "end", "scope", "upscope",
 		 "comment", "date", "dumpall", "dumpoff", "dumpon",
 		 "dumpvars", "enddefinitions",
 		 "dumpports", "dumpportsoff", "dumpportson", "dumpportsall",
-		 "timescale", "version", "vcdclose",
+		 "timescale", "version", "vcdclose", "timezero",
 		 "", "", "" };
 
-#define NUM_TOKENS 18
+#define NUM_TOKENS 19
 
 static int T_MAX_STR=1024;	/* was originally a const..now it reallocs */
 static char *yytext=NULL;
@@ -1023,6 +1024,15 @@ for(;;)
 		case T_VERSION:
 			sync_end("VERSION:");
 			break;
+                case T_TIMEZERO:
+                        {
+                        int vtok=get_token();
+                        if((vtok==T_END)||(vtok==T_EOF)) break;
+                        time_zero=atoi_64(yytext);                 
+                        lxt2_wr_set_timezero(lt, time_zero);
+                        sync_end(NULL);
+                        }
+                        break;
 		case T_TIMESCALE:
 			{
 			int vtok;

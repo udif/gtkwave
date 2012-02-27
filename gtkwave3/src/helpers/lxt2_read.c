@@ -850,6 +850,29 @@ if(!(lt->handle=fopen(name, "rb")))
 		struct lxt2_rd_block *b;
 
 		rcf=fread(&lt->numfacs, 4, 1, lt->handle);		lt->numfacs = rcf ? lxt2_rd_get_32(&lt->numfacs,0) : 0;
+
+                if(!lt->numfacs)
+                        {
+                        lxtint32_t num_expansion_bytes;          
+
+                        rcf = fread(&num_expansion_bytes, 4, 1, lt->handle); num_expansion_bytes = rcf ? lxt2_rd_get_32(&num_expansion_bytes,0) : 0;
+                        rcf = fread(&lt->numfacs, 4, 1, lt->handle); lt->numfacs = rcf ? lxt2_rd_get_32(&lt->numfacs,0) : 0;
+                        if(num_expansion_bytes >= 8)
+                                {
+                                rcf = fread(&lt->timezero, 8, 1, lt->handle); lt->timezero = rcf ? lxt2_rd_get_64(&lt->timezero,0) : 0;
+                                if(num_expansion_bytes > 8)
+                                        {   
+                                        /* future version? */
+                                        fseeko(lt->handle, num_expansion_bytes - 8, SEEK_CUR);
+                                        }
+                                }
+                                else                  
+                                {
+                                /* malformed */
+                                fseeko(lt->handle, num_expansion_bytes, SEEK_CUR);
+                                }
+                        }
+
 		rcf=fread(&lt->numfacbytes, 4, 1, lt->handle);		lt->numfacbytes = rcf ? lxt2_rd_get_32(&lt->numfacbytes,0) : 0;
 		rcf=fread(&lt->longestname, 4, 1, lt->handle);		lt->longestname = rcf ? lxt2_rd_get_32(&lt->longestname,0) : 0;
 		rcf=fread(&lt->zfacnamesize, 4, 1, lt->handle);		lt->zfacnamesize = rcf ? lxt2_rd_get_32(&lt->zfacnamesize,0) : 0;
@@ -1238,6 +1261,13 @@ _LXT2_RD_INLINE char lxt2_rd_get_timescale(struct lxt2_rd_trace *lt)
 {
 return(lt ? lt->timescale : 0);
 }
+
+
+_LXT2_RD_INLINE lxtsint64_t lxt2_rd_get_timezero(struct lxt2_rd_trace *lt)
+{
+return(lt ? lt->timezero : 0);              
+}
+
 
 
 /*

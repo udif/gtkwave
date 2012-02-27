@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2010 Tony Bybell.
+ * Copyright (c) 2003-2012 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -81,6 +81,7 @@ typedef uint16_t 		lxtint16_t;
 typedef uint32_t		lxtint32_t;
 typedef uint64_t	 	lxtint64_t;
 typedef int32_t			lxtsint32_t;
+typedef int64_t			lxtsint64_t;
 #ifndef __MINGW32__
 #define LXT2_RD_LLD "%"PRId64   
 #define LXT2_RD_LD "%"PRId32
@@ -96,6 +97,7 @@ typedef unsigned __int16	lxtint16_t;
 typedef unsigned __int32	lxtint32_t;
 typedef unsigned __int64	lxtint64_t;
 typedef          __int32	lxtsint32_t;
+typedef          __int64	lxtsint64_t;
 #define LXT2_RD_LLD "%I64d"
 #define LXT2_RD_LD "%d"
 #define LXT2_RD_LLDESC(x) x##i64
@@ -233,6 +235,7 @@ lxtint8_t granule_size;
 lxtint32_t numfacs, numrealfacs, numfacbytes, longestname, zfacnamesize, zfacname_predec_size, zfacgeometrysize;
 lxtint8_t timescale;
 
+lxtsint64_t timezero;
 lxtint64_t prev_time;
 unsigned char num_time_table_entries;
 lxtint64_t time_table[LXT2_RD_GRANULE_SIZE];
@@ -278,6 +281,7 @@ _LXT2_RD_INLINE lxtint32_t	lxt2_rd_get_fac_len(struct lxt2_rd_trace *lt, lxtint3
 _LXT2_RD_INLINE lxtint32_t	lxt2_rd_get_alias_root(struct lxt2_rd_trace *lt, lxtint32_t facidx);
 
 _LXT2_RD_INLINE char		lxt2_rd_get_timescale(struct lxt2_rd_trace *lt);
+_LXT2_RD_INLINE lxtsint64_t 	lxt2_rd_get_timezero(struct lxt2_rd_trace *lt);
 _LXT2_RD_INLINE lxtint64_t	lxt2_rd_get_start_time(struct lxt2_rd_trace *lt);
 _LXT2_RD_INLINE lxtint64_t	lxt2_rd_get_end_time(struct lxt2_rd_trace *lt);
 

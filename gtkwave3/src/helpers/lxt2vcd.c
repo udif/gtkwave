@@ -182,6 +182,7 @@ if(lt)
 	int time_scale = 1;
 	signed char scale;
 	time_t walltime;
+	lxtsint64_t timezero;
 	
 	numfacs = lxt2_rd_get_num_facs(lt);
 	lxt2_rd_set_fac_process_mask_all(lt);
@@ -220,6 +221,12 @@ if(lt)
         printf("$end\n");
         printf("$version\n\tlxt2vcd\n$end\n");
 	printf("$timescale %d%c%c $end\n", time_scale, time_dimension, !scale ? ' ' : 's');
+
+        timezero = lxt2_rd_get_timezero(lt);
+        if(timezero)
+                {
+                printf("$timezero "LXT2_RD_LLD" $end\n", timezero);
+                }
 
 	for(i=0;i<numfacs;i++)
 		{

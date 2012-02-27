@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2003-2011.
+ * Copyright (c) Tony Bybell 2003-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -55,6 +55,7 @@ if(!GLOBALS->lx2_lx2_c_1)
 
 scale=(signed char)lxt2_rd_get_timescale(GLOBALS->lx2_lx2_c_1);
 exponent_to_time_scale(scale);
+GLOBALS->global_time_offset = lxt2_rd_get_timezero(GLOBALS->lx2_lx2_c_1);
 
 GLOBALS->numfacs=lxt2_rd_get_num_facs(GLOBALS->lx2_lx2_c_1);
 GLOBALS->mvlfacs_lx2_c_1=(struct fac *)calloc_2(GLOBALS->numfacs,sizeof(struct fac));
