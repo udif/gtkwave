@@ -453,6 +453,7 @@ int dict_32_offset_lxt_c_1; /* from lxt.c 189 */
 unsigned int dict_width_lxt_c_1; /* from lxt.c 190 */
 char **dict_string_mem_array_lxt_c_1; /* from lxt.c 191 */
 int exclude_offset_lxt_c_1; /* from lxt.c 192 */
+int lxt_timezero_offset;
 char *lt_buf_lxt_c_1; /* from lxt.c 193 */
 int lt_len_lxt_c_1; /* from lxt.c 194 */
 int fd_lxt_c_1; /* from lxt.c 195 */

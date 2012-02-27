@@ -41,6 +41,7 @@ void import_lxt_trace(nptr np);
 #define LT_SECTION_ZDICTIONARY                  (17)
 #define LT_SECTION_ZDICTIONARY_SIZE             (18)
 #define LT_SECTION_EXCLUDE_TABLE                (19)
+#define LT_SECTION_TIMEZERO                     (20)
 
 #define LT_SYM_F_BITS           (0)
 #define LT_SYM_F_INTEGER        (1<<0)

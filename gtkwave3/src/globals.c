@@ -451,6 +451,7 @@ AN_X, /* initial_value_lxt_c_1 174 */
 0, /* dict_width_lxt_c_1 180 */
 NULL, /* dict_string_mem_array_lxt_c_1 181 */
 0, /* exclude_offset_lxt_c_1 182 */
+0, /* lxt_timezero_offset */
 NULL, /* lt_buf_lxt_c_1 183 */
 0, /* lt_len_lxt_c_1 184 */
 -1, /* fd_lxt_c_1 185 */
@@ -2221,9 +2222,9 @@ void reload_into_new_context_2(void)
  if(GLOBALS->tims.laststart < GLOBALS->tims.first)  { GLOBALS->tims.laststart = GLOBALS->tims.first; }
  if(GLOBALS->tims.laststart > GLOBALS->tims.last)   { GLOBALS->tims.laststart = GLOBALS->tims.last; } 
 
- reformat_time(timestr, GLOBALS->tims.first, GLOBALS->time_dimension);
+ reformat_time(timestr, GLOBALS->tims.first + GLOBALS->global_time_offset, GLOBALS->time_dimension);
  gtk_entry_set_text(GTK_ENTRY(GLOBALS->from_entry),timestr);
- reformat_time(timestr, GLOBALS->tims.last, GLOBALS->time_dimension);
+ reformat_time(timestr, GLOBALS->tims.last + GLOBALS->global_time_offset, GLOBALS->time_dimension);
  gtk_entry_set_text(GTK_ENTRY(GLOBALS->to_entry),timestr);
 
 

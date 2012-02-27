@@ -1482,8 +1482,15 @@ while((tag=get_byte(tagpnt))!=LT_SECTION_END)
 
 		case LT_SECTION_EXCLUDE_TABLE:		GLOBALS->exclude_offset_lxt_c_1=offset; DEBUG(printf(LXTHDR"LT_SECTION_EXCLUDE_TABLE = %08x\n", offset)); break;
 
+		case LT_SECTION_TIMEZERO:		GLOBALS->lxt_timezero_offset=offset; DEBUG(printf(LXTHDR"LT_SECTION_TIMEZERO = %08x\n", offset)); break;
+
 		default: fprintf(stderr, "Skipping unknown section tag %02x.\n", tag); break;
 		}	
+	}
+
+if(GLOBALS->lxt_timezero_offset)
+	{
+	GLOBALS->global_time_offset = get_64(GLOBALS->lxt_timezero_offset);
 	}
 
 if(GLOBALS->exclude_offset_lxt_c_1)
