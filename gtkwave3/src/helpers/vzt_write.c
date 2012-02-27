@@ -748,11 +748,22 @@ if((lt)&&(lt->numfacs))
 			lt->sorted_facs[i]->facnum = i;
 			}
 
-		lt->facname_offset=lt->position;
-
-		vzt_wr_emit_u32(lt, lt->numfacs);	/* uncompressed */
+		if(!lt->timezero)
+			{
+			vzt_wr_emit_u32(lt, lt->numfacs);	/* uncompressed */
+			}
+			else
+			{
+			vzt_wr_emit_u32(lt, 0);			/* uncompressed, flag to insert extra parameters */
+			vzt_wr_emit_u32(lt, 8);			/* uncompressed 8 counts timezero and on */
+			vzt_wr_emit_u32(lt, lt->numfacs);	/* uncompressed */
+			vzt_wr_emit_u64(lt, (lt->timezero >> 32) & 0xffffffffL, lt->timezero & 0xffffffffL); /* uncompressed */
+			}
 		vzt_wr_emit_u32(lt, lt->numfacbytes);	/* uncompressed */
 		vzt_wr_emit_u32(lt, lt->longestname);	/* uncompressed */
+
+		lt->facname_offset=lt->position;
+
 		vzt_wr_emit_u32(lt, 0); 		/* uncompressed : placeholder for zfacnamesize     */
 		vzt_wr_emit_u32(lt, 0);		/* uncompressed : placeholder for zfacname_predec_size */
 		vzt_wr_emit_u32(lt, 0); 		/* uncompressed : placeholder for zfacgeometrysize */
@@ -805,7 +816,7 @@ if((lt)&&(lt->numfacs))
 		lt->break_header_size = lt->position;			/* in case we need to emit multiple vzts with same header */
 		lt->zfacgeometry_size = lt->position - lt->facgeometry_offset;
 
-		fseeko(lt->handle, lt->facname_offset + 12, SEEK_SET);
+		fseeko(lt->handle, lt->facname_offset, SEEK_SET);
 		vzt_wr_emit_u32(lt, lt->zfacname_size);		/* backpatch sizes... */
 		vzt_wr_emit_u32(lt, lt->zfacname_predec_size);
 		vzt_wr_emit_u32(lt, lt->zfacgeometry_size);
@@ -1982,4 +1993,17 @@ if(lt)
 	lt->rle = (mode != 0);
 	}
 }
+
+
+/*
+ * time zero offset
+ */
+void vzt_wr_set_timezero(struct vzt_wr_trace *lt, vztsint64_t timeval)               
+{           
+if(lt)
+        { 
+        lt->timezero = timeval;
+        }                 
+}
+
 

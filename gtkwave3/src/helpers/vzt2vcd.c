@@ -184,6 +184,7 @@ if(lt)
 	int time_scale = 1;
 	signed char scale;
 	time_t walltime;
+	vztsint64_t timezero;
 
 	if(vectorize) { vzt_rd_vectorize(lt); }
 	
@@ -224,6 +225,12 @@ if(lt)
         printf("$end\n");
         printf("$version\n\tvzt2vcd\n$end\n");
 	printf("$timescale %d%c%c $end\n", time_scale, time_dimension, !scale ? ' ' : 's');
+
+	timezero = vzt_rd_get_timezero(lt);
+	if(timezero)
+		{
+		printf("$timezero "VZT_RD_LLD" $end\n", timezero);
+		}
 
 	for(i=0;i<numfacs;i++)
 		{

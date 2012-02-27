@@ -1185,5 +1185,5 @@
 3.3.33 27feb12	Scan-build fix in vcd_recoder.c.
 		Added $timezero tag to VCD files which allows offsetting all
 		the values in a trace to provide ability for negative time 
-		values.  Currently only VCD, LXT, and FST support this.
+		values.  Currently only VCD, LXT, VZT, and FST support this.
 		Fix for timescale 10s and 100s.

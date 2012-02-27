@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2003-2011.
+ * Copyright (c) Tony Bybell 2003-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -55,6 +55,8 @@ vzt_rd_process_blocks_linearly(GLOBALS->vzt_vzt_c_1, 1);
 
 scale=(signed char)vzt_rd_get_timescale(GLOBALS->vzt_vzt_c_1);
 exponent_to_time_scale(scale);
+GLOBALS->global_time_offset = vzt_rd_get_timezero(GLOBALS->vzt_vzt_c_1);
+
 
 GLOBALS->numfacs=vzt_rd_get_num_facs(GLOBALS->vzt_vzt_c_1);
 GLOBALS->mvlfacs_vzt_c_3=(struct fac *)calloc_2(GLOBALS->numfacs,sizeof(struct fac));

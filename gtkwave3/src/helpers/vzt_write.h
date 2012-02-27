@@ -62,6 +62,7 @@ typedef uint32_t                vztint32_t;
 typedef uint64_t                vztint64_t;
 
 typedef int32_t                 vztsint32_t;
+typedef int64_t                 vztsint64_t;
 typedef uint64_t 		vzttime_t;
 
 #ifndef __MINGW32__
@@ -78,6 +79,7 @@ typedef unsigned __int32        vztint32_t;
 typedef unsigned __int64        vztint64_t;
 
 typedef          __int32        vztsint32_t;
+typedef          __int64        vztsint64_t;
 typedef unsigned __int64        vzttime_t;
 #define VZT_WR_LLD "%I64d"
 #define VZT_WR_LLDESC(x) x##i64
@@ -155,6 +157,7 @@ vzttime_t firsttime, lasttime;
 char *compress_fac_str;
 int compress_fac_len;
 
+vztsint64_t timezero;
 vzttime_t flushtime;
 unsigned flush_valid : 1;
 
@@ -279,6 +282,7 @@ void 			vzt_wr_set_maxgranule(struct vzt_wr_trace *lt, unsigned int maxgranule);
 
 			/* time ops */
 void 			vzt_wr_set_timescale(struct vzt_wr_trace *lt, int timescale);
+void 			vzt_wr_set_timezero(struct vzt_wr_trace *lt, vztsint64_t timeval);
 int 			vzt_wr_set_time(struct vzt_wr_trace *lt, unsigned int timeval);
 int 			vzt_wr_inc_time_by_delta(struct vzt_wr_trace *lt, unsigned int timeval);
 int 			vzt_wr_set_time64(struct vzt_wr_trace *lt, vzttime_t timeval);

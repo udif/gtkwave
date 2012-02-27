@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004-2010 Tony Bybell.
+ * Copyright (c) 2004-2012 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -84,6 +84,7 @@ typedef uint8_t 		vztint8_t;
 typedef uint16_t 		vztint16_t;
 typedef uint32_t		vztint32_t;
 typedef uint64_t	 	vztint64_t;
+typedef int64_t			vztsint64_t;
 typedef int32_t			vztsint32_t;
 #ifndef __MINGW32__
 #define VZT_RD_LLD "%"PRId64      
@@ -99,6 +100,7 @@ typedef unsigned __int8		vztint8_t;
 typedef unsigned __int16	vztint16_t;
 typedef unsigned __int32	vztint32_t;
 typedef unsigned __int64	vztint64_t;
+typedef          __int64	vztsint64_t;
 typedef          __int32	vztsint32_t;
 #define VZT_RD_LLD "%I64d"
 #define VZT_RD_LD "%d"
@@ -198,6 +200,7 @@ struct vzt_rd_trace
 vztint32_t *rows;
 vztsint32_t *msb, *lsb;
 vztint32_t *flags, *len, *vindex_offset;
+vztsint64_t timezero;
 
 char *value_current_sector;
 char *value_previous_sector;
@@ -266,6 +269,7 @@ _VZT_RD_INLINE vztint32_t	vzt_rd_get_alias_root(struct vzt_rd_trace *lt, vztint3
 _VZT_RD_INLINE char		vzt_rd_get_timescale(struct vzt_rd_trace *lt);
 _VZT_RD_INLINE vztint64_t	vzt_rd_get_start_time(struct vzt_rd_trace *lt);
 _VZT_RD_INLINE vztint64_t	vzt_rd_get_end_time(struct vzt_rd_trace *lt);
+_VZT_RD_INLINE vztsint64_t 	vzt_rd_get_timezero(struct vzt_rd_trace *lt);
 
 _VZT_RD_INLINE int		vzt_rd_get_fac_process_mask(struct vzt_rd_trace *lt, vztint32_t facidx);
 _VZT_RD_INLINE int		vzt_rd_set_fac_process_mask(struct vzt_rd_trace *lt, vztint32_t facidx);
