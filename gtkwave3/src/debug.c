@@ -414,9 +414,9 @@ char *s2 = NULL;
 
 if(s)
 	{
-	int len = strlen(s);
-	s2 = malloc_2(len+1);
-	strcpy(s2, s); 
+	int nbytes = strlen(s) + 1;
+	s2 = malloc_2(nbytes);
+	memcpy(s2, s, nbytes); 
 	}
 
 return(s2);
@@ -428,10 +428,11 @@ char *s2 = NULL;
 
 if(s)
 	{
-	int len = strlen(s);
-	s2 = malloc_2(len+2);
-	strcpy(s2, s); 
-	strcat(s2+len, " ");
+        int len = strlen(s);
+        s2 = malloc(len+2);
+        memcpy(s2, s, len);
+        s2[len++] = ' ';
+        s2[len] = 0;
 	}
 
 return(s2);
