@@ -711,7 +711,7 @@ top:
 	else
 	{
 attempt2:
-	if((p->buf[(p->bufpnt - p->repdist) & WAVE_ZIVMASK] == byt))
+	if(p->buf[(p->bufpnt - p->repdist) & WAVE_ZIVMASK] == byt)
 		{
 		p->repcnt++;
 

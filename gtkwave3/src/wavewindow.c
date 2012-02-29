@@ -1483,7 +1483,7 @@ if((event->button)&&(event->button==GLOBALS->in_button_press_wavewindow_c_1))
 	button_motion_common(event->x,event->y,1,0);
 
 	/* warp selected signals if CTRL is pressed */
-        if((event->button==1))
+        if(event->button==1)
 		{
 	  	int warp = 0;
           	Trptr t = GLOBALS->traces.first;

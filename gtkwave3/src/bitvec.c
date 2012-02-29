@@ -374,7 +374,7 @@ while(h[0])	/* should never exit through this point the way we set up histents w
 		vhead=vcurr=vadd;
 		}
 
-	if((mintime==MAX_HISTENT_TIME)) break;	/* normal bail part */
+	if(mintime==MAX_HISTENT_TIME) break;	/* normal bail part */
 	}
 
 vadd=(vptr)calloc_2(1,sizeof(struct VectorEnt)+numextrabytes);
