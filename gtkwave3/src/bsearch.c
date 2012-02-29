@@ -164,6 +164,8 @@ if(bsearch(&key, b->vectors, b->numregions, sizeof(vptr), compar_vectorent))
 
 if((!GLOBALS->vmax_compare_pos_bsearch_c_1)||(GLOBALS->vmax_compare_time_bsearch_c_1<LLDescriptor(0))) 
 	{
+	/* ignore warning: array index of '1' indexes past the end of an array (that contains 1 elements) [-Warray-bounds] */
+	/* because this array is allocated with size > that declared in the structure definition via end of structure malloc padding */
 	GLOBALS->vmax_compare_pos_bsearch_c_1=b->vectors[1]; /* aix bsearch fix */
 	GLOBALS->vmax_compare_index=&(b->vectors[1]);
 	}
