@@ -485,7 +485,7 @@ if(!GLOBALS->use_maxtime_display)
 					}
 					else
 					{
-					reformat_time(GLOBALS->maxtext_currenttime_c_1+2, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
+					reformat_time(GLOBALS->maxtext_currenttime_c_1+2, val, GLOBALS->time_dimension);
 					}
 				}
 				else
@@ -496,7 +496,7 @@ if(!GLOBALS->use_maxtime_display)
 					}
 					else
 					{
-					reformat_time(GLOBALS->maxtext_currenttime_c_1+1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
+					reformat_time(GLOBALS->maxtext_currenttime_c_1+1, val, GLOBALS->time_dimension);
 					}
 				}
 			}
@@ -513,11 +513,11 @@ if(!GLOBALS->use_maxtime_display)
 				if(val>=0)
 					{
 					*GLOBALS->maxtext_currenttime_c_1='+';
-					reformat_time(GLOBALS->maxtext_currenttime_c_1+1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
+					reformat_time(GLOBALS->maxtext_currenttime_c_1+1, val, GLOBALS->time_dimension);
 					}
 					else
 					{
-					reformat_time(GLOBALS->maxtext_currenttime_c_1, val + GLOBALS->global_time_offset, GLOBALS->time_dimension);
+					reformat_time(GLOBALS->maxtext_currenttime_c_1, val, GLOBALS->time_dimension);
 					}
 				}
 			}
