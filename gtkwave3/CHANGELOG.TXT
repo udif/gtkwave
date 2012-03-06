@@ -1188,3 +1188,4 @@
 		values.  Currently only VCD, LXT, LXT2, VZT, and FST support 
 		this.
 		Fix for timescale 10s and 100s.
+3.3.34 05mar12	Fix for marker time deltas when $timezero is used.
