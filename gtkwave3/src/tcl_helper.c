@@ -2925,7 +2925,7 @@ void make_tcl_interpreter(char *argv[])
   }
 #else
 #ifdef WIN32
-  if(!GetModulePathName(NULL, commandName, 256))
+  if(!GetModuleFileName(NULL, commandName, 256))
     n = -1 ;
 #else
   n = readlink("/proc/self/exe", commandName, 256) ;
