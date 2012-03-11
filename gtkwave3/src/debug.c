@@ -122,7 +122,7 @@ if(ret)
 #ifdef DEBUG_MALLOC_LINES
         fprintf(stderr, "FATAL ERROR: malloc_2() Out of memory, sorry. ['%s', %d]\n", filename, lineno);
 #else
-        fprintf(stderr, "FATAL ERROR : malloc_2() Out of memory, sorry.\n");
+        fprintf(stderr, "FATAL ERROR: malloc_2() Out of memory, sorry.\n");
 #endif
         exit(1);
         }
@@ -157,7 +157,7 @@ if(ret)
 #ifdef DEBUG_MALLOC_LINES
         fprintf(stderr, "FATAL ERROR: malloc_2() Out of memory, sorry. ['%s', %d]\n", filename, lineno);
 #else
-	fprintf(stderr, "FATAL ERROR : malloc_2() Out of memory, sorry.\n");
+	fprintf(stderr, "FATAL ERROR: malloc_2() Out of memory, sorry.\n");
 #endif
 	exit(1);
 	}
@@ -188,7 +188,7 @@ if(ret)
 #ifdef DEBUG_MALLOC_LINES
         fprintf(stderr, "FATAL ERROR: realloc_2() Out of memory, sorry. ['%s', %d]\n", filename, lineno);
 #else
-        fprintf(stderr, "FATAL ERROR : realloc_2() Out of memory, sorry.\n");
+        fprintf(stderr, "FATAL ERROR: realloc_2() Out of memory, sorry.\n");
 #endif
         exit(1);
         }
@@ -240,7 +240,7 @@ if(ret)
 #ifdef DEBUG_MALLOC_LINES
         fprintf(stderr, "FATAL ERROR: realloc_2() Out of memory, sorry. ['%s', %d]\n", filename, lineno);
 #else
-	fprintf(stderr, "FATAL ERROR : realloc_2() Out of memory, sorry.\n");
+	fprintf(stderr, "FATAL ERROR: realloc_2() Out of memory, sorry.\n");
 #endif
 	exit(1);
 	}
