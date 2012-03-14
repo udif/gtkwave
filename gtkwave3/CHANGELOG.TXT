@@ -1190,3 +1190,6 @@
 		Fix for timescale 10s and 100s.
 3.3.34 12mar12	Fix for marker time deltas when $timezero is used.
 		Reduced size of alert requester icons to 64x64 pixels.
+3.3.35 14mar12	Polarity fix for vcd_preserve_glitches in rcfile.  Default 
+		is no/off. Use yes in the rcfile to enable (e.g., for
+		viewing interpolated analog waveforms).

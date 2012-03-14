@@ -580,13 +580,13 @@ return(0);
 int f_vcd_preserve_glitches(char *str)
 {
 DEBUG(printf("f_vcd_preserve_glitches(\"%s\")\n",str));
-GLOBALS->vcd_preserve_glitches=atoi_64(str)?0:-1;	/* 0==yes, -1==no */
+GLOBALS->vcd_preserve_glitches=atoi_64(str)?1:0;
 return(0);
 }
 
 int f_vcd_warning_filesize(char *str)
 {
-DEBUG(printf("f_vcd_preserve_glitches(\"%s\")\n",str));
+DEBUG(printf("f_vcd_warning_filesize(\"%s\")\n",str));
 GLOBALS->vcd_warning_filesize=atoi_64(str);
 return(0);
 }
