@@ -1190,6 +1190,14 @@
 		Fix for timescale 10s and 100s.
 3.3.34 12mar12	Fix for marker time deltas when $timezero is used.
 		Reduced size of alert requester icons to 64x64 pixels.
-3.3.35 14mar12	Polarity fix for vcd_preserve_glitches in rcfile.  Default 
+3.3.35 15mar12	Polarity fix for vcd_preserve_glitches in rcfile.  Default 
 		is no/off. Use yes in the rcfile to enable (e.g., for
 		viewing interpolated analog waveforms).
+		Added vcd_preserve_glitches support to FST as --optimize
+		uses FST.
+		Added vcd_preserve_glitches_real (for VCD/FST) rcfile
+		variable that turns off deglitching only for real signals.
+		This removes the need for #define TRACK_AND_HOLD_FIX and 
+		prevents the case where interpolation of an analog waveform
+		is deformed as significant data points were removed by the
+		VCD or FST loader.

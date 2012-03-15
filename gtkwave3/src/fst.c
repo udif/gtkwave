@@ -959,7 +959,7 @@ if(!(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
 
 		if((l2e->histent_curr)&&(l2e->histent_curr->v.h_vector)) /* remove duplicate values */
 			{
-			if(!memcmp(l2e->histent_curr->v.h_vector, h_vector, f->len))
+			if((!memcmp(l2e->histent_curr->v.h_vector, h_vector, f->len))&&(!GLOBALS->vcd_preserve_glitches))
 				{
 				free_2(h_vector);
 				return;
@@ -1000,7 +1000,7 @@ if(!(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
 
 		if((vt != ND_VCD_EVENT) && (l2e->histent_curr)) /* remove duplicate values */
 			{
-			if(l2e->histent_curr->v.h_val == h_val)
+			if((l2e->histent_curr->v.h_val == h_val) && (!GLOBALS->vcd_preserve_glitches))
 				{
 				return;
 				}
@@ -1020,7 +1020,10 @@ else if(f->flags&VZT_RD_SYM_F_DOUBLE)
 		if(!memcmp(l2e->histent_curr->v.h_vector, value, sizeof(double)))
 #endif
 			{
-			return;
+			if((!GLOBALS->vcd_preserve_glitches)&&(!GLOBALS->vcd_preserve_glitches_real))
+				{
+				return;
+				}
 			}
 		}
 
@@ -1066,7 +1069,7 @@ else	/* string */
 
 	if((l2e->histent_curr)&&(l2e->histent_curr->v.h_vector)) /* remove duplicate values */
 		{
-		if(!strcmp(l2e->histent_curr->v.h_vector, (const char *)value))
+		if((!strcmp(l2e->histent_curr->v.h_vector, (const char *)value)) && (!GLOBALS->vcd_preserve_glitches))
 			{
 			free(s);
 			return;

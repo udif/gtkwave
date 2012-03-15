@@ -1041,6 +1041,7 @@ char convert_to_reals; /* from vcd.c 506 */
 char atomic_vectors; /* from vcd.c 507 */
 char make_vcd_save_file; /* from vcd.c 508 */
 char vcd_preserve_glitches; /* from vcd.c 509 */
+char vcd_preserve_glitches_real;
 FILE *vcd_save_handle; /* from vcd.c 510 */
 FILE *vcd_handle_vcd_c_1; /* from vcd.c 511 */
 char vcd_is_compressed_vcd_c_1; /* from vcd.c 512 */

@@ -5,6 +5,7 @@
 #
 alt_wheel_mode yes
 vcd_preserve_glitches no
+vcd_preserve_glitches_real no
 
 ignore_savefile_pane_pos no
 ignore_savefile_pos no

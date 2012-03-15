@@ -1800,7 +1800,7 @@ switch(ch)
 #ifndef WAVE_HAS_H_DOUBLE
 			||(!n->curr->v.h_vector)
 #endif
-			||(GLOBALS->vcd_preserve_glitches)
+			||(GLOBALS->vcd_preserve_glitches)||(GLOBALS->vcd_preserve_glitches_real)
 			) /* same region == go skip */ 
 	        	{
 			if(n->curr->time==tim)

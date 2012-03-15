@@ -575,6 +575,7 @@ if(!GLOBALS)
 	GLOBALS->use_scrollbar_only = old_g->use_scrollbar_only;
 	GLOBALS->vcd_explicit_zero_subscripts = old_g->vcd_explicit_zero_subscripts;
 	GLOBALS->vcd_preserve_glitches = old_g->vcd_preserve_glitches;
+	GLOBALS->vcd_preserve_glitches_real = old_g->vcd_preserve_glitches_real;
 	GLOBALS->vcd_warning_filesize = old_g->vcd_warning_filesize;
 	GLOBALS->vector_padding = old_g->vector_padding;
 	GLOBALS->vlist_compression_depth = old_g->vlist_compression_depth;

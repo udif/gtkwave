@@ -584,6 +584,13 @@ GLOBALS->vcd_preserve_glitches=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_vcd_preserve_glitches_real(char *str)
+{
+DEBUG(printf("f_vcd_preserve_glitches_real(\"%s\")\n",str));
+GLOBALS->vcd_preserve_glitches_real=atoi_64(str)?1:0;
+return(0);
+}
+
 int f_vcd_warning_filesize(char *str)
 {
 DEBUG(printf("f_vcd_warning_filesize(\"%s\")\n",str));
@@ -840,6 +847,7 @@ static struct rc_entry rcitems[]=
 { "use_toolbutton_interface", f_use_toolbutton_interface },
 { "vcd_explicit_zero_subscripts", f_vcd_explicit_zero_subscripts },
 { "vcd_preserve_glitches", f_vcd_preserve_glitches },
+{ "vcd_preserve_glitches_real", f_vcd_preserve_glitches_real },
 { "vcd_warning_filesize", f_vcd_warning_filesize },
 { "vector_padding", f_vector_padding },
 { "vlist_compression", f_vlist_compression },

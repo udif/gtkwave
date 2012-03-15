@@ -1913,20 +1913,16 @@ switch(ch)
 		if(regadd) { tim*=(GLOBALS->time_scale); }
 	
 		if(
-#ifndef TRACK_AND_HOLD_FIX
 #ifdef WAVE_HAS_H_DOUBLE
 		  (vector&&(n->curr->v.h_double!=*(double *)vector))
 #else
 		  (n->curr->v.h_vector&&vector&&(*(double *)n->curr->v.h_vector!=*(double *)vector))
 #endif
-#else
-		  (1)
-#endif
 			||(tim==GLOBALS->start_time_vcd_c_1)
 #ifndef WAVE_HAS_H_DOUBLE
 			||(!n->curr->v.h_vector)
 #endif
-			||(GLOBALS->vcd_preserve_glitches)
+			||(GLOBALS->vcd_preserve_glitches)||(GLOBALS->vcd_preserve_glitches_real)
 			) /* same region == go skip */ 
 	        	{
 			if(n->curr->time==tim)

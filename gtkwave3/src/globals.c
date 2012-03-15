@@ -1056,6 +1056,7 @@ NULL, /* vcd_jmp_buf */
 1, /* atomic_vectors 476 */
 0, /* make_vcd_save_file 477 */
 0, /* vcd_preserve_glitches 478 */
+0, /* vcd_preserve_glitches_real */
 NULL, /* vcd_save_handle 479 */
 NULL, /* vcd_handle_vcd_c_1 480 */
 0, /* vcd_is_compressed_vcd_c_1 481 */
@@ -1806,6 +1807,7 @@ void reload_into_new_context_2(void)
  new_globals->use_scrollbar_only = GLOBALS->use_scrollbar_only;
  new_globals->vcd_explicit_zero_subscripts = GLOBALS->vcd_explicit_zero_subscripts;
  new_globals->vcd_preserve_glitches = GLOBALS->vcd_preserve_glitches;
+ new_globals->vcd_preserve_glitches_real = GLOBALS->vcd_preserve_glitches_real;
  new_globals->vcd_warning_filesize = GLOBALS->vcd_warning_filesize;
  new_globals->vector_padding = GLOBALS->vector_padding;
  new_globals->vlist_prepack = GLOBALS->vlist_prepack;

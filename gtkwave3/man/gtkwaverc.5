@@ -328,7 +328,12 @@ A nonzero value indicates that a toolbar with buttons should be at the top of th
 indicates that signal names should be stored internally as name.bitnumber when enabled. When disabled, a more "normal" ordering of name[bitnumber] is used. Note that when disabled, the Bundle Up and Bundle Down options are disabled in the Signal Search Regexp,  Signal Search Hierarchy, and Signal Search Tree options. This is necessary as the internal data structures for signals are represented with one "less" level of hierarchy than when enabled and those functions would not work properly. This should not be an issue if atomic_vectors are enabled. Default for vcd_explicit_zero_subscripts is disabled.
 .TP 
 \fBvcd_preserve_glitches\fR <\fIvalue\fP>
-indicates that any repeat equal values for a net spanning different time values in the vcd file are not to be compressed into a single value change but should remain in order to allow glitches to be present for this case. Default for vcd_preserve_glitches is disabled.
+indicates that any repeat equal values for a net spanning different time values in the VCD/FST file are not to be compressed into a single value change but should remain in order to allow glitches to be present for this case. Default for vcd_preserve_glitches is disabled.
+.TP 
+\fBvcd_preserve_glitches_real\fR <\fIvalue\fP>
+indicates that any repeat equal values for a real net spanning different time values in the VCD/FST file are not to be compressed into a single value change but should remain for this case. Default for vcd_preserve_glitches is disabled.
+The intended use is for when viewing analog interpolated data such that removing
+duplicate values would incorrectly deform the interpolation.
 .TP 
 \fBvcd_warning_filesize\fR <\fIvalue\fP>
 produces a warning message if the VCD filesize is greater than the argument's size in MB.  Set to zero to disable this.
