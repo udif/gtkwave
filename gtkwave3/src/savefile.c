@@ -1049,7 +1049,14 @@ if(*w2=='*')
 		while(*w2==' ') w2++;
 		if(*w2==0) return(~0);
 
-		if(!which) { sscanf(w2,"%f",&f); GLOBALS->tims.zoom=(gdouble)f; }
+		if(!which) 
+			{ 
+			sscanf(w2,"%f",&f); 
+			if((!GLOBALS->do_initial_zoom_fit)||(!GLOBALS->do_initial_zoom_fit_used))
+				{
+				GLOBALS->tims.zoom=(gdouble)f; 
+				}
+			}
 		else
 		{
 		sscanf(w2,TTFormat,&ttlocal);
