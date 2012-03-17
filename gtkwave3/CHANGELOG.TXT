@@ -1201,3 +1201,4 @@
 		prevents the case where interpolation of an analog waveform
 		is deformed as significant data points were removed by the
 		VCD or FST loader.
+		Fix for do_initial_zoom_fit when file requester used.

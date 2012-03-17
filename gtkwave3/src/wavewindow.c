@@ -1711,7 +1711,7 @@ if(GLOBALS->timestart_from_savefile_valid)
 
 if(GLOBALS->wavewidth>1)
 	{
-	if(!GLOBALS->do_initial_zoom_fit)
+	if((!GLOBALS->do_initial_zoom_fit)||(GLOBALS->do_initial_zoom_fit_used))
 		{
 		calczoom(GLOBALS->tims.zoom);
 		fix_wavehadj();
@@ -1720,7 +1720,7 @@ if(GLOBALS->wavewidth>1)
 		}
 		else
 		{
-		GLOBALS->do_initial_zoom_fit=0;
+		GLOBALS->do_initial_zoom_fit_used=1;
 		service_zoom_fit(NULL,NULL);
 		}	
 	}

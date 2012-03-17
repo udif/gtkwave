@@ -1293,6 +1293,7 @@ WAVE_RAINBOW_INITIALIZER, /* gc_rainbow */
  */
 1, /* do_zoom_center 660 */
 0, /* do_initial_zoom_fit 661 */
+0, /* do_initial_zoom_fit_used */
 };
 
 
@@ -1778,6 +1779,7 @@ void reload_into_new_context_2(void)
  new_globals->disable_tooltips = GLOBALS->disable_tooltips;
  new_globals->do_hier_compress = GLOBALS->do_hier_compress;
  new_globals->do_initial_zoom_fit = GLOBALS->do_initial_zoom_fit;
+ new_globals->do_initial_zoom_fit_used = GLOBALS->do_initial_zoom_fit_used;
  new_globals->do_resize_signals = GLOBALS->do_resize_signals;
  new_globals->alt_wheel_mode = GLOBALS->alt_wheel_mode;
  new_globals->initial_signal_window_width = GLOBALS->initial_signal_window_width;
