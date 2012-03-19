@@ -28,8 +28,6 @@
 #include "busy.h"
 #include "hierpack.h"
 
-#undef AET2_ALIASDB_IS_PRESENT
-
 /* 
  * select appropriate entry points based on if aet2
  * support is available
