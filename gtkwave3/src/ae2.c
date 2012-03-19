@@ -195,7 +195,9 @@ static unsigned long ae2_read_symbol_rows_2(AE2_HANDLE handle, unsigned long sym
 {
 if(symbol_idx <= GLOBALS->ae2_num_facs)
 	{
-	return(ae2_read_symbol_rows(handle, symbol_idx));
+	unsigned long r = ae2_read_symbol_rows(handle, symbol_idx);
+	if(r > AE2_MAX_ROWS) r = AE2_MAX_ROWS;
+	return(r);
 	}
 	else
 	{
