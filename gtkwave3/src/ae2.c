@@ -28,6 +28,7 @@
 #include "busy.h"
 #include "hierpack.h"
 
+#undef AET2_ALIASDB_IS_PRESENT
 
 /* 
  * select appropriate entry points based on if aet2
@@ -234,13 +235,20 @@ if(numTerms)
 			fr2.length = -(length = at->first - at->last + 1);
 			}
 
-		ae2_read_value(handle, &fr2, cycle, value+offs);
+		if(fr2.s)
+			{
+			ae2_read_value(handle, &fr2, cycle, value+offs);
+			}
+			else
+			{
+			memset(value+offs, 'Z', fr2.length); /* should never happen except when alias is superset of available model facs */
+			}
 		offs += length;
 		}
 	}
 	else
 	{
-	/* should never happen */
+	/* should never happen except when alias is superset of available model facs */
 	memset(value, 'Z', tot_length);
 	}
 
@@ -279,7 +287,16 @@ if(numTerms)
 			fr2.length = -(length = at->first - at->last + 1);
 			}
 		
-		t_cyc = ae2_read_next_value(handle, &fr2, cycle, value+offs); /* simply want to calculate next value change time */
+		if(fr2.s)
+			{
+			t_cyc = ae2_read_next_value(handle, &fr2, cycle, value+offs); /* simply want to calculate next value change time */
+			}
+			else
+			{
+			/* should never happen except when alias is superset of available model facs */
+			t_cyc = cycle;
+			}
+
 		if(t_cyc != cycle)
 			{
 			if(t_cyc < cyc) { cyc = t_cyc; }
@@ -298,9 +315,10 @@ if(numTerms)
 	}
 	else
 	{
-	/* should never happen */
+	/* should never happen except when alias is superset of available model facs */
 	memset(value, 'Z', tot_length);
 	value[tot_length] = 0;
+	cyc = cycle;
 	}
 
 return(cyc);
@@ -421,6 +439,7 @@ unsigned long kw = 0;
 #endif
 char buf[AE2_MAX_NAME_LENGTH+1];
 
+ae2_read_set_max_section_cycle(65536);
 ae2_initialize(error_fn, msg_fn, alloc_fn, free_fn);
 
 if ( (!(GLOBALS->ae2_f=fopen(fname, "rb"))) || (!(GLOBALS->ae2 = ae2_read_initialize(GLOBALS->ae2_f))) )
@@ -547,10 +566,30 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 		}
 		else
 		{
-		memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[GLOBALS->adb_terms[0].id-1], sizeof(AE2_FACREF));
+		unsigned long id = GLOBALS->adb_terms[0].id;
 
-		GLOBALS->adb_idx_first[i] = 0;
-		GLOBALS->adb_idx_last[i] = GLOBALS->ae2_fr[match_idx].length - 1;
+		if(id)
+			{
+			memcpy(&GLOBALS->ae2_fr[match_idx], &GLOBALS->ae2_fr[id-1], sizeof(AE2_FACREF));
+
+			GLOBALS->adb_idx_first[i] = 0;
+			GLOBALS->adb_idx_last[i] = GLOBALS->ae2_fr[match_idx].length - 1;
+			}
+			else /* not in model */
+			{
+			GLOBALS->ae2_fr[match_idx].length = 0;
+			GLOBALS->adb_idx_first[i] = 0;
+			GLOBALS->adb_idx_last[i] = 0;
+
+		        GLOBALS->ae2_fr[match_idx].s = idx + GLOBALS->ae2_num_facs; /* bias aliases after regular facs */
+
+			GLOBALS->ae2_fr[match_idx].facname = NULL;
+			GLOBALS->ae2_fr[match_idx].row = 0;
+		        GLOBALS->ae2_fr[match_idx].row_high = 0;
+		        GLOBALS->ae2_fr[match_idx].offset = 0;
+
+			GLOBALS->adb_num_terms[i] = 0;
+			}
 		}
 
 	match_idx++;
@@ -968,7 +1007,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 	if((ecyc<cyc)||(ecyc==~ULLDescriptor(0))) continue;
 
 	autosort = calloc_2(ecyc - cyc + 1, sizeof(struct ae2_ncycle_autosort *));
-	
+
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		if(aet2_rd_get_fac_process_mask(i))
