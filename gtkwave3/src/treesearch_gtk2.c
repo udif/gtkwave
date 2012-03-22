@@ -1320,6 +1320,7 @@ do_tooltips:
 	switch(GLOBALS->loaded_file_type)
 		{
 		case FST_FILE:
+		case AE2_FILE:
 		case VCD_FILE:
 		case VCD_RECODER_FILE:
 		case DUMPLESS_FILE:
@@ -1581,6 +1582,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 	switch(GLOBALS->loaded_file_type)
 		{
 		case FST_FILE:
+		case AE2_FILE:
 		case VCD_FILE:
 		case VCD_RECODER_FILE:
 		case DUMPLESS_FILE:

@@ -434,6 +434,7 @@ struct Node *monolithic_node = NULL;
 struct symbol *monolithic_sym = NULL;
 #ifdef AET2_ALIASDB_IS_PRESENT
 unsigned long kw = 0;
+unsigned char *missing = NULL;
 #endif
 char buf[AE2_MAX_NAME_LENGTH+1];
 
@@ -523,11 +524,14 @@ for(i=0;i<GLOBALS->ae2_num_facs;i++)
 	}
 
 #ifdef AET2_ALIASDB_IS_PRESENT
+missing = calloc_2(1, (GLOBALS->ae2_num_aliases + 7 + 1) / 8); /* + 1 to mirror idx value */
 for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	{
 	unsigned long numTerms;
         int idx = i+1;
 	int ii;
+	int midx, mbit;
+	int mcnt;
 
 	total_rows++;
 
@@ -555,12 +559,24 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 		GLOBALS->adb_num_terms[i] = numTerms;
 		GLOBALS->adb_aliases[i] = adb_alloc_2(numTerms * sizeof(ADB_TERM));
 
+		mcnt = 0;
 		for(ii=0;ii<(numTerms);ii++)
 			{
 			GLOBALS->adb_aliases[i][ii].id = GLOBALS->adb_terms[ii+1].id;
+			if(!GLOBALS->adb_aliases[i][ii].id)
+				{
+				mcnt++;
+				}
 			GLOBALS->adb_aliases[i][ii].first = GLOBALS->adb_terms[ii+1].first;
 			GLOBALS->adb_aliases[i][ii].last = GLOBALS->adb_terms[ii+1].last;
         		}
+
+		if(mcnt)
+			{
+			midx = idx / 8;
+			mbit = idx & 7;
+			missing[midx] |= (1 << mbit);
+			}
 		}
 		else
 		{
@@ -575,7 +591,11 @@ for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 			}
 			else /* not in model */
 			{
-			GLOBALS->ae2_fr[match_idx].length = 0;
+			midx = idx / 8;
+			mbit = idx & 7;
+			missing[midx] |= (1 << mbit);
+
+			GLOBALS->ae2_fr[match_idx].length = 1;
 			GLOBALS->adb_idx_first[i] = 0;
 			GLOBALS->adb_idx_last[i] = 0;
 
@@ -616,6 +636,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
         {
 	char *str;	
         int idx;
+	int typ;
 	unsigned long len, clen;
 	int row_iter, mx_row, mx_row_adjusted;
 
@@ -625,11 +646,13 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		idx = i+1;
 		len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
+		typ = ND_GEN_NET;
 		}
 #ifdef AET2_ALIASDB_IS_PRESENT
 		else
 		{
 		idx = i - GLOBALS->ae2_num_facs + 1;
+		typ = (missing[idx/8] & (1 << (idx & 7))) ? ND_GEN_MISSING : ND_GEN_ALIAS;
 		len = adb_alias_name(GLOBALS->adb, idx, buf) - 1; /* it counts the null character */
 		}
 #endif
@@ -711,6 +734,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 	for(row_iter = 0; row_iter < mx_row; row_iter++)
 		{
+		n[row_iter].vartype = typ;
 	        n[row_iter].nname=s->name;
 	        n[row_iter].mv.mvlfac = (struct fac *)(GLOBALS->ae2_fr+match_idx); /* to keep from having to allocate duplicate mvlfac struct */
 							               /* use the info in the AE2_FACREF array instead                */
@@ -746,6 +770,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 #ifdef AET2_ALIASDB_IS_PRESENT
 if(GLOBALS->adb_idx_last) { free_2(GLOBALS->adb_idx_last); GLOBALS->adb_idx_last = NULL; }
 if(GLOBALS->adb_idx_first) { free_2(GLOBALS->adb_idx_first); GLOBALS->adb_idx_first = NULL; }
+if(missing) { free_2(missing); missing = NULL; }
 #endif
 
 freeze_facility_pack();
