@@ -646,7 +646,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		idx = i+1;
 		len = ae2_read_symbol_name(GLOBALS->ae2, idx, buf);
-		typ = ND_GEN_NET;
+		typ = (GLOBALS->ae2_fr[match_idx].row <= 1) ? ND_GEN_NET : ND_VCD_ARRAY;
 		}
 #ifdef AET2_ALIASDB_IS_PRESENT
 		else
