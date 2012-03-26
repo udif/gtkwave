@@ -1203,3 +1203,4 @@
 		VCD or FST loader.
 		Fix for do_initial_zoom_fit when file requester used.
 		Changed contact address for bug reports.
+		Enable mouseover for MinGW.

@@ -297,12 +297,6 @@ gtkwave_signal_connect(GTK_OBJECT(GLOBALS->mo_area_mouseover_c_1), "expose_event
 
 void move_mouseover_sigs(Trptr t, gint xin, gint yin, TimeType tim)
 {
-#if defined _MSC_VER || defined __MINGW32__
-
-return;
-
-#else
-
 gint xd = 0, yd = 0;
 char *asciivalue = NULL;
 int nmaxlen = 0, vmaxlen = 0;
@@ -455,6 +449,5 @@ if(asciivalue) { free_2(asciivalue); }
 if(alternate_name) { free_2(alternate_name); }
 if(flagged_name) { free_2(flagged_name); }
 if(tname) { free_2(tname); }
-#endif
 }
 
