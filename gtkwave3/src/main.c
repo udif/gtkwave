@@ -1628,7 +1628,7 @@ if(fast_exit)
 	exit(0);
 	}
 
-if ((!GLOBALS->zoom_was_explicitly_set)&&
+if ((GLOBALS->loaded_file_type != MISSING_FILE) && (!GLOBALS->zoom_was_explicitly_set) &&
 	((GLOBALS->tims.last-GLOBALS->tims.first)<=400)) GLOBALS->do_initial_zoom_fit=1;  /* force zoom on small traces */
 
 calczoom(GLOBALS->tims.zoom);
