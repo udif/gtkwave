@@ -366,7 +366,7 @@ while(!feof(f))
 		if((pnt = strstr(buf, "$end")))
 			{
 			*pnt = 0;
-			sscanf(buf+10, "%"SCNd64, &tzero);
+			sscanf(buf+10, "%"SCNu64, &tzero);
 			}
 		else
                         {
@@ -376,7 +376,7 @@ while(!feof(f))
                                 break;
                                 }
                         line++;             
-			sscanf(buf, "%"SCNd64, &tzero);
+			sscanf(buf, "%"SCNu64, &tzero);
                         }
 
 		fstWriterSetTimezero(ctx, tzero);
