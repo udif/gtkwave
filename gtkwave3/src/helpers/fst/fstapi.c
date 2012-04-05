@@ -1687,13 +1687,13 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 	}
 #endif
 
-	free(xc->filename); xc->filename = NULL;
-	free(xc);
-
 #ifdef FST_WRITER_PARALLEL
 	pthread_mutex_destroy(&xc->mutex);
 	pthread_attr_destroy(&xc->thread_attr);
 #endif
+
+	free(xc->filename); xc->filename = NULL;
+	free(xc);
 	}
 }
 
