@@ -25,6 +25,10 @@
 #include "fstapi.h"
 #include "fastlz.h"
 
+#ifndef HAVE_LIBPTHREAD
+#undef FST_WRITER_PARALLEL
+#endif
+
 #ifdef FST_WRITER_PARALLEL
 #include <pthread.h>
 #endif

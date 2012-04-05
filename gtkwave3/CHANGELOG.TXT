@@ -1204,4 +1204,5 @@
 		Fix for do_initial_zoom_fit when file requester used.
 		Changed contact address for bug reports.
 		Enable mouseover for MinGW.
-		Added experimental FST_WRITER_PARALLEL #define.
+		Added experimental FST_WRITER_PARALLEL #define and
+		--enable-parallel-fst ./configure option.
