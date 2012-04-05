@@ -689,7 +689,6 @@ TCL_SRC_DIR
 TCL_BIN_DIR
 TCL_PATCH_LEVEL
 TCL_VERSION
-PFST
 STRUCT_PACK
 INLINE_ASM
 FDO_MIME_FALSE
@@ -770,7 +769,6 @@ with_xdgdatadir
 enable_mime_update
 enable_inline_asm
 enable_struct_pack
-enable_parallel_fst
 enable_tcl
 with_tcl
 with_tk
@@ -1431,8 +1429,6 @@ Optional Features:
                           misaligned loads and stores (x86/x86_64/AVR32/
                           M68K/PowerPC/S390).  This can reduce memory on
                           traces with very many signals.
-  --enable-parallel-fst   Enables parallelization in the FST writer
-                          which can reduce vcd2fst time.
   --disable-tcl           Disables Tcl if found
   --enable-stubify        Causes the Tcl/Tk libraries to be dynamically loaded.
   --enable-gtk1           Causes the GTK+ frontend to be built with gtk1
@@ -3243,28 +3239,6 @@ fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ESTP" >&5
 $as_echo "$ESTP" >&6; }
-
-
-# ------------- Parallel FST -------------------
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if parallelized FST should be enabled" >&5
-$as_echo_n "checking if parallelized FST should be enabled... " >&6; }
-
-EPFST=no
-PFST=
-# Check whether --enable-parallel_fst was given.
-if test "${enable_parallel_fst+set}" = set; then :
-  enableval=$enable_parallel_fst;
-if test "X$enable_parallel_fst" = "Xyes" ; then
-	EPFST=yes
-	PFST=-DFST_WRITER_PARALLEL
-fi
-
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $EPFST" >&5
-$as_echo "$EPFST" >&6; }
-
 
 
 # ------------- Tcl -------------------
@@ -9190,7 +9164,7 @@ if test "X$MACHTYPE" = "Xrs6000" ; then
 fi
 fi
 
-CFLAGS="${CFLAGS} ${STRUCT_PACK} ${PFST}"
+CFLAGS="${CFLAGS} ${STRUCT_PACK} -DFST_WRITER_PARALLEL"
 
 
 if test "X$ETCL" = "Xyes" ; then

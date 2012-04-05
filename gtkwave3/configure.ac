@@ -106,25 +106,6 @@ fi
 AC_MSG_RESULT([$ESTP])
 AC_SUBST(STRUCT_PACK)
 
-# ------------- Parallel FST -------------------
-
-AC_MSG_CHECKING([if parallelized FST should be enabled])
-
-EPFST=no
-PFST=
-AC_ARG_ENABLE([parallel_fst],
-[  --enable-parallel-fst   Enables parallelization in the FST writer
-                          which can reduce vcd2fst time.],
-[
-if test "X$enable_parallel_fst" = "Xyes" ; then
-	EPFST=yes
-	PFST=-DFST_WRITER_PARALLEL
-fi
-])
-AC_MSG_RESULT([$EPFST])
-AC_SUBST(PFST)
-
-
 # ------------- Tcl -------------------
 
 AC_MSG_CHECKING([if Tcl usage should be disabled])
@@ -677,7 +658,7 @@ if test "X$MACHTYPE" = "Xrs6000" ; then
 fi
 fi
 
-CFLAGS="${CFLAGS} ${STRUCT_PACK} ${PFST}"
+CFLAGS="${CFLAGS} ${STRUCT_PACK} -DFST_WRITER_PARALLEL"
 
 
 if test "X$ETCL" = "Xyes" ; then
