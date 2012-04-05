@@ -25,6 +25,9 @@
 #include "fstapi.h"
 #include "fastlz.h"
 
+#ifdef FST_WRITER_PARALLEL
+#include <pthread.h>
+#endif
 
 /* this define is to force writer backward compatibility with old readers */
 #ifndef FST_DYNAMIC_ALIAS_DISABLE
@@ -511,6 +514,13 @@ unsigned flush_context_pending : 1;
 /* should really be semaphores, but are bytes to cut down on read-modify-write window size */
 unsigned char already_in_flush; /* in case control-c handlers interrupt */
 unsigned char already_in_close; /* in case control-c handlers interrupt */
+
+#ifdef FST_WRITER_PARALLEL
+pthread_mutex_t mutex;
+pthread_t thread;
+pthread_attr_t thread_attr;
+struct fstWriterContext *xc_parent;
+#endif
 };
 
 
@@ -747,6 +757,9 @@ if((!nam)||(!(xc->handle=unlink_fopen(nam, "w+b"))))
 
 		fstWriterEmitHdrBytes(xc);
 		xc->nan = strtod("NaN", NULL);
+#ifdef FST_WRITER_PARALLEL
+		pthread_mutex_init(&xc->mutex, NULL);
+#endif
 		}
 		else
 		{
@@ -784,6 +797,9 @@ if(xc)
 
 	fputc(FST_BL_SKIP, xc->handle);			/* temporarily tag the section, use FST_BL_VCDATA on finalize */
 	xc->section_start = ftello(xc->handle);
+#ifdef FST_WRITER_PARALLEL
+	if(xc->xc_parent) xc->xc_parent->section_start = xc->section_start;
+#endif
 	xc->section_header_only = 1;			/* indicates truncate might be needed */
 	fstWriterUint64(xc->handle, 0); 		/* placeholder = section length */
 	fstWriterUint64(xc->handle, xc->is_initial_time ? xc->firsttime : xc->curtime); 	/* begin time of section */
@@ -819,7 +835,11 @@ if(xc)
  * only to be called directly by fst code...otherwise must
  * be synced up with time changes
  */
+#ifdef FST_WRITER_PARALLEL
+static void fstWriterFlushContextPrivate2(void *ctx)
+#else
 static void fstWriterFlushContextPrivate(void *ctx)
+#endif
 {
 #ifdef FST_DEBUG
 int cnt = 0;
@@ -839,6 +859,11 @@ unsigned char *packmem;
 unsigned int packmemlen;
 uint32_t *vm4ip;
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+#ifdef FST_WRITER_PARALLEL
+struct fstWriterContext *xc2 = xc->xc_parent;
+#else
+struct fstWriterContext *xc2 = xc;
+#endif
 
 #ifndef FST_DYNAMIC_ALIAS_DISABLE
 Pvoid_t PJHSArray = (Pvoid_t) NULL;
@@ -1259,21 +1284,21 @@ fflush(xc->handle);
 
 fseeko(xc->handle, endpos, SEEK_SET);				/* seek to end of file */
 
-xc->section_header_truncpos = endpos;				/* cache in case of need to truncate */
+xc2->section_header_truncpos = endpos;				/* cache in case of need to truncate */
 if(xc->dump_size_limit)
 	{
 	if(endpos >= xc->dump_size_limit)
 		{
-		xc->skip_writing_section_hdr = 1;
-		xc->size_limit_locked = 1;
-		xc->is_initial_time = 1; /* to trick emit value and emit time change */
+		xc2->skip_writing_section_hdr = 1;
+		xc2->size_limit_locked = 1;
+		xc2->is_initial_time = 1; /* to trick emit value and emit time change */
 #ifdef FST_DEBUG
 		printf("<< dump file size limit reached, stopping dumping >>\n");
 #endif
 		}
 	}
 
-if(!xc->skip_writing_section_hdr)
+if(!xc2->skip_writing_section_hdr)
 	{
 	fstWriterEmitSectionHeader(xc);				/* emit next section header */
 	}
@@ -1281,6 +1306,94 @@ fflush(xc->handle);
 
 xc->already_in_flush = 0;
 }
+
+
+#ifdef FST_WRITER_PARALLEL
+static void *fstWriterFlushContextPrivate1(void *ctx)
+{
+struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+
+fstWriterFlushContextPrivate2(xc);
+
+pthread_mutex_unlock(&(xc->xc_parent->mutex));
+
+free(xc->valpos_mem);
+free(xc->curval_mem);
+free(xc->vchg_mem);
+fclose(xc->tchn_handle);
+free(xc);
+
+return(NULL);
+}
+
+
+static void fstWriterFlushContextPrivate(void *ctx)
+{
+struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+struct fstWriterContext *xc2 = malloc(sizeof(struct fstWriterContext));
+int i;
+
+pthread_mutex_lock(&xc->mutex);
+pthread_mutex_unlock(&xc->mutex);
+
+xc->xc_parent = xc;
+memcpy(xc2, xc, sizeof(struct fstWriterContext));
+
+xc2->valpos_mem = malloc(xc->maxhandle * 4 * sizeof(uint32_t));
+memcpy(xc2->valpos_mem, xc->valpos_mem, xc->maxhandle * 4 * sizeof(uint32_t));
+
+xc2->curval_mem = malloc(xc->maxvalpos);
+memcpy(xc2->curval_mem, xc->curval_mem, xc->maxvalpos);
+
+xc->vchg_mem = malloc(xc->vchg_alloc_siz);
+xc->vchg_mem[0] = '!';
+xc->vchg_siz = 1;
+
+for(i=0;i<xc->maxhandle;i++)
+	{
+	uint32_t *vm4ip = &(xc2->valpos_mem[4*i]);
+
+        if(vm4ip[2])
+                {
+                uint32_t offs = vm4ip[2];
+                int wrlen;
+
+                if(vm4ip[1] <= 1)
+                        {
+                        if(vm4ip[1] == 1)
+                                {
+                                wrlen = fstGetVarint32Length(xc2->vchg_mem + offs + 4); /* used to advance and determine wrlen */
+                                xc->curval_mem[vm4ip[0]] = xc2->vchg_mem[offs + 4 + wrlen]; /* checkpoint variable */
+                                }
+                        }
+                        else
+                        {
+                        wrlen = fstGetVarint32Length(xc2->vchg_mem + offs + 4); /* used to advance and determine wrlen */
+                        memcpy(xc->curval_mem + vm4ip[0], xc2->vchg_mem + offs + 4 + wrlen, vm4ip[1]); /* checkpoint variable */
+                        }
+                }
+
+	vm4ip = &(xc->valpos_mem[4*i]);
+        vm4ip[2] = 0; /* zero out offset val */
+        vm4ip[3] = 0; /* zero out last time change val */
+        }
+
+xc->tchn_cnt = xc->tchn_idx = 0;
+xc->tchn_handle = tmpfile();
+fseeko(xc->tchn_handle, 0, SEEK_SET);
+fstFtruncate(fileno(xc->tchn_handle), 0);
+
+xc->section_header_only = 0;
+xc->secnum++;
+
+pthread_attr_init(&xc->thread_attr);
+pthread_attr_setdetachstate(&xc->thread_attr, PTHREAD_CREATE_DETACHED);
+
+pthread_mutex_lock(&xc->mutex);
+
+pthread_create(&xc->thread, &xc->thread_attr, fstWriterFlushContextPrivate1, xc2);
+}
+#endif
 
 
 /*
@@ -1310,6 +1423,11 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 	unsigned char *tmem;
 	off_t fixup_offs, tlen, hlen;
 
+#ifdef FST_WRITER_PARALLEL
+	pthread_mutex_lock(&xc->mutex);
+	pthread_mutex_unlock(&xc->mutex);
+#endif
+
 	xc->already_in_close = 1; /* never need to zero this out as it is freed at bottom */
 
 	if(xc->section_header_only && xc->section_header_truncpos && (xc->vchg_siz <= 1) && (!xc->is_initial_time))
@@ -1334,6 +1452,10 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 					}
 				}
 			fstWriterFlushContextPrivate(xc);
+#ifdef FST_WRITER_PARALLEL
+			pthread_mutex_lock(&xc->mutex);
+			pthread_mutex_unlock(&xc->mutex);
+#endif
 			}
 		}
 	fstDestroyMmaps(xc, 1);
@@ -1564,6 +1686,10 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 
 	free(xc->filename); xc->filename = NULL;
 	free(xc);
+
+#ifdef FST_WRITER_PARALLEL
+	pthread_mutex_destroy(&xc->mutex);
+#endif
 	}
 }
 

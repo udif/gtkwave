@@ -1190,7 +1190,7 @@
 		Fix for timescale 10s and 100s.
 3.3.34 12mar12	Fix for marker time deltas when $timezero is used.
 		Reduced size of alert requester icons to 64x64 pixels.
-3.3.35 25mar12	Polarity fix for vcd_preserve_glitches in rcfile.  Default 
+3.3.35 04apr12	Polarity fix for vcd_preserve_glitches in rcfile.  Default 
 		is no/off. Use yes in the rcfile to enable (e.g., for
 		viewing interpolated analog waveforms).
 		Added vcd_preserve_glitches support to FST as --optimize
@@ -1204,3 +1204,4 @@
 		Fix for do_initial_zoom_fit when file requester used.
 		Changed contact address for bug reports.
 		Enable mouseover for MinGW.
+		Added experimental FST_WRITER_PARALLEL #define.
