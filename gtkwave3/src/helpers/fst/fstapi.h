@@ -148,6 +148,7 @@ fstHandle fstWriterCreateVar(void *ctx, enum fstVarType vt, enum fstVarDir vd,
 
 void fstWriterSetPackType(void *ctx, int typ); 		/* type = 0 (libz), 1 (fastlz) */
 void fstWriterSetRepackOnClose(void *ctx, int enable); 	/* type = 0 (none), 1 (libz) */
+void fstWriterSetParallelMode(void *ctx, int enable);
 void fstWriterSetDumpSizeLimit(void *ctx, uint64_t numbytes);
 int fstWriterGetDumpSizeLimitReached(void *ctx);
 

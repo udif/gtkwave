@@ -514,6 +514,8 @@ unsigned skip_writing_section_hdr : 1;
 unsigned size_limit_locked : 1;
 unsigned section_header_only : 1;
 unsigned flush_context_pending : 1;
+unsigned parallel_enabled : 1;
+unsigned parallel_was_enabled : 1;
 
 /* should really be semaphores, but are bytes to cut down on read-modify-write window size */
 unsigned char already_in_flush; /* in case control-c handlers interrupt */
@@ -1336,65 +1338,80 @@ return(NULL);
 static void fstWriterFlushContextPrivate(void *ctx)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
-struct fstWriterContext *xc2 = malloc(sizeof(struct fstWriterContext));
-int i;
 
-pthread_mutex_lock(&xc->mutex);
-pthread_mutex_unlock(&xc->mutex);
-
-xc->xc_parent = xc;
-memcpy(xc2, xc, sizeof(struct fstWriterContext));
-
-xc2->valpos_mem = malloc(xc->maxhandle * 4 * sizeof(uint32_t));
-memcpy(xc2->valpos_mem, xc->valpos_mem, xc->maxhandle * 4 * sizeof(uint32_t));
-
-xc2->curval_mem = malloc(xc->maxvalpos);
-memcpy(xc2->curval_mem, xc->curval_mem, xc->maxvalpos);
-
-xc->vchg_mem = malloc(xc->vchg_alloc_siz);
-xc->vchg_mem[0] = '!';
-xc->vchg_siz = 1;
-
-for(i=0;i<xc->maxhandle;i++)
+if(xc->parallel_enabled)
 	{
-	uint32_t *vm4ip = &(xc2->valpos_mem[4*i]);
+	struct fstWriterContext *xc2 = malloc(sizeof(struct fstWriterContext));
+	int i;
 
-        if(vm4ip[2])
-                {
-                uint32_t offs = vm4ip[2];
-                int wrlen;
+	pthread_mutex_lock(&xc->mutex);
+	pthread_mutex_unlock(&xc->mutex);
 
-                if(vm4ip[1] <= 1)
-                        {
-                        if(vm4ip[1] == 1)
-                                {
-                                wrlen = fstGetVarint32Length(xc2->vchg_mem + offs + 4); /* used to advance and determine wrlen */
-                                xc->curval_mem[vm4ip[0]] = xc2->vchg_mem[offs + 4 + wrlen]; /* checkpoint variable */
-                                }
-                        }
-                        else
-                        {
-                        wrlen = fstGetVarint32Length(xc2->vchg_mem + offs + 4); /* used to advance and determine wrlen */
-                        memcpy(xc->curval_mem + vm4ip[0], xc2->vchg_mem + offs + 4 + wrlen, vm4ip[1]); /* checkpoint variable */
-                        }
-                }
+	xc->xc_parent = xc;
+	memcpy(xc2, xc, sizeof(struct fstWriterContext));
 
-	vm4ip = &(xc->valpos_mem[4*i]);
-        vm4ip[2] = 0; /* zero out offset val */
-        vm4ip[3] = 0; /* zero out last time change val */
-        }
+	xc2->valpos_mem = malloc(xc->maxhandle * 4 * sizeof(uint32_t));
+	memcpy(xc2->valpos_mem, xc->valpos_mem, xc->maxhandle * 4 * sizeof(uint32_t));
 
-xc->tchn_cnt = xc->tchn_idx = 0;
-xc->tchn_handle = tmpfile();
-fseeko(xc->tchn_handle, 0, SEEK_SET);
-fstFtruncate(fileno(xc->tchn_handle), 0);
+	xc2->curval_mem = malloc(xc->maxvalpos);
+	memcpy(xc2->curval_mem, xc->curval_mem, xc->maxvalpos);
 
-xc->section_header_only = 0;
-xc->secnum++;
+	xc->vchg_mem = malloc(xc->vchg_alloc_siz);
+	xc->vchg_mem[0] = '!';
+	xc->vchg_siz = 1;
 
-pthread_mutex_lock(&xc->mutex);
+	for(i=0;i<xc->maxhandle;i++)
+		{
+		uint32_t *vm4ip = &(xc2->valpos_mem[4*i]);
+	
+	        if(vm4ip[2])
+	                {
+	                uint32_t offs = vm4ip[2];
+	                int wrlen;
+	
+	                if(vm4ip[1] <= 1)
+	                        {
+	                        if(vm4ip[1] == 1)
+	                                {
+	                                wrlen = fstGetVarint32Length(xc2->vchg_mem + offs + 4); /* used to advance and determine wrlen */
+	                                xc->curval_mem[vm4ip[0]] = xc2->vchg_mem[offs + 4 + wrlen]; /* checkpoint variable */
+	                                }
+	                        }
+	                        else
+	                        {
+	                        wrlen = fstGetVarint32Length(xc2->vchg_mem + offs + 4); /* used to advance and determine wrlen */
+	                        memcpy(xc->curval_mem + vm4ip[0], xc2->vchg_mem + offs + 4 + wrlen, vm4ip[1]); /* checkpoint variable */
+	                        }
+	                }
+	
+		vm4ip = &(xc->valpos_mem[4*i]);
+	        vm4ip[2] = 0; /* zero out offset val */
+	        vm4ip[3] = 0; /* zero out last time change val */
+	        }
+	
+	xc->tchn_cnt = xc->tchn_idx = 0;
+	xc->tchn_handle = tmpfile();
+	fseeko(xc->tchn_handle, 0, SEEK_SET);
+	fstFtruncate(fileno(xc->tchn_handle), 0);
+	
+	xc->section_header_only = 0;
+	xc->secnum++;
+	
+	pthread_mutex_lock(&xc->mutex);
+	
+	pthread_create(&xc->thread, &xc->thread_attr, fstWriterFlushContextPrivate1, xc2);
+	}
+	else
+	{
+	if(xc->parallel_was_enabled) /* conservatively block */
+		{
+		pthread_mutex_lock(&xc->mutex);
+		pthread_mutex_unlock(&xc->mutex);
+		}
 
-pthread_create(&xc->thread, &xc->thread_attr, fstWriterFlushContextPrivate1, xc2);
+	xc->xc_parent = xc;
+	fstWriterFlushContextPrivate2(xc);
+	}
 }
 #endif
 
@@ -1827,6 +1844,17 @@ struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
 	{
 	xc->repack_on_close = (enable != 0);
+	}
+}
+
+
+void fstWriterSetParallelMode(void *ctx, int enable)
+{
+struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+if(xc)
+	{
+	xc->parallel_was_enabled |= xc->parallel_enabled; /* make sticky */
+	xc->parallel_enabled = (enable != 0);
 	}
 }
 

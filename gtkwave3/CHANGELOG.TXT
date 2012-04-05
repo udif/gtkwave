@@ -1206,3 +1206,4 @@
 		Enable mouseover for MinGW.
 		Added experimental FST_WRITER_PARALLEL #define and
 		--enable-parallel-fst ./configure option.
+		Added fstWriterSetParallelMode().

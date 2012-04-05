@@ -75,6 +75,7 @@ return(val);
 
 int pack_type = 0;  /* set to 1 for fastlz */
 int repack_all = 0; /* 0 is normal, 1 does the repack (via fstapi) at end */
+int parallel_mode = 0; /* 0 is is single threaded, 1 is multi-threaded */
 
 int fst_main(char *vname, char *fstname)
 {
@@ -118,6 +119,7 @@ if(!ctx)
 vcd_ids = make_jrb();
 fstWriterSetPackType(ctx, pack_type);
 fstWriterSetRepackOnClose(ctx, repack_all);
+fstWriterSetParallelMode(ctx, parallel_mode);
 
 while(!feof(f))
 	{
@@ -812,6 +814,7 @@ printf(
 "  -f, --fstname=FILE         specify FST output filename\n"
 "  -F, --fastpack             use fastlz algorithm for speed\n"
 "  -c, --compress             compress entire file on close\n"
+"  -p, --parallel             enable parallel mode\n"
 "  -h, --help                 display this help then exit\n\n"
 
 "Note that VCDFILE and FSTFILE are optional provided the\n"
@@ -824,6 +827,7 @@ printf(
 "  -f FILE                    specify FST output filename\n"
 "  -F                         use fastlz algorithm for speed\n"
 "  -c                         compress entire file on close\n"
+"  -p                         enable parallel mode\n"
 "  -h                         display this help then exit\n\n"
 
 "Note that VCDFILE and FSTFILE are optional provided the\n"
@@ -854,13 +858,14 @@ while (1)
 		{"fstname", 1, 0, 'f'},
 		{"fastpack", 0, 0, 'F'},
 		{"compress", 0, 0, 'c'},
+		{"parallel", 0, 0, 'p'},
                 {"help", 0, 0, 'h'},
                 {0, 0, 0, 0}  
                 };
                 
-        c = getopt_long (argc, argv, "v:f:Fch", long_options, &option_index);
+        c = getopt_long (argc, argv, "v:f:Fcph", long_options, &option_index);
 #else
-        c = getopt      (argc, argv, "v:f:Fch");
+        c = getopt      (argc, argv, "v:f:Fcph");
 #endif
                         
         if (c == -1) break;     /* no more args */
@@ -885,6 +890,10 @@ while (1)
 
 		case 'c':
 			repack_all = 1;
+			break;
+
+		case 'p':
+			parallel_mode = 1;
 			break;
 
                 case 'h':
