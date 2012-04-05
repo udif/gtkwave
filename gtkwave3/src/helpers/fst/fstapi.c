@@ -763,6 +763,8 @@ if((!nam)||(!(xc->handle=unlink_fopen(nam, "w+b"))))
 		xc->nan = strtod("NaN", NULL);
 #ifdef FST_WRITER_PARALLEL
 		pthread_mutex_init(&xc->mutex, NULL);
+		pthread_attr_init(&xc->thread_attr);
+		pthread_attr_setdetachstate(&xc->thread_attr, PTHREAD_CREATE_DETACHED);
 #endif
 		}
 		else
@@ -1390,9 +1392,6 @@ fstFtruncate(fileno(xc->tchn_handle), 0);
 xc->section_header_only = 0;
 xc->secnum++;
 
-pthread_attr_init(&xc->thread_attr);
-pthread_attr_setdetachstate(&xc->thread_attr, PTHREAD_CREATE_DETACHED);
-
 pthread_mutex_lock(&xc->mutex);
 
 pthread_create(&xc->thread, &xc->thread_attr, fstWriterFlushContextPrivate1, xc2);
@@ -1693,6 +1692,7 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 
 #ifdef FST_WRITER_PARALLEL
 	pthread_mutex_destroy(&xc->mutex);
+	pthread_attr_destroy(&xc->thread_attr);
 #endif
 	}
 }
