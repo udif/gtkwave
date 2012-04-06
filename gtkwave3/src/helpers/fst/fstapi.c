@@ -1855,6 +1855,13 @@ if(xc)
 	{
 	xc->parallel_was_enabled |= xc->parallel_enabled; /* make sticky */
 	xc->parallel_enabled = (enable != 0);
+#ifndef FST_WRITER_PARALLEL
+	if(xc->parallel_enabled)
+		{
+		fprintf(stderr, "ERROR: fstWriterSetParallelMode(), FST_WRITER_PARALLEL not enabled during compile, exiting.\n");
+		exit(255);
+		}
+#endif
 	}
 }
 
