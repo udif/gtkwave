@@ -1326,7 +1326,6 @@ fstWriterFlushContextPrivate2(xc);
 pthread_mutex_unlock(&(xc->xc_parent->mutex));
 
 free(xc->valpos_mem);
-free(xc->curval_mem);
 free(xc->vchg_mem);
 fclose(xc->tchn_handle);
 free(xc);
@@ -1353,8 +1352,7 @@ if(xc->parallel_enabled)
 	xc2->valpos_mem = malloc(xc->maxhandle * 4 * sizeof(uint32_t));
 	memcpy(xc2->valpos_mem, xc->valpos_mem, xc->maxhandle * 4 * sizeof(uint32_t));
 
-	xc2->curval_mem = malloc(xc->maxvalpos);
-	memcpy(xc2->curval_mem, xc->curval_mem, xc->maxvalpos);
+	/* curval mem is updated in the thread */
 
 	xc->vchg_mem = malloc(xc->vchg_alloc_siz);
 	xc->vchg_mem[0] = '!';
@@ -1362,43 +1360,21 @@ if(xc->parallel_enabled)
 
 	for(i=0;i<xc->maxhandle;i++)
 		{
-		uint32_t *vm4ip = &(xc2->valpos_mem[4*i]);
-	
-	        if(vm4ip[2])
-	                {
-	                uint32_t offs = vm4ip[2];
-	                int wrlen;
-	
-	                if(vm4ip[1] <= 1)
-	                        {
-	                        if(vm4ip[1] == 1)
-	                                {
-	                                wrlen = fstGetVarint32Length(xc2->vchg_mem + offs + 4); /* used to advance and determine wrlen */
-	                                xc->curval_mem[vm4ip[0]] = xc2->vchg_mem[offs + 4 + wrlen]; /* checkpoint variable */
-	                                }
-	                        }
-	                        else
-	                        {
-	                        wrlen = fstGetVarint32Length(xc2->vchg_mem + offs + 4); /* used to advance and determine wrlen */
-	                        memcpy(xc->curval_mem + vm4ip[0], xc2->vchg_mem + offs + 4 + wrlen, vm4ip[1]); /* checkpoint variable */
-	                        }
-	                }
-	
-		vm4ip = &(xc->valpos_mem[4*i]);
+		uint32_t *vm4ip = &(xc->valpos_mem[4*i]);
 	        vm4ip[2] = 0; /* zero out offset val */
 	        vm4ip[3] = 0; /* zero out last time change val */
 	        }
-	
+
 	xc->tchn_cnt = xc->tchn_idx = 0;
 	xc->tchn_handle = tmpfile();
 	fseeko(xc->tchn_handle, 0, SEEK_SET);
 	fstFtruncate(fileno(xc->tchn_handle), 0);
-	
+
 	xc->section_header_only = 0;
 	xc->secnum++;
-	
+
 	pthread_mutex_lock(&xc->mutex);
-	
+
 	pthread_create(&xc->thread, &xc->thread_attr, fstWriterFlushContextPrivate1, xc2);
 	}
 	else
