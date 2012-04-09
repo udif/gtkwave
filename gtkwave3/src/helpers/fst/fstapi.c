@@ -1176,7 +1176,7 @@ for(i=0;i<xc->maxhandle;i++)
 #endif
 			}
 
-		vm4ip[3] = 0;
+		/* vm4ip[3] = 0; ...redundant with clearing below */
 #ifdef FST_DEBUG
 		cnt++;
 #endif
