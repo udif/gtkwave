@@ -1414,15 +1414,19 @@ if(xc)
 void fstWriterClose(void *ctx)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+
+#ifdef FST_WRITER_PARALLEL
+if(xc)
+	{
+	pthread_mutex_lock(&xc->mutex);
+	pthread_mutex_unlock(&xc->mutex);
+	}
+#endif
+
 if(xc && !xc->already_in_close && !xc->already_in_flush)
 	{
 	unsigned char *tmem;
 	off_t fixup_offs, tlen, hlen;
-
-#ifdef FST_WRITER_PARALLEL
-	pthread_mutex_lock(&xc->mutex);
-	pthread_mutex_unlock(&xc->mutex);
-#endif
 
 	xc->already_in_close = 1; /* never need to zero this out as it is freed at bottom */
 
