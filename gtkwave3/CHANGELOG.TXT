@@ -1205,3 +1205,4 @@
 		Changed contact address for bug reports.
 		Enable mouseover for MinGW.
 		Added fstWriterSetParallelMode().
+3.3.36	16apr12	Fixed destructive string convert in fstUtilityBinToEsc().
