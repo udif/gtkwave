@@ -5218,6 +5218,7 @@ int fstUtilityBinToEsc(unsigned char *d, unsigned char *s, int len)
 {
 unsigned char *src = s;
 unsigned char *dst = d;
+unsigned char val;
 int i;
 
 for(i=0;i<len;i++)
@@ -5241,10 +5242,11 @@ for(i=0;i<len;i++)
 					}
 					else
 					{
+					val = src[i];
 					*(dst++) = '\\';
-					*(dst++) = (src[i]/64) + '0';	src[i] = src[i] & 63;
-					*(dst++) = (src[i]/8)  + '0';   src[i] = src[i] & 7;
-					*(dst++) = (src[i]) + '0';
+					*(dst++) = (val/64) + '0'; val = val & 63;
+					*(dst++) = (val/8)  + '0'; val = val & 7;
+					*(dst++) = (val) + '0';
 					}
 				break;
 		}
