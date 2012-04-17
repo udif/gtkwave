@@ -977,11 +977,23 @@ if(!(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
 			{
 			switch(*value)
 				{
-				case '0':	h_val = AN_0; break;
-				case '1':	h_val = AN_1; break;
-				case 'Z':
-				case 'z':	h_val = AN_Z; break;
-				default:	h_val = AN_X; break;
+                                case '0':	h_val = AN_0; break;
+                                case '1':	h_val = AN_1; break;
+                                case 'X':
+                                case 'x':	h_val = AN_X; break;
+                                case 'Z':
+                                case 'z':	h_val = AN_Z; break;
+                                case 'H':
+                                case 'h':	h_val = AN_H; break;
+                                case 'U':
+                                case 'u':	h_val = AN_U; break;
+                                case 'W':
+                                case 'w':	h_val = AN_W; break;
+                                case 'L':
+                                case 'l':	h_val = AN_L; break;
+				case '-':	h_val = AN_DASH; break;
+
+                                default:        h_val = AN_X; break;
 				}
 			}
 			else
