@@ -756,6 +756,29 @@ while(!feof(f))
 				}
 			break;
 
+		case 'h': /* same as 01xz above but moved down here as it's less common */
+		case 'u':
+		case 'w':
+		case 'l':
+		case '-':
+			hash = vcdid_hash(buf+1, nl - (buf+1));
+			if(!hash_kill)
+				{
+				fstWriterEmitValueChange(ctx, hash, buf);
+				}
+				else
+				{
+				node = jrb_find_int(vcd_ids, hash);
+				if(node)
+					{
+					fstWriterEmitValueChange(ctx, node->val.i, buf);
+					}
+					else
+					{
+					}
+				}
+			break;
+
 		case '#':
 			sscanf(buf+1, "%"SCNu64, &tim);
 			if((tim >= prev_tim)||(!prev_tim))
