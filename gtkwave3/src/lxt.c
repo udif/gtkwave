@@ -316,7 +316,7 @@ return(pnt);
  */
 static unsigned char convert_mvl(int value)
 {
-return("01zx1xx0xxxxxxxx"[value&15]);
+return("01zxhuwl-xxxxxxx"[value&15]);
 }
 
 
@@ -1551,11 +1551,14 @@ if(GLOBALS->initial_value_offset_lxt_c_1)
 	{
 	switch(get_byte(GLOBALS->initial_value_offset_lxt_c_1))
 		{
-		case 0:
-		case 7:		GLOBALS->initial_value_lxt_c_1 = AN_0; break;
-		case 1:
-		case 4:		GLOBALS->initial_value_lxt_c_1 = AN_1; break;
-		case 2:		GLOBALS->initial_value_lxt_c_1 = AN_Z; break;
+                case 0:         GLOBALS->initial_value_lxt_c_1 = AN_0; break;
+                case 1:         GLOBALS->initial_value_lxt_c_1 = AN_1; break;
+                case 2:         GLOBALS->initial_value_lxt_c_1 = AN_Z; break;
+                case 4:         GLOBALS->initial_value_lxt_c_1 = AN_H; break;
+                case 5:         GLOBALS->initial_value_lxt_c_1 = AN_U; break;
+                case 6:         GLOBALS->initial_value_lxt_c_1 = AN_W; break;
+                case 7:         GLOBALS->initial_value_lxt_c_1 = AN_L; break;
+                case 8:         GLOBALS->initial_value_lxt_c_1 = AN_DASH; break;
 		default:	GLOBALS->initial_value_lxt_c_1 = AN_X; break;
 		}
 	}
@@ -2198,6 +2201,11 @@ while(offs)
 				        case 'x':	val = AN_X; break;
 				        case 'z':	val = AN_Z; break;
 				        case '1':       val = AN_1; break;
+                                        case 'h':       val = AN_H; break;
+                                        case 'u':       val = AN_U; break;
+                                        case 'w':       val = AN_W; break;
+                                        case 'l':       val = AN_L; break;
+                                        case '-':       val = AN_DASH; break;
 				        }
 	
 				if(val!=histent_head->v.h_val)
