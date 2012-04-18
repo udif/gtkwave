@@ -1206,5 +1206,5 @@
 		Enable mouseover for MinGW.
 		Added fstWriterSetParallelMode().
 3.3.36	17apr12	Fixed destructive string convert in fstUtilityBinToEsc().
-		Added support for 01xzhuwl- in fst.c callback interface.
-		Added support for 01xzhuwl- in vcd2fst.c
+		Added support for 01xzhuwl- in fst.c callback interface,
+		vcd2fst.c, and lxt.c.
