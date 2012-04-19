@@ -56,8 +56,9 @@ void **JenkinsIns(void *base_i, unsigned char *mem, uint32_t length, uint32_t ha
 
 #define FST_BREAK_SIZE 			(128 * 1024 * 1024)
 #define FST_BREAK_ADD_SIZE		(4 * 1024 * 1024)
-#define FST_BREAK_SIZE_MAX		(4 * 128 * 1024 * 1024)
-#define FST_ACTIVATE_HUGE_BREAK		(5000000)
+#define FST_BREAK_SIZE_MAX		(15 * 128 * 1024 * 1024)
+#define FST_ACTIVATE_HUGE_BREAK		(2000000)
+#define FST_ACTIVATE_HUGE_INC		(2000000)
 
 #define FST_WRITER_STR 			"fstWriter"
 #define FST_ID_NAM_SIZ 			(512)
@@ -531,11 +532,15 @@ pthread_attr_t thread_attr;
 struct fstWriterContext *xc_parent;
 #endif
 
+size_t fst_orig_break_size;
+size_t fst_orig_break_add_size;
+
 size_t fst_break_size;
 size_t fst_break_add_size;
 
 size_t fst_huge_break_size;
-size_t fst_huge_break_add_size;
+
+fstHandle next_huge_break;
 };
 
 
@@ -767,7 +772,6 @@ if(f)
 						}
 
 					xc->fst_huge_break_size = v;
-					xc->fst_huge_break_add_size = (v/FST_BREAK_SIZE) * FST_BREAK_ADD_SIZE;
 					was_set = 1;
 					break;
 					}
@@ -782,11 +786,11 @@ if(!was_set)
 #endif
 	{
 	xc->fst_huge_break_size = FST_BREAK_SIZE;
-	xc->fst_huge_break_add_size = FST_BREAK_ADD_SIZE;
 	}
 
-xc->fst_break_size = FST_BREAK_SIZE;
-xc->fst_break_add_size = FST_BREAK_ADD_SIZE;
+xc->fst_break_size = xc->fst_orig_break_size = FST_BREAK_SIZE;
+xc->fst_break_add_size = xc->fst_orig_break_add_size = FST_BREAK_ADD_SIZE;
+xc->next_huge_break = FST_ACTIVATE_HUGE_BREAK;
 }
 
 
@@ -1976,15 +1980,19 @@ if(xc && nam)
 	if(aliasHandle > xc->maxhandle) aliasHandle = 0;
 	xc->hier_file_len += fstWriterVarint(xc->hier_handle, aliasHandle);	
 	xc->numsigs++;
-	if(xc->numsigs == FST_ACTIVATE_HUGE_BREAK)
+	if(xc->numsigs == xc->next_huge_break)
 		{
-		xc->fst_break_size = xc->fst_huge_break_size;
-		xc->fst_break_add_size = xc->fst_huge_break_add_size;
-
-		xc->vchg_alloc_siz = xc->fst_break_size + xc->fst_break_add_size;
-		if(xc->vchg_mem)
+		if(xc->fst_break_size < xc->fst_huge_break_size)
 			{
-			xc->vchg_mem = realloc(xc->vchg_mem, xc->vchg_alloc_siz);
+			xc->next_huge_break += FST_ACTIVATE_HUGE_INC;
+			xc->fst_break_size += xc->fst_orig_break_size;
+			xc->fst_break_add_size += xc->fst_orig_break_add_size;
+
+			xc->vchg_alloc_siz = xc->fst_break_size + xc->fst_break_add_size;
+			if(xc->vchg_mem)
+				{
+				xc->vchg_mem = realloc(xc->vchg_mem, xc->vchg_alloc_siz);
+				}
 			}
 		}
 
