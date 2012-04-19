@@ -56,6 +56,9 @@ void **JenkinsIns(void *base_i, unsigned char *mem, uint32_t length, uint32_t ha
 
 #define FST_BREAK_SIZE 			(128 * 1024 * 1024)
 #define FST_BREAK_ADD_SIZE		(4 * 1024 * 1024)
+#define FST_BREAK_SIZE_MAX		(8 * 128 * 1024 * 1024)
+#define FST_ACTIVATE_HUGE_BREAK		(1000000)
+
 #define FST_WRITER_STR 			"fstWriter"
 #define FST_ID_NAM_SIZ 			(512)
 #define FST_DOUBLE_ENDTEST 		(2.7182818284590452354)
@@ -527,6 +530,12 @@ pthread_t thread;
 pthread_attr_t thread_attr;
 struct fstWriterContext *xc_parent;
 #endif
+
+size_t fst_break_size;
+size_t fst_break_add_size;
+
+size_t fst_huge_break_size;
+size_t fst_huge_break_add_size;
 };
 
 
@@ -620,7 +629,7 @@ fstWriterUint64(xc->handle, 0);  		/* +17 end time */
 fstFwrite(&endtest, 8, 1, xc->handle); 		/* +25 endian test for reals */
 
 #define FST_HDR_OFFS_MEM_USED			(FST_HDR_OFFS_ENDIAN_TEST + 8)
-fstWriterUint64(xc->handle, FST_BREAK_SIZE); 	/* +33 memory used by writer */
+fstWriterUint64(xc->handle, xc->fst_break_size);/* +33 memory used by writer */
 
 #define FST_HDR_OFFS_NUM_SCOPES			(FST_HDR_OFFS_MEM_USED + 8)
 fstWriterUint64(xc->handle, 0);			/* +41 scope creation count */
@@ -726,6 +735,62 @@ xc->curval_mem = NULL;
 
 
 /*
+ * set up large and small memory usages
+ * crossover point in model is FST_ACTIVATE_HUGE_BREAK number of signals
+ */
+static void fstDetermineBreakSize(struct fstWriterContext *xc)
+{
+#ifdef __linux__
+FILE *f = fopen("/proc/meminfo", "rb");
+int was_set = 0;
+
+if(f)
+	{
+	char buf[257];
+	char *s;
+	while(!feof(f))
+		{
+		buf[0] = 0;
+		s = fgets(buf, 256, f);
+		if(s && *s)
+			{
+			if(!strncmp(s, "MemTotal:", 9))
+				{
+				long v = atol(s+10);
+				v *= 1024; /* convert to bytes */
+				v /= 8; /* chop down to 1/8 physical memory */
+				if(v > FST_BREAK_SIZE)
+					{
+					if(v > FST_BREAK_SIZE_MAX)
+						{
+						v = FST_BREAK_SIZE_MAX;
+						}
+
+					xc->fst_huge_break_size = v;
+					xc->fst_huge_break_add_size = (v/FST_BREAK_SIZE) * FST_BREAK_ADD_SIZE;
+					was_set = 1;
+					break;
+					}
+				}
+			}
+		}
+
+	fclose(f);
+	} 
+
+if(!was_set)
+#endif
+	{
+	xc->fst_huge_break_size = FST_BREAK_SIZE;
+	xc->fst_huge_break_add_size = FST_BREAK_ADD_SIZE;
+	}
+
+xc->fst_break_size = FST_BREAK_SIZE;
+xc->fst_break_add_size = FST_BREAK_ADD_SIZE;
+}
+
+
+/*
  * file creation and close
  */
 void *fstWriterCreate(const char *nam, int use_compressed_hier)
@@ -733,6 +798,7 @@ void *fstWriterCreate(const char *nam, int use_compressed_hier)
 struct fstWriterContext *xc = calloc(1, sizeof(struct fstWriterContext));
 
 xc->compress_hier = use_compressed_hier;
+fstDetermineBreakSize(xc);
 
 if((!nam)||(!(xc->handle=unlink_fopen(nam, "w+b"))))
         {
@@ -752,7 +818,7 @@ if((!nam)||(!(xc->handle=unlink_fopen(nam, "w+b"))))
 	xc->valpos_handle = tmpfile();	/* .offs */
 	xc->curval_handle = tmpfile();	/* .bits */
 	xc->tchn_handle = tmpfile();	/* .tchn */
-	xc->vchg_alloc_siz = FST_BREAK_SIZE + FST_BREAK_ADD_SIZE;
+	xc->vchg_alloc_siz = xc->fst_break_size + xc->fst_break_add_size;
 	xc->vchg_mem = malloc(xc->vchg_alloc_siz);
 
 	free(hf);
@@ -1910,6 +1976,18 @@ if(xc && nam)
 	if(aliasHandle > xc->maxhandle) aliasHandle = 0;
 	xc->hier_file_len += fstWriterVarint(xc->hier_handle, aliasHandle);	
 	xc->numsigs++;
+	if(xc->numsigs == FST_ACTIVATE_HUGE_BREAK)
+		{
+		xc->fst_break_size = xc->fst_huge_break_size;
+		xc->fst_break_add_size = xc->fst_huge_break_add_size;
+
+		xc->vchg_alloc_siz = xc->fst_break_size + xc->fst_break_add_size;
+		if(xc->vchg_mem)
+			{
+			xc->vchg_mem = realloc(xc->vchg_mem, xc->vchg_alloc_siz);
+			}
+		}
+
 	if(!aliasHandle)
 		{
 		uint32_t zero = 0;
@@ -2028,7 +2106,7 @@ if((xc) && (handle <= xc->maxhandle))
 	
 			if((fpos + len + 10) > xc->vchg_alloc_siz)
 				{
-				xc->vchg_alloc_siz += (FST_BREAK_ADD_SIZE + len); /* +len added in the case of extremely long vectors and small break add sizes */
+				xc->vchg_alloc_siz += (xc->fst_break_add_size + len); /* +len added in the case of extremely long vectors and small break add sizes */
 				xc->vchg_mem = realloc(xc->vchg_mem, xc->vchg_alloc_siz);
 				if(!xc->vchg_mem)
 					{
@@ -2077,7 +2155,7 @@ if((xc) && (handle <= xc->maxhandle))
 
 		if((fpos + len + 10 + 5) > xc->vchg_alloc_siz)
 			{
-			xc->vchg_alloc_siz += (FST_BREAK_ADD_SIZE + len + 5); /* +len added in the case of extremely long vectors and small break add sizes */
+			xc->vchg_alloc_siz += (xc->fst_break_add_size + len + 5); /* +len added in the case of extremely long vectors and small break add sizes */
 			xc->vchg_mem = realloc(xc->vchg_mem, xc->vchg_alloc_siz);
 			if(!xc->vchg_mem)
 				{
@@ -2129,7 +2207,7 @@ if(xc)
 		}
 		else
 		{
-		if((xc->vchg_siz >= FST_BREAK_SIZE) || (xc->flush_context_pending))
+		if((xc->vchg_siz >= xc->fst_break_size) || (xc->flush_context_pending))
 			{
 			xc->flush_context_pending = 0;
 			fstWriterFlushContextPrivate(xc);
