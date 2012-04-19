@@ -56,8 +56,8 @@ void **JenkinsIns(void *base_i, unsigned char *mem, uint32_t length, uint32_t ha
 
 #define FST_BREAK_SIZE 			(128 * 1024 * 1024)
 #define FST_BREAK_ADD_SIZE		(4 * 1024 * 1024)
-#define FST_BREAK_SIZE_MAX		(8 * 128 * 1024 * 1024)
-#define FST_ACTIVATE_HUGE_BREAK		(1000000)
+#define FST_BREAK_SIZE_MAX		(4 * 128 * 1024 * 1024)
+#define FST_ACTIVATE_HUGE_BREAK		(5000000)
 
 #define FST_WRITER_STR 			"fstWriter"
 #define FST_ID_NAM_SIZ 			(512)
