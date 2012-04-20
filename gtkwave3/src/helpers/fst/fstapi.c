@@ -54,9 +54,9 @@ void **JenkinsIns(void *base_i, unsigned char *mem, uint32_t length, uint32_t ha
 
 #undef  FST_DEBUG
 
-#define FST_BREAK_SIZE 			(128 * 1024 * 1024)
-#define FST_BREAK_ADD_SIZE		(4 * 1024 * 1024)
-#define FST_BREAK_SIZE_MAX		(15 * 128 * 1024 * 1024)
+#define FST_BREAK_SIZE 			(1UL << 27)
+#define FST_BREAK_ADD_SIZE		(1UL << 22)
+#define FST_BREAK_SIZE_MAX		(1UL << 31)
 #define FST_ACTIVATE_HUGE_BREAK		(2000000)
 #define FST_ACTIVATE_HUGE_INC		(2000000)
 
@@ -761,7 +761,7 @@ if(f)
 			{
 			if(!strncmp(s, "MemTotal:", 9))
 				{
-				long v = atol(s+10);
+				unsigned long v = atol(s+10);
 				v *= 1024; /* convert to bytes */
 				v /= 8; /* chop down to 1/8 physical memory */
 				if(v > FST_BREAK_SIZE)
