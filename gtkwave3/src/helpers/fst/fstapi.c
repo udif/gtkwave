@@ -745,8 +745,14 @@ xc->curval_mem = NULL;
  */
 static void fstDetermineBreakSize(struct fstWriterContext *xc)
 {
+#if defined(__linux__) || defined(FST_MACOSX)
+
 #ifdef __linux__
 FILE *f = fopen("/proc/meminfo", "rb");
+#else
+FILE *f = popen("system_profiler", "r");
+#endif
+
 int was_set = 0;
 
 if(f)
@@ -759,10 +765,18 @@ if(f)
 		s = fgets(buf, 256, f);
 		if(s && *s)
 			{
+#ifdef __linux__
 			if(!strncmp(s, "MemTotal:", 9))
 				{
-				unsigned long v = atol(s+10);
+				size_t v = atol(s+10);
 				v *= 1024; /* convert to bytes */
+#else
+			if((s=strstr(s, "Memory:")))
+				{
+				size_t v = atol(s+7);
+				v <<= 30; /* convert GB to bytes */
+#endif
+
 				v /= 8; /* chop down to 1/8 physical memory */
 				if(v > FST_BREAK_SIZE)
 					{
@@ -779,7 +793,11 @@ if(f)
 			}
 		}
 
+#ifdef __linux__
 	fclose(f);
+#else
+	pclose(f);
+#endif
 	} 
 
 if(!was_set)
