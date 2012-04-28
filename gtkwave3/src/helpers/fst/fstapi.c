@@ -1007,8 +1007,9 @@ for(i=0;i<xc->maxhandle;i++)
 			if(vm4ip[1] == 1)
 				{
 				wrlen = fstGetVarint32Length(vchg_mem + offs + 4); /* used to advance and determine wrlen */
+#ifndef FST_REMOVE_DUPLICATE_VC
 				xc->curval_mem[vm4ip[0]] = vchg_mem[offs + 4 + wrlen]; /* checkpoint variable */
-
+#endif
 	                        while(offs)
 	                                {
 	                                unsigned char val;
@@ -1068,8 +1069,9 @@ for(i=0;i<xc->maxhandle;i++)
 			else
 			{
 			wrlen = fstGetVarint32Length(vchg_mem + offs + 4); /* used to advance and determine wrlen */
+#ifndef FST_REMOVE_DUPLICATE_VC
 			memcpy(xc->curval_mem + vm4ip[0], vchg_mem + offs + 4 + wrlen, vm4ip[1]); /* checkpoint variable */
-
+#endif
 			while(offs)
 				{
 				int idx;
@@ -1413,6 +1415,9 @@ fstWriterFlushContextPrivate2(xc);
 
 pthread_mutex_unlock(&(xc->xc_parent->mutex));
 
+#ifdef FST_REMOVE_DUPLICATE_VC
+free(xc->curval_mem);
+#endif
 free(xc->valpos_mem);
 free(xc->vchg_mem);
 fclose(xc->tchn_handle);
@@ -1441,6 +1446,10 @@ if(xc->parallel_enabled)
 	memcpy(xc2->valpos_mem, xc->valpos_mem, xc->maxhandle * 4 * sizeof(uint32_t));
 
 	/* curval mem is updated in the thread */
+#ifdef FST_REMOVE_DUPLICATE_VC
+	xc2->curval_mem = malloc(xc->maxvalpos);
+	memcpy(xc2->curval_mem, xc->curval_mem, xc->maxvalpos);
+#endif
 
 	xc->vchg_mem = malloc(xc->vchg_alloc_siz);
 	xc->vchg_mem[0] = '!';
@@ -2140,7 +2149,52 @@ if((xc) && (handle <= xc->maxhandle))
 					exit(255); 
 					}
 				}
+#ifdef FST_REMOVE_DUPLICATE_VC
+			offs = vm4ip[0];
+
+			if(len != 1)
+				{
+				if((vm4ip[3]==xc->tchn_idx)&&(vm4ip[2]))
+					{
+					unsigned char *old_value = xc->vchg_mem + vm4ip[2] + 4; /* the +4 skips old vm4ip[2] value */
+					while(*(old_value++) & 0x80) { /* skips over varint encoded "xc->tchn_idx - vm4ip[3]" */ }
+					memcpy(old_value, buf, len); /* overlay new value */
 	
+					memcpy(xc->curval_mem + offs, buf, len);
+					return;
+					}
+				else
+					{
+					if(!memcmp(xc->curval_mem + offs, buf, len))
+						{
+						return;
+						}
+					}
+	
+				memcpy(xc->curval_mem + offs, buf, len);
+				}
+				else
+				{
+				if((vm4ip[3]==xc->tchn_idx)&&(vm4ip[2]))
+					{
+					unsigned char *old_value = xc->vchg_mem + vm4ip[2] + 4; /* the +4 skips old vm4ip[2] value */
+					while(*(old_value++) & 0x80) { /* skips over varint encoded "xc->tchn_idx - vm4ip[3]" */ }
+					*old_value = *buf; /* overlay new value */
+	
+					*(xc->curval_mem + offs) = *buf;
+					return;
+					}
+				else
+					{
+					if((*(xc->curval_mem + offs)) == (*buf))
+						{
+						return;
+						}
+					}
+	
+				*(xc->curval_mem + offs) = *buf;
+				}
+#endif
 			xc->vchg_siz += fstWriterUint32WithVarint32(xc, &vm4ip[2], xc->tchn_idx - vm4ip[3], buf, len); /* do one fwrite op only */
 			vm4ip[3] = xc->tchn_idx;
 			vm4ip[2] = fpos;
