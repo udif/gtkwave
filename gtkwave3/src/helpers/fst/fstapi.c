@@ -2167,7 +2167,20 @@ if((xc) && (handle <= xc->maxhandle))
 					{
 					if(!memcmp(xc->curval_mem + offs, buf, len))
 						{
-						return;
+						if(!xc->curtime)
+							{
+							int i;
+							for(i=0;i<len;i++)
+								{
+								if(buf[i]!='x') break;
+								}
+
+							if(i<len) return;
+							}
+							else
+							{
+							return;
+							}
 						}
 					}
 	
@@ -2188,7 +2201,14 @@ if((xc) && (handle <= xc->maxhandle))
 					{
 					if((*(xc->curval_mem + offs)) == (*buf))
 						{
-						return;
+						if(!xc->curtime)
+							{
+							if(*buf != 'x') return;
+							}
+							else
+							{
+							return;
+							}
 						}
 					}
 	
