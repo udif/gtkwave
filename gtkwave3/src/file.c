@@ -258,7 +258,7 @@ GLOBALS->filesel_ok=0;
 if(*GLOBALS->fileselbox_text && (!g_path_is_absolute(*GLOBALS->fileselbox_text)))
 	{
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-	char *can = realpath(*GLOBALS->fileselbox_text, NULL);
+	char *can = realpath_2(*GLOBALS->fileselbox_text, NULL);
 
 	if(can)
 		{

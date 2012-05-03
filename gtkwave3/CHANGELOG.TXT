@@ -1210,3 +1210,4 @@
 		vcd2fst.c, and lxt.c.
 		Added adaptive buffer resizing in FST writer for Linux
 		and Mac OSX.
+		Fix for realpath() 2nd argument NULL on Leopard.

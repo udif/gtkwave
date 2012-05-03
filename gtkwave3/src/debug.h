@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2010.
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -120,6 +120,7 @@ void gtk_tooltips_set_tip_2(GtkTooltips *tooltips, GtkWidget *widget,
 void gtk_tooltips_set_delay_2(GtkTooltips *tooltips, guint delay);
 GtkTooltips* gtk_tooltips_new_2(void);
 
+char *realpath_2(const char *path, char *resolved_path);
 
 enum WaveLoadingTitleType { WAVE_SET_TITLE_NONE, WAVE_SET_TITLE_MODIFIED, WAVE_SET_TITLE_LOADING };
 

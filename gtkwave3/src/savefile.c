@@ -38,7 +38,7 @@ if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 	if(sfn && dfn)
 		{
-		char *can = realpath(lcname, NULL);
+		char *can = realpath_2(lcname, NULL);
 		char *fdf = find_dumpfile(sfn, dfn, can);
 
 		free(can);
@@ -143,8 +143,8 @@ void write_save_helper(const char *savnam, FILE *wave) {
 #endif
 			char *unopt = GLOBALS->unoptimized_vcd_file_name ? GLOBALS->unoptimized_vcd_file_name: GLOBALS->loaded_file_name;
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-		        char *can = realpath(GLOBALS->optimize_vcd ? unopt : GLOBALS->loaded_file_name, NULL);
-			const char *cansav = realpath(savnam, NULL);
+		        char *can = realpath_2(GLOBALS->optimize_vcd ? unopt : GLOBALS->loaded_file_name, NULL);
+			const char *cansav = realpath_2(savnam, NULL);
 			const int do_free = 1;
 #else
 			char *can = GLOBALS->optimize_vcd ? unopt : GLOBALS->loaded_file_name;
@@ -300,7 +300,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 				if(t->t_filter && GLOBALS->ttranssel_filter[t->t_filter])
 					{
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-			                char *can = realpath(GLOBALS->ttranssel_filter[t->t_filter], NULL);
+			                char *can = realpath_2(GLOBALS->ttranssel_filter[t->t_filter], NULL);
 					fprintf(wave, "^<%d %s\n", t->t_filter, can);
 					free(can);
 #else
@@ -467,7 +467,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 						if(t->t_filter && GLOBALS->ttranssel_filter[t->t_filter])
 							{
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
-					                char *can = realpath(GLOBALS->ttranssel_filter[t->t_filter], NULL);
+					                char *can = realpath_2(GLOBALS->ttranssel_filter[t->t_filter], NULL);
 							fprintf(wave, "^<%d %s\n", t->t_filter, can);
 							free(can);
 #else
@@ -596,7 +596,7 @@ FILE *f;
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
         if(sfn && dfn)
                 {
-                char *can = realpath(lcname, NULL);
+                char *can = realpath_2(lcname, NULL);
                 char *fdf = find_dumpfile(sfn, dfn, can);
 
                 free(can);
@@ -2457,7 +2457,7 @@ if(lc && !is_working)
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
 		               	if(dfn && sfn)
 	              			{
-		                        char *can = realpath(lcname, NULL);
+		                        char *can = realpath_2(lcname, NULL);
 		                        char *old_fdf = find_dumpfile(sfn, dfn, can);
 	
 		                        free(can);
