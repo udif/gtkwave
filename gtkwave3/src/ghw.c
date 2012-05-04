@@ -956,7 +956,11 @@ add_history (struct ghw_handler *h, struct Node *n, int sig_num)
 	}
 	else /* look for duplicate dumps of same value at adjacent times */
 	{
-	if(!is_vector)
+	if(!is_vector
+#ifdef WAVE_HAS_H_DOUBLE
+		& !is_double
+#endif
+	  )
 		{
 		if(n->curr->v.h_val == he->v.h_val)
 			{

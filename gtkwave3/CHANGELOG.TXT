@@ -1205,9 +1205,11 @@
 		Changed contact address for bug reports.
 		Enable mouseover for MinGW.
 		Added fstWriterSetParallelMode().
-3.3.36	23apr12	Fixed destructive string convert in fstUtilityBinToEsc().
+3.3.36	04may12	Fixed destructive string convert in fstUtilityBinToEsc().
 		Added support for 01xzhuwl- in fst.c callback interface,
 		vcd2fst.c, and lxt.c.
 		Added adaptive buffer resizing in FST writer for Linux
 		and Mac OSX.
 		Fix for realpath() 2nd argument NULL on Leopard.
+		Fix for doubles stored in HistEnt fields in ghw
+		introduced in 3.3.19.
