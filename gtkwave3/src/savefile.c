@@ -1372,7 +1372,8 @@ else if(*w2=='^')
 		if(*(w2+2) != '0')
 			{
 			  /*			char *fn = strstr(w2+3, " "); */
-			char *fn = w2+3;
+			  char *fn = w2+2;
+			  while(*fn && !isspace((int)(unsigned char)*fn)) fn++;
 			if(fn)
 				{
 				while(*fn && isspace((int)(unsigned char)*fn)) fn++;

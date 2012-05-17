@@ -458,6 +458,21 @@ if(!wild_active)	/* short circuit wildcard evaluation with bsearch */
 			}
 			else
 			{
+			/* in case its a 1-bit bit-blasted signal */
+			char *str2;
+                        int l = strlen(str);
+			str2  = calloc_2(1,l+3);
+			strcpy(str2, str);
+			str2[l] = '[';
+			str2[l+1] = '0';
+			str2[l+2] = ']';
+			str2[l+3] = NULL;
+			if((s=symfind(str2, &rows)))
+			{
+			AddNode(&s->n[rows],alias);
+			return(~0);
+			}
+			else
 			return(0);
 			}
 		}
