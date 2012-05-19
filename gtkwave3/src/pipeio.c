@@ -177,11 +177,11 @@ return(p);
 
 void pipeio_destroy(struct pipe_ctx *p)
 {
-#ifdef _AIX
+/* #ifdef _AIX */
 int mystat;
 kill(p->pid, SIGKILL);
 waitpid(p->pid, &mystat, 0);
-#endif
+/* #endif */
 
 fclose(p->sout);
 fclose(p->sin);
