@@ -466,7 +466,7 @@ if(!wild_active)	/* short circuit wildcard evaluation with bsearch */
 			str2[l] = '[';
 			str2[l+1] = '0';
 			str2[l+2] = ']';
-			str2[l+3] = NULL;
+			str2[l+3] = 0;
 			if((s=symfind(str2, &rows)))
 			{
 			AddNode(&s->n[rows],alias);
