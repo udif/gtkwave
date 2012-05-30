@@ -144,7 +144,11 @@ for(;;)
 				{
 				while(*pnt)
 					{
-					if((*pnt == '[')||(isspace(*pnt))) break;
+					/* if((*pnt == '[')||(isspace(*pnt))) break; */
+
+					if(isspace(*pnt)) break;
+					if((*pnt == '[') && (pnt == strrchr(pnt, '['))) break; /* fixes arrays */
+
 					if(*pnt == '\\') /* this is not strictly correct, but fixes generic ranges from icarus */
 						{
 						pnt++;
