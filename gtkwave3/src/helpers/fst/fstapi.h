@@ -172,6 +172,7 @@ void fstWriterFlushContext(void *ctx);
  * reader functions
  */
 void *fstReaderOpen(const char *nam);
+void *fstReaderOpenForUtilitiesOnly(void);
 void fstReaderClose(void *ctx);
 
 int fstReaderProcessHier(void *ctx, FILE *vcdhandle);

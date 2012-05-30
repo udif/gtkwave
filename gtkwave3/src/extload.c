@@ -98,7 +98,7 @@ return(1);
 }
 
 
-static char *get_varname(unsigned char *vtp)
+static char *get_varname(unsigned char *vtp, void *xc)
 {
 static char sbuff[65537];
 char * rc;
@@ -192,6 +192,47 @@ for(;;)
 				}
 			}
 		}
+	else
+        if(rc[0] == 'S')
+                {
+		if(!strncmp(rc, "Scope:", 6))
+			{
+			char vht[2048];
+			char cname[2048];
+			char ctype[2048];
+			unsigned char ttype;
+
+                        GLOBALS->fst_scope_name = fstReaderPushScope(xc, cname, GLOBALS->mod_tree_parent);
+                        /* GLOBALS->fst_scope_name_len = fstReaderGetCurrentScopeLen(xc); */
+
+			sscanf(rc+6, "%s %s %s", vht, cname, ctype);
+
+			if(!strncmp(vht, "vcd_", 4))
+				{
+		                switch(vht[4])
+					{
+		                        case 'm':       ttype = TREE_VCD_ST_MODULE; break;
+		                        case 't':       ttype = TREE_VCD_ST_TASK; break;
+		                        case 'f':	ttype = (vht[5] == 'u') ? TREE_VCD_ST_FUNCTION : TREE_VCD_ST_FORK; break;
+		                        case 'b':       ttype = TREE_VCD_ST_BEGIN; break;
+		                        default:        ttype = TREE_UNKNOWN; break;
+		                        }
+				}
+				else
+				{
+				ttype = TREE_UNKNOWN;
+				}
+
+	                allocate_and_decorate_module_tree_node(ttype, cname, ctype,  strlen(cname), strlen(ctype));
+			}
+		}
+	else
+        if(rc[0] == 'U')
+                {
+                GLOBALS->mod_tree_parent = fstReaderGetCurrentScopeUserInfo(xc);
+                GLOBALS->fst_scope_name = fstReaderPopScope(xc);
+                /* GLOBALS->fst_scope_name_len = fstReaderGetCurrentScopeLen(xc); */
+		}
 	}
 }
 
@@ -204,6 +245,7 @@ char sbuff[65537];
 int max_idcode;
 unsigned int msk = 0;
 unsigned char vt_prev, vt, nvt;
+void *xc = NULL;
 
 int i;
 struct Node *n;
@@ -473,9 +515,11 @@ if(!GLOBALS->hier_was_explicitly_set)    /* set default hierarchy split char */
         GLOBALS->hier_delimeter='.';
         }
 
+xc = fstReaderOpenForUtilitiesOnly();
+
 if(GLOBALS->numfacs)
 	{
-	char *fnam = get_varname(&vt_prev);
+	char *fnam = get_varname(&vt_prev, xc);
 	int flen = strlen(fnam);
 	namecache[0]=malloc_2(flen+1);
 	strcpy(namecache[0], fnam);
@@ -490,7 +534,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	vt = vt_prev;
 	if(i!=(GLOBALS->numfacs-1))
 		{
-		char *fnam = get_varname(&vt_prev);
+		char *fnam = get_varname(&vt_prev, xc);
 		int flen = strlen(fnam);
 		namecache[i+1]=malloc_2(flen+1);
 		strcpy(namecache[i+1], fnam);
@@ -616,6 +660,11 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	n->vartype = nvt;
         }
 
+while(get_varname(&vt_prev, xc)); /* read through end to process all upscopes */
+
+decorated_module_cleanup(); /* ...also now in gtk2_treesearch.c */
+iter_through_comp_name_table();
+
 for(i=0;((i<2)&&(i<GLOBALS->numfacs));i++)
 	{
 	if(namecache[i])
@@ -626,6 +675,8 @@ for(i=0;((i<2)&&(i<GLOBALS->numfacs));i++)
 	}
 free_2(namecache); namecache = NULL;
 pclose(GLOBALS->extload);
+
+fstReaderClose(xc); /* corresponds to fstReaderOpenForUtilitiesOnly() */
 
 /* SPLASH */                            splash_sync(2, 5);  
 GLOBALS->facs=(struct symbol **)malloc_2(GLOBALS->numfacs*sizeof(struct symbol *));

@@ -3608,6 +3608,14 @@ return(hdr_seen);
 }
 
 
+void *fstReaderOpenForUtilitiesOnly(void)
+{
+struct fstReaderContext *xc = calloc(1, sizeof(struct fstReaderContext));
+
+return(xc);
+}
+
+
 void *fstReaderOpen(const char *nam)
 {
 struct fstReaderContext *xc = calloc(1, sizeof(struct fstReaderContext));

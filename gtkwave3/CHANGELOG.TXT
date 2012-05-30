@@ -1213,10 +1213,12 @@
 		Fix for realpath() 2nd argument NULL on Leopard.
 		Fix for doubles stored in HistEnt fields in ghw
 		introduced in 3.3.19.
-3.3.37	18may12	Added patch for savefile.c that corrects an issue in which the
+3.3.37	30may12	Added patch for savefile.c that corrects an issue in which the
 		parser for process filter lines assumed the associated id
 		number was always a single digit. 
 		Added patch to bitvec.c catches one more case when locating
 		bitblasted signals in vcd files created by modelsim. 
 		Fix that kills stray pipeio_create() processes on
 		pipeio_destroy().
+		Additions to extload to handle hier types, component types,
+		and signal types.
