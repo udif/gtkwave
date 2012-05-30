@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2009-2011.
+ * Copyright (c) Tony Bybell 2009-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -98,10 +98,11 @@ return(1);
 }
 
 
-static char *get_varname(void)
+static char *get_varname(unsigned char *vtp)
 {
 static char sbuff[65537];
 char * rc;
+int vt, vt_len;
 
 for(;;)
 	{
@@ -116,6 +117,7 @@ for(;;)
                 if(!strncmp("Var: ", rc, 5))
 			{
 			char *pnt = rc + 5;
+			char *vtyp_nam = pnt;
 			char *cpyto = sbuff;
 
 			while(*pnt)
@@ -129,6 +131,35 @@ for(;;)
 					break;
 					}
 				}
+
+			/* is space */
+			/* vvv extract vartype vvv */
+			if(vtp)
+				{
+				*pnt = 0;
+				vt_len = pnt-vtyp_nam;
+				if(vt_len > 4)
+					{
+					if(!strncmp(vtyp_nam, "vcd_", 4))
+						{
+						vt = vcd_keyword_code(vtyp_nam + 4, vt_len - 4);
+						if(vt == V_STRINGTYPE) vt = V_WIRE;
+						}
+						else
+						{
+						vt = V_WIRE;
+						}
+					}
+					else
+					{
+					vt = V_WIRE;
+					}
+	
+				*vtp = vt;
+				*pnt = ' ';
+				}
+			/* ^^^ extract vartype ^^^ */
+
 			while(*pnt)
 				{
 				if(isspace(*pnt))
@@ -172,6 +203,7 @@ TimeType extload_main(char *fname, char *skip_start, char *skip_end)
 char sbuff[65537];
 int max_idcode;
 unsigned int msk = 0;
+unsigned char vt_prev, vt, nvt;
 
 int i;
 struct Node *n;
@@ -443,7 +475,7 @@ if(!GLOBALS->hier_was_explicitly_set)    /* set default hierarchy split char */
 
 if(GLOBALS->numfacs)
 	{
-	char *fnam = get_varname();
+	char *fnam = get_varname(&vt_prev);
 	int flen = strlen(fnam);
 	namecache[0]=malloc_2(flen+1);
 	strcpy(namecache[0], fnam);
@@ -455,9 +487,10 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	char *str;	
 	struct fac *f;
 
+	vt = vt_prev;
 	if(i!=(GLOBALS->numfacs-1))
 		{
-		char *fnam = get_varname();
+		char *fnam = get_varname(&vt_prev);
 		int flen = strlen(fnam);
 		namecache[i+1]=malloc_2(flen+1);
 		strcpy(namecache[i+1], fnam);
@@ -556,6 +589,31 @@ for(i=0;i<GLOBALS->numfacs;i++)
         n->head.time=-1;        /* mark 1st node as negative time */
         n->head.v.h_val=AN_X;
         s->n=n;
+
+	switch(vt)
+	        {
+	        case V_EVENT:           nvt = ND_VCD_EVENT; break;
+	        case V_PARAMETER:       nvt = ND_VCD_PARAMETER; break;
+	        case V_INTEGER:         nvt = ND_VCD_INTEGER; break;
+	        case V_REAL:            nvt = ND_VCD_REAL; break;
+	        case V_REG:             nvt = ND_VCD_REG; break;
+	        case V_SUPPLY0:         nvt = ND_VCD_SUPPLY0; break;
+	        case V_SUPPLY1:         nvt = ND_VCD_SUPPLY1; break;
+	        case V_TIME:            nvt = ND_VCD_TIME; break;
+	        case V_TRI:             nvt = ND_VCD_TRI; break;
+	        case V_TRIAND:          nvt = ND_VCD_TRIAND; break;
+	        case V_TRIOR:           nvt = ND_VCD_TRIOR; break;
+	        case V_TRIREG:          nvt = ND_VCD_TRIREG; break;
+	        case V_TRI0:            nvt = ND_VCD_TRI0; break;
+	        case V_TRI1:            nvt = ND_VCD_TRI1; break;
+	        case V_WAND:            nvt = ND_VCD_WAND; break;
+	        case V_WIRE:            nvt = ND_VCD_WIRE; break;
+	        case V_WOR:             nvt = ND_VCD_WOR; break;
+	        case V_PORT:            nvt = ND_VCD_PORT; break;
+	        case V_STRINGTYPE:      nvt = ND_GEN_STRING; break;
+	        default:                nvt = ND_UNSPECIFIED_DEFAULT; break;
+	        }
+	n->vartype = nvt;
         }
 
 for(i=0;((i<2)&&(i<GLOBALS->numfacs));i++)
