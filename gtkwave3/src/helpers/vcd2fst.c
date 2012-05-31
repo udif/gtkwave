@@ -37,13 +37,19 @@
 #endif
 #endif
 
-/*******************************************************************/
+/*********************************************************/
+/*** vvv extload component type name determination vvv ***/
+/*********************************************************/
 
-#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+#if defined(VCD2FST_EXTLOAD_CONV)
 
 #include <Judy.h>
 
+#ifdef _WAVE_HAVE_JUDY
 Pvoid_t  PJArray = NULL;
+#else
+JRB comp_name_jrb = NULL;
+#endif
 
 static const char *fst_scope_name = NULL;
 
@@ -52,7 +58,12 @@ static char *get_scopename(void *xc, FILE *extload)
 static char sbuff[65537];
 char * rc;
 int vt, vt_len;
+#ifdef _WAVE_HAVE_JUDY
 PPvoid_t PPValue;
+#else
+JRB str;
+Jval jv;
+#endif
 
 for(;;)
         {
@@ -75,11 +86,22 @@ for(;;)
 			/* process fst_scope_name + cname vs ctype here */
 			if(strcmp(cname, ctype))
 				{
+#ifdef _WAVE_HAVE_JUDY
 				PPValue = JudySLIns(&PJArray, (uint8_t *)fst_scope_name, PJE0);
 				if(!*((char **)PPValue))
 					{
 					*((char **)PPValue) = strdup(ctype);
 					}
+#else
+				char cstring[65537];
+				strcpy(cstring, fst_scope_name);
+				str = jrb_find_str(comp_name_jrb, cstring);
+				if(!str)
+					{
+					jv.s = strdup(ctype);
+					jrb_insert_str(comp_name_jrb, strdup(cstring), jv);
+					}
+#endif
 				}
                         }
                 }
@@ -112,6 +134,7 @@ fstReaderClose(xc); /* corresponds to fstReaderOpenForUtilitiesOnly() */
 
 static void dealloc_scope(void)
 {
+#ifdef _WAVE_HAVE_JUDY
 PPvoid_t PPValue;
 
 if(PJArray)
@@ -129,11 +152,31 @@ if(PJArray)
         JudySLFreeArray(&PJArray, PJE0);
         PJArray = NULL;
         }
+#else
+if(comp_name_jrb)
+	{
+        JRB node;
+	char *Index;
+
+        jrb_traverse(node, comp_name_jrb)
+            {
+                Index = node->key.s;
+                free(Index);
+                Index = node->val.s;
+                free(Index);
+            }
+
+        jrb_free_tree(comp_name_jrb);
+        comp_name_jrb = NULL;
+	}
+#endif
 }
 
 #endif
 
-/*******************************************************************/
+/*********************************************************/
+/*** ^^^ extload component type name determination ^^^ ***/
+/*********************************************************/
 
 size_t getline_replace(char **wbuf, char **buf, size_t *len, FILE *f)
 {
@@ -222,9 +265,10 @@ if(!strcmp("-", vname))
 		sprintf(bin_fixbuff, EXTCONV_PATH" %s", vname);
 		f = popen(bin_fixbuff, "r");
 		is_popen = 1;
-#ifdef _WAVE_HAVE_JUDY
-		iter_scope(vname);
+#ifndef _WAVE_HAVE_JUDY
+		comp_name_jrb = make_jrb();
 #endif
+		iter_scope(vname);
 		}
 		else
 #endif
@@ -247,7 +291,7 @@ if(!ctx)
 	exit(255);
 	}
 
-#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+#if defined(VCD2FST_EXTLOAD_CONV)
 xc = fstReaderOpenForUtilitiesOnly();
 #endif
 
@@ -482,7 +526,8 @@ while(!feof(f))
 
 		st = strtok(NULL, " \t");
 
-#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+#if defined(VCD2FST_EXTLOAD_CONV)
+#ifdef _WAVE_HAVE_JUDY
 		if(PJArray)
 			{
 			const char *fst_scope_name = fstReaderPushScope(xc, st, NULL);
@@ -490,6 +535,19 @@ while(!feof(f))
 
 			fstWriterSetScope(ctx, scopetype, st, PPValue ? *PPValue : NULL);
 			}
+#else
+		if(comp_name_jrb)
+			{
+			const char *fst_scope_name = fstReaderPushScope(xc, st, NULL);
+			char cstring[65537];
+			JRB str;
+
+			strcpy(cstring, fst_scope_name);
+			str = jrb_find_str(comp_name_jrb, cstring);
+
+			fstWriterSetScope(ctx, scopetype, st, str ? str->val.s : NULL);
+			}
+#endif
 			else
 #endif
 			{
@@ -500,15 +558,19 @@ while(!feof(f))
 	if(!strncmp(buf, "$upscope", 8))
 		{
 		fstWriterSetUpscope(ctx);
-#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+#if defined(VCD2FST_EXTLOAD_CONV)
 		fstReaderPopScope(xc);
 #endif
 		}
 	else
 	if(!strncmp(buf, "$endd", 5))
 		{
-#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+#if defined(VCD2FST_EXTLOAD_CONV)
+#ifdef _WAVE_HAVE_JUDY
 		if(PJArray)
+#else
+		if(comp_name_jrb)
+#endif
 			{
 			dealloc_scope();
 			}
@@ -969,7 +1031,7 @@ while(!feof(f))
 
 fstWriterClose(ctx);
 
-#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+#if defined(VCD2FST_EXTLOAD_CONV)
 fstReaderClose(xc);
 #endif
 
