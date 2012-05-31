@@ -6,7 +6,7 @@ AIXFLAGS = -bmaxdata:0xd0000000/dsa
 LIBLZMA_CFLAGS = -I$(srcdir)/../liblzma $(LIBXZ_CFLAGS)
 LIBLZMA_LDADD  = $(LIBXZ_LDADD)
 
-AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/../.. $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) -I$(srcdir)/fst -I$(srcdir)/../../contrib/rtlbrowse
+AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/../.. $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(EXTLOAD_CFLAGS) -I$(srcdir)/fst -I$(srcdir)/../../contrib/rtlbrowse
 
 bin_PROGRAMS= evcd2vcd fst2vcd vcd2fst ghwdump lxt2miner lxt2vcd \
 	shmidcat vcd2lxt vcd2lxt2 vcd2vzt \

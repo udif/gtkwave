@@ -143,6 +143,7 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 EXTDEBUG = @EXTDEBUG@
+EXTDEBUG2 = @EXTDEBUG2@
 EXTLOAD_CFLAGS = @EXTLOAD_CFLAGS@
 FASTTREE_CFLAGS = @FASTTREE_CFLAGS@
 GCONF_CFLAGS = @GCONF_CFLAGS@
@@ -256,7 +257,7 @@ BIGFILES = -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
 AIXFLAGS = -bmaxdata:0xd0000000/dsa
 LIBLZMA_CFLAGS = -I$(srcdir)/../liblzma $(LIBXZ_CFLAGS)
 LIBLZMA_LDADD = $(LIBXZ_LDADD)
-AM_CFLAGS = -I$(srcdir)/.. -I$(srcdir)/../.. $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) -I$(srcdir)/fst -I$(srcdir)/../../contrib/rtlbrowse
+AM_CFLAGS = -I$(srcdir)/.. -I$(srcdir)/../.. $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(EXTLOAD_CFLAGS) -I$(srcdir)/fst -I$(srcdir)/../../contrib/rtlbrowse
 vcd2fst_SOURCES = vcd2fst.c $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h $(srcdir)/../../contrib/rtlbrowse/jrb.h $(srcdir)/../../contrib/rtlbrowse/jrb.c
 vcd2fst_LDADD = $(LIBZ_LDADD) $(LIBJUDY_LDADD)
 fst2vcd_SOURCES = fst2vcd.c $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h

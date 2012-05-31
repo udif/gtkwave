@@ -1251,7 +1251,7 @@ if(is_missing_file)
 	}
 else
 #ifdef EXTLOAD_SUFFIX
-if(suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX))
+if(suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX) && !opt_vcd) //
 	{
 	TimeType extload_max;
 

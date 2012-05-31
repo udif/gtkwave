@@ -336,6 +336,13 @@ else
 	EXTLOAD_CFLAGS="-DEXTLOAD_PATH=\\\"$EXTDEBUG\\\" -DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 fi
 
+# enables .fsdb as input filetype in vcd2fst, and also gtkwave -o
+
+AC_PATH_PROG(EXTDEBUG2, [fsdb2vcd], [notfound])
+if test "$EXTDEBUG2" != "notfound" ; then
+	EXTLOAD_CFLAGS="$EXTLOAD_CFLAGS -DEXTCONV_PATH=\\\"$EXTDEBUG2\\\""
+fi
+
 AC_SUBST(EXTLOAD_CFLAGS)
 
 #

@@ -1222,3 +1222,5 @@
 		pipeio_destroy().
 		Additions to extload to handle hier types, component types,
 		and signal types.
+		Added support for extload files as input filetype in vcd2fst.
+		Added -o for extload files to convert to FST.

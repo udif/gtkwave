@@ -77,6 +77,14 @@ int pack_type = 0;  /* set to 1 for fastlz */
 int repack_all = 0; /* 0 is normal, 1 does the repack (via fstapi) at end */
 int parallel_mode = 0; /* 0 is is single threaded, 1 is multi-threaded */
 
+
+static int suffix_check(const char *s, const char *sfx)
+{
+int sfxlen = strlen(sfx);
+return((strlen(s)>=sfxlen)&&(!strcasecmp(s+strlen(s)-sfxlen,sfx)));
+}
+
+
 int fst_main(char *vname, char *fstname)
 {
 FILE *f;
@@ -92,6 +100,7 @@ char bin_fixbuff[32769];
 int hash_kill = 0;
 unsigned int hash_max = 0;
 int *node_len_array = NULL;
+int is_popen = 0;
 
 if(!strcmp("-", vname))
 	{
@@ -99,7 +108,20 @@ if(!strcmp("-", vname))
 	}
 	else
 	{
-	f = fopen(vname, "rb");
+#ifdef EXTLOAD_SUFFIX
+#ifdef EXTCONV_PATH
+	if(suffix_check(vname, "."EXTLOAD_SUFFIX))
+		{
+		sprintf(bin_fixbuff, EXTCONV_PATH" %s", vname);
+		f = popen(bin_fixbuff, "r");
+		is_popen = 1;
+		}
+		else
+#endif
+#endif
+		{
+		f = fopen(vname, "rb");
+		}
 	}
 
 if(!f)
@@ -822,7 +844,17 @@ if(vcd_ids)
 free(wbuf); wbuf = NULL;
 free(node_len_array); node_len_array = NULL;
 
-if(f != stdin) fclose(f);
+if(f != stdin) 
+	{ 
+	if(is_popen)
+		{
+		pclose(f);
+		}
+		else
+		{
+		fclose(f);
+		}
+	}
 
 return(0);
 }
