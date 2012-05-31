@@ -202,10 +202,8 @@ for(;;)
 			char ctype[2048];
 			unsigned char ttype;
 
-                        GLOBALS->fst_scope_name = fstReaderPushScope(xc, cname, GLOBALS->mod_tree_parent);
-                        /* GLOBALS->fst_scope_name_len = fstReaderGetCurrentScopeLen(xc); */
-
 			sscanf(rc+6, "%s %s %s", vht, cname, ctype);
+                        GLOBALS->fst_scope_name = fstReaderPushScope(xc, cname, GLOBALS->mod_tree_parent);
 
 			if(!strncmp(vht, "vcd_", 4))
 				{
@@ -231,7 +229,6 @@ for(;;)
                 {
                 GLOBALS->mod_tree_parent = fstReaderGetCurrentScopeUserInfo(xc);
                 GLOBALS->fst_scope_name = fstReaderPopScope(xc);
-                /* GLOBALS->fst_scope_name_len = fstReaderGetCurrentScopeLen(xc); */
 		}
 	}
 }
