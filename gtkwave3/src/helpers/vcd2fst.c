@@ -30,6 +30,111 @@
 #include "../../contrib/rtlbrowse/jrb.h"
 #include "wave_locale.h"
 
+
+#ifdef EXTLOAD_SUFFIX
+#ifdef EXTCONV_PATH
+#define VCD2FST_EXTLOAD_CONV
+#endif
+#endif
+
+/*******************************************************************/
+
+#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+
+#include <Judy.h>
+
+Pvoid_t  PJArray = NULL;
+
+static const char *fst_scope_name = NULL;
+
+static char *get_scopename(void *xc, FILE *extload)
+{
+static char sbuff[65537];
+char * rc;
+int vt, vt_len;
+PPvoid_t PPValue;
+
+for(;;)
+        {
+        rc = fgets(sbuff, 65536, extload);
+        if(!rc)
+                {
+                return(NULL);
+                }
+
+        if(rc[0] == 'S')
+                {
+                if(!strncmp(rc, "Scope:", 6))
+                        {
+                        char vht[2048];
+                        char cname[2048];
+                        char ctype[2048];
+
+                        sscanf(rc+6, "%s %s %s", vht, cname, ctype);
+                        fst_scope_name = fstReaderPushScope(xc, cname, NULL);
+			/* process fst_scope_name + cname vs ctype here */
+			if(strcmp(cname, ctype))
+				{
+				PPValue = JudySLIns(&PJArray, (uint8_t *)fst_scope_name, PJE0);
+				if(!*((char **)PPValue))
+					{
+					*((char **)PPValue) = strdup(ctype);
+					}
+				}
+                        }
+                }
+        else
+        if(rc[0] == 'U')
+                {
+                fst_scope_name = fstReaderPopScope(xc);
+                }
+        }
+
+return(rc);
+}
+
+
+static void iter_scope(char *fname)
+{
+char sbuff[65537];
+FILE *extload;
+void *xc = fstReaderOpenForUtilitiesOnly();
+
+sprintf(sbuff, "%s -scope %s 2>&1", EXTLOAD_PATH, fname);
+extload = popen(sbuff, "r");
+
+while(get_scopename(xc, extload));
+
+pclose(extload);
+fstReaderClose(xc); /* corresponds to fstReaderOpenForUtilitiesOnly() */
+}
+
+
+static void dealloc_scope(void)
+{
+PPvoid_t PPValue;
+
+if(PJArray)
+        {
+        char Index[65537];
+	Index[0] = 0;
+
+        for (PPValue  = JudySLFirst (PJArray, (uint8_t *)Index, PJE0);
+                 PPValue != (PPvoid_t) NULL;
+                 PPValue  = JudySLNext  (PJArray, (uint8_t *)Index, PJE0))
+            {
+		free(*(char **)PPValue);
+            }
+
+        JudySLFreeArray(&PJArray, PJE0);
+        PJArray = NULL;
+        }
+}
+
+#endif
+
+/*******************************************************************/
+
 size_t getline_replace(char **wbuf, char **buf, size_t *len, FILE *f)
 {
 char *fgets_rc;
@@ -90,7 +195,7 @@ int fst_main(char *vname, char *fstname)
 FILE *f;
 char *buf = NULL, *wbuf = NULL;
 size_t glen;
-struct fstContext *ctx;
+void *ctx;
 int line = 0;
 size_t ss;
 fstHandle returnedhandle;
@@ -101,6 +206,9 @@ int hash_kill = 0;
 unsigned int hash_max = 0;
 int *node_len_array = NULL;
 int is_popen = 0;
+#ifdef VCD2FST_EXTLOAD_CONV
+void *xc = NULL;
+#endif
 
 if(!strcmp("-", vname))
 	{
@@ -108,16 +216,17 @@ if(!strcmp("-", vname))
 	}
 	else
 	{
-#ifdef EXTLOAD_SUFFIX
-#ifdef EXTCONV_PATH
+#ifdef VCD2FST_EXTLOAD_CONV
 	if(suffix_check(vname, "."EXTLOAD_SUFFIX))
 		{
 		sprintf(bin_fixbuff, EXTCONV_PATH" %s", vname);
 		f = popen(bin_fixbuff, "r");
 		is_popen = 1;
+#ifdef _WAVE_HAVE_JUDY
+		iter_scope(vname);
+#endif
 		}
 		else
-#endif
 #endif
 		{
 		f = fopen(vname, "rb");
@@ -137,6 +246,10 @@ if(!ctx)
 	printf("could not open '%s', exiting.\n", fstname);
 	exit(255);
 	}
+
+#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+xc = fstReaderOpenForUtilitiesOnly();
+#endif
 
 vcd_ids = make_jrb();
 fstWriterSetPackType(ctx, pack_type);
@@ -369,16 +482,37 @@ while(!feof(f))
 
 		st = strtok(NULL, " \t");
 
-		fstWriterSetScope(ctx, scopetype, st, NULL);
+#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+		if(PJArray)
+			{
+			const char *fst_scope_name = fstReaderPushScope(xc, st, NULL);
+			PPvoid_t PPValue = JudySLGet(PJArray, (uint8_t *)fst_scope_name, PJE0);
+
+			fstWriterSetScope(ctx, scopetype, st, PPValue ? *PPValue : NULL);
+			}
+			else
+#endif
+			{
+			fstWriterSetScope(ctx, scopetype, st, NULL);
+			}
 		}
 	else
 	if(!strncmp(buf, "$upscope", 8))
 		{
 		fstWriterSetUpscope(ctx);
+#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+		fstReaderPopScope(xc);
+#endif
 		}
 	else
 	if(!strncmp(buf, "$endd", 5))
 		{
+#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+		if(PJArray)
+			{
+			dealloc_scope();
+			}
+#endif
 		break;
 		}
 	else
@@ -834,6 +968,11 @@ while(!feof(f))
 	}
 
 fstWriterClose(ctx);
+
+#if defined(VCD2FST_EXTLOAD_CONV) && defined(_WAVE_HAVE_JUDY)
+fstReaderClose(xc);
+#endif
+
 
 if(vcd_ids)
 	{
