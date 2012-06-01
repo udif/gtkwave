@@ -81,10 +81,13 @@ for(;;)
                         char cname[2048];
                         char ctype[2048];
 
+			cname[0] = ctype[0] = 0;
+
                         sscanf(rc+6, "%s %s %s", vht, cname, ctype);
                         fst_scope_name = fstReaderPushScope(xc, cname, NULL);
+
 			/* process fst_scope_name + cname vs ctype here */
-			if(strcmp(cname, ctype))
+			if(strcmp(ctype, "NULL") && strcmp(cname, ctype))
 				{
 #ifdef _WAVE_HAVE_JUDY
 				PPValue = JudySLIns(&PJArray, (uint8_t *)fst_scope_name, PJE0);

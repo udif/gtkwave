@@ -202,8 +202,10 @@ for(;;)
 			char ctype[2048];
 			unsigned char ttype;
 
+			vht[0] = vht[4] = vht[5] = cname[0] = ctype[0] = 0;
 			sscanf(rc+6, "%s %s %s", vht, cname, ctype);
                         GLOBALS->fst_scope_name = fstReaderPushScope(xc, cname, GLOBALS->mod_tree_parent);
+			if(!strcmp(ctype, "NULL")) { ctype[0] = 0; }
 
 			if(!strncmp(vht, "vcd_", 4))
 				{
