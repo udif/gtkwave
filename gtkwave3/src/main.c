@@ -204,6 +204,19 @@ for(i=0;i<GLOBALS->num_notebook_pages;i++)
 
 static void print_help(char *nam)
 {
+#ifdef EXTLOAD_SUFFIX
+int slen = strlen(EXTLOAD_SUFFIX);
+char *ucase_ext = wave_alloca(slen+1);
+int i;
+
+for(i=0;i<slen;i++)
+        {
+        ucase_ext[i] = toupper(EXTLOAD_SUFFIX[i]);
+        }
+ucase_ext[i] = 0;
+#endif
+
+
 #if !defined _MSC_VER && !defined __MINGW32__ && !defined __FreeBSD__ && !defined __CYGWIN__
 #define WAVE_GETOPT_CPUS "  -c, --cpu=NUMCPUS          specify number of CPUs for parallelizable ops\n"
 #else
@@ -211,7 +224,11 @@ static void print_help(char *nam)
 #endif
 
 #if !defined _MSC_VER && !defined __MINGW32__
+#ifdef EXTLOAD_SUFFIX
+#define VCD_GETOPT       "  -o, --optimize             optimize VCD/%s to FST\n"
+#else
 #define VCD_GETOPT       "  -o, --optimize             optimize VCD to FST\n"
+#endif
 #else
 #define VCD_GETOPT
 #endif
@@ -310,7 +327,13 @@ SLIDEZOOM_OPT
 "Note that DUMPFILE is optional if the --dump or --nocli options are specified.\n"
 "SAVEFILE and RCFILE are always optional.\n\n"
 
-"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam
+#if !defined _MSC_VER && !defined __MINGW32__
+#ifdef EXTLOAD_SUFFIX
+,ucase_ext
+#endif
+#endif
+);
 
 exit(0);
 }
@@ -1251,7 +1274,7 @@ if(is_missing_file)
 	}
 else
 #ifdef EXTLOAD_SUFFIX
-if(suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX) && !opt_vcd) //
+if(suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX) && !opt_vcd)
 	{
 	TimeType extload_max;
 
