@@ -1072,10 +1072,25 @@ return(0);
 
 void print_help(char *nam)
 {
+#ifdef VCD2FST_EXTLOAD_CONV
+int slen = strlen(EXTLOAD_SUFFIX);
+char *ucase_ext = calloc(1, slen+1);
+int i;
+
+for(i=0;i<slen;i++)
+	{
+	ucase_ext[i] = toupper(EXTLOAD_SUFFIX[i]);
+	}
+#endif
+
 #ifdef __linux__ 
 printf(
 "Usage: %s [OPTION]... [VCDFILE] [FSTFILE]\n\n"
+#ifdef VCD2FST_EXTLOAD_CONV
+"  -v, --vcdname=FILE         specify VCD/%s input filename\n"
+#else
 "  -v, --vcdname=FILE         specify VCD input filename\n"
+#endif
 "  -f, --fstname=FILE         specify FST output filename\n"
 "  -F, --fastpack             use fastlz algorithm for speed\n"
 "  -c, --compress             compress entire file on close\n"
@@ -1084,11 +1099,19 @@ printf(
 
 "Note that VCDFILE and FSTFILE are optional provided the\n"
 "--vcdname and --fstname options are specified.\n\n"
-"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam
+#ifdef VCD2FST_EXTLOAD_CONV
+,ucase_ext
+#endif
+);
 #else
 printf(
 "Usage: %s [OPTION]... [VCDFILE] [FSTFILE]\n\n"
+#ifdef VCD2FST_EXTLOAD_CONV
+"  -v FILE                    specify VCD/%s input filename\n"
+#else
 "  -v FILE                    specify VCD input filename\n"
+#endif
 "  -f FILE                    specify FST output filename\n"
 "  -F                         use fastlz algorithm for speed\n"
 "  -c                         compress entire file on close\n"
@@ -1097,7 +1120,15 @@ printf(
 
 "Note that VCDFILE and FSTFILE are optional provided the\n"
 "--vcdname and --fstname options are specified.\n\n"
-"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
+"Report bugs to <"PACKAGE_BUGREPORT">.\n",nam
+#ifdef VCD2FST_EXTLOAD_CONV
+,ucase_ext
+#endif
+);
+#endif
+
+#ifdef VCD2FST_EXTLOAD_CONV
+free(ucase_ext);
 #endif
 
 exit(0);
