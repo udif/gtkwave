@@ -292,7 +292,10 @@ if(!ctx)
 	}
 
 #if defined(VCD2FST_EXTLOAD_CONV)
-xc = fstReaderOpenForUtilitiesOnly();
+if(is_popen)
+	{
+	xc = fstReaderOpenForUtilitiesOnly();
+	}
 #endif
 
 vcd_ids = make_jrb();
@@ -559,7 +562,10 @@ while(!feof(f))
 		{
 		fstWriterSetUpscope(ctx);
 #if defined(VCD2FST_EXTLOAD_CONV)
-		fstReaderPopScope(xc);
+		if(xc)
+			{
+			fstReaderPopScope(xc);
+			}
 #endif
 		}
 	else
@@ -1032,7 +1038,10 @@ while(!feof(f))
 fstWriterClose(ctx);
 
 #if defined(VCD2FST_EXTLOAD_CONV)
-fstReaderClose(xc);
+if(xc)
+	{
+	fstReaderClose(xc);
+	}
 #endif
 
 
