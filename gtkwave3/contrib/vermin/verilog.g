@@ -1443,8 +1443,7 @@ v_input_declaration: V_INPUT ( v_list_of_variables V_SEMI
 		| v_range v_list_of_variables V_SEMI )
 		;
 
-// (v_nettype|V_REG|) added 140612ajb
-v_output_declaration: V_OUTPUT (v_nettype|V_REG|) ( v_list_of_variables V_SEMI
+v_output_declaration: V_OUTPUT ( v_list_of_variables V_SEMI
 		| v_range v_list_of_variables V_SEMI )
 		;
 
