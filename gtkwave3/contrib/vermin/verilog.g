@@ -2047,8 +2047,10 @@ v_delay_control: V_POUND ( v_number
 		| V_LP v_mintypmax_expression V_RP )
 		;
 
+// added V_STAR 14jun12ajb
 v_event_control: V_AT ( v_identifier
-		| V_LP v_event_expression V_RP )
+		| V_LP v_event_expression V_RP 
+		| V_STAR )
 		;
 
 v_event_expression: 
