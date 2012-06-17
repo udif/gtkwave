@@ -1,3 +1,4 @@
+
 /* parser.dlg -- DLG Description of scanner
  *
  * Generated from: ./verilog.g
