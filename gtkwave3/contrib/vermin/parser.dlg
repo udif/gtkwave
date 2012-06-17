@@ -57,13 +57,13 @@ zzerraction()
 
 [\ \t\b\r]+
 	<<
-		NLA = 163;
+		NLA = 183;
     addtoken(0); zzskip();   
 	>>
 
 \n
 	<<
-		NLA = 164;
+		NLA = 184;
     addtoken(1); zzskip();   
 	>>
 
@@ -289,6 +289,24 @@ zzerraction()
     addtoken(0); STMODE;   
 	>>
 
+\<\<\<
+	<<
+		NLA = V_SSHL;
+    addtoken(0); STMODE;   
+	>>
+
+\>\>\>
+	<<
+		NLA = V_SSHR;
+    addtoken(0); STMODE;   
+	>>
+
+\*\*
+	<<
+		NLA = V_POW;
+    addtoken(0); STMODE;   
+	>>
+
 \?
 	<<
 		NLA = V_QUEST;
@@ -411,19 +429,19 @@ table
 
 //~[\n]*
 	<<
-		NLA = 165;
+		NLA = 185;
     addtoken(0); parsecomment(); zzskip();   
 	>>
 
 /\*
 	<<
-		NLA = 166;
+		NLA = 186;
     addtoken(0); zzcomment_depth=1; zzcomment_entry=1; zzcomment_start=zzline; zzmode(COMMENT); zzskip();   
 	>>
 
 \*/
 	<<
-		NLA = 167;
+		NLA = 187;
     addtoken(0); 
     mesg("** End of comment when not in a comment on line %d in file '%s'.\n", zzline, zzfilename);
     zzskip();   
@@ -431,85 +449,91 @@ table
 
 `uselib~[\n]*
 	<<
-		NLA = 184;
+		NLA = 204;
     addtoken(0); zzskip();   
 	>>
 
 `default_nettype[\ \t\b]+[a-z]+
 	<<
-		NLA = 185;
+		NLA = 205;
     addtoken(0); zzskip();   
 	>>
 
 `define~[\n]*
 	<<
-		NLA = 186;
+		NLA = 206;
     addtoken(0); if(!do_not_translate) store_define(zztext); zzskip();   
 	>>
 
 `undef[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*
 	<<
-		NLA = 187;
+		NLA = 207;
     addtoken(0); if(!do_not_translate) remove_define(zztext); zzskip();   
 	>>
 
 `unconnected_drive[\ \t\b]+pull[01]
 	<<
-		NLA = 188;
+		NLA = 208;
     addtoken(0); zzskip();   
 	>>
 
 `nounconnected_drive
 	<<
-		NLA = 189;
+		NLA = 209;
     addtoken(0); zzskip();   
 	>>
 
 `resetall
 	<<
-		NLA = 190;
+		NLA = 210;
     addtoken(0); zzskip();   
 	>>
 
 `timescale[\ \t\b]+1{0}{0}[\ \t\b]*{[munpf]}s[\ \t\b]*/[\ \t\b]*1{0}{0}[\ \t\b]*{[munpf]}s
 	<<
-		NLA = 191;
+		NLA = 211;
     addtoken(0); zzskip();   
 	>>
 
 `ifdef[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*
 	<<
-		NLA = 192;
+		NLA = 212;
     addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_ifdef(zztext); zzskip();   
 	>>
 
 `ifndef[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*
 	<<
-		NLA = 193;
+		NLA = 213;
     addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_ifndef(zztext); zzskip();   
 	>>
 
 `else
 	<<
-		NLA = 194;
+		NLA = 214;
     addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_else(); zzskip();   
 	>>
 
 `endif
 	<<
-		NLA = 195;
+		NLA = 215;
     addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_endif(); zzskip();   
+	>>
+
+`elsif[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*
+	<<
+		NLA = 216;
+    addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_elsif(zztext); zzskip();   
 	>>
 
 `include[\ \t\b]+\"~[\"\n]*\"
 	<<
-		NLA = 196;
+		NLA = 217;
     addtoken(0); if(!do_not_translate) handle_include(zztext); zzskip();   
 	>>
 
 `[a-zA-Z_][a-zA-Z0-9_$]*
 	<<
-		NLA = 197;
+		NLA = 218;
     addtoken(0); 
     if(is_builtin_define(zztext+1, zzrewind-1)) warn("** Warning: ignoring unsupported '%s' directive in file '%s' line %d\n", zztext, zzfilename, zzline);
     else if(!do_not_translate) 
@@ -527,32 +551,32 @@ table
 
 /\*
 	<<
-		NLA = 168;
+		NLA = 188;
     addtoken(0); /* zzcomment_depth++; <=- VERILOG DOES NOT ALLOW NESTED COMMENTS */
     zzskip();   
 	>>
 
 \*/
 	<<
-		NLA = 169;
+		NLA = 189;
     addtoken(0); zzcomment_depth--; zzskip(); if(!zzcomment_depth) { zzmode(START); }   
 	>>
 
 \n
 	<<
-		NLA = 170;
+		NLA = 190;
     addtoken(1); zzskip();   
 	>>
 
 ~[/\*\n]+
 	<<
-		NLA = 171;
+		NLA = 191;
     addtoken(0); if(zzcomment_entry) { parsecomment(); zzcomment_entry=0; } zzskip();   
 	>>
 
 [/\*]
 	<<
-		NLA = 172;
+		NLA = 192;
     addtoken(0); zzskip();   
 	>>
 
@@ -590,13 +614,13 @@ table
 
 \n
 	<<
-		NLA = 173;
+		NLA = 193;
     addtoken(1); zzskip();   
 	>>
 
 [\ \t\b\r]+
 	<<
-		NLA = 174;
+		NLA = 194;
     addtoken(0); zzskip();   
 	>>
 
@@ -656,25 +680,25 @@ endtable
 
 `~[\n]*
 	<<
-		NLA = 175;
+		NLA = 195;
     addtoken(0); zzskip();   
 	>>
 
 //~[\n]*
 	<<
-		NLA = 176;
+		NLA = 196;
     addtoken(0); parsecomment(); zzskip();   
 	>>
 
 /\*
 	<<
-		NLA = 177;
+		NLA = 197;
     addtoken(0); zzcomment_depth=1; zzcomment_entry=1; zzcomment_start=zzline; zzmode(COMMENT); zzskip();   
 	>>
 
 \*/
 	<<
-		NLA = 178;
+		NLA = 198;
     addtoken(0); 
     mesg("** End of comment when not in a comment on line %d in file '%s'.\n", zzline, zzfilename);
     zzskip();   
@@ -682,85 +706,91 @@ endtable
 
 `uselib~[\n]*
 	<<
-		NLA = 198;
+		NLA = 219;
     addtoken(0); zzskip();   
 	>>
 
 `default_nettype[\ \t\b]+[a-z]+
 	<<
-		NLA = 199;
+		NLA = 220;
     addtoken(0); zzskip();   
 	>>
 
 `define~[\n]*
 	<<
-		NLA = 200;
+		NLA = 221;
     addtoken(0); if(!do_not_translate) store_define(zztext); zzskip();   
 	>>
 
 `undef[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*
 	<<
-		NLA = 201;
+		NLA = 222;
     addtoken(0); if(!do_not_translate) remove_define(zztext); zzskip();   
 	>>
 
 `unconnected_drive[\ \t\b]+pull[01]
 	<<
-		NLA = 202;
+		NLA = 223;
     addtoken(0); zzskip();   
 	>>
 
 `nounconnected_drive
 	<<
-		NLA = 203;
+		NLA = 224;
     addtoken(0); zzskip();   
 	>>
 
 `resetall
 	<<
-		NLA = 204;
+		NLA = 225;
     addtoken(0); zzskip();   
 	>>
 
 `timescale[\ \t\b]+1{0}{0}[\ \t\b]*{[munpf]}s[\ \t\b]*/[\ \t\b]*1{0}{0}[\ \t\b]*{[munpf]}s
 	<<
-		NLA = 205;
+		NLA = 226;
     addtoken(0); zzskip();   
 	>>
 
 `ifdef[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*
 	<<
-		NLA = 206;
+		NLA = 227;
     addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_ifdef(zztext); zzskip();   
 	>>
 
 `ifndef[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*
 	<<
-		NLA = 207;
+		NLA = 228;
     addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_ifndef(zztext); zzskip();   
 	>>
 
 `else
 	<<
-		NLA = 208;
+		NLA = 229;
     addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_else(); zzskip();   
 	>>
 
 `endif
 	<<
-		NLA = 209;
+		NLA = 230;
     addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_endif(); zzskip();   
+	>>
+
+`elsif[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*
+	<<
+		NLA = 231;
+    addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_elsif(zztext); zzskip();   
 	>>
 
 `include[\ \t\b]+\"~[\"\n]*\"
 	<<
-		NLA = 210;
+		NLA = 232;
     addtoken(0); if(!do_not_translate) handle_include(zztext); zzskip();   
 	>>
 
 `[a-zA-Z_][a-zA-Z0-9_$]*
 	<<
-		NLA = 211;
+		NLA = 233;
     addtoken(0); 
     if(is_builtin_define(zztext+1, zzrewind-1)) warn("** Warning: ignoring unsupported '%s' directive in file '%s' line %d\n", zztext, zzfilename, zzline);
     else if(!do_not_translate) 
@@ -778,32 +808,32 @@ endtable
 
 /\*
 	<<
-		NLA = 179;
+		NLA = 199;
     addtoken(0); /* zzcomment_depth++; <=- VERILOG DOES NOT ALLOW NESTED COMMENTS */
     zzskip();   
 	>>
 
 \*/
 	<<
-		NLA = 180;
+		NLA = 200;
     addtoken(0); zzcomment_depth--; zzskip(); if(!zzcomment_depth) { zzmode(UDP); }   
 	>>
 
 \n
 	<<
-		NLA = 181;
+		NLA = 201;
     addtoken(1); zzskip();   
 	>>
 
 ~[/\*\n]+
 	<<
-		NLA = 182;
+		NLA = 202;
     addtoken(0); if(zzcomment_entry) { parsecomment(); zzcomment_entry=0; } zzskip();   
 	>>
 
 [/\*]
 	<<
-		NLA = 183;
+		NLA = 203;
     addtoken(0); zzskip();   
 	>>
 

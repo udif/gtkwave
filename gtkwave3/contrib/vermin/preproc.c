@@ -792,6 +792,70 @@ if(!ifdef_stack_top)
 /* warn(" do_not_translate = %d\n", do_not_translate); */
 }
 
+void handle_elsif(char *def_text)
+{
+/* warn("** ELSIF in file '%s' line %d\n", zzfilename, zzline); */
+
+if(!ifdef_stack_top)
+	{
+	mesg("** Error: `elsif without `ifdef in file '%s' line %d\n", zzfilename, zzline);
+	}
+	else
+	{
+	handle_else();
+
+	if(ifdef_stack_top->else_branch)
+		{
+		char *pnt = def_text+6;
+		char *s1;
+		/* JRB node; */
+		struct ifdef_stack_t *is;
+
+		s1=strtok(pnt, " \t\b");	
+		if(!s1)
+			{
+			warn("** Warning: malformed `elsif directive in file '%s' line %d, ignoring.\n", zzfilename, zzline);
+			return;
+			}
+
+		is = ifdef_stack_top; 
+		is->polarity = 1;
+		free(is->zzfilename);
+		is->zzfilename = strdup(zzfilename);
+		is->zzline = zzline;
+		free(is->deftext);
+		is->deftext = strdup(s1);
+
+		/* is->blocked = ifdef_stack_top ? ifdef_stack_top->blocked : 0; */
+		/* is->next = ifdef_stack_top; */
+		/* is->do_not_translate = do_not_translate; */
+		/* ifdef_stack_top = is; */
+	
+			{
+			if(!(/* node= */jrb_find_str(define_tree, s1)))
+				{
+				/* skip action */
+				do_not_translate |= STMODE_XLATEOFF_IFDEF;
+				is->blocked = 1;
+				is->else_branch = 1;	/* translate in `else */
+				}
+				else
+				{
+				/* do */
+				is->else_branch = 0; /* do not translate in `else */
+				}
+			}
+		}
+		else
+		{
+		do_not_translate |= STMODE_XLATEOFF_IFDEF;
+		ifdef_stack_top->blocked = 1;
+		}
+	}
+
+/* warn(" do_not_translate = %d\n", do_not_translate); */
+}
+
 
 void handle_endif(void)
 {

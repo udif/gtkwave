@@ -70,6 +70,7 @@ pulldown, V_PULLDOWN
 pullup, V_PULLUP
 rcmos, V_RCMOS
 real, V_REAL
+realtime, V_REAL
 reg, V_REG
 release, V_RELEASE
 repeat, V_REPEAT
@@ -108,6 +109,23 @@ wire, V_WIRE
 wor, V_WOR
 xnor, V_XNORLIT
 xor, V_XORLIT
+automatic, V_AUTOMATIC
+cell, V_CELL
+config, V_CONFIG
+design, V_DESIGN
+endconfig, V_ENDCONFIG
+endgenerate, V_ENDGENERATE
+generate, V_GENERATE
+genvar, V_GENVAR
+instance, V_INSTANCE
+liblist, V_LIBLIST
+localparam, V_LOCALPARAM
+noshowcancelled, V_NOSHOWCANCELLED
+pulsestyle_onevent, V_PULSESTYLE_ONEVENT
+pulsestyle_ondetect, V_PULSESTYLE_ONDETECT
+showcancelled, V_SHOWCANCELLED
+signed, V_SIGNED
+use, V_USE
 %%
 
 int verilog_keyword_code(const char *s, unsigned int len)

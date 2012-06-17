@@ -950,6 +950,9 @@ V_IDENTIFIER2 V_IDENDOT }
 #token V_XNOR2			"\^\~"				<< addtoken(0); STMODE; >>
 #token V_SHL			"\<\<"				<< addtoken(0); STMODE; >>
 #token V_SHR			"\>\>"				<< addtoken(0); STMODE; >>
+#token V_SSHL			"\<\<\<"			<< addtoken(0); STMODE; >>
+#token V_SSHR			"\>\>\>"			<< addtoken(0); STMODE; >>
+#token V_POW			"\*\*"				<< addtoken(0); STMODE; >>
 
 #token V_QUEST			"\?"				<< addtoken(0); STMODE; >>
 #token V_COLON			"\:"				<< addtoken(0); STMODE; >>
@@ -1045,6 +1048,7 @@ V_IDENTIFIER2 V_IDENDOT }
 #token				"`ifndef[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*" << addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_ifndef(zztext); zzskip(); >>
 #token				"`else"				<< addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_else(); zzskip(); >>
 #token				"`endif"			<< addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_endif(); zzskip(); >>
+#token				"`elsif[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*" << addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_elsif(zztext); zzskip(); >>
 #token				"`include[\ \t\b]+\"~[\"\n]*\""	<< addtoken(0); if(!do_not_translate) handle_include(zztext); zzskip(); >>
 
 #token 				"`[a-zA-Z_][a-zA-Z0-9_$]*"	<< 	addtoken(0); 
@@ -1068,6 +1072,7 @@ V_IDENTIFIER2 V_IDENDOT }
 #token				"`ifndef[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*" << addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_ifndef(zztext); zzskip(); >>
 #token				"`else"				<< addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_else(); zzskip(); >>
 #token				"`endif"			<< addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_endif(); zzskip(); >>
+#token				"`elsif[\ \t\b]+[a-zA-Z_][a-zA-Z0-9_$]*" << addtoken(0); if(!(do_not_translate&~STMODE_XLATEOFF_IFDEF)) handle_elsif(zztext); zzskip(); >>
 #token				"`include[\ \t\b]+\"~[\"\n]*\""	<< addtoken(0); if(!do_not_translate) handle_include(zztext); zzskip(); >>
 
 #token 				"`[a-zA-Z_][a-zA-Z0-9_$]*"	<< 	addtoken(0); 
@@ -1086,6 +1091,11 @@ v_source_text:	(v_description)* V_EOF
 
 v_description:	v_module
 		| v_udp
+		| v_config // v2k1
+		;
+
+// v2k1
+v_config: V_CONFIG (~V_ENDCONFIG)* V_ENDCONFIG
 		;
 
 v_module:	( V_MODULE | V_MACROMODULE ) 
@@ -1214,6 +1224,7 @@ v_port_reference: v_identifier_nodot
 		;
 
 v_module_item:	v_parameter_declaration
+		| v_localparam_declaration // v2k1
 		| v_input_declaration
 		| v_output_declaration
 		| v_inout_declaration
@@ -1416,6 +1427,7 @@ v_range_or_type: v_range
 		;
 
 v_tf_declaration: v_parameter_declaration
+		| v_localparam_declaration // v2k1
 		| v_input_declaration
 		| v_output_declaration
 		| v_inout_declaration
@@ -1429,7 +1441,11 @@ v_tf_declaration: v_parameter_declaration
 // section 2
 //
 
-v_parameter_declaration: V_PARAMETER (v_range | ) v_list_of_param_assignments V_SEMI
+v_parameter_declaration: V_PARAMETER v_optsigned (v_range | ) v_list_of_param_assignments V_SEMI
+		;
+
+// v2k1
+v_localparam_declaration: V_LOCALPARAM v_optsigned (v_range | ) v_list_of_param_assignments V_SEMI
 		;
 
 v_param_assignment: v_identifier V_EQ v_constant_expression 
@@ -1439,15 +1455,15 @@ v_list_of_param_assignments: v_param_assignment
 		(V_COMMA v_param_assignment)*
 		;
 
-v_input_declaration: V_INPUT ( v_list_of_variables V_SEMI
+v_input_declaration: V_INPUT v_optnettype v_optsigned ( v_list_of_variables V_SEMI
 		| v_range v_list_of_variables V_SEMI )
 		;
 
-v_output_declaration: V_OUTPUT ( v_list_of_variables V_SEMI
+v_output_declaration: V_OUTPUT v_optnettype v_optsigned ( v_list_of_variables V_SEMI
 		| v_range v_list_of_variables V_SEMI )
 		;
 
-v_inout_declaration: V_INOUT (v_list_of_variables V_SEMI
+v_inout_declaration: V_INOUT v_optnettype v_optsigned (v_list_of_variables V_SEMI
 		| v_range v_list_of_variables V_SEMI )
 		;
 
@@ -1468,32 +1484,39 @@ v_nettype:	V_WIRE
 		| V_TRIREG
 		;
 
+// v2k1
+v_optnettype:	v_nettype
+		| V_REG
+		|
+		;
+
 v_expandrange:	v_range
 		| V_SCALARED v_range
 		| V_VECTORED v_range
 		;
 
-v_reg_declaration: V_REG v_reg_range v_list_of_register_variables V_SEMI
+v_reg_declaration: V_REG v_optsigned v_reg_range v_list_of_register_variables V_SEMI
 		;
 
 v_reg_range:	v_range
 		|
 		;
 
-v_time_declaration: V_TIME (v_range | ) v_list_of_register_variables V_SEMI
+v_time_declaration: V_TIME v_optsigned (v_range | ) v_list_of_register_variables V_SEMI
 		;
 
-v_integer_declaration: V_INTEGER (v_range | ) v_list_of_register_variables V_SEMI
+v_integer_declaration: V_INTEGER v_optsigned (v_range | ) v_list_of_register_variables V_SEMI
 		;
 
-v_real_declaration: V_REAL (v_range | ) v_list_of_variables V_SEMI
+v_real_declaration: V_REAL v_optsigned (v_range | ) v_list_of_register_variables V_SEMI
 		;
 
 v_event_declaration: V_EVENT v_name_of_event (V_COMMA v_name_of_event)* V_SEMI
 		;
 
 v_continuous_assign: V_ASSIGN v_cont_drv v_cont_dly v_list_of_assignments V_SEMI
-		| v_nettype
+		| v_nettype 
+		v_optsigned // v2k1
 		v_net_chg 
 		v_cont_exr v_cont_dly
 		(v_list_of_assignments | v_list_of_variables ) V_SEMI
@@ -1527,6 +1550,7 @@ v_list_of_register_variables: v_register_variable
 		;
 
 v_register_variable: v_name_of_register
+		| v_name_of_register V_EQ v_expression // v2k1
 		| v_name_of_memory V_LBRACK v_expression V_COLON
 			v_expression V_RBRACK
 		;
@@ -1565,6 +1589,11 @@ v_strength1:	V_SUPPLY1
 		| V_HIGHZ1
 		;
 	
+// v2k1
+v_optsigned:	V_SIGNED
+		|
+		;
+
 v_range:	V_LBRACK v_expression 
 			V_COLON v_expression V_RBRACK
 		;
@@ -1802,6 +1831,7 @@ v_name_of_block: v_identifier_nodot
 		;
 
 v_block_declaration: v_parameter_declaration
+		| v_localparam_declaration // v2k1
 		| v_reg_declaration
 		| v_integer_declaration
 		| v_real_declaration
@@ -1878,26 +1908,29 @@ v_mintypmax_expression: v_expression
 		| << $$.prim = $1.1.prim; >> )
 		;
 
-v_unary_operator: V_PLUS	<< $$.oper = i_oper_make(V_PLUS, 11); >>
-		| V_MINUS	<< $$.oper = i_oper_make(V_MINUS,11); >>
-		| V_BANG	<< $$.oper = i_oper_make(V_BANG, 11); >>
-		| V_TILDE	<< $$.oper = i_oper_make(V_TILDE,11); >>
-		| V_AND		<< $$.oper = i_oper_make(V_AND,  11); >>
-		| V_NAND	<< $$.oper = i_oper_make(V_NAND, 11); >>
-		| V_OR		<< $$.oper = i_oper_make(V_OR,   11); >>
-		| V_NOR		<< $$.oper = i_oper_make(V_NOR,  11); >>
-		| V_XOR		<< $$.oper = i_oper_make(V_XOR,  11); >>
-		| V_XNOR	<< $$.oper = i_oper_make(V_XNOR, 11); >>
-		| V_XNOR2	<< $$.oper = i_oper_make(V_XNOR, 11); >>
+v_unary_operator: V_PLUS	<< $$.oper = i_oper_make(V_PLUS, 12); >>
+		| V_MINUS	<< $$.oper = i_oper_make(V_MINUS,12); >>
+		| V_BANG	<< $$.oper = i_oper_make(V_BANG, 12); >>
+		| V_TILDE	<< $$.oper = i_oper_make(V_TILDE,12); >>
+		| V_AND		<< $$.oper = i_oper_make(V_AND,  12); >>
+		| V_NAND	<< $$.oper = i_oper_make(V_NAND, 12); >>
+		| V_OR		<< $$.oper = i_oper_make(V_OR,   12); >>
+		| V_NOR		<< $$.oper = i_oper_make(V_NOR,  12); >>
+		| V_XOR		<< $$.oper = i_oper_make(V_XOR,  12); >>
+		| V_XNOR	<< $$.oper = i_oper_make(V_XNOR, 12); >>
+		| V_XNOR2	<< $$.oper = i_oper_make(V_XNOR, 12); >>
 		;
 
-v_binary_operator: V_STAR	<< $$.oper = i_oper_make(V_STAR, 10); >>
+v_binary_operator: V_POW	<< $$.oper = i_oper_make(V_POW,  11); >>
+		| V_STAR	<< $$.oper = i_oper_make(V_STAR, 10); >>
 		| V_SLASH	<< $$.oper = i_oper_make(V_SLASH,10); >>
 		| V_MOD		<< $$.oper = i_oper_make(V_MOD,  10); >>
 		| V_PLUS	<< $$.oper = i_oper_make(V_PLUS,  9); >>
 		| V_MINUS	<< $$.oper = i_oper_make(V_MINUS, 9); >>
 		| V_SHL		<< $$.oper = i_oper_make(V_SHL,   8); >>
 		| V_SHR		<< $$.oper = i_oper_make(V_SHR,   8); >>
+		| V_SSHL	<< $$.oper = i_oper_make(V_SSHL,  8); >>
+		| V_SSHR	<< $$.oper = i_oper_make(V_SSHR,  8); >>
 		| V_LT		<< $$.oper = i_oper_make(V_LT,    7); >>
 		| V_LEQ		<< $$.oper = i_oper_make(V_LEQ,   7); >>
 		| V_GT		<< $$.oper = i_oper_make(V_GT,    7); >>
@@ -2047,18 +2080,24 @@ v_delay_control: V_POUND ( v_number
 		| V_LP v_mintypmax_expression V_RP )
 		;
 
-// added V_STAR 14jun12ajb
 v_event_control: V_AT ( v_identifier
 		| V_LP v_event_expression V_RP 
-		| V_STAR )
+		| V_STAR // v2k1
+		)
 		;
 
 v_event_expression: 
-		v_event_expression2 ( V_ORLIT v_event_expression2 )*
+		v_event_expression2 ( v_orcomma v_event_expression2 )*
                 ;
+
+v_orcomma:	V_ORLIT
+		| V_COMMA // v2k1
+		;
 
 v_event_expression2: (v_expression
                 | V_POSEDGE v_expression
-                | V_NEGEDGE v_expression )
+                | V_NEGEDGE v_expression 
+		| V_STAR // v2k1
+		)
                 ;
 

@@ -247,6 +247,9 @@ switch(op)
 	case V_MOD:	printf("%%\n"); break;
 	case V_SHL:	printf("<<\n"); break;
 	case V_SHR:	printf(">>\n"); break;
+	case V_SSHL:	printf("<<<\n"); break;
+	case V_SSHR:	printf(">>>\n"); break;
+	case V_POW:	printf("**\n"); break;
 	case V_LT:	printf("<\n"); break;
 	case V_LEQ:	printf("<=\n"); break;
 	case V_GT:	printf(">\n"); break;
