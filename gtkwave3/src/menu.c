@@ -3236,9 +3236,23 @@ if(GLOBALS->filesel_ok)
 
 #ifdef MAC_INTEGRATION
 	/* from : @pfx = split(' ', "open -n -W -a gtkwave --args --chdir dummy"); */
-	execlp("open", "open", "-n", "-W", "-a", "gtkwave", "--args", "--dump", *GLOBALS->fileselbox_text, NULL);
+	if(GLOBALS->optimize_vcd)
+		{
+		execlp("open", "open", "-n", "-W", "-a", "gtkwave", "--args", "--optimize", "--dump", *GLOBALS->fileselbox_text, NULL);
+		}
+		else
+		{
+		execlp("open", "open", "-n", "-W", "-a", "gtkwave", "--args", "--dump", *GLOBALS->fileselbox_text, NULL);
+		}
 #else
-	execlp(GLOBALS->whoami, GLOBALS->whoami, *GLOBALS->fileselbox_text, NULL);
+	if(GLOBALS->optimize_vcd)
+		{
+		execlp(GLOBALS->whoami, GLOBALS->whoami, "-o", *GLOBALS->fileselbox_text, NULL);
+		}
+		else
+		{
+		execlp(GLOBALS->whoami, GLOBALS->whoami, *GLOBALS->fileselbox_text, NULL);
+		}
 #endif
 	exit(0);	/* control never gets here if successful */
 

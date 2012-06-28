@@ -1225,3 +1225,4 @@
 		Added support for extload files as input filetype in vcd2fst.
 		Added -o for extload files to convert to FST.
 3.3.38	15jun12	Upgrading vermin parser to handle > 1995 constructs.
+		Propagate -o option into "Open New Window" menu option.
