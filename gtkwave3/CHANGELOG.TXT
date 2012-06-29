@@ -1227,4 +1227,5 @@
 3.3.38	28jun12	Upgrading vermin parser to handle > 1995 constructs.
 		Propagate -o option into "Open New Window" menu option.
 		Change invert function so it does not incorrectly expand into
-		the whole nybble when it is < 4 bits.
+		the whole nybble when it is < 4 bits. That is, inverting the
+		two bit quantity 10 now displays as 0x1, not 0xD.
