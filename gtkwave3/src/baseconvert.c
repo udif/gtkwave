@@ -233,12 +233,14 @@ if(flags&TR_REVERSE)
 
 	fwdpnt=(char *)bits;
 	revpnt=newbuff+nbits+6;
-	for(i=0;i<3;i++) *(--revpnt)=xtab[0];
+	/* for(i=0;i<3;i++) *(--revpnt)=xtab[0]; */
+	for(i=0;i<3;i++) *(--revpnt)=xfwd[0];
 	for(i=0;i<nbits;i++)
 		{
 		*(--revpnt)=xtab[(int)(*(fwdpnt++))];
 		}
-	for(i=0;i<3;i++) *(--revpnt)=xtab[0];
+	/* for(i=0;i<3;i++) *(--revpnt)=xtab[0]; */
+	for(i=0;i<3;i++) *(--revpnt)=xfwd[0];
 	}
 	else
 	{
@@ -246,12 +248,14 @@ if(flags&TR_REVERSE)
 
 	fwdpnt=(char *)bits;
 	fwdpnt2=newbuff;
-	for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0];
+	/* for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0]; */
+	for(i=0;i<3;i++) *(fwdpnt2++)=xfwd[0];
 	for(i=0;i<nbits;i++)
 		{
 		*(fwdpnt2++)=xtab[(int)(*(fwdpnt++))];
 		}
-	for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0];
+	/* for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0]; */
+	for(i=0;i<3;i++) *(fwdpnt2++)=xfwd[0];
 	}
 
 
@@ -877,12 +881,14 @@ if(flags&TR_REVERSE)
 
 	fwdpnt=bits;
 	revpnt=newbuff+nbits+6;
-	for(i=0;i<3;i++) *(--revpnt)=xtab[0];
+	/* for(i=0;i<3;i++) *(--revpnt)=xtab[0]; */
+	for(i=0;i<3;i++) *(--revpnt)=xfwd[0];
 	for(i=0;i<nbits;i++)
 		{
 		*(--revpnt)=xtab[(int)(*(fwdpnt++))];
 		}
-	for(i=0;i<3;i++) *(--revpnt)=xtab[0];
+	/* for(i=0;i<3;i++) *(--revpnt)=xtab[0]; */
+	for(i=0;i<3;i++) *(--revpnt)=xfwd[0];
 	}
 	else
 	{
@@ -890,12 +896,14 @@ if(flags&TR_REVERSE)
 
 	fwdpnt=bits;
 	fwdpnt2=newbuff;
-	for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0];
+	/* for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0]; */
+	for(i=0;i<3;i++) *(fwdpnt2++)=xfwd[0];
 	for(i=0;i<nbits;i++)
 		{
 		*(fwdpnt2++)=xtab[(int)(*(fwdpnt++))];
 		}
-	for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0];
+	/* for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0]; */
+	for(i=0;i<3;i++) *(fwdpnt2++)=xfwd[0];
 	}
 
 if(flags&TR_ASCII) 
@@ -1517,12 +1525,14 @@ if(flags&TR_REVERSE)
 
 	fwdpnt=bits;
 	revpnt=newbuff+nbits+6;
-	for(i=0;i<3;i++) *(--revpnt)=xtab[0];
+	/* for(i=0;i<3;i++) *(--revpnt)=xtab[0]; */
+	for(i=0;i<3;i++) *(--revpnt)=xfwd[0];
 	for(i=0;i<nbits;i++)
 		{
 		*(--revpnt)=xtab[(int)(*(fwdpnt++))];
 		}
-	for(i=0;i<3;i++) *(--revpnt)=xtab[0];
+	/* for(i=0;i<3;i++) *(--revpnt)=xtab[0]; */
+	for(i=0;i<3;i++) *(--revpnt)=xfwd[0];
 	}
 	else
 	{
@@ -1530,12 +1540,14 @@ if(flags&TR_REVERSE)
 
 	fwdpnt=bits;
 	fwdpnt2=newbuff;
-	for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0];
+	/* for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0]; */
+	for(i=0;i<3;i++) *(fwdpnt2++)=xfwd[0];
 	for(i=0;i<nbits;i++)
 		{
 		*(fwdpnt2++)=xtab[(int)(*(fwdpnt++))];
 		}
-	for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0];
+	/* for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0]; */
+	for(i=0;i<3;i++) *(fwdpnt2++)=xfwd[0];
 	}
 
 if(flags&TR_SIGNED)
@@ -1633,12 +1645,14 @@ if(flags&TR_REVERSE)
 
 	fwdpnt=(char *)bits;
 	revpnt=newbuff+nbits+6;
-	for(i=0;i<3;i++) *(--revpnt)=xtab[0];
+	/* for(i=0;i<3;i++) *(--revpnt)=xtab[0]; */
+	for(i=0;i<3;i++) *(--revpnt)=xfwd[0];
 	for(i=0;i<nbits;i++)
 		{
 		*(--revpnt)=xtab[(int)(*(fwdpnt++))];
 		}
-	for(i=0;i<3;i++) *(--revpnt)=xtab[0];
+	/* for(i=0;i<3;i++) *(--revpnt)=xtab[0]; */
+	for(i=0;i<3;i++) *(--revpnt)=xfwd[0];
 	}
 	else
 	{
@@ -1646,12 +1660,14 @@ if(flags&TR_REVERSE)
 
 	fwdpnt=(char *)bits;
 	fwdpnt2=newbuff;
-	for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0];
+	/* for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0]; */
+	for(i=0;i<3;i++) *(fwdpnt2++)=xfwd[0];
 	for(i=0;i<nbits;i++)
 		{
 		*(fwdpnt2++)=xtab[(int)(*(fwdpnt++))];
 		}
-	for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0];
+	/* for(i=0;i<3;i++) *(fwdpnt2++)=xtab[0]; */
+	for(i=0;i<3;i++) *(fwdpnt2++)=xfwd[0];
 	}
 
 
