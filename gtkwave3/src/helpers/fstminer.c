@@ -54,7 +54,6 @@ while(*s)
 static void extractVarNames(void *xc)
 {
 struct fstHier *h;
-const char *pnts;
 char *s;
 unsigned char ttype;
 const char *fst_scope_name = NULL;
@@ -73,8 +72,6 @@ while((h = fstReaderIterateHier(xc)))
 			fst_scope_name_len = fstReaderGetCurrentScopeLen(xc);
                         break;
                 case FST_HT_VAR:
-			pnts = h->u.var.name;
-
 			if(!h->u.var.is_alias)
 				{
 				if(fst_scope_name_len)
