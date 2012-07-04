@@ -8,7 +8,7 @@ LIBLZMA_LDADD  = $(LIBXZ_LDADD)
 
 AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/../.. $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(EXTLOAD_CFLAGS) -I$(srcdir)/fst -I$(srcdir)/../../contrib/rtlbrowse
 
-bin_PROGRAMS= evcd2vcd fst2vcd vcd2fst ghwdump lxt2miner lxt2vcd \
+bin_PROGRAMS= evcd2vcd fst2vcd vcd2fst fstminer ghwdump lxt2miner lxt2vcd \
 	shmidcat vcd2lxt vcd2lxt2 vcd2vzt \
 	vzt2vcd vztminer
 
@@ -17,6 +17,9 @@ vcd2fst_LDADD= $(LIBZ_LDADD) $(LIBJUDY_LDADD)
 
 fst2vcd_SOURCES= fst2vcd.c $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h
 fst2vcd_LDADD= $(LIBZ_LDADD) $(LIBJUDY_LDADD)
+
+fstminer_SOURCES= fstminer.c $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h
+fstminer_LDADD= $(LIBZ_LDADD) $(LIBJUDY_LDADD)
 
 vcd2lxt_SOURCES= vcd2lxt.c lxt_write.c lxt_write.h v2l_analyzer.h v2l_debug.c v2l_debug.h
 vcd2lxt_LDADD= $(LIBZ_LDADD) $(LIBBZ2_LDADD)
