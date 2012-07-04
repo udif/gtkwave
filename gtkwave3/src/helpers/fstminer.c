@@ -35,7 +35,10 @@ static int names_only = 0;
 static char *killed_list = NULL;
 char killed_value = 1;
 static char **fac_names = NULL;
+static unsigned int *scope_idx = NULL;
 
+static char **scope_names = NULL;
+long allocated_scopes = 1;
 
 static void strcpy_no_space(char *d, const char *s)
 {
@@ -58,44 +61,67 @@ char *s;
 unsigned char ttype;
 const char *fst_scope_name = NULL;
 int fst_scope_name_len = 0;
+long snum = 0;
+long max_snum = 0;
 
 while((h = fstReaderIterateHier(xc)))
         {
         switch(h->htyp)
                 {
                 case FST_HT_SCOPE:
-                        fst_scope_name = fstReaderPushScope(xc, h->u.scope.name, NULL);
+			snum = ++max_snum;
+                        fst_scope_name = fstReaderPushScope(xc, h->u.scope.name, (void *)(snum));
 			fst_scope_name_len = fstReaderGetCurrentScopeLen(xc);
+
+			if(snum >= allocated_scopes)
+				{
+				long new_allocated_scopes = allocated_scopes * 2;
+				char **scope_names_2 = calloc(new_allocated_scopes, sizeof(char *));
+			
+				memcpy(scope_names_2, scope_names, allocated_scopes * sizeof(char *));
+				free(scope_names);
+
+				scope_names = scope_names_2;
+				allocated_scopes = new_allocated_scopes;
+				}
+
+			scope_names[snum] = strdup(fst_scope_name);
                         break;
                 case FST_HT_UPSCOPE:
                         fst_scope_name = fstReaderPopScope(xc);
 			fst_scope_name_len = fstReaderGetCurrentScopeLen(xc);
+			snum = fst_scope_name_len ? (long)fstReaderGetCurrentScopeUserInfo(xc) : 0;
                         break;
                 case FST_HT_VAR:
 			if(!h->u.var.is_alias)
 				{
-				if(fst_scope_name_len)
-					{
-					s = fac_names[h->u.var.handle] = malloc(fst_scope_name_len + 1 + h->u.var.name_length + 1);
-					memcpy(s, fst_scope_name, fst_scope_name_len);
-					s[fst_scope_name_len] = '.';
-					strcpy_no_space(s+fst_scope_name_len+1, h->u.var.name);
-					}
-					else
-					{
-					s = fac_names[h->u.var.handle] = malloc(fst_scope_name_len + 1 + h->u.var.name_length + 1);
-					strcpy_no_space(s, h->u.var.name);
-					}
+				scope_idx[h->u.var.handle] = snum;
+
+				s = fac_names[h->u.var.handle] = malloc(h->u.var.name_length + 1);
+				strcpy_no_space(s, h->u.var.name);
 				}
                 }
         }
 }
 
 
-static const char *get_facname(void *lt, fstHandle pnt_facidx)
+static char *get_facname(void *lt, fstHandle pnt_facidx)
 {
-/* TO DO: split this into constructing hier + signal name to save memory */
-return(fac_names[pnt_facidx]);
+if(scope_idx[pnt_facidx] && scope_names[scope_idx[pnt_facidx]])
+	{
+	char *fst_scope_name = scope_names[scope_idx[pnt_facidx]];
+	int fst_scope_name_len = strlen(fst_scope_name);
+	int len = fst_scope_name_len + 1 + strlen(fac_names[pnt_facidx]) + 1;
+	char *s = malloc(len);
+	memcpy(s, fst_scope_name, fst_scope_name_len);
+	s[fst_scope_name_len] = '.';
+	strcpy_no_space(s+fst_scope_name_len+1, fac_names[pnt_facidx]);
+	return(s);
+	}
+	else
+	{
+	return(strdup(fac_names[pnt_facidx]));
+	}
 }
 
 
@@ -107,14 +133,18 @@ if(plen >= matchlen)
 		{
 		if((!match) || (strstr(pnt_value, match)))
 			{
+			char *fn;
+			fn = get_facname(lt, pnt_facidx);
+
 			if(!names_only)
 				{
-				printf("#%"PRIu64" %s %s\n", pnt_time, get_facname(lt, pnt_facidx), pnt_value);
+				printf("#%"PRIu64" %s %s\n", pnt_time, fn, pnt_value);
 				}
 				else
 				{
-				printf("%s\n", get_facname(lt, pnt_facidx));
+				printf("%s\n", fn);
 				}
+			free(fn);
 
 			if(killed_value)
 				{
@@ -158,11 +188,17 @@ if(lt)
 	killed_list = calloc(numfacs, sizeof(char));
 
 	fac_names = calloc(numfacs, sizeof(char *));
+	scope_names = calloc(allocated_scopes, sizeof(char *));
+	scope_idx = calloc(numfacs, sizeof(unsigned int));
 
 	extractVarNames(lt);
 
 	fstReaderSetFacProcessMaskAll(lt);
 	fstReaderIterBlocks2(lt, vcd_callback, vcd_callback2, lt, NULL);
+
+	for(i=0;i<allocated_scopes;i++) { free(scope_names[i]); }
+	free(scope_names);
+	free(scope_idx);
 
 	for(i=0;i<numfacs;i++) { free(fac_names[i]); }
 	free(fac_names);
