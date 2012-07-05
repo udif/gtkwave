@@ -109,6 +109,7 @@ void remove_define(char *def_text);
 void handle_ifdef(char *def_text);
 void handle_ifndef(char *def_text);
 void handle_else(void);
+void handle_elsif(char *def_text);
 void handle_endif(void);
 void handle_include(char *def_text);
 int pop_include(void);

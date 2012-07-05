@@ -57,7 +57,6 @@ static char *get_scopename(void *xc, FILE *extload)
 {
 static char sbuff[65537];
 char * rc;
-int vt, vt_len;
 #ifdef _WAVE_HAVE_JUDY
 PPvoid_t PPValue;
 #else
