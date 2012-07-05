@@ -71,7 +71,7 @@ while((h = fstReaderIterateHier(xc)))
                 case FST_HT_SCOPE:
 			snum = ++max_snum;
                         fst_scope_name = fstReaderPushScope(xc, h->u.scope.name, (void *)(snum));
-			fst_scope_name_len = fstReaderGetCurrentScopeLen(xc);
+			/* fst_scope_name_len = fstReaderGetCurrentScopeLen(xc); scan-build */
 
 			if(snum >= allocated_scopes)
 				{
@@ -88,7 +88,7 @@ while((h = fstReaderIterateHier(xc)))
 			scope_names[snum] = strdup(fst_scope_name);
                         break;
                 case FST_HT_UPSCOPE:
-                        fst_scope_name = fstReaderPopScope(xc);
+                        /* fst_scope_name = scan-build */ fstReaderPopScope(xc);
 			fst_scope_name_len = fstReaderGetCurrentScopeLen(xc);
 			snum = fst_scope_name_len ? (long)fstReaderGetCurrentScopeUserInfo(xc) : 0;
                         break;
@@ -131,7 +131,7 @@ if(plen >= matchlen)
 	{
 	if(!killed_list[pnt_facidx])
 		{
-		if((!match) || (strstr(pnt_value, match)))
+		if((!match) || (strstr((const char *)pnt_value, match)))
 			{
 			char *fn;
 			fn = get_facname(lt, pnt_facidx);
@@ -163,7 +163,7 @@ uint32_t plen;
 
 if(pnt_value)
 	{
-	plen = strlen(pnt_value);
+	plen = strlen((const char *)pnt_value);
 	}
 	else
 	{
