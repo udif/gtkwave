@@ -58,7 +58,6 @@ static void extractVarNames(void *xc)
 {
 struct fstHier *h;
 char *s;
-unsigned char ttype;
 const char *fst_scope_name = NULL;
 int fst_scope_name_len = 0;
 long snum = 0;
@@ -111,11 +110,11 @@ if(scope_idx[pnt_facidx] && scope_names[scope_idx[pnt_facidx]])
 	{
 	char *fst_scope_name = scope_names[scope_idx[pnt_facidx]];
 	int fst_scope_name_len = strlen(fst_scope_name);
-	int len = fst_scope_name_len + 1 + strlen(fac_names[pnt_facidx]) + 1;
-	char *s = malloc(len);
+	int fst_signal_name = strlen(fac_names[pnt_facidx]);
+	char *s = malloc(fst_scope_name_len + 1 + fst_signal_name + 1);
 	memcpy(s, fst_scope_name, fst_scope_name_len);
 	s[fst_scope_name_len] = '.';
-	strcpy_no_space(s+fst_scope_name_len+1, fac_names[pnt_facidx]);
+	memcpy(s + fst_scope_name_len + 1, fac_names[pnt_facidx], fst_signal_name + 1);
 	return(s);
 	}
 	else
