@@ -84,8 +84,8 @@ void **JenkinsIns(void *base_i, unsigned char *mem, uint32_t length, uint32_t ha
 
 #ifdef __MINGW32__
 #include <io.h>
-#define ftello ftell
-#define fseeko fseek
+/* #define ftello ftell */
+/* #define fseeko fseek */
 #endif
 
 
