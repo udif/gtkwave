@@ -35,7 +35,7 @@ if ((suffix_check(lcname, ".sav")) || (suffix_check(lcname, ".gtkw")))
 	{
 	read_save_helper(lcname, &dfn, &sfn, &dumpsiz, &dumptim, opt_vcd);
 
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH || defined __MINGW32__
 	if(sfn && dfn)
 		{
 		char *can = realpath_2(lcname, NULL);
@@ -142,7 +142,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 			struct stat sbuf;
 #endif
 			char *unopt = GLOBALS->unoptimized_vcd_file_name ? GLOBALS->unoptimized_vcd_file_name: GLOBALS->loaded_file_name;
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH || defined __MINGW32__
 		        char *can = realpath_2(GLOBALS->optimize_vcd ? unopt : GLOBALS->loaded_file_name, NULL);
 			const char *cansav = realpath_2(savnam, NULL);
 			const int do_free = 1;
@@ -299,7 +299,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 
 				if(t->t_filter && GLOBALS->ttranssel_filter[t->t_filter])
 					{
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH || defined __MINGW32__
 			                char *can = realpath_2(GLOBALS->ttranssel_filter[t->t_filter], NULL);
 					fprintf(wave, "^<%d %s\n", t->t_filter, can);
 					free(can);
@@ -466,7 +466,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 
 						if(t->t_filter && GLOBALS->ttranssel_filter[t->t_filter])
 							{
-#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH || defined __MINGW32__
 					                char *can = realpath_2(GLOBALS->ttranssel_filter[t->t_filter], NULL);
 							fprintf(wave, "^<%d %s\n", t->t_filter, can);
 							free(can);
@@ -2314,16 +2314,40 @@ char* GetRelativeFilename(char *currentDirectory, char *absoluteFilename, int *d
 
 /******************************************************************/
 
+#ifdef __MINGW32__
+static void find_dumpfile_scrub_slashes(char *s)
+{
+if(s)
+	{
+	while(*s)
+		{
+		if(*s == '/') *s = '\\';
+		s++;
+		}
+	}
+}
+#endif
+
+
 char *find_dumpfile(char *orig_save, char *orig_dump, char *this_save)
 {
 char *synth_nam = NULL;
 
 if(orig_save && orig_dump && this_save)
 	{
-	char *dup_orig_save = strdup_2(orig_save);
-	char *rhs_orig_save_slash = strrchr(dup_orig_save, SLASH);
+	char *dup_orig_save;
+	char *rhs_orig_save_slash;
 	char *grf = NULL;
 	int dotdot_levels = 0;
+
+#ifdef __MINGW32__
+	find_dumpfile_scrub_slashes(orig_save);
+	find_dumpfile_scrub_slashes(orig_dump);
+	find_dumpfile_scrub_slashes(this_save);
+#endif
+
+	dup_orig_save = strdup_2(orig_save);
+	rhs_orig_save_slash = strrchr(dup_orig_save, SLASH);
 
 	if(rhs_orig_save_slash)
 		{

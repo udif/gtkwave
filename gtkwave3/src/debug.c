@@ -609,6 +609,7 @@ if(window && title)
 }
 
 
+
 char *realpath_2(const char *path, char *resolved_path)
 {
 #if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
@@ -623,6 +624,14 @@ if(!resolved_path)
 return(realpath(path, resolved_path));
 
 #else
+#ifdef __MINGW32__
+if(!resolved_path)
+	{
+	resolved_path = malloc(PATH_MAX+1);
+	}
+return(_fullpath(resolved_path, path, PATH_MAX));
+#else
 return(NULL);
+#endif
 #endif
 }
