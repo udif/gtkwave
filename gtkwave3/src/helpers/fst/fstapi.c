@@ -2387,9 +2387,6 @@ struct fstReaderContext
 /* common entries */
 
 FILE *f, *fh;
-#ifdef __MINGW32__
-char *fh_name;
-#endif
 
 uint64_t start_time, end_time;
 uint64_t mem_used_by_writer;
@@ -2912,8 +2909,10 @@ if(!xc->fh)
 		return(0);
 		}
 
+#ifndef __MINGW32__
 	xc->fh = fopen(fnam, "w+b");
         if(!xc->fh)
+#endif
                 {
                 xc->fh = tmpfile();  
                 free(fnam); fnam = NULL;
@@ -2949,12 +2948,7 @@ if(!xc->fh)
                 }
         gzclose(zhandle);
 	free(mem);
-
-#ifndef __MINGW32__
 	free(fnam);
-#else
-	xc->fh_name = fnam;
-#endif
 
 	fseeko(xc->f, offs_cache, SEEK_SET);
 	}
@@ -3695,14 +3689,7 @@ if(xc)
 
 	if(xc->fh) 
 		{ 
-		fclose(xc->fh); xc->fh = NULL; 
-#ifdef __MINGW32__
-		if(xc->fh_name)
-			{
-			unlink(xc->fh_name);
-			free(xc->fh_name); xc->fh_name = NULL;
-			}
-#endif
+		fclose(xc->fh); xc->fh = NULL;
 		}
 
 	if(xc->f) 
