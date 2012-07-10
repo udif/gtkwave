@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #ifdef __MINGW32__
 #include <windows.h>
+#undef MINGW_USE_XID
 #endif
 #include "wave_locale.h"
 
@@ -156,7 +157,11 @@ if(hMapFile != NULL)
 				memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 
 				sprintf(buf, "0+%08X", shmid);
+#ifdef MINGW_USE_XID
 				sprintf(buf2, "%x", gtk_socket_get_id (GTK_SOCKET(xsocket[0])));
+#else
+				sprintf(buf2, "%x", 0);
+#endif
 
 				arglist[0] = "gtkwave.exe";
 				arglist[1] = "-D";
@@ -223,7 +228,11 @@ if(hMapFile != NULL)
 				memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 
 				sprintf(buf, "1+%08X", shmid);
+#ifdef MINGW_USE_XID
 				sprintf(buf2, "%x", gtk_socket_get_id (GTK_SOCKET(xsocket[1])));
+#else
+				sprintf(buf2, "%x", 0);
+#endif
 
 				arglist[0] = "gtkwave.exe";
 				arglist[1] = "-D";
@@ -298,7 +307,9 @@ if(hMapFile != NULL)
 				break;
 				}
 			}
+#ifdef MINGW_USE_XID
 		gtk_main();
+#endif
 		}
 	}
 #else
