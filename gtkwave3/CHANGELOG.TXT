@@ -1233,7 +1233,7 @@
 		MinGW warnings fixes.
 		Fixed relative pathnames for gtkw save files in MinGW.
 		Fix fstapi reader so it does not leave stray hier tmpfiles
-		around if reader is never closed.
-		Changed twinwave for mingw so that it does not target two
+		around in MinGW if reader is never closed.
+		Changed twinwave for MinGW so that it does not target two
 		panes in a single window.  Something is apparently now
-		broken in the GtkSocket/GtkPlug implementation for win32.
+		broken in the GtkSocket/GtkPlug implementation for Win32.
