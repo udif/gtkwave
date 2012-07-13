@@ -65,6 +65,7 @@
   <binary>${prefix}/bin/vcd2vzt</binary>
   <binary>${prefix}/bin/vzt2vcd</binary>
   <binary>${prefix}/bin/vztminer</binary>
+  <binary>${prefix}/bin/fstminer</binary>
   <binary>${prefix}/bin/rtlbrowse</binary>
   <binary>${prefix}/bin/vermin</binary>
 
@@ -212,6 +213,9 @@
   </data>
   <data dest="${bundle}/Contents/Resources/man/vztminer.1">
     ${project}/../../man/vztminer.1
+  </data>
+  <data dest="${bundle}/Contents/Resources/man/fstminer.1">
+    ${project}/../../man/fstminer.1
   </data>
   <data dest="${bundle}/Contents/Resources/doc/gtkwave.odt">
     ${project}/../../doc/gtkwave.odt
