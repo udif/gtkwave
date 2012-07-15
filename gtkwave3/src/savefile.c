@@ -2326,6 +2326,21 @@ if(s)
 		}
 	}
 }
+#else
+static void find_dumpfile_scrub_slashes(char *s)
+{
+if(s)
+	{
+	if(s[0] && s[1] && s[2] && (s[1] == ':') && (s[2] == '\\'))
+		{
+		while(*s)
+			{
+			if(*s == '\\') *s = '/';
+			s++;
+			}
+		}
+	}
+}
 #endif
 
 
@@ -2340,11 +2355,9 @@ if(orig_save && orig_dump && this_save)
 	char *grf = NULL;
 	int dotdot_levels = 0;
 
-#ifdef __MINGW32__
 	find_dumpfile_scrub_slashes(orig_save);
 	find_dumpfile_scrub_slashes(orig_dump);
 	find_dumpfile_scrub_slashes(this_save);
-#endif
 
 	dup_orig_save = strdup_2(orig_save);
 	rhs_orig_save_slash = strrchr(dup_orig_save, SLASH);
