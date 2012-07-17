@@ -44,7 +44,7 @@ printf(
 "  -f                         specify FST input filename\n"
 "  -h                         display this help then exit\n\n"
 
-"FST is emitted to stdout.\n\n"
+"VCD is emitted to stdout.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #endif
 
