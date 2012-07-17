@@ -1239,3 +1239,4 @@
 		broken in the GtkSocket/GtkPlug implementation for Win32.
 3.3.39	15jul12	Fixed relative pathnames when generated in MinGW and used
 		back on Linux.
+		Added --output filename option to fst2vcd.

@@ -29,22 +29,25 @@
 
 #include "wave_locale.h"
 
+#define FST_VCD_WRITE_BUF_SIZ (2 * 1024 * 1024)
+
 void print_help(char *nam)
 { 
 #ifdef __linux__
 printf(
 "Usage: %s [OPTION]... [FSTFILE]\n\n"
 "  -f, --fstname=FILE         specify FST input filename\n"
+"  -o, --output=FILE          specify output filename\n"
 "  -h, --help                 display this help then exit\n\n"
-"VCD is emitted to stdout.\n\n"
+"VCD is emitted to stdout if output filename is unspecified.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #else
 printf(
 "Usage: %s [OPTION]... [FSTFILE]\n\n"
 "  -f                         specify FST input filename\n"
+"  -o                         specify output filename\n"
 "  -h                         display this help then exit\n\n"
-
-"VCD is emitted to stdout.\n\n"
+"VCD is emitted to stdout if output filename is unspecified.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #endif
 
@@ -56,6 +59,8 @@ int main(int argc, char **argv)
 {
 char opt_errors_encountered=0;
 char *fstname=NULL;
+char *outname=NULL;
+char *fvbuf=NULL;
 int c;
 struct fstReaderContext *xc;
 FILE *fv;
@@ -70,13 +75,14 @@ while (1)
         static struct option long_options[] =
                 {
 		{"fstname", 1, 0, 'f'},
+		{"output", 1, 0, 'o'},
                 {"help", 0, 0, 'h'},
                 {0, 0, 0, 0}  
                 };
                 
-        c = getopt_long (argc, argv, "f:h", long_options, &option_index);
+        c = getopt_long (argc, argv, "f:o:h", long_options, &option_index);
 #else
-        c = getopt      (argc, argv, "f:h");
+        c = getopt      (argc, argv, "f:o:h");
 #endif
                         
         if (c == -1) break;     /* no more args */
@@ -87,6 +93,12 @@ while (1)
 			if(fstname) free(fstname);
                         fstname = malloc(strlen(optarg)+1);
                         strcpy(fstname, optarg);
+			break;
+
+		case 'o':
+			if(outname) free(outname);
+                        outname = malloc(strlen(optarg)+1);
+                        strcpy(outname, optarg);
 			break;
 
                 case 'h':
@@ -130,11 +142,27 @@ xc = fstReaderOpen(fstname);
 
 if(!xc)
 	{
-	fprintf(stderr, "could not open '%s', exiting.\n", fstname);
+	fprintf(stderr, "Could not open '%s', exiting.\n", fstname);
 	exit(255);
 	}
 
-fv = stdout;
+if(outname)
+	{
+	fv = fopen(outname, "wb");
+	if(!fv)
+		{
+		fprintf(stderr, "Could not open '%s', exiting.\n", outname);
+		perror("Why");
+		exit(255);
+		}	
+	fvbuf = malloc(FST_VCD_WRITE_BUF_SIZ);
+	setvbuf(fv, fvbuf, _IOFBF, FST_VCD_WRITE_BUF_SIZ);
+	}
+	else
+	{
+	fv = stdout;
+	}
+
 if(!fstReaderProcessHier(xc, fv))		/* these 3 lines do all the VCD writing work */
 	{
 	fprintf(stderr, "could not process hierarchy for '%s', exiting.\n", fstname);
@@ -144,6 +172,14 @@ fstReaderSetFacProcessMaskAll(xc);		/* these 3 lines do all the VCD writing work
 fstReaderIterBlocks(xc, NULL, NULL, fv);	/* these 3 lines do all the VCD writing work */
 
 fstReaderClose(xc);
+
+if(outname)
+	{
+	free(outname);
+	fclose(fv);
+	}
+
+free(fvbuf);
 free(fstname);
 
 exit(0);
