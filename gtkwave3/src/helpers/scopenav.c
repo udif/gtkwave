@@ -52,13 +52,13 @@ while(nhold)
  * navigate up and down the scope hierarchy and
  * emit the appropriate vcd scope primitives
  */
-static void diff_hier(struct namehier *nh1, struct namehier *nh2)
+static void diff_hier(FILE *fv, struct namehier *nh1, struct namehier *nh2)
 {
 if(!nh2)
 	{
 	while((nh1)&&(nh1->not_final))
 		{
-		printf("$scope module %s $end\n", nh1->name);
+		fprintf(fv, "$scope module %s $end\n", nh1->name);
 		nh1=nh1->next;
 		}
 	return;
@@ -75,7 +75,7 @@ for(;;)
 		{
 		while((nh1)&&(nh1->not_final))
 			{
-			printf("$scope module %s $end\n", nh1->name);
+			fprintf(fv, "$scope module %s $end\n", nh1->name);
 			nh1=nh1->next;
 			}
 		break;
@@ -85,7 +85,7 @@ for(;;)
 		{
 		while((nh2)&&(nh2->not_final))
 			{
-			printf("$upscope $end\n");
+			fprintf(fv, "$upscope $end\n");
 			nh2=nh2->next;
 			}
 		break;
@@ -96,14 +96,14 @@ for(;;)
 		/* prune old hier */
 		while((nh2)&&(nh2->not_final))
 			{
-			printf("$upscope $end\n");
+			fprintf(fv, "$upscope $end\n");
 			nh2=nh2->next;
 			}
 
 		/* add new hier */
 		while((nh1)&&(nh1->not_final))
 			{
-			printf("$scope module %s $end\n", nh1->name);
+			fprintf(fv, "$scope module %s $end\n", nh1->name);
 			nh1=nh1->next;
 			}
 		break;
@@ -118,7 +118,7 @@ for(;;)
 /*
  * output scopedata for a given name if needed, return pointer to name string
  */
-char *output_hier(char *name)
+char *fv_output_hier(FILE *fv, char *name)
 {
 char *pnt, *pnt2;
 char *s;
@@ -151,7 +151,7 @@ if(!*pnt2) break;
 pnt=(++pnt2);
 }
 
-diff_hier(nh_head, nhold);
+diff_hier(fv, nh_head, nhold);
 free_hier();
 nhold=nh_head;
 

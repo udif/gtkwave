@@ -31,10 +31,14 @@
 
 #include "wave_locale.h"
 
+#define LXT_VCD_WRITE_BUF_SIZ (2 * 1024 * 1024)
+
 int flat_earth = 0;
 int notruncate = 0;
+static FILE *fv = NULL;
+
 extern void free_hier(void);
-extern char *output_hier(char *name);
+extern char *fv_output_hier(FILE *fv, char *name);
 
 
 /*
@@ -123,7 +127,7 @@ struct lxt2_rd_geometry *g = lxt2_rd_get_fac_geometry(*lt, *pnt_facidx);
 if(vcd_prevtime != *pnt_time)
 	{
 	vcd_prevtime = *pnt_time;
-	printf("#"LXT2_RD_LLD"\n", *pnt_time);
+	fprintf(fv, "#"LXT2_RD_LLD"\n", *pnt_time);
 	}
 
 if(!(*pnt_value)[0])
@@ -131,7 +135,7 @@ if(!(*pnt_value)[0])
 	if(!vcd_blackout)
 		{
 		vcd_blackout = 1;
-		printf("$dumpoff\n");
+		fprintf(fv, "$dumpoff\n");
 		}
 
 	return;
@@ -141,28 +145,28 @@ if(!(*pnt_value)[0])
 	if(vcd_blackout)
 		{
 		vcd_blackout = 0;
-		printf("$dumpon\n");
+		fprintf(fv, "$dumpon\n");
 		}	
 	}
 
 if(g->flags & LXT2_RD_SYM_F_DOUBLE)
 	{
-        printf("r%s %s\n", *pnt_value, vcdid(*pnt_facidx));
+        fprintf(fv, "r%s %s\n", *pnt_value, vcdid(*pnt_facidx));
         }
 else
 if(g->flags & LXT2_RD_SYM_F_STRING)
 	{
-        printf("s%s %s\n", *pnt_value, vcdid(*pnt_facidx));
+        fprintf(fv, "s%s %s\n", *pnt_value, vcdid(*pnt_facidx));
         }
 else
 	{
         if(g->len==1)
         	{
-                printf("%c%s\n", (*pnt_value)[0], vcdid(*pnt_facidx));
+                fprintf(fv, "%c%s\n", (*pnt_value)[0], vcdid(*pnt_facidx));
                 }
                 else
                 {                        
-                printf("b%s %s\n", vcd_truncate_bitvec(*pnt_value), vcdid(*pnt_facidx));
+                fprintf(fv, "b%s %s\n", vcd_truncate_bitvec(*pnt_value), vcdid(*pnt_facidx));
                 }
 	}                               
 }
@@ -216,16 +220,16 @@ if(lt)
                 }
 
         time(&walltime);
-        printf("$date\n");
-        printf("\t%s",asctime(localtime(&walltime)));
-        printf("$end\n");
-        printf("$version\n\tlxt2vcd\n$end\n");
-	printf("$timescale %d%c%c $end\n", time_scale, time_dimension, !scale ? ' ' : 's');
+        fprintf(fv, "$date\n");
+        fprintf(fv, "\t%s",asctime(localtime(&walltime)));
+        fprintf(fv, "$end\n");
+        fprintf(fv, "$version\n\tlxt2vcd\n$end\n");
+	fprintf(fv, "$timescale %d%c%c $end\n", time_scale, time_dimension, !scale ? ' ' : 's');
 
         timezero = lxt2_rd_get_timezero(lt);
         if(timezero)
                 {
-                printf("$timezero "LXT2_RD_LLD" $end\n", timezero);
+                fprintf(fv, "$timezero "LXT2_RD_LLD" $end\n", timezero);
                 }
 
 	for(i=0;i<numfacs;i++)
@@ -235,7 +239,7 @@ if(lt)
 
                 if(!flat_earth)
                         {
-                        netname = output_hier(lxt2_rd_get_facname(lt, i));
+                        netname = fv_output_hier(fv, lxt2_rd_get_facname(lt, i));
                         }
                         else
                         {
@@ -244,12 +248,12 @@ if(lt)
 
                 if(g->flags & LXT2_RD_SYM_F_DOUBLE)
                 	{
-                        printf("$var real 1 %s %s $end\n", vcdid(newindx), netname);
+                        fprintf(fv, "$var real 1 %s %s $end\n", vcdid(newindx), netname);
                         }
                 else
                 if(g->flags & LXT2_RD_SYM_F_STRING)
                        {
-                       printf("$var real 1 %s %s $end\n", vcdid(newindx), netname);
+                       fprintf(fv, "$var real 1 %s %s $end\n", vcdid(newindx), netname);
                        }
                 else
 			
@@ -258,22 +262,22 @@ if(lt)
                        		{
                                 if(g->msb!=-1)
                                 	{
-                                        printf("$var wire 1 %s %s ["LXT2_RD_LD"] $end\n", vcdid(newindx), netname, g->msb);
+                                        fprintf(fv, "$var wire 1 %s %s ["LXT2_RD_LD"] $end\n", vcdid(newindx), netname, g->msb);
                                         }
                                         else
                                         {
-                                        printf("$var wire 1 %s %s $end\n", vcdid(newindx), netname);
+                                        fprintf(fv, "$var wire 1 %s %s $end\n", vcdid(newindx), netname);
                                         }  
 				}
                                 else
                                 {
                                 if(!(g->flags & LXT2_RD_SYM_F_INTEGER))
                                         {
-                                        printf("$var wire "LXT2_RD_LD" %s %s ["LXT2_RD_LD":"LXT2_RD_LD"] $end\n", g->len, vcdid(newindx), netname, g->msb, g->lsb);
+                                        fprintf(fv, "$var wire "LXT2_RD_LD" %s %s ["LXT2_RD_LD":"LXT2_RD_LD"] $end\n", g->len, vcdid(newindx), netname, g->msb, g->lsb);
                                         }
                                         else
                                         {
-                                        printf("$var integer "LXT2_RD_LD" %s %s $end\n", g->len, vcdid(newindx), netname);
+                                        fprintf(fv, "$var integer "LXT2_RD_LD" %s %s $end\n", g->len, vcdid(newindx), netname);
                                         }
                                 }
                         }
@@ -281,12 +285,12 @@ if(lt)
 
 	if(!flat_earth)
 		{
-	        output_hier(""); /* flush any remaining hierarchy if not back to toplevel */
+	        fv_output_hier(fv, ""); /* flush any remaining hierarchy if not back to toplevel */
 	        free_hier();
 		}
 
-	printf("$enddefinitions $end\n");
-	printf("$dumpvars\n");
+	fprintf(fv, "$enddefinitions $end\n");
+	fprintf(fv, "$dumpvars\n");
 
 	vcd_prevtime = lxt2_rd_get_start_time(lt)-1;
 
@@ -294,7 +298,7 @@ if(lt)
 
 	if(vcd_prevtime!=lxt2_rd_get_end_time(lt))
 		{
-		printf("#"LXT2_RD_LLD"\n", lxt2_rd_get_end_time(lt));
+		fprintf(fv, "#"LXT2_RD_LLD"\n", lxt2_rd_get_end_time(lt));
 		}
 
 	lxt2_rd_close(lt);
@@ -316,20 +320,21 @@ void print_help(char *nam)
 printf(
 "Usage: %s [OPTION]... [LXT2FILE]\n\n"
 "  -l, --lxtname=FILE         specify LXT2 input filename\n"
+"  -o, --output=FILE          specify output filename\n"
 "  -f, --flatearth            emit flattened hierarchies\n"
 "  -n, --notruncate           do not shorten bitvectors\n"
 "  -h, --help                 display this help then exit\n\n"
-"VCD is emitted to stdout.\n\n"
+"VCD is emitted to stdout if output filename is unspecified.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #else
 printf(
 "Usage: %s [OPTION]... [LXT2FILE]\n\n"
 "  -l                         specify LXT2 input filename\n"
+"  -o                         specify output filename\n"
 "  -f                         emit flattened hierarchies\n"
 "  -n                         do not shorten bitvectors\n"
 "  -h                         display this help then exit\n\n"
-
-"VCD is emitted to stdout.\n\n"
+"VCD is emitted to stdout if output filename is unspecified.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #endif
 
@@ -341,6 +346,8 @@ int main(int argc, char **argv)
 {
 char opt_errors_encountered=0;
 char *lxname=NULL;
+char *outname=NULL;
+char *fvbuf=NULL;
 int c;
 int rc;
 
@@ -354,15 +361,16 @@ while (1)
         static struct option long_options[] =
                 {
 		{"lxtname", 1, 0, 'l'},
+		{"output", 1, 0, 'o'},
 		{"flatearth", 0, 0, 'f'},
 		{"notruncate", 0, 0, 'n'},
                 {"help", 0, 0, 'h'},
                 {0, 0, 0, 0}  
                 };
                 
-        c = getopt_long (argc, argv, "l:fnh", long_options, &option_index);
+        c = getopt_long (argc, argv, "l:o:fnh", long_options, &option_index);
 #else
-        c = getopt      (argc, argv, "l:fnh");
+        c = getopt      (argc, argv, "l:o:fnh");
 #endif
                         
         if (c == -1) break;     /* no more args */
@@ -374,6 +382,12 @@ while (1)
                         lxname = malloc(strlen(optarg)+1);
                         strcpy(lxname, optarg);
 			break;
+
+               case 'o':
+                        if(outname) free(outname);
+                        outname = malloc(strlen(optarg)+1);
+                        strcpy(outname, optarg);
+                        break;
 
 		case 'f': flat_earth=1;
 			break;
@@ -417,7 +431,32 @@ if(!lxname)
         print_help(argv[0]);
         }
 
+if(outname)
+     	{
+       	fv = fopen(outname, "wb");
+        if(!fv)
+                {
+                fprintf(stderr, "Could not open '%s', exiting.\n", outname);
+                perror("Why");
+                exit(255);
+               	}
+        fvbuf = malloc(LXT_VCD_WRITE_BUF_SIZ);
+        setvbuf(fv, fvbuf, _IOFBF, LXT_VCD_WRITE_BUF_SIZ);
+        }
+	else
+	{
+	fv = stdout;
+        }
+
 rc=process_lxt(lxname);
+
+if(outname)
+	{
+	free(outname);
+        fclose(fv);
+        }
+
+free(fvbuf);
 free(lxname);
 
 return(rc);
