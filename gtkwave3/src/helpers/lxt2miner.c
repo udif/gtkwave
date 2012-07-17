@@ -35,9 +35,6 @@ static int names_only = 0;
 static char *killed_list = NULL;
 char killed_value = 1;
 
-extern void free_hier(void);
-extern char *output_hier(char *name);
-
 char vcd_blackout;
 
 void vcd_callback(struct lxt2_rd_trace **lt, lxtint64_t *pnt_time, lxtint32_t *pnt_facidx, char **pnt_value)
