@@ -6355,7 +6355,6 @@ void menu_set_sensitive(void)
     int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
     int i;
     GtkWidget *mw;
-
 #ifdef WAVE_USE_MENU_BLACKOUTS
     for(i=0;i<(sizeof(menu_blackouts)/sizeof(char *));i++)
 	{
@@ -6384,7 +6383,15 @@ void menu_set_sensitive(void)
 #else
                         mw = gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[i].path);
 #endif
-                        if(mw) gtk_widget_set_sensitive(mw, TRUE);
+                        if(mw) 
+				{ 
+#ifdef MAC_INTEGRATION
+				if(menu_items[i].callback)
+#endif
+					{
+					gtk_widget_set_sensitive(mw, TRUE);
+					}
+				}
                         break;
                 }
         }
@@ -6973,7 +6980,15 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 	
 			default: 
 				mw = menu_wlist[i];
-				if(mw) gtk_widget_set_sensitive(mw, FALSE);
+				if(mw) 
+					{
+#ifdef MAC_INTEGRATION
+					if(menu_items[i].callback)
+#endif
+						{
+						gtk_widget_set_sensitive(mw, FALSE);
+						}
+					}
 				break;
 			}
 		}
@@ -6982,7 +6997,10 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 		for(i=0;i<(sizeof(menu_blackouts)/sizeof(char *));i++)
 			{
 			mw = menu_wlist[i];
-			if(mw) gtk_widget_set_sensitive(mw, FALSE);
+			if(mw) 
+				{
+				gtk_widget_set_sensitive(mw, FALSE);
+				}
 			}
 #endif
 	}
@@ -7033,7 +7051,13 @@ int i;
 for(i=0;i<nmenu_items;i++)
 	{
 	mw = menu_wlist[i];
-	if(mw) gtk_widget_set_sensitive(mw, tr);
+	if(mw) 
+		{
+		if(menu_items[i].callback)
+			{
+			gtk_widget_set_sensitive(mw, tr);
+			}
+		}
 	}
 }
 #endif
@@ -7078,7 +7102,15 @@ if(GLOBALS->loaded_file_type != MISSING_FILE)
 			case WV_MENU_HWH:
 			case WV_MENU_HWV:
 				mw = menu_wlist[i];
-				if(mw) gtk_widget_set_sensitive(mw, TRUE);
+				if(mw) 
+					{
+#ifdef MAC_INTEGRATION
+					if(menu_items[i].callback)
+#endif
+						{
+						gtk_widget_set_sensitive(mw, TRUE);
+						}
+					}
 				break;
 	
 			default: 

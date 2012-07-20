@@ -1241,3 +1241,5 @@
 		back on Linux.
 		Added --output filename option to fst2vcd, vzt2vcd, and 
 		lxt2vcd.
+		Fix crash on OSX if gtk_widget_set_sensitive is called on
+		a separator.
