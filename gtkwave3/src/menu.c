@@ -1895,6 +1895,50 @@ if(GLOBALS->helpbox_is_active)
 	}
 }
 /**/
+#ifdef MAC_INTEGRATION
+void menu_help_manual(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nWave User's Guide");
+        help_text(
+		" opens the PDF file of the GTKWave User's Guide for viewing."
+        );
+        return;
+        }
+	else
+	{
+        const gchar *bundle_id = quartz_application_get_bundle_id();
+        if(bundle_id)
+                {
+                const gchar *rpath = quartz_application_get_resource_path();
+                const char *suf = "/doc/gtkwave.pdf";
+		char *pdfpath = NULL;                                    
+		FILE *handle;
+
+                if(rpath)
+                        {
+                        pdfpath = (char *)alloca(strlen(rpath) + strlen(suf) + 1);
+                        strcpy(pdfpath, rpath);
+                        strcat(pdfpath, suf);
+                        }
+                         
+                if(!pdfpath || !(handle=fopen(pdfpath,"rb")))
+			{
+			}
+			else
+			{
+			fclose(handle);
+			gtk_open_external_file(pdfpath); //
+			return;
+			}
+		}
+
+	simplereqbox("Wave User's Guide",400,"Could not open PDF!","OK", NULL, NULL, 1);
+	}
+}
+#endif
+/**/
 void menu_help(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
@@ -6109,6 +6153,9 @@ static gtkwave_mlist_t menu_items[] =
 
       /* 130 */
     WAVE_GTKIFE("/Help/WAVE Help", "<Control>H", menu_help, WV_MENU_HWH, "<Item>"),
+#ifdef MAC_INTEGRATION
+    WAVE_GTKIFE("/Help/WAVE User Manual", NULL, menu_help_manual, WV_MENU_HWM, "<Item>"),
+#endif
     WAVE_GTKIFE("/Help/Wave Version", NULL, menu_version, WV_MENU_HWV, "<Item>"),
 };
 

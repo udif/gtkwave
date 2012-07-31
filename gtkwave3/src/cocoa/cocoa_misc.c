@@ -15,6 +15,17 @@
 #include <sys/stat.h>
 
 /*************************/
+/* menu.c                */
+/*************************/
+
+void gtk_open_external_file(const char *fpath)
+{
+NSString *nspath = [NSString stringWithUTF8String:fpath];
+[[NSWorkspace sharedWorkspace] openFile:nspath];
+}
+
+
+/*************************/
 /* file.c                */
 /*************************/
 

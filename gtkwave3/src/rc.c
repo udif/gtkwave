@@ -964,6 +964,7 @@ if(!(handle=fopen(rcname,"rb")))
 			const gchar *rpath = quartz_application_get_resource_path();
 			const char *suf = "/examples/gtkwaverc";
 
+			rcpath = NULL;
 			if(rpath)
 				{
 				rcpath = (char *)alloca(strlen(rpath) + strlen(suf) + 1);
@@ -971,7 +972,7 @@ if(!(handle=fopen(rcname,"rb")))
 				strcat(rcpath, suf);
 				}
 
-			if(!(handle=fopen(rcpath,"rb")))
+			if(!rcpath || !(handle=fopen(rcpath,"rb")))
 				{
 				wave_gconf_client_set_string("/current/rcfile", "");
 				errno=0;

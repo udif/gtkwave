@@ -1246,3 +1246,4 @@
 		Fixed OSX version so it looks for .gtkwaverc in the home
 		directory and if not found, probes the resource bundle for
 		Contents/Resources/examples/gtkwaverc (no dot in the name).
+		Added GTKWave User's Guide option to help menu on OSX.
