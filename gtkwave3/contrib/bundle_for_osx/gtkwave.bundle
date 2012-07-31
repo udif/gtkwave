@@ -220,6 +220,9 @@
   <data dest="${bundle}/Contents/Resources/doc/gtkwave.odt">
     ${project}/../../doc/gtkwave.odt
   </data>
+  <data dest="${bundle}/Contents/Resources/doc/gtkwave.pdf">
+    ${project}/gtkwave.pdf
+  </data>
 
 
   <!-- Misc text files

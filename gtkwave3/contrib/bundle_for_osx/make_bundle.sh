@@ -1,5 +1,13 @@
 #!/bin/sh
 
+if [ -f ./gtkwave.pdf ]
+then
+echo Skipping download of gtkwave.pdf
+else
+echo Downloading gtkwave.pdf...
+curl http://gtkwave.sourceforge.net/gtkwave.pdf >gtkwave.pdf
+fi
+
 gcc -o ../../examples/transaction ../../examples/transaction.c -DHAVE_INTTYPES_H
 
 #
