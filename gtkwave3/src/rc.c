@@ -979,7 +979,6 @@ if(!(handle=fopen(rcname,"rb")))
 				}
 				else
 				{
-			printf("PATH: '%s'\n", rcpath);
 				wave_gconf_client_set_string("/current/rcfile", rcpath);
 				}
 			}
