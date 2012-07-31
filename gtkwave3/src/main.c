@@ -1720,7 +1720,7 @@ if(GLOBALS->use_toolbutton_interface)
 
 #ifdef MAC_INTEGRATION
 {
-GtkOSXApplication *theApp = theApp = g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
+GtkOSXApplication *theApp = g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
 gtk_widget_hide(menubar);
 gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
 gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE);
@@ -1965,7 +1965,7 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 
 #ifdef MAC_INTEGRATION
 {
-GtkOSXApplication *theApp = theApp = g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
+GtkOSXApplication *theApp = g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
 gtk_widget_hide(menubar);
 gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
 gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2010.
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,6 +35,10 @@
 #include "color.h"
 #include "vlist.h"
 #include "rc.h"
+
+#ifdef MAC_INTEGRATION
+#include <gtkosxapplication.h>
+#endif
 
 #ifndef _MSC_VER
 #ifndef __MINGW32__
@@ -953,9 +957,39 @@ if(!(handle=fopen(rcname,"rb")))
 
 	if(!(handle=fopen(rcpath,"rb")))
 		{
-		wave_gconf_client_set_string("/current/rcfile", "");
-		errno=0;
-		return; /* no .rc file */
+#ifdef MAC_INTEGRATION
+		const gchar *bundle_id = quartz_application_get_bundle_id();
+		if(bundle_id)
+			{
+			const gchar *rpath = quartz_application_get_resource_path();
+			const char *suf = "/examples/gtkwaverc";
+
+			if(rpath)
+				{
+				rcpath = (char *)alloca(strlen(rpath) + strlen(suf) + 1);
+				strcpy(rcpath, rpath);
+				strcat(rcpath, suf);
+				}
+
+			if(!(handle=fopen(rcpath,"rb")))
+				{
+				wave_gconf_client_set_string("/current/rcfile", "");
+				errno=0;
+				return; /* no .rc file */
+				}
+				else
+				{
+			printf("PATH: '%s'\n", rcpath);
+				wave_gconf_client_set_string("/current/rcfile", rcpath);
+				}
+			}
+			else
+#endif
+			{
+			wave_gconf_client_set_string("/current/rcfile", "");
+			errno=0;
+			return; /* no .rc file */
+			}
 		}
 		else
 		{
