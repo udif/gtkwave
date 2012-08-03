@@ -1929,7 +1929,7 @@ if(GLOBALS->helpbox_is_active)
 			else
 			{
 			fclose(handle);
-			gtk_open_external_file(pdfpath); //
+			gtk_open_external_file(pdfpath); 
 			return;
 			}
 		}
@@ -6342,6 +6342,9 @@ void get_main_menu(GtkWidget *window, GtkWidget ** menubar)
 #endif
 			case WV_MENU_FQY:
 			case WV_MENU_HWH:
+#ifdef MAC_INTEGRATION
+			case WV_MENU_HWM:
+#endif
 			case WV_MENU_HWV:
 				break;
 	
@@ -6421,6 +6424,9 @@ void menu_set_sensitive(void)
 #endif
                 case WV_MENU_FQY:
                 case WV_MENU_HWH:
+#ifdef MAC_INTEGRATION
+		case WV_MENU_HWM:
+#endif
                 case WV_MENU_HWV:  
                         break;
 
@@ -7022,6 +7028,9 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 #endif
 			case WV_MENU_FQY:
 			case WV_MENU_HWH:
+#ifdef MAC_INTEGRATION
+			case WV_MENU_HWM:
+#endif
 			case WV_MENU_HWV:
 				break;
 	
@@ -7147,6 +7156,9 @@ if(GLOBALS->loaded_file_type != MISSING_FILE)
 #endif
 			case WV_MENU_FQY:
 			case WV_MENU_HWH:
+#ifdef MAC_INTEGRATION
+			case WV_MENU_HWM:
+#endif
 			case WV_MENU_HWV:
 				mw = menu_wlist[i];
 				if(mw) 
