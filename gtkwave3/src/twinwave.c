@@ -23,6 +23,8 @@
 
 #include "debug.h"
 
+static int use_embedded = 1;
+
 #if !defined _MSC_VER && defined WAVE_USE_GTK2
 
 static int plug_removed(GtkWidget *widget, gpointer data)
@@ -85,12 +87,21 @@ for(i=0;i<argc;i++)
 		split_point = i;
 		break;
 		}
+
+	if(!strcmp(argv[i], "++"))
+		{
+		split_point = i;
+		use_embedded = 0;
+		break;
+		}
 	}
 
 if(split_point < 0)
 	{
-	printf("Usage:\n------\n%s arglist1 + arglist2\n\n"
-		"The '+' between argument lists splits what goes to each viewer.\n\n", argv[0]);
+	printf("Usage:\n------\n%s arglist1 separator arglist2\n\n"
+		"The '+' between argument lists splits and creates one window.\n"
+		"The '++' between argument lists splits and creates two windows.\n"
+		"\n", argv[0]);
 	exit(255);
 	}
 
@@ -365,7 +376,10 @@ if(shmid >=0)
 				sleep(2);
 		               	shmctl(shmid, IPC_RMID, &ds); /* mark for destroy */
 #endif
-				gtk_main();
+				if(use_embedded)
+					{
+					gtk_main();
+					}
 				}
 				else
 				{
@@ -373,7 +387,14 @@ if(shmid >=0)
 				char **arglist = calloc(n_items, sizeof(char *));
 
 				sprintf(buf, "0+%08X", shmid);
-				sprintf(buf2, "%x", gtk_socket_get_id (GTK_SOCKET(xsocket[0])));
+				if(use_embedded)
+					{
+					sprintf(buf2, "%x", gtk_socket_get_id (GTK_SOCKET(xsocket[0])));
+					}
+					else
+					{
+					sprintf(buf2, "%x", 0);
+					}
 
 				arglist[0] = "gtkwave";
 				arglist[1] = "-D";
@@ -400,7 +421,14 @@ if(shmid >=0)
 			char **arglist = calloc(n_items, sizeof(char *));
 
 			sprintf(buf, "1+%08X", shmid);
-			sprintf(buf2, "%x", gtk_socket_get_id (GTK_SOCKET(xsocket[1])));
+			if(use_embedded)
+				{
+				sprintf(buf2, "%x", gtk_socket_get_id (GTK_SOCKET(xsocket[1])));
+				}
+				else
+				{
+				sprintf(buf2, "%x", 0);
+				}
 
 			arglist[0] = "gtkwave";
 			arglist[1] = "-D";
@@ -445,4 +473,3 @@ return(255);
 }
 
 #endif
-
