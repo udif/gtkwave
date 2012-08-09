@@ -38,6 +38,7 @@ if(GLOBALS->signalpixmap)
 	hadj=GTK_ADJUSTMENT(GLOBALS->signal_hslider);
 	xsrc=(gint)hadj->value;
 	DEBUG(printf("Signal HSlider Moved to %d\n",xsrc));
+	GLOBALS->right_align_active = 0;
 
 	gdk_draw_rectangle(GLOBALS->signalpixmap, GLOBALS->gc.gc_mdgray, TRUE,
 	        0, -1, GLOBALS->signal_fill_width, GLOBALS->fontheight);
@@ -1233,6 +1234,32 @@ if(GLOBALS->signalpixmap)
 	GLOBALS->signalpixmap=gdk_pixmap_new(widget->window, 
 		GLOBALS->signal_fill_width, widget->allocation.height, -1);
 	}
+
+ if (!GLOBALS->left_justify_sigs && !GLOBALS->do_resize_signals)
+   if (width < GLOBALS->max_signal_name_pixel_width+15)
+     {
+       int delta = GLOBALS->max_signal_name_pixel_width+15 - width;
+       
+	 GtkAdjustment *hadj;
+
+	 if(GLOBALS->signalpixmap)
+	   {
+
+	     hadj=GTK_ADJUSTMENT(GLOBALS->signal_hslider);
+
+	     /* int pos = GLOBALS->max_signal_name_pixel_width+15 - (gint)hadj->value; */
+
+	     if ((gint) hadj->value > delta)
+	       {
+		 GLOBALS->right_align_active = 1;
+		 delta = (gint)hadj->value;
+	       }
+	     if (GLOBALS->right_align_active)
+	       hadj->value = (gint)delta;
+	   }
+       } else {
+	 GLOBALS->right_align_active = 1;
+       }
 
 GLOBALS->old_signal_fill_height= widget->allocation.height;
 gdk_draw_rectangle(GLOBALS->signalpixmap, widget->style->bg_gc[GTK_STATE_PRELIGHT], TRUE, 0, 0,

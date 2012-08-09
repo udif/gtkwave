@@ -799,6 +799,7 @@ NULL, /* signalpixmap 371 */
 0, /* signal_fill_width 374 */
 0, /* old_signal_fill_width 375 */
 0, /* old_signal_fill_height */
+1, /* right_align_active */
 1, /* fontheight 376 */
 0, /* dnd_state 377 */
 0, /* dnd_cursor_timer */
@@ -1230,6 +1231,7 @@ NULL, /* mvlfacs_vzt_c_3 587 */
 0, /* use_big_fonts 594 */
 0, /* use_nonprop_fonts */
 ~0, /* do_resize_signals 595 */
+~0, /* first_unsized_signals */
 0, /* initial_signal_window_width */
 0, /* constant_marker_update 596 */
 0, /* use_roundcaps 597 */

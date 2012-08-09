@@ -2423,7 +2423,14 @@ if(!GLOBALS->in_button_press_wavewindow_c_1)
 
 		if(GLOBALS->signalwindow)
 			{
-			gtk_widget_set_usize(GTK_WIDGET(GLOBALS->signalwindow), os+30, -1);
+			  /* printf("VALUES: %d %d %d\n", GLOBALS->initial_signal_window_width, GLOBALS->signalwindow->allocation.width, GLOBALS->max_signal_name_pixel_width); */
+			  if (GLOBALS->first_unsized_signals && GLOBALS->max_signal_name_pixel_width !=0)
+			    {
+			      GLOBALS->first_unsized_signals = 0;
+			      gtk_paned_set_position(GTK_PANED(GLOBALS->panedwindow), GLOBALS->max_signal_name_pixel_width+30);
+			    } else {
+			      gtk_widget_set_usize(GTK_WIDGET(GLOBALS->signalwindow), os+30, -1);
+		            }
 			}
 		}
 	else

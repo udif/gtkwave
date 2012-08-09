@@ -1237,7 +1237,7 @@
 		Changed twinwave for MinGW so that it does not target two
 		panes in a single window.  Something is apparently now
 		broken in the GtkSocket/GtkPlug implementation for Win32.
-3.3.39	03aug12	Fixed relative pathnames when generated in MinGW and used
+3.3.39	08aug12	Fixed relative pathnames when generated in MinGW and used
 		back on Linux.
 		Added --output filename option to fst2vcd, vzt2vcd, and 
 		lxt2vcd.
@@ -1248,3 +1248,4 @@
 		Contents/Resources/examples/gtkwaverc (no dot in the name).
 		Added GTKWave User's Guide option to help menu on OSX.
 		Added + vs ++ separators for twinwave.
+		Dynamic resize fixes.
