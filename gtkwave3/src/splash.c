@@ -748,7 +748,11 @@ if((!GLOBALS->splash_disable)&&(!GLOBALS->splash_splash_c_1))
 #if !defined _MSC_VER && !defined __MINGW32__
 	dx = 8; dy = 8;
 #else
-	dx = 8; dy = 26;
+#if GTK_CHECK_VERSION(2,24,10)
+	dx = 8; dy = 8;
+#else
+	dx = 8; dy = 26; /* ...old value required for previous versions of GTK on mingw apparently no longer needed */
+#endif
 #endif
         gtk_widget_set_usize(GTK_WIDGET(GLOBALS->splash_splash_c_1), WAVE_SPLASH_X + dx, WAVE_SPLASH_Y + dy);
         gtk_window_set_type_hint(GTK_WINDOW(GLOBALS->splash_splash_c_1), GDK_WINDOW_TYPE_HINT_SPLASHSCREEN);

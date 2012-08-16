@@ -1249,3 +1249,5 @@
 		Added GTKWave User's Guide option to help menu on OSX.
 		Added + vs ++ separators for twinwave.
 		Dynamic resize fixes.
+3.3.40	15aug12	Fixed y-size of splash screen on MinGW with newest version
+		of GTK2 (as it could be verified on that version).
