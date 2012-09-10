@@ -461,7 +461,7 @@ if(!wild_active)	/* short circuit wildcard evaluation with bsearch */
 			/* in case its a 1-bit bit-blasted signal */
 			char *str2;
                         int l = strlen(str);
-			str2  = calloc_2(1,l+3);
+			str2  = calloc_2(1,l+4);
 			strcpy(str2, str);
 			str2[l] = '[';
 			str2[l+1] = '0';
