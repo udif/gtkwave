@@ -92,7 +92,7 @@ char *emit_gtkwave_savefile_formatted_entries_in_tcl_list(Trptr trhead, gboolean
 
 char* zMergeTclList(int argc, const char** argv);
 char** zSplitTclList(const char* list, int* argcPtr);
-char *make_single_tcl_list_name(char *s, char *opt_value, int promote_to_bus);
+char *make_single_tcl_list_name(char *s, char *opt_value, int promote_to_bus, int preserve_range);
 
 void make_tcl_interpreter(char *argv[]);
 const char *gtkwavetcl_setvar(const char *name1, const char *val, int flags);

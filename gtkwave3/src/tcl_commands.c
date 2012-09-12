@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2008-2009.
+ * Copyright (c) Tony Bybell 2008-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -1012,7 +1012,7 @@ if(objc==2)
         	{
 		for(i=0;i<l;i++)
 			{
-			one_entry = make_single_tcl_list_name(elem[i], NULL, 0);
+			one_entry = make_single_tcl_list_name(elem[i], NULL, 0, 1); /* keep range */
 			WAVE_OE_ME
 			}
                 free_2(elem);

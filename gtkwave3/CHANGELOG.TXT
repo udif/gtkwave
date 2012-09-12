@@ -1253,3 +1253,6 @@
 		of GTK2 (as it could be verified on that version).
 		Fixed off-by-one buffer string allocation write overflow
 		in calloc_2() call in maketraces().
+3.3.41	12sep12	Fix for gtkwave::addSignalsFromList when encountering
+		signals of form a.b.MyBus[7:0] and a.b.MyBus[15:8] such
+		that brackets aren't stripped.

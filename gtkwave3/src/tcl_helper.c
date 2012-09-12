@@ -1306,7 +1306,7 @@ return(NULL);
  * ----------------------------------------------------------------------------
  */
 
-char *make_single_tcl_list_name(char *s, char *opt_value, int promote_to_bus)
+char *make_single_tcl_list_name(char *s, char *opt_value, int promote_to_bus, int preserve_range)
 {
 char *rpnt = NULL;
 char *pnt, *pnt2;
@@ -1336,6 +1336,7 @@ if(s)
 		}
 
 	pnt = s2;
+
 	while(*pnt)
 		{
 		if(*pnt == GLOBALS->hier_delimeter)
@@ -1345,15 +1346,18 @@ if(s)
 		else if(*pnt == '[') { lbrack = pnt; }
 		else if(*pnt == ':') { colon  = pnt; }
 		else if(*pnt == ']') { rbrack = pnt; }
-
+	
 		pnt++;
 		}
-
-	if((lbrack && colon && rbrack && ((colon-lbrack)>0) && ((rbrack - colon)>0) && ((rbrack-lbrack)>0)) || (lbrack && promote_to_bus))
+	
+	if(!preserve_range) /* added for gtkwave::addSignalsFromList */
 		{
-		is_bus = 1;
-		*lbrack = 0;
-		/* len = lbrack - s2; */ /* scan-build */
+		if((lbrack && colon && rbrack && ((colon-lbrack)>0) && ((rbrack - colon)>0) && ((rbrack-lbrack)>0)) || (lbrack && promote_to_bus))
+			{
+			is_bus = 1;
+			*lbrack = 0;
+			/* len = lbrack - s2; */ /* scan-build */
+			}
 		}
 
 	names = calloc_2(delim_cnt+1, sizeof(char *));
@@ -1561,7 +1565,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
                 {
                 if((!s->vec_root)||(!GLOBALS->autocoalesce))
                         {
-			one_entry = make_single_tcl_list_name(s->n->nname, NULL, 0);
+			one_entry = make_single_tcl_list_name(s->n->nname, NULL, 0, 0);
 			WAVE_OE_ME
                         }
                         else
@@ -1570,7 +1574,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
                         t=s->vec_root;
                         while(t)
                                 {
-				one_entry = make_single_tcl_list_name(t->n->nname, NULL, 1);
+				one_entry = make_single_tcl_list_name(t->n->nname, NULL, 1, 0);
 				WAVE_OE_ME
 
                                 if(get_s_selected(t))
@@ -1688,14 +1692,14 @@ while(t)
 					sprintf(newname, "%s[%d:%d]", first_str, lidx, ridx); /* this disappears in make_single_tcl_list_name() but might be used in future code */
 
 					if(!mult_entry) { one_entry = make_gtkwave_pid(); WAVE_OE_ME one_entry = strdup_2(netoff); WAVE_OE_ME}
-					one_entry = is_from_tcl_command ? strdup_2s(newname) : make_single_tcl_list_name(newname, NULL, 0);
+					one_entry = is_from_tcl_command ? strdup_2s(newname) : make_single_tcl_list_name(newname, NULL, 0, 0);
 					WAVE_OE_ME
 					if(!is_from_tcl_command)
 						{
 						trace_val = give_value_string(t);
 						if(trace_val)
 							{
-							one_entry = make_single_tcl_list_name(newname, trace_val, 0);
+							one_entry = make_single_tcl_list_name(newname, trace_val, 0, 0);
 							WAVE_OE_ME
 							free_2(trace_val);
 							}
@@ -1737,7 +1741,7 @@ while(t)
 
 					sprintf(str+strlen(str), "[%d]", which);
 					if(!mult_entry) { one_entry = make_gtkwave_pid(); WAVE_OE_ME one_entry = strdup_2(netoff); WAVE_OE_ME }
-					one_entry = is_from_tcl_command ? strdup_2s(str) : make_single_tcl_list_name(str, NULL, 0);
+					one_entry = is_from_tcl_command ? strdup_2s(str) : make_single_tcl_list_name(str, NULL, 0, 0);
 					WAVE_OE_ME
 
 					if((bits)&&(!is_from_tcl_command))
@@ -1748,21 +1752,21 @@ while(t)
 						else if(bitnum >= AN_COUNT) bitnum = AN_DASH;
 
 						trace_val_vec_single[0] = AN_STR[(int)xfwd[bitnum]];
-						one_entry = make_single_tcl_list_name(str, trace_val_vec_single, 0);
+						one_entry = make_single_tcl_list_name(str, trace_val_vec_single, 0, 0);
 						WAVE_OE_ME
 						}
                                         }
                                         else
                                         {
 					if(!mult_entry) { one_entry = make_gtkwave_pid(); WAVE_OE_ME one_entry = strdup_2(netoff); WAVE_OE_ME}
-					one_entry = is_from_tcl_command ? strdup_2s(append_array_row(nodes[i])) : make_single_tcl_list_name(append_array_row(nodes[i]), NULL, 0);
+					one_entry = is_from_tcl_command ? strdup_2s(append_array_row(nodes[i])) : make_single_tcl_list_name(append_array_row(nodes[i]), NULL, 0, 0);
 					WAVE_OE_ME
 					if(!is_from_tcl_command)
 						{
 						trace_val = give_value_string(t);
 						if(trace_val)
 							{
-							one_entry = make_single_tcl_list_name(append_array_row(nodes[i]), trace_val, 0);
+							one_entry = make_single_tcl_list_name(append_array_row(nodes[i]), trace_val, 0, 0);
 							WAVE_OE_ME
 							free_2(trace_val);
 							}
@@ -1798,14 +1802,14 @@ while(t)
 
 				sprintf(str+strlen(str), "[%d]", which);
 				if(!mult_entry) { one_entry = make_gtkwave_pid(); WAVE_OE_ME one_entry = strdup_2(netoff); WAVE_OE_ME}
-				one_entry = is_from_tcl_command ? strdup_2s(str) : make_single_tcl_list_name(str, NULL, 0);
+				one_entry = is_from_tcl_command ? strdup_2s(str) : make_single_tcl_list_name(str, NULL, 0, 0);
 				WAVE_OE_ME
 				if(!is_from_tcl_command)
 					{
 					trace_val = give_value_string(t);
 					if(trace_val)
 						{
-						one_entry = make_single_tcl_list_name(str, trace_val, 0);
+						one_entry = make_single_tcl_list_name(str, trace_val, 0, 0);
 						WAVE_OE_ME
 						free_2(trace_val);
 						}
@@ -1814,14 +1818,14 @@ while(t)
 				else
 				{
 				if(!mult_entry) { one_entry = make_gtkwave_pid(); WAVE_OE_ME one_entry = strdup_2(netoff); WAVE_OE_ME}
-				one_entry = is_from_tcl_command ? strdup_2s(append_array_row(t->n.nd)) : make_single_tcl_list_name(append_array_row(t->n.nd), NULL, 0);
+				one_entry = is_from_tcl_command ? strdup_2s(append_array_row(t->n.nd)) : make_single_tcl_list_name(append_array_row(t->n.nd), NULL, 0, 0);
 				WAVE_OE_ME
 				if(!is_from_tcl_command)
 					{
 					trace_val = give_value_string(t);
 					if(trace_val)
 						{
-						one_entry = make_single_tcl_list_name(append_array_row(t->n.nd), trace_val, 0);
+						one_entry = make_single_tcl_list_name(append_array_row(t->n.nd), trace_val, 0, 0);
 						WAVE_OE_ME
 						free_2(trace_val);
 						}
@@ -1890,14 +1894,14 @@ sig_selection_foreach_dnd
 		struct symbol *t = s->vec_root;
                 while(t)
 			{
-                        one_entry = make_single_tcl_list_name(t->n->nname, NULL, 1);
+                        one_entry = make_single_tcl_list_name(t->n->nname, NULL, 1, 0);
                         WAVE_OE_ME
                         break; /* t=t->vec_chain; ...no longer needed as this is resolved in process_tcl_list() */
                         }
                 }
 		else
 		{		
-                one_entry = make_single_tcl_list_name(s->n->nname, NULL, 0);
+                one_entry = make_single_tcl_list_name(s->n->nname, NULL, 0, 0);
                 WAVE_OE_ME
 		}
         }
