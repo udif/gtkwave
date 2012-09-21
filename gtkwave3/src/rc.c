@@ -319,6 +319,13 @@ GLOBALS->paned_pack_semantics=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_highlight_wavewindow(char *str)
+{
+DEBUG(printf("f_highlight_wavewindow(\"%s\")\n",str));
+GLOBALS->highlight_wavewindow=atoi_64(str)?1:0;
+return(0);
+}
+
 int f_ignore_savefile_pane_pos(char *str)
 {
 DEBUG(printf("f_ignore_savefile_pane_pos(\"%s\")\n",str));
@@ -815,6 +822,7 @@ static struct rc_entry rcitems[]=
 { "hier_delimeter", f_hier_delimeter },
 { "hier_grouping", f_hier_grouping },
 { "hier_max_level", f_hier_max_level },
+{ "highlight_wavewindow", f_highlight_wavewindow },
 { "hpane_pack", f_hpane_pack },
 { "ignore_savefile_pane_pos", f_ignore_savefile_pane_pos },
 { "ignore_savefile_pos", f_ignore_savefile_pos },

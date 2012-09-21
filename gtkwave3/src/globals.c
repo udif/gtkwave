@@ -1218,6 +1218,7 @@ NULL, /* mvlfacs_vzt_c_3 587 */
 /*
  * wavewindow.c
  */
+0, /* highlight_wavewindow */
 1, /* alt_wheel_mode */
 0, /* use_scrollwheel_as_y */
 0, /* enable_slider_zoom */
@@ -1644,6 +1645,7 @@ void reload_into_new_context_2(void)
  new_globals->wave_splash_mask = GLOBALS->wave_splash_mask;
 
  new_globals->black_and_white = GLOBALS->black_and_white;
+ new_globals->highlight_wavewindow = GLOBALS->highlight_wavewindow;
 
  new_globals->gc_white = GLOBALS->gc_white;
  new_globals->gc_black = GLOBALS->gc_black;

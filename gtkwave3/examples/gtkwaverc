@@ -3,6 +3,7 @@
 # (rename to .gtkwaverc and copy 
 # to home directory to be loaded automatically)
 #
+highlight_wavewindow no
 alt_wheel_mode yes
 vcd_preserve_glitches no
 vcd_preserve_glitches_real no

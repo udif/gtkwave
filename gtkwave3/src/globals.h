@@ -1203,6 +1203,7 @@ int busycnt_vzt_c_2; /* from vzt.c 641 */
 /*
  * wavewindow.c
  */
+char highlight_wavewindow; /* from wavewindow.c */
 char alt_wheel_mode; /* from wavewindow.c */
 char use_scrollwheel_as_y; /* from wavewindow.c */
 char enable_slider_zoom; /* from wavewindow.c */
