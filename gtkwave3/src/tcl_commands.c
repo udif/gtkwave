@@ -1847,6 +1847,7 @@ if(i < GLOBALS->num_notebook_pages)
         GLOBALS->use_full_precision = g_old->use_full_precision;
         GLOBALS->show_base = g_old->show_base;
         GLOBALS->display_grid = g_old->display_grid;
+        GLOBALS->highlight_wavewindow = g_old->highlight_wavewindow;
         GLOBALS->disable_mouseover = g_old->disable_mouseover;
         GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;
                                          

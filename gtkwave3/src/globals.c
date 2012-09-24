@@ -1645,7 +1645,6 @@ void reload_into_new_context_2(void)
  new_globals->wave_splash_mask = GLOBALS->wave_splash_mask;
 
  new_globals->black_and_white = GLOBALS->black_and_white;
- new_globals->highlight_wavewindow = GLOBALS->highlight_wavewindow;
 
  new_globals->gc_white = GLOBALS->gc_white;
  new_globals->gc_black = GLOBALS->gc_black;
@@ -1804,6 +1803,7 @@ void reload_into_new_context_2(void)
  new_globals->ps_maxveclen = GLOBALS->ps_maxveclen;
  new_globals->show_base = GLOBALS->show_base;
  new_globals->display_grid = GLOBALS->display_grid;
+ new_globals->highlight_wavewindow = GLOBALS->highlight_wavewindow;
  new_globals->use_big_fonts = GLOBALS->use_big_fonts;
  new_globals->use_full_precision = GLOBALS->use_full_precision;
  new_globals->use_frequency_delta = GLOBALS->use_frequency_delta;
@@ -2663,6 +2663,7 @@ switch(type)
 							GLOBALS->use_full_precision = g_old->use_full_precision;
 							GLOBALS->show_base = g_old->show_base;
 							GLOBALS->display_grid = g_old->display_grid;
+							GLOBALS->highlight_wavewindow = g_old->highlight_wavewindow;
 							GLOBALS->disable_mouseover = g_old->disable_mouseover;
 							GLOBALS->keep_xz_colors = g_old->keep_xz_colors;
 							GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;

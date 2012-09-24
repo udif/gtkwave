@@ -5847,6 +5847,36 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 /**/
+void menu_show_wave_highlight(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nShow Wave Highlight");
+        help_text(
+		" toggles the drawing of highlighted waveforms (instead of gridlines) in the waveform display."
+        );
+        }
+	else
+	{
+#ifndef WAVE_USE_MLIST_T
+	GLOBALS->highlight_wavewindow=(GLOBALS->highlight_wavewindow)?0:~0;
+#else
+	GLOBALS->highlight_wavewindow = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_SHW]));
+#endif
+	if(GLOBALS->wave_hslider)
+		{
+		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)),"changed");
+		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)),"value_changed");
+		}
+	DEBUG(printf("Show Wave Highlight\n"));
+	}
+
+#ifndef WAVE_USE_MLIST_T
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_SHW].path))->active=(GLOBALS->highlight_wavewindow)?TRUE:FALSE;
+#endif
+}
+
+/**/
 void menu_show_mouseover(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
@@ -6109,6 +6139,8 @@ static gtkwave_mlist_t menu_items[] =
 
     WAVE_GTKIFE("/View/Show Grid", "<Alt>G", menu_show_grid, WV_MENU_VSG, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP9, "<Separator>"),
+    WAVE_GTKIFE("/View/Show Wave Highlight", NULL, menu_show_wave_highlight, WV_MENU_SHW, "<ToggleItem>"),
+    WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP9B, "<Separator>"),
     WAVE_GTKIFE("/View/Show Mouseover", NULL, menu_show_mouseover, WV_MENU_VSMO, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP9A, "<Separator>"),
     WAVE_GTKIFE("/View/Show Base Symbols", "<Alt>F1", menu_show_base, WV_MENU_VSBS, "<ToggleItem>"),
@@ -6230,6 +6262,8 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VSG].path))->active=(GLOBALS->display_grid)?TRUE:FALSE;
 
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_SHW].path))->active=(GLOBALS->highlight_wavewindow)?TRUE:FALSE;
+
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_HSWM].path))->active=(GLOBALS->alt_wheel_mode)?TRUE:FALSE;
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1,menu_items[WV_MENU_VSMO].path))->active=(GLOBALS->disable_mouseover)?FALSE:TRUE;
@@ -6278,6 +6312,7 @@ GLOBALS->quiet_checkmenu = 1;
 
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VZPS]), GLOBALS->zoom_pow10_snap);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSG]), GLOBALS->display_grid);
+gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_SHW]), GLOBALS->highlight_wavewindow);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_HSWM]), GLOBALS->alt_wheel_mode);
 
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSMO]), !GLOBALS->disable_mouseover);

@@ -107,6 +107,7 @@ GLOBALS->scale_to_time_dimension = g_old->scale_to_time_dimension;
 GLOBALS->use_full_precision = g_old->use_full_precision;
 GLOBALS->show_base = g_old->show_base;
 GLOBALS->display_grid = g_old->display_grid;
+GLOBALS->highlight_wavewindow = g_old->highlight_wavewindow;
 GLOBALS->disable_mouseover = g_old->disable_mouseover;
 GLOBALS->keep_xz_colors = g_old->keep_xz_colors;
 GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;
@@ -589,6 +590,7 @@ if(!GLOBALS)
 	GLOBALS->ps_maxveclen = old_g->ps_maxveclen;
 	GLOBALS->show_base = old_g->show_base;
 	GLOBALS->display_grid = old_g->display_grid;
+	GLOBALS->highlight_wavewindow = old_g->highlight_wavewindow;
 	GLOBALS->use_big_fonts = old_g->use_big_fonts;
 	GLOBALS->use_full_precision = old_g->use_full_precision;
 	GLOBALS->use_frequency_delta = old_g->use_frequency_delta;
