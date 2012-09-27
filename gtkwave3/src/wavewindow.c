@@ -3168,7 +3168,6 @@ if(((t)&&(t->flags&TR_INVERT))&&(!is_event))
 yu=(_y0+_y1)/2;
 ytext=yu-(GLOBALS->wavefont->ascent/2)+GLOBALS->wavefont->ascent;
 
-
 if((GLOBALS->display_grid)&&(GLOBALS->enable_horiz_grid)&&(!kill_grid))
 	{
 	if((GLOBALS->highlight_wavewindow) && (t) && (t->flags & TR_HIGHLIGHT) && (!GLOBALS->black_and_white))
@@ -3908,6 +3907,12 @@ if((GLOBALS->display_grid)&&(GLOBALS->enable_horiz_grid))
 	Trptr tn = GiveNextTrace(t);
 	if((t->flags & TR_ANALOGMASK) && (tn) && (tn->flags & TR_ANALOG_BLANK_STRETCH))
 		{
+	 	if((GLOBALS->highlight_wavewindow) && (t) && (t->flags & TR_HIGHLIGHT) && (!GLOBALS->black_and_white))
+	                {
+	                gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_grid_wavewindow_c_1,
+	                        TRUE,0, liney - GLOBALS->fontheight,
+	                        GLOBALS->wavewidth, GLOBALS->fontheight);
+	                }
 		}
 		else
 		{
@@ -3942,6 +3947,13 @@ if((t->flags & TR_ANALOGMASK) && (!(h->flags&HIST_STRING) || !(h->flags&HIST_REA
 			break;
 			}
 		}	
+
+ 	if((ext) && (GLOBALS->highlight_wavewindow) && (t) && (t->flags & TR_HIGHLIGHT) && (!GLOBALS->black_and_white))
+                {
+                gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_grid_wavewindow_c_1,
+                        TRUE,0, liney,
+                        GLOBALS->wavewidth, GLOBALS->fontheight * ext);
+                }
 
 	draw_hptr_trace_vector_analog(t, h, which, ext);
 	GLOBALS->tims.start+=GLOBALS->shift_timebase;
@@ -4698,6 +4710,12 @@ if((GLOBALS->display_grid)&&(GLOBALS->enable_horiz_grid))
 	Trptr tn = GiveNextTrace(t);
 	if((t->flags & TR_ANALOGMASK) && (tn) && (tn->flags & TR_ANALOG_BLANK_STRETCH))
 		{
+	 	if((GLOBALS->highlight_wavewindow) && (t) && (t->flags & TR_HIGHLIGHT) && (!GLOBALS->black_and_white))
+	                {
+	                gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_grid_wavewindow_c_1,
+	                        TRUE,0, liney - GLOBALS->fontheight,
+	                        GLOBALS->wavewidth, GLOBALS->fontheight);
+	                }
 		}
 		else
 		{
@@ -4744,6 +4762,13 @@ if(t->flags & TR_ANALOGMASK)
                         {
                         break;
                         }
+                }
+
+ 	if((ext) && (GLOBALS->highlight_wavewindow) && (t) && (t->flags & TR_HIGHLIGHT) && (!GLOBALS->black_and_white))
+                {
+                gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_grid_wavewindow_c_1,
+                        TRUE,0, liney,
+                        GLOBALS->wavewidth, GLOBALS->fontheight * ext);
                 }
 
 	draw_vptr_trace_analog(t, v, which, ext);
