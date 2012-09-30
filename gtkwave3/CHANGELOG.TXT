@@ -1253,8 +1253,10 @@
 		of GTK2 (as it could be verified on that version).
 		Fixed off-by-one buffer string allocation write overflow
 		in calloc_2() call in maketraces().
-3.3.41	21sep12	Fix for gtkwave::addSignalsFromList when encountering
+3.3.41	30sep12	Fix for gtkwave::addSignalsFromList when encountering
 		signals of form a.b.MyBus[7:0] and a.b.MyBus[15:8] such
 		that brackets aren't stripped.
 		Added experimental highlight_wavewindow rc variable which
-		allows signals also to be highlighted in the wave window.
+		allows signals also to be highlighted in the wave window
+		using the value for color_grid.
+		
