@@ -495,17 +495,17 @@ GLOBALS->use_big_fonts=atoi_64(str)?1:0;
 return(0);
 }
 
-int f_use_full_precision(char *str)
-{
-DEBUG(printf("f_use_full_precision(\"%s\")\n",str));
-GLOBALS->use_full_precision=atoi_64(str)?1:0;
-return(0);
-}
-
 int f_use_frequency_display(char *str)
 {
 DEBUG(printf("f_use_frequency_display(\"%s\")\n",str));
 GLOBALS->use_frequency_delta=atoi_64(str)?1:0;
+return(0);
+}
+
+int f_use_full_precision(char *str)
+{
+DEBUG(printf("f_use_full_precision(\"%s\")\n",str));
+GLOBALS->use_full_precision=atoi_64(str)?1:0;
 return(0);
 }
 
@@ -569,6 +569,13 @@ int f_use_standard_clicking(char *str)
 {
 DEBUG(printf("f_use_standard_clicking(\"%s\")\n",str));
 GLOBALS->use_standard_clicking=atoi_64(str)?1:0;
+return(0);
+}
+
+int f_use_standard_trace_select(char *str)
+{
+DEBUG(printf("f_f_use_standard_trace_select(\"%s\")\n",str));
+GLOBALS->use_standard_trace_select=atoi_64(str)?1:0;
 return(0);
 }
 
@@ -856,6 +863,7 @@ static struct rc_entry rcitems[]=
 { "use_scrollbar_only", f_use_scrollbar_only },
 { "use_scrollwheel_as_y", f_use_scrollwheel_as_y },
 { "use_standard_clicking", f_use_standard_clicking },
+{ "use_standard_trace_select", f_use_standard_trace_select },
 { "use_toolbutton_interface", f_use_toolbutton_interface },
 { "vcd_explicit_zero_subscripts", f_vcd_explicit_zero_subscripts },
 { "vcd_preserve_glitches", f_vcd_preserve_glitches },

@@ -811,6 +811,7 @@ NULL, /* cachedtrace 382 */
 NULL, /* shift_click_trace 383 */
 0, /* trtarget_signalwindow_c_1 384 */
 NULL, /* starting_unshifted_trace */
+0, /* use_standard_trace_select */
 1, /* use_standard_clicking */
 0, /* std_collapse_pressed */
 0, /* std_dnd_tgt_on_signalarea */
@@ -1804,6 +1805,7 @@ void reload_into_new_context_2(void)
  new_globals->show_base = GLOBALS->show_base;
  new_globals->display_grid = GLOBALS->display_grid;
  new_globals->highlight_wavewindow = GLOBALS->highlight_wavewindow;
+ new_globals->use_standard_trace_select = GLOBALS->use_standard_trace_select;
  new_globals->use_big_fonts = GLOBALS->use_big_fonts;
  new_globals->use_full_precision = GLOBALS->use_full_precision;
  new_globals->use_frequency_delta = GLOBALS->use_frequency_delta;
@@ -2664,6 +2666,7 @@ switch(type)
 							GLOBALS->show_base = g_old->show_base;
 							GLOBALS->display_grid = g_old->display_grid;
 							GLOBALS->highlight_wavewindow = g_old->highlight_wavewindow;
+							GLOBALS->use_standard_trace_select = g_old->use_standard_trace_select;
 							GLOBALS->disable_mouseover = g_old->disable_mouseover;
 							GLOBALS->keep_xz_colors = g_old->keep_xz_colors;
 							GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;

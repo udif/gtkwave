@@ -1802,6 +1802,49 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 #endif
 }
 /**/
+void menu_enable_standard_trace_select(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nStandard Trace Select");
+        help_text(
+		" when enabled,"
+		" keeps the currently selected traces from deselecting on mouse button press."
+		" This allows drag and drop to function more smoothly.  As this behavior is not"
+		" how GTK normally functions, it is by default disabled."
+        );
+        }
+	else
+	{
+#ifndef WAVE_USE_MLIST_T
+	if(!GLOBALS->use_standard_trace_select)
+		{
+		status_text("Standard Trace Select enabled.\n");
+		GLOBALS->use_standard_trace_select=~0;
+		}
+		else
+		{
+		status_text("Standard Trace Select disabled.\n");
+		GLOBALS->use_standard_trace_select=0;
+		}
+#else
+        GLOBALS->use_standard_trace_select = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_ESTS]));
+        if(GLOBALS->use_standard_trace_select)
+                {
+                status_text("Standard Trace Select enabled.\n");
+                }
+                else
+                {
+                status_text("Standard Trace Select disabled.\n");
+                }
+#endif
+	}
+
+#ifndef WAVE_USE_MLIST_T
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_ESTS].path))->active=(GLOBALS->use_standard_trace_select)?TRUE:FALSE;
+#endif
+}
+/**/
 void menu_enable_dynamic_resize(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
@@ -6146,6 +6189,8 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/View/Show Base Symbols", "<Alt>F1", menu_show_base, WV_MENU_VSBS, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP10, "<Separator>"),
       /* 110 */
+    WAVE_GTKIFE("/View/Standard Trace Select", NULL, menu_enable_standard_trace_select, WV_MENU_ESTS, "<ToggleItem>"),
+    WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP10A, "<Separator>"),
     WAVE_GTKIFE("/View/Dynamic Resize", "<Alt>9", menu_enable_dynamic_resize, WV_MENU_VDR, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP11, "<Separator>"),
     WAVE_GTKIFE("/View/Center Zooms", "F8", menu_center_zooms, WV_MENU_VCZ, "<ToggleItem>"),
@@ -6272,6 +6317,8 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VDR].path))->active=(GLOBALS->do_resize_signals)?TRUE:FALSE;
 
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_ESTS].path))->active=(GLOBALS->use_standard_trace_select)?TRUE:FALSE;
+
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VCMU].path))->active=(GLOBALS->constant_marker_update)?TRUE:FALSE;
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VCZ].path))->active=(GLOBALS->do_zoom_center)?TRUE:FALSE;
@@ -6319,6 +6366,7 @@ gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSMO]), !G
 
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSBS]), GLOBALS->show_base);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VDR]), GLOBALS->do_resize_signals);
+gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_ESTS]), GLOBALS->use_standard_trace_select);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VCMU]), GLOBALS->constant_marker_update);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VCZ]), GLOBALS->do_zoom_center);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VDRV]), GLOBALS->use_roundcaps);

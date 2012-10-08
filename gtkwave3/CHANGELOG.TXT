@@ -1259,4 +1259,5 @@
 		Added experimental highlight_wavewindow rc variable which
 		allows signals also to be highlighted in the wave window
 		using the value for color_grid.
-		
+		Added use_standard_trace_select rc variable and related
+		menu option.

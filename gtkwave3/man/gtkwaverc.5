@@ -324,6 +324,9 @@ A nonzero value indicates that the scroll wheel on the mouse should be used to s
 \fBuse_standard_clicking\fR <\fIvalue\fP>
 This option no longer has any effect in gtkwave: normal GTK click semantics are used in the signalwindow.
 .TP 
+\fBuse_standard_trace_select\fR <\fIvalue\fP>
+A nonzero value keeps the currently selected traces from deselecting on mouse button press. This allows drag and drop to function more smoothly.  As this behavior is not how GTK normally functions, it is by default disabled.
+.TP 
 \fBuse_toolbutton_interface\fR <\fIvalue\fP>
 A nonzero value indicates that a toolbar with buttons should be at the top of the screen instead of the traditional style gtkwave button groups.  Default is on.
 .TP

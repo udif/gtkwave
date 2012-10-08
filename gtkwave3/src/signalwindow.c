@@ -1136,8 +1136,9 @@ if((GLOBALS->traces.visible)&&(GLOBALS->signalpixmap))
 			if(t) { t->flags |= TR_HIGHLIGHT; }  /* scan-build */
 			}
 		}
-	/*	else if(!(t->flags & TR_HIGHLIGHT)) Ben Sferrazza suggested fix rather than a regular "else" */
-else
+	/*	else if(!(t->flags & TR_HIGHLIGHT)) Ben Sferrazza suggested fix rather than a regular "else" 11aug08 */
+	/*	changed to add use_standard_trace_select below to make this selectable, Sophana K request 08oct12 */
+else if((!GLOBALS->use_standard_trace_select) || (!(t->flags & TR_HIGHLIGHT)))
 		{
 		GLOBALS->starting_unshifted_trace = t;
 
