@@ -203,6 +203,7 @@ if(must_update_screen)
 
 GLOBALS->dnd_cursor_timer = 0;
 GLOBALS->dnd_state = 0;
+GLOBALS->standard_trace_dnd_degate = 1;
 }
 
 /*
@@ -1138,7 +1139,7 @@ if((GLOBALS->traces.visible)&&(GLOBALS->signalpixmap))
 		}
 	/*	else if(!(t->flags & TR_HIGHLIGHT)) Ben Sferrazza suggested fix rather than a regular "else" 11aug08 */
 	/*	changed to add use_standard_trace_select below to make this selectable, Sophana K request 08oct12 */
-else if( (!GLOBALS->use_standard_trace_select) || ((t)&&(!(t->flags & TR_HIGHLIGHT))) )
+else if( (!GLOBALS->use_standard_trace_select) || (GLOBALS->standard_trace_dnd_degate) || ((t)&&(!(t->flags & TR_HIGHLIGHT))) )
 		{
 		GLOBALS->starting_unshifted_trace = t;
 
@@ -1151,6 +1152,8 @@ else if( (!GLOBALS->use_standard_trace_select) || ((t)&&(!(t->flags & TR_HIGHLIG
 
 		if(t) { t->flags |= TR_HIGHLIGHT; } /* scan-build */
 		}
+
+	GLOBALS->standard_trace_dnd_degate = 0;
 
 	if(event->type == GDK_2BUTTON_PRESS)
 	  {
