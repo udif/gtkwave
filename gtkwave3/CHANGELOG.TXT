@@ -1261,3 +1261,5 @@
 		using the value for color_grid.
 		Added use_standard_trace_select rc variable and related
 		menu option.
+3.3.42	13nov12	Fix to prevent missing group openings from keeping other
+		signals in the viewer that follow from displaying.

@@ -1681,6 +1681,7 @@ else if (*w2 == '[')
 	else
 	{
 	int rc = maketraces(w, alias, 0);
+
 	if(rc)
 		{
 		return(rc);
@@ -1693,6 +1694,13 @@ else if (*w2 == '[')
 			{
 			rc = parsewavline(newl, alias, depth+1);
 			free_2(newl);
+			}
+
+		/* prevent malformed group openings [missing group opening] from keeping other signals from displaying */
+		if((!rc)&&(GLOBALS->default_flags&TR_GRP_BEGIN))
+			{
+			AddBlankTrace(w);
+			rc = ~0;
 			}
 
 		return(rc);
