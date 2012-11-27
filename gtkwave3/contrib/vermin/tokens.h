@@ -41,6 +41,36 @@ extern void v_module_body();
 #endif
 
 #ifdef __USE_PROTOS
+void v_v2k_list_of_ports(void);
+#else
+extern void v_v2k_list_of_ports();
+#endif
+
+#ifdef __USE_PROTOS
+void v_v2k_iio_declaration(void);
+#else
+extern void v_v2k_iio_declaration();
+#endif
+
+#ifdef __USE_PROTOS
+void v_v2k_input_declaration(void);
+#else
+extern void v_v2k_input_declaration();
+#endif
+
+#ifdef __USE_PROTOS
+void v_v2k_output_declaration(void);
+#else
+extern void v_v2k_output_declaration();
+#endif
+
+#ifdef __USE_PROTOS
+void v_v2k_inout_declaration(void);
+#else
+extern void v_v2k_inout_declaration();
+#endif
+
+#ifdef __USE_PROTOS
 void v_list_of_ports(void);
 #else
 extern void v_list_of_ports();
@@ -806,8 +836,8 @@ extern SetWordType zzerr5[];
 extern SetWordType zzerr6[];
 extern SetWordType zzerr7[];
 extern SetWordType zzerr8[];
-extern SetWordType zzerr9[];
 extern SetWordType setwd2[];
+extern SetWordType zzerr9[];
 extern SetWordType zzerr10[];
 extern SetWordType zzerr11[];
 extern SetWordType zzerr12[];
@@ -823,18 +853,18 @@ extern SetWordType zzerr19[];
 extern SetWordType setwd5[];
 extern SetWordType zzerr20[];
 extern SetWordType zzerr21[];
-extern SetWordType setwd6[];
 extern SetWordType zzerr22[];
 extern SetWordType zzerr23[];
 extern SetWordType zzerr24[];
+extern SetWordType setwd6[];
 extern SetWordType zzerr25[];
-extern SetWordType setwd7[];
 extern SetWordType zzerr26[];
+extern SetWordType setwd7[];
 extern SetWordType zzerr27[];
 extern SetWordType zzerr28[];
 extern SetWordType zzerr29[];
-extern SetWordType setwd8[];
 extern SetWordType zzerr30[];
+extern SetWordType setwd8[];
 extern SetWordType zzerr31[];
 extern SetWordType zzerr32[];
 extern SetWordType zzerr33[];
@@ -842,27 +872,27 @@ extern SetWordType setwd9[];
 extern SetWordType zzerr34[];
 extern SetWordType zzerr35[];
 extern SetWordType zzerr36[];
-extern SetWordType setwd10[];
 extern SetWordType zzerr37[];
 extern SetWordType zzerr38[];
+extern SetWordType setwd10[];
 extern SetWordType zzerr39[];
 extern SetWordType zzerr40[];
-extern SetWordType setwd11[];
 extern SetWordType zzerr41[];
+extern SetWordType setwd11[];
 extern SetWordType zzerr42[];
-extern SetWordType setwd12[];
 extern SetWordType zzerr43[];
 extern SetWordType zzerr44[];
-extern SetWordType setwd13[];
 extern SetWordType zzerr45[];
+extern SetWordType setwd12[];
 extern SetWordType zzerr46[];
 extern SetWordType zzerr47[];
 extern SetWordType zzerr48[];
-extern SetWordType setwd14[];
+extern SetWordType setwd13[];
 extern SetWordType zzerr49[];
 extern SetWordType zzerr50[];
-extern SetWordType setwd15[];
+extern SetWordType setwd14[];
 extern SetWordType zzerr51[];
+extern SetWordType setwd15[];
 extern SetWordType zzerr52[];
 extern SetWordType zzerr53[];
 extern SetWordType zzerr54[];
@@ -870,68 +900,75 @@ extern SetWordType zzerr55[];
 extern SetWordType setwd16[];
 extern SetWordType zzerr56[];
 extern SetWordType zzerr57[];
-extern SetWordType setwd17[];
 extern SetWordType zzerr58[];
 extern SetWordType zzerr59[];
 extern SetWordType zzerr60[];
-extern SetWordType setwd18[];
+extern SetWordType setwd17[];
 extern SetWordType zzerr61[];
 extern SetWordType zzerr62[];
+extern SetWordType setwd18[];
 extern SetWordType zzerr63[];
-extern SetWordType setwd19[];
 extern SetWordType zzerr64[];
 extern SetWordType zzerr65[];
-extern SetWordType setwd20[];
+extern SetWordType setwd19[];
 extern SetWordType zzerr66[];
 extern SetWordType zzerr67[];
-extern SetWordType setwd21[];
 extern SetWordType zzerr68[];
+extern SetWordType setwd20[];
 extern SetWordType zzerr69[];
 extern SetWordType zzerr70[];
 extern SetWordType zzerr71[];
-extern SetWordType setwd22[];
+extern SetWordType setwd21[];
 extern SetWordType zzerr72[];
 extern SetWordType zzerr73[];
+extern SetWordType setwd22[];
 extern SetWordType zzerr74[];
 extern SetWordType zzerr75[];
 extern SetWordType zzerr76[];
 extern SetWordType setwd23[];
 extern SetWordType zzerr77[];
 extern SetWordType zzerr78[];
-extern SetWordType setwd24[];
 extern SetWordType zzerr79[];
 extern SetWordType zzerr80[];
+extern SetWordType setwd24[];
 extern SetWordType zzerr81[];
-extern SetWordType setwd25[];
 extern SetWordType zzerr82[];
 extern SetWordType zzerr83[];
+extern SetWordType setwd25[];
 extern SetWordType zzerr84[];
 extern SetWordType zzerr85[];
 extern SetWordType zzerr86[];
-extern SetWordType setwd26[];
 extern SetWordType zzerr87[];
+extern SetWordType setwd26[];
 extern SetWordType zzerr88[];
 extern SetWordType zzerr89[];
 extern SetWordType zzerr90[];
 extern SetWordType zzerr91[];
-extern SetWordType setwd27[];
 extern SetWordType zzerr92[];
+extern SetWordType setwd27[];
 extern SetWordType zzerr93[];
 extern SetWordType zzerr94[];
 extern SetWordType zzerr95[];
-extern SetWordType zzerr96[];
 extern SetWordType setwd28[];
+extern SetWordType zzerr96[];
 extern SetWordType zzerr97[];
 extern SetWordType zzerr98[];
-extern SetWordType setwd29[];
 extern SetWordType zzerr99[];
 extern SetWordType zzerr100[];
 extern SetWordType zzerr101[];
-extern SetWordType setwd30[];
+extern SetWordType setwd29[];
 extern SetWordType zzerr102[];
 extern SetWordType zzerr103[];
+extern SetWordType setwd30[];
 extern SetWordType zzerr104[];
-extern SetWordType setwd31[];
 extern SetWordType zzerr105[];
 extern SetWordType zzerr106[];
+extern SetWordType setwd31[];
+extern SetWordType zzerr107[];
+extern SetWordType zzerr108[];
+extern SetWordType zzerr109[];
 extern SetWordType setwd32[];
+extern SetWordType zzerr110[];
+extern SetWordType zzerr111[];
+extern SetWordType zzerr112[];
+extern SetWordType setwd33[];

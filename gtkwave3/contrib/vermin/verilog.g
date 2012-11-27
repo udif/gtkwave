@@ -1201,9 +1201,23 @@ v_module:	( V_MODULE | V_MACROMODULE )
 			>>
 		;		
 
-v_module_body:		v_list_of_ports V_SEMI
+v_module_body:		(v_list_of_ports|v_v2k_list_of_ports) V_SEMI
 			(v_module_item)* 
 			;
+
+v_v2k_list_of_ports: V_LP v_v2k_iio_declaration (V_COMMA v_v2k_iio_declaration)* V_RP			// v2k1
+		;
+
+v_v2k_iio_declaration:	v_v2k_input_declaration | v_v2k_output_declaration | v_v2k_inout_declaration	// v2k1
+		;
+
+v_v2k_input_declaration: V_INPUT v_optnettype v_optsigned (v_range | ) v_name_of_variable		// v2k1
+                ;
+v_v2k_output_declaration: V_OUTPUT v_optnettype v_optsigned (v_range | ) v_name_of_variable		// v2k1
+                ;
+v_v2k_inout_declaration: V_INOUT v_optnettype v_optsigned (v_range | ) v_name_of_variable		// v2k1
+                ;
+
 
 v_list_of_ports: V_LP v_port ( V_COMMA v_port)* V_RP
 		|
