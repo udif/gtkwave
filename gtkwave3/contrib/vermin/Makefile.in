@@ -527,7 +527,7 @@ uninstall-am: uninstall-binPROGRAMS
 	uninstall-am uninstall-binPROGRAMS
 
 
-verilog.c parser.dlg tokens.h err.c : $(srcdir)/verilog.g
+verilog.c parser.dlg tokens.h : $(srcdir)/verilog.g
 	$(ANTLR) $(AFLAGS) $(srcdir)/verilog.g
 
 scan.c mode.h : parser.dlg
