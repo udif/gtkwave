@@ -1,4 +1,4 @@
-
+// test
 /* parser.dlg -- DLG Description of scanner
  *
  * Generated from: ./antlr.g
