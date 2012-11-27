@@ -18,7 +18,7 @@ vermin_SOURCES= \
 	keyword_tokens.h keywordhash.c mode.h preproc.c scan.c \
 	symbol.c symbol.h tokens.h verilog.c vpp_common.h shred.h shred.c
 
-verilog.c parser.dlg tokens.h : $(srcdir)/verilog.g
+verilog.c parser.dlg tokens.h err.c : $(srcdir)/verilog.g
 	$(ANTLR) $(AFLAGS) $(srcdir)/verilog.g
 
 scan.c mode.h : parser.dlg
