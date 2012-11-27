@@ -1098,6 +1098,12 @@ v_description:	v_module
 v_config: V_CONFIG (~V_ENDCONFIG)* V_ENDCONFIG
 		;
 
+// v2k1
+v_module_parameters:
+		V_POUND	V_LP V_PARAMETER v_param_assignment (V_COMMA v_param_assignment)* V_RP
+		|
+		;
+
 v_module:	( V_MODULE | V_MACROMODULE ) 
 			<< {
 				struct i_symbol_scope *sb = (struct i_symbol_scope *)calloc(1, sizeof(struct i_symbol_scope)); 
@@ -1137,6 +1143,8 @@ v_module:	( V_MODULE | V_MACROMODULE )
 					}
 			   }
 			>>
+
+			v_module_parameters // v2k1
 
 			v_module_body 
 
@@ -1609,7 +1617,7 @@ v_optsigned:	V_SIGNED
 		;
 
 v_range:	V_LBRACK v_expression 
-			V_COLON v_expression V_RBRACK
+			V_COLON v_expression  V_RBRACK
 		;
 
 v_list_of_assignments: v_assignment (V_COMMA v_assignment)* 
@@ -1878,17 +1886,18 @@ v_constant_expression: v_expression
 //
 // section 7
 //
-
-v_lvalue:	v_identifier 
-		( 
-		V_LBRACK v_expression 
-		( V_COLON v_expression 
-		<< $$.prim = i_primary_symrange_make($1.1.symbol,$2.2.prim,$3.2.prim); >> 
-		| << $$.prim = i_primary_symbit_make($1.1.symbol,$2.2.prim); >>
-		) V_RBRACK | << $$.prim = i_primary_make(PRIM_SYMBOL,$1.1.symbol); >>
-		)
-		| v_concatenation << $$.prim = $1.prim; >>
-		;
+v_lvalue:       v_identifier
+                (
+                V_LBRACK v_expression
+                ( V_COLON v_expression
+                << $$.prim = i_primary_symrange_make($1.1.symbol,$2.2.prim,$3.2.prim); >>
+                | << $$.prim = i_primary_symbit_make($1.1.symbol,$2.2.prim); >>
+                ) V_RBRACK
+		v_opt_array_handling // v2k1 FIXME for symmake
+		| << $$.prim = i_primary_make(PRIM_SYMBOL,$1.1.symbol); >>
+                )
+                | v_concatenation << $$.prim = $1.prim; >>
+                ;
 
 v_expression:	<< push_exp_now(); >> v_expression2 << 
 			if(!zzerrors)
@@ -1964,11 +1973,15 @@ v_binary_operator: V_POW	<< $$.oper = i_oper_make(V_POW,  11); >>
 		| V_OR2		<< $$.oper = i_oper_make(V_OR2,   2); >>
 		;	
 
+// v2k1
+v_opt_array_handling: ( V_LBRACK v_expression (V_COLON v_expression |) V_RBRACK | );
+
 v_primary:	v_number	<< $$.prim = i_primary_make(PRIM_NUMBER,$1.num); >>
 		| v_identifier 
 		  ( V_LBRACK v_expression 
 		  ( V_RBRACK 				
 			<< $$.prim= i_primary_symbit_make($1.1.symbol,$2.2.prim); >> 
+				v_opt_array_handling // v2k1 FIXME for symmake
 			| V_COLON v_expression V_RBRACK 
 			<< $$.prim= i_primary_symrange_make($1.1.symbol,$2.2.prim,$3.2.prim); >> ) 
 			| << $$.prim= i_primary_make(PRIM_SYMBOL,$1.1.symbol); >> )
