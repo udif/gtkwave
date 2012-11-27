@@ -10,4 +10,3 @@
 #define COMMENTS 9
 #define ACTIONS 10
 #define PARSE_ENUM_FILE 11
-
