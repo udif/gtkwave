@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2009.
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -1267,6 +1267,43 @@ bail:			g_free(sel);
 
 return(FALSE); /* call remaining handlers... */
 }
+
+#if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+static        gint
+scroll_event( GtkWidget * widget, GdkEventScroll * event, gpointer text)
+{
+  GtkTextView *text_view = GTK_TEXT_VIEW(text);
+  GtkAdjustment *hadj = text_view->hadjustment;
+  GtkAdjustment *vadj = text_view->vadjustment;
+
+  gdouble s_val = gtk_adjustment_get_step_increment(vadj);
+  gdouble p_val = gtk_adjustment_get_page_increment(vadj);
+
+  switch ( event->direction )
+  {
+    case GDK_SCROLL_UP:
+	vadj->value -= s_val;
+	if(vadj->value < vadj->lower) vadj->value = vadj->lower;
+
+	gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "changed");
+        gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "value_changed");
+
+      break;
+
+    case GDK_SCROLL_DOWN:
+	vadj->value += s_val;
+	if(vadj->value > vadj->upper - p_val) vadj->value = vadj->upper - p_val;
+
+	gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "changed");
+        gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "value_changed");
+
+    default:
+      break;
+  }
+  return(TRUE);
+}
+#endif
+
    
 /* Create a scrolled text area that displays a "message" */
 static GtkWidget *create_log_text (GtkWidget **textpnt)
@@ -1342,6 +1379,7 @@ gtk_signal_connect(GTK_OBJECT(text), "button_release_event",
                        GTK_SIGNAL_FUNC(button_release_event), NULL);
 
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+gtk_signal_connect (GTK_OBJECT (text), "scroll_event",GTK_SIGNAL_FUNC(scroll_event), text);
 gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_CHAR);
 #else
 gtk_text_set_word_wrap(GTK_TEXT(text), FALSE);
