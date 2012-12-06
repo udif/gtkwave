@@ -1265,3 +1265,5 @@
 		signals in the viewer that follow from displaying.
 		Adding more support for newer constructs in Vermin.
 		Added scrollwheel support to rtlbrowse code windows.
+		Added fseeko() return checking in fstapi.c to prevent
+		errors with dynamically updated files.

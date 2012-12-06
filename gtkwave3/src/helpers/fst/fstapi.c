@@ -3820,7 +3820,7 @@ for(;;)
 	uint64_t tpval;
 	int ti;
 
-	fseeko(xc->f, blkpos + seclen - 24, SEEK_SET);
+	if(fseeko(xc->f, blkpos + seclen - 24, SEEK_SET) != 0) break;
 	tsec_uclen = fstReaderUint64(xc->f);
 	tsec_clen = fstReaderUint64(xc->f);
 	tsec_nitems = fstReaderUint64(xc->f);
