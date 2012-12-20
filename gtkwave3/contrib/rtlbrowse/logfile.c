@@ -1273,7 +1273,7 @@ static        gint
 scroll_event( GtkWidget * widget, GdkEventScroll * event, gpointer text)
 {
   GtkTextView *text_view = GTK_TEXT_VIEW(text);
-  GtkAdjustment *hadj = text_view->hadjustment;
+  /* GtkAdjustment *hadj = text_view->hadjustment; */
   GtkAdjustment *vadj = text_view->vadjustment;
 
   gdouble s_val = gtk_adjustment_get_step_increment(vadj);
