@@ -1267,3 +1267,4 @@
 		Added scrollwheel support to rtlbrowse code windows.
 		Added fseeko() return checking in fstapi.c to prevent
 		errors with dynamically updated files.
+3.3.43	31dec12	<< update info for year end >>
