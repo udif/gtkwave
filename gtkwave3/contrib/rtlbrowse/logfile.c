@@ -1268,7 +1268,7 @@ bail:			g_free(sel);
 return(FALSE); /* call remaining handlers... */
 }
 
-#if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+#if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN) && GTK_CHECK_VERSION(2,14,0)
 static        gint
 scroll_event( GtkWidget * widget, GdkEventScroll * event, gpointer text)
 {
@@ -1379,7 +1379,9 @@ gtk_signal_connect(GTK_OBJECT(text), "button_release_event",
                        GTK_SIGNAL_FUNC(button_release_event), NULL);
 
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+#if GTK_CHECK_VERSION(2,14,0)
 gtk_signal_connect (GTK_OBJECT (text), "scroll_event",GTK_SIGNAL_FUNC(scroll_event), text);
+#endif
 gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_CHAR);
 #else
 gtk_text_set_word_wrap(GTK_TEXT(text), FALSE);

@@ -1267,5 +1267,5 @@
 		Added scrollwheel support to rtlbrowse code windows.
 		Added fseeko() return checking in fstapi.c to prevent
 		errors with dynamically updated files.
-3.3.43	31dec12	<< update info for year end >>
-		<< this is an svn test >>
+3.3.43	31dec12	Fix for rtlbrowse for gtk_adjustment_get_page_increment and 
+		gtk_adjustment_get_step_increment introduced in 2.14. 
