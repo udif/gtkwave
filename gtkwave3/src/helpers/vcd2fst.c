@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Tony Bybell.
+ * Copyright (c) 2009-2013 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -30,11 +30,20 @@
 #include "../../contrib/rtlbrowse/jrb.h"
 #include "wave_locale.h"
 
-
 #ifdef EXTLOAD_SUFFIX
 #ifdef EXTCONV_PATH
 #define VCD2FST_EXTLOAD_CONV
 #endif
+#endif
+
+#ifdef EXT2LOAD_SUFFIX
+#ifdef EXT2CONV_PATH
+#define VCD2FST_EXT2LOAD_CONV
+#endif
+#endif
+
+#if defined(VCD2FST_EXTLOAD_CONV) || defined(VCD2FST_EXT2LOAD_CONV)
+#define VCD2FST_EXTLOADERS_CONV
 #endif
 
 /*********************************************************/
@@ -252,6 +261,7 @@ unsigned int hash_max = 0;
 int *node_len_array = NULL;
 int is_popen = 0;
 #ifdef VCD2FST_EXTLOAD_CONV
+int is_extload = 0;
 void *xc = NULL;
 #endif
 
@@ -267,6 +277,7 @@ if(!strcmp("-", vname))
 		sprintf(bin_fixbuff, EXTCONV_PATH" %s", vname);
 		f = popen(bin_fixbuff, "r");
 		is_popen = 1;
+		is_extload = 1;
 #ifndef _WAVE_HAVE_JUDY
 		comp_name_jrb = make_jrb();
 #endif
@@ -275,7 +286,18 @@ if(!strcmp("-", vname))
 		else
 #endif
 		{
-		f = fopen(vname, "rb");
+#ifdef VCD2FST_EXT2LOAD_CONV
+		if(suffix_check(vname, "."EXT2LOAD_SUFFIX))
+			{
+			sprintf(bin_fixbuff, EXT2CONV_PATH" %s", vname);
+			f = popen(bin_fixbuff, "r");
+			is_popen = 1;
+			}
+			else
+#endif
+			{
+			f = fopen(vname, "rb");
+			}
 		}
 	}
 
@@ -294,7 +316,7 @@ if(!ctx)
 	}
 
 #if defined(VCD2FST_EXTLOAD_CONV)
-if(is_popen)
+if(is_popen && is_extload)
 	{
 	xc = fstReaderOpenForUtilitiesOnly();
 	}
@@ -1074,6 +1096,21 @@ return(0);
 
 void print_help(char *nam)
 {
+#ifdef VCD2FST_EXTLOADERS_CONV
+#if defined(VCD2FST_EXTLOAD_CONV) && defined(VCD2FST_EXT2LOAD_CONV)
+
+int slen = strlen(EXTLOAD_SUFFIX) + 1 + strlen(EXT2LOAD_SUFFIX);
+char *ucase_ext = calloc(1, slen+1);
+int i;
+
+sprintf(ucase_ext, "%s/%s", EXTLOAD_SUFFIX, EXT2LOAD_SUFFIX);
+
+for(i=0;i<slen;i++)
+	{
+	ucase_ext[i] = toupper(ucase_ext[i]);
+	}
+
+#else
 #ifdef VCD2FST_EXTLOAD_CONV
 int slen = strlen(EXTLOAD_SUFFIX);
 char *ucase_ext = calloc(1, slen+1);
@@ -1084,11 +1121,29 @@ for(i=0;i<slen;i++)
 	ucase_ext[i] = toupper(EXTLOAD_SUFFIX[i]);
 	}
 #endif
+#ifdef VCD2FST_EXT2LOAD_CONV
+int slen = strlen(EXT2LOAD_SUFFIX);
+char *ucase_ext = calloc(1, slen+1);
+int i;
+
+for(i=0;i<slen;i++)
+	{
+	ucase_ext[i] = toupper(EXT2LOAD_SUFFIX[i]);
+	}
+#endif
+#endif
+
+#endif
+
+
+
+
+
 
 #ifdef __linux__ 
 printf(
 "Usage: %s [OPTION]... [VCDFILE] [FSTFILE]\n\n"
-#ifdef VCD2FST_EXTLOAD_CONV
+#ifdef VCD2FST_EXTLOADERS_CONV
 "  -v, --vcdname=FILE         specify VCD/%s input filename\n"
 #else
 "  -v, --vcdname=FILE         specify VCD input filename\n"
@@ -1102,14 +1157,14 @@ printf(
 "Note that VCDFILE and FSTFILE are optional provided the\n"
 "--vcdname and --fstname options are specified.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam
-#ifdef VCD2FST_EXTLOAD_CONV
+#ifdef VCD2FST_EXTLOADERS_CONV
 ,ucase_ext
 #endif
 );
 #else
 printf(
 "Usage: %s [OPTION]... [VCDFILE] [FSTFILE]\n\n"
-#ifdef VCD2FST_EXTLOAD_CONV
+#ifdef VCD2FST_EXTLOADERS_CONV
 "  -v FILE                    specify VCD/%s input filename\n"
 #else
 "  -v FILE                    specify VCD input filename\n"
@@ -1123,13 +1178,13 @@ printf(
 "Note that VCDFILE and FSTFILE are optional provided the\n"
 "--vcdname and --fstname options are specified.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam
-#ifdef VCD2FST_EXTLOAD_CONV
+#ifdef VCD2FST_EXTLOADERS_CONV
 ,ucase_ext
 #endif
 );
 #endif
 
-#ifdef VCD2FST_EXTLOAD_CONV
+#ifdef VCD2FST_EXTLOADERS_CONV
 free(ucase_ext);
 #endif
 

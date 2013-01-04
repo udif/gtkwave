@@ -343,6 +343,13 @@ if test "$EXTDEBUG2" != "notfound" ; then
 	EXTLOAD_CFLAGS="$EXTLOAD_CFLAGS -DEXTCONV_PATH=\\\"$EXTDEBUG2\\\""
 fi
 
+# enables .vpd as input filetype in vcd2fst, and also gtkwave -o
+
+AC_PATH_PROG(EXTDEBUG3, [vpd2vcd], [notfound])
+if test "$EXTDEBUG3" != "notfound" ; then
+	EXTLOAD_CFLAGS="$EXTLOAD_CFLAGS -DEXT2CONV_PATH=\\\"$EXTDEBUG3\\\" -DEXT2LOAD_SUFFIX=\\\"vpd\\\""
+fi
+
 AC_SUBST(EXTLOAD_CFLAGS)
 
 #
