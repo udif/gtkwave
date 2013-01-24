@@ -413,6 +413,8 @@ static char *vcd_autosave_name="vcd_autosave.sav";
 char *output_name = NULL;
 char *chdir_cache = NULL;
 
+int magic_word_filetype = G_FT_UNKNOWN;
+
 int i;
 int c;
 char is_vcd=0;
@@ -1272,6 +1274,11 @@ strcat(GLOBALS->winname,GLOBALS->loaded_file_name);
 
 loader_check_head:
 
+if(!is_missing_file) 
+	{
+	magic_word_filetype = determine_gtkwave_filetype(GLOBALS->loaded_file_name);
+	}
+
 if(is_missing_file)
 	{
 	GLOBALS->loaded_file_type = MISSING_FILE;
@@ -1292,7 +1299,7 @@ if(suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX) && !opt_vcd)
 	}
 else
 #endif
-if(suffix_check(GLOBALS->loaded_file_name, ".lxt") || suffix_check(GLOBALS->loaded_file_name, ".lx2") || suffix_check(GLOBALS->loaded_file_name, ".lxt2"))
+if((magic_word_filetype == G_FT_LXT) || (magic_word_filetype == G_FT_LXT2) || suffix_check(GLOBALS->loaded_file_name, ".lxt") || suffix_check(GLOBALS->loaded_file_name, ".lx2") || suffix_check(GLOBALS->loaded_file_name, ".lxt2"))
 	{
 	FILE *f = fopen(GLOBALS->loaded_file_name, "rb");
 	int typ = 0;
@@ -1333,7 +1340,7 @@ if(suffix_check(GLOBALS->loaded_file_name, ".lxt") || suffix_check(GLOBALS->load
 		}	
 	}
 else
-if(suffix_check(GLOBALS->loaded_file_name, ".fst"))
+if((magic_word_filetype == G_FT_FST) || suffix_check(GLOBALS->loaded_file_name, ".fst"))
 	{
 #if !defined _MSC_VER
 	GLOBALS->stems_type = WAVE_ANNO_FST;
@@ -1349,7 +1356,7 @@ if(suffix_check(GLOBALS->loaded_file_name, ".fst"))
 		}
 	}
 else
-if(suffix_check(GLOBALS->loaded_file_name, ".vzt"))
+if((magic_word_filetype == G_FT_VZT) || suffix_check(GLOBALS->loaded_file_name, ".vzt"))
 	{
 #if !defined _MSC_VER
 	GLOBALS->stems_type = WAVE_ANNO_VZT;

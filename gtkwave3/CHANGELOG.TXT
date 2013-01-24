@@ -1267,7 +1267,9 @@
 		Added scrollwheel support to rtlbrowse code windows.
 		Added fseeko() return checking in fstapi.c to prevent
 		errors with dynamically updated files.
-3.3.43	03jan13	Fix for rtlbrowse for gtk_adjustment_get_page_increment and 
+3.3.43	24jan13	Fix for rtlbrowse for gtk_adjustment_get_page_increment and 
 		gtk_adjustment_get_step_increment introduced in 2.14. 
 		Added VPD support via vpd2vcd.exe.  To use, specify -o
 		at the command line.  (e.g., gtkwave -o test.vpd)
+		Added autodetect for LXT, LXT2, VZT, FST regardless of the
+		filename suffix.

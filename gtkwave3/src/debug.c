@@ -23,6 +23,14 @@
 #include <Judy.h>
 #endif
 
+#if !defined __MINGW32__ && !defined _MSC_VER
+#include <sys/stat.h>
+#include "fstapi.h"
+#include "lxt2_read.h"
+#include "lxt.h"
+#include "vzt_read.h"
+#endif
+
 #undef free_2
 #undef malloc_2
 #undef realloc_2
@@ -635,3 +643,106 @@ return(NULL);
 #endif
 #endif
 }
+
+
+/******************************************************/
+
+#if !defined __MINGW32__ && !defined _MSC_VER
+
+int determine_gtkwave_filetype(const char *path)
+{
+struct stat buf;
+int rc = G_FT_UNKNOWN;
+
+memset(&buf, 0, sizeof(struct stat));
+if(stat(path, &buf) == 0)
+	{
+	if(S_ISREG(buf.st_mode))
+		{
+		FILE *f = fopen(path, "rb");
+		if(f)
+			{
+			unsigned int hdr[2] = { 0, 0 };
+			unsigned int magic_word;
+
+			hdr[0] = fgetc(f);
+			hdr[1] = fgetc(f);
+
+			if((hdr[0] != EOF) && (hdr[1] != EOF))
+				{
+				magic_word = (hdr[0] * 256) + hdr[1];
+
+				switch(magic_word)
+					{
+					case LT_HDRID:		rc = G_FT_LXT; break;
+					case LXT2_RD_HDRID:	rc = G_FT_LXT2; break;
+					case VZT_RD_HDRID:	rc = G_FT_VZT; break;
+					default: 		break;
+					}
+
+				if(rc == G_FT_UNKNOWN)
+					{
+					if(hdr[0] == FST_BL_ZWRAPPER)
+						{
+						rc = G_FT_FST;
+						}
+					else if(hdr[0] == FST_BL_HDR)
+						{
+						unsigned char e_ch[8];
+						int i, c;
+						double fst_real_test = (2.7182818284590452354);
+						int nfa, nfb;
+
+						for(i=0;i<23;i++)
+							{
+							if(fgetc(f) == EOF) goto chk_ex;
+							}
+
+						
+						for(i=0;i<8;i++)
+							{
+							e_ch[i] = c = fgetc(f);
+							if(c == EOF) goto chk_ex;
+							}
+
+						nfa = nfb = 0;
+						for(i=0;i<8;i++)
+							{
+							if(e_ch[i] == ((unsigned char *)&fst_real_test)[i])
+								{
+								nfa++;
+								}
+							if(e_ch[7-i] == ((unsigned char *)&fst_real_test)[i])
+								{
+								nfb++;
+								}
+							}
+
+						if((nfa == 8) || (nfb == 8))
+							{
+							rc = G_FT_FST;
+							}
+						}
+					}
+
+				}
+
+chk_ex:			fclose(f);
+			}
+		}
+	}
+
+errno = 0;
+return(rc);
+}
+
+#else
+
+int determine_gtkwave_filetype(const char *path)
+{
+return(G_FT_UNKNOWN);
+}
+
+#endif
+
+/******************************************************/

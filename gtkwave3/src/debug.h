@@ -197,5 +197,11 @@ unsigned use_new_times : 1;
 unsigned viewer_is_initialized : 1;
 };
 
+
+enum GtkwaveFileTypes { G_FT_UNKNOWN, G_FT_LXT, G_FT_LXT2, G_FT_VZT, G_FT_FST };
+
+int determine_gtkwave_filetype(const char *path);
+
+
 #endif
 
