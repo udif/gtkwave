@@ -654,6 +654,20 @@ int determine_gtkwave_filetype(const char *path)
 struct stat buf;
 int rc = G_FT_UNKNOWN;
 
+#ifdef EXTLOAD_SUFFIX
+if(suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX))
+	{
+	return(rc);
+	}
+#endif
+
+#ifdef AET2_IS_PRESENT
+if(suffix_check(GLOBALS->loaded_file_name, ".aet") || suffix_check(GLOBALS->loaded_file_name, ".ae2"))
+	{
+	return(rc);
+	}
+#endif
+
 memset(&buf, 0, sizeof(struct stat));
 if(stat(path, &buf) == 0)
 	{
