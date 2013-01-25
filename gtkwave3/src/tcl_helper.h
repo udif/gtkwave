@@ -50,7 +50,6 @@ extern tcl_cmdstruct gtkwave_commands[];
 			mult_entry = realloc_2(mult_entry, mult_len + sing_len + 1); \
 			strcpy(mult_entry + mult_len, one_entry); \
 			mult_len += sing_len; \
-			free_2(one_entry); \
 			} \
 		}
 
