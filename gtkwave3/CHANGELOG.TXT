@@ -1267,7 +1267,7 @@
 		Added scrollwheel support to rtlbrowse code windows.
 		Added fseeko() return checking in fstapi.c to prevent
 		errors with dynamically updated files.
-3.3.43	25jan13	Fix for rtlbrowse for gtk_adjustment_get_page_increment and 
+3.3.43	26jan13	Fix for rtlbrowse for gtk_adjustment_get_page_increment and 
 		gtk_adjustment_get_step_increment introduced in 2.14. 
 		Added VPD support via vpd2vcd.exe.  To use, specify -o
 		at the command line.  (e.g., gtkwave -o test.vpd)
@@ -1275,3 +1275,4 @@
 		filename suffix.
 		Crash fix for gtkwave::getDisplayedSignals, specifically
 		removing the extra free_2() in WAVE_OE_ME.
+		Added conditional compile for stat() being available.

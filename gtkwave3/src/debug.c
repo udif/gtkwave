@@ -23,7 +23,7 @@
 #include <Judy.h>
 #endif
 
-#if !defined __MINGW32__ && !defined _MSC_VER
+#ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #include "fstapi.h"
 #include "lxt2_read.h"
@@ -647,7 +647,7 @@ return(NULL);
 
 /******************************************************/
 
-#if !defined __MINGW32__ && !defined _MSC_VER
+#ifdef HAVE_SYS_STAT_H
 
 int determine_gtkwave_filetype(const char *path)
 {

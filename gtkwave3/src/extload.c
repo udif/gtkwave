@@ -52,7 +52,7 @@ exit(255);
 
 static int last_modification_check(void)
 {
-#if !defined __MINGW32__ && !defined _MSC_VER
+#ifdef HAVE_SYS_STAT_H
 struct stat buf;
 int rc;
 

@@ -285,8 +285,11 @@ GLOBALS->time_vlist_vcd_recoder_write = vlist;
 vlist_freeze(&GLOBALS->time_vlist_vcd_recoder_write);
 }
 
-
+#ifdef HAVE_SYS_STAT_H
 static void write_fastload_header(struct stat *mystat, unsigned int finalize_cnt)
+#else
+static void write_fastload_header(unsigned int finalize_cnt)
+#endif
 {
 /* 
 write out the trailer information for vcd fastload...
@@ -309,8 +312,13 @@ char *pnt;
 
 memset(buf, 0, sizeof(buf)); /* scan-build */
 
+#ifdef HAVE_SYS_STAT_H
 vlist_packer_emit_uv64((struct vlist_packer_t **)(void *)&vlist_summary_index, (guint64)mystat->st_size);
 vlist_packer_emit_uv64((struct vlist_packer_t **)(void *)&vlist_summary_index, (guint64)mystat->st_mtime);
+#else
+vlist_packer_emit_uv64((struct vlist_packer_t **)(void *)&vlist_summary_index, (guint64)0);
+vlist_packer_emit_uv64((struct vlist_packer_t **)(void *)&vlist_summary_index, (guint64)0);
+#endif
 
 vlist_packer_emit_uv32((struct vlist_packer_t **)(void *)&vlist_summary_index, finalize_cnt);
 vlist_packer_emit_uv64((struct vlist_packer_t **)(void *)&vlist_summary_index, GLOBALS->time_vlist_count_vcd_recoder_c_1);
@@ -461,7 +469,11 @@ vlist_packer_decompress_destroy((char *)depacked);
 return(rc);
 }
 
+#ifdef HAVE_SYS_STAT_H
 static int read_fastload_header(struct stat *st)
+#else
+static int read_fastload_header(void)
+#endif
 {
 int rc = 0;
 int fs_rc = fseeko(GLOBALS->vlist_handle, 0, SEEK_END);
@@ -473,8 +485,10 @@ unsigned char *depacked = NULL;
 struct vlist_t *vl;
 unsigned int list_size;
 unsigned char *pnt;
+#ifdef HAVE_SYS_STAT_H
 struct stat mystat;
 int stat_rc = stat(GLOBALS->loaded_file_name, &mystat);
+#endif
 
 if((fs_rc<0)||(!ftlen))
 	{
@@ -498,17 +512,21 @@ vlist_destroy(vl);
 pnt = depacked;
 v = 0; shamt = 0; do { v |= ((guint64)(*pnt & 0x7f)) << shamt; shamt += 7; } while(!(*(pnt++) & 0x80));
 
+#ifdef HAVE_SYS_STAT_H
 if((stat_rc)||(v != (guint64)mystat.st_size))
 	{
 	goto bail;
 	}
+#endif
 
 v = 0; shamt = 0; do { v |= ((guint64)(*pnt & 0x7f)) << shamt; shamt += 7; } while(!(*(pnt++) & 0x80));
 
+#ifdef HAVE_SYS_STAT_H
 if(v != (guint64)st->st_mtime)
 	{
 	goto bail;
 	}
+#endif
 
 rc = 1;
 GLOBALS->fastload_depacked = (char *)depacked;
@@ -2669,8 +2687,10 @@ if(GLOBALS->yytext_vcd_recoder_c_3)
 TimeType vcd_recoder_main(char *fname)
 {
 unsigned int finalize_cnt = 0;
+#ifdef HAVE_SYS_STAT_H
 struct stat mystat;
 int stat_rc = stat(fname, &mystat);
+#endif
 
 GLOBALS->pv_vcd_recoder_c_3=GLOBALS->rootv_vcd_recoder_c_3=NULL;
 GLOBALS->vcd_hier_delimeter[0]=GLOBALS->hier_delimeter;
@@ -2686,7 +2706,11 @@ if(GLOBALS->use_fastload)
 		GLOBALS->use_fastload = VCD_FSL_READ;
 
 		/* need to do a sanity check looking for time of vcd file vs recoder file, etc. */
+#ifdef HAVE_SYS_STAT_H
 		if( (stat_rc) || (!read_fastload_header(&mystat)) )
+#else
+		if(!read_fastload_header())
+#endif
 			{
 			GLOBALS->use_fastload = VCD_FSL_WRITE;
 			fclose(GLOBALS->vlist_handle);
@@ -2822,7 +2846,11 @@ if(GLOBALS->use_fastload != VCD_FSL_READ)
 
 if(GLOBALS->time_vlist_vcd_recoder_write)
 	{
+#ifdef HAVE_SYS_STAT_H
 	write_fastload_header(&mystat, finalize_cnt);
+#else
+	write_fastload_header(finalize_cnt);
+#endif
 	}
 
 

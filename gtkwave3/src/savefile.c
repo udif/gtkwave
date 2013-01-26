@@ -12,7 +12,7 @@
 #include <config.h>
 #include "savefile.h"
 #include "hierpack.h"
-#if !defined __MINGW32__ && !defined _MSC_VER
+#ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
 
@@ -69,7 +69,7 @@ if(dfn) free_2(dfn);
 if(sfn) free_2(sfn);
 
 if(modified) *modified = 0;
-#if !defined __MINGW32__ && !defined _MSC_VER
+#ifdef HAVE_SYS_STAT_H
 if(modified && rp && (dumpsiz != -1) && (dumptim != -1))
 	{
 	struct stat sbuf;
@@ -138,7 +138,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 			}
 			else
 			{
-#if !defined __MINGW32__ && !defined _MSC_VER
+#ifdef HAVE_SYS_STAT_H
 			struct stat sbuf;
 #endif
 			char *unopt = GLOBALS->unoptimized_vcd_file_name ? GLOBALS->unoptimized_vcd_file_name: GLOBALS->loaded_file_name;
@@ -152,7 +152,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 			const int do_free = 0;
 #endif
 			fprintf(wave, "[dumpfile] \"%s\"\n", can);
-#if !defined __MINGW32__ && !defined _MSC_VER
+#ifdef HAVE_SYS_STAT_H
 			if(!stat(can, &sbuf))
 				{
 				char *asct = asctime(gmtime(&sbuf.st_mtime));
@@ -2550,6 +2550,7 @@ if(lc && !is_working)
 				else
 				{
 				GLOBALS->dumpfile_is_modified = 0;
+#ifdef HAVE_SYS_STAT_H
 				if((dumpsiz != -1) && (dumptim != -1))
         				{
 				        struct stat sbuf;
@@ -2558,6 +2559,7 @@ if(lc && !is_working)
 				                GLOBALS->dumpfile_is_modified = (dumpsiz != sbuf.st_size) || (dumptim != sbuf.st_mtime);
 				                }
 				        }
+#endif
 				}
 
 			wave_gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname, GLOBALS->dumpfile_is_modified ? WAVE_SET_TITLE_MODIFIED: WAVE_SET_TITLE_NONE, 0);

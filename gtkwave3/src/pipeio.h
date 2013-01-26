@@ -15,7 +15,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
+#endif
 #include <sys/types.h>
 #include <unistd.h>
 #include <signal.h>
