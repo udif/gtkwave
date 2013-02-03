@@ -1269,7 +1269,7 @@
 		errors with dynamically updated files.
 3.3.43	26jan13	Fix for rtlbrowse for gtk_adjustment_get_page_increment and 
 		gtk_adjustment_get_step_increment introduced in 2.14. 
-		Added VPD support via vpd2vcd.exe.  To use, specify -o
+		Added VPD support via vpd2vcd.  To use, specify -o
 		at the command line.  (e.g., gtkwave -o test.vpd)
 		Added autodetect for LXT, LXT2, VZT, FST regardless of the
 		filename suffix.
