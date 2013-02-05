@@ -214,7 +214,7 @@ vermin_SOURCES = \
 	keyword_tokens.h keywordhash.c mode.h preproc.c scan.c \
 	symbol.c symbol.h tokens.h verilog.c vpp_common.h shred.h shred.c
 
-BUILT_SOURCES = definehash.c keywordhash.c tokens.h
+BUILT_SOURCES = definehash.c keywordhash.c tokens.h verilog.c tokens.h err.c parser.dlg
 EXTRA_DIST = \
 	parser.dlg verilog.g verilog_keyword.gperf vpp_keyword.gperf
 

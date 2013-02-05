@@ -1276,3 +1276,4 @@
 		Crash fix for gtkwave::getDisplayedSignals, specifically
 		removing the extra free_2() in WAVE_OE_ME.
 		Added conditional compile for stat() being available.
+3.3.44	04feb13	version bump in SVN
