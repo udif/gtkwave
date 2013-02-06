@@ -1100,7 +1100,7 @@ v_config: V_CONFIG (~V_ENDCONFIG)* V_ENDCONFIG
 
 // v2k1
 v_module_parameters:
-		V_POUND	V_LP V_PARAMETER v_param_assignment (V_COMMA v_param_assignment)* V_RP
+		V_POUND	V_LP V_PARAMETER (v_range | ) v_param_assignment (V_COMMA (V_PARAMETER |) (v_range | ) v_param_assignment)* V_RP
 		|
 		;
 
