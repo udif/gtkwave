@@ -595,6 +595,8 @@ static void draw_named_markers(void)
 {
 int i;
 
+if(!GLOBALS->wavepixmap_wavewindow_c_1) return;
+
 for(i=0;i<26;i++)
 	{
 	if(i != GLOBALS->named_marker_lock_idx)
