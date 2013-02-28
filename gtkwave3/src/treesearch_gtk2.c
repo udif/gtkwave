@@ -75,6 +75,40 @@ while(t && *t)
 return(lastmatch ? lastmatch : nam);
 }
 
+/* fix escaped signal names */
+static void *fix_escaped_names(char *s, int do_free)
+{
+char *s2 = s;
+int found = 0;
+int len;
+
+while(*s2)
+	{
+	if((*s2) == VCDNAM_ESCAPE)
+		{
+		found = 1;
+		break;
+		}
+	s2++;
+	}
+
+if(found)
+	{
+	len = strlen(s);
+	s2 = strdup_2(s);
+	if(do_free) free_2(s);
+	s = s2;
+
+	while(*s2)
+		{
+		if(*s2 == VCDNAM_ESCAPE) { *s2 = GLOBALS->hier_delimeter; } /* restore back to normal */
+		s2++;
+		}
+	}
+
+return(s);
+}
+
 
 /* Fill the store model using current SIG_ROOT and FILTER_STR.  */
 void
@@ -97,6 +131,7 @@ fill_sig_store (void)
 	int i = t->t_which;
 	char *s, *tmp2;
 	int vartype;
+	int is_tname = 0;
 
 	if(i < 0) continue;
 
@@ -108,7 +143,9 @@ fill_sig_store (void)
 
         if(!GLOBALS->facs[i]->vec_root)
 		{
+		is_tname = 1;
 		s = t->name;
+		s = fix_escaped_names(s, 0);
                 }
                 else
                 {
@@ -122,6 +159,7 @@ fill_sig_store (void)
                         s=(char *)malloc_2(strlen(p)+4);
                         strcpy(s,"[] ");
                         strcpy(s+3, p);
+			s = fix_escaped_names(s, 1);
                         free_2(tmp2);
                         }
                         else
@@ -130,19 +168,25 @@ fill_sig_store (void)
                         s=(char *)malloc_2(strlen(p)+4);
                         strcpy(s,"[] ");
                         strcpy(s+3, p);
+			s = fix_escaped_names(s, 1);
                         }
                 }
 
 	if (GLOBALS->filter_str_treesearch_gtk2_c_1 == NULL || wave_regex_match(t->name, WAVE_REGEX_TREE))
       		{
 		gtk_list_store_prepend (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter);
-		if(s == t->name)
+		if(is_tname)
 			{
 			gtk_list_store_set (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter,
-				    NAME_COLUMN, t->name,
+				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
 				    TYPE_COLUMN, vartype_strings[vartype],
 				    -1);
+
+			if(s != t->name)
+				{
+				free_2(s);
+				}
 			}
 			else
 			{

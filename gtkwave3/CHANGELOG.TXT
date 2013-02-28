@@ -1278,3 +1278,5 @@
 		Added conditional compile for stat() being available.
 3.3.44	16feb13	gdk_draw_layout assertion `GDK_IS_DRAWABLE (drawable)'
 		assertion fix.
+3.3.45	28feb13	Fix for VCDNAM_ESCAPE character in treesearch window.  This 
+		sometimes occurs for structure identifiers.
