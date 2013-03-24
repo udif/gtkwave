@@ -1280,3 +1280,4 @@
 		assertion fix.
 3.3.45	28feb13	Fix for VCDNAM_ESCAPE character in treesearch window.  This 
 		sometimes occurs for structure identifiers.
+3.3.46	24mar13	Upgraded to autoconf 2.69.
