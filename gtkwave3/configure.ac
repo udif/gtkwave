@@ -325,6 +325,7 @@ AC_PROG_CC
 AC_PROG_MAKE_SET
 AC_PROG_LEX
 AC_PROG_RANLIB
+AM_PROG_CC_C_O
 
 #
 # only needed if user wishes to process various files with an external reader
