@@ -1280,6 +1280,9 @@
 		assertion fix.
 3.3.45	28feb13	Fix for VCDNAM_ESCAPE character in treesearch window.  This 
 		sometimes occurs for structure identifiers.
-3.3.46	16apr13	Upgraded to autoconf 2.69.
+3.3.46	22apr13	Upgraded to autoconf 2.69.
 		Fixed as of yet undetected hdr_incomplete bug when running 
 		off end of file.
+		Fixed problem with is_gtkw_save_file getting wiped out on
+		reload.
+

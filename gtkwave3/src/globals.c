@@ -2276,7 +2276,11 @@ void reload_into_new_context_2(void)
  #endif
 
  /* Reload state from file */
- read_save_helper(reload_tmpfilename, NULL, NULL, NULL, NULL, NULL); 
+ {
+ char is_gtkw_save_file_cached = GLOBALS->is_gtkw_save_file;
+ read_save_helper(reload_tmpfilename, NULL, NULL, NULL, NULL, NULL);
+ GLOBALS->is_gtkw_save_file = is_gtkw_save_file_cached;
+ }
 
  /* again doing this here (read_save_helper does it) seems to be necessary in order to keep display in sync */
  GLOBALS->signalwindow_width_dirty=1;
