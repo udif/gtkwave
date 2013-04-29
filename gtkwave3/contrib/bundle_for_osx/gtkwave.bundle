@@ -230,8 +230,8 @@
   <data dest="${bundle}/Contents/Resources/LICENSE.TXT">
     ${project}/../../LICENSE.TXT
   </data>
-  <data dest="${bundle}/Contents/Resources/GNU.TXT">
-    ${project}/../../GNU.TXT
+  <data dest="${bundle}/Contents/Resources/COPYING">
+    ${project}/../../COPYING
   </data>
 
 
