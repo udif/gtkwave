@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2010-2012.
+ * Copyright (c) Tony Bybell 2010-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -10,6 +10,6 @@
 #ifndef WAVE_VERSION_H
 #define WAVE_VERSION_H
 
-#define WAVE_VERSION_INFO "GTKWave Analyzer v" PACKAGE_VERSION " (w)1999-2012 BSI"
+#define WAVE_VERSION_INFO "GTKWave Analyzer v" PACKAGE_VERSION " (w)1999-2013 BSI"
 
 #endif
