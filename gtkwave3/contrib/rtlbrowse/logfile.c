@@ -1981,7 +1981,7 @@ void bwlogbox_2(struct logfile_context_t *ctx, GtkWidget *window, GtkWidget *but
 				                        break;   
 				                case FST_HT_VAR:
 				                        scp_nam = fstReaderGetCurrentFlatScope(fst);
-							fh++;
+							if(!h->u.var.is_alias) fh++;
 							do_brk = 1;
 							break;
 						default: 

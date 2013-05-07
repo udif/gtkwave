@@ -1253,6 +1253,7 @@ v_module_item:	v_parameter_declaration
 		| v_reg_declaration
 		| v_time_declaration
 		| v_integer_declaration
+		| v_genvar_declaration
 		| v_real_declaration
 		| v_event_declaration
 		| v_gate_declaration
@@ -1265,6 +1266,7 @@ v_module_item:	v_parameter_declaration
 		| v_task
 		| v_function
 		| v_specify_block
+		| v_generate_block
 		;
 
 v_udp:		V_PRIMITIVE 
@@ -1530,6 +1532,9 @@ v_time_declaration: V_TIME v_optsigned (v_range | ) v_list_of_register_variables
 v_integer_declaration: V_INTEGER v_optsigned (v_range | ) v_list_of_register_variables V_SEMI
 		;
 
+v_genvar_declaration: V_GENVAR v_optsigned (v_range | ) v_list_of_register_variables V_SEMI
+		;
+
 v_real_declaration: V_REAL v_optsigned (v_range | ) v_list_of_register_variables V_SEMI
 		;
 
@@ -1541,7 +1546,7 @@ v_continuous_assign: V_ASSIGN v_cont_drv v_cont_dly v_list_of_assignments V_SEMI
 		v_optsigned // v2k1
 		v_net_chg 
 		v_cont_exr v_cont_dly
-		(v_list_of_assignments | v_list_of_variables ) V_SEMI
+		(v_list_of_variables | v_list_of_assignments) V_SEMI
 		;
 
 v_cont_drv:	v_drive_strength
@@ -1560,8 +1565,11 @@ v_cont_dly:	v_delay
 v_parameter_override: V_DEFPARAM v_list_of_param_assignments V_SEMI
 		;
 
-v_list_of_variables: v_name_of_variable
-		(V_COMMA v_name_of_variable)*
+v_list_of_variables: v_name_of_variable v_optrange_list
+		(V_COMMA v_name_of_variable v_optrange_list)*
+		;
+
+v_optrange_list: (v_range | )
 		;
 
 v_name_of_variable: v_identifier
@@ -1871,6 +1879,9 @@ v_name_of_task: v_identifier
 // for disable ()
 v_name_of_task_or_block: v_identifier_nodot
 		;
+
+v_generate_block: V_GENERATE (~V_ENDGENERATE)* V_ENDGENERATE
+                ;
 
 
 //
