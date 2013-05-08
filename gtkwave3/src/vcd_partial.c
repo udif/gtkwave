@@ -2446,6 +2446,12 @@ if(!t->vector)
 		{
 		regen_harray(t, t->n.nd);
 		}
+		else
+		{
+		free_2(t->n.nd->harray);
+		t->n.nd->harray = NULL;
+		regen_harray(t, t->n.nd);
+		}
 	}
 else if(t->interactive_vector_needs_regeneration)
 	{
