@@ -2281,15 +2281,26 @@ if(!GLOBALS->hier_was_explicitly_set) /* set default hierarchy split char */
 	GLOBALS->hier_delimeter='.';
 	}
 
+#ifdef __MINGW32__
+if(GetEnvironmentVariable("SHMID", NULL, 0))
+ 	{
+	char sEnv[128];
+	GetEnvironmentVariable("SHMID", sEnv, 128);
+  	sscanf(sEnv, "%x", &shmidu);
+ 	}
+else
+#endif
+	{
+	if(!strcmp(fname, "-vcd"))
+		{
+		if(!fscanf(stdin, "%x", &shmidu)) shmidu = ~(0L); /* allow use of -v flag to pass straight from stdin */
+		}
+		else
+		{
+		sscanf(fname, "%x", &shmidu);	/* passed as a filename */
+		}
+	}
 
-if(!strcmp(fname, "-vcd"))
-	{
-	if(!fscanf(stdin, "%x", &shmidu)) shmidu = ~(0L); /* allow use of -v flag to pass straight from stdin */
-	}
-	else
-	{
-	sscanf(fname, "%x", &shmidu);	/* passed as a filename */
-	}
 shmid = (int)shmidu;
 
 #if !defined _MSC_VER
