@@ -2536,7 +2536,7 @@ else
 #endif
 if(is_interactive)
 	{
-	for(;;) kick_partial_vcd();
+	for(;;) { kick_partial_vcd(); }
 	}
 	else
 	{

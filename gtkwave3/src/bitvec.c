@@ -329,7 +329,8 @@ while(h[0])	/* should never exit through this point the way we set up histents w
 				case 'w': case 'W':
 					enc = AN_W; break;
 
-				default: enc = enc & AN_MSK; break;
+				default: 
+					enc = enc & AN_MSK; break;
 				}
 			}
 			else

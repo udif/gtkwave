@@ -2428,13 +2428,25 @@ if(!nd->harray)         /* make quick array lookup for aet display */
 }
 
 /* mark vectors that need to be regenerated */
-static void regen_trace_mark(Trptr t)
+static void regen_trace_mark(Trptr t, int mandclear)
 {
 if(t->vector)
 	{
 	bvptr b = t->n.vec;
 	bptr bts = b->bits;
 	int i;
+
+	if(mandclear)
+		{
+		for(i=0;i<bts->nnbits;i++)
+			{
+			if(bts->nodes[i]->harray)
+				{
+				free_2(bts->nodes[i]->harray);
+				bts->nodes[i]->harray = NULL;
+				}
+			}
+		}
 
 	for(i=0;i<bts->nnbits;i++)
 		{
@@ -2443,6 +2455,15 @@ if(t->vector)
 			t->interactive_vector_needs_regeneration = 1;
 			return;
 			}		
+		}
+	}
+	else
+	{
+	if(t->n.nd) /* comment and blank traces don't have a valid node */
+	if((t->n.nd->harray) && (mandclear))
+		{
+		free_2(t->n.nd->harray);
+		t->n.nd->harray = NULL;
 		}
 	}
 }
@@ -2455,12 +2476,6 @@ if(!t->vector)
 	if(t->n.nd) /* comment and blank traces don't have a valid node */
 	if(!t->n.nd->harray)
 		{
-		regen_harray(t, t->n.nd);
-		}
-		else
-		{
-		free_2(t->n.nd->harray);
-		t->n.nd->harray = NULL;
 		regen_harray(t, t->n.nd);
 		}
 	}
@@ -2551,11 +2566,7 @@ if(GLOBALS->partial_vcd)
 			old_maxtime_marker_conflict = (GLOBALS->tims.marker<=GLOBALS->max_time); /* data is now past what was invisible marker */
 			}
 	
-		t = GLOBALS->traces.first; while(t) { regen_trace_mark(t); t = t->t_next; }
-		t = GLOBALS->traces.buffer; while(t) { regen_trace_mark(t); t = t->t_next; }
-
-		t = GLOBALS->traces.first; while(t) { regen_trace_sweep(t); t = t->t_next; }
-		t = GLOBALS->traces.buffer; while(t) { regen_trace_sweep(t); t = t->t_next; }
+		vcd_partial_mark_and_sweep(1);
 	
 		if ((GLOBALS->zoom_dyn) && (!GLOBALS->helpbox_is_active)) 
 			{
@@ -2599,3 +2610,15 @@ if(GLOBALS->partial_vcd)
 gtkwave_main_iteration();
 }
 
+void vcd_partial_mark_and_sweep(int mandclear)
+{
+Trptr t;
+
+t = GLOBALS->traces.first; while(t) { regen_trace_mark(t, mandclear); t = t->t_next; }
+t = GLOBALS->traces.buffer; while(t) { regen_trace_mark(t, mandclear); t = t->t_next; }
+
+t = GLOBALS->traces.first; while(t) { regen_trace_sweep(t); t = t->t_next; }
+t = GLOBALS->traces.buffer; while(t) { regen_trace_sweep(t); t = t->t_next; }
+
+printf("xxx\n");
+}
