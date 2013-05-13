@@ -2436,14 +2436,17 @@ if(t->vector)
 	bptr bts = b->bits;
 	int i;
 
-	if(mandclear)
+	if(1)
 		{
 		for(i=0;i<bts->nnbits;i++)
 			{
-			if(bts->nodes[i]->harray)
+			if(!bts->nodes[i]->expansion)
 				{
-				free_2(bts->nodes[i]->harray);
-				bts->nodes[i]->harray = NULL;
+				if(bts->nodes[i]->harray)
+					{
+					free_2(bts->nodes[i]->harray);
+					bts->nodes[i]->harray = NULL;
+					}
 				}
 			}
 		}
@@ -2488,12 +2491,21 @@ else if(t->interactive_vector_needs_regeneration)
 
 	for(i=0;i<bts->nnbits;i++)
 		{
+		if(bts->nodes[i]->expansion)
+			{
+			nptr parent = bts->nodes[i]->expansion->parent;
+			int parentbit = bts->nodes[i]->expansion->parentbit;
+
+			DeleteNode(bts->nodes[i]);		
+
+			bts->nodes[i] = ExtractNodeSingleBit(parent, parentbit);
+			}
+
 		if(!bts->nodes[i]->harray)
 			{
 			regen_harray(t, bts->nodes[i]);
 			}		
 		}
-
 
 	if(!bts->name)
 		{
@@ -2614,11 +2626,17 @@ void vcd_partial_mark_and_sweep(int mandclear)
 {
 Trptr t;
 
-t = GLOBALS->traces.first; while(t) { regen_trace_mark(t, mandclear); t = t->t_next; }
-t = GLOBALS->traces.buffer; while(t) { regen_trace_mark(t, mandclear); t = t->t_next; }
+/* node */
+t = GLOBALS->traces.first; while(t) { if(!t->vector) regen_trace_mark(t, mandclear); t = t->t_next; }
+t = GLOBALS->traces.buffer; while(t) { if(!t->vector) regen_trace_mark(t, mandclear); t = t->t_next; }
 
-t = GLOBALS->traces.first; while(t) { regen_trace_sweep(t); t = t->t_next; }
-t = GLOBALS->traces.buffer; while(t) { regen_trace_sweep(t); t = t->t_next; }
+t = GLOBALS->traces.first; while(t) { if(!t->vector) regen_trace_sweep(t); t = t->t_next; }
+t = GLOBALS->traces.buffer; while(t) { if(!t->vector) regen_trace_sweep(t); t = t->t_next; }
 
-printf("xxx\n");
+/* vector */
+t = GLOBALS->traces.first; while(t) { if(t->vector) regen_trace_mark(t, mandclear); t = t->t_next; }
+t = GLOBALS->traces.buffer; while(t) { if(t->vector) regen_trace_mark(t, mandclear); t = t->t_next; }
+
+t = GLOBALS->traces.first; while(t) { if(t->vector) regen_trace_sweep(t); t = t->t_next; }
+t = GLOBALS->traces.buffer; while(t) { if(t->vector) regen_trace_sweep(t); t = t->t_next; }
 }
