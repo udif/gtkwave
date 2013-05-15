@@ -1286,7 +1286,9 @@
 		Fixed problem with is_gtkw_save_file getting wiped out on
 		reload.
 		Updated Mac bundle info to reflect new autoconf filenames.
-3.3.47	08may13	Fix for crash in 64-bit mode with array accesses in
+3.3.47	14may13	Fix for crash in 64-bit mode with array accesses in
 		deprecated loader.
 		Partial VCD loader fix for small files.
 		Added preliminary do-nothing generate support in vermin.
+		Fixed minmax_valid for partial VCD loader: affects scaling
+		on floating-point traces.

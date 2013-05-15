@@ -2639,4 +2639,8 @@ t = GLOBALS->traces.buffer; while(t) { if(t->vector) regen_trace_mark(t, mandcle
 
 t = GLOBALS->traces.first; while(t) { if(t->vector) regen_trace_sweep(t); t = t->t_next; }
 t = GLOBALS->traces.buffer; while(t) { if(t->vector) regen_trace_sweep(t); t = t->t_next; }
+
+/* floating point */
+t = GLOBALS->traces.first; while(t) { if(t->minmax_valid) t->minmax_valid = 0; t = t->t_next; }
+t = GLOBALS->traces.buffer; while(t) { if(t->minmax_valid) t->minmax_valid = 0; t = t->t_next; }
 }
