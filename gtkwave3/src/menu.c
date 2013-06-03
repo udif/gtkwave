@@ -1993,7 +1993,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-helpbox("Wave Help",300,"Select any main window menu item");
+helpbox("Wave Help",480,"Select any main window menu item");
 }
 /**/
 void menu_version(gpointer null_data, guint callback_action, GtkWidget *widget)
@@ -2008,7 +2008,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-simplereqbox("Wave Version",400,WAVE_VERSION_INFO,"OK", NULL, NULL, 0);
+simplereqbox("Wave Version",480,WAVE_VERSION_INFO,"OK", NULL, NULL, 0);
 }
 /**/
 void menu_quit_callback(GtkWidget *widget, gpointer data)
