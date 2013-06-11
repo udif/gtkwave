@@ -1292,3 +1292,4 @@
 		Added preliminary do-nothing generate support in vermin.
 		Fixed minmax_valid for partial VCD loader: affects scaling
 		on floating-point traces.
+3.3.48	11jun13	Update version number in SVN.  No functional changes yet.
