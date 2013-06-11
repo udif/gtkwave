@@ -548,6 +548,8 @@ if(rc<0)
 	perror("Why");
 #endif
 	}
+
+return(rc);
 }
 
 
