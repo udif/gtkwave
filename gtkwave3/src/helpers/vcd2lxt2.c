@@ -2006,6 +2006,10 @@ if (optind < argc)
                         lxname = malloc_2(strlen(argv[optind])+1);
                         strcpy(lxname, argv[optind++]);
                         }
+		else
+			{
+			break;
+			}
                 }
         }
                         

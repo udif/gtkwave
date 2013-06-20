@@ -423,6 +423,10 @@ if (optind < argc)
                         lxname = malloc(strlen(argv[optind])+1);
                         strcpy(lxname, argv[optind++]);
                         }
+			else
+			{
+			break;
+			}
                 }
         }
                         

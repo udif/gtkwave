@@ -129,6 +129,10 @@ if (optind < argc)
                         fstname = malloc(strlen(argv[optind])+1);
                         strcpy(fstname, argv[optind++]);
                         }
+			else
+			{
+			break;
+			}
                 }
         }
                         
@@ -184,4 +188,3 @@ free(fstname);
 
 exit(0);
 }
-

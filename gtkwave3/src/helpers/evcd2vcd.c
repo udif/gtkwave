@@ -485,6 +485,10 @@ if (optind < argc)
                         vname = malloc(strlen(argv[optind])+1);
                         strcpy(vname, argv[optind++]);
                         } 
+			else
+			{
+			break;
+			}
                 }
         }
                         
