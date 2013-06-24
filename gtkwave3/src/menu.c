@@ -3718,6 +3718,12 @@ for(i=0;i<26;i++)
 		GLOBALS->named_markers[i]=-1;
 		dirty=1;
 		}
+
+	if(GLOBALS->marker_names[i])
+		{
+		free_2(GLOBALS->marker_names[i]);
+		GLOBALS->marker_names[i] = NULL;
+		}
 	}
 
 if(dirty)
@@ -3752,6 +3758,13 @@ if(GLOBALS->tims.marker!=-1)
 			GLOBALS->named_markers[i]=-1;
 			signalarea_configure_event(GLOBALS->signalarea, NULL);
 			wavearea_configure_event(GLOBALS->wavearea, NULL);
+
+			if(GLOBALS->marker_names[i])
+				{
+				free_2(GLOBALS->marker_names[i]);
+				GLOBALS->marker_names[i] = NULL;
+				}
+
 			/* return; */
 			}
 		}
