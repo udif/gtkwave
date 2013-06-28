@@ -254,7 +254,7 @@ if(node)
 }
 
 
-int force_open_tree_node(char *name) {
+int force_open_tree_node(char *name, int keep_path_nodes_open) {
   GtkCTree *ctree = GLOBALS->ctree_main;
   int rv = 1 ;			/* can possible open */
   if(ctree) {
@@ -295,7 +295,7 @@ int force_open_tree_node(char *name) {
 	    node = gctr->parent;
 	    gctr = GTK_CTREE_ROW(node);
 	    nodehist[i] = node;
-	    exp1[i--] = gctr->expanded;
+	    exp1[i--] = gctr->expanded || (keep_path_nodes_open != 0);
 	  }        
 	  gtk_clist_freeze(GTK_CLIST(ctree));
 	  /* fully expand down */

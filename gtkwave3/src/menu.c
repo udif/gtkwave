@@ -5007,6 +5007,105 @@ if(GLOBALS->helpbox_is_active)
 colorformat(WAVE_COLOR_CYCLE);
 }
 /**/
+
+void
+menu_open_hierarchy(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+Trptr t;
+int fix=0;
+
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nOpen Hierarchy");
+        help_text(
+#if WAVE_USE_GTK2   
+		" opens and selects the appropriate level of hierarchy in the SST"
+		" for the first selected signal."
+#else
+		" is not available with this build.  Please build against GTK 2."
+#endif
+        );
+        return;
+        }
+
+#if WAVE_USE_GTK2   
+
+if((t=GLOBALS->traces.first))
+    	{
+      	while(t)
+		{
+	  	if(IsSelected(t)&&!IsShadowed(t))
+	    		{
+			char *tname = NULL;
+
+	      		if (HasAlias(t))
+				{
+		  		tname = strdup_2(t->name_full);
+				}
+	      		else if(t->vector==TRUE)
+				{
+		  		tname = strdup_2(t->n.vec->bvname);
+				}
+	      		else
+				{
+				int flagged = HIER_DEPACK_ALLOC;
+
+				tname = hier_decompress_flagged(t->n.nd->nname, &flagged);
+				if(!flagged)
+					{
+					tname = strdup_2(tname);
+					}
+				}
+
+			if(tname)
+				{
+				char *lasthier = strrchr(tname, GLOBALS->hier_delimeter);
+				if(lasthier)
+					{
+					char *tname_copy;
+
+					lasthier++; /* zero out character after hierarchy */
+					*lasthier = 0;
+					tname_copy = strdup_2(tname); /* force_open_tree_node() is destructive */
+					if(!force_open_tree_node(tname_copy, 1))
+						{
+						if(GLOBALS->selected_hierarchy_name)
+							{
+							free_2(GLOBALS->selected_hierarchy_name);
+							GLOBALS->selected_hierarchy_name = strdup_2(tname);
+							}
+
+						select_tree_node(tname);
+						}
+					free_2(tname_copy);
+					}
+	
+				free_2(tname);
+				fix=1;
+		      		break;
+				}
+			}
+
+		t=t->t_next;
+		}
+
+	if(fix)
+		{
+		GLOBALS->signalwindow_width_dirty=1;
+		MaxSignalLength();
+		signalarea_configure_event(GLOBALS->signalarea, NULL);
+		wavearea_configure_event(GLOBALS->wavearea, NULL);
+		}
+
+	}
+
+#endif
+}
+
+
+/**/
+
+
 static void dataformat(int mask, int patch)
 {
   Trptr t;
@@ -6143,6 +6242,8 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Search/Signal Search Hierarchy", "<Alt>T", menu_hiersearch, WV_MENU_SSH, "<Item>"),
     WAVE_GTKIFE("/Search/Signal Search Tree", "<Shift><Alt>T", menu_treesearch, WV_MENU_SST, "<Item>"),
     WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7, "<Separator>"),
+    WAVE_GTKIFE("/Search/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>"),
+    WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7D, "<Separator>"),
     WAVE_GTKIFE("/Search/Autocoalesce", NULL, menu_autocoalesce, WV_MENU_ACOL, "<ToggleItem>"),
     WAVE_GTKIFE("/Search/Autocoalesce Reversal", NULL, menu_autocoalesce_reversal, WV_MENU_ACOLR, "<ToggleItem>"),
     WAVE_GTKIFE("/Search/Autoname Bundles", NULL, menu_autoname_bundles_on, WV_MENU_ABON, "<ToggleItem>"),
@@ -6766,7 +6867,9 @@ static gtkwave_mlist_t popmenu_items[] =
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP3, "<Separator>"),
     WAVE_GTKIFE("/Cut", NULL, menu_cut_traces, WV_MENU_EC, "<Item>"),
     WAVE_GTKIFE("/Copy", NULL, menu_copy_traces, WV_MENU_ECY, "<Item>"),
-    WAVE_GTKIFE("/Paste", NULL, menu_paste_traces, WV_MENU_EP, "<Item>")
+    WAVE_GTKIFE("/Paste", NULL, menu_paste_traces, WV_MENU_EP, "<Item>"),
+    WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP4, "<Separator>"),
+    WAVE_GTKIFE("/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>")
 };
 
 

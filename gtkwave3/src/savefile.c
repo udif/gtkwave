@@ -1589,7 +1589,7 @@ else if (*w2 == '[')
 
 	if(GLOBALS->ctree_main)
 		{
-		force_open_tree_node(w);
+		force_open_tree_node(w, 0);
 		}
 		else
 		{
