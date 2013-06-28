@@ -178,7 +178,16 @@ for(;;)
 					/* if((*pnt == '[')||(isspace(*pnt))) break; */
 
 					if(isspace(*pnt)) break;
-					if((*pnt == '[') && (pnt == strrchr(pnt, '['))) break; /* fixes arrays */
+					if((*pnt == '[') && (pnt == strrchr(pnt, '['))) /* fix for arrays */
+						{
+						/* now to fix possible generate... */
+						char *pnt2 = pnt;
+						char lastch = 0;
+
+						while(*pnt && !isspace(*pnt)) { lastch = *pnt; pnt++; };
+
+						if(lastch == ']') break;
+						}
 
 					if(*pnt == '\\') /* this is not strictly correct, but fixes generic ranges from icarus */
 						{

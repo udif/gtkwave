@@ -1298,3 +1298,4 @@
 		Added "Open Hierarchy" option that will expand the SST and
 		select the hierarchy for a given signal selected in the
 		Signals window.
+		Extload fix for generate created hierarchies.
