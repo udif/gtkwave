@@ -282,66 +282,98 @@ for(;;)
 	switch(rc[0])
 		{
 		case 's':
-			if(!strncmp("scale unit         :", rc, 20))
+			if(!strncmp("scale unit", rc, 10))
 				{
-				char *pnt = rc+20;
+				char *pnt = strchr(rc+10, ':');
 
-				GLOBALS->time_scale = atoi(rc+20);
-				GLOBALS->time_dimension = 'n';
-				while(*pnt)
+				if(pnt)
 					{
-					if(isalpha(*pnt))
-						{
-						GLOBALS->time_dimension = tolower(*pnt);
-						break;
-						}
 					pnt++;
+					GLOBALS->time_scale = atoi(pnt);
+					GLOBALS->time_dimension = 'n';
+					while(*pnt)
+						{
+						if(isalpha(*pnt))
+							{
+							GLOBALS->time_dimension = tolower(*pnt);
+							break;
+							}
+						pnt++;
+						}
+					
+					msk |= 1;
 					}
-				
-				msk |= 1;
 				}
 			break;
 
 		case 'm':
-			if(!strncmp("minimum xtag       : (", rc, 22))
+			if(!strncmp("minimum xtag", rc, 12))
 				{
-				unsigned int lo = 0, hi = 0;
-				sscanf(rc + 22, "%u %u", &hi, &lo);
-				GLOBALS->min_time = (TimeType)((((UTimeType)hi)<<32) + ((UTimeType)lo));
+				char *pnt = strchr(rc+12, '(');
+				if(pnt)
+					{
+					unsigned int lo = 0, hi = 0;
+					pnt++;
+					sscanf(pnt, "%u %u", &hi, &lo);
+					GLOBALS->min_time = (TimeType)((((UTimeType)hi)<<32) + ((UTimeType)lo));
 
-				msk |= 2;
+					msk |= 2;
+					}
 				}
 			else
-			if(!strncmp("maximum xtag       : (", rc, 22))
+			if(!strncmp("maximum xtag", rc, 12))
 				{
-				unsigned int lo = 0, hi = 0;
-				sscanf(rc + 22, "%u %u", &hi, &lo);
-				GLOBALS->max_time = (TimeType)((((UTimeType)hi)<<32) + ((UTimeType)lo));
+				char *pnt = strchr(rc+12, '(');
+				if(pnt)
+					{
+					unsigned int lo = 0, hi = 0;
+					pnt++;
+					sscanf(pnt, "%u %u", &hi, &lo);
+					GLOBALS->max_time = (TimeType)((((UTimeType)hi)<<32) + ((UTimeType)lo));
 
-				msk |= 4;
+					msk |= 4;
+					}
 				}
 			else
-			if(!strncmp("max var idcode     :", rc, 20))
+			if(!strncmp("max var idcode", rc, 14))
 				{
-				sscanf(rc + 21, "%d", &max_idcode);
+				char *pnt = strchr(rc+14, ':');
+				if(pnt)
+					{
+					pnt++;
+					sscanf(pnt, "%d", &max_idcode);
 
-				msk |= 8;
+					msk |= 8;
+					}
 				}
 
 			break;
 
 		case 'v':
-			if(!strncmp("var creation cnt   :", rc, 20))
+			if(!strncmp("var creation cnt", rc, 16))
 				{
-				sscanf(rc + 21, "%d", &GLOBALS->numfacs);
+				char *pnt = strchr(rc+16, ':');
+				if(pnt)
+					{
+					pnt++;
+					sscanf(pnt, "%d", &GLOBALS->numfacs);
 
-				msk |= 16;
+					msk |= 16;
+					}
 				}
 
 		case 'f':
-			if(!strncmp("file status        : finished", rc, 29))
+			if(!strncmp("file status", rc, 11))
 				{
-				msk |= 32;
+				char *pnt = strchr(rc+11, ':');
+				if(pnt)
+					{
+					pnt++;
+					if(strstr(pnt, "finished"))
+						{
+						msk |= 32;
+						}
+					}
 				}
 			break;
 

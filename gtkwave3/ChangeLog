@@ -1299,3 +1299,4 @@
 		select the hierarchy for a given signal selected in the
 		Signals window.
 		Extload fix for generate created hierarchies.
+		Extload fix for new debug info output style to be parsed.
