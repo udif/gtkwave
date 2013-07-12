@@ -181,9 +181,11 @@ for(;;)
 					if((*pnt == '[') && (pnt == strrchr(pnt, '['))) /* fix for arrays */
 						{
 						/* now to fix possible generate... */
-						char lastch = 0;
+						char *pnt2 = pnt;
+						char lastch = *pnt2;
 
-						while(*pnt && !isspace(*pnt)) { lastch = *pnt; pnt++; };
+						pnt2++;
+						while(*pnt2 && !isspace(*pnt2) && (*pnt2 != '[')) { lastch = *pnt2; pnt2++; };
 
 						if(lastch == ']') break;
 						}
