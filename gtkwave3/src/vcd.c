@@ -1146,6 +1146,7 @@ for(;;)
                                         case 't':       ttype = TREE_VCD_ST_TASK; break;
                                         case 'f':       ttype = (GLOBALS->yytext_vcd_c_1[1] == 'u') ? TREE_VCD_ST_FUNCTION : TREE_VCD_ST_FORK; break;
                                         case 'b':       ttype = TREE_VCD_ST_BEGIN; break;
+					case 'g':	ttype = TREE_VCD_ST_GENERATE; break;
                                         default:        ttype = TREE_UNKNOWN;
                                                         break;
                                         }

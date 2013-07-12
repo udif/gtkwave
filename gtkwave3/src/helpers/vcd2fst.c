@@ -547,6 +547,11 @@ while(!feof(f))
 			scopetype = FST_ST_VCD_FORK;
 			}
 		else
+		if(!strcmp(st, "generate"))
+			{
+			scopetype = FST_ST_VCD_GENERATE;
+			}
+		else
 			{
 			scopetype = FST_ST_VCD_MODULE;
 			}

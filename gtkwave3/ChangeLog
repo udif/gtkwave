@@ -1292,7 +1292,7 @@
 		Added preliminary do-nothing generate support in vermin.
 		Fixed minmax_valid for partial VCD loader: affects scaling
 		on floating-point traces.
-3.3.48	28jun13	Fixed infinite loop hang on various helpers executables
+3.3.48	12jul13	Fixed infinite loop hang on various helpers executables
 		when extra arguments are specified.
 		Delete changed marker name if it exists when marker is removed.
 		Added "Open Hierarchy" option that will expand the SST and
@@ -1300,3 +1300,4 @@
 		Signals window.
 		Extload fix for generate created hierarchies.
 		Extload fix for new debug info output style to be parsed.
+		Added generate as scope type to VCD/FST/extload.
