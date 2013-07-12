@@ -427,7 +427,7 @@ for(;;)
 			char *colon = NULL;
 			char *rb = NULL;
 			int state = 0;
-
+	
 			sscanf(rc + 5, "%s", typ);
 
 			while(*pnt)
@@ -440,22 +440,30 @@ for(;;)
 					{
 					esc = pnt;
 					}
-				else if(pnt[0] == '[')
+				else if(!last_l)
 					{
-					lb = pnt;
-					colon = NULL;
-					state = 1;
-					}
-				else if(pnt[0] == ']')
-					{
-					rb = pnt;
-					state = 0;
-					}
-				else if(pnt[0] == ':')
-					{
-					if(state)
+					if(pnt[0] == '[')
 						{
-						colon = pnt;
+						lb = pnt;
+						colon = NULL;
+						rb = NULL;
+						state = 1;
+						}
+					else if(pnt[0] == ']')
+						{
+						rb = pnt;
+						state = 0;
+						if(!isspace(pnt[1]))
+							{
+							lb = colon = rb = NULL;
+							}
+						}
+					else if(pnt[0] == ':')
+						{
+						if(state)
+							{
+							colon = pnt;
+							}
 						}
 					}
 				
@@ -517,8 +525,16 @@ for(;;)
 						}
 						else
 						{
-						node_block[i].msi=l;				
-						node_block[i].lsi=r;				
+						if(lb && !l && !r) /* fix for stranded signals */
+							{
+							node_block[i].msi=atoi(lb+1);				
+							node_block[i].lsi=atoi(lb+1);				
+							}
+							else
+							{
+							node_block[i].msi=l;				
+							node_block[i].lsi=r;				
+							}
 						}
 
 					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_BITS; 
