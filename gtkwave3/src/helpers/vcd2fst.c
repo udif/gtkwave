@@ -52,9 +52,8 @@
 
 #if defined(VCD2FST_EXTLOAD_CONV)
 
-#include <Judy.h>
-
 #ifdef _WAVE_HAVE_JUDY
+#include <Judy.h>
 Pvoid_t  PJArray = NULL;
 #else
 JRB comp_name_jrb = NULL;
@@ -88,14 +87,26 @@ for(;;)
                         char vht[2048];
                         char cname[2048];
                         char ctype[2048];
+			int mtype = FST_ST_VCD_MODULE;
 
-			cname[0] = ctype[0] = 0;
+			cname[0] = ctype[1] = 0;
 
-                        sscanf(rc+6, "%s %s %s", vht, cname, ctype);
+                        sscanf(rc+6, "%s %s %s", vht, cname, ctype+1);
+			if(!strncmp("vcd_", vht, 4))
+				{
+				switch(vht[4])
+					{
+					case 'g':	mtype = FST_ST_VCD_GENERATE; break; /* other code looks for non-modules to replace type with */
+					default:	break;
+					}
+				}
+
+			ctype[0] = mtype + 1; /* bias for zero terminated string */
+
                         fst_scope_name = fstReaderPushScope(xc, cname, NULL);
 
 			/* process fst_scope_name + cname vs ctype here */
-			if(strcmp(ctype, "NULL") && strcmp(cname, ctype))
+			if((strcmp(ctype+1, "NULL") && strcmp(cname, ctype+1)) || (mtype != FST_ST_VCD_MODULE))
 				{
 #ifdef _WAVE_HAVE_JUDY
 				PPValue = JudySLIns(&PJArray, (uint8_t *)fst_scope_name, PJE0);
@@ -565,7 +576,25 @@ while(!feof(f))
 			const char *fst_scope_name = fstReaderPushScope(xc, st, NULL);
 			PPvoid_t PPValue = JudySLGet(PJArray, (uint8_t *)fst_scope_name, PJE0);
 
-			fstWriterSetScope(ctx, scopetype, st, PPValue ? *PPValue : NULL);
+			if(PPValue)
+				{
+				unsigned char st_replace = (*((unsigned char *)*PPValue)) - 1;
+				if(st_replace != FST_ST_VCD_MODULE)
+					{
+					scopetype = st_replace;
+					}
+
+				if(scopetype == FST_ST_VCD_GENERATE)
+					{
+					PPValue = NULL;
+					}
+
+				fstWriterSetScope(ctx, scopetype, st, PPValue ? ((unsigned char *)(*PPValue)+1) : NULL);
+				}
+				else
+				{
+				fstWriterSetScope(ctx, scopetype, st, NULL);
+				}
 			}
 #else
 		if(comp_name_jrb)
@@ -577,7 +606,25 @@ while(!feof(f))
 			strcpy(cstring, fst_scope_name);
 			str = jrb_find_str(comp_name_jrb, cstring);
 
-			fstWriterSetScope(ctx, scopetype, st, str ? str->val.s : NULL);
+			if(str)
+				{
+				unsigned char st_replace = str->val.s[0] - 1;
+				if(st_replace != FST_ST_VCD_MODULE)
+					{
+					scopetype = st_replace;
+					}
+
+				if(scopetype == FST_ST_VCD_GENERATE)
+					{
+					str = NULL;
+					}
+
+				fstWriterSetScope(ctx, scopetype, st, str ? (str->val.s+1) : NULL);
+				}
+				else
+				{
+				fstWriterSetScope(ctx, scopetype, st, NULL);
+				}
 			}
 #endif
 			else
