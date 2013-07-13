@@ -1301,3 +1301,6 @@
 		Extload fix for generate created hierarchies.
 		Extload fix for new debug info output style to be parsed.
 		Added generate as scope type to VCD/FST/extload.
+		Preliminary add for module port direction for extload and FST.
+		Fixed GTK warning when hide_sst is enabled and SST is opened
+		then closed.

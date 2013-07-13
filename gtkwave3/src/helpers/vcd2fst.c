@@ -589,7 +589,7 @@ while(!feof(f))
 					PPValue = NULL;
 					}
 
-				fstWriterSetScope(ctx, scopetype, st, PPValue ? ((unsigned char *)(*PPValue)+1) : NULL);
+				fstWriterSetScope(ctx, scopetype, st, PPValue ? ((char *)(*PPValue)+1) : NULL);
 				}
 				else
 				{

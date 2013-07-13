@@ -21,6 +21,10 @@
 #include <windows.h>
 #endif
 
+/*
+#define WAVE_CRASH_ON_GTK_WARNING
+*/
+
 #include "wave_locale.h"
 
 #if !defined _MSC_VER && !defined __MINGW32__
@@ -683,6 +687,10 @@ if(!mainwindow_already_built)
 		fprintf(stderr, "Could not initialize GTK!  Is DISPLAY env var/xhost set?\n\n");
 		print_help(argv[0]);
 		}
+
+#ifdef WAVE_CRASH_ON_GTK_WARNING
+	g_log_set_always_fatal(G_LOG_LEVEL_CRITICAL|G_LOG_LEVEL_WARNING);
+#endif
 	}
 
 #if defined(__APPLE__)

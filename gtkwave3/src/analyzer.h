@@ -187,7 +187,7 @@ struct Node
     unsigned int array_height, this_row;
 #endif
 
-    unsigned vardir : 2;  /* see nodeVarDir, this is an internal value (currently unused) */
+    unsigned vardir : 2;  /* see nodeVarDir, this is an internal value (currently used only by extload and FST) */
     unsigned vartype : 5; /* see nodeVarType, this is an internal value */
 
     unsigned extvals : 1; /* was formerly a pointer to ExtNode "ext", now simply a flag */
@@ -263,11 +263,23 @@ enum nodeVarType {
     ND_VARTYPE_MAX	   = 25
 };
 
+
+#define WAVE_NODEVARDIR_STR \
+static const char *vardir_strings[] = { \
+    "", \
+    "I", \
+    "O", \
+    "IO" \
+};
+
+
 enum nodeVarDir {
     ND_DIR_IMPLICIT        = 0,
     ND_DIR_IN              = 1,
     ND_DIR_OUT             = 2,
-    ND_DIR_INOUT           = 3
+    ND_DIR_INOUT           = 3,
+
+    ND_DIR_MAX             = 3
 };
 
 typedef struct BitAttributes

@@ -421,7 +421,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	char *str;	
 	struct fac *f;
 	int hier_len, name_len, tlen;
-	unsigned char nvt;
+	unsigned char nvt, nvd;
 	int longest_nam_candidate = 0;
 	char *fnam;
 
@@ -486,6 +486,15 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 	if(h->u.var.length)
 		{
+		switch(h->u.var.direction)
+			{
+			case FST_VD_INPUT:		nvd = ND_DIR_IN; break;
+			case FST_VD_OUTPUT:		nvd = ND_DIR_OUT; break;
+			case FST_VD_INOUT:		nvd = ND_DIR_INOUT; break;
+			case FST_VD_IMPLICIT:
+			default:			nvd = ND_DIR_IMPLICIT; break;
+			}
+
 		switch(h->u.var.typ)
 			{
 	                case FST_VT_VCD_EVENT: 		nvt = ND_VCD_EVENT; break;
@@ -707,6 +716,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
         n->mv.mvlfac = GLOBALS->mvlfacs_fst_c_3+i;
 	GLOBALS->mvlfacs_fst_c_3[i].working_node = n;
 	n->vartype = nvt;
+	n->vardir = nvd;
 
 	if((f->len>1)||(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
 		{

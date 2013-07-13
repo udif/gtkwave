@@ -24,6 +24,7 @@
 #include "tcl_helper.h"
 
 WAVE_NODEVARTYPE_STR
+WAVE_NODEVARDIR_STR
 
 enum { VIEW_DRAG_INACTIVE, TREE_TO_VIEW_DRAG_ACTIVE, SEARCH_TO_VIEW_DRAG_ACTIVE };
 
@@ -41,7 +42,7 @@ enum { VIEW_DRAG_INACTIVE, TREE_TO_VIEW_DRAG_ACTIVE, SEARCH_TO_VIEW_DRAG_ACTIVE 
 /* The signal area is based on a tree view which requires a store model.
    This store model contains the list of signals to be displayed.
 */
-enum { NAME_COLUMN, TREE_COLUMN, TYPE_COLUMN, N_COLUMNS };
+enum { NAME_COLUMN, TREE_COLUMN, TYPE_COLUMN, DIR_COLUMN, N_COLUMNS };
 
 /* list of autocoalesced (synthesized) filter names that need to be freed at some point) */
 
@@ -131,6 +132,7 @@ fill_sig_store (void)
 	int i = t->t_which;
 	char *s, *tmp2;
 	int vartype;
+	int vardir;
 	int is_tname = 0;
 
 	if(i < 0) continue;
@@ -139,6 +141,12 @@ fill_sig_store (void)
 	if((vartype < 0) || (vartype > ND_VARTYPE_MAX))
 		{
 		vartype = 0;
+		}
+
+	vardir = GLOBALS->facs[i]->n->vardir; /* two bit already chops down to 0..3, but this doesn't hurt */
+	if((vardir < 0) || (vardir > ND_DIR_MAX))
+		{
+		vardir = 0;
 		}
 
         if(!GLOBALS->facs[i]->vec_root)
@@ -181,6 +189,7 @@ fill_sig_store (void)
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
 				    TYPE_COLUMN, vartype_strings[vartype],
+				    DIR_COLUMN,vardir_strings[vardir],
 				    -1);
 
 			if(s != t->name)
@@ -199,6 +208,7 @@ fill_sig_store (void)
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
 				    TYPE_COLUMN, vartype_strings[vartype],
+				    DIR_COLUMN,vardir_strings[vardir],
 				    -1);
 			}
       		}
@@ -1175,6 +1185,7 @@ static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
   GLOBALS->dnd_sigview = NULL;
   GLOBALS->gtk2_tree_frame = NULL;
   GLOBALS->ctree_main = NULL;
+  GLOBALS->filter_entry = NULL; /* when treebox() SST goes away after closed and rc hide_sst is true */
   free_afl();
 
   if(GLOBALS->selected_hierarchy_name)
@@ -1345,7 +1356,7 @@ do_tooltips:
 
 
     /* Signal names.  */
-    GLOBALS->sig_store_treesearch_gtk2_c_1 = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING);
+    GLOBALS->sig_store_treesearch_gtk2_c_1 = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING);
     GLOBALS->sig_root_treesearch_gtk2_c_1 = GLOBALS->treeroot;
     fill_sig_store ();
 
@@ -1367,6 +1378,13 @@ do_tooltips:
 		case EXTLOAD_FILE:
 #endif
 		case FST_FILE:
+					/* fallthrough for Dir is deliberate for extload and FST */
+					column = gtk_tree_view_column_new_with_attributes ("Dir",
+							   renderer,
+							   "text", DIR_COLUMN,
+							   NULL);
+					gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+
 		case AE2_FILE:
 		case VCD_FILE:
 		case VCD_RECODER_FILE:
@@ -1610,7 +1628,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 
 
     /* Signal names.  */
-    GLOBALS->sig_store_treesearch_gtk2_c_1 = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING);
+    GLOBALS->sig_store_treesearch_gtk2_c_1 = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING);
     GLOBALS->sig_root_treesearch_gtk2_c_1 = GLOBALS->treeroot;
     fill_sig_store ();
 
@@ -1632,6 +1650,13 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 		case EXTLOAD_FILE:
 #endif
 		case FST_FILE:
+					/* fallthrough for Dir is deliberate for extload and FST */
+					column = gtk_tree_view_column_new_with_attributes ("Dir",
+							   renderer,
+							   "text", DIR_COLUMN,
+							   NULL);
+					gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+
 		case AE2_FILE:
 		case VCD_FILE:
 		case VCD_RECODER_FILE:

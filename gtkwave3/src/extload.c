@@ -98,7 +98,7 @@ return(1);
 }
 
 
-static char *get_varname(unsigned char *vtp, void *xc)
+static char *get_varname(unsigned char *vtp, void *xc, unsigned char *vdp)
 {
 static char sbuff[65537];
 char * rc;
@@ -119,6 +119,29 @@ for(;;)
 			char *pnt = rc + 5;
 			char *vtyp_nam = pnt;
 			char *cpyto = sbuff;
+			char *pntd = strrchr(pnt, ':');
+
+			if(pntd)
+				{
+				unsigned char vd = ND_DIR_IMPLICIT;
+
+				pntd = strchr(pntd, ' ');
+				if(pntd)
+					{
+					pntd++;
+					if(*pntd == 'o')
+						{
+						vd = ND_DIR_OUT;
+						}
+					else
+					if(!strncmp(pntd, "in", 2))
+						{
+						vd = (pntd[2] == 'p') ? ND_DIR_IN : ND_DIR_INOUT;
+						}
+					}
+
+				if(vdp) { *vdp = vd; }
+				}
 
 			while(*pnt)
 				{
@@ -255,6 +278,7 @@ char sbuff[65537];
 int max_idcode;
 unsigned int msk = 0;
 unsigned char vt_prev, vt, nvt;
+unsigned char vd_prev, vd;
 void *xc = NULL;
 
 int i;
@@ -577,7 +601,7 @@ xc = fstReaderOpenForUtilitiesOnly();
 
 if(GLOBALS->numfacs)
 	{
-	char *fnam = get_varname(&vt_prev, xc);
+	char *fnam = get_varname(&vt_prev, xc, &vd_prev);
 	int flen = strlen(fnam);
 	namecache[0]=malloc_2(flen+1);
 	strcpy(namecache[0], fnam);
@@ -590,9 +614,10 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	struct fac *f;
 
 	vt = vt_prev;
+	vd = vd_prev;
 	if(i!=(GLOBALS->numfacs-1))
 		{
-		char *fnam = get_varname(&vt_prev, xc);
+		char *fnam = get_varname(&vt_prev, xc, &vd_prev);
 		int flen = strlen(fnam);
 		namecache[i+1]=malloc_2(flen+1);
 		strcpy(namecache[i+1], fnam);
@@ -716,9 +741,10 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	        default:                nvt = ND_UNSPECIFIED_DEFAULT; break;
 	        }
 	n->vartype = nvt;
+	n->vardir = vd;
         }
 
-while(get_varname(&vt_prev, xc)); /* read through end to process all upscopes */
+while(get_varname(&vt_prev, xc, NULL)); /* read through end to process all upscopes */
 
 decorated_module_cleanup(); /* ...also now in gtk2_treesearch.c */
 iter_through_comp_name_table();
