@@ -46,6 +46,9 @@
 #define VCD2FST_EXTLOADERS_CONV
 #endif
 
+static uint32_t var_direction_idx = 0;
+static unsigned char *var_direction = NULL;
+
 /*********************************************************/
 /*** vvv extload component type name determination vvv ***/
 /*********************************************************/
@@ -60,6 +63,40 @@ JRB comp_name_jrb = NULL;
 #endif
 
 static const char *fst_scope_name = NULL;
+static uint32_t numfacs = 0;
+
+static char *get_info(FILE *extload)
+{
+static char sbuff[65537];
+char * rc;
+
+for(;;)
+        {
+        rc = fgets(sbuff, 65536, extload);
+        if(!rc)
+                {
+                return(NULL);
+                }
+
+	switch(rc[0])
+		{
+                case 'v':
+                        if(!strncmp("var creation cnt", rc, 16))
+                                {
+                                char *pnt = strchr(rc+16, ':');
+                                if(pnt)
+                                        {
+                                        pnt++;
+                                        sscanf(pnt, "%d", &numfacs);
+                                        }
+                                }
+			break;
+
+		default:
+			break;			
+		}
+	}
+}
 
 static char *get_scopename(void *xc, FILE *extload)
 {
@@ -80,6 +117,37 @@ for(;;)
                 return(NULL);
                 }
 
+	if(rc[0] == 'V')
+		{
+                if(!strncmp("Var: ", rc, 5))
+                        {
+                        char *pnt = rc + 5;
+                        char *pntd = strrchr(pnt, ':');
+
+                        if(pntd)
+                                {
+                                unsigned char vd = FST_VD_IMPLICIT;
+
+                                pntd = strchr(pntd, ' ');
+                                if(pntd)
+                                        {
+                                        pntd++;
+                                        if(*pntd == 'o')
+                                                {
+                                                vd = FST_VD_OUTPUT;
+                                                }
+                                        else
+                                        if(!strncmp(pntd, "in", 2))
+                                                {
+                                                vd = (pntd[2] == 'p') ? FST_VD_INPUT : FST_VD_INOUT;
+                                                }
+                                        }
+
+				var_direction[var_direction_idx++] = vd;
+                                }
+			}
+		}
+	else
         if(rc[0] == 'S')
                 {
                 if(!strncmp(rc, "Scope:", 6))
@@ -144,12 +212,30 @@ char sbuff[65537];
 FILE *extload;
 void *xc = fstReaderOpenForUtilitiesOnly();
 
-sprintf(sbuff, "%s -scope %s 2>&1", EXTLOAD_PATH, fname);
+sprintf(sbuff, "%s -info %s 2>&1", EXTLOAD_PATH, fname);
 extload = popen(sbuff, "r");
+if(extload)
+	{
+	while(get_info(extload));
+	pclose(extload);
+	}
 
-while(get_scopename(xc, extload));
+if(numfacs)
+	{
+	var_direction = calloc(numfacs, sizeof(unsigned char));
+	var_direction_idx = 0;
+	}
 
-pclose(extload);
+sprintf(sbuff, "%s -tree %s 2>&1", EXTLOAD_PATH, fname);
+extload = popen(sbuff, "r");
+if(extload)
+	{
+	while(get_scopename(xc, extload));
+	pclose(extload);
+	}
+
+var_direction_idx = 0;
+
 fstReaderClose(xc); /* corresponds to fstReaderOpenForUtilitiesOnly() */
 }
 
@@ -517,14 +603,25 @@ while(!feof(f))
 			if(!node)
 				{
 				Jval val;
-				returnedhandle = fstWriterCreateVar(ctx, vartype, FST_VD_IMPLICIT, len, nam, 0);
+				returnedhandle = fstWriterCreateVar(ctx, vartype, !var_direction ? FST_VD_IMPLICIT : var_direction[var_direction_idx++], len, nam, 0);
 				val.i = returnedhandle;
 				jrb_insert_int(vcd_ids, hash, val)->val2.i = len;
 				}
 				else
 				{
-				fstWriterCreateVar(ctx, vartype, FST_VD_IMPLICIT, node->val2.i, nam, node->val.i);
+				fstWriterCreateVar(ctx, vartype, !var_direction ? FST_VD_IMPLICIT : var_direction[var_direction_idx++], node->val2.i, nam, node->val.i);
 				}
+
+#if defined(VCD2FST_EXTLOAD_CONV)
+			if(var_direction)
+				{
+				if(var_direction_idx == numfacs)
+					{
+					free(var_direction);
+					var_direction = NULL;
+					}
+				}
+#endif
 			}
 		}
 	else

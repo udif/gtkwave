@@ -1306,3 +1306,5 @@
 		then closed.
 		Hide signal direction column in SST if all signals are declared
 		as FST_VD_IMPLICIT.
+		Added extraction of in/out/inout from extload into FST with
+		vcd2fst helper executable.
