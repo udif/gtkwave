@@ -298,6 +298,7 @@ NULL, /* mvlfacs_fst_rvs_alias */
 0, /* busycnt_fst_c_2 */
 NULL, /* double_curr_fst */
 NULL, /* double_fini_fst */
+0, /* nonimplicit_direction_encountered */
 
 
 /*

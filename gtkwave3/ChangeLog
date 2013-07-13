@@ -1304,3 +1304,5 @@
 		Preliminary add for module port direction for extload and FST.
 		Fixed GTK warning when hide_sst is enabled and SST is opened
 		then closed.
+		Hide signal direction column in SST if all signals are declared
+		as FST_VD_IMPLICIT.

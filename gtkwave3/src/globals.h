@@ -299,6 +299,7 @@ fstHandle fst_maxhandle;
 int busycnt_fst_c_2; 
 double *double_curr_fst;
 double *double_fini_fst;
+char nonimplicit_direction_encountered;
 
 
 /*

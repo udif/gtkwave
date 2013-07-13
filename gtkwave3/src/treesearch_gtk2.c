@@ -1379,11 +1379,14 @@ do_tooltips:
 #endif
 		case FST_FILE:
 					/* fallthrough for Dir is deliberate for extload and FST */
-					column = gtk_tree_view_column_new_with_attributes ("Dir",
-							   renderer,
-							   "text", DIR_COLUMN,
-							   NULL);
-					gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+					if(GLOBALS->nonimplicit_direction_encountered)
+						{
+						column = gtk_tree_view_column_new_with_attributes ("Dir",
+								   renderer,
+								   "text", DIR_COLUMN,
+								   NULL);
+						gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+						}
 
 		case AE2_FILE:
 		case VCD_FILE:
@@ -1651,11 +1654,14 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 #endif
 		case FST_FILE:
 					/* fallthrough for Dir is deliberate for extload and FST */
-					column = gtk_tree_view_column_new_with_attributes ("Dir",
-							   renderer,
-							   "text", DIR_COLUMN,
-							   NULL);
-					gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+					if(GLOBALS->nonimplicit_direction_encountered)
+						{
+						column = gtk_tree_view_column_new_with_attributes ("Dir",
+								   renderer,
+								   "text", DIR_COLUMN,
+								   NULL);
+						gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+						}
 
 		case AE2_FILE:
 		case VCD_FILE:

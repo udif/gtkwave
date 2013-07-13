@@ -132,11 +132,13 @@ for(;;)
 					if(*pntd == 'o')
 						{
 						vd = ND_DIR_OUT;
+						GLOBALS->nonimplicit_direction_encountered = 1;
 						}
 					else
 					if(!strncmp(pntd, "in", 2))
 						{
 						vd = (pntd[2] == 'p') ? ND_DIR_IN : ND_DIR_INOUT;
+						GLOBALS->nonimplicit_direction_encountered = 1;
 						}
 					}
 

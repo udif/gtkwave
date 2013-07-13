@@ -488,9 +488,9 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		switch(h->u.var.direction)
 			{
-			case FST_VD_INPUT:		nvd = ND_DIR_IN; break;
-			case FST_VD_OUTPUT:		nvd = ND_DIR_OUT; break;
-			case FST_VD_INOUT:		nvd = ND_DIR_INOUT; break;
+			case FST_VD_INPUT:		nvd = ND_DIR_IN; GLOBALS->nonimplicit_direction_encountered = 1; break;
+			case FST_VD_OUTPUT:		nvd = ND_DIR_OUT; GLOBALS->nonimplicit_direction_encountered = 1; break;
+			case FST_VD_INOUT:		nvd = ND_DIR_INOUT; GLOBALS->nonimplicit_direction_encountered = 1; break;
 			case FST_VD_IMPLICIT:
 			default:			nvd = ND_DIR_IMPLICIT; break;
 			}
