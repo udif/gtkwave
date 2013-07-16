@@ -2554,7 +2554,6 @@ if(GLOBALS->partial_vcd)
 
 	while(*GLOBALS->consume_ptr_vcd_partial_c_1)
 		{
-		Trptr t;
 		int old_maxtime_marker_conflict = (GLOBALS->tims.marker > GLOBALS->max_time);
 
 		vcd_parse();

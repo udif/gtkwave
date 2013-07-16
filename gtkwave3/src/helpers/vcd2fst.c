@@ -670,8 +670,8 @@ while(!feof(f))
 #ifdef _WAVE_HAVE_JUDY
 		if(PJArray)
 			{
-			const char *fst_scope_name = fstReaderPushScope(xc, st, NULL);
-			PPvoid_t PPValue = JudySLGet(PJArray, (uint8_t *)fst_scope_name, PJE0);
+			const char *fst_scope_name2 = fstReaderPushScope(xc, st, NULL);
+			PPvoid_t PPValue = JudySLGet(PJArray, (uint8_t *)fst_scope_name2, PJE0);
 
 			if(PPValue)
 				{
@@ -696,11 +696,11 @@ while(!feof(f))
 #else
 		if(comp_name_jrb)
 			{
-			const char *fst_scope_name = fstReaderPushScope(xc, st, NULL);
+			const char *fst_scope_name2 = fstReaderPushScope(xc, st, NULL);
 			char cstring[65537];
 			JRB str;
 
-			strcpy(cstring, fst_scope_name);
+			strcpy(cstring, fst_scope_name2);
 			str = jrb_find_str(comp_name_jrb, cstring);
 
 			if(str)

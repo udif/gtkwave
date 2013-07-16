@@ -1240,12 +1240,11 @@ if(GLOBALS->signalpixmap)
 	}
 
  if (!GLOBALS->left_justify_sigs && !GLOBALS->do_resize_signals)
+   {
    if (width < GLOBALS->max_signal_name_pixel_width+15)
      {
        int delta = GLOBALS->max_signal_name_pixel_width+15 - width;
        
-	 GtkAdjustment *hadj;
-
 	 if(GLOBALS->signalpixmap)
 	   {
 
@@ -1264,6 +1263,7 @@ if(GLOBALS->signalpixmap)
        } else {
 	 GLOBALS->right_align_active = 1;
        }
+   }
 
 GLOBALS->old_signal_fill_height= widget->allocation.height;
 gdk_draw_rectangle(GLOBALS->signalpixmap, widget->style->bg_gc[GTK_STATE_PRELIGHT], TRUE, 0, 0,
