@@ -112,7 +112,7 @@ return(1);
 }
 
 
-static char *get_varname(unsigned char *vtp, void *xc, unsigned char *vdp)
+static char *get_varname(unsigned char *vtp, void *xc, unsigned char *vdp, struct Node *node_block, int i)
 {
 static char sbuff[65537];
 char * rc;
@@ -126,8 +126,135 @@ for(;;)
 		return(NULL);
 		}
 
-        if(rc[0] == 'V')
-                {
+	if((rc[0] == 'V') && (i >= 0))
+		{
+		if(!strncmp("Var: ", rc, 5))
+			{
+			char *pnt = rc + 5;
+			char *last_l = NULL;
+			char typ[64];
+			char *esc = NULL;
+			char *lb = NULL;
+			char *colon = NULL;
+			char *rb = NULL;
+			int state = 0;
+	
+			sscanf(rc + 5, "%s", typ);
+
+			while(*pnt)
+				{
+				if((pnt[0] == 'l') && (pnt[1] == ':'))
+					{
+					last_l = pnt;
+					}
+				else if(pnt[0] == '\\')
+					{
+					esc = pnt;
+					}
+				else if(!last_l)
+					{
+					if(pnt[0] == '[')
+						{
+						lb = pnt;
+						colon = NULL;
+						rb = NULL;
+						state = 1;
+						}
+					else if(pnt[0] == ']')
+						{
+						rb = pnt;
+						state = 0;
+						if(!isspace(pnt[1]))
+							{
+							lb = colon = rb = NULL;
+							}
+						}
+					else if(pnt[0] == ':')
+						{
+						if(state)
+							{
+							colon = pnt;
+							}
+						}
+					}
+				
+				pnt++;
+				}
+
+			if(last_l)
+				{
+				unsigned int l, r;
+				char s1[32], s3[32], s4[32];
+				unsigned int d2;
+				sscanf(last_l, "l:%u r:%u %s %u %s %s", &l, &r, s1, &d2, s3, s4);
+
+				GLOBALS->extload_idcodes[i] = d2;
+				if(GLOBALS->extload_inv_idcodes[d2] == 0) GLOBALS->extload_inv_idcodes[d2] = i+1; /* root alias */
+
+				if(!strcmp("vcd_real", typ))
+					{
+					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_DOUBLE;
+					node_block[i].msi=0;				
+					node_block[i].lsi=0;				
+					GLOBALS->mvlfacs_vzt_c_3[i].len=64;
+					}
+				else
+				if(!strcmp("vcd_integer", typ))
+					{
+					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_INTEGER;
+					node_block[i].msi=0;				
+					node_block[i].lsi=0;				
+					GLOBALS->mvlfacs_vzt_c_3[i].len=32;
+					}
+				else
+					{
+					int len_parse = 1;
+
+					GLOBALS->mvlfacs_vzt_c_3[i].len=(l>r) ? (l-r+1) : (r-l+1);
+
+					if(esc && lb && rb)
+						{
+						node_block[i].msi = atoi(lb+1);
+						if(colon)
+							{
+							node_block[i].lsi = atoi(colon+1);
+							}
+							else
+							{
+							node_block[i].lsi = node_block[i].msi;
+							}						
+
+						len_parse = (node_block[i].msi > node_block[i].lsi)
+								? (node_block[i].msi - node_block[i].lsi + 1)
+								: (node_block[i].lsi - node_block[i].msi + 1);
+
+						if(len_parse != GLOBALS->mvlfacs_vzt_c_3[i].len)
+							{
+							node_block[i].msi=l;				
+							node_block[i].lsi=r;				
+							}
+						}
+						else
+						{
+						if(lb && !l && !r) /* fix for stranded signals */
+							{
+							node_block[i].msi=atoi(lb+1);				
+							node_block[i].lsi=atoi(lb+1);				
+							}
+							else
+							{
+							node_block[i].msi=l;				
+							node_block[i].lsi=r;				
+							}
+						}
+
+					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_BITS; 
+					}
+				}
+
+			i++;
+			}
+
                 if(!strncmp("Var: ", rc, 5))
 			{
 			char *pnt = rc + 5;
@@ -516,159 +643,6 @@ node_block=(struct Node *)calloc_2(GLOBALS->numfacs,sizeof(struct Node));
 GLOBALS->extload_idcodes=(unsigned int *)calloc_2(GLOBALS->numfacs, sizeof(unsigned int));
 GLOBALS->extload_inv_idcodes=(int *)calloc_2(max_idcode+1, sizeof(int));
 
-if(!last_modification_check()) { GLOBALS->extload_already_errored = 1; return(LLDescriptor(0)); }
-sprintf(sbuff, "%s -hier_tree %s 2>&1", EXTLOAD_PATH, fname);
-GLOBALS->extload = popen(sbuff, "r");
-i = 0;
-for(;;)
-	{
-	char * rc = fgets(sbuff, 65536, GLOBALS->extload);
-	if(!rc) break;
-
-	if(rc[0] == 'V')
-		{
-		if(!strncmp("Var:", rc, 4))
-			{
-			char *pnt = rc + 5;
-			char *last_l = NULL;
-			char typ[64];
-			char *esc = NULL;
-			char *lb = NULL;
-			char *colon = NULL;
-			char *rb = NULL;
-			int state = 0;
-	
-			sscanf(rc + 5, "%s", typ);
-
-			while(*pnt)
-				{
-				if((pnt[0] == 'l') && (pnt[1] == ':'))
-					{
-					last_l = pnt;
-					}
-				else if(pnt[0] == '\\')
-					{
-					esc = pnt;
-					}
-				else if(!last_l)
-					{
-					if(pnt[0] == '[')
-						{
-						lb = pnt;
-						colon = NULL;
-						rb = NULL;
-						state = 1;
-						}
-					else if(pnt[0] == ']')
-						{
-						rb = pnt;
-						state = 0;
-						if(!isspace(pnt[1]))
-							{
-							lb = colon = rb = NULL;
-							}
-						}
-					else if(pnt[0] == ':')
-						{
-						if(state)
-							{
-							colon = pnt;
-							}
-						}
-					}
-				
-				pnt++;
-				}
-
-			if(last_l)
-				{
-				unsigned int l, r;
-				char s1[32], s3[32], s4[32];
-				unsigned int d2;
-				sscanf(last_l, "l:%u r:%u %s %u %s %s", &l, &r, s1, &d2, s3, s4);
-
-				GLOBALS->extload_idcodes[i] = d2;
-				if(GLOBALS->extload_inv_idcodes[d2] == 0) GLOBALS->extload_inv_idcodes[d2] = i+1; /* root alias */
-
-				if(!strcmp("vcd_real", typ))
-					{
-					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_DOUBLE;
-					node_block[i].msi=0;				
-					node_block[i].lsi=0;				
-					GLOBALS->mvlfacs_vzt_c_3[i].len=64;
-					}
-				else
-				if(!strcmp("vcd_integer", typ))
-					{
-					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_INTEGER;
-					node_block[i].msi=0;				
-					node_block[i].lsi=0;				
-					GLOBALS->mvlfacs_vzt_c_3[i].len=32;
-					}
-				else
-					{
-					int len_parse = 1;
-
-					GLOBALS->mvlfacs_vzt_c_3[i].len=(l>r) ? (l-r+1) : (r-l+1);
-
-					if(esc && lb && rb)
-						{
-						node_block[i].msi = atoi(lb+1);
-						if(colon)
-							{
-							node_block[i].lsi = atoi(colon+1);
-							}
-							else
-							{
-							node_block[i].lsi = node_block[i].msi;
-							}						
-
-						len_parse = (node_block[i].msi > node_block[i].lsi)
-								? (node_block[i].msi - node_block[i].lsi + 1)
-								: (node_block[i].lsi - node_block[i].msi + 1);
-
-						if(len_parse != GLOBALS->mvlfacs_vzt_c_3[i].len)
-							{
-							node_block[i].msi=l;				
-							node_block[i].lsi=r;				
-							}
-						}
-						else
-						{
-						if(lb && !l && !r) /* fix for stranded signals */
-							{
-							node_block[i].msi=atoi(lb+1);				
-							node_block[i].lsi=atoi(lb+1);				
-							}
-							else
-							{
-							node_block[i].msi=l;				
-							node_block[i].lsi=r;				
-							}
-						}
-
-					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_BITS; 
-					}
-				}
-
-			i++;
-			}
-		}
-
-	}
-
-pclose(GLOBALS->extload);
-
-if(i==GLOBALS->numfacs)
-	{
-	fprintf(stderr, EXTLOAD"Finished building %d facs.\n", GLOBALS->numfacs);
-	}
-	else
-	{
-	fprintf(stderr, EXTLOAD"Fac count mismatch: %d expected vs %d found, exiting.\n", GLOBALS->numfacs, i);
-	GLOBALS->extload_already_errored = 1;
-	return(LLDescriptor(0));
-	}
 /* SPLASH */                            splash_sync(1, 5);
 
 if(!last_modification_check()) { GLOBALS->extload_already_errored = 1; return(LLDescriptor(0)); }
@@ -686,7 +660,7 @@ xc = fstReaderOpenForUtilitiesOnly();
 
 if(GLOBALS->numfacs)
 	{
-	char *fnam = get_varname(&vt_prev, xc, &vd_prev);
+	char *fnam = get_varname(&vt_prev, xc, &vd_prev, node_block, 0);
 	int flen = strlen(fnam);
 	namecache[0]=malloc_2(flen+1);
 	strcpy(namecache[0], fnam);
@@ -702,7 +676,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	vd = vd_prev;
 	if(i!=(GLOBALS->numfacs-1))
 		{
-		char *fnam = get_varname(&vt_prev, xc, &vd_prev);
+		char *fnam = get_varname(&vt_prev, xc, &vd_prev, node_block, i+1);
 		int flen = strlen(fnam);
 		namecache[i+1]=malloc_2(flen+1);
 		strcpy(namecache[i+1], fnam);
@@ -829,7 +803,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	n->vardir = vd;
         }
 
-while(get_varname(&vt_prev, xc, NULL)); /* read through end to process all upscopes */
+while(get_varname(&vt_prev, xc, NULL, NULL, -1)); /* read through end to process all upscopes */
 
 decorated_module_cleanup(); /* ...also now in gtk2_treesearch.c */
 iter_through_comp_name_table();
