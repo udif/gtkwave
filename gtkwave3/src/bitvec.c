@@ -213,14 +213,14 @@ if(GLOBALS->is_lxt)
 	import_lxt_trace(np);
 	}
 else
+if(GLOBALS->extload) /*needs to be ahead of is_lx2 as now can be is_lx2 with FsdbReader */
+	{
+	import_extload_trace(np);
+	}
+else
 if(GLOBALS->is_lx2)
 	{
 	import_lx2_trace(np);
-	}
-else
-if(GLOBALS->extload)
-	{
-	import_extload_trace(np);
 	}
 else
 	{

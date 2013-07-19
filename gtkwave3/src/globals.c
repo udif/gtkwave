@@ -233,6 +233,7 @@ NULL, /* entrybox_text 82 */
 /* 
  * extload.c 
  */
+0, /* extload_ffr_import_count */
 NULL, /* extload_ffr_ctx */
 NULL, /* extload */
 NULL, /* extload_idcodes */

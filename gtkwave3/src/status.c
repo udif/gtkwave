@@ -88,6 +88,7 @@ if(GLOBALS->is_lx2)
 		case LXT2_IS_AET2: status_text("AET2 loaded successfully.\n"); break;
 		case LXT2_IS_VZT:  status_text("VZT loaded successfully.\n"); break;
 		case LXT2_IS_VLIST:  status_text("VCD loaded successfully.\n"); break;
+		case LXT2_IS_FSDB:  status_text("FSDB loaded successfully.\n"); break;
 		}
 	}
 

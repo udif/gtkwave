@@ -50,6 +50,18 @@ fprintf(stderr, "%s", extload_loader_fail_msg);
 exit(255);
 }
 
+void fsdb_import_masked(void)
+{
+fprintf(stderr, "%s", extload_loader_fail_msg);
+exit(255);
+}
+
+void fsdb_set_fac_process_mask(nptr np)
+{
+fprintf(stderr, "%s", extload_loader_fail_msg);
+exit(255);
+}
+
 #else
 
 static int last_modification_check(void)
@@ -766,6 +778,7 @@ pclose(GLOBALS->extload);
 
 #ifdef WAVE_FSDB_READER_IS_PRESENT
 GLOBALS->extload_ffr_ctx = fsdbReaderOpenFile(GLOBALS->loaded_file_name);
+GLOBALS->is_lx2 = LXT2_IS_FSDB;
 #endif
 
 fstReaderClose(xc); /* corresponds to fstReaderOpenForUtilitiesOnly() */
@@ -1006,7 +1019,9 @@ if(GLOBALS->extload_inv_idcodes[txidx_in_trace] < 0)
 
 GLOBALS->extload_inv_idcodes[txidx_in_trace] = - (txidx + 1); 
 
+#ifndef WAVE_FSDB_READER_IS_PRESENT
 fprintf(stderr, EXTLOAD"Import: %s\n", np->nname);
+#endif
 
 /* new stuff */
 len = np->mv.mvlfac->len;
@@ -1015,8 +1030,8 @@ len = np->mv.mvlfac->len;
 {
 void *hdl;
 
-fsdbReaderAddToSignalList(GLOBALS->extload_ffr_ctx, txidx_in_trace);
-fsdbReaderLoadSignals(GLOBALS->extload_ffr_ctx);
+/* fsdbReaderAddToSignalList(GLOBALS->extload_ffr_ctx, txidx_in_trace); */
+/* fsdbReaderLoadSignals(GLOBALS->extload_ffr_ctx); */
 
 hdl = fsdbReaderCreateVCTraverseHandle(GLOBALS->extload_ffr_ctx, txidx_in_trace);
 if(fsdbReaderHasIncoreVC(GLOBALS->extload_ffr_ctx, hdl))
@@ -1045,7 +1060,7 @@ if(fsdbReaderHasIncoreVC(GLOBALS->extload_ffr_ctx, hdl))
 		}
 	}
 fsdbReaderFree(GLOBALS->extload_ffr_ctx, hdl);
-fsdbReaderUnloadSignals(GLOBALS->extload_ffr_ctx);
+/* fsdbReaderUnloadSignals(GLOBALS->extload_ffr_ctx); */
 }
 
 #else
@@ -1199,5 +1214,38 @@ if(nold!=np)
 	}
 }
 
-#endif
 
+void fsdb_import_masked(void)
+{
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+fsdbReaderLoadSignals(GLOBALS->extload_ffr_ctx);
+GLOBALS->extload_ffr_import_count = 0;
+#endif
+}
+
+void fsdb_set_fac_process_mask(nptr np)
+{
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+struct HistEnt *htemp, *histent_tail;
+struct fac *f;
+int txidx, txidx_in_trace;
+
+if(!(f=np->mv.mvlfac)) return;	/* already imported */
+
+txidx = f - GLOBALS->mvlfacs_vzt_c_3;
+txidx_in_trace = GLOBALS->extload_idcodes[txidx];
+
+if(GLOBALS->extload_inv_idcodes[txidx_in_trace] > 0)
+	{
+	if(!GLOBALS->extload_ffr_import_count)
+		{
+		fsdbReaderUnloadSignals(GLOBALS->extload_ffr_ctx);
+		}
+	GLOBALS->extload_ffr_import_count++;
+
+	fsdbReaderAddToSignalList(GLOBALS->extload_ffr_ctx, txidx_in_trace);
+	}
+#endif
+}
+
+#endif

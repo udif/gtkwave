@@ -1598,6 +1598,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 				case LXT2_IS_VZT:  vzt_import_masked(); break;
 				case LXT2_IS_VLIST: vcd_import_masked(); break;
 				case LXT2_IS_FST: fst_import_masked(); break;
+				case LXT2_IS_FSDB: fsdb_import_masked(); break;
 				}
 
 			if(wave_is_compressed)

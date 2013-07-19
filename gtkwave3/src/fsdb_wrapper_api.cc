@@ -31,7 +31,7 @@
 
 static bool_T __TreeCB(fsdbTreeCBType cb_type, void *client_data, void *tree_cb_data)
 {
-return(TRUE); // currently unused along with var/scope traversal
+return(TRUE); /* currently unused along with var/scope traversal */
 }
 
 

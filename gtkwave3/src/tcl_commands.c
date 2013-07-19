@@ -313,6 +313,7 @@ if(GLOBALS->is_lx2)
                 case LXT2_IS_VZT:  reportString = "VZT"; break;
                 case LXT2_IS_VLIST:reportString = "VCD"; break;
                 case LXT2_IS_FST:  reportString = "FST"; break;
+                case LXT2_IS_FSDB:  reportString = "FSDB"; break;
                 }
         }
 

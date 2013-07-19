@@ -550,6 +550,7 @@ switch(GLOBALS->is_lx2)
 	case LXT2_IS_VZT:  	import_vzt_trace(np); return;
 	case LXT2_IS_VLIST: 	import_vcd_trace(np); return;
 	case LXT2_IS_FST: 	import_fst_trace(np); return;
+	case LXT2_IS_FSDB:	import_extload_trace(np); return;
 	default: break; /* fallthrough */
 	}
 
@@ -677,6 +678,7 @@ switch(GLOBALS->is_lx2)
         case LXT2_IS_VZT:  	vzt_set_fac_process_mask(np); return;
 	case LXT2_IS_VLIST: 	vcd_set_fac_process_mask(np); return;
 	case LXT2_IS_FST: 	fst_set_fac_process_mask(np); return;
+	case LXT2_IS_FSDB:	fsdb_set_fac_process_mask(np); return;
         default: break; /* fallthrough */
         }
 
@@ -712,6 +714,7 @@ switch(GLOBALS->is_lx2)
         case LXT2_IS_VZT:  	vzt_import_masked(); return;
         case LXT2_IS_VLIST:  	vcd_import_masked(); return;
         case LXT2_IS_FST:  	fst_import_masked(); return;
+	case LXT2_IS_FSDB:	fsdb_import_masked(); return;
         default: break; /* fallthrough */
         }
 
