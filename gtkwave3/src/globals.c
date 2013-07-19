@@ -47,6 +47,8 @@
 #include "fst.h"
 #include "hierpack.h"
 
+#include "fsdb_wrapper_api.h"
+
 #ifdef __MINGW32__
 #define sleep(x) Sleep(x)
 #endif
@@ -231,6 +233,7 @@ NULL, /* entrybox_text 82 */
 /* 
  * extload.c 
  */
+NULL, /* extload_ffr_ctx */
 NULL, /* extload */
 NULL, /* extload_idcodes */
 NULL, /* extload_inv_idcodes */
@@ -1977,14 +1980,24 @@ void reload_into_new_context_2(void)
 #endif
 	break;
   
+#ifdef EXTLOAD_SUFFIX
+   case EXTLOAD_FILE:
+	if(GLOBALS->extload_ffr_ctx)
+		{
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+		fsdbReaderClose(GLOBALS->extload_ffr_ctx);
+#endif
+		GLOBALS->extload_ffr_ctx = NULL;
+		}
+	break;
+#endif
+
    case MISSING_FILE:
    case DUMPLESS_FILE:
    case GHW_FILE:
    case VCD_FILE:
    case VCD_RECODER_FILE: 
-#ifdef EXTLOAD_SUFFIX
-   case EXTLOAD_FILE:
-#endif
+   default:
 	/* do nothing */ break;
  }
 
@@ -2521,15 +2534,25 @@ void free_and_destroy_page_context(void)
 #endif
 #endif
         break;
+
+#ifdef EXTLOAD_SUFFIX
+   case EXTLOAD_FILE:
+	if(GLOBALS->extload_ffr_ctx)
+		{
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+		fsdbReaderClose(GLOBALS->extload_ffr_ctx);
+#endif
+		GLOBALS->extload_ffr_ctx = NULL;
+		}
+	break;
+#endif
  
    case MISSING_FILE:
    case DUMPLESS_FILE:
    case GHW_FILE:
    case VCD_FILE:
    case VCD_RECODER_FILE: 
-#ifdef EXTLOAD_SUFFIX   
-   case EXTLOAD_FILE:
-#endif          
+   default:
 	/* do nothing */ break;
  }
 

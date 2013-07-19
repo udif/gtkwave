@@ -14,7 +14,12 @@ LIBCOCOA_LDADD = ./cocoa/libgtkwmacintegration.a $(COCOA_GTK_LDADD)
 
 bin_PROGRAMS=	gtkwave twinwave
 
-AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(TCL_INCLUDE_SPEC) $(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(GTK_MAC_CFLAGS) $(GCONF_CFLAGS) $(LIBCOCOA_CFLAGS) $(GTK_UNIX_PRINT_CFLAGS)
+AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) \
+		$(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(FSDB_CFLAGS) $(TCL_INCLUDE_SPEC) \
+		$(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) \
+		$(GTK_MAC_CFLAGS) $(GCONF_CFLAGS) $(LIBCOCOA_CFLAGS) $(GTK_UNIX_PRINT_CFLAGS)
+
+AM_CXXFLAGS=	$(AM_CFLAGS)
 
 ./liblzma/libgwlzma.a: $(srcdir)/liblzma/LzmaLib.c $(srcdir)/liblzma/LzmaLib.h
 
@@ -23,6 +28,7 @@ AM_CFLAGS=	-I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $
 ./cocoa/libgtkwmacintegration.a: $(srcdir)/cocoa/cocoa_misc.c $(srcdir)/cocoa/cocoa_misc.h
 
 gtkwave_SOURCES= \
+	fsdb_wrapper_api.cc fsdb_wrapper_api.h \
 	baseconvert.h wavewindow.h zoombuttons.h fetchbuttons.h timeentry.h shiftbuttons.h pagebuttons.h edgebuttons.h \
 	signalwindow.h entry.h file.h status.h search.h showchange.h treesearch.h hiersearch.h renderopt.h markerbox.h \
 	simplereq.h help.h logfile.h vcd_partial.h mouseover.h mouseover_sigs.h interp.h \
@@ -46,9 +52,8 @@ gtkwave_SOURCES= \
 	vcd_partial.c vcd_recoder.c vcd_saver.c vcd_saver.h version.h vlist.c vlist.h vzt.c vzt.h wavealloca.h \
 	wavewindow.c zoombuttons.c
 
-gtkwave_LDADD= $(LIBCOCOA_LDADD) $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS) $(GTK_UNIX_PRINT_LIBS)
+gtkwave_LDADD= $(LIBCOCOA_LDADD) $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(FSDB_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS) $(GTK_UNIX_PRINT_LIBS)
 gtkwave_LDFLAGS = $(COCOA_GTK_LDFLAGS)
-
 
 twinwave_SOURCES= twinwave.c
 twinwave_LDADD= $(GTK_LIBS) $(GTK_MAC_LIBS) $(GCONF_LIBS)

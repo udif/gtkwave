@@ -13,6 +13,8 @@
 #include "vzt.h"
 #include "lx2.h"
 
+#include "fsdb_wrapper_api.h"
+
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -762,6 +764,10 @@ for(i=0;((i<2)&&(i<GLOBALS->numfacs));i++)
 free_2(namecache); namecache = NULL;
 pclose(GLOBALS->extload);
 
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+GLOBALS->extload_ffr_ctx = fsdbReaderOpenFile(GLOBALS->loaded_file_name);
+#endif
+
 fstReaderClose(xc); /* corresponds to fstReaderOpenForUtilitiesOnly() */
 
 /* SPLASH */                            splash_sync(2, 5);  
@@ -1005,6 +1011,45 @@ fprintf(stderr, EXTLOAD"Import: %s\n", np->nname);
 /* new stuff */
 len = np->mv.mvlfac->len;
 
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+{
+void *hdl;
+
+fsdbReaderAddToSignalList(GLOBALS->extload_ffr_ctx, txidx_in_trace);
+fsdbReaderLoadSignals(GLOBALS->extload_ffr_ctx);
+
+hdl = fsdbReaderCreateVCTraverseHandle(GLOBALS->extload_ffr_ctx, txidx_in_trace);
+if(fsdbReaderHasIncoreVC(GLOBALS->extload_ffr_ctx, hdl))
+	{
+	uint64_t mxt = fsdbReaderGetMinXTag(GLOBALS->extload_ffr_ctx, hdl);
+	fsdbReaderGotoXTag(GLOBALS->extload_ffr_ctx, hdl, mxt);
+
+	for(;;)
+		{
+		void *val_ptr;
+		char *b;
+		if(!fsdbReaderGetVC(GLOBALS->extload_ffr_ctx, hdl, &val_ptr))
+			{
+			break;
+			}
+
+		b = fsdbReaderTranslateVC(hdl, val_ptr);
+		extload_callback(&mxt, &txidx, &b);
+
+		if(!fsdbReaderGotoNextVC(GLOBALS->extload_ffr_ctx, hdl))
+			{
+			break;
+			}
+			
+		mxt = fsdbReaderGetXTag(GLOBALS->extload_ffr_ctx, hdl);
+		}
+	}
+fsdbReaderFree(GLOBALS->extload_ffr_ctx, hdl);
+fsdbReaderUnloadSignals(GLOBALS->extload_ffr_ctx);
+}
+
+#else
+
 if(last_modification_check()) /* place array height check here in an "&&" branch, sorry, arrays not supported */
 	{
 	char sbuff[65537];
@@ -1072,6 +1117,7 @@ if(last_modification_check()) /* place array height check here in an "&&" branch
 
 	pclose(GLOBALS->extload);
 	}
+#endif
 
 histent_tail = htemp = histent_calloc();
 if(len>1)

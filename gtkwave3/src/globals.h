@@ -231,6 +231,7 @@ void (*cleanup_entry_c_1)(void); /* from entry.c 84 */
 
 
 /* extload.c */
+void *extload_ffr_ctx; /* from extload.c */
 FILE *extload; /* from extload.c */
 unsigned int *extload_idcodes; /* from extload.c */
 int *extload_inv_idcodes; /* from extload.c */

@@ -66,6 +66,15 @@ if test "X$SIMARAMA_BASE" = "X" ; then
 	SIMARAMA_BASE="/afs/awd/projects/simarama/releases/latest"
 fi
 
+# ------------- Set fsdbreader base -------------------
+if test "X$FSDBREADER_HDRS" = "X" ; then
+	FSDBREADER_HDRS="/pub/FsdbReader"
+fi
+if test "X$FSDBREADER_LIBS" = "X" ; then
+	FSDBREADER_LIBS="/pub/FsdbReader"
+fi
+
+
 # Checks for build options
 # ------------- Inline -------------------
 
@@ -318,8 +327,81 @@ AC_SUBST(AET2_CFLAGS)
 AC_SUBST(AET2_LDADD)
 
 
+AC_MSG_CHECKING([if FsdbReader support should be used])
+
+FFR_CFLAGS=
+FSDB_LDADD=
+FFR=no
+AC_ARG_ENABLE([fsdb],
+[  --enable-fsdb           Compiles in FsdbReader from env vars FSDBREADER_HDRS
+                          header and FSDBREADER_LIBS library directories.],
+[
+if test "X$enable_fsdb" = "Xno" ; then
+	FFR=no
+else
+	FFR=yes
+fi
+],
+[
+FFR=no
+])
+
+if test "X$FFR" = "Xyes" ; then
+	AC_CHECK_FILE("$FSDBREADER_LIBS/libnffr.so", FSDB_SO=yes, FSDB_SO=no)
+
+	if test "X$FSDB_SO" = "Xyes" ; then
+		FSDB_CFLAGS="-DFSDB_IS_PRESENT -I$FSDBREADER_HDRS"
+		FSDB_LDADD="$FSDBREADER_LIBS/libnffr.so"
+	else
+
+		AC_CHECK_FILE("$FSDBREADER_LIBS/libnffr.a", FSDB_A=yes, FSDB_A=no)
+		if test "X$FSDB_A" = "Xyes" ; then
+			FSDB_CFLAGS="-DFSDB_IS_PRESENT -I$FSDBREADER_HDRS"
+			FSDB_LDADD="$FSDBREADER_LIBS/libnffr.a"
+		else
+
+		AC_MSG_WARN([FSDB reader library not found, skipping.])
+
+		fi
+	fi
+
+	AC_CHECK_FILE("$FSDBREADER_LIBS/libnsys.so", AFSDB_SO=yes, AFSDB_SO=no)
+
+	if test "X$AFSDB_SO" = "Xyes" ; then
+		FSDB_CFLAGS="-DFSDB_NSYS_IS_PRESENT $FSDB_CFLAGS"
+		FSDB_LDADD="$FSDBREADER_LIBS/libnsys.so $FSDB_LDADD"
+	else
+
+		AC_CHECK_FILE("$FSDBREADER_LIBS/libnsys.a", FSDB_A=yes, FSDB_A=no)
+		if test "X$AFSDB_A" = "Xyes" ; then
+			FSDB_CFLAGS="-DFSDB_NSYS_IS_PRESENT $FSDB_CFLAGS"
+			FSDB_LDADD="$FSDBREADER_LIBS/libnsys.a $FSDB_LDADD"
+		else
+
+		FSDB_CFLAGS=
+		FSDB_LDADD=
+		AC_MSG_WARN([FSDB system library not found, skipping.])
+
+		fi
+	fi
+
+	AC_CHECK_FILE("$FSDBREADER_HDRS/ffrAPI.h", FSDB_SOY=yes, FSDB_SOY=no)
+	if test "X$FSDB_SOY" = "Xno" ; then
+		FSDB_CFLAGS=
+		FSDB_LDADD=
+		AC_MSG_WARN([FSDB header not found, skipping.])
+	fi
+
+else
+	AC_MSG_RESULT([no])
+fi
+
+AC_SUBST(FSDB_CFLAGS)
+AC_SUBST(FSDB_LDADD)
+
+
 # Checks for programs.
-# AC_PROG_CXX  # not needed as gtkwave and related programs don't use c++
+AC_PROG_CXX
 AC_PROG_AWK
 AC_PROG_CC
 AC_PROG_MAKE_SET
@@ -819,6 +901,9 @@ AC_MSG_NOTICE([
 
   AET2_CFLAGS           : $AET2_CFLAGS
   AET2_LDADD            : $AET2_LDADD
+
+  FSDB_CFLAGS           : $FSDB_CFLAGS
+  FSDB_LDADD            : $FSDB_LDADD
 
   EXTLOAD_CFLAGS        : $EXTLOAD_CFLAGS
 

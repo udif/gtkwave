@@ -62,27 +62,28 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_gtkwave_OBJECTS = globals.$(OBJEXT) ae2.$(OBJEXT) \
-	analyzer.$(OBJEXT) baseconvert.$(OBJEXT) bitvec.$(OBJEXT) \
-	bsearch.$(OBJEXT) busy.$(OBJEXT) clipping.$(OBJEXT) \
-	color.$(OBJEXT) currenttime.$(OBJEXT) debug.$(OBJEXT) \
-	discardbuttons.$(OBJEXT) edgebuttons.$(OBJEXT) entry.$(OBJEXT) \
-	extload.$(OBJEXT) fetchbuttons.$(OBJEXT) fgetdynamic.$(OBJEXT) \
-	file.$(OBJEXT) fonts.$(OBJEXT) fst.$(OBJEXT) gconf.$(OBJEXT) \
-	getopt.$(OBJEXT) getopt1.$(OBJEXT) ghw.$(OBJEXT) \
-	ghwlib.$(OBJEXT) hierpack.$(OBJEXT) jrb.$(OBJEXT) \
-	help.$(OBJEXT) lxt2_read.$(OBJEXT) lxt_write.$(OBJEXT) \
-	vzt_read.$(OBJEXT) hiersearch.$(OBJEXT) interp.$(OBJEXT) \
-	logfile.$(OBJEXT) lx2.$(OBJEXT) lxt.$(OBJEXT) main.$(OBJEXT) \
-	markerbox.$(OBJEXT) menu.$(OBJEXT) mouseover.$(OBJEXT) \
-	mouseover_sigs.$(OBJEXT) pagebuttons.$(OBJEXT) \
-	pipeio.$(OBJEXT) pixmaps.$(OBJEXT) print.$(OBJEXT) \
-	ptranslate.$(OBJEXT) rc.$(OBJEXT) regex.$(OBJEXT) \
-	renderopt.$(OBJEXT) rgb.$(OBJEXT) savefile.$(OBJEXT) \
-	search.$(OBJEXT) shiftbuttons.$(OBJEXT) showchange.$(OBJEXT) \
-	signalwindow.$(OBJEXT) simplereq.$(OBJEXT) splash.$(OBJEXT) \
-	status.$(OBJEXT) strace.$(OBJEXT) symbol.$(OBJEXT) \
-	tcl_commands.$(OBJEXT) tcl_helper.$(OBJEXT) tcl_np.$(OBJEXT) \
+am_gtkwave_OBJECTS = fsdb_wrapper_api.$(OBJEXT) globals.$(OBJEXT) \
+	ae2.$(OBJEXT) analyzer.$(OBJEXT) baseconvert.$(OBJEXT) \
+	bitvec.$(OBJEXT) bsearch.$(OBJEXT) busy.$(OBJEXT) \
+	clipping.$(OBJEXT) color.$(OBJEXT) currenttime.$(OBJEXT) \
+	debug.$(OBJEXT) discardbuttons.$(OBJEXT) edgebuttons.$(OBJEXT) \
+	entry.$(OBJEXT) extload.$(OBJEXT) fetchbuttons.$(OBJEXT) \
+	fgetdynamic.$(OBJEXT) file.$(OBJEXT) fonts.$(OBJEXT) \
+	fst.$(OBJEXT) gconf.$(OBJEXT) getopt.$(OBJEXT) \
+	getopt1.$(OBJEXT) ghw.$(OBJEXT) ghwlib.$(OBJEXT) \
+	hierpack.$(OBJEXT) jrb.$(OBJEXT) help.$(OBJEXT) \
+	lxt2_read.$(OBJEXT) lxt_write.$(OBJEXT) vzt_read.$(OBJEXT) \
+	hiersearch.$(OBJEXT) interp.$(OBJEXT) logfile.$(OBJEXT) \
+	lx2.$(OBJEXT) lxt.$(OBJEXT) main.$(OBJEXT) markerbox.$(OBJEXT) \
+	menu.$(OBJEXT) mouseover.$(OBJEXT) mouseover_sigs.$(OBJEXT) \
+	pagebuttons.$(OBJEXT) pipeio.$(OBJEXT) pixmaps.$(OBJEXT) \
+	print.$(OBJEXT) ptranslate.$(OBJEXT) rc.$(OBJEXT) \
+	regex.$(OBJEXT) renderopt.$(OBJEXT) rgb.$(OBJEXT) \
+	savefile.$(OBJEXT) search.$(OBJEXT) shiftbuttons.$(OBJEXT) \
+	showchange.$(OBJEXT) signalwindow.$(OBJEXT) \
+	simplereq.$(OBJEXT) splash.$(OBJEXT) status.$(OBJEXT) \
+	strace.$(OBJEXT) symbol.$(OBJEXT) tcl_commands.$(OBJEXT) \
+	tcl_helper.$(OBJEXT) tcl_np.$(OBJEXT) \
 	tcl_support_commands.$(OBJEXT) timeentry.$(OBJEXT) \
 	translate.$(OBJEXT) tree.$(OBJEXT) treesearch.$(OBJEXT) \
 	tree_component.$(OBJEXT) ttranslate.$(OBJEXT) vcd.$(OBJEXT) \
@@ -99,8 +100,9 @@ gtkwave_DEPENDENCIES = $(am__DEPENDENCIES_2) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(LIBFST_LDADD) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-gtkwave_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(gtkwave_LDFLAGS) \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
+gtkwave_LINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(gtkwave_LDFLAGS) \
 	$(LDFLAGS) -o $@
 am_twinwave_OBJECTS = twinwave.$(OBJEXT)
 twinwave_OBJECTS = $(am_twinwave_OBJECTS)
@@ -138,6 +140,19 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+AM_V_CXX = $(am__v_CXX_@AM_V@)
+am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
+am__v_CXX_0 = @echo "  CXX     " $@;
+am__v_CXX_1 = 
+CXXLD = $(CXX)
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
+AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
+am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
+am__v_CXXLD_0 = @echo "  CXXLD   " $@;
+am__v_CXXLD_1 = 
 SOURCES = $(gtkwave_SOURCES) $(twinwave_SOURCES)
 DIST_SOURCES = $(gtkwave_SOURCES) $(twinwave_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
@@ -224,6 +239,9 @@ COCOA_GTK_LDADD = @COCOA_GTK_LDADD@
 COCOA_GTK_LDFLAGS = @COCOA_GTK_LDFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
+CXX = @CXX@
+CXXDEPMODE = @CXXDEPMODE@
+CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -237,6 +255,8 @@ EXTDEBUG2 = @EXTDEBUG2@
 EXTDEBUG3 = @EXTDEBUG3@
 EXTLOAD_CFLAGS = @EXTLOAD_CFLAGS@
 FASTTREE_CFLAGS = @FASTTREE_CFLAGS@
+FSDB_CFLAGS = @FSDB_CFLAGS@
+FSDB_LDADD = @FSDB_LDADD@
 GCONF_CFLAGS = @GCONF_CFLAGS@
 GCONF_LIBS = @GCONF_LIBS@
 GPERF = @GPERF@
@@ -308,6 +328,7 @@ abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
 ac_ct_CC = @ac_ct_CC@
+ac_ct_CXX = @ac_ct_CXX@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -353,8 +374,14 @@ LIBLZMA_CFLAGS = -I$(srcdir)/liblzma $(LIBXZ_CFLAGS)
 LIBLZMA_LDADD = ./liblzma/libgwlzma.a $(LIBXZ_LDADD)
 LIBCOCOA_CFLAGS = -I$(srcdir)/cocoa
 LIBCOCOA_LDADD = ./cocoa/libgtkwmacintegration.a $(COCOA_GTK_LDADD)
-AM_CFLAGS = -I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(TCL_INCLUDE_SPEC) $(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(GTK_MAC_CFLAGS) $(GCONF_CFLAGS) $(LIBCOCOA_CFLAGS) $(GTK_UNIX_PRINT_CFLAGS)
+AM_CFLAGS = -I$(srcdir)/.. -I$(srcdir)/helpers $(FASTTREE_CFLAGS) $(GTK_CFLAGS) $(LIBLZMA_CFLAGS) \
+		$(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBFST_CFLAGS) $(AET2_CFLAGS) $(FSDB_CFLAGS) $(TCL_INCLUDE_SPEC) \
+		$(TCL_DEFADD) $(TK_INCLUDE_SPEC) $(EXTLOAD_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) \
+		$(GTK_MAC_CFLAGS) $(GCONF_CFLAGS) $(LIBCOCOA_CFLAGS) $(GTK_UNIX_PRINT_CFLAGS)
+
+AM_CXXFLAGS = $(AM_CFLAGS)
 gtkwave_SOURCES = \
+	fsdb_wrapper_api.cc fsdb_wrapper_api.h \
 	baseconvert.h wavewindow.h zoombuttons.h fetchbuttons.h timeentry.h shiftbuttons.h pagebuttons.h edgebuttons.h \
 	signalwindow.h entry.h file.h status.h search.h showchange.h treesearch.h hiersearch.h renderopt.h markerbox.h \
 	simplereq.h help.h logfile.h vcd_partial.h mouseover.h mouseover_sigs.h interp.h \
@@ -378,7 +405,7 @@ gtkwave_SOURCES = \
 	vcd_partial.c vcd_recoder.c vcd_saver.c vcd_saver.h version.h vlist.c vlist.h vzt.c vzt.h wavealloca.h \
 	wavewindow.c zoombuttons.c
 
-gtkwave_LDADD = $(LIBCOCOA_LDADD) $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS) $(GTK_UNIX_PRINT_LIBS)
+gtkwave_LDADD = $(LIBCOCOA_LDADD) $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(FSDB_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS) $(GTK_UNIX_PRINT_LIBS)
 gtkwave_LDFLAGS = $(COCOA_GTK_LDFLAGS)
 twinwave_SOURCES = twinwave.c
 twinwave_LDADD = $(GTK_LIBS) $(GTK_MAC_LIBS) $(GCONF_LIBS)
@@ -391,7 +418,7 @@ all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
+.SUFFIXES: .c .cc .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -466,7 +493,7 @@ clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 gtkwave$(EXEEXT): $(gtkwave_OBJECTS) $(gtkwave_DEPENDENCIES) $(EXTRA_gtkwave_DEPENDENCIES) 
 	@rm -f gtkwave$(EXEEXT)
-	$(AM_V_CCLD)$(gtkwave_LINK) $(gtkwave_OBJECTS) $(gtkwave_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(gtkwave_LINK) $(gtkwave_OBJECTS) $(gtkwave_LDADD) $(LIBS)
 twinwave$(EXEEXT): $(twinwave_OBJECTS) $(twinwave_DEPENDENCIES) $(EXTRA_twinwave_DEPENDENCIES) 
 	@rm -f twinwave$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(twinwave_OBJECTS) $(twinwave_LDADD) $(LIBS)
@@ -495,6 +522,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fgetdynamic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fonts.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fsdb_wrapper_api.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fst.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gconf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getopt.Po@am__quote@
@@ -613,6 +641,20 @@ vzt_read.obj: helpers/vzt_read.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='helpers/vzt_read.c' object='vzt_read.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o vzt_read.obj `if test -f 'helpers/vzt_read.c'; then $(CYGPATH_W) 'helpers/vzt_read.c'; else $(CYGPATH_W) '$(srcdir)/helpers/vzt_read.c'; fi`
+
+.cc.o:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+
+.cc.obj:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run 'make' without going through this Makefile.
