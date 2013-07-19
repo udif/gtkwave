@@ -24,6 +24,14 @@ extern "C" {
 #include <ctype.h>
 #include <inttypes.h>
 
+
+struct fsdbReaderGetStatistics_t
+{
+int varCount;
+int scopeCount;
+};
+
+
 void *fsdbReaderOpenFile(char *nam);
 void fsdbReaderReadScopeVarTree(void *ctx);
 int fsdbReaderGetMaxVarIdcode(void *ctx);
@@ -40,11 +48,17 @@ int fsdbReaderGetVC(void *ctx, void *hdl, void **val_ptr);
 int fsdbReaderGotoNextVC(void *ctx, void *hdl);
 void fsdbReaderUnloadSignals(void *ctx);
 void fsdbReaderClose(void *ctx);
-int fsdbReaderGetBytesPerBit(void *ctx, void *hdl);
-int fsdbReaderGetBitSize(void *ctx, void *hdl);
-int fsdbReaderGetVarType(void *ctx, void *hdl);
+int fsdbReaderGetBytesPerBit(void *hdl);
+int fsdbReaderGetBitSize(void *hdl);
+int fsdbReaderGetVarType(void *hdl);
 
 char *fsdbReaderTranslateVC(void *hdl, void *val_ptr);
+
+int fsdbReaderExtractScaleUnit(void *ctx, int *mult, char *scale);
+int fsdbReaderGetMinFsdbTag64(void *ctx, uint64_t *tim);
+int fsdbReaderGetMaxFsdbTag64(void *ctx, uint64_t *tim);
+struct fsdbReaderGetStatistics_t *fsdbReaderGetStatistics(void *ctx);
+
 
 #ifdef __cplusplus
 }

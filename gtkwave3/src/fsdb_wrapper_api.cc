@@ -202,27 +202,24 @@ fsdb_obj->ffrClose();
 }
 
 
-extern "C" int fsdbReaderGetBytesPerBit(void *ctx, void *hdl)
+extern "C" int fsdbReaderGetBytesPerBit(void *hdl)
 {
-ffrObject *fsdb_obj = (ffrObject *)ctx;
 ffrVCTrvsHdl fsdb_hdl = (ffrVCTrvsHdl)hdl;
 
 return(fsdb_hdl->ffrGetBytesPerBit());
 }
 
 
-extern "C" int fsdbReaderGetBitSize(void *ctx, void *hdl)
+extern "C" int fsdbReaderGetBitSize(void *hdl)
 {
-ffrObject *fsdb_obj = (ffrObject *)ctx;
 ffrVCTrvsHdl fsdb_hdl = (ffrVCTrvsHdl)hdl;
 
 return(fsdb_hdl->ffrGetBitSize());
 }
 
 
-extern "C" int fsdbReaderGetVarType(void *ctx, void *hdl)
+extern "C" int fsdbReaderGetVarType(void *hdl)
 {
-ffrObject *fsdb_obj = (ffrObject *)ctx;
 ffrVCTrvsHdl fsdb_hdl = (ffrVCTrvsHdl)hdl;
 
 return(fsdb_hdl->ffrGetVarType());
@@ -295,6 +292,85 @@ switch (vc_trvs_hdl->ffrGetBytesPerBit())
 	}
 
 return((char *)buffer);
+}
+
+
+extern "C" int fsdbReaderExtractScaleUnit(void *ctx, int *mult, char *scale)
+{
+ffrObject *fsdb_obj = (ffrObject *)ctx;
+uint_T digit;
+char *unit;
+
+str_T su = fsdb_obj->ffrGetScaleUnit();
+fsdbRC rc = fsdb_obj->ffrExtractScaleUnit(su, digit, unit);
+
+if(rc == FSDB_RC_SUCCESS)
+	{
+	*mult = ((int)digit);
+	*scale = unit[0];
+	}
+
+return(rc == FSDB_RC_SUCCESS);
+}
+
+
+extern "C" int fsdbReaderGetMinFsdbTag64(void *ctx, uint64_t *tim)
+{
+ffrObject *fsdb_obj = (ffrObject *)ctx;
+fsdbTag64 tag64;
+fsdbRC rc = fsdb_obj->ffrGetMinFsdbTag64(&tag64);
+
+if(rc == FSDB_RC_SUCCESS)
+	{
+	*tim = (((uint64_t)tag64.H) << 32) | ((uint64_t)tag64.L);
+	}
+
+return(rc == FSDB_RC_SUCCESS);
+}
+
+
+extern "C" int fsdbReaderGetMaxFsdbTag64(void *ctx, uint64_t *tim)
+{
+ffrObject *fsdb_obj = (ffrObject *)ctx;
+fsdbTag64 tag64;
+fsdbRC rc = fsdb_obj->ffrGetMaxFsdbTag64(&tag64);
+
+if(rc == FSDB_RC_SUCCESS)
+	{
+	*tim = (((uint64_t)tag64.H) << 32) | ((uint64_t)tag64.L);
+	}
+
+return(rc == FSDB_RC_SUCCESS);
+}
+
+
+static bool_T __fsdbReaderGetStatisticsCB(fsdbTreeCBType cb_type, void *client_data, void *tree_cb_data)
+{
+struct fsdbReaderGetStatistics_t *gs = (struct fsdbReaderGetStatistics_t *)client_data;
+
+switch (cb_type)
+	{
+	case FSDB_TREE_CBT_VAR:		gs->varCount++;
+					break;
+	case FSDB_TREE_CBT_SCOPE:	gs->scopeCount++;
+					break;
+
+	default:			break;
+	}
+
+return(TRUE);
+}
+
+
+extern "C" struct fsdbReaderGetStatistics_t *fsdbReaderGetStatistics(void *ctx)
+{
+ffrObject *fsdb_obj = (ffrObject *)ctx;
+struct fsdbReaderGetStatistics_t *gs = (struct fsdbReaderGetStatistics_t *)calloc(1, sizeof(struct fsdbReaderGetStatistics_t));
+
+fsdb_obj->ffrSetTreeCBFunc(__fsdbReaderGetStatisticsCB, gs);
+fsdb_obj->ffrReadScopeVarTree();
+
+return(gs);
 }
 
 #else

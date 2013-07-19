@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2009-2012.
+ * Copyright (c) Tony Bybell 2009-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -288,7 +288,7 @@ for(;;)
 /*
  * mainline
  */
-TimeType extload_main(char *fname, char *skip_start, char *skip_end)
+static TimeType extload_main_2(char *fname, char *skip_start, char *skip_end)
 {
 char sbuff[65537];
 int max_idcode;
@@ -311,7 +311,74 @@ if(!(GLOBALS->extload=fopen(fname, "rb")))
 	}
 fclose(GLOBALS->extload);
 
+
 /* SPLASH */                            splash_create();
+
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+GLOBALS->extload_ffr_ctx = fsdbReaderOpenFile(GLOBALS->loaded_file_name);
+GLOBALS->is_lx2 = LXT2_IS_FSDB;
+
+if(GLOBALS->extload_ffr_ctx)
+	{
+	int rv;
+	int mult;
+	char scale;
+	uint64_t tim;
+	struct fsdbReaderGetStatistics_t *gs;
+	int success_count = 0;
+	int attempt_count = 0;
+
+	attempt_count++;
+	rv = fsdbReaderExtractScaleUnit(GLOBALS->extload_ffr_ctx, &mult, &scale);
+	if(rv)
+		{
+		GLOBALS->time_scale = mult;
+		GLOBALS->time_dimension = tolower(scale);
+		success_count++;
+		}
+
+	attempt_count++;
+	rv = fsdbReaderGetMinFsdbTag64(GLOBALS->extload_ffr_ctx, &tim);
+	if(rv)
+		{
+		GLOBALS->min_time = tim;
+		success_count++;
+		}
+	
+	attempt_count++;
+	rv = fsdbReaderGetMaxFsdbTag64(GLOBALS->extload_ffr_ctx, &tim);
+	if(rv)
+		{
+		GLOBALS->max_time = tim;
+		success_count++;
+		}
+	
+	max_idcode = fsdbReaderGetMaxVarIdcode(GLOBALS->extload_ffr_ctx);
+	
+	attempt_count++;
+	gs = fsdbReaderGetStatistics(GLOBALS->extload_ffr_ctx);
+	if(gs)
+		{
+		GLOBALS->numfacs = gs->varCount;
+		free(gs);
+		success_count++;
+		}
+
+	if(attempt_count != success_count)
+		{
+		fprintf(stderr, EXTLOAD"Could not initialize '%s' properly.\n", fname);
+		GLOBALS->extload_already_errored = 1;
+		return(LLDescriptor(0));
+		}
+	}
+	else
+	{
+	fprintf(stderr, EXTLOAD"Could not initialize '%s' properly.\n", fname);
+	GLOBALS->extload_already_errored = 1;
+	return(LLDescriptor(0));
+	}
+
+#else
 
 last_modification_check();
 sprintf(sbuff, "%s -info %s 2>&1", EXTLOAD_PATH, fname);
@@ -435,6 +502,8 @@ if(msk != (1+2+4+8+16+32))
 	GLOBALS->extload_already_errored = 1;
 	return(LLDescriptor(0));
 	}
+
+#endif
 
 GLOBALS->min_time *= GLOBALS->time_scale;
 GLOBALS->max_time *= GLOBALS->time_scale;
@@ -776,11 +845,6 @@ for(i=0;((i<2)&&(i<GLOBALS->numfacs));i++)
 free_2(namecache); namecache = NULL;
 pclose(GLOBALS->extload);
 
-#ifdef WAVE_FSDB_READER_IS_PRESENT
-GLOBALS->extload_ffr_ctx = fsdbReaderOpenFile(GLOBALS->loaded_file_name);
-GLOBALS->is_lx2 = LXT2_IS_FSDB;
-#endif
-
 fstReaderClose(xc); /* corresponds to fstReaderOpenForUtilitiesOnly() */
 
 /* SPLASH */                            splash_sync(2, 5);  
@@ -895,6 +959,25 @@ if(skip_start || skip_end)
 
 /* SPLASH */                            splash_finalize();
 return(GLOBALS->max_time);
+}
+
+
+TimeType extload_main(char *fname, char *skip_start, char *skip_end)
+{
+TimeType tt = extload_main_2(fname, skip_start, skip_end);
+
+if(!tt)
+	{
+        if(GLOBALS->extload_ffr_ctx)
+                {
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+                fsdbReaderClose(GLOBALS->extload_ffr_ctx);
+#endif
+                GLOBALS->extload_ffr_ctx = NULL;
+                }
+	}
+
+return(tt);
 }
 
 
