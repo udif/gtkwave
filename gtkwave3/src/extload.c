@@ -419,7 +419,9 @@ static TimeType extload_main_2(char *fname, char *skip_start, char *skip_end)
 {
 char sbuff[65537];
 int max_idcode;
+#ifndef WAVE_FSDB_READER_IS_PRESENT
 unsigned int msk = 0;
+#endif
 unsigned char vt_prev, vt, nvt;
 unsigned char vd_prev, vd;
 void *xc = NULL;
@@ -1093,7 +1095,7 @@ void *hdl;
 hdl = fsdbReaderCreateVCTraverseHandle(GLOBALS->extload_ffr_ctx, txidx_in_trace);
 if(fsdbReaderHasIncoreVC(GLOBALS->extload_ffr_ctx, hdl))
 	{
-	uint64_t mxt = fsdbReaderGetMinXTag(GLOBALS->extload_ffr_ctx, hdl);
+	TimeType mxt = (TimeType)fsdbReaderGetMinXTag(GLOBALS->extload_ffr_ctx, hdl);
 	fsdbReaderGotoXTag(GLOBALS->extload_ffr_ctx, hdl, mxt);
 
 	for(;;)
@@ -1113,7 +1115,7 @@ if(fsdbReaderHasIncoreVC(GLOBALS->extload_ffr_ctx, hdl))
 			break;
 			}
 			
-		mxt = fsdbReaderGetXTag(GLOBALS->extload_ffr_ctx, hdl);
+		mxt = (TimeType)fsdbReaderGetXTag(GLOBALS->extload_ffr_ctx, hdl);
 		}
 	}
 fsdbReaderFree(GLOBALS->extload_ffr_ctx, hdl);
@@ -1283,7 +1285,6 @@ GLOBALS->extload_ffr_import_count = 0;
 void fsdb_set_fac_process_mask(nptr np)
 {
 #ifdef WAVE_FSDB_READER_IS_PRESENT
-struct HistEnt *htemp, *histent_tail;
 struct fac *f;
 int txidx, txidx_in_trace;
 
