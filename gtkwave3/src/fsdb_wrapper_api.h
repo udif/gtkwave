@@ -33,8 +33,9 @@ int scopeCount;
 
 
 void *fsdbReaderOpenFile(char *nam);
-void fsdbReaderReadScopeVarTree(void *ctx);
+void fsdbReaderReadScopeVarTree(void *ctx,void (*cb)(void *));
 int fsdbReaderGetMaxVarIdcode(void *ctx);
+struct fsdbReaderGetStatistics_t *fsdbReaderGetStatistics(void *ctx);
 void fsdbReaderAddToSignalList(void *ctx, int i);
 void fsdbReaderLoadSignals(void *ctx);
 void *fsdbReaderCreateVCTraverseHandle(void *ctx, int i);
@@ -51,14 +52,10 @@ void fsdbReaderClose(void *ctx);
 int fsdbReaderGetBytesPerBit(void *hdl);
 int fsdbReaderGetBitSize(void *hdl);
 int fsdbReaderGetVarType(void *hdl);
-
 char *fsdbReaderTranslateVC(void *hdl, void *val_ptr);
-
 int fsdbReaderExtractScaleUnit(void *ctx, int *mult, char *scale);
 int fsdbReaderGetMinFsdbTag64(void *ctx, uint64_t *tim);
 int fsdbReaderGetMaxFsdbTag64(void *ctx, uint64_t *tim);
-struct fsdbReaderGetStatistics_t *fsdbReaderGetStatistics(void *ctx);
-
 
 #ifdef __cplusplus
 }

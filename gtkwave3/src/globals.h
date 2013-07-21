@@ -240,6 +240,16 @@ int *extload_inv_idcodes; /* from extload.c */
 time_t extload_lastmod; /* from extload.c */
 char extload_already_errored; /* from extload.c */
 #endif
+char **extload_namecache;
+struct symbol *extload_sym_block;
+struct Node *extload_node_block;
+void *extload_xc;
+struct symbol *extload_prevsymroot;
+struct symbol *extload_prevsym;
+int extload_i;
+int extload_hlen;
+unsigned char extload_vt_prev;
+unsigned char extload_vd_prev;
 
 
 /*

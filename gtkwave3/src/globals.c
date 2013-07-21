@@ -242,6 +242,17 @@ NULL, /* extload_inv_idcodes */
 0, /* extload_lastmod */
 0, /* extload_already_errored */
 #endif
+NULL, /* extload_namecache */
+NULL, /* extload_sym_block */
+NULL, /* extload_node_block */
+NULL, /* extload_xc */
+NULL, /* extload_prevsymroot */
+NULL, /* extload_prevsym */
+0, /* extload_i */
+0, /* extload_hlen */
+0, /* extload_vt_prev */
+0, /* extload_vd_prev */
+
 
 /*
  * fetchbuttons.c
