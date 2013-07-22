@@ -150,6 +150,9 @@ for(;;)
 			char *colon = NULL;
 			char *rb = NULL;
 			int state = 0;
+			char *vtyp_nam;
+			char *cpyto;
+			char *pntd;
 	
 			sscanf(rc + 5, "%s", typ);
 
@@ -264,15 +267,11 @@ for(;;)
 					}
 				}
 
-			i++;
-			}
-
-                if(!strncmp("Var: ", rc, 5))
-			{
-			char *pnt = rc + 5;
-			char *vtyp_nam = pnt;
-			char *cpyto = sbuff;
-			char *pntd = strrchr(pnt, ':');
+			/* now extract directional/type information */
+			pnt = rc + 5;
+			vtyp_nam = pnt;
+			cpyto = sbuff;
+			pntd = strrchr(pnt, ':');
 
 			if(pntd)
 				{
