@@ -420,12 +420,39 @@ cb(bf);
 }
 
 
+static char* itoa_2(int value, char* result)
+{
+char* ptr = result, *ptr1 = result, tmp_char;
+int tmp_value;
+
+do {
+        tmp_value = value;
+        value /= 10; 
+        *ptr++ = "9876543210123456789" [9 + (tmp_value - value * 10)];
+} while ( value );
+
+if (tmp_value < 0) *ptr++ = '-';
+result = ptr;
+*ptr-- = '\0';
+while(ptr1 < ptr) {
+        tmp_char = *ptr;
+        *ptr--= *ptr1;
+        *ptr1++ = tmp_char;
+}
+return(result);
+}  
+
+
 static void 
 __DumpVar(fsdbTreeCBDataVar *var, void (*cb)(void *))
 {
 str_T type;
 str_T bpb;
 str_T direction;
+char *pnt;
+int len;
+int typelen;
+int dirlen;
 char bf[65537];
 
 switch(var->bytes_per_bit) 
@@ -455,70 +482,87 @@ switch (var->type)
 	{
     	case FSDB_VT_VCD_EVENT:
 		type = (str_T) "vcd_event"; 
+		typelen = 9;
   		break;
 
     	case FSDB_VT_VCD_INTEGER:
 		type = (str_T) "vcd_integer"; 
+		typelen = 11;
 		break;
 
     	case FSDB_VT_VCD_PARAMETER:
 		type = (str_T) "vcd_parameter"; 
+		typelen = 13;
 		break;
 
     	case FSDB_VT_VCD_REAL:
 		type = (str_T) "vcd_real"; 
+		typelen = 8;
 		break;
 
     	case FSDB_VT_VCD_REG:
 		type = (str_T) "vcd_reg"; 
+		typelen = 7;
 		break;
 
     	case FSDB_VT_VCD_SUPPLY0:
 		type = (str_T) "vcd_supply0"; 
+		typelen = 11;
 		break;
 
     	case FSDB_VT_VCD_SUPPLY1:
 		type = (str_T) "vcd_supply1"; 
+		typelen = 11;
 		break;
 
     	case FSDB_VT_VCD_TIME:
 		type = (str_T) "vcd_time";
+		typelen = 8;
 		break;
 
     	case FSDB_VT_VCD_TRI:
 		type = (str_T) "vcd_tri";
+		typelen = 7;
 		break;
 
     	case FSDB_VT_VCD_TRIAND:
 		type = (str_T) "vcd_triand";
+		typelen = 10;
 		break;
 
     	case FSDB_VT_VCD_TRIOR:
 		type = (str_T) "vcd_trior";
+		typelen = 9;
 		break;
 
     	case FSDB_VT_VCD_TRIREG:
 		type = (str_T) "vcd_trireg";
+		typelen = 10;
 		break;
 
     	case FSDB_VT_VCD_TRI0:
 		type = (str_T) "vcd_tri0";
+		typelen = 8;
 		break;
 
     	case FSDB_VT_VCD_TRI1:
 		type = (str_T) "vcd_tri1";
+		typelen = 8;
 		break;
 
     	case FSDB_VT_VCD_WAND:
 		type = (str_T) "vcd_wand";
+		typelen = 8;
 		break;
 
     	case FSDB_VT_VCD_WIRE:
 		type = (str_T) "vcd_wire";
+		typelen = 8;
 		break;
 
     	case FSDB_VT_VCD_WOR:
 		type = (str_T) "vcd_wor";
+		typelen = 7;
 		break;
 
     	case FSDB_VT_VHDL_SIGNAL:
@@ -531,72 +575,106 @@ switch (var->type)
     	case FSDB_VT_VHDL_MEMORY_DEPTH:         
     	default:
 		type = (str_T) "vcd_wire";
+		typelen = 8;
 		break;
     	}
 
     switch(var->direction)
 	{
-	case FSDB_VD_INPUT:    	direction = (str_T) "input"; break;
-	case FSDB_VD_OUTPUT:   	direction = (str_T) "output"; break;
-	case FSDB_VD_INOUT:    	direction = (str_T) "inout"; break;
-	case FSDB_VD_BUFFER:   	direction = (str_T) "buffer"; break;
-	case FSDB_VD_LINKAGE:  	direction = (str_T) "linkage"; break;
+	case FSDB_VD_INPUT:    	direction = (str_T) "input"; 	dirlen = 5; break;
+	case FSDB_VD_OUTPUT:   	direction = (str_T) "output"; 	dirlen = 6; break;
+	case FSDB_VD_INOUT:    	direction = (str_T) "inout"; 	dirlen = 5; break;
+	case FSDB_VD_BUFFER:   	direction = (str_T) "buffer"; 	dirlen = 6; break;
+	case FSDB_VD_LINKAGE:  	direction = (str_T) "linkage"; 	dirlen = 7; break;
 	case FSDB_VD_IMPLICIT: 
-	default:	       	direction = (str_T) "implicit"; break;
+	default:	       	direction = (str_T) "implicit"; dirlen = 8; break;
 	}
 
-    sprintf(bf, "Var: %s %s l:%d r:%d %s %d %s %d\n", type, var->name, var->lbitnum, var->rbitnum, 
-		direction,
-		var->u.idcode, bpb, var->dtidcode);
+/*
+sprintf(bf, "Var: %s %s l:%d r:%d %s %d %s %d\n", type, var->name, var->lbitnum, var->rbitnum, 
+	direction,
+	var->u.idcode, bpb, var->dtidcode);
+*/
 
-    cb(bf);
+memcpy(bf, "Var: ", 5);
+pnt = bf+5;
+len = typelen; /* strlen(type) */
+memcpy(pnt, type, len);
+pnt += len;
+*(pnt++) = ' ';
+len = strlen(var->name);
+memcpy(pnt, var->name, len);
+pnt += len;
+memcpy(pnt, " l:", 3);
+pnt += 3;
+pnt = itoa_2(var->lbitnum, pnt);
+memcpy(pnt, " r:", 3);
+pnt += 3;
+pnt = itoa_2(var->rbitnum, pnt);
+*(pnt++) = ' ';
+len = dirlen; /* strlen(direction) */
+memcpy(pnt, direction, len);    
+pnt += len;
+*(pnt++) = ' ';
+pnt = itoa_2(var->u.idcode, pnt);
+*(pnt++) = ' ';
+len = 2; /* strlen(bpb) */
+memcpy(pnt, bpb, len);    
+pnt += len;
+*(pnt++) = ' ';
+pnt = itoa_2(var->dtidcode, pnt);
+*(pnt++) = '\n';
+*(pnt) = 0;
+
+cb(bf);
 }
 
 
 static bool_T __MyTreeCB(fsdbTreeCBType cb_type, 
 			 void *client_data, void *tree_cb_data)
 {
-    void (*cb)(void *) = (void (*)(void *))client_data;
-    char bf[16];
+void (*cb)(void *) = (void (*)(void *))client_data;
+char bf[16];
 
-    switch (cb_type) {
-    case FSDB_TREE_CBT_BEGIN_TREE:
-	/* fprintf(stderr, "Begin Tree:\n"); */
-	break;
+switch (cb_type) 
+	{
+    	case FSDB_TREE_CBT_BEGIN_TREE:
+		/* fprintf(stderr, "Begin Tree:\n"); */
+		break;
 
-    case FSDB_TREE_CBT_SCOPE:
-	__DumpScope((fsdbTreeCBDataScope*)tree_cb_data, cb);
-	break;
+    	case FSDB_TREE_CBT_SCOPE:
+		__DumpScope((fsdbTreeCBDataScope*)tree_cb_data, cb);
+		break;
 
-    case FSDB_TREE_CBT_VAR:
-	__DumpVar((fsdbTreeCBDataVar*)tree_cb_data, cb);
-	break;
+    	case FSDB_TREE_CBT_VAR:
+		__DumpVar((fsdbTreeCBDataVar*)tree_cb_data, cb);
+		break;
 
-    case FSDB_TREE_CBT_UPSCOPE:
-	strcpy(bf, "Upscope:\n");
-	cb(bf);
-	break;
+    	case FSDB_TREE_CBT_UPSCOPE:
+		strcpy(bf, "Upscope:\n");
+		cb(bf);
+		break;
 
-    case FSDB_TREE_CBT_END_TREE:
-	/* fprintf(stderr, "End Tree:\n"); */
-	break;
+    	case FSDB_TREE_CBT_END_TREE:
+		/* fprintf(stderr, "End Tree:\n"); */
+		break;
 
-    case FSDB_TREE_CBT_FILE_TYPE:
-    case FSDB_TREE_CBT_SIMULATOR_VERSION:
-    case FSDB_TREE_CBT_SIMULATION_DATE:
-    case FSDB_TREE_CBT_X_AXIS_SCALE:
-    case FSDB_TREE_CBT_END_ALL_TREE:
-    case FSDB_TREE_CBT_ARRAY_BEGIN:
-    case FSDB_TREE_CBT_ARRAY_END:
-    case FSDB_TREE_CBT_RECORD_BEGIN:
-    case FSDB_TREE_CBT_RECORD_END:
-        break;
+    	case FSDB_TREE_CBT_FILE_TYPE:
+    	case FSDB_TREE_CBT_SIMULATOR_VERSION:
+    	case FSDB_TREE_CBT_SIMULATION_DATE:
+    	case FSDB_TREE_CBT_X_AXIS_SCALE:
+    	case FSDB_TREE_CBT_END_ALL_TREE:
+    	case FSDB_TREE_CBT_ARRAY_BEGIN:
+    	case FSDB_TREE_CBT_ARRAY_END:
+    	case FSDB_TREE_CBT_RECORD_BEGIN:
+    	case FSDB_TREE_CBT_RECORD_END:
+        	break;
              
-    default:
-	return FALSE;
-    }
+    	default:
+		return(FALSE);
+    	}
 
-    return TRUE;
+return(TRUE);
 }
 
 
