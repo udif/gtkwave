@@ -140,7 +140,9 @@ for(;;)
 
 	if((rc[0] == 'V') && (i >= 0))
 		{
+#ifndef WAVE_FSDB_READER_IS_PRESENT
 		if(!strncmp("Var: ", rc, 5))
+#endif
 			{
 			char *pnt = rc + 5;
 			char *last_l = NULL;
@@ -199,9 +201,9 @@ for(;;)
 			if(last_l)
 				{
 				unsigned int l, r;
-				char s1[32], s3[32], s4[32];
+				char s1[32];
 				unsigned int d2;
-				sscanf(last_l, "l:%u r:%u %s %u %s %s", &l, &r, s1, &d2, s3, s4);
+				sscanf(last_l+2, "%u r:%u %s %u", &l, &r, s1, &d2);
 
 				GLOBALS->extload_idcodes[i] = d2;
 				if(GLOBALS->extload_inv_idcodes[d2] == 0) GLOBALS->extload_inv_idcodes[d2] = i+1; /* root alias */
@@ -271,7 +273,7 @@ for(;;)
 			pnt = rc + 5;
 			vtyp_nam = pnt;
 			cpyto = sbuff;
-			pntd = strrchr(pnt, ':');
+			pntd = strrchr(last_l ? last_l : pnt, ':');
 
 			if(pntd)
 				{
@@ -382,7 +384,9 @@ for(;;)
 	else
         if(rc[0] == 'S')
                 {
+#ifndef WAVE_FSDB_READER_IS_PRESENT
 		if(!strncmp(rc, "Scope:", 6))
+#endif
 			{
 			char vht[2048];
 			char cname[2048];

@@ -415,7 +415,7 @@ switch (scope->type)
 		break;
     	}
 
-sprintf(bf, "Scope: vcd_%s %s %s\n", type, scope->name, scope->module ? scope->module : "NULL");
+sprintf(bf, "Scope: vcd_%s %s %s", type, scope->name, scope->module ? scope->module : "NULL");
 cb(bf);
 }
 
@@ -591,7 +591,7 @@ switch (var->type)
 	}
 
 /*
-sprintf(bf, "Var: %s %s l:%d r:%d %s %d %s %d\n", type, var->name, var->lbitnum, var->rbitnum, 
+sprintf(bf, "Var: %s %s l:%d r:%d %s %d %s %d", type, var->name, var->lbitnum, var->rbitnum, 
 	direction,
 	var->u.idcode, bpb, var->dtidcode);
 */
@@ -623,7 +623,6 @@ memcpy(pnt, bpb, len);
 pnt += len;
 *(pnt++) = ' ';
 pnt = itoa_2(var->dtidcode, pnt);
-*(pnt++) = '\n';
 *(pnt) = 0;
 
 cb(bf);
@@ -651,7 +650,7 @@ switch (cb_type)
 		break;
 
     	case FSDB_TREE_CBT_UPSCOPE:
-		strcpy(bf, "Upscope:\n");
+		strcpy(bf, "Upscope:");
 		cb(bf);
 		break;
 
