@@ -73,7 +73,7 @@ char * rc;
 for(;;)
         {
         rc = fgets(sbuff, 65536, extload);
-        if(!rc)
+	if(!rc)
                 {
                 return(NULL);
                 }
@@ -112,7 +112,31 @@ Jval jv;
 for(;;)
         {
         rc = fgets(sbuff, 65536, extload);
-        if(!rc)
+        if(rc)
+		{
+                if(isspace(rc[0]))
+                        {
+                        char *snp;
+                        char sbuff2[65537];
+
+                        sbuff2[0] = 0;
+
+                        if((snp=strstr(rc+1, "Struct Name:")))
+                                {
+                                sscanf(rc+14,"%s", sbuff2);
+                                if(sbuff2[0])
+                                        {
+                                        sprintf(rc, "Scope: vcd_struct %s NULL\n", sbuff2);
+                                        }
+                                }
+                        else
+                        if((snp=strstr(rc+1, "Struct End")))
+                                {
+                                sprintf(rc, "Upscope:\n");  
+                                }
+			}
+		}
+	else
                 {
                 return(NULL);
                 }
@@ -165,6 +189,7 @@ for(;;)
 				switch(vht[4])
 					{
 					case 'g':	mtype = FST_ST_VCD_GENERATE; break; /* other code looks for non-modules to replace type with */
+					case 's':	mtype = FST_ST_VCD_STRUCT;   break; /* other code looks for non-modules to replace type with */
 					default:	break;
 					}
 				}
@@ -686,7 +711,7 @@ while(!feof(f))
 					scopetype = st_replace;
 					}
 
-				if(scopetype == FST_ST_VCD_GENERATE)
+				if((scopetype == FST_ST_VCD_GENERATE)||(scopetype == FST_ST_VCD_STRUCT))
 					{
 					PPValue = NULL;
 					}
@@ -716,7 +741,7 @@ while(!feof(f))
 					scopetype = st_replace;
 					}
 
-				if(scopetype == FST_ST_VCD_GENERATE)
+				if((scopetype == FST_ST_VCD_GENERATE)||(scopetype == FST_ST_VCD_STRUCT))
 					{
 					str = NULL;
 					}

@@ -150,9 +150,8 @@ for(;;)
 			else
 			if((snp=strstr(rc+1, "Struct End")))
 				{
-				sprintf(rc, "Upscope:\n", sbuff2);
+				sprintf(rc, "Upscope:\n");
 				} 
-					
 			}
 		}
 	else
