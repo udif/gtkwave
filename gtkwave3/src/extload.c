@@ -709,10 +709,19 @@ if(GLOBALS->extload_ffr_ctx)
 	if(rv)
 		{
 		GLOBALS->max_time = tim;
+		if(GLOBALS->max_time == LLDescriptor(0))
+			{
+			GLOBALS->max_time = LLDescriptor(1);
+			}
 		success_count++;
 		}
-	
+
+	attempt_count++;
 	max_idcode = fsdbReaderGetMaxVarIdcode(GLOBALS->extload_ffr_ctx);
+	if(max_idcode)
+		{
+		success_count++;
+		}
 	
 	attempt_count++;
 	gs = fsdbReaderGetStatistics(GLOBALS->extload_ffr_ctx);

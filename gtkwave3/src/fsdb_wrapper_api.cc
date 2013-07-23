@@ -629,6 +629,19 @@ cb(bf);
 }
 
 
+static void 
+__DumpArray(fsdbTreeCBDataArrayBegin* arr, void (*cb)(void *))
+{
+/* printf("NAME: %s SIZE: %d is_partial_dumped: %d\n", arr->name, (int)arr->size, (int)arr->is_partial_dumped); */
+}
+
+static void 
+__DumpStruct(fsdbTreeCBDataStructBegin* str, void (*cb)(void *))
+{
+/* printf("NAME: %s FIELDS: %d TYPE: %d is_partial_dumped: %d\n", str->name, (int)str->fieldCount, (int)str->type, (int)str->is_partial_dumped); */
+}
+
+
 static bool_T __MyTreeCB(fsdbTreeCBType cb_type, 
 			 void *client_data, void *tree_cb_data)
 {
@@ -658,13 +671,25 @@ switch (cb_type)
 		/* fprintf(stderr, "End Tree:\n"); */
 		break;
 
+	/* not yet supported */
+    	case FSDB_TREE_CBT_ARRAY_BEGIN:
+		__DumpArray((fsdbTreeCBDataArrayBegin*)tree_cb_data, cb);
+		break;
+    	case FSDB_TREE_CBT_ARRAY_END:
+		break;
+
+	/* not yet supported */
+	case FSDB_TREE_CBT_STRUCT_BEGIN:
+		__DumpStruct((fsdbTreeCBDataStructBegin*)tree_cb_data, cb);
+		break;
+	case FSDB_TREE_CBT_STRUCT_END:
+		break;
+
     	case FSDB_TREE_CBT_FILE_TYPE:
     	case FSDB_TREE_CBT_SIMULATOR_VERSION:
     	case FSDB_TREE_CBT_SIMULATION_DATE:
     	case FSDB_TREE_CBT_X_AXIS_SCALE:
     	case FSDB_TREE_CBT_END_ALL_TREE:
-    	case FSDB_TREE_CBT_ARRAY_BEGIN:
-    	case FSDB_TREE_CBT_ARRAY_END:
     	case FSDB_TREE_CBT_RECORD_BEGIN:
     	case FSDB_TREE_CBT_RECORD_END:
         	break;
