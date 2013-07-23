@@ -130,7 +130,32 @@ for(;;)
 	{
 #ifndef WAVE_FSDB_READER_IS_PRESENT
 	rc = fgets(sbuff, 65536, GLOBALS->extload);
-	if(!rc)
+	if(rc)
+		{
+		if(isspace(rc[0]))
+			{
+			char *snp;
+			char sbuff2[65537];
+
+			sbuff2[0] = 0;
+
+			if((snp=strstr(rc+1, "Struct Name:")))
+				{
+				sscanf(rc+14,"%s", sbuff2);
+				if(sbuff2[0])
+					{
+					sprintf(rc, "Scope: vcd_struct %s NULL\n", sbuff2);
+					}
+				} 
+			else
+			if((snp=strstr(rc+1, "Struct End")))
+				{
+				sprintf(rc, "Upscope:\n", sbuff2);
+				} 
+					
+			}
+		}
+	else
 		{
 		return(NULL);
 		}
@@ -808,6 +833,10 @@ for(;;)
 					pnt++;
 					sscanf(pnt, "%u %u", &hi, &lo);
 					GLOBALS->max_time = (TimeType)((((UTimeType)hi)<<32) + ((UTimeType)lo));
+					if(GLOBALS->max_time == LLDescriptor(0))
+						{
+						GLOBALS->max_time = LLDescriptor(1);
+						}
 
 					msk |= 4;
 					}
