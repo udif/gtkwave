@@ -660,6 +660,11 @@ while(!feof(f))
 			scopetype = FST_ST_VCD_GENERATE;
 			}
 		else
+		if(!strcmp(st, "struct"))
+			{
+			scopetype = FST_ST_VCD_STRUCT;
+			}
+		else
 			{
 			scopetype = FST_ST_VCD_MODULE;
 			}
