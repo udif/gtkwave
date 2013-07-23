@@ -630,16 +630,24 @@ cb(bf);
 
 
 static void 
+__DumpStruct(fsdbTreeCBDataStructBegin* str, void (*cb)(void *))
+{
+char bf[65537];
+
+/* printf("NAME: %s FIELDS: %d TYPE: %d is_partial_dumped: %d\n", str->name, (int)str->fieldCount, (int)str->type, (int)str->is_partial_dumped); */
+
+sprintf(bf, "Scope: vcd_struct %s %s", str->name, "NULL");
+cb(bf);
+
+}
+
+
+static void 
 __DumpArray(fsdbTreeCBDataArrayBegin* arr, void (*cb)(void *))
 {
 /* printf("NAME: %s SIZE: %d is_partial_dumped: %d\n", arr->name, (int)arr->size, (int)arr->is_partial_dumped); */
 }
 
-static void 
-__DumpStruct(fsdbTreeCBDataStructBegin* str, void (*cb)(void *))
-{
-/* printf("NAME: %s FIELDS: %d TYPE: %d is_partial_dumped: %d\n", str->name, (int)str->fieldCount, (int)str->type, (int)str->is_partial_dumped); */
-}
 
 
 static bool_T __MyTreeCB(fsdbTreeCBType cb_type, 
@@ -671,18 +679,20 @@ switch (cb_type)
 		/* fprintf(stderr, "End Tree:\n"); */
 		break;
 
+	case FSDB_TREE_CBT_STRUCT_BEGIN:
+		__DumpStruct((fsdbTreeCBDataStructBegin*)tree_cb_data, cb);
+		break;
+
+	case FSDB_TREE_CBT_STRUCT_END:
+		strcpy(bf, "Upscope:");
+		cb(bf);
+		break;
+
 	/* not yet supported */
     	case FSDB_TREE_CBT_ARRAY_BEGIN:
 		__DumpArray((fsdbTreeCBDataArrayBegin*)tree_cb_data, cb);
 		break;
     	case FSDB_TREE_CBT_ARRAY_END:
-		break;
-
-	/* not yet supported */
-	case FSDB_TREE_CBT_STRUCT_BEGIN:
-		__DumpStruct((fsdbTreeCBDataStructBegin*)tree_cb_data, cb);
-		break;
-	case FSDB_TREE_CBT_STRUCT_END:
 		break;
 
     	case FSDB_TREE_CBT_FILE_TYPE:

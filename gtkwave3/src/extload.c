@@ -407,6 +407,7 @@ for(;;)
 		                        case 'f':	ttype = (vht[5] == 'u') ? TREE_VCD_ST_FUNCTION : TREE_VCD_ST_FORK; break;
 		                        case 'b':       ttype = TREE_VCD_ST_BEGIN; break;
 		                        case 'g':       ttype = TREE_VCD_ST_GENERATE; break;
+					case 's':	ttype = TREE_VCD_ST_STRUCT; break;
 		                        default:        ttype = TREE_UNKNOWN; break;
 		                        }
 				}
