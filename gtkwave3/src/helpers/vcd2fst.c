@@ -690,6 +690,11 @@ while(!feof(f))
 			scopetype = FST_ST_VCD_STRUCT;
 			}
 		else
+		if(!strcmp(st, "union"))
+			{
+			scopetype = FST_ST_VCD_UNION;
+			}
+		else
 			{
 			scopetype = FST_ST_VCD_MODULE;
 			}

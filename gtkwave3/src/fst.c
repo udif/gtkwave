@@ -170,6 +170,7 @@ while((h = fstReaderIterateHier(xc)))
 				case FST_ST_VCD_FORK:		ttype = TREE_VCD_ST_FORK; break;
 				case FST_ST_VCD_GENERATE:	ttype = TREE_VCD_ST_GENERATE; break;
 				case FST_ST_VCD_STRUCT:		ttype = TREE_VCD_ST_STRUCT; break;
+				case FST_ST_VCD_UNION:		ttype = TREE_VCD_ST_UNION; break;
 				default:			ttype = TREE_UNKNOWN; break;
 				}
 

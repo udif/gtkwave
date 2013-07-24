@@ -1309,4 +1309,4 @@
 		Added extraction of in/out/inout from extload into FST with
 		vcd2fst helper executable.
 		Added preliminary support for FsdbReader.
-		Added support for structures.
+		Added support for SV structures and unions.

@@ -1488,6 +1488,7 @@ for(;;)
 					case 'b':	ttype = TREE_VCD_ST_BEGIN; break;
 					case 'g':       ttype = TREE_VCD_ST_GENERATE; break;
 					case 's':       ttype = TREE_VCD_ST_STRUCT; break;
+					case 'u':       ttype = TREE_VCD_ST_UNION; break;
 					default:	ttype = TREE_UNKNOWN;
 							break;
 					}
