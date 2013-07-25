@@ -638,7 +638,6 @@ char bf[65537];
 
 sprintf(bf, "Scope: vcd_struct %s %s", str->name, "NULL");
 cb(bf);
-
 }
 
 
