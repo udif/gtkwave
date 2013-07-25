@@ -695,6 +695,11 @@ while(!feof(f))
 			scopetype = FST_ST_VCD_UNION;
 			}
 		else
+		if(!strcmp(st, "class"))
+			{
+			scopetype = FST_ST_VCD_CLASS;
+			}
+		else
 			{
 			scopetype = FST_ST_VCD_MODULE;
 			}

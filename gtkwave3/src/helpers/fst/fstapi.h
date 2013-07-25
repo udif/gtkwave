@@ -62,9 +62,10 @@ enum fstScopeType {
     FST_ST_VCD_GENERATE        = 5,
     FST_ST_VCD_STRUCT          = 6,
     FST_ST_VCD_UNION           = 7,
-    FST_ST_VCD_MAX             = 7,
+    FST_ST_VCD_CLASS           = 8,
+    FST_ST_VCD_MAX             = 8,
 
-    FST_ST_MAX                 = 7,
+    FST_ST_MAX                 = 8,
 
     FST_ST_VCD_SCOPE           = 254,
     FST_ST_VCD_UPSCOPE         = 255
@@ -122,7 +123,7 @@ unsigned char htyp;
 union {
 	/* if htyp == FST_HT_SCOPE */
 	struct fstHierScope {
-		unsigned char typ; /* FST_ST_VCD_MODULE ... FST_ST_VCD_FORK */
+		unsigned char typ; /* FST_ST_VCD_MODULE ... FST_ST_VCD_CLASS */
 		const char *name;
 		const char *component;
 		uint32_t name_length;		/* strlen(u.scope.name) */
@@ -131,7 +132,7 @@ union {
 
 	/* if htyp == FST_HT_VAR */
 	struct fstHierVar {
-		unsigned char typ; /* FST_VT_VCD_EVENT ... FST_VT_VCD_REALTIME */
+		unsigned char typ; /* FST_VT_VCD_EVENT ... FST_VT_VCD_STRING */
 		unsigned char direction; /* FST_VD_IMPLICIT ... FST_VD_INOUT */
 		const char *name;
 		uint32_t length;

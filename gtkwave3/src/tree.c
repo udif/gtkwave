@@ -476,6 +476,7 @@ switch(mode)
 			case TREE_VCD_ST_GENERATE:	pxm = GLOBALS->hiericon_generatefor_pixmap; msk = GLOBALS->hiericon_generatefor_mask; break; /* same as TREE_VHDL_ST_GENFOR */
 			case TREE_VCD_ST_STRUCT:	pxm = GLOBALS->hiericon_block_pixmap; msk = GLOBALS->hiericon_block_mask; break; /* same as TREE_VHDL_ST_BLOCK */
 			case TREE_VCD_ST_UNION:		pxm = GLOBALS->hiericon_instance_pixmap; msk = GLOBALS->hiericon_instance_mask; break; /* same as TREE_VHDL_ST_INSTANCE */
+			case TREE_VCD_ST_CLASS:		pxm = GLOBALS->hiericon_design_pixmap; msk = GLOBALS->hiericon_design_mask; break; /* same as TREE_VHDL_ST_DESIGN */
 
 			case TREE_VHDL_ST_DESIGN:	pxm = GLOBALS->hiericon_design_pixmap; msk = GLOBALS->hiericon_design_mask; break;
 			case TREE_VHDL_ST_BLOCK:	pxm = GLOBALS->hiericon_block_pixmap; msk = GLOBALS->hiericon_block_mask; break;

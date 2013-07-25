@@ -63,6 +63,7 @@ enum tree_kind
    TREE_VCD_ST_GENERATE,
    TREE_VCD_ST_STRUCT,
    TREE_VCD_ST_UNION,
+   TREE_VCD_ST_CLASS,
 
    /* VHDL scope types */
    TREE_VHDL_ST_DESIGN,
