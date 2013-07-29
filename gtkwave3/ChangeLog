@@ -1292,7 +1292,7 @@
 		Added preliminary do-nothing generate support in vermin.
 		Fixed minmax_valid for partial VCD loader: affects scaling
 		on floating-point traces.
-3.3.48	23jul13	Fixed infinite loop hang on various helpers executables
+3.3.48	29jul13	Fixed infinite loop hang on various helpers executables
 		when extra arguments are specified.
 		Delete changed marker name if it exists when marker is removed.
 		Added "Open Hierarchy" option that will expand the SST and
@@ -1310,3 +1310,6 @@
 		vcd2fst helper executable.
 		Added preliminary support for FsdbReader.
 		Added support for SV structures, unions, and classes.
+		Updated signal parsing in FST to handle NC-style declarations
+		for arrays in VCD.  (i.e., bitranges are missing)  Use vcd2fst
+		or the -o option to read NC VCD files with arrays properly.

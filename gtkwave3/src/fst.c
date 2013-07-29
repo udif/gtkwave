@@ -211,6 +211,12 @@ while((h = fstReaderIterateHier(xc)))
 				{
 				*msb = *lsb = -1;
 				}
+			else if	((h->u.var.length > 1) && !col_last && lb_last) /* add for NC arrays that don't add final explicit bitrange like VCS does */
+				{
+				lb_last = NULL;
+				*msb = h->u.var.length -1;
+				*lsb = 0;
+				}
 			else
 				{
 				int sgna = 1, sgnb = 1;
