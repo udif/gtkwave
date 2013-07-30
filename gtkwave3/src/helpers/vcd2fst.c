@@ -714,6 +714,16 @@ while(!feof(f))
 			scopetype = FST_ST_VCD_INTERFACE;
 			}
 		else
+		if(!strcmp(st, "package"))
+			{
+			scopetype = FST_ST_VCD_PACKAGE;
+			}
+		else
+		if(!strcmp(st, "program"))
+			{
+			scopetype = FST_ST_VCD_PROGRAM;
+			}
+		else
 			{
 			scopetype = FST_ST_VCD_MODULE;
 			}

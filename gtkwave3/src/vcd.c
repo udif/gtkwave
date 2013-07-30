@@ -1151,6 +1151,7 @@ for(;;)
 					case 'u':	ttype = TREE_VCD_ST_UNION; break;
 					case 'c':	ttype = TREE_VCD_ST_CLASS; break;
 					case 'i':	ttype = TREE_VCD_ST_INTERFACE; break;
+					case 'p':	ttype = (GLOBALS->yytext_vcd_c_1[1] == 'r') ? TREE_VCD_ST_PROGRAM : TREE_VCD_ST_PACKAGE; break;
                                         default:        ttype = TREE_UNKNOWN;
                                                         break;
                                         }

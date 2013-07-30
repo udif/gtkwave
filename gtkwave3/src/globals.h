@@ -661,6 +661,12 @@ GdkDrawable *hiericon_fork_pixmap; /* from pixmaps.c */
 GdkDrawable *hiericon_fork_mask; /* from pixmaps.c */
 GdkDrawable *hiericon_interface_pixmap;
 GdkDrawable *hiericon_interface_mask;
+GdkDrawable *hiericon_svpackage_pixmap;
+GdkDrawable *hiericon_svpackage_mask;
+GdkDrawable *hiericon_program_pixmap;
+GdkDrawable *hiericon_program_mask;
+GdkDrawable *hiericon_class_pixmap;
+GdkDrawable *hiericon_class_mask;
 GdkDrawable *hiericon_design_pixmap;
 GdkDrawable *hiericon_design_mask;
 GdkDrawable *hiericon_block_pixmap;

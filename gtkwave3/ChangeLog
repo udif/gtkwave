@@ -1292,25 +1292,25 @@
 		Added preliminary do-nothing generate support in vermin.
 		Fixed minmax_valid for partial VCD loader: affects scaling
 		on floating-point traces.
-3.3.48	29jul13	Fixed infinite loop hang on various helpers executables
+3.3.48	30jul13	Fixed infinite loop hang on various helpers executables
 		when extra arguments are specified.
 		Delete changed marker name if it exists when marker is removed.
 		Added "Open Hierarchy" option that will expand the SST and
 		select the hierarchy for a given signal selected in the
 		Signals window.
-		Extload fix for generate created hierarchies.
-		Extload fix for new debug info output style to be parsed.
-		Added generate as scope type to VCD/FST/extload.
-		Preliminary add for module port direction for extload and FST.
+		Added preliminary support for FsdbReader.
+		FSDB fix for generate created hierarchies.
+		FSDB fix for new debug info output style to be parsed.
+		Added generate as scope type to VCD/FST/FSDB.
+		Preliminary add for module port direction for FSDB and FST.
+		Display signal direction column in SST if not all signals are 
+		declared as FST_VD_IMPLICIT.
 		Fixed GTK warning when hide_sst is enabled and SST is opened
 		then closed.
-		Hide signal direction column in SST if all signals are declared
-		as FST_VD_IMPLICIT.
-		Added extraction of in/out/inout from extload into FST with
-		vcd2fst helper executable.
-		Added preliminary support for FsdbReader.
-		Added support for SV structures, unions, classes, and
-		interfaces.
+		Added extraction of in/out/inout from FSDB into FST with
+		vcd2fst helper executable.  (It also converts FSDB to FST.)
+		Added support for SV structures, unions, classes, packages,
+		programs, and interfaces.
 		Updated signal parsing in FST/FSDB to handle NC declarations
 		for arrays in VCD.  (i.e., bitranges are missing)  Use vcd2fst
 		or the -o option to read NC VCD files with arrays properly.
