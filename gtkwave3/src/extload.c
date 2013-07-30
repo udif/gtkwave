@@ -435,6 +435,15 @@ for(;;)
 		                        default:        ttype = TREE_UNKNOWN; break;
 		                        }
 				}
+			else
+			if(!strncmp(vht, "sv_", 3))
+				{
+		                switch(vht[3])
+					{
+		                        case 'i':       ttype = TREE_VCD_ST_INTERFACE; break;
+		                        default:        ttype = TREE_UNKNOWN; break;
+		                        }
+				}
 				else
 				{
 				ttype = TREE_UNKNOWN;

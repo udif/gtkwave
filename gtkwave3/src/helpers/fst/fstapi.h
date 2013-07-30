@@ -63,9 +63,10 @@ enum fstScopeType {
     FST_ST_VCD_STRUCT          = 6,
     FST_ST_VCD_UNION           = 7,
     FST_ST_VCD_CLASS           = 8,
-    FST_ST_VCD_MAX             = 8,
+    FST_ST_VCD_INTERFACE       = 9,
+    FST_ST_VCD_MAX             = 9,
 
-    FST_ST_MAX                 = 8,
+    FST_ST_MAX                 = 9,
 
     FST_ST_VCD_SCOPE           = 254,
     FST_ST_VCD_UPSCOPE         = 255

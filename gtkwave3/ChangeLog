@@ -1309,7 +1309,8 @@
 		Added extraction of in/out/inout from extload into FST with
 		vcd2fst helper executable.
 		Added preliminary support for FsdbReader.
-		Added support for SV structures, unions, and classes.
+		Added support for SV structures, unions, classes, and
+		interfaces.
 		Updated signal parsing in FST to handle NC-style declarations
 		for arrays in VCD.  (i.e., bitranges are missing)  Use vcd2fst
 		or the -o option to read NC VCD files with arrays properly.

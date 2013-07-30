@@ -54,7 +54,7 @@ enum tree_kind
    /* A base (source file).  Not yet implemented.  */
    TREE_BASE,
 
-   /* Verilog scope types */
+   /* Verilog/SV scope types */
    TREE_VCD_ST_MODULE,
    TREE_VCD_ST_TASK,
    TREE_VCD_ST_FUNCTION,
@@ -64,6 +64,7 @@ enum tree_kind
    TREE_VCD_ST_STRUCT,
    TREE_VCD_ST_UNION,
    TREE_VCD_ST_CLASS,
+   TREE_VCD_ST_INTERFACE,
 
    /* VHDL scope types */
    TREE_VHDL_ST_DESIGN,

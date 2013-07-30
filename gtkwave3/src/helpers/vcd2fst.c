@@ -193,6 +193,15 @@ for(;;)
 					default:	break;
 					}
 				}
+			else
+			if(!strncmp("sv_", vht, 3))
+				{
+				switch(vht[3])
+					{
+					case 'i':	mtype = FST_ST_VCD_INTERFACE; break; /* other code looks for non-modules to replace type with */
+					default:	break;
+					}
+				}
 
 			ctype[0] = mtype + 1; /* bias for zero terminated string */
 
@@ -698,6 +707,11 @@ while(!feof(f))
 		if(!strcmp(st, "class"))
 			{
 			scopetype = FST_ST_VCD_CLASS;
+			}
+		else
+		if(!strcmp(st, "interface"))
+			{
+			scopetype = FST_ST_VCD_INTERFACE;
 			}
 		else
 			{

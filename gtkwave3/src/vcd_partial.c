@@ -1100,6 +1100,7 @@ for(;;)
 					case 's':       ttype = TREE_VCD_ST_STRUCT; break;
 					case 'u':       ttype = TREE_VCD_ST_UNION; break;
 					case 'c':       ttype = TREE_VCD_ST_CLASS; break;
+					case 'i':       ttype = TREE_VCD_ST_INTERFACE; break;
                                         default:        ttype = TREE_UNKNOWN;
                                                         break;
                                         }

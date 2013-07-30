@@ -387,27 +387,31 @@ char bf[65537];
 switch (scope->type) 
 	{
     	case FSDB_ST_VCD_MODULE:
-		type = (str_T) "module"; 
+		type = (str_T) "vcd_module"; 
 		break;
 
 	case FSDB_ST_VCD_TASK:
-		type = (str_T) "task"; 
+		type = (str_T) "vcd_task"; 
 		break;
 
 	case FSDB_ST_VCD_FUNCTION:
-		type = (str_T) "function"; 
+		type = (str_T) "vcd_function"; 
 		break;
 	
 	case FSDB_ST_VCD_BEGIN:
-		type = (str_T) "begin"; 
+		type = (str_T) "vcd_begin"; 
 		break;
 	
 	case FSDB_ST_VCD_FORK:
-		type = (str_T) "fork"; 
+		type = (str_T) "vcd_fork"; 
 		break;
 
 	case FSDB_ST_VCD_GENERATE:
-		type = (str_T) "generate"; 
+		type = (str_T) "vcd_generate"; 
+		break;
+
+	case FSDB_ST_SV_INTERFACE:
+		type = (str_T) "sv_interface"; 
 		break;
 
 	default:
@@ -415,7 +419,7 @@ switch (scope->type)
 		break;
     	}
 
-sprintf(bf, "Scope: vcd_%s %s %s", type, scope->name, scope->module ? scope->module : "NULL");
+sprintf(bf, "Scope: %s %s %s", type, scope->name, scope->module ? scope->module : "NULL");
 cb(bf);
 }
 
