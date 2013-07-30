@@ -386,11 +386,27 @@ for(;;)
 						/* now to fix possible generate... */
 						char *pnt2 = pnt;
 						char lastch = *pnt2;
+						int colon_seen = 0;
 
 						pnt2++;
-						while(*pnt2 && !isspace(*pnt2) && (*pnt2 != '[')) { lastch = *pnt2; pnt2++; };
+						while(*pnt2 && !isspace(*pnt2) && (*pnt2 != '[')) 
+							{ 
+							lastch = *pnt2; pnt2++; 
+							if(lastch == ':') { colon_seen = 1; }
+							};
 
-						if(lastch == ']') break;
+						if(lastch == ']') /* fix for NC verilog arrays */
+							{
+							int rng;
+
+							if(colon_seen) break;
+
+							rng = GLOBALS->extload_node_block[i].msi - GLOBALS->extload_node_block[i].lsi;
+							if(!rng)
+								{
+								break;
+								}
+							}
 						}
 
 					if(*pnt == '\\') /* this is not strictly correct, but fixes generic ranges from icarus */
