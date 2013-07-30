@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2012 Tony Bybell.
+ * Copyright (c) 2009-2013 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -126,7 +126,7 @@ unsigned char htyp;
 union {
 	/* if htyp == FST_HT_SCOPE */
 	struct fstHierScope {
-		unsigned char typ; /* FST_ST_VCD_MODULE ... FST_ST_VCD_CLASS */
+		unsigned char typ; /* FST_ST_VCD_MODULE ... FST_ST_VCD_PROGRAM */
 		const char *name;
 		const char *component;
 		uint32_t name_length;		/* strlen(u.scope.name) */
@@ -135,7 +135,7 @@ union {
 
 	/* if htyp == FST_HT_VAR */
 	struct fstHierVar {
-		unsigned char typ; /* FST_VT_VCD_EVENT ... FST_VT_VCD_STRING */
+		unsigned char typ; /* FST_VT_VCD_EVENT ... FST_VT_GEN_STRING */
 		unsigned char direction; /* FST_VD_IMPLICIT ... FST_VD_INOUT */
 		const char *name;
 		uint32_t length;
