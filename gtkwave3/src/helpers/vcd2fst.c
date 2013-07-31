@@ -529,11 +529,51 @@ while(!feof(f))
 				break;
 
 			case 'i':
-				vartype = FST_VT_VCD_INTEGER;
+				if(!strcmp(st, "integer"))		
+					{
+					vartype = FST_VT_VCD_INTEGER;
+					}
+				else
+				if(!strcmp(st, "int"))		
+					{
+					vartype = FST_VT_SV_INT;
+					}
 				break;
 
 			case 'e':
-				vartype = FST_VT_VCD_EVENT;
+				if(!strcmp(st, "event"))
+					{	
+					vartype = FST_VT_VCD_EVENT;
+					}
+				else
+				if(!strcmp(st, "enum"))
+					{	
+					vartype = FST_VT_SV_ENUM;
+					}
+				break;
+
+			case 'b':
+				if(!strcmp(st, "bit"))
+					{
+					vartype = FST_VT_SV_BIT;
+					}
+				else
+				if(!strcmp(st, "byte"))
+					{
+					vartype = FST_VT_SV_BYTE;
+					}
+				break;
+
+			case 'l':
+				if(!strcmp(st, "logic"))
+					{
+					vartype = FST_VT_SV_LOGIC;
+					}
+				else
+				if(!strcmp(st, "longint"))
+					{
+					vartype = FST_VT_SV_LONGINT;
+					}
 				break;
 
 			case 's':
@@ -550,6 +590,16 @@ while(!feof(f))
 				if(!strcmp(st, "string"))		
 					{
 					vartype = FST_VT_GEN_STRING;
+					}
+				else
+				if(!strcmp(st, "shortint"))		
+					{
+					vartype = FST_VT_SV_SHORTINT;
+					}
+				else
+				if(!strcmp(st, "shortreal"))		
+					{
+					vartype = FST_VT_SV_SHORTREAL;
 					}
 				break;
 

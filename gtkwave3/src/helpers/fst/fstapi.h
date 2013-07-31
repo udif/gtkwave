@@ -97,9 +97,19 @@ enum fstVarType {
     FST_VT_VCD_PORT            = 18,
     FST_VT_VCD_ARRAY           = 19,	/* used to define the rownum (index) port on the array */
     FST_VT_VCD_REALTIME        = 20,
+
     FST_VT_GEN_STRING	       = 21,	/* generic string type   (max len is defined dynamically via fstWriterEmitVariableLengthValueChange) */
 
-    FST_VT_VCD_MAX             = 21	/* end of VCD datatypes */
+    FST_VT_SV_BIT              = 22,
+    FST_VT_SV_LOGIC            = 23,
+    FST_VT_SV_INT              = 24,	/* declare as 31:0 */
+    FST_VT_SV_SHORTINT         = 25,	/* declare as 15:0 */
+    FST_VT_SV_LONGINT          = 26,	/* declare as 63:0 */
+    FST_VT_SV_BYTE             = 27,	/* declare as 7:0  */
+    FST_VT_SV_ENUM             = 28,	/* declare as 31:0 */
+    FST_VT_SV_SHORTREAL        = 29,	/* declare and emit same as FST_VT_VCD_REAL */
+
+    FST_VT_VCD_MAX             = 29	/* end of VCD datatypes */
 };
 
 enum fstVarDir {

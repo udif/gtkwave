@@ -529,7 +529,18 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	                case FST_VT_VCD_WIRE: 		nvt = ND_VCD_WIRE; break;
 	                case FST_VT_VCD_WOR: 		nvt = ND_VCD_WOR; break;
 	                case FST_VT_VCD_PORT: 		nvt = ND_VCD_PORT; break;
+
 	                case FST_VT_GEN_STRING:		nvt = ND_GEN_STRING; break;
+
+			case FST_VT_SV_BIT:             nvt = ND_SV_BIT; break;
+			case FST_VT_SV_LOGIC:           nvt = ND_SV_LOGIC; break;
+			case FST_VT_SV_INT:             nvt = ND_SV_INT; break;
+			case FST_VT_SV_SHORTINT:        nvt = ND_SV_SHORTINT; break;
+			case FST_VT_SV_LONGINT:         nvt = ND_SV_LONGINT; break;
+			case FST_VT_SV_BYTE:            nvt = ND_SV_BYTE; break;
+			case FST_VT_SV_ENUM:            nvt = ND_SV_ENUM; break;
+			case FST_VT_SV_SHORTREAL:       nvt = ND_SV_SHORTREAL; break;
+
 			default: 			nvt = ND_UNSPECIFIED_DEFAULT; break;
 			}
 
@@ -543,6 +554,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			case FST_VT_VCD_REAL:
 			case FST_VT_VCD_REAL_PARAMETER:
 			case FST_VT_VCD_REALTIME:
+			case FST_VT_SV_SHORTREAL:
 				GLOBALS->mvlfacs_fst_c_3[i].flags = VZT_RD_SYM_F_DOUBLE;
 				break;
 

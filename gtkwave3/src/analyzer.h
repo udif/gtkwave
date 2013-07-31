@@ -223,6 +223,14 @@ static const char *vartype_strings[] = { \
     "realtime", \
     "port", \
     "string", \
+    "bit", \
+    "logic", \
+    "int", \
+    "s_int", \
+    "l_int", \
+    "byte", \
+    "enum", \
+    "s_real", \
     "net", \
     "alias", \
     "missing" \
@@ -256,11 +264,21 @@ enum nodeVarType {
     ND_VCD_PORT		   = 21,
     ND_GEN_STRING          = 22,    /* generic string type */
 
-    ND_GEN_NET		   = 23,    /* used for AE2 */
-    ND_GEN_ALIAS	   = 24,
-    ND_GEN_MISSING	   = 25,
+    ND_SV_BIT              = 23,    /* SV types */
+    ND_SV_LOGIC            = 24,
+    ND_SV_INT              = 25,
+    ND_SV_SHORTINT         = 26,
+    ND_SV_LONGINT          = 27,
+    ND_SV_BYTE             = 28,
+    ND_SV_ENUM             = 29,
+    ND_SV_SHORTREAL        = 30,
+    
 
-    ND_VARTYPE_MAX	   = 25
+    ND_GEN_NET		   = 31,    /* used for AE2 */
+    ND_GEN_ALIAS	   = 32,
+    ND_GEN_MISSING	   = 33,
+
+    ND_VARTYPE_MAX	   = 33
 };
 
 

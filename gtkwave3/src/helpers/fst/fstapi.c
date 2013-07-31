@@ -2009,7 +2009,7 @@ if(xc && nam)
 	fputc(0, xc->hier_handle);
 	xc->hier_file_len += (nlen+3);
 
-	if((vt == FST_VT_VCD_REAL) || (vt == FST_VT_VCD_REAL_PARAMETER) || (vt == FST_VT_VCD_REALTIME))
+	if((vt == FST_VT_VCD_REAL) || (vt == FST_VT_VCD_REAL_PARAMETER) || (vt == FST_VT_VCD_REALTIME) || (vt == FST_VT_SV_SHORTREAL))
 		{
 		is_real = 1;
 		len = 8; /* recast number of bytes to that of what a double is */
@@ -2388,7 +2388,8 @@ static const char *vartypes[] = {
 	"reg", "supply0", "supply1", "time", "tri",
 	"triand", "trior", "trireg", "tri0", "tri1", 
 	"wand", "wire", "wor", "port", "array", "realtime",
-	"string"
+	"string",
+	"bit", "logic", "int", "shortint", "longint", "byte", "enum", "shortreal"
 	};
 
 static const char *modtypes[] = {
@@ -3105,6 +3106,14 @@ if(!(isfeof=feof(xc->fh)))
 		case FST_VT_VCD_ARRAY:
 		case FST_VT_VCD_REALTIME:
 		case FST_VT_GEN_STRING:
+		case FST_VT_SV_BIT:
+		case FST_VT_SV_LOGIC:
+		case FST_VT_SV_INT:
+		case FST_VT_SV_SHORTINT:
+		case FST_VT_SV_LONGINT:
+		case FST_VT_SV_BYTE:
+		case FST_VT_SV_ENUM:
+		case FST_VT_SV_SHORTREAL:
 			xc->hier.htyp = FST_HT_VAR;
 
 			xc->hier.u.var.typ = tag;
@@ -3274,6 +3283,14 @@ while(!feof(xc->fh))
 		case FST_VT_VCD_ARRAY:
 		case FST_VT_VCD_REALTIME:
 		case FST_VT_GEN_STRING:
+		case FST_VT_SV_BIT:
+		case FST_VT_SV_LOGIC:
+		case FST_VT_SV_INT:
+		case FST_VT_SV_SHORTINT:
+		case FST_VT_SV_LONGINT:
+		case FST_VT_SV_BYTE:
+		case FST_VT_SV_ENUM:
+		case FST_VT_SV_SHORTREAL:
 			vartype = tag;
 			/* vardir = */ fgetc(xc->fh); /* unused in VCD reader, but need to advance read pointer */
 			pnt = str;
@@ -3302,9 +3319,9 @@ while(!feof(xc->fh))
 					xc->longest_signal_value_len = len;
 					}
 
-				if((vartype == FST_VT_VCD_REAL) || (vartype == FST_VT_VCD_REAL_PARAMETER) || (vartype == FST_VT_VCD_REALTIME))
+				if((vartype == FST_VT_VCD_REAL) || (vartype == FST_VT_VCD_REAL_PARAMETER) || (vartype == FST_VT_VCD_REALTIME) || (vartype == FST_VT_SV_SHORTREAL))
 					{
-					len = 64;
+					len = (vartype != FST_VT_SV_SHORTREAL) ? 64 : 32;
 					xc->signal_typs[xc->maxhandle] = FST_VT_VCD_REAL;
 					}
 				if(fv) 
@@ -3316,9 +3333,9 @@ while(!feof(xc->fh))
 				}
 				else
 				{
-				if((vartype == FST_VT_VCD_REAL) || (vartype == FST_VT_VCD_REAL_PARAMETER) || (vartype == FST_VT_VCD_REALTIME))
+				if((vartype == FST_VT_VCD_REAL) || (vartype == FST_VT_VCD_REAL_PARAMETER) || (vartype == FST_VT_VCD_REALTIME) || (vartype == FST_VT_SV_SHORTREAL))
 					{
-					len = 64;
+					len = (vartype != FST_VT_SV_SHORTREAL) ? 64 : 32;
 					xc->signal_typs[xc->maxhandle] = FST_VT_VCD_REAL;
 					}
 				if(fv) 
