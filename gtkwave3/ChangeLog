@@ -1316,3 +1316,5 @@
 		or the -o option to read NC VCD files with arrays properly.
 		Preliminary support for SV datatypes of bit, logic, int,
 		shortint, longint, byte, enum, and shortreal in VCD and FST.
+		Added sparse array datatype to FST (currently unused by
+		gtkwave).

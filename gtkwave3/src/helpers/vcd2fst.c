@@ -601,6 +601,11 @@ while(!feof(f))
 					{
 					vartype = FST_VT_SV_SHORTREAL;
 					}
+				else
+				if(!strcmp(st, "sparray"))		
+					{
+					vartype = FST_VT_VCD_SPARRAY;
+					}
 				break;
 
 			case 't':

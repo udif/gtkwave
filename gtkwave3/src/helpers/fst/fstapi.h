@@ -95,7 +95,7 @@ enum fstVarType {
     FST_VT_VCD_WIRE            = 16,
     FST_VT_VCD_WOR             = 17,
     FST_VT_VCD_PORT            = 18,
-    FST_VT_VCD_ARRAY           = 19,	/* used to define the rownum (index) port on the array */
+    FST_VT_VCD_SPARRAY         = 19,	/* used to define the rownum (index) port for a sparse array */
     FST_VT_VCD_REALTIME        = 20,
 
     FST_VT_GEN_STRING	       = 21,	/* generic string type   (max len is defined dynamically via fstWriterEmitVariableLengthValueChange) */

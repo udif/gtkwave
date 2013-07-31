@@ -2387,7 +2387,7 @@ static const char *vartypes[] = {
 	"event", "integer", "parameter", "real", "real_parameter",
 	"reg", "supply0", "supply1", "time", "tri",
 	"triand", "trior", "trireg", "tri0", "tri1", 
-	"wand", "wire", "wor", "port", "array", "realtime",
+	"wand", "wire", "wor", "port", "sparray", "realtime",
 	"string",
 	"bit", "logic", "int", "shortint", "longint", "byte", "enum", "shortreal"
 	};
@@ -3103,7 +3103,7 @@ if(!(isfeof=feof(xc->fh)))
 		case FST_VT_VCD_WIRE:
 		case FST_VT_VCD_WOR:
 		case FST_VT_VCD_PORT:
-		case FST_VT_VCD_ARRAY:
+		case FST_VT_VCD_SPARRAY:
 		case FST_VT_VCD_REALTIME:
 		case FST_VT_GEN_STRING:
 		case FST_VT_SV_BIT:
@@ -3280,7 +3280,7 @@ while(!feof(xc->fh))
 		case FST_VT_VCD_WIRE:
 		case FST_VT_VCD_WOR:
 		case FST_VT_VCD_PORT:
-		case FST_VT_VCD_ARRAY:
+		case FST_VT_VCD_SPARRAY:
 		case FST_VT_VCD_REALTIME:
 		case FST_VT_GEN_STRING:
 		case FST_VT_SV_BIT:
