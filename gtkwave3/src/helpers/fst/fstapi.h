@@ -106,7 +106,7 @@ enum fstVarType {
     FST_VT_SV_SHORTINT         = 25,	/* declare as 15:0 */
     FST_VT_SV_LONGINT          = 26,	/* declare as 63:0 */
     FST_VT_SV_BYTE             = 27,	/* declare as 7:0  */
-    FST_VT_SV_ENUM             = 28,	/* declare as 31:0 */
+    FST_VT_SV_ENUM             = 28,	/* declare as appropriate type range */
     FST_VT_SV_SHORTREAL        = 29,	/* declare and emit same as FST_VT_VCD_REAL */
 
     FST_VT_VCD_MAX             = 29	/* end of VCD datatypes */
