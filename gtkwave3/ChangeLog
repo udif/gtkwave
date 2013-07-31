@@ -1315,4 +1315,4 @@
 		for arrays in VCD.  (i.e., bitranges are missing)  Use vcd2fst
 		or the -o option to read NC VCD files with arrays properly.
 		Preliminary support for SV datatypes of bit, logic, int,
-		shortint, longint, byte, enum, and shortreal.
+		shortint, longint, byte, enum, and shortreal in VCD and FST.

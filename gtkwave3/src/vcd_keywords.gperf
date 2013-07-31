@@ -38,6 +38,14 @@ in, V_IN
 out, V_OUT
 inout, V_INOUT
 string, V_STRINGTYPE
+bit, V_BIT
+logic, V_LOGIC
+int, V_INT
+shortint, V_SHORTINT
+longint, V_LONGINT
+byte, V_BYTE
+enum, V_ENUM
+shortreal, V_SHORTREAL
 $end, V_END
 %%
 

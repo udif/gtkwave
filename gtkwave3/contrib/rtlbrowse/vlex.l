@@ -168,7 +168,6 @@ endtable 						{ return V_KW; }
 specify 						{ return V_KW; }
 endspecify 						{ return V_KW; }
 
-
 automatic						{ return V_KW_2005; }
 cell							{ return V_KW_2005; }
 config							{ return V_KW_2005; }
@@ -193,6 +192,13 @@ signed							{ return V_KW_2005; }
 use							{ return V_KW_2005; }
 uwire							{ return V_KW_2005; }
 
+bit							{ return V_KW_2005; }
+logic							{ return V_KW_2005; }
+int							{ return V_KW_2005; }
+shortint						{ return V_KW_2005; }
+longint							{ return V_KW_2005; }
+byte							{ return V_KW_2005; }
+enum							{ return V_KW_2005; }
 
 macromodule 						{ return V_MODULE; }
 module 							{ return V_MODULE; }

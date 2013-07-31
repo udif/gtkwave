@@ -2062,6 +2062,14 @@ switch(v->vartype)
         case V_WOR:             nvt = ND_VCD_WOR; break;
         case V_PORT:            nvt = ND_VCD_PORT; break;
 	case V_STRINGTYPE:	nvt = ND_GEN_STRING; break;
+	case V_BIT:		nvt = ND_SV_BIT; break;
+	case V_LOGIC:		nvt = ND_SV_LOGIC; break;
+	case V_INT:		nvt = ND_SV_INT; break;
+	case V_SHORTINT:	nvt = ND_SV_SHORTINT; break;
+	case V_LONGINT:		nvt = ND_SV_LONGINT; break;
+	case V_BYTE:		nvt = ND_SV_BYTE; break;
+	case V_ENUM:		nvt = ND_SV_ENUM; break;
+	/* V_SHORTREAL as a type does not exist for VCD: is cast to V_REAL */
         default:                nvt = ND_UNSPECIFIED_DEFAULT; break;
 	}
 n->vartype = nvt;

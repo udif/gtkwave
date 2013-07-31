@@ -43,12 +43,12 @@ error "gperf generated tables don't work with this execution character set. Plea
 struct vcd_keyword { const char *name; int token; };
 
 
-#define TOTAL_KEYWORDS 25
+#define TOTAL_KEYWORDS 33
 #define MIN_WORD_LENGTH 2
 #define MAX_WORD_LENGTH 14
 #define MIN_HASH_VALUE 5
-#define MAX_HASH_VALUE 41
-/* maximum key range = 37, duplicates = 0 */
+#define MAX_HASH_VALUE 69
+/* maximum key range = 65, duplicates = 0 */
 
 #ifdef __GNUC__
 __inline
@@ -64,34 +64,34 @@ keyword_hash (str, len)
 {
   static const unsigned char asso_values[] =
     {
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 26, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42,  4,  1,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      11,  6, 42,  1, 42, 16, 42, 42, 24, 42,
-       1,  6, 16, 42,  1,  6,  1, 42, 42, 21,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42, 42, 42, 42, 42,
-      42, 42, 42, 42, 42, 42
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 36, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 56, 51,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 26,
+      26,  1, 36,  1, 70, 36,  6, 70, 31,  1,
+       1, 70, 16,  1,  6,  1,  6,  1, 70, 70,
+      21, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70, 70, 70, 70,
+      70, 70, 70, 70, 70, 70, 70
     };
-  return len + asso_values[(unsigned char)str[len - 1]] + asso_values[(unsigned char)str[0]];
+  return len + asso_values[(unsigned char)str[len - 1]] + asso_values[(unsigned char)str[0]+1];
 }
 
 #ifdef __GNUC__
@@ -110,59 +110,83 @@ check_identifier (str, len)
       {""}, {""}, {""}, {""}, {""},
 #line 23 "./vcd_keywords.gperf"
       {"reg", V_REG},
-#line 32 "./vcd_keywords.gperf"
-      {"tri1", V_TRI1},
-#line 29 "./vcd_keywords.gperf"
-      {"trior", V_TRIOR},
-#line 30 "./vcd_keywords.gperf"
-      {"trireg", V_TRIREG},
-#line 31 "./vcd_keywords.gperf"
-      {"tri0", V_TRI0},
-#line 38 "./vcd_keywords.gperf"
-      {"out", V_OUT},
 #line 26 "./vcd_keywords.gperf"
       {"time", V_TIME},
-#line 17 "./vcd_keywords.gperf"
-      {"event", V_EVENT},
-#line 40 "./vcd_keywords.gperf"
-      {"string", V_STRINGTYPE},
-#line 25 "./vcd_keywords.gperf"
-      {"supply1", V_SUPPLY1},
-#line 22 "./vcd_keywords.gperf"
-      {"realtime", V_REALTIME},
-#line 21 "./vcd_keywords.gperf"
-      {"real_parameter", V_REAL_PARAMETER},
-#line 24 "./vcd_keywords.gperf"
-      {"supply0", V_SUPPLY0},
-#line 28 "./vcd_keywords.gperf"
-      {"triand", V_TRIAND},
+      {""},
+#line 30 "./vcd_keywords.gperf"
+      {"trireg", V_TRIREG},
 #line 37 "./vcd_keywords.gperf"
       {"in", V_IN},
-#line 27 "./vcd_keywords.gperf"
-      {"tri", V_TRI},
+#line 22 "./vcd_keywords.gperf"
+      {"realtime", V_REALTIME},
 #line 36 "./vcd_keywords.gperf"
       {"port", V_PORT},
+#line 29 "./vcd_keywords.gperf"
+      {"trior", V_TRIOR},
+#line 40 "./vcd_keywords.gperf"
+      {"string", V_STRINGTYPE},
+#line 45 "./vcd_keywords.gperf"
+      {"longint", V_LONGINT},
+#line 43 "./vcd_keywords.gperf"
+      {"int", V_INT},
+#line 18 "./vcd_keywords.gperf"
+      {"parameter", V_PARAMETER},
 #line 39 "./vcd_keywords.gperf"
       {"inout", V_INOUT},
       {""},
 #line 19 "./vcd_keywords.gperf"
       {"integer", V_INTEGER},
-#line 35 "./vcd_keywords.gperf"
-      {"wor", V_WOR},
-#line 18 "./vcd_keywords.gperf"
-      {"parameter", V_PARAMETER},
-      {""}, {""},
-#line 20 "./vcd_keywords.gperf"
-      {"real", V_REAL},
-      {""},
+#line 44 "./vcd_keywords.gperf"
+      {"shortint", V_SHORTINT},
+#line 21 "./vcd_keywords.gperf"
+      {"real_parameter", V_REAL_PARAMETER},
+      {""}, {""}, {""},
+#line 38 "./vcd_keywords.gperf"
+      {"out", V_OUT},
 #line 34 "./vcd_keywords.gperf"
       {"wire", V_WIRE},
+      {""}, {""}, {""},
+#line 35 "./vcd_keywords.gperf"
+      {"wor", V_WOR},
+#line 46 "./vcd_keywords.gperf"
+      {"byte", V_BYTE},
+#line 42 "./vcd_keywords.gperf"
+      {"logic", V_LOGIC},
+#line 28 "./vcd_keywords.gperf"
+      {"triand", V_TRIAND},
+      {""},
+#line 41 "./vcd_keywords.gperf"
+      {"bit", V_BIT},
+#line 20 "./vcd_keywords.gperf"
+      {"real", V_REAL},
+      {""}, {""}, {""},
+#line 27 "./vcd_keywords.gperf"
+      {"tri", V_TRI},
+#line 47 "./vcd_keywords.gperf"
+      {"enum", V_ENUM},
       {""}, {""}, {""}, {""},
+#line 48 "./vcd_keywords.gperf"
+      {"shortreal", V_SHORTREAL},
+#line 17 "./vcd_keywords.gperf"
+      {"event", V_EVENT},
+      {""}, {""}, {""},
 #line 33 "./vcd_keywords.gperf"
       {"wand", V_WAND},
       {""}, {""}, {""}, {""},
-#line 41 "./vcd_keywords.gperf"
-      {"$end", V_END}
+#line 32 "./vcd_keywords.gperf"
+      {"tri1", V_TRI1},
+      {""}, {""}, {""}, {""},
+#line 31 "./vcd_keywords.gperf"
+      {"tri0", V_TRI0},
+      {""}, {""},
+#line 25 "./vcd_keywords.gperf"
+      {"supply1", V_SUPPLY1},
+      {""},
+#line 49 "./vcd_keywords.gperf"
+      {"$end", V_END},
+      {""}, {""},
+#line 24 "./vcd_keywords.gperf"
+      {"supply0", V_SUPPLY0}
     };
 
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
@@ -179,7 +203,7 @@ check_identifier (str, len)
     }
   return 0;
 }
-#line 42 "./vcd_keywords.gperf"
+#line 50 "./vcd_keywords.gperf"
 
 
 int vcd_keyword_code(const char *s, unsigned int len)
