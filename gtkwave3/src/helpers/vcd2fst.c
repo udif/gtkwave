@@ -116,12 +116,11 @@ for(;;)
 		{
                 if(isspace(rc[0]))
                         {
-                        char *snp;
                         char sbuff2[65537];
 
                         sbuff2[0] = 0;
 
-                        if((snp=strstr(rc+1, "Struct Name:")))
+                        if(strstr(rc+1, "Struct Name:"))
                                 {
                                 sscanf(rc+14,"%s", sbuff2);
                                 if(sbuff2[0])
@@ -130,7 +129,7 @@ for(;;)
                                         }
                                 }
                         else
-                        if((snp=strstr(rc+1, "Struct End")))
+                        if(strstr(rc+1, "Struct End"))
                                 {
                                 sprintf(rc, "Upscope:\n");  
                                 }
