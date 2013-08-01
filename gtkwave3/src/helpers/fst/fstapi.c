@@ -3376,7 +3376,7 @@ while(!feof(xc->fh))
 								break;
 					case FST_AT_MISC:	
 					default:		attrtype = FST_AT_MISC;
-								fprintf(fv, "$attrbegin %s %s %s %"PRId64" $end\n", attrtypes[attrtype], attrtypes[attrtype], str, attrarg);
+								fprintf(fv, "$attrbegin %s %02x %s %"PRId64" $end\n", attrtypes[attrtype], subtype, str, attrarg);
 								break;
 					}
 				}
