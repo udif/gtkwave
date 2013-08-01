@@ -185,6 +185,7 @@ while((h = fstReaderIterateHier(xc)))
                         GLOBALS->fst_scope_name = fstReaderPopScope(xc);
 			GLOBALS->fst_scope_name_len = fstReaderGetCurrentScopeLen(xc);
                         break;
+
                 case FST_HT_VAR:
                         /* GLOBALS->fst_scope_name = fstReaderGetCurrentFlatScope(xc); */
 			/* GLOBALS->fst_scope_name_len = fstReaderGetCurrentScopeLen(xc); */
@@ -276,6 +277,13 @@ while((h = fstReaderIterateHier(xc)))
 			*nam = s;
 			return(h);
                         break;
+
+		case FST_HT_ATTRBEGIN:	/* currently ignored */
+		case FST_HT_ATTREND:
+			break;
+
+		default:
+			break;
                 }
         }
 

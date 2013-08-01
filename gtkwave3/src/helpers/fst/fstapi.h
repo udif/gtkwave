@@ -70,6 +70,9 @@ enum fstScopeType {
 
     FST_ST_MAX                 = 11,
 
+    FST_ST_GEN_ATTRBEGIN       = 252,
+    FST_ST_GEN_ATTREND         = 253,
+
     FST_ST_VCD_SCOPE           = 254,
     FST_ST_VCD_UPSCOPE         = 255
 };
@@ -125,8 +128,59 @@ enum fstHierType {
     FST_HT_SCOPE       = 0,
     FST_HT_UPSCOPE     = 1,
     FST_HT_VAR         = 2,
+    FST_HT_ATTRBEGIN   = 3,
+    FST_HT_ATTREND     = 4,
 
-    FST_HT_MAX         = 2
+    FST_HT_MAX         = 4
+};
+
+enum fstAttrType {
+    FST_AT_UNKNOWN     = 0,
+    FST_AT_ARRAY       = 1,
+    FST_AT_ENUM        = 2,
+    FST_AT_CLASS       = 3,
+
+    FST_AT_MAX         = 3
+};
+
+enum fstArrayType {
+    FST_AR_NONE                = 0,
+    FST_AR_UNPACKED            = 1,
+    FST_AR_PACKED              = 2,
+    FST_AR_SPARSE              = 3,
+
+    FST_AR_MAX                 = 3
+};
+
+enum fstEnumValueType {
+    FST_EV_SV_INTEGER           = 0,
+    FST_EV_SV_BIT               = 1,
+    FST_EV_SV_LOGIC             = 2,
+    FST_EV_SV_INT               = 3,
+    FST_EV_SV_SHORTINT          = 4,
+    FST_EV_SV_LONGINT           = 5,
+    FST_EV_SV_BYTE              = 6,
+    FST_EV_SV_UNSIGNED_INTEGER  = 7,
+    FST_EV_SV_UNSIGNED_BIT      = 8,
+    FST_EV_SV_UNSIGNED_LOGIC    = 9,
+    FST_EV_SV_UNSIGNED_INT      = 10,
+    FST_EV_SV_UNSIGNED_SHORTINT = 11,
+    FST_EV_SV_UNSIGNED_LONGINT  = 12,
+    FST_EV_SV_UNSIGNED_BYTE     = 13,
+
+    FST_EV_MAX                  = 13
+};
+
+enum fstClassType {
+    FST_CT_NONE                = 0,
+    FST_CT_UNPACKED_STRUCT     = 1,
+    FST_CT_PACKED_STRUCT       = 2,
+    FST_CT_UNPACKED_UNION      = 3,
+    FST_CT_PACKED_UNION        = 4,
+    FST_CT_TAGGED_PACKED_UNION = 5,
+    FST_CT_CLASS               = 6,
+
+    FST_CT_MAX                 = 6
 };
 
 struct fstHier
@@ -153,6 +207,15 @@ union {
 		uint32_t name_length; /* strlen(u.var.name) */
 		unsigned is_alias : 1;
 		} var;
+
+	/* if htyp == FST_HT_ATTRBEGIN */
+	struct fstHierAttr {
+		unsigned char typ; /* FST_AT_ARRAY ... FST_AT_CLASS */
+		unsigned char subtype; /* from fstArrayType, fstEnumValueType, fstClassType */
+		const char *name;
+		uint64_t arg; /* number of elements/members or ignored */
+		uint32_t name_length; /* strlen(u.attr.name) */
+		} attr;
 	} u;
 };
 
@@ -185,6 +248,9 @@ void fstWriterEmitVariableLengthValueChange(void *ctx, fstHandle handle, const v
 void fstWriterEmitDumpActive(void *ctx, int enable);
 void fstWriterEmitTimeChange(void *ctx, uint64_t tim);
 void fstWriterFlushContext(void *ctx);
+void fstWriterSetAttrBegin(void *ctx, enum fstAttrType attrtype, int subtype,
+                const char *attrname, uint64_t arg);
+void fstWriterSetAttrEnd(void *ctx);
 
 /*
  * reader functions

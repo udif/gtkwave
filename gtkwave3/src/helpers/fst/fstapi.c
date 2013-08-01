@@ -1987,7 +1987,7 @@ return(0);
 
 
 /*
- * writer scope/var creation
+ * writer attr/scope/var creation
  */
 fstHandle fstWriterCreateVar(void *ctx, enum fstVarType vt, enum fstVarDir vd,
         uint32_t len, const char *nam, fstHandle aliasHandle)
@@ -2093,7 +2093,7 @@ void fstWriterSetScope(void *ctx, enum fstScopeType scopetype,
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 
-if(xc && scopename)
+if(xc)
 	{
 	fputc(FST_ST_VCD_SCOPE, xc->hier_handle);
 	if((scopetype < FST_ST_VCD_MODULE) || (scopetype > FST_ST_MAX)) { scopetype = FST_ST_VCD_MODULE; }
@@ -2124,6 +2124,54 @@ struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
 	{
 	fputc(FST_ST_VCD_UPSCOPE, xc->hier_handle);
+	xc->hier_file_len++;
+	}
+}
+
+
+void fstWriterSetAttrBegin(void *ctx, enum fstAttrType attrtype, int subtype,
+                const char *attrname, uint64_t arg)
+{
+struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+
+if(xc)
+	{
+	fputc(FST_ST_GEN_ATTRBEGIN, xc->hier_handle);
+	if((attrtype < FST_AT_UNKNOWN) || (attrtype > FST_AT_MAX)) { attrtype = FST_AT_UNKNOWN; }
+	fputc(attrtype, xc->hier_handle);
+
+	switch(attrtype)
+		{
+		case FST_AT_ARRAY:	if((subtype < FST_AR_NONE) || (subtype > FST_AR_MAX)) subtype = FST_AR_NONE; break;
+		case FST_AT_ENUM:	if((subtype < FST_EV_SV_INTEGER) || (subtype > FST_EV_MAX)) subtype = FST_EV_SV_INTEGER; break;
+		case FST_AT_CLASS:	if((subtype < FST_CT_NONE) || (subtype > FST_CT_MAX)) subtype = FST_CT_NONE; break;
+
+		case FST_AT_UNKNOWN:
+		default:		break;
+		}
+
+	fputc(subtype, xc->hier_handle);
+	fprintf(xc->hier_handle, "%s%c",
+		attrname ? attrname : "", 0);
+	
+	if(attrname)
+		{
+		xc->hier_file_len += strlen(attrname);
+		}
+
+	xc->hier_file_len += 4; /* FST_ST_GEN_ATTRBEGIN + type + subtype + string terminating zero */
+	xc->hier_file_len += fstWriterVarint(xc->hier_handle, arg);
+	}
+}
+
+
+void fstWriterSetAttrEnd(void *ctx)
+{
+struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+
+if(xc)
+	{
+	fputc(FST_ST_GEN_ATTREND, xc->hier_handle);
 	xc->hier_file_len++;
 	}
 }
@@ -2394,6 +2442,23 @@ static const char *vartypes[] = {
 
 static const char *modtypes[] = {
 	"module", "task", "function", "begin", "fork", "generate", "struct", "union", "class", "interface", "package", "program"
+	};
+
+static const char *attrtypes[] = {
+	"unknown", "array", "enum", "class"
+	};
+
+static const char *arraytypes[] = {
+	"none", "unpacked", "packed", "sparse"
+	};
+
+static const char *enumvaluetypes[] = {
+	"integer", "bit", "logic", "int", "shortint", "longint", "byte",
+	"unsigned_integer", "unsigned_bit", "unsigned_logic", "unsigned_int", "unsigned_shortint", "unsigned_longint", "unsigned_byte"
+	};
+
+static const char *classtypes[] = {
+	"none", "unpacked_struct", "packed_struct", "unpacked_union", "packed_union", "tagged_packed_union", "class"
 	};
 
 struct fstCurrHier
@@ -3084,6 +3149,25 @@ if(!(isfeof=feof(xc->fh)))
 			xc->hier.htyp = FST_HT_UPSCOPE;
 			break;
 
+		case FST_ST_GEN_ATTRBEGIN:
+			xc->hier.htyp = FST_HT_ATTRBEGIN;
+			xc->hier.u.attr.typ = fgetc(xc->fh);
+			xc->hier.u.attr.subtype = fgetc(xc->fh);
+			xc->hier.u.attr.name = pnt = xc->str_scope_nam;
+			while((ch = fgetc(xc->fh))) 
+				{
+				*(pnt++) = ch; 
+				}; /* scopename */
+			*pnt = 0;
+			xc->hier.u.attr.name_length = pnt - xc->hier.u.scope.name;
+
+			xc->hier.u.attr.arg = fstReaderVarint64(xc->fh);
+			break;
+
+		case FST_ST_GEN_ATTREND:
+			xc->hier.htyp = FST_HT_ATTREND;
+			break;
+
 		case FST_VT_VCD_EVENT:
 		case FST_VT_VCD_INTEGER:
 		case FST_VT_VCD_PARAMETER:
@@ -3168,6 +3252,8 @@ int vartype;
 uint32_t len, alias;
 /* uint32_t maxvalpos=0; */
 int num_signal_dyn = 65536;
+int attrtype, subtype;
+uint64_t attrarg;
 
 if(!xc) return(0);
 
@@ -3246,6 +3332,7 @@ while(!feof(xc->fh))
 		{
 		case FST_ST_VCD_SCOPE:
 			scopetype = fgetc(xc->fh);
+			if((scopetype < FST_ST_VCD_MIN) || (scopetype > FST_ST_MAX)) scopetype = FST_ST_VCD_MODULE;
 			pnt = str;
 			while((ch = fgetc(xc->fh))) 
 				{
@@ -3259,6 +3346,43 @@ while(!feof(xc->fh))
 
 		case FST_ST_VCD_UPSCOPE:
 			if(fv) fprintf(fv, "$upscope $end\n");
+			break;
+
+		case FST_ST_GEN_ATTRBEGIN:
+			attrtype = fgetc(xc->fh);
+			subtype = fgetc(xc->fh);
+			pnt = str;
+			while((ch = fgetc(xc->fh))) 
+				{
+				*(pnt++) = ch; 
+				}; /* attrname */
+			*pnt = 0;
+
+			attrarg = fstReaderVarint64(xc->fh);
+
+			if(fv)
+				{
+				switch(attrtype)
+					{
+					case FST_AT_ARRAY:	if((subtype < FST_AR_NONE) || (subtype > FST_AR_MAX)) subtype = FST_AR_NONE;
+								fprintf(fv, "$attrbegin %s %s %"PRId64" $end\n", attrtypes[attrtype], arraytypes[subtype], attrarg);
+								break;
+					case FST_AT_ENUM:	if((subtype < FST_EV_SV_INTEGER) || (subtype > FST_EV_MAX)) subtype = FST_EV_SV_INTEGER;
+								fprintf(fv, "$attrbegin %s %s %"PRId64" $end\n", attrtypes[attrtype], enumvaluetypes[subtype], attrarg);
+								break;
+					case FST_AT_CLASS:	if((subtype < FST_CT_NONE) || (subtype > FST_CT_MAX)) subtype = FST_CT_NONE;
+								fprintf(fv, "$attrbegin %s %s %"PRId64" $end\n", attrtypes[attrtype], classtypes[subtype], attrarg);
+								break;
+					case FST_AT_UNKNOWN:	
+					default:		attrtype = FST_AT_UNKNOWN;
+								fprintf(fv, "$attrbegin %s %s %"PRId64" $end\n", attrtypes[attrtype], attrtypes[attrtype], attrarg);
+								break;
+					}
+				}
+			break;
+
+		case FST_ST_GEN_ATTREND:
+			if(fv) fprintf(fv, "$attrend $end\n");
 			break;
 
 		case FST_VT_VCD_EVENT:
