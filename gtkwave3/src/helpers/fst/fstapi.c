@@ -3365,17 +3365,17 @@ while(!feof(xc->fh))
 				switch(attrtype)
 					{
 					case FST_AT_ARRAY:	if((subtype < FST_AR_NONE) || (subtype > FST_AR_MAX)) subtype = FST_AR_NONE;
-								fprintf(fv, "$attrbegin %s %s %"PRId64" $end\n", attrtypes[attrtype], arraytypes[subtype], attrarg);
+								fprintf(fv, "$attrbegin %s %s %s %"PRId64" $end\n", attrtypes[attrtype], arraytypes[subtype], str, attrarg);
 								break;
 					case FST_AT_ENUM:	if((subtype < FST_EV_SV_INTEGER) || (subtype > FST_EV_MAX)) subtype = FST_EV_SV_INTEGER;
-								fprintf(fv, "$attrbegin %s %s %"PRId64" $end\n", attrtypes[attrtype], enumvaluetypes[subtype], attrarg);
+								fprintf(fv, "$attrbegin %s %s %s %"PRId64" $end\n", attrtypes[attrtype], enumvaluetypes[subtype], str, attrarg);
 								break;
 					case FST_AT_CLASS:	if((subtype < FST_CT_NONE) || (subtype > FST_CT_MAX)) subtype = FST_CT_NONE;
-								fprintf(fv, "$attrbegin %s %s %"PRId64" $end\n", attrtypes[attrtype], classtypes[subtype], attrarg);
+								fprintf(fv, "$attrbegin %s %s %s %"PRId64" $end\n", attrtypes[attrtype], classtypes[subtype], str, attrarg);
 								break;
 					case FST_AT_UNKNOWN:	
 					default:		attrtype = FST_AT_UNKNOWN;
-								fprintf(fv, "$attrbegin %s %s %"PRId64" $end\n", attrtypes[attrtype], attrtypes[attrtype], attrarg);
+								fprintf(fv, "$attrbegin %s %s %s %"PRId64" $end\n", attrtypes[attrtype], attrtypes[attrtype], str, attrarg);
 								break;
 					}
 				}
