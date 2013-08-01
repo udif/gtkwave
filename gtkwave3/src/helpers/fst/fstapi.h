@@ -135,21 +135,21 @@ enum fstHierType {
 };
 
 enum fstAttrType {
-    FST_AT_UNKNOWN     = 0,
+    FST_AT_MISC        = 0,
     FST_AT_ARRAY       = 1,
     FST_AT_ENUM        = 2,
-    FST_AT_CLASS       = 3,
+    FST_AT_PACK        = 3,
 
     FST_AT_MAX         = 3
 };
 
 enum fstArrayType {
-    FST_AR_NONE                = 0,
-    FST_AR_UNPACKED            = 1,
-    FST_AR_PACKED              = 2,
-    FST_AR_SPARSE              = 3,
+    FST_AR_NONE        = 0,
+    FST_AR_UNPACKED    = 1,
+    FST_AR_PACKED      = 2,
+    FST_AR_SPARSE      = 3,
 
-    FST_AR_MAX                 = 3
+    FST_AR_MAX         = 3
 };
 
 enum fstEnumValueType {
@@ -171,16 +171,13 @@ enum fstEnumValueType {
     FST_EV_MAX                  = 13
 };
 
-enum fstClassType {
-    FST_CT_NONE                = 0,
-    FST_CT_UNPACKED_STRUCT     = 1,
-    FST_CT_PACKED_STRUCT       = 2,
-    FST_CT_UNPACKED_UNION      = 3,
-    FST_CT_PACKED_UNION        = 4,
-    FST_CT_TAGGED_PACKED_UNION = 5,
-    FST_CT_CLASS               = 6,
+enum fstPackType {
+    FST_PT_NONE          = 0,
+    FST_PT_UNPACKED      = 1,
+    FST_PT_PACKED        = 2,
+    FST_PT_TAGGED_PACKED = 3,
 
-    FST_CT_MAX                 = 6
+    FST_PT_MAX           = 6
 };
 
 struct fstHier
@@ -210,10 +207,10 @@ union {
 
 	/* if htyp == FST_HT_ATTRBEGIN */
 	struct fstHierAttr {
-		unsigned char typ; /* FST_AT_ARRAY ... FST_AT_CLASS */
-		unsigned char subtype; /* from fstArrayType, fstEnumValueType, fstClassType */
+		unsigned char typ; /* FST_AT_MISC ... FST_AT_PACK */
+		unsigned char subtype; /* from fstArrayType, fstEnumValueType, fstPackType */
 		const char *name;
-		uint64_t arg; /* number of elements/members or ignored */
+		uint64_t arg; /* number of array elements, struct members, or some other payload (possibly ignored) */
 		uint32_t name_length; /* strlen(u.attr.name) */
 		} attr;
 	} u;

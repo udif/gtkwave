@@ -2137,16 +2137,16 @@ struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
 	{
 	fputc(FST_ST_GEN_ATTRBEGIN, xc->hier_handle);
-	if((attrtype < FST_AT_UNKNOWN) || (attrtype > FST_AT_MAX)) { attrtype = FST_AT_UNKNOWN; }
+	if((attrtype < FST_AT_MISC) || (attrtype > FST_AT_MAX)) { attrtype = FST_AT_MISC; }
 	fputc(attrtype, xc->hier_handle);
 
 	switch(attrtype)
 		{
 		case FST_AT_ARRAY:	if((subtype < FST_AR_NONE) || (subtype > FST_AR_MAX)) subtype = FST_AR_NONE; break;
 		case FST_AT_ENUM:	if((subtype < FST_EV_SV_INTEGER) || (subtype > FST_EV_MAX)) subtype = FST_EV_SV_INTEGER; break;
-		case FST_AT_CLASS:	if((subtype < FST_CT_NONE) || (subtype > FST_CT_MAX)) subtype = FST_CT_NONE; break;
+		case FST_AT_PACK:	if((subtype < FST_PT_NONE) || (subtype > FST_PT_MAX)) subtype = FST_PT_NONE; break;
 
-		case FST_AT_UNKNOWN:
+		case FST_AT_MISC:
 		default:		break;
 		}
 
@@ -2445,7 +2445,7 @@ static const char *modtypes[] = {
 	};
 
 static const char *attrtypes[] = {
-	"unknown", "array", "enum", "class"
+	"misc", "array", "enum", "class"
 	};
 
 static const char *arraytypes[] = {
@@ -2457,9 +2457,10 @@ static const char *enumvaluetypes[] = {
 	"unsigned_integer", "unsigned_bit", "unsigned_logic", "unsigned_int", "unsigned_shortint", "unsigned_longint", "unsigned_byte"
 	};
 
-static const char *classtypes[] = {
-	"none", "unpacked_struct", "packed_struct", "unpacked_union", "packed_union", "tagged_packed_union", "class"
+static const char *packtypes[] = {
+	"none", "unpacked", "packed", "tagged_packed"
 	};
+
 
 struct fstCurrHier
 {
@@ -3370,11 +3371,11 @@ while(!feof(xc->fh))
 					case FST_AT_ENUM:	if((subtype < FST_EV_SV_INTEGER) || (subtype > FST_EV_MAX)) subtype = FST_EV_SV_INTEGER;
 								fprintf(fv, "$attrbegin %s %s %s %"PRId64" $end\n", attrtypes[attrtype], enumvaluetypes[subtype], str, attrarg);
 								break;
-					case FST_AT_CLASS:	if((subtype < FST_CT_NONE) || (subtype > FST_CT_MAX)) subtype = FST_CT_NONE;
-								fprintf(fv, "$attrbegin %s %s %s %"PRId64" $end\n", attrtypes[attrtype], classtypes[subtype], str, attrarg);
+					case FST_AT_PACK:	if((subtype < FST_PT_NONE) || (subtype > FST_PT_MAX)) subtype = FST_PT_NONE;
+								fprintf(fv, "$attrbegin %s %s %s %"PRId64" $end\n", attrtypes[attrtype], packtypes[subtype], str, attrarg);
 								break;
-					case FST_AT_UNKNOWN:	
-					default:		attrtype = FST_AT_UNKNOWN;
+					case FST_AT_MISC:	
+					default:		attrtype = FST_AT_MISC;
 								fprintf(fv, "$attrbegin %s %s %s %"PRId64" $end\n", attrtypes[attrtype], attrtypes[attrtype], str, attrarg);
 								break;
 					}
