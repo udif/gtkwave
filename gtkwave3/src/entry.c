@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2012.
+ * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +18,18 @@
 #ifdef MAC_INTEGRATION
 /* disabled for now as we can't get it to auto enable when it comes up */
 #define WAVE_MAC_USE_ENTRY
+#endif
+
+#ifndef WAVE_MAC_USE_ENTRY
+static gint keypress_local(GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+if(GLOBALS->window_entry_c_1)
+	{
+	gdk_window_raise(GLOBALS->window_entry_c_1->window);
+	}
+
+return(FALSE);
+}
 #endif
 
 #ifndef WAVE_MAC_USE_ENTRY
@@ -155,6 +167,10 @@ return;
 
     gtk_widget_show(GLOBALS->window_entry_c_1);
     wave_gtk_grab_add(GLOBALS->window_entry_c_1);
+    gdk_window_raise(GLOBALS->window_entry_c_1->window);
+
+    gtk_signal_connect(GTK_OBJECT(GLOBALS->window_entry_c_1), "key_press_event",GTK_SIGNAL_FUNC(keypress_local), NULL);
+
 #endif
 }
 

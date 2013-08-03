@@ -228,6 +228,7 @@ GtkWidget *window_entry_c_1; /* from entry.c 81 */
 GtkWidget *entry_entry_c_1; /* from entry.c 82 */
 char *entrybox_text; /* from entry.c 83 */
 void (*cleanup_entry_c_1)(void); /* from entry.c 84 */
+int entry_raise_timer;
 
 
 /* extload.c */

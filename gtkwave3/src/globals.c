@@ -228,7 +228,7 @@ NULL, /* atoi_cont_ptr 78 */
 0, /* entry_entry_c_1 81 */
 NULL, /* entrybox_text 82 */
 0, /* cleanup_entry_c_1 83 */
-
+0, /* entry_raise_timer */
 
 /* 
  * extload.c 
