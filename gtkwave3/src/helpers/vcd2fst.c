@@ -1011,9 +1011,10 @@ while(!feof(f))
 		fstWriterSetDate(ctx, pnt);
 		}
 	else
-	if(!strncmp(buf, "$version", 8))
+	if((!strncmp(buf, "$version", 8)) || (!strncmp(buf, "$comment", 8)))
 		{
 		char *pnt, *crpnt, *rsp;
+		int is_version = (buf[1] == 'v');
 
                 if((pnt = strstr(buf, "$end")))
                         {
@@ -1048,7 +1049,15 @@ while(!feof(f))
 		if(crpnt) *crpnt = 0;
 		crpnt = strchr(pnt, '\r');
 		if(crpnt) *crpnt = 0;
-		fstWriterSetVersion(ctx, pnt);
+
+		if(is_version)
+			{
+			fstWriterSetVersion(ctx, pnt);
+			}
+			else
+			{
+			fstWriterSetComment(ctx, pnt);
+			}
 		}
 	}
 

@@ -1842,6 +1842,26 @@ if(xc && vers)
 }
 
 
+void fstWriterSetComment(void *ctx, const char *comm)
+{
+struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+if(xc && comm)
+        {
+	char *s = strdup(comm);
+	char *sf = s;
+
+	while(*s)
+		{
+		if((*s == '\n') || (*s == '\r')) *s = ' ';
+		s++;
+		}
+
+	fstWriterSetAttrBegin(xc, FST_AT_MISC, FST_MT_COMMENT, sf, 0);
+	free(sf);
+	}
+}
+
+
 void fstWriterSetTimescale(void *ctx, int ts)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
@@ -2137,7 +2157,7 @@ struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
 	{
 	fputc(FST_ST_GEN_ATTRBEGIN, xc->hier_handle);
-	if((attrtype < FST_AT_MISC) || (attrtype > FST_AT_MAX)) { attrtype = FST_AT_MISC; }
+	if((attrtype < FST_AT_MISC) || (attrtype > FST_AT_MAX)) { attrtype = FST_AT_MISC; subtype = FST_MT_UNKNOWN; }
 	fputc(attrtype, xc->hier_handle);
 
 	switch(attrtype)
@@ -3376,7 +3396,14 @@ while(!feof(xc->fh))
 								break;
 					case FST_AT_MISC:	
 					default:		attrtype = FST_AT_MISC;
-								fprintf(fv, "$attrbegin %s %02x %s %"PRId64" $end\n", attrtypes[attrtype], subtype, str, attrarg);
+								if(subtype == FST_MT_COMMENT)
+									{
+									fprintf(fv, "$comment\n\t%s\n$end\n", str);
+									}
+									else
+									{
+									fprintf(fv, "$attrbegin %s %02x %s %"PRId64" $end\n", attrtypes[attrtype], subtype, str, attrarg);
+									}
 								break;
 					}
 				}
