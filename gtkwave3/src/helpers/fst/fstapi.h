@@ -144,7 +144,7 @@ enum fstAttrType {
 };
 
 enum fstMiscType {
-    FST_MT_COMMENT     = 0,	/* self-contained: does not need matching FST_HT_ATTREND */
+    FST_MT_COMMENT     = 0,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetComment() to emit */
     FST_MT_UNKNOWN     = 1,
 
     FST_MT_MAX         = 1
