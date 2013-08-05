@@ -1325,3 +1325,5 @@
 		when it exists.
 		Added ability to store $comment in FST files via the attribute
 		mechanism (FST_AT_MISC/FST_MT_COMMENT).
+3.3.49	05aug13	<< next version numbering update of config files in svn >>
+
