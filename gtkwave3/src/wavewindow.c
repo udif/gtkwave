@@ -2408,6 +2408,7 @@ GLOBALS->signal_pixmap_width=maxlen+6; 		/* 2 * 3 pixel pad */
 if(GLOBALS->tims.marker!=-1)
 	{
 	GLOBALS->signal_pixmap_width+=(vmaxlen+6);
+	if(GLOBALS->signal_pixmap_width > 32767) GLOBALS->signal_pixmap_width = 32767; /* fixes X11 protocol limitation crash */
 	}
 
 if(GLOBALS->signal_pixmap_width<60) GLOBALS->signal_pixmap_width=60;
