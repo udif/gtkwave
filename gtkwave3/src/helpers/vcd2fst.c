@@ -325,12 +325,23 @@ char *fgets_rc;
 
 if(!*wbuf)
 	{
-	*wbuf = malloc(32768);
 	*len = 32767;
+	*wbuf = malloc((*len) + 1);
+	(*wbuf)[*len] = 1;
 	}
 
 (*wbuf)[0] = 0;
-fgets_rc = fgets(*wbuf, 32767, f);
+fgets_rc = fgets(*wbuf, (*len) + 1, f);
+while(((*wbuf)[*len] != 1) && !feof(f))
+	{
+	/* fprintf(stderr, "overflow %d\n", (int)(*len)); */
+	*wbuf = realloc(*wbuf, (*len) * 2 + 1);
+	(*wbuf)[(*len) * 2] = 1;
+
+	fgets_rc = fgets(*wbuf + (*len), (*len) + 1, f);	
+	*len = 2 * (*len);
+	}
+
 *buf = *wbuf;
 while(*(buf)[0]==' ') { (*buf)++; } /* verilator leading spaces fix */
 
@@ -378,14 +389,15 @@ int fst_main(char *vname, char *fstname)
 {
 FILE *f;
 char *buf = NULL, *wbuf = NULL;
-size_t glen;
+size_t glen = 0;
 void *ctx;
 int line = 0;
 size_t ss;
 fstHandle returnedhandle;
 JRB node;
 uint64_t prev_tim = 0;
-char bin_fixbuff[32769];
+size_t bin_fixbuff_len = 65537;
+char *bin_fixbuff = NULL;
 int hash_kill = 0;
 unsigned int hash_max = 0;
 int *node_len_array = NULL;
@@ -394,6 +406,8 @@ int is_popen = 0;
 int is_extload = 0;
 void *xc = NULL;
 #endif
+
+bin_fixbuff = malloc(bin_fixbuff_len);
 
 if(!strcmp("-", vname))
 	{
@@ -434,6 +448,7 @@ if(!strcmp("-", vname))
 if(!f)
 	{
 	printf("could not open '%s', exiting.\n", vname);
+	free(bin_fixbuff); bin_fixbuff = NULL;
 	exit(255);
 	}
 
@@ -442,6 +457,7 @@ ctx = fstWriterCreate(fstname, 1);
 if(!ctx)
 	{
 	printf("could not open '%s', exiting.\n", fstname);
+	free(bin_fixbuff); bin_fixbuff = NULL;
 	exit(255);
 	}
 
@@ -1092,11 +1108,10 @@ while(!feof(f))
 	{
 	unsigned int hash;
 	uint64_t tim;
-	size_t len;
 	char *nl, *sp;
 	double doub;
 
-	ss = getline_replace(&wbuf, &buf, &len, f);
+	ss = getline_replace(&wbuf, &buf, &glen, f);
 	if(ss == -1)
 		{
 		break;
@@ -1147,13 +1162,20 @@ while(!feof(f))
 				int bin_len = sp - (buf + 1); /* strlen(buf+1) */
 				int node_len = node_len_array[hash];
 
-				if(bin_len == node_len)
+				if(bin_len >= node_len)
 					{
 					fstWriterEmitValueChange(ctx, hash, buf+1);
 					}
 					else
 					{
 					int delta = node_len - bin_len;
+
+					if(node_len >= bin_fixbuff_len)
+						{
+						bin_fixbuff_len = node_len + 1;
+						bin_fixbuff = realloc(bin_fixbuff, bin_fixbuff_len);
+						}
+
 					memset(bin_fixbuff, buf[1] != '1' ? buf[1] : '0', delta);
 					memcpy(bin_fixbuff + delta, buf+1, bin_len);
 					fstWriterEmitValueChange(ctx, hash, bin_fixbuff);
@@ -1166,13 +1188,20 @@ while(!feof(f))
 					{
 					int bin_len = sp - (buf + 1); /* strlen(buf+1) */
 					int node_len = node->val2.i;
-					if(bin_len == node_len)
+					if(bin_len >= node_len)
 						{
 						fstWriterEmitValueChange(ctx, node->val.i, buf+1);
 						}
 						else
 						{
 						int delta = node_len - bin_len;
+
+						if(node_len >= bin_fixbuff_len)
+							{
+							bin_fixbuff_len = node_len + 1;
+							bin_fixbuff = realloc(bin_fixbuff, bin_fixbuff_len);
+							}
+
 						memset(bin_fixbuff, buf[1] != '1' ? buf[1] : '0', delta);
 						memcpy(bin_fixbuff + delta, buf+1, bin_len);
 						fstWriterEmitValueChange(ctx, node->val.i, bin_fixbuff);
@@ -1215,8 +1244,16 @@ while(!feof(f))
 		case 'p':
 			{
 			char *src = buf+1;
-			char *pnt = bin_fixbuff;
+			char *pnt;
 			int pchar = 0;
+			int p_len = strlen(src);
+
+			if(p_len >= bin_fixbuff_len)
+				{
+				bin_fixbuff_len = p_len + 1;
+				bin_fixbuff = realloc(bin_fixbuff, bin_fixbuff_len);
+				}
+			pnt = bin_fixbuff;
 
 			for(;;)
 				{
@@ -1351,6 +1388,7 @@ if(vcd_ids)
 	vcd_ids = NULL;
 	}
 
+free(bin_fixbuff); bin_fixbuff = NULL;
 free(wbuf); wbuf = NULL;
 free(node_len_array); node_len_array = NULL;
 
