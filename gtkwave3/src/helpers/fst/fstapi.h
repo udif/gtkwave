@@ -215,7 +215,7 @@ union {
 	/* if htyp == FST_HT_ATTRBEGIN */
 	struct fstHierAttr {
 		unsigned char typ; /* FST_AT_MISC ... FST_AT_PACK */
-		unsigned char subtype; /* from fstArrayType, fstEnumValueType, fstPackType */
+		unsigned char subtype; /* from fstMiscType, fstArrayType, fstEnumValueType, fstPackType */
 		const char *name;
 		uint64_t arg; /* number of array elements, struct members, or some other payload (possibly ignored) */
 		uint32_t name_length; /* strlen(u.attr.name) */
