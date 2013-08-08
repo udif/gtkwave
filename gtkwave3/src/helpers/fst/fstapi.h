@@ -145,9 +145,10 @@ enum fstAttrType {
 
 enum fstMiscType {
     FST_MT_COMMENT     = 0,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetComment() to emit */
-    FST_MT_UNKNOWN     = 1,
+    FST_MT_ENVVAR      = 1,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetEnvVar() to emit */
+    FST_MT_UNKNOWN     = 2,
 
-    FST_MT_MAX         = 1
+    FST_MT_MAX         = 2
 };
 
 enum fstArrayType {
@@ -242,6 +243,7 @@ void fstWriterClose(void *ctx);
 void fstWriterSetDate(void *ctx, const char *dat);
 void fstWriterSetVersion(void *ctx, const char *vers);
 void fstWriterSetComment(void *ctx, const char *comm);
+void fstWriterSetEnvVar(void *ctx, const char *envvar);
 void fstWriterSetTimescale(void *ctx, int ts);
 void fstWriterSetTimescaleFromString(void *ctx, const char *s);
 void fstWriterSetTimezero(void *ctx, int64_t tim);

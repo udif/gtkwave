@@ -62,6 +62,7 @@ void **JenkinsIns(void *base_i, unsigned char *mem, uint32_t length, uint32_t ha
 
 #define FST_WRITER_STR 			"fstWriter"
 #define FST_ID_NAM_SIZ 			(512)
+#define FST_ID_NAM_ATTR_SIZ		(65536+4096)
 #define FST_DOUBLE_ENDTEST 		(2.7182818284590452354)
 #define FST_HDR_SIM_VERSION_SIZE 	(128)
 #define FST_HDR_DATE_SIZE 		(120)
@@ -1842,7 +1843,7 @@ if(xc && vers)
 }
 
 
-void fstWriterSetComment(void *ctx, const char *comm)
+static void fstWriterSetAttrGeneric(void *ctx, const char *comm, int typ)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc && comm)
@@ -1856,9 +1857,21 @@ if(xc && comm)
 		s++;
 		}
 
-	fstWriterSetAttrBegin(xc, FST_AT_MISC, FST_MT_COMMENT, sf, 0);
+	fstWriterSetAttrBegin(xc, FST_AT_MISC, typ, sf, 0);
 	free(sf);
 	}
+}
+
+
+void fstWriterSetComment(void *ctx, const char *comm)
+{
+fstWriterSetAttrGeneric(ctx, comm, FST_MT_COMMENT);
+}
+
+
+void fstWriterSetEnvVar(void *ctx, const char *envvar)
+{
+fstWriterSetAttrGeneric(ctx, envvar, FST_MT_ENVVAR);
 }
 
 
@@ -3266,7 +3279,7 @@ return(!isfeof ? &xc->hier : NULL);
 int fstReaderProcessHier(void *ctx, FILE *fv)
 {
 struct fstReaderContext *xc = (struct fstReaderContext *)ctx;
-char str[FST_ID_NAM_SIZ+1];
+char *str;
 char *pnt;
 int ch, scopetype;
 int vartype;
@@ -3287,6 +3300,8 @@ if(!xc->fh)
 		return(0);
 		}
 	}
+
+str = malloc(FST_ID_NAM_ATTR_SIZ+1);
 
 if(fv)
 	{
@@ -3517,6 +3532,7 @@ xc->temp_signal_value_buf = malloc(xc->longest_signal_value_len + 1);
 
 xc->var_count = xc->maxhandle + xc->num_alias;
 
+free(str);
 return(1);
 }
 
