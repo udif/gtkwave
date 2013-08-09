@@ -1329,3 +1329,4 @@
 		Potential buffer overflow fix in vcd2fst.
 		Added ability to store environment variable information in
 		FST files (FST_MT_ENVVAR).
+		Fixed bad enum for FST_PT_MAX.

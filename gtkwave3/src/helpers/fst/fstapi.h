@@ -185,7 +185,7 @@ enum fstPackType {
     FST_PT_PACKED        = 2,
     FST_PT_TAGGED_PACKED = 3,
 
-    FST_PT_MAX           = 6
+    FST_PT_MAX           = 3
 };
 
 struct fstHier
