@@ -1331,3 +1331,4 @@
 		FST files (FST_MT_ENVVAR).
 		Fixed bad enum for FST_PT_MAX.
 		Added contrib/fst_jni directory to distribution.
+		Fixing broken "make dist" variants.

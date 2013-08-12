@@ -50,9 +50,9 @@ POST_UNINSTALL = :
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
-	$(srcdir)/config.h.in AUTHORS COPYING ChangeLog NEWS README \
-	compile config.guess config.sub depcomp install-sh missing \
-	ylwrap
+	$(srcdir)/config.h.in AUTHORS COPYING ChangeLog INSTALL NEWS \
+	README compile config.guess config.sub depcomp install-sh \
+	missing ylwrap
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -308,7 +308,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = doc examples man src contrib share
-EXTRA_DIST = ANALOG_README.TXT CHANGELOG.TXT GNU.TXT INSTALL.TXT LICENSE.TXT MIT.TXT SYSTEMVERILOG_README.TXT \
+EXTRA_DIST = ANALOG_README.TXT ChangeLog COPYING INSTALL LICENSE.TXT MIT.TXT SYSTEMVERILOG_README.TXT README NEWS AUTHORS \
 	autogen.sh wave_locale.h tcl.m4
 
 all: config.h
