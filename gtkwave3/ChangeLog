@@ -1325,8 +1325,9 @@
 		when it exists.
 		Added ability to store $comment in FST files via the attribute
 		mechanism (FST_AT_MISC/FST_MT_COMMENT).
-3.3.49	08aug13	Fix crashed caused by X11 protocol limitation for pixmap size.
+3.3.49	12aug13	Fix crashed caused by X11 protocol limitation for pixmap size.
 		Potential buffer overflow fix in vcd2fst.
 		Added ability to store environment variable information in
 		FST files (FST_MT_ENVVAR).
 		Fixed bad enum for FST_PT_MAX.
+		Added contrib/fst_jni directory to distribution.
