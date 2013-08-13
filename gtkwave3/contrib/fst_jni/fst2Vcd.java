@@ -28,7 +28,7 @@ long prevTime;
 long startTime, endTime;
 
 
-public void fstReaderCallback(long tim, int facidx, int len, String value)
+public void fstReaderCallback(long tim, int facidx, String value)
 {
 if(tim != prevTime)
 	{

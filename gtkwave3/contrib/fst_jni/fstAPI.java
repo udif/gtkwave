@@ -112,7 +112,7 @@ public native static byte[] fstUtilityEscToBin(String s);
 //
 // example do-nothing callback for fstReaderIterateHier()
 //
-public void fstReaderCallback(long tim, int facidx, int len, String value)
+public void fstReaderCallback(long tim, int facidx, String value)
 {
 }
 

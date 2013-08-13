@@ -670,7 +670,7 @@ static void value_change_callback2(void *user_callback_data_pointer, uint64_t ti
 {
 struct jni_fstCB_t *jni = (struct jni_fstCB_t *)user_callback_data_pointer;
 jstring j_s = (*jni->env)->NewStringUTF(jni->env, value);
-(*jni->env)->CallVoidMethod(jni->env, jni->cbobj, jni->mid, (jlong)time, (jint)facidx, (jint)len, j_s);
+(*jni->env)->CallVoidMethod(jni->env, jni->cbobj, jni->mid, (jlong)time, (jint)facidx, j_s);
 }
 
 static void value_change_callback(void *user_callback_data_pointer, uint64_t time, fstHandle facidx, const unsigned char *value)
@@ -687,7 +687,7 @@ struct jni_fstCB_t cb;
 jint rc;
 
 jclass cls = (*env)->GetObjectClass(env, cbobj);
-jmethodID mid = (*env)->GetMethodID(env, cls, "fstReaderCallback", "(JIILjava/lang/String;)V");   
+jmethodID mid = (*env)->GetMethodID(env, cls, "fstReaderCallback", "(JILjava/lang/String;)V");   
 
 cb.env = env;
 cb.obj = obj;
