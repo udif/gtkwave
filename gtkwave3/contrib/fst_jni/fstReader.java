@@ -79,7 +79,6 @@ public void 	fstReaderSetUnlimitedTimeRange() { fstReaderSetUnlimitedTimeRange(c
 public String	fstReaderVcdID(int value)
 {
 char []s = new char[5]; // 94 ** 5
-String buf;
 int vmod;
 int i;
 
@@ -100,9 +99,7 @@ for(i=0;;i++)
         if(value == 0) { break; }
         }
 
-buf = new String(s, 0, i+1);
-
-return(buf);
+return(new String(s, 0, i+1));
 }
 
 
