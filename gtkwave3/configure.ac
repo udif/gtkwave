@@ -852,6 +852,8 @@ AC_CONFIG_FILES([Makefile
 		contrib/pccts/testcpp/Makefile
 		contrib/rtlbrowse/Makefile
 		contrib/vermin/Makefile
+		contrib/bundle_for_osx/Makefile
+		contrib/fst_jni/Makefile
 		examples/Makefile
 		man/Makefile
 		src/Makefile
