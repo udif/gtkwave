@@ -21,7 +21,7 @@ javac \
 	Main.java
 
 javah -jni fstAPI
-gcc -o libfstAPI.so -shared  -Wl,-soname,fstAPI.so fstAPI.c ../../src/helpers/fst/fstapi.c ../../src/helpers/fst/fastlz.c \
+gcc -o libfstAPI.so -fPIC -shared -Wl,-soname,fstAPI.so fstAPI.c ../../src/helpers/fst/fstapi.c ../../src/helpers/fst/fastlz.c \
 	-I./ -I../../ -I../../src/helpers/fst/ -lz
 java Main /tmp/des.fst
 
