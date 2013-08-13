@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2012.
+ * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -187,8 +187,8 @@ struct Node
     unsigned int array_height, this_row;
 #endif
 
-    unsigned vardir : 2;  /* see nodeVarDir, this is an internal value (currently used only by extload and FST) */
-    unsigned vartype : 5; /* see nodeVarType, this is an internal value */
+    unsigned vardir  : 3; /* see nodeVarDir, this is an internal value (currently used only by extload and FST) */
+    unsigned vartype : 6; /* see nodeVarType, this is an internal value */
 
     unsigned extvals : 1; /* was formerly a pointer to ExtNode "ext", now simply a flag */
   };
@@ -279,6 +279,7 @@ enum nodeVarType {
     ND_GEN_MISSING	   = 33,
 
     ND_VARTYPE_MAX	   = 33
+   /* if this exceeds 63, need to update struct Node's "unsigned vartype : 6" declaration */
 };
 
 
@@ -287,7 +288,9 @@ static const char *vardir_strings[] = { \
     "", \
     "I", \
     "O", \
-    "IO" \
+    "IO", \
+    "B", \
+    "L" \
 };
 
 
@@ -296,8 +299,11 @@ enum nodeVarDir {
     ND_DIR_IN              = 1,
     ND_DIR_OUT             = 2,
     ND_DIR_INOUT           = 3,
+    ND_DIR_BUFFER          = 4,
+    ND_DIR_LINKAGE         = 5,
 
-    ND_DIR_MAX             = 3
+    ND_DIR_MAX             = 5
+   /* if this exceeds 7, need to update struct Node's "unsigned vardir : 3" declaration */
 };
 
 typedef struct BitAttributes

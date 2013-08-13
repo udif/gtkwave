@@ -189,7 +189,7 @@ fill_sig_store (void)
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
 				    TYPE_COLUMN, vartype_strings[vartype],
-				    DIR_COLUMN,vardir_strings[vardir],
+				    DIR_COLUMN, vardir_strings[vardir],
 				    -1);
 
 			if(s != t->name)
@@ -208,7 +208,7 @@ fill_sig_store (void)
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
 				    TYPE_COLUMN, vartype_strings[vartype],
-				    DIR_COLUMN,vardir_strings[vardir],
+				    DIR_COLUMN, vardir_strings[vardir],
 				    -1);
 			}
       		}

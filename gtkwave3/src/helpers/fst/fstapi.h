@@ -120,8 +120,10 @@ enum fstVarDir {
     FST_VD_INPUT       = 1,
     FST_VD_OUTPUT      = 2,
     FST_VD_INOUT       = 3,
+    FST_VD_BUFFER      = 4,
+    FST_VD_LINKAGE     = 5,
 
-    FST_VD_MAX         = 3
+    FST_VD_MAX         = 5
 };
 
 enum fstHierType {

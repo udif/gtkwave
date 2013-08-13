@@ -25,13 +25,15 @@ public class fstVarDir
 private fstVarDir() { }
 
 public static final String [] FST_VD_NAMESTRINGS = 
-	{ "implicit", "input", "output", "inout" };
+	{ "implicit", "input", "output", "inout", "buffer", "linkage" };
 
 public static final int FST_VD_IMPLICIT = 0;
 public static final int FST_VD_INPUT = 1;
 public static final int FST_VD_OUTPUT = 2;
 public static final int FST_VD_INOUT = 3;
+public static final int FST_VD_BUFFER = 4;
+public static final int FST_VD_LINKAGE = 5;
 
-public static final int FST_VD_MAX = 3;
+public static final int FST_VD_MAX = 5;
 };
 

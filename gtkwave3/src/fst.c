@@ -511,6 +511,9 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			case FST_VD_INPUT:		nvd = ND_DIR_IN; GLOBALS->nonimplicit_direction_encountered = 1; break;
 			case FST_VD_OUTPUT:		nvd = ND_DIR_OUT; GLOBALS->nonimplicit_direction_encountered = 1; break;
 			case FST_VD_INOUT:		nvd = ND_DIR_INOUT; GLOBALS->nonimplicit_direction_encountered = 1; break;
+			case FST_VD_BUFFER:		nvd = ND_DIR_BUFFER; GLOBALS->nonimplicit_direction_encountered = 1; break;
+			case FST_VD_LINKAGE:		nvd = ND_DIR_LINKAGE; GLOBALS->nonimplicit_direction_encountered = 1; break;
+
 			case FST_VD_IMPLICIT:
 			default:			nvd = ND_DIR_IMPLICIT; break;
 			}
