@@ -346,12 +346,15 @@ fi
 FFR=no
 ])
 
+EXTLOAD_CFLAGS=
+
 if test "X$FFR" = "Xyes" ; then
 	AC_CHECK_FILE("$FSDBREADER_LIBS/libnffr.so", FSDB_SO=yes, FSDB_SO=no)
 
 	if test "X$FSDB_SO" = "Xyes" ; then
 		FSDB_CFLAGS="-DFSDB_IS_PRESENT -I$FSDBREADER_HDRS"
 		FSDB_LDADD="$FSDBREADER_LIBS/libnffr.so"
+		EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 	else
 
 		AC_CHECK_FILE("$FSDBREADER_LIBS/libnffr.a", FSDB_A=yes, FSDB_A=no)
@@ -370,6 +373,7 @@ if test "X$FFR" = "Xyes" ; then
 	if test "X$AFSDB_SO" = "Xyes" ; then
 		FSDB_CFLAGS="-DFSDB_NSYS_IS_PRESENT $FSDB_CFLAGS"
 		FSDB_LDADD="$FSDBREADER_LIBS/libnsys.so $FSDB_LDADD"
+		EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 	else
 
 		AC_CHECK_FILE("$FSDBREADER_LIBS/libnsys.a", FSDB_A=yes, FSDB_A=no)
@@ -380,6 +384,7 @@ if test "X$FFR" = "Xyes" ; then
 
 		FSDB_CFLAGS=
 		FSDB_LDADD=
+		EXTLOAD_CFLAGS=
 		AC_MSG_WARN([FSDB system library not found, skipping.])
 
 		fi
@@ -389,6 +394,7 @@ if test "X$FFR" = "Xyes" ; then
 	if test "X$FSDB_SOY" = "Xno" ; then
 		FSDB_CFLAGS=
 		FSDB_LDADD=
+		EXTLOAD_CFLAGS=
 		AC_MSG_WARN([FSDB header not found, skipping.])
 	fi
 
@@ -414,7 +420,7 @@ AM_PROG_CC_C_O
 #
 AC_PATH_PROG(EXTDEBUG, [fsdbdebug], [notfound])
 if test "$EXTDEBUG" = "notfound" ; then
-	EXTLOAD_CFLAGS=
+	EXTLOAD_CFLAGS="$EXTLOAD_CFLAGS"
 else
 	EXTLOAD_CFLAGS="-DEXTLOAD_PATH=\\\"$EXTDEBUG\\\" -DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 fi

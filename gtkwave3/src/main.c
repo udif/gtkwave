@@ -210,7 +210,7 @@ for(i=0;i<GLOBALS->num_notebook_pages;i++)
 
 static void print_help(char *nam)
 {
-#ifdef EXTLOAD_SUFFIX
+#if defined(EXTLOAD_SUFFIX) && defined(EXTCONV_PATH)
 int slen = strlen(EXTLOAD_SUFFIX);
 char *ucase_ext = wave_alloca(slen+1);
 int i;
@@ -230,7 +230,7 @@ ucase_ext[i] = 0;
 #endif
 
 #if !defined _MSC_VER && !defined __MINGW32__
-#ifdef EXTLOAD_SUFFIX
+#if defined(EXTLOAD_SUFFIX) && defined(EXTCONV_PATH)
 #define VCD_GETOPT       "  -o, --optimize             optimize VCD/%s to FST\n"
 #else
 #define VCD_GETOPT       "  -o, --optimize             optimize VCD to FST\n"
@@ -335,7 +335,7 @@ SLIDEZOOM_OPT
 
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam
 #if !defined _MSC_VER && !defined __MINGW32__
-#ifdef EXTLOAD_SUFFIX
+#if defined(EXTLOAD_SUFFIX) && defined(EXTCONV_PATH)
 ,ucase_ext
 #endif
 #endif
@@ -1292,7 +1292,7 @@ if(is_missing_file)
 	GLOBALS->loaded_file_type = MISSING_FILE;
 	}
 else
-#ifdef EXTLOAD_SUFFIX
+#if defined(EXTLOAD_SUFFIX)
 if(suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX) && !opt_vcd)
 	{
 	TimeType extload_max;

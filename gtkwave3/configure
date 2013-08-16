@@ -4182,6 +4182,8 @@ FFR=no
 fi
 
 
+EXTLOAD_CFLAGS=
+
 if test "X$FFR" = "Xyes" ; then
 	as_ac_File=`$as_echo "ac_cv_file_"$FSDBREADER_LIBS/libnffr.so"" | $as_tr_sh`
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for \"$FSDBREADER_LIBS/libnffr.so\"" >&5
@@ -4210,6 +4212,7 @@ fi
 	if test "X$FSDB_SO" = "Xyes" ; then
 		FSDB_CFLAGS="-DFSDB_IS_PRESENT -I$FSDBREADER_HDRS"
 		FSDB_LDADD="$FSDBREADER_LIBS/libnffr.so"
+		EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 	else
 
 		as_ac_File=`$as_echo "ac_cv_file_"$FSDBREADER_LIBS/libnffr.a"" | $as_tr_sh`
@@ -4273,6 +4276,7 @@ fi
 	if test "X$AFSDB_SO" = "Xyes" ; then
 		FSDB_CFLAGS="-DFSDB_NSYS_IS_PRESENT $FSDB_CFLAGS"
 		FSDB_LDADD="$FSDBREADER_LIBS/libnsys.so $FSDB_LDADD"
+		EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 	else
 
 		as_ac_File=`$as_echo "ac_cv_file_"$FSDBREADER_LIBS/libnsys.a"" | $as_tr_sh`
@@ -4305,6 +4309,7 @@ fi
 
 		FSDB_CFLAGS=
 		FSDB_LDADD=
+		EXTLOAD_CFLAGS=
 		{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: FSDB system library not found, skipping." >&5
 $as_echo "$as_me: WARNING: FSDB system library not found, skipping." >&2;}
 
@@ -4337,6 +4342,7 @@ fi
 	if test "X$FSDB_SOY" = "Xno" ; then
 		FSDB_CFLAGS=
 		FSDB_LDADD=
+		EXTLOAD_CFLAGS=
 		{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: FSDB header not found, skipping." >&5
 $as_echo "$as_me: WARNING: FSDB header not found, skipping." >&2;}
 	fi
@@ -6213,7 +6219,7 @@ fi
 
 
 if test "$EXTDEBUG" = "notfound" ; then
-	EXTLOAD_CFLAGS=
+	EXTLOAD_CFLAGS="$EXTLOAD_CFLAGS"
 else
 	EXTLOAD_CFLAGS="-DEXTLOAD_PATH=\\\"$EXTDEBUG\\\" -DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 fi
