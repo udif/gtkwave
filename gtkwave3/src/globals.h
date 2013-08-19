@@ -1018,6 +1018,9 @@ char *entrybox_text_local_treesearch_gtk2_c_3; /* from treesearch_gtk2.c 486 */
 void (*cleanup_e_treesearch_gtk2_c_3)(void); /* from treesearch_gtk2.c 487 */
 struct tree *sig_root_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 488 */
 char *filter_str_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 489 */
+int filter_typ_treesearch_gtk2_c_1;
+int filter_matlen_treesearch_gtk2_c_1;
+unsigned char filter_noregex_treesearch_gtk2_c_1;
 #if defined(WAVE_USE_GTK2) 
 GtkListStore *sig_store_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 490 */
 GtkTreeSelection *sig_selection_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 491 */

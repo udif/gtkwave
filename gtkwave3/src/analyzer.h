@@ -302,8 +302,9 @@ enum nodeVarDir {
     ND_DIR_BUFFER          = 4,
     ND_DIR_LINKAGE         = 5,
 
-    ND_DIR_MAX             = 5
-   /* if this exceeds 7, need to update struct Node's "unsigned vardir : 3" declaration */
+    ND_DIR_MAX             = 5,
+    ND_DIR_UNSPECIFIED     = 6
+   /* if ND_DIR_MAX exceeds 7, need to update struct Node's "unsigned vardir : 3" declaration */
 };
 
 typedef struct BitAttributes

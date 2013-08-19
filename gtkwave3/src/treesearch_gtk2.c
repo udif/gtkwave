@@ -134,6 +134,7 @@ fill_sig_store (void)
 	int vartype;
 	int vardir;
 	int is_tname = 0;
+	int wrexm;
 
 	if(i < 0) continue;
 
@@ -180,7 +181,11 @@ fill_sig_store (void)
                         }
                 }
 
-	if (GLOBALS->filter_str_treesearch_gtk2_c_1 == NULL || wave_regex_match(t->name, WAVE_REGEX_TREE))
+	if 	(
+		(GLOBALS->filter_str_treesearch_gtk2_c_1 == NULL) || 
+		((!GLOBALS->filter_noregex_treesearch_gtk2_c_1) && (wrexm = wave_regex_match(t->name, WAVE_REGEX_TREE)) && (!GLOBALS->filter_matlen_treesearch_gtk2_c_1)) ||
+		(GLOBALS->filter_matlen_treesearch_gtk2_c_1 && (GLOBALS->filter_typ_treesearch_gtk2_c_1 == vardir) && wrexm)
+		)
       		{
 		gtk_list_store_prepend (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter);
 		if(is_tname)
@@ -635,9 +640,36 @@ gboolean filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 	GLOBALS->filter_str_treesearch_gtk2_c_1 = NULL;
       else
 	{
+	int i;
+
 	GLOBALS->filter_str_treesearch_gtk2_c_1 = malloc_2(strlen(t) + 1);
 	strcpy(GLOBALS->filter_str_treesearch_gtk2_c_1, t);
-	wave_regex_compile(GLOBALS->filter_str_treesearch_gtk2_c_1, WAVE_REGEX_TREE);
+
+	GLOBALS->filter_typ_treesearch_gtk2_c_1 = ND_DIR_UNSPECIFIED;
+	GLOBALS->filter_matlen_treesearch_gtk2_c_1 = 0;
+	GLOBALS->filter_noregex_treesearch_gtk2_c_1 = 0;
+
+	if(GLOBALS->filter_str_treesearch_gtk2_c_1[0] == '+')
+		{
+		for(i=0;i<=ND_DIR_MAX;i++)
+			{
+			int tlen = strlen(vardir_strings[i]);
+			if(!strncasecmp(vardir_strings[i], GLOBALS->filter_str_treesearch_gtk2_c_1 + 1, tlen))
+				{
+				if(GLOBALS->filter_str_treesearch_gtk2_c_1[tlen + 1] == '+')
+					{
+					GLOBALS->filter_matlen_treesearch_gtk2_c_1 = tlen + 2;
+					GLOBALS->filter_typ_treesearch_gtk2_c_1 = i;
+					if(GLOBALS->filter_str_treesearch_gtk2_c_1[tlen + 2] == 0)
+						{
+						GLOBALS->filter_noregex_treesearch_gtk2_c_1 = 1;
+						}
+					}
+				}			
+			}
+		}
+
+	wave_regex_compile(GLOBALS->filter_str_treesearch_gtk2_c_1 + GLOBALS->filter_matlen_treesearch_gtk2_c_1, WAVE_REGEX_TREE);
 	}
       fill_sig_store ();
     }
@@ -1458,22 +1490,18 @@ do_tooltips:
     if(!GLOBALS->do_dynamic_treefilter)
 	{
     	gtkwave_signal_connect(GTK_OBJECT (GLOBALS->filter_entry), "key_press_event", (GtkSignalFunc) filter_edit_cb, NULL);
-	gtk_tooltips_set_tip_2(tooltips, GLOBALS->filter_entry,
-			   "Add a POSIX filter. "
-			   "'.*' matches any number of characters,"
-			   " '.' matches any character.  Hit Return to apply.",
-			   NULL);
 	}
 	else
 	{
     	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->filter_entry), "changed", GTK_SIGNAL_FUNC(press_callback), NULL);
-	gtk_tooltips_set_tip_2(tooltips, GLOBALS->filter_entry,
-			   "Add a POSIX filter. "
-			   "'.*' matches any number of characters,"
-			   " '.' matches any character.",
-			   NULL);
 	}
 
+    gtk_tooltips_set_tip_2(tooltips, GLOBALS->filter_entry,
+	   "Add a POSIX filter. "
+	   "'.*' matches any number of characters,"
+	   " '.' matches any character.  Hit Return to apply."
+	   " The filter may be preceded with the port direction if it exists such as +I+, +O+, +IO+, etc.",
+	   NULL);
 
     gtk_box_pack_start (GTK_BOX (filter_hbox), GLOBALS->filter_entry, FALSE, FALSE, 1);
 
@@ -1727,21 +1755,18 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     if(!GLOBALS->do_dynamic_treefilter)
 	{
     	gtkwave_signal_connect(GTK_OBJECT (GLOBALS->filter_entry), "key_press_event", (GtkSignalFunc) filter_edit_cb, NULL);
-	gtk_tooltips_set_tip_2(tooltips, GLOBALS->filter_entry,
-			   "Add a POSIX filter. "
-			   "'.*' matches any number of characters,"
-			   " '.' matches any character.  Hit Return to apply.",
-			   NULL);
 	}
 	else
 	{
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->filter_entry), "changed", GTK_SIGNAL_FUNC(press_callback), NULL);
-	gtk_tooltips_set_tip_2(tooltips, GLOBALS->filter_entry,
-			   "Add a POSIX filter. "
-			   "'.*' matches any number of characters,"
-			   " '.' matches any character.",
-			   NULL);
 	}
+
+    gtk_tooltips_set_tip_2(tooltips, GLOBALS->filter_entry,
+	   "Add a POSIX filter. "
+	   "'.*' matches any number of characters,"
+	   " '.' matches any character.  Hit Return to apply."
+	   " The filter may be preceded with the port direction if it exists such as +I+, +O+, +IO+, etc.",
+	   NULL);
 
     gtk_box_pack_start (GTK_BOX (filter_hbox), GLOBALS->filter_entry, FALSE, FALSE, 1);
 

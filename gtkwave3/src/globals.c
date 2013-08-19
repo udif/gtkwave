@@ -1035,6 +1035,9 @@ NULL, /* entrybox_text_local_treesearch_gtk2_c_3 456 */
 NULL, /* cleanup_e_treesearch_gtk2_c_3 457 */
 NULL, /* sig_root_treesearch_gtk2_c_1 458 */
 NULL, /* filter_str_treesearch_gtk2_c_1 459 */
+ND_DIR_UNSPECIFIED, /* filter_typ_treesearch_gtk2_c_1 */
+0, /* filter_matlen_treesearch_gtk2_c_1 */
+0, /* filter_noregex_treesearch_gtk2_c_1 */
 #if defined(WAVE_USE_GTK2)
 NULL, /* sig_store_treesearch_gtk2_c_1 460 */
 NULL, /* sig_selection_treesearch_gtk2_c_1 461 */
@@ -1940,6 +1943,9 @@ void reload_into_new_context_2(void)
 
  strcpy2_into_new_context(new_globals, &new_globals->filter_str_treesearch_gtk2_c_1, &GLOBALS->filter_str_treesearch_gtk2_c_1);
  strcpy2_into_new_context(new_globals, &new_globals->selected_hierarchy_name, &GLOBALS->selected_hierarchy_name);
+ new_globals->filter_typ_treesearch_gtk2_c_1 = GLOBALS->filter_typ_treesearch_gtk2_c_1;
+ new_globals->filter_matlen_treesearch_gtk2_c_1 = GLOBALS->filter_matlen_treesearch_gtk2_c_1;
+ new_globals->filter_noregex_treesearch_gtk2_c_1 = GLOBALS->filter_noregex_treesearch_gtk2_c_1;
 
  /* timeentry.c */
  new_globals->from_entry = GLOBALS->from_entry;
@@ -2305,7 +2311,7 @@ void reload_into_new_context_2(void)
    if((GLOBALS->filter_str_treesearch_gtk2_c_1) && (GLOBALS->filter_entry))
 	{
         gtk_entry_set_text(GTK_ENTRY(GLOBALS->filter_entry), GLOBALS->filter_str_treesearch_gtk2_c_1);
-	wave_regex_compile(GLOBALS->filter_str_treesearch_gtk2_c_1, WAVE_REGEX_TREE);
+	wave_regex_compile(GLOBALS->filter_str_treesearch_gtk2_c_1 + GLOBALS->filter_matlen_treesearch_gtk2_c_1, WAVE_REGEX_TREE);
 	}
  #endif
 

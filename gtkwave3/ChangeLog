@@ -1338,3 +1338,7 @@
 		is present.
 		Fixed ordering of static FSDB libraries for when dynamic ones
 		are not present.
+		Added direction filters to SST name filter search.  That is,
+		adding +I+, +O+, +IO+, +B+, or +L+ before the regular 
+		expression adds additional filtering criteria.  Direction
+		filters are case-insensitive.
