@@ -376,10 +376,10 @@ if test "X$FFR" = "Xyes" ; then
 		EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 	else
 
-		AC_CHECK_FILE("$FSDBREADER_LIBS/libnsys.a", FSDB_A=yes, FSDB_A=no)
+		AC_CHECK_FILE("$FSDBREADER_LIBS/libnsys.a", AFSDB_A=yes, AFSDB_A=no)
 		if test "X$AFSDB_A" = "Xyes" ; then
 			FSDB_CFLAGS="-DFSDB_NSYS_IS_PRESENT $FSDB_CFLAGS"
-			FSDB_LDADD="$FSDBREADER_LIBS/libnsys.a $FSDB_LDADD"
+			FSDB_LDADD="$FSDB_LDADD $FSDBREADER_LIBS/libnsys.a"
 		else
 
 		FSDB_CFLAGS=

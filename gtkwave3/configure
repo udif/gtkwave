@@ -4297,14 +4297,14 @@ eval ac_res=\$$as_ac_File
 	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
 $as_echo "$ac_res" >&6; }
 if eval test \"x\$"$as_ac_File"\" = x"yes"; then :
-  FSDB_A=yes
+  AFSDB_A=yes
 else
-  FSDB_A=no
+  AFSDB_A=no
 fi
 
 		if test "X$AFSDB_A" = "Xyes" ; then
 			FSDB_CFLAGS="-DFSDB_NSYS_IS_PRESENT $FSDB_CFLAGS"
-			FSDB_LDADD="$FSDBREADER_LIBS/libnsys.a $FSDB_LDADD"
+			FSDB_LDADD="$FSDB_LDADD $FSDBREADER_LIBS/libnsys.a"
 		else
 
 		FSDB_CFLAGS=

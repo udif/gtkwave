@@ -1325,7 +1325,7 @@
 		when it exists.
 		Added ability to store $comment in FST files via the attribute
 		mechanism (FST_AT_MISC/FST_MT_COMMENT).
-3.3.49	15aug13	Fix crashed caused by X11 protocol limitation for pixmap size.
+3.3.49	19aug13	Fix crashed caused by X11 protocol limitation for pixmap size.
 		Potential buffer overflow fix in vcd2fst.
 		Added ability to store environment variable information in
 		FST files (FST_MT_ENVVAR).
@@ -1336,3 +1336,5 @@
 		for VHDL) in FST and gtkwave.
 		Removed requirement for fsdbdebug in path when FsdbReader
 		is present.
+		Fixed ordering of static FSDB libraries for when dynamic ones
+		are not present.
