@@ -671,6 +671,10 @@ NULL, /* hiericon_program_pixmap */
 NULL, /* hiericon_program_mask */
 NULL, /* hiericon_class_pixmap */
 NULL, /* hiericon_class_mask */
+NULL, /* hiericon_record_pixmap */
+NULL, /* hiericon_record_mask */
+NULL, /* hiericon_generate_pixmap */
+NULL, /* hiericon_generate_mask */
 NULL, /* hiericon_design_pixmap */
 NULL, /* hiericon_design_mask */
 NULL, /* hiericon_block_pixmap */
@@ -2871,6 +2875,10 @@ void clone_icon_pointers_across_contexts(struct Global *a, struct Global *b)
  a->hiericon_program_mask = b->hiericon_program_mask;
  a->hiericon_class_pixmap = b->hiericon_class_pixmap;
  a->hiericon_class_mask = b->hiericon_class_mask;
+ a->hiericon_record_pixmap = b->hiericon_record_pixmap;
+ a->hiericon_record_mask = b->hiericon_record_mask;
+ a->hiericon_generate_pixmap = b->hiericon_generate_pixmap;
+ a->hiericon_generate_mask = b->hiericon_generate_mask;
  a->hiericon_design_pixmap = b->hiericon_design_pixmap;
  a->hiericon_design_mask = b->hiericon_design_mask;  
  a->hiericon_block_pixmap = b->hiericon_block_pixmap;

@@ -460,6 +460,21 @@ for(;;)
 		                        default:        ttype = TREE_UNKNOWN; break;
 		                        }
 				}
+			else
+			if(!strncmp(vht, "vhdl_", 5))
+				{
+				switch(vht[5])
+					{
+					case 'a':	ttype = TREE_VHDL_ST_ARCHITECTURE; break;
+					case 'r':	ttype = TREE_VHDL_ST_RECORD; break;
+					case 'b':	ttype = TREE_VHDL_ST_BLOCK; break;
+					case 'g':	ttype = TREE_VHDL_ST_GENERATE; break;
+					case 'i':	ttype = TREE_VHDL_ST_GENIF; break;
+					case 'f':	ttype = (vht[6] == 'u') ? TREE_VHDL_ST_FUNCTION : TREE_VHDL_ST_GENFOR; break;
+					case 'p':	ttype = (!strncmp(vht+6, "roces", 5)) ? TREE_VHDL_ST_PROCESS: TREE_VHDL_ST_PROCEDURE; break;
+					default:	ttype = TREE_UNKNOWN; break;
+					}
+				}
 				else
 				{
 				ttype = TREE_UNKNOWN;

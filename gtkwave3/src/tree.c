@@ -495,6 +495,13 @@ switch(mode)
 			case TREE_VHDL_ST_BUFFER:	pxm = GLOBALS->hiericon_buffer_pixmap; msk = GLOBALS->hiericon_buffer_mask; break;
 			case TREE_VHDL_ST_LINKAGE:	pxm = GLOBALS->hiericon_linkage_pixmap; msk = GLOBALS->hiericon_linkage_mask; break;
 
+   			case TREE_VHDL_ST_ARCHITECTURE:	pxm = GLOBALS->hiericon_module_pixmap; msk = GLOBALS->hiericon_module_mask; break; /* same as TREE_VCD_ST_MODULE */
+   			case TREE_VHDL_ST_FUNCTION:	pxm = GLOBALS->hiericon_function_pixmap; msk = GLOBALS->hiericon_function_mask; break; /* same as TREE_VCD_ST_FUNCTION */
+   			case TREE_VHDL_ST_PROCESS:	pxm = GLOBALS->hiericon_task_pixmap; msk = GLOBALS->hiericon_task_mask; break; /* same as TREE_VCD_ST_TASK */
+			case TREE_VHDL_ST_PROCEDURE:	pxm = GLOBALS->hiericon_class_pixmap; msk = GLOBALS->hiericon_class_mask; break; /* same as TREE_VCD_ST_CLASS */
+			case TREE_VHDL_ST_RECORD:	pxm = GLOBALS->hiericon_record_pixmap; msk = GLOBALS->hiericon_record_mask; break;
+			case TREE_VHDL_ST_GENERATE:	pxm = GLOBALS->hiericon_generate_pixmap; msk = GLOBALS->hiericon_generate_mask; break;
+
 			default:			pxm = msk = NULL; break;
 			}
 

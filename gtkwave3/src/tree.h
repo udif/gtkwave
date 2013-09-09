@@ -68,7 +68,7 @@ enum tree_kind
    TREE_VCD_ST_PACKAGE,
    TREE_VCD_ST_PROGRAM,
 
-   /* VHDL scope types */
+   /* GHW VHDL scope types */
    TREE_VHDL_ST_DESIGN,
    TREE_VHDL_ST_BLOCK,
    TREE_VHDL_ST_GENIF,
@@ -76,14 +76,21 @@ enum tree_kind
    TREE_VHDL_ST_INSTANCE,
    TREE_VHDL_ST_PACKAGE,
 
-   /* VHDL signal types (still as part of scope in GHW) */
+   /* GHW VHDL signal types (still as part of scope in GHW) */
    TREE_VHDL_ST_SIGNAL,
    TREE_VHDL_ST_PORTIN,
    TREE_VHDL_ST_PORTOUT,
    TREE_VHDL_ST_PORTINOUT,
    TREE_VHDL_ST_BUFFER,
-   TREE_VHDL_ST_LINKAGE
+   TREE_VHDL_ST_LINKAGE,
 
+   /* FSDB VHDL scope types: FSDB also reuses/defines GHW's TREE_VHDL_ST_BLOCK, TREE_VHDL_ST_GENFOR, TREE_VHDL_ST_GENIF */
+   TREE_VHDL_ST_ARCHITECTURE,
+   TREE_VHDL_ST_FUNCTION,
+   TREE_VHDL_ST_PROCEDURE,
+   TREE_VHDL_ST_RECORD,
+   TREE_VHDL_ST_PROCESS,
+   TREE_VHDL_ST_GENERATE
  };
 
 #define WAVE_T_WHICH_UNDEFINED_COMPNAME (-1)
