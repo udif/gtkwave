@@ -1325,7 +1325,7 @@
 		when it exists.
 		Added ability to store $comment in FST files via the attribute
 		mechanism (FST_AT_MISC/FST_MT_COMMENT).
-3.3.49	19aug13	Fix crashed caused by X11 protocol limitation for pixmap size.
+3.3.49	09sep13	Fix crashed caused by X11 protocol limitation for pixmap size.
 		Potential buffer overflow fix in vcd2fst.
 		Added ability to store environment variable information in
 		FST files (FST_MT_ENVVAR).
@@ -1342,3 +1342,4 @@
 		adding +I+, +O+, +IO+, +B+, or +L+ before the regular 
 		expression adds additional filtering criteria.  Direction
 		filters are case-insensitive.
+		Relax FSDB loader to allow VHDL files.

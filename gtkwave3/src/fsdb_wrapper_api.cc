@@ -39,6 +39,8 @@ static bool_T __MyTreeCB(fsdbTreeCBType cb_type, void *client_data, void *tree_c
 
 extern "C" void *fsdbReaderOpenFile(char *nam)
 {
+fsdbFileType ft;
+
 if(!ffrObject::ffrIsFSDB(nam))
 	{
 	return(NULL);
@@ -46,7 +48,7 @@ if(!ffrObject::ffrIsFSDB(nam))
 
 ffrFSDBInfo fsdb_info;
 ffrObject::ffrGetFSDBInfo(nam, fsdb_info);
-if(fsdb_info.file_type != FSDB_FT_VERILOG)
+if((fsdb_info.file_type != FSDB_FT_VERILOG) && (fsdb_info.file_type != FSDB_FT_VERILOG_VHDL) && (fsdb_info.file_type != FSDB_FT_VHDL))
 	{
 	return(NULL);
 	}
@@ -59,7 +61,8 @@ if(!fsdb_obj)
 
 fsdb_obj->ffrSetTreeCBFunc(__TreeCB, NULL);
     
-if(fsdb_obj->ffrGetFileType() != FSDB_FT_VERILOG)
+ft = fsdb_obj->ffrGetFileType();
+if((ft != FSDB_FT_VERILOG) && (ft != FSDB_FT_VERILOG_VHDL) && (ft != FSDB_FT_VHDL))
 	{
         fsdb_obj->ffrClose();
 	return(NULL);
@@ -412,6 +415,42 @@ switch (scope->type)
 
 	case FSDB_ST_SV_INTERFACE:
 		type = (str_T) "sv_interface"; 
+		break;
+
+	case FSDB_ST_VHDL_ARCHITECTURE:
+		type = (str_T) "vhdl_architecture";
+		break;
+
+	case FSDB_ST_VHDL_PROCEDURE:
+		type = (str_T) "vhdl_procedure";
+		break;
+
+	case FSDB_ST_VHDL_FUNCTION:
+		type = (str_T) "vhdl_function";
+		break;
+
+	case FSDB_ST_VHDL_RECORD:
+		type = (str_T) "vhdl_record";
+		break;
+
+	case FSDB_ST_VHDL_PROCESS:
+		type = (str_T) "vhdl_process";
+		break;
+
+	case FSDB_ST_VHDL_BLOCK:
+		type = (str_T) "vhdl_block";
+		break;
+
+	case FSDB_ST_VHDL_FOR_GENERATE:
+		type = (str_T) "vhdl_for_generate";
+		break;
+
+	case FSDB_ST_VHDL_IF_GENERATE:
+		type = (str_T) "vhdl_if_generate";
+		break;
+
+	case FSDB_ST_VHDL_GENERATE:
+		type = (str_T) "vhdl_generate";
 		break;
 
 	default:
