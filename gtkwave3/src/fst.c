@@ -175,6 +175,17 @@ while((h = fstReaderIterateHier(xc)))
 				case FST_ST_VCD_INTERFACE:	ttype = TREE_VCD_ST_INTERFACE; break;
 				case FST_ST_VCD_PACKAGE:	ttype = TREE_VCD_ST_PACKAGE; break;
 				case FST_ST_VCD_PROGRAM:	ttype = TREE_VCD_ST_PROGRAM; break;
+
+				case FST_ST_VHDL_ARCHITECTURE:	ttype = TREE_VHDL_ST_ARCHITECTURE; break;
+				case FST_ST_VHDL_PROCEDURE:	ttype = TREE_VHDL_ST_PROCEDURE; break;
+				case FST_ST_VHDL_FUNCTION:	ttype = TREE_VHDL_ST_FUNCTION; break;
+				case FST_ST_VHDL_RECORD:	ttype = TREE_VHDL_ST_RECORD; break;
+				case FST_ST_VHDL_PROCESS:	ttype = TREE_VHDL_ST_PROCESS; break;
+				case FST_ST_VHDL_BLOCK:		ttype = TREE_VHDL_ST_BLOCK; break;
+				case FST_ST_VHDL_FOR_GENERATE:	ttype = TREE_VHDL_ST_GENFOR; break;
+				case FST_ST_VHDL_IF_GENERATE:	ttype = TREE_VHDL_ST_GENIF; break;
+				case FST_ST_VHDL_GENERATE:	ttype = TREE_VHDL_ST_GENERATE; break;
+
 				default:			ttype = TREE_UNKNOWN; break;
 				}
 

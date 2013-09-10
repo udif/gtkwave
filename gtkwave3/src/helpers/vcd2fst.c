@@ -201,6 +201,21 @@ for(;;)
 					default:	break;
 					}
 				}
+                        else             
+                        if(!strncmp(vht, "vhdl_", 5))
+                                {
+                                switch(vht[5])   
+                                        {                
+                                        case 'a':       mtype = FST_ST_VHDL_ARCHITECTURE; break;
+                                        case 'r':       mtype = FST_ST_VHDL_RECORD; break;
+                                        case 'b':       mtype = FST_ST_VHDL_BLOCK; break;
+                                        case 'g':       mtype = FST_ST_VHDL_GENERATE; break;
+                                        case 'i':       mtype = FST_ST_VHDL_IF_GENERATE; break;  
+                                        case 'f':       mtype = (vht[6] == 'u') ? FST_ST_VHDL_FUNCTION : FST_ST_VHDL_FOR_GENERATE; break;
+                                        case 'p':       mtype = (!strncmp(vht+6, "roces", 5)) ? FST_ST_VHDL_PROCESS: FST_ST_VHDL_PROCEDURE; break;
+                                        default:        break;
+                                        }
+                                }
 
 			ctype[0] = mtype + 1; /* bias for zero terminated string */
 
@@ -792,6 +807,51 @@ while(!feof(f))
 		if(!strcmp(st, "program"))
 			{
 			scopetype = FST_ST_VCD_PROGRAM;
+			}
+		else
+		if(!strcmp(st, "vhdl_architecture"))
+			{
+			scopetype = FST_ST_VHDL_ARCHITECTURE;
+			}
+		else
+		if(!strcmp(st, "vhdl_procedure"))
+			{
+			scopetype = FST_ST_VHDL_PROCEDURE;
+			}
+		else
+		if(!strcmp(st, "vhdl_function"))
+			{
+			scopetype = FST_ST_VHDL_FUNCTION;
+			}
+		else
+		if(!strcmp(st, "vhdl_record"))
+			{
+			scopetype = FST_ST_VHDL_RECORD;
+			}
+		else
+		if(!strcmp(st, "vhdl_process"))
+			{
+			scopetype = FST_ST_VHDL_PROCESS;
+			}
+		else
+		if(!strcmp(st, "vhdl_block"))
+			{
+			scopetype = FST_ST_VHDL_BLOCK;
+			}
+		else
+		if(!strcmp(st, "vhdl_for_generate"))
+			{
+			scopetype = FST_ST_VHDL_FOR_GENERATE;
+			}
+		else
+		if(!strcmp(st, "vhdl_if_generate"))
+			{
+			scopetype = FST_ST_VHDL_IF_GENERATE;
+			}
+		else
+		if(!strcmp(st, "vhdl_generate"))
+			{
+			scopetype = FST_ST_VHDL_GENERATE;
 			}
 		else
 			{

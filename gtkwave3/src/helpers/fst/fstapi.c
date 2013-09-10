@@ -2474,7 +2474,8 @@ static const char *vartypes[] = {
 	};
 
 static const char *modtypes[] = {
-	"module", "task", "function", "begin", "fork", "generate", "struct", "union", "class", "interface", "package", "program"
+	"module", "task", "function", "begin", "fork", "generate", "struct", "union", "class", "interface", "package", "program",
+        "vhdl_architecture", "vhdl_procedure", "vhdl_function", "vhdl_record", "vhdl_process", "vhdl_block", "vhdl_for_generate", "vhdl_if_generate", "vhdl_generate"
 	};
 
 static const char *attrtypes[] = {
@@ -3368,7 +3369,7 @@ while(!feof(xc->fh))
 		{
 		case FST_ST_VCD_SCOPE:
 			scopetype = fgetc(xc->fh);
-			if((scopetype < FST_ST_VCD_MIN) || (scopetype > FST_ST_MAX)) scopetype = FST_ST_VCD_MODULE;
+			if((scopetype < FST_ST_MIN) || (scopetype > FST_ST_MAX)) scopetype = FST_ST_VCD_MODULE;
 			pnt = str;
 			while((ch = fgetc(xc->fh))) 
 				{

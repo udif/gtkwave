@@ -1492,6 +1492,30 @@ for(;;)
 					case 'c':       ttype = TREE_VCD_ST_CLASS; break;
 					case 'i':       ttype = TREE_VCD_ST_INTERFACE; break;
 					case 'p':       ttype = (GLOBALS->yytext_vcd_recoder_c_3[1] == 'r') ? TREE_VCD_ST_PROGRAM : TREE_VCD_ST_PACKAGE; break;
+
+					case 'v':	{
+							char *vht = GLOBALS->yytext_vcd_recoder_c_3;
+				                       	if(!strncmp(vht, "vhdl_", 5))
+                                				{
+				                                switch(vht[5])
+				                                        {
+				                                        case 'a':       ttype = TREE_VHDL_ST_ARCHITECTURE; break;
+				                                        case 'r':       ttype = TREE_VHDL_ST_RECORD; break;
+				                                        case 'b':       ttype = TREE_VHDL_ST_BLOCK; break;
+				                                        case 'g':       ttype = TREE_VHDL_ST_GENERATE; break;
+				                                        case 'i':       ttype = TREE_VHDL_ST_GENIF; break;
+				                                        case 'f':       ttype = (vht[6] == 'u') ? TREE_VHDL_ST_FUNCTION : TREE_VHDL_ST_GENFOR; break;
+				                                        case 'p':       ttype = (!strncmp(vht+6, "roces", 5)) ? TREE_VHDL_ST_PROCESS: TREE_VHDL_ST_PROCEDURE; break;
+				                                        default:        ttype = TREE_UNKNOWN; break;
+				                                        }
+								}
+								else
+								{
+								ttype = TREE_UNKNOWN;
+								}
+                                			}
+							break;
+
 					default:	ttype = TREE_UNKNOWN;
 							break;
 					}

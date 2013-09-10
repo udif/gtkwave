@@ -53,7 +53,8 @@ enum fstBlockType {
 };
 
 enum fstScopeType {
-    FST_ST_VCD_MIN             = 0,
+    FST_ST_MIN                 = 0,
+
     FST_ST_VCD_MODULE          = 0,
     FST_ST_VCD_TASK            = 1,
     FST_ST_VCD_FUNCTION        = 2,
@@ -66,9 +67,18 @@ enum fstScopeType {
     FST_ST_VCD_INTERFACE       = 9,
     FST_ST_VCD_PACKAGE         = 10,
     FST_ST_VCD_PROGRAM         = 11,
-    FST_ST_VCD_MAX             = 11,
 
-    FST_ST_MAX                 = 11,
+    FST_ST_VHDL_ARCHITECTURE   = 12,
+    FST_ST_VHDL_PROCEDURE      = 13,
+    FST_ST_VHDL_FUNCTION       = 14,
+    FST_ST_VHDL_RECORD         = 15,
+    FST_ST_VHDL_PROCESS        = 16,
+    FST_ST_VHDL_BLOCK          = 17,
+    FST_ST_VHDL_FOR_GENERATE   = 18,
+    FST_ST_VHDL_IF_GENERATE    = 19,
+    FST_ST_VHDL_GENERATE       = 20,
+
+    FST_ST_MAX                 = 20,
 
     FST_ST_GEN_ATTRBEGIN       = 252,
     FST_ST_GEN_ATTREND         = 253,
