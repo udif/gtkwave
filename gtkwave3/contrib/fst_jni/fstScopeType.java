@@ -27,9 +27,12 @@ private fstScopeType() { }
 public static final String [] FST_ST_NAMESTRINGS =
 	{ "module", "task", "function", "begin", "fork", 
 		"generate", "struct", "union", "class", "interface", 
-		"package", "program" };
+		"package", "program",
 
-public static final int FST_ST_VCD_MIN = 0;
+		"vhdl_architecture", "vhdl_procedure", "vhdl_function", "vhdl_record", "vhdl_process", 
+		"vhdl_block", "vhdl_for_generate", "vhdl_if_generate", "vhdl_generate"
+	};
+
 public static final int FST_ST_VCD_MODULE = 0;
 public static final int FST_ST_VCD_TASK = 1;
 public static final int FST_ST_VCD_FUNCTION = 2;
@@ -42,9 +45,18 @@ public static final int FST_ST_VCD_CLASS = 8;
 public static final int FST_ST_VCD_INTERFACE = 9;
 public static final int FST_ST_VCD_PACKAGE = 10;
 public static final int FST_ST_VCD_PROGRAM = 11;
-public static final int FST_ST_VCD_MAX = 11;
 
-public static final int FST_ST_MAX = 11;
+public static final int FST_ST_VHDL_ARCHITECTURE = 12;
+public static final int FST_ST_VHDL_PROCEDURE = 13;
+public static final int FST_ST_VHDL_FUNCTION = 14;
+public static final int FST_ST_VHDL_RECORD = 15;
+public static final int FST_ST_VHDL_PROCESS = 16;
+public static final int FST_ST_VHDL_BLOCK = 17;
+public static final int FST_ST_VHDL_FOR_GENERATE = 18;
+public static final int FST_ST_VHDL_IF_GENERATE = 19;
+public static final int FST_ST_VHDL_GENERATE = 20;
+
+public static final int FST_ST_MAX = 20;
 
 public static final int FST_ST_GEN_ATTRBEGIN = 252;
 public static final int FST_ST_GEN_ATTREND = 253;
