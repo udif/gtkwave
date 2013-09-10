@@ -27,6 +27,8 @@ private fstPackType( ) { }
 public static final String [] FST_PT_NAMESTRINGS =
 	{ "none", "unpacked", "packed", "sparse" };
 
+public static final int FST_PT_MIN = 0;
+
 public static final int FST_PT_NONE = 0;
 public static final int FST_PT_UNPACKED = 1;
 public static final int FST_PT_PACKED = 2;

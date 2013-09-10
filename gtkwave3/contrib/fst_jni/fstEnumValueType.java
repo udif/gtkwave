@@ -29,6 +29,8 @@ public static final String [] FST_VT_NAMESTRINGS =
 		"longint", "byte", "unsigned_integer", "unsigned_bit", "unsigned_logic", 
 		"unsigned_int", "unsigned_shortint", "unsigned_longint", "unsigned_byte" };
 
+public static final int FST_EV_MIN = 0;
+
 public static final int FST_EV_SV_INTEGER = 0;
 public static final int FST_EV_SV_BIT = 1;
 public static final int FST_EV_SV_LOGIC = 2;

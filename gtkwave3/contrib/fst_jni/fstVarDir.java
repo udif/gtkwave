@@ -27,6 +27,8 @@ private fstVarDir() { }
 public static final String [] FST_VD_NAMESTRINGS = 
 	{ "implicit", "input", "output", "inout", "buffer", "linkage" };
 
+public static final int FST_VD_MIN = 0;
+
 public static final int FST_VD_IMPLICIT = 0;
 public static final int FST_VD_INPUT = 1;
 public static final int FST_VD_OUTPUT = 2;

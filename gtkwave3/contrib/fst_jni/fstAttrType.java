@@ -27,6 +27,8 @@ private fstAttrType( ) { }
 public static final String [] FST_AT_NAMESTRINGS = 
 	{ "misc", "array", "enum", "class" };
 
+public static final int FST_AT_MIN = 0;
+
 public static final int FST_AT_MISC = 0;
 public static final int FST_AT_ARRAY = 1;
 public static final int FST_AT_ENUM = 2;

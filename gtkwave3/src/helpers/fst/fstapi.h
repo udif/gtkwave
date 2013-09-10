@@ -88,7 +88,8 @@ enum fstScopeType {
 };
 
 enum fstVarType {
-    FST_VT_VCD_MIN             = 0,	/* start of VCD datatypes */
+    FST_VT_MIN                 = 0,	/* start of vartypes */
+
     FST_VT_VCD_EVENT           = 0,
     FST_VT_VCD_INTEGER         = 1,
     FST_VT_VCD_PARAMETER       = 2,
@@ -122,10 +123,12 @@ enum fstVarType {
     FST_VT_SV_ENUM             = 28,	/* declare as appropriate type range */
     FST_VT_SV_SHORTREAL        = 29,	/* declare and emit same as FST_VT_VCD_REAL */
 
-    FST_VT_VCD_MAX             = 29	/* end of VCD datatypes */
+    FST_VT_MAX                 = 29	/* end of vartypes */
 };
 
 enum fstVarDir {
+    FST_VD_MIN         = 0,
+
     FST_VD_IMPLICIT    = 0,
     FST_VD_INPUT       = 1,
     FST_VD_OUTPUT      = 2,
@@ -137,6 +140,8 @@ enum fstVarDir {
 };
 
 enum fstHierType {
+    FST_HT_MIN         = 0,
+
     FST_HT_SCOPE       = 0,
     FST_HT_UPSCOPE     = 1,
     FST_HT_VAR         = 2,
@@ -147,6 +152,8 @@ enum fstHierType {
 };
 
 enum fstAttrType {
+    FST_AT_MIN         = 0,
+
     FST_AT_MISC        = 0,
     FST_AT_ARRAY       = 1,
     FST_AT_ENUM        = 2,
@@ -156,6 +163,8 @@ enum fstAttrType {
 };
 
 enum fstMiscType {
+    FST_MT_MIN         = 0,
+
     FST_MT_COMMENT     = 0,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetComment() to emit */
     FST_MT_ENVVAR      = 1,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetEnvVar() to emit */
     FST_MT_UNKNOWN     = 2,
@@ -164,6 +173,8 @@ enum fstMiscType {
 };
 
 enum fstArrayType {
+    FST_AR_MIN         = 0,
+
     FST_AR_NONE        = 0,
     FST_AR_UNPACKED    = 1,
     FST_AR_PACKED      = 2,
@@ -207,7 +218,7 @@ unsigned char htyp;
 union {
 	/* if htyp == FST_HT_SCOPE */
 	struct fstHierScope {
-		unsigned char typ; /* FST_ST_VCD_MODULE ... FST_ST_VCD_PROGRAM */
+		unsigned char typ; /* FST_ST_MIN ... FST_ST_MAX */
 		const char *name;
 		const char *component;
 		uint32_t name_length;		/* strlen(u.scope.name) */
@@ -216,8 +227,8 @@ union {
 
 	/* if htyp == FST_HT_VAR */
 	struct fstHierVar {
-		unsigned char typ; /* FST_VT_VCD_EVENT ... FST_VT_GEN_STRING */
-		unsigned char direction; /* FST_VD_IMPLICIT ... FST_VD_INOUT */
+		unsigned char typ; /* FST_VT_MIN ... FST_VT_MAX */
+		unsigned char direction; /* FST_VD_MIN ... FST_VD_MAX */
 		const char *name;
 		uint32_t length;
 		fstHandle handle;
@@ -227,7 +238,7 @@ union {
 
 	/* if htyp == FST_HT_ATTRBEGIN */
 	struct fstHierAttr {
-		unsigned char typ; /* FST_AT_MISC ... FST_AT_PACK */
+		unsigned char typ; /* FST_AT_MIN ... FST_AT_MAX */
 		unsigned char subtype; /* from fstMiscType, fstArrayType, fstEnumValueType, fstPackType */
 		const char *name;
 		uint64_t arg; /* number of array elements, struct members, or some other payload (possibly ignored) */

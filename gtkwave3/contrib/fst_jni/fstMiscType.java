@@ -24,6 +24,8 @@ public class fstMiscType
 {
 fstMiscType( ) { }
 
+public static final int FST_MT_MIN = 0;
+
 public static final int FST_MT_COMMENT = 0;
 public static final int FST_MT_ENVVAR = 1;
 public static final int FST_MT_UNKNOWN = 2;

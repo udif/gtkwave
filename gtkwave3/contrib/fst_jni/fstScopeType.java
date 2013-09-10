@@ -33,6 +33,8 @@ public static final String [] FST_ST_NAMESTRINGS =
 		"vhdl_block", "vhdl_for_generate", "vhdl_if_generate", "vhdl_generate"
 	};
 
+public static final int FST_ST_MIN = 0;
+
 public static final int FST_ST_VCD_MODULE = 0;
 public static final int FST_ST_VCD_TASK = 1;
 public static final int FST_ST_VCD_FUNCTION = 2;

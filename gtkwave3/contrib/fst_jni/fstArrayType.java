@@ -27,6 +27,8 @@ private fstArrayType() { }
 public static final String [] FST_AR_NAMESTRINGS =
 	{ "none", "unpacked", "packed", "sparse" };
 
+public static final int FST_AR_MIN = 0;
+
 public static final int FST_AR_NONE = 0;
 public static final int FST_AR_UNPACKED = 1;
 public static final int FST_AR_PACKED =2;
