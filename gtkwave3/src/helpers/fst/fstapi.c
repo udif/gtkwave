@@ -1843,7 +1843,7 @@ if(xc && vers)
 }
 
 
-static void fstWriterSetAttrGeneric(void *ctx, const char *comm, int typ)
+static void fstWriterSetAttrGeneric(void *ctx, const char *comm, int typ, uint64_t arg)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc && comm)
@@ -1857,7 +1857,7 @@ if(xc && comm)
 		s++;
 		}
 
-	fstWriterSetAttrBegin(xc, FST_AT_MISC, typ, sf, 0);
+	fstWriterSetAttrBegin(xc, FST_AT_MISC, typ, sf, arg);
 	free(sf);
 	}
 }
@@ -1865,13 +1865,13 @@ if(xc && comm)
 
 void fstWriterSetComment(void *ctx, const char *comm)
 {
-fstWriterSetAttrGeneric(ctx, comm, FST_MT_COMMENT);
+fstWriterSetAttrGeneric(ctx, comm, FST_MT_COMMENT, 0);
 }
 
 
 void fstWriterSetEnvVar(void *ctx, const char *envvar)
 {
-fstWriterSetAttrGeneric(ctx, envvar, FST_MT_ENVVAR);
+fstWriterSetAttrGeneric(ctx, envvar, FST_MT_ENVVAR, 0);
 }
 
 
@@ -2020,8 +2020,19 @@ return(0);
 
 
 /*
- * writer attr/scope/var creation
+ * writer attr/scope/var creation:
+ * fstWriterCreateVar2() is used to dump VHDL or other languages, but the
+ * underlying variable needs to map to Verilog/SV via the proper fstVarType vt
  */
+fstHandle fstWriterCreateVar2(void *ctx, enum fstVarType vt, enum fstVarDir vd,
+        uint32_t len, const char *nam, fstHandle aliasHandle,
+        const char *type, enum fstSupplimentalVarType svt, enum fstSupplimentalDataType sdt)
+{
+fstWriterSetAttrGeneric(ctx, type ? type : "", FST_MT_SUPVAR, (svt<<FST_SDT_SVT_SHIFT_COUNT) | (sdt & (FST_SDT_ABS_MAX-1)));
+return(fstWriterCreateVar(ctx, vt, vd, len, nam, aliasHandle));
+}
+
+
 fstHandle fstWriterCreateVar(void *ctx, enum fstVarType vt, enum fstVarDir vd,
         uint32_t len, const char *nam, fstHandle aliasHandle)
 {

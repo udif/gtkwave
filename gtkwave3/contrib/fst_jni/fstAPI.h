@@ -177,6 +177,14 @@ JNIEXPORT jint JNICALL Java_fstAPI_fstWriterCreateVar
 
 /*
  * Class:     fstAPI
+ * Method:    fstWriterCreateVar2
+ * Signature: (JIIILjava/lang/String;ILjava/lang/String;II)I
+ */
+JNIEXPORT jint JNICALL Java_fstAPI_fstWriterCreateVar2
+  (JNIEnv *, jobject, jlong, jint, jint, jint, jstring, jint, jstring, jint, jint);
+
+/*
+ * Class:     fstAPI
  * Method:    fstWriterSetScope
  * Signature: (JILjava/lang/String;Ljava/lang/String;)V
  */

@@ -167,9 +167,10 @@ enum fstMiscType {
 
     FST_MT_COMMENT     = 0,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetComment() to emit */
     FST_MT_ENVVAR      = 1,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetEnvVar() to emit */
-    FST_MT_UNKNOWN     = 2,
+    FST_MT_SUPVAR      = 2,
+    FST_MT_UNKNOWN     = 3,
 
-    FST_MT_MAX         = 2
+    FST_MT_MAX         = 3
 };
 
 enum fstArrayType {
@@ -211,6 +212,45 @@ enum fstPackType {
     FST_PT_MAX           = 3
 };
 
+enum fstSupplimentalVarType {
+    FST_SVT_MIN                    = 0,
+
+    FST_SVT_VHDL_SIGNAL            = 0,
+    FST_SVT_VHDL_VARIABLE          = 1,
+    FST_SVT_VHDL_CONSTANT          = 2,
+    FST_SVT_VHDL_FILE              = 3,
+    FST_SVT_VHDL_MEMORY            = 4,
+
+    FST_SVT_MAX                    = 4,
+};
+
+enum fstSupplimentalDataType {
+    FST_SDT_MIN                    = 0,
+
+    FST_SDT_VHDL_BOOLEAN           = 0,
+    FST_SDT_VHDL_BIT               = 1,
+    FST_SDT_VHDL_BIT_VECTOR        = 2,
+    FST_SDT_VHDL_STD_ULOGIC        = 3,
+    FST_SDT_VHDL_STD_ULOGIC_VECTOR = 4,
+    FST_SDT_VHDL_STD_LOGIC         = 5,
+    FST_SDT_VHDL_STD_LOGIC_VECTOR  = 6,
+    FST_SDT_VHDL_UNSIGNED          = 7,
+    FST_SDT_VHDL_SIGNED            = 8,
+    FST_SDT_VHDL_INTEGER           = 9,
+    FST_SDT_VHDL_REAL              = 10,
+    FST_SDT_VHDL_NATURAL           = 11,
+    FST_SDT_VHDL_POSITIVE          = 12,
+    FST_SDT_VHDL_TIME              = 13,
+    FST_SDT_VHDL_CHARACTER         = 14,
+    FST_SDT_VHDL_STRING            = 15,
+
+    FST_SDT_MAX                    = 15,
+
+    FST_SDT_SVT_SHIFT_COUNT        = 10, /* FST_SVT_* is ORed in to the left after shifting FST_SDT_SVT_SHIFT_COUNT */
+    FST_SDT_ABS_MAX		   = (1<<(FST_SDT_SVT_SHIFT_COUNT))
+};
+
+
 struct fstHier
 {
 unsigned char htyp;
@@ -251,8 +291,16 @@ union {
 /*
  * writer functions
  */
+
+/* used for Verilog/SV */
 fstHandle fstWriterCreateVar(void *ctx, enum fstVarType vt, enum fstVarDir vd,
         uint32_t len, const char *nam, fstHandle aliasHandle);
+
+/* future expansion for VHDL and other languages.  The variable type, data type, etc map onto
+   the current Verilog/SV one.  The "type" string is optional for a more verbose or custom description */
+fstHandle fstWriterCreateVar2(void *ctx, enum fstVarType vt, enum fstVarDir vd,
+        uint32_t len, const char *nam, fstHandle aliasHandle,
+	const char *type, enum fstSupplimentalVarType svt, enum fstSupplimentalDataType sdt);
 
 void fstWriterSetPackType(void *ctx, int typ); 		/* type = 0 (libz), 1 (fastlz) */
 void fstWriterSetRepackOnClose(void *ctx, int enable); 	/* type = 0 (none), 1 (libz) */

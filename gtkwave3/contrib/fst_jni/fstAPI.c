@@ -209,6 +209,22 @@ return((jint)handle);
 }
 
 
+JNIEXPORT jint JNICALL Java_fstAPI_fstWriterCreateVar2
+  (JNIEnv *env, jobject obj, jlong ctx, jint vt, jint vd, jint len, jstring j_nam, jint aliasHandle, jstring j_type, jint svt, jint sdt)
+{
+fstHandle handle;
+const char *nam = (*env)->GetStringUTFChars(env, j_nam, 0);
+const char *typ = (*env)->GetStringUTFChars(env, j_type, 0);
+
+handle = fstWriterCreateVar2((void *)(long)ctx, (int)vt, (int)vd, (uint32_t)len, nam, (fstHandle)aliasHandle, typ, (int)svt, (int)sdt);
+
+(*env)->ReleaseStringUTFChars(env, j_type, typ);
+(*env)->ReleaseStringUTFChars(env, j_nam, nam);
+
+return((jint)handle);
+}
+
+
 JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetScope
   (JNIEnv *env, jobject obj, jlong ctx, jint scopetype, jstring j_scopename, jstring j_scopecomp)
 {

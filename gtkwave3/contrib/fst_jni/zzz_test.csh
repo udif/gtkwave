@@ -11,6 +11,8 @@ javac \
 	fstMiscType.java \
 	fstPackType.java \
 	fstScopeType.java \
+	fstSupplimentalDataType.java \
+	fstSupplimentalVarType.java \
 	fstVarDir.java \
 	fstVarType.java \
 	fstWriter.java \

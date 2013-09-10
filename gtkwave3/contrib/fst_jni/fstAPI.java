@@ -61,6 +61,8 @@ protected native void fstWriterSetComment(long ctx, String comm);
 protected native void fstWriterSetEnvVar(long ctx, String envvar);
 protected native void fstWriterSetTimescaleFromString(long ctx, String s);
 protected native int fstWriterCreateVar(long ctx, int vt, int vd, int len, String nam, int aliasHandle);
+protected native int fstWriterCreateVar2(long ctx, int vt, int vd, int len, String nam, int aliasHandle, String type, int svt, int sdt);
+
 protected native void fstWriterSetScope(long ctx, int scopetype, String scopename, String scopecomp);
 protected native void fstWriterEmitVariableLengthValueChange(long ctx, int handle, String val, int len);
 protected native void fstWriterSetAttrBegin(long ctx, int attrtype, int subtype, String attrname, long arg);

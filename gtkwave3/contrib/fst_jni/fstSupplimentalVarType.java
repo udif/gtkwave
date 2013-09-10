@@ -20,17 +20,18 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-public class fstMiscType
+public class fstSupplimentalVarType
 {
-fstMiscType( ) { }
+fstSupplimentalVarType( ) { }
 
-public static final int FST_MT_MIN = 0;
+public static final int FST_SVT_MIN = 0;
 
-public static final int FST_MT_COMMENT = 0;
-public static final int FST_MT_ENVVAR = 1;
-public static final int FST_MT_SUPVAR = 2;
-public static final int FST_MT_UNKNOWN = 3;
+public static final int FST_SVT_VHDL_SIGNAL = 0;
+public static final int FST_SVT_VHDL_VARIABLE = 1;
+public static final int FST_SVT_VHDL_CONSTANT = 2;
+public static final int FST_SVT_VHDL_FILE = 3;
+public static final int FST_SVT_VHDL_MEMORY = 4;
 
-public static final int FST_MT_MAX = 3;
+public static final int FST_SVT_MAX = 4;
 };
 
