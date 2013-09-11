@@ -616,6 +616,36 @@ switch (var->type)
     	case FSDB_VT_VHDL_MEMORY:
     	case FSDB_VT_VCD_MEMORY_DEPTH:
     	case FSDB_VT_VHDL_MEMORY_DEPTH:         
+		switch(var->vc_dt)
+			{
+			case FSDB_VC_DT_FLOAT:
+			case FSDB_VC_DT_DOUBLE:
+				type = (str_T) "vcd_real";
+				typelen = 8;
+				break;
+
+			case FSDB_VC_DT_UNKNOWN:
+			case FSDB_VC_DT_BYTE:
+			case FSDB_VC_DT_SHORT:
+			case FSDB_VC_DT_INT:
+			case FSDB_VC_DT_LONG:
+			case FSDB_VC_DT_HL_INT:
+			case FSDB_VC_DT_PHYSICAL:
+			default:
+				if(var->type == FSDB_VT_VHDL_SIGNAL)
+					{
+					type = (str_T) "vcd_wire";
+					typelen = 8;
+					}
+				else
+					{
+					type = (str_T) "vcd_reg";
+					typelen = 7;
+					}
+				break;
+			}
+		break;
+
     	default:
 		type = (str_T) "vcd_wire";
 		typelen = 8;
