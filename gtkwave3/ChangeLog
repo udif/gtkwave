@@ -1342,11 +1342,7 @@
 		adding +I+, +O+, +IO+, +B+, or +L+ before the regular 
 		expression adds additional filtering criteria.  Direction
 		filters are case-insensitive.
-		Relax FSDB loader to allow VHDL files.
-		Added new TREE_VHDL_ST_ARCHITECTURE, TREE_VHDL_ST_FUNCTION,
-		TREE_VHDL_ST_PROCEDURE, TREE_VHDL_ST_RECORD, 
-		TREE_VHDL_ST_PROCESS, TREE_VHDL_ST_GENERATE hierarchy icons for
-		VHDL (from FSDB).
+		Relax FSDB loader to allow VHDL and mixed-language files.
 		Added VHDL hierarchy types to FST, internal VCD loaders and 
 		also vcdfst/fst2vcd.
 		Added in VHDL to FST (which will also allow other languages):
