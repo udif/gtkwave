@@ -747,115 +747,138 @@ while(!feof(f))
 	if(!strncmp(buf, "$scope", 6))
 		{
 		char *st = strtok(buf+6, " \t");
-		enum fstScopeType scopetype;
+		enum fstScopeType scopetype = FST_ST_VCD_MODULE;
 
-		if(!strcmp(st, "module"))
+		switch(st[0])
 			{
-			scopetype = FST_ST_VCD_MODULE;
-			}
-		else
-		if(!strcmp(st, "task"))
-			{
-			scopetype = FST_ST_VCD_TASK;
-			}
-		else
-		if(!strcmp(st, "function"))
-			{
-			scopetype = FST_ST_VCD_FUNCTION;
-			}
-		else
-		if(!strcmp(st, "begin"))
-			{
-			scopetype = FST_ST_VCD_BEGIN;
-			}
-		else
-		if(!strcmp(st, "fork"))
-			{
-			scopetype = FST_ST_VCD_FORK;
-			}
-		else
-		if(!strcmp(st, "generate"))
-			{
-			scopetype = FST_ST_VCD_GENERATE;
-			}
-		else
-		if(!strcmp(st, "struct"))
-			{
-			scopetype = FST_ST_VCD_STRUCT;
-			}
-		else
-		if(!strcmp(st, "union"))
-			{
-			scopetype = FST_ST_VCD_UNION;
-			}
-		else
-		if(!strcmp(st, "class"))
-			{
-			scopetype = FST_ST_VCD_CLASS;
-			}
-		else
-		if(!strcmp(st, "interface"))
-			{
-			scopetype = FST_ST_VCD_INTERFACE;
-			}
-		else
-		if(!strcmp(st, "package"))
-			{
-			scopetype = FST_ST_VCD_PACKAGE;
-			}
-		else
-		if(!strcmp(st, "program"))
-			{
-			scopetype = FST_ST_VCD_PROGRAM;
-			}
-		else
-		if(!strcmp(st, "vhdl_architecture"))
-			{
-			scopetype = FST_ST_VHDL_ARCHITECTURE;
-			}
-		else
-		if(!strcmp(st, "vhdl_procedure"))
-			{
-			scopetype = FST_ST_VHDL_PROCEDURE;
-			}
-		else
-		if(!strcmp(st, "vhdl_function"))
-			{
-			scopetype = FST_ST_VHDL_FUNCTION;
-			}
-		else
-		if(!strcmp(st, "vhdl_record"))
-			{
-			scopetype = FST_ST_VHDL_RECORD;
-			}
-		else
-		if(!strcmp(st, "vhdl_process"))
-			{
-			scopetype = FST_ST_VHDL_PROCESS;
-			}
-		else
-		if(!strcmp(st, "vhdl_block"))
-			{
-			scopetype = FST_ST_VHDL_BLOCK;
-			}
-		else
-		if(!strcmp(st, "vhdl_for_generate"))
-			{
-			scopetype = FST_ST_VHDL_FOR_GENERATE;
-			}
-		else
-		if(!strcmp(st, "vhdl_if_generate"))
-			{
-			scopetype = FST_ST_VHDL_IF_GENERATE;
-			}
-		else
-		if(!strcmp(st, "vhdl_generate"))
-			{
-			scopetype = FST_ST_VHDL_GENERATE;
-			}
-		else
-			{
-			scopetype = FST_ST_VCD_MODULE;
+			case 'm':
+				if(!strcmp(st, "module"))
+					{
+					}
+				break;
+
+			case 't':
+				if(!strcmp(st, "task"))
+					{
+					scopetype = FST_ST_VCD_TASK;
+					}
+				break;
+
+			case 'f':
+				if(!strcmp(st, "function"))
+					{
+					scopetype = FST_ST_VCD_FUNCTION;
+					}
+				else
+				if(!strcmp(st, "fork"))
+					{
+					scopetype = FST_ST_VCD_FORK;
+					}
+				break;
+
+			case 'b':
+				if(!strcmp(st, "begin"))
+					{
+					scopetype = FST_ST_VCD_BEGIN;
+					}
+				break;
+
+			case 'g':
+				if(!strcmp(st, "generate"))
+					{
+					scopetype = FST_ST_VCD_GENERATE;
+					}
+				break;
+
+			case 's':
+				if(!strcmp(st, "struct"))
+					{
+					scopetype = FST_ST_VCD_STRUCT;
+					}
+				break;
+
+			case 'u':
+				if(!strcmp(st, "union"))
+					{
+					scopetype = FST_ST_VCD_UNION;
+					}
+				break;
+
+			case 'c':
+				if(!strcmp(st, "class"))
+					{
+					scopetype = FST_ST_VCD_CLASS;
+					}
+				break;
+
+			case 'i':
+				if(!strcmp(st, "interface"))
+					{
+					scopetype = FST_ST_VCD_INTERFACE;
+					}
+				break;
+
+			case 'p':
+				if(!strcmp(st, "package"))
+					{
+					scopetype = FST_ST_VCD_PACKAGE;
+					}
+				else
+				if(!strcmp(st, "program"))
+					{
+					scopetype = FST_ST_VCD_PROGRAM;
+					}
+				break;
+
+			case 'v':
+				if(!strcmp(st, "vhdl_architecture"))
+					{
+					scopetype = FST_ST_VHDL_ARCHITECTURE;
+					}
+				else
+				if(!strcmp(st, "vhdl_procedure"))
+					{
+					scopetype = FST_ST_VHDL_PROCEDURE;
+					}
+				else
+				if(!strcmp(st, "vhdl_function"))
+					{
+					scopetype = FST_ST_VHDL_FUNCTION;
+					}
+				else
+				if(!strcmp(st, "vhdl_record"))
+					{
+					scopetype = FST_ST_VHDL_RECORD;
+					}
+				else
+				if(!strcmp(st, "vhdl_process"))
+					{
+					scopetype = FST_ST_VHDL_PROCESS;
+					}
+				else
+				if(!strcmp(st, "vhdl_block"))
+					{
+					scopetype = FST_ST_VHDL_BLOCK;
+					}
+				else
+				if(!strcmp(st, "vhdl_for_generate"))
+					{
+					scopetype = FST_ST_VHDL_FOR_GENERATE;
+					}
+				else
+				if(!strcmp(st, "vhdl_if_generate"))
+					{
+					scopetype = FST_ST_VHDL_IF_GENERATE;
+					}
+				else
+				if(!strcmp(st, "vhdl_generate"))
+					{
+					scopetype = FST_ST_VHDL_GENERATE;
+					}
+				break;
+
+			default:
+				break;
 			}
 
 		st = strtok(NULL, " \t");
