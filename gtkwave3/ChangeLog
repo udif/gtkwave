@@ -1325,7 +1325,7 @@
 		when it exists.
 		Added ability to store $comment in FST files via the attribute
 		mechanism (FST_AT_MISC/FST_MT_COMMENT).
-3.3.49	10sep13	Fix crashed caused by X11 protocol limitation for pixmap size.
+3.3.49	11sep13	Fix crashed caused by X11 protocol limitation for pixmap size.
 		Potential buffer overflow fix in vcd2fst.
 		Added ability to store environment variable information in
 		FST files (FST_MT_ENVVAR).
@@ -1349,6 +1349,7 @@
 		VHDL (from FSDB).
 		Added VHDL hierarchy types to FST, internal VCD loaders and 
 		also vcdfst/fst2vcd.
-		Added in future expansion for FST to VHDL and other languages,
-		currently this is ignored and is treated as a miscellaneous
-		attribute.
+		Added in VHDL to FST (which will also allow other languages):
+		gtkwave can process these types (e.g., signal + std_ulogic), 
+		but there are currently no simulators supporting them.  These
+		are written by using fstWriterCreateVar2().

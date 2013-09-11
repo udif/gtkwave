@@ -273,6 +273,10 @@ union {
 	struct fstHierVar {
 		unsigned char typ; /* FST_VT_MIN ... FST_VT_MAX */
 		unsigned char direction; /* FST_VD_MIN ... FST_VD_MAX */
+
+		unsigned char svt_workspace; /* zeroed out by FST reader, for client code use */
+		unsigned char sdt_workspace; /* zeroed out by FST reader, for client code use */
+
 		const char *name;
 		uint32_t length;
 		fstHandle handle;

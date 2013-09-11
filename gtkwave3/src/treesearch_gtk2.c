@@ -42,7 +42,7 @@ enum { VIEW_DRAG_INACTIVE, TREE_TO_VIEW_DRAG_ACTIVE, SEARCH_TO_VIEW_DRAG_ACTIVE 
 /* The signal area is based on a tree view which requires a store model.
    This store model contains the list of signals to be displayed.
 */
-enum { NAME_COLUMN, TREE_COLUMN, TYPE_COLUMN, DIR_COLUMN, N_COLUMNS };
+enum { NAME_COLUMN, TREE_COLUMN, TYPE_COLUMN, DIR_COLUMN, DTYPE_COLUMN, N_COLUMNS };
 
 /* list of autocoalesced (synthesized) filter names that need to be freed at some point) */
 
@@ -135,6 +135,7 @@ fill_sig_store (void)
 	int vardir;
 	int is_tname = 0;
 	int wrexm;
+	int vardt;
 
 	if(i < 0) continue;
 
@@ -148,6 +149,12 @@ fill_sig_store (void)
 	if((vardir < 0) || (vardir > ND_DIR_MAX))
 		{
 		vardir = 0;
+		}
+
+	vardt = GLOBALS->facs[i]->n->vardt;
+	if((vardt < 0) || (vardt > ND_VDT_MAX))
+		{
+		vardt = 0;
 		}
 
         if(!GLOBALS->facs[i]->vec_root)
@@ -195,6 +202,7 @@ fill_sig_store (void)
 				    TREE_COLUMN, t,
 				    TYPE_COLUMN, vartype_strings[vartype],
 				    DIR_COLUMN, vardir_strings[vardir],
+				    DTYPE_COLUMN, vardatatype_strings[vardt],
 				    -1);
 
 			if(s != t->name)
@@ -214,6 +222,7 @@ fill_sig_store (void)
 				    TREE_COLUMN, t,
 				    TYPE_COLUMN, vartype_strings[vartype],
 				    DIR_COLUMN, vardir_strings[vardir],
+				    DTYPE_COLUMN, vardatatype_strings[vardt],
 				    -1);
 			}
       		}
@@ -1424,11 +1433,19 @@ do_tooltips:
 		case VCD_FILE:
 		case VCD_RECODER_FILE:
 		case DUMPLESS_FILE:
-					column = gtk_tree_view_column_new_with_attributes ("Type",
+					column = gtk_tree_view_column_new_with_attributes (GLOBALS->supplemental_datatypes_encountered ? "VType" : "Type",
 							   renderer,
 							   "text", TYPE_COLUMN,
 							   NULL);
 					gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+					if(GLOBALS->supplemental_datatypes_encountered)
+						{
+						column = gtk_tree_view_column_new_with_attributes ("DType",
+							   renderer,
+							   "text", DTYPE_COLUMN,
+							   NULL);
+						gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+						}
 					break;
 		default:
 			 		break;
@@ -1659,7 +1676,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 
 
     /* Signal names.  */
-    GLOBALS->sig_store_treesearch_gtk2_c_1 = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING);
+    GLOBALS->sig_store_treesearch_gtk2_c_1 = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     GLOBALS->sig_root_treesearch_gtk2_c_1 = GLOBALS->treeroot;
     fill_sig_store ();
 
@@ -1695,11 +1712,19 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 		case VCD_FILE:
 		case VCD_RECODER_FILE:
 		case DUMPLESS_FILE:
-					column = gtk_tree_view_column_new_with_attributes ("Type",
+					column = gtk_tree_view_column_new_with_attributes (GLOBALS->supplemental_datatypes_encountered ? "VType" : "Type",
 							   renderer,
 							   "text", TYPE_COLUMN,
 							   NULL);
 					gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+					if(GLOBALS->supplemental_datatypes_encountered)
+						{
+						column = gtk_tree_view_column_new_with_attributes ("DType",
+							   renderer,
+							   "text", DTYPE_COLUMN,
+							   NULL);
+						gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
+						}
 					break;
 		default:
 					break;

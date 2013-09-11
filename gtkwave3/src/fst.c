@@ -152,6 +152,8 @@ char *pnt, *pntd, *lb_last = NULL, *col_last = NULL; /* *rb_last = NULL; */ /* s
 int acc;
 char *s;
 unsigned char ttype;
+int sdt = FST_SDT_NONE;
+int svt = FST_SVT_NONE;
 
 while((h = fstReaderIterateHier(xc)))
         {
@@ -286,10 +288,25 @@ while((h = fstReaderIterateHier(xc)))
 					} 
 				}
 			*nam = s;
+
+			h->u.var.svt_workspace = svt;
+			h->u.var.sdt_workspace = sdt;
+
 			return(h);
                         break;
 
-		case FST_HT_ATTRBEGIN:	/* currently ignored */
+		case FST_HT_ATTRBEGIN:	/* currently ignored for most cases except VHDL variable vartype/datatype creation */
+			if(h->u.attr.typ == FST_AT_MISC)
+				{
+				if(h->u.attr.subtype == FST_MT_SUPVAR)
+					{
+					svt = h->u.attr.arg >> FST_SDT_SVT_SHIFT_COUNT;
+					sdt = h->u.attr.arg & (FST_SDT_ABS_MAX-1);
+					GLOBALS->supplemental_datatypes_encountered = 1;
+					}
+				}
+			break;
+
 		case FST_HT_ATTREND:
 			break;
 
@@ -452,7 +469,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	char *str;	
 	struct fac *f;
 	int hier_len, name_len, tlen;
-	unsigned char nvt, nvd;
+	unsigned char nvt, nvd, ndt;
 	int longest_nam_candidate = 0;
 	char *fnam;
 
@@ -761,8 +778,47 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
         n->mv.mvlfac = GLOBALS->mvlfacs_fst_c_3+i;
 	GLOBALS->mvlfacs_fst_c_3[i].working_node = n;
-	n->vartype = nvt;
 	n->vardir = nvd;
+	if((h->u.var.svt_workspace == FST_SVT_NONE) && (h->u.var.sdt_workspace == FST_SDT_NONE))
+		{
+		n->vartype = nvt;
+		}
+		else
+		{
+		switch(h->u.var.svt_workspace)
+			{
+			case FST_SVT_VHDL_SIGNAL:	nvt = ND_VHDL_SIGNAL; break;
+			case FST_SVT_VHDL_VARIABLE:	nvt = ND_VHDL_VARIABLE; break;
+			case FST_SVT_VHDL_CONSTANT:	nvt = ND_VHDL_CONSTANT; break;
+			case FST_SVT_VHDL_FILE:		nvt = ND_VHDL_FILE; break;
+			case FST_SVT_VHDL_MEMORY:	nvt = ND_VHDL_MEMORY; break;
+			default:			break; /* keep what exists */
+			}
+		n->vartype = nvt;
+
+		switch(h->u.var.sdt_workspace)
+			{
+			case FST_SDT_VHDL_BOOLEAN:		ndt = ND_VDT_VHDL_BOOLEAN; break;
+			case FST_SDT_VHDL_BIT:			ndt = ND_VDT_VHDL_BIT; break;
+			case FST_SDT_VHDL_BIT_VECTOR:   	ndt = ND_VDT_VHDL_BIT_VECTOR; break;
+			case FST_SDT_VHDL_STD_ULOGIC:   	ndt = ND_VDT_VHDL_STD_ULOGIC; break;
+			case FST_SDT_VHDL_STD_ULOGIC_VECTOR: 	ndt = ND_VDT_VHDL_STD_ULOGIC_VECTOR; break;
+			case FST_SDT_VHDL_STD_LOGIC:       	ndt = ND_VDT_VHDL_STD_LOGIC; break;
+			case FST_SDT_VHDL_STD_LOGIC_VECTOR:  	ndt = ND_VDT_VHDL_STD_LOGIC_VECTOR; break;
+			case FST_SDT_VHDL_UNSIGNED:          	ndt = ND_VDT_VHDL_UNSIGNED; break;
+			case FST_SDT_VHDL_SIGNED:            	ndt = ND_VDT_VHDL_SIGNED; break;
+			case FST_SDT_VHDL_INTEGER:           	ndt = ND_VDT_VHDL_INTEGER; break;
+			case FST_SDT_VHDL_REAL:              	ndt = ND_VDT_VHDL_REAL; break;
+			case FST_SDT_VHDL_NATURAL:           	ndt = ND_VDT_VHDL_NATURAL; break;
+			case FST_SDT_VHDL_POSITIVE:          	ndt = ND_VDT_VHDL_POSITIVE; break;
+			case FST_SDT_VHDL_TIME:              	ndt = ND_VDT_VHDL_TIME; break;
+			case FST_SDT_VHDL_CHARACTER:         	ndt = ND_VDT_VHDL_CHARACTER; break;
+			case FST_SDT_VHDL_STRING:            	ndt = ND_VDT_VHDL_STRING; break;
+			default:				ndt = ND_VDT_NONE; break;
+			}
+
+		n->vardt = ndt;
+		}
 
 	if((f->len>1)||(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
 		{

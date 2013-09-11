@@ -187,6 +187,8 @@ struct Node
     unsigned int array_height, this_row;
 #endif
 
+    unsigned vardt   : 6; /* see nodeVarDataType, this is an internal value */
+
     unsigned vardir  : 3; /* see nodeVarDir, this is an internal value (currently used only by extload and FST) */
     unsigned vartype : 6; /* see nodeVarType, this is an internal value */
 
@@ -231,6 +233,11 @@ static const char *vartype_strings[] = { \
     "byte", \
     "enum", \
     "s_real", \
+    "signal", \
+    "var", \
+    "const", \
+    "file", \
+    "memory", \
     "net", \
     "alias", \
     "missing" \
@@ -272,14 +279,65 @@ enum nodeVarType {
     ND_SV_BYTE             = 28,
     ND_SV_ENUM             = 29,
     ND_SV_SHORTREAL        = 30,
-    
 
-    ND_GEN_NET		   = 31,    /* used for AE2 */
-    ND_GEN_ALIAS	   = 32,
-    ND_GEN_MISSING	   = 33,
+    ND_VHDL_SIGNAL         = 31, 
+    ND_VHDL_VARIABLE       = 32, 
+    ND_VHDL_CONSTANT       = 33, 
+    ND_VHDL_FILE           = 34, 
+    ND_VHDL_MEMORY         = 35, 
 
-    ND_VARTYPE_MAX	   = 33
+    ND_GEN_NET		   = 36,    /* used for AE2 */
+    ND_GEN_ALIAS	   = 37,
+    ND_GEN_MISSING	   = 38,
+
+    ND_VARTYPE_MAX	   = 38
    /* if this exceeds 63, need to update struct Node's "unsigned vartype : 6" declaration */
+};
+
+
+static const char *vardatatype_strings[] = { \
+    "", \
+    "boolean", \
+    "bit", \
+    "bit_vec", \
+    "ulogic", \
+    "ulogic_v", \
+    "logic", \
+    "logic_v", \
+    "unsigned", \
+    "signed", \
+    "integer", \
+    "real", \
+    "natural", \
+    "positive", \
+    "time", \
+    "char", \
+    "string" \
+};
+
+
+enum nodeVarDataType {
+    ND_VDT_NONE                   = 0,
+    
+    ND_VDT_VHDL_BOOLEAN           = 1,
+    ND_VDT_VHDL_BIT               = 2,
+    ND_VDT_VHDL_BIT_VECTOR        = 3,
+    ND_VDT_VHDL_STD_ULOGIC        = 4,
+    ND_VDT_VHDL_STD_ULOGIC_VECTOR = 5,
+    ND_VDT_VHDL_STD_LOGIC         = 6,
+    ND_VDT_VHDL_STD_LOGIC_VECTOR  = 7,
+    ND_VDT_VHDL_UNSIGNED          = 8,
+    ND_VDT_VHDL_SIGNED            = 9,
+    ND_VDT_VHDL_INTEGER           = 10,
+    ND_VDT_VHDL_REAL              = 11,
+    ND_VDT_VHDL_NATURAL           = 12,
+    ND_VDT_VHDL_POSITIVE          = 13,
+    ND_VDT_VHDL_TIME              = 14,
+    ND_VDT_VHDL_CHARACTER         = 15,
+    ND_VDT_VHDL_STRING            = 16,
+  
+    ND_VDT_MAX                    = 16
+   /* if this exceeds 63, need to update struct Node's "unsigned vardt : 6" declaration */
 };
 
 

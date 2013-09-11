@@ -314,6 +314,7 @@ NULL, /* mvlfacs_fst_rvs_alias */
 NULL, /* double_curr_fst */
 NULL, /* double_fini_fst */
 0, /* nonimplicit_direction_encountered */
+0, /* supplemental_datatypes_encountered */
 
 
 /*

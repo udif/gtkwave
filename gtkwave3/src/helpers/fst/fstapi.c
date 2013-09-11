@@ -3245,7 +3245,8 @@ if(!(isfeof=feof(xc->fh)))
 		case FST_VT_SV_ENUM:
 		case FST_VT_SV_SHORTREAL:
 			xc->hier.htyp = FST_HT_VAR;
-
+			xc->hier.u.var.svt_workspace = FST_SVT_NONE;
+			xc->hier.u.var.sdt_workspace = FST_SDT_NONE;
 			xc->hier.u.var.typ = tag;
 			xc->hier.u.var.direction = fgetc(xc->fh);
 			xc->hier.u.var.name = pnt = xc->str_scope_nam;
@@ -3405,6 +3406,8 @@ while(!feof(xc->fh))
 				*(pnt++) = ch; 
 				}; /* attrname */
 			*pnt = 0;
+
+			if(!str[0]) { strcpy(str, "\"\""); }
 
 			attrarg = fstReaderVarint64(xc->fh);
 
