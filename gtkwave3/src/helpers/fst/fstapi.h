@@ -215,36 +215,40 @@ enum fstPackType {
 enum fstSupplimentalVarType {
     FST_SVT_MIN                    = 0,
 
-    FST_SVT_VHDL_SIGNAL            = 0,
-    FST_SVT_VHDL_VARIABLE          = 1,
-    FST_SVT_VHDL_CONSTANT          = 2,
-    FST_SVT_VHDL_FILE              = 3,
-    FST_SVT_VHDL_MEMORY            = 4,
+    FST_SVT_NONE                   = 0,
 
-    FST_SVT_MAX                    = 4,
+    FST_SVT_VHDL_SIGNAL            = 1,
+    FST_SVT_VHDL_VARIABLE          = 2,
+    FST_SVT_VHDL_CONSTANT          = 3,
+    FST_SVT_VHDL_FILE              = 4,
+    FST_SVT_VHDL_MEMORY            = 5,
+
+    FST_SVT_MAX                    = 5,
 };
 
 enum fstSupplimentalDataType {
     FST_SDT_MIN                    = 0,
 
-    FST_SDT_VHDL_BOOLEAN           = 0,
-    FST_SDT_VHDL_BIT               = 1,
-    FST_SDT_VHDL_BIT_VECTOR        = 2,
-    FST_SDT_VHDL_STD_ULOGIC        = 3,
-    FST_SDT_VHDL_STD_ULOGIC_VECTOR = 4,
-    FST_SDT_VHDL_STD_LOGIC         = 5,
-    FST_SDT_VHDL_STD_LOGIC_VECTOR  = 6,
-    FST_SDT_VHDL_UNSIGNED          = 7,
-    FST_SDT_VHDL_SIGNED            = 8,
-    FST_SDT_VHDL_INTEGER           = 9,
-    FST_SDT_VHDL_REAL              = 10,
-    FST_SDT_VHDL_NATURAL           = 11,
-    FST_SDT_VHDL_POSITIVE          = 12,
-    FST_SDT_VHDL_TIME              = 13,
-    FST_SDT_VHDL_CHARACTER         = 14,
-    FST_SDT_VHDL_STRING            = 15,
+    FST_SDT_NONE                   = 0,
 
-    FST_SDT_MAX                    = 15,
+    FST_SDT_VHDL_BOOLEAN           = 1,
+    FST_SDT_VHDL_BIT               = 2,
+    FST_SDT_VHDL_BIT_VECTOR        = 3,
+    FST_SDT_VHDL_STD_ULOGIC        = 4,
+    FST_SDT_VHDL_STD_ULOGIC_VECTOR = 5,
+    FST_SDT_VHDL_STD_LOGIC         = 6,
+    FST_SDT_VHDL_STD_LOGIC_VECTOR  = 7,
+    FST_SDT_VHDL_UNSIGNED          = 8,
+    FST_SDT_VHDL_SIGNED            = 9,
+    FST_SDT_VHDL_INTEGER           = 10,
+    FST_SDT_VHDL_REAL              = 11,
+    FST_SDT_VHDL_NATURAL           = 12,
+    FST_SDT_VHDL_POSITIVE          = 13,
+    FST_SDT_VHDL_TIME              = 14,
+    FST_SDT_VHDL_CHARACTER         = 15,
+    FST_SDT_VHDL_STRING            = 16,
+
+    FST_SDT_MAX                    = 16,
 
     FST_SDT_SVT_SHIFT_COUNT        = 10, /* FST_SVT_* is ORed in to the left after shifting FST_SDT_SVT_SHIFT_COUNT */
     FST_SDT_ABS_MAX		   = (1<<(FST_SDT_SVT_SHIFT_COUNT))

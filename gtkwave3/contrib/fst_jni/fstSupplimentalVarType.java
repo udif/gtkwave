@@ -26,12 +26,14 @@ fstSupplimentalVarType( ) { }
 
 public static final int FST_SVT_MIN = 0;
 
-public static final int FST_SVT_VHDL_SIGNAL = 0;
-public static final int FST_SVT_VHDL_VARIABLE = 1;
-public static final int FST_SVT_VHDL_CONSTANT = 2;
-public static final int FST_SVT_VHDL_FILE = 3;
-public static final int FST_SVT_VHDL_MEMORY = 4;
+public static final int FST_SVT_NONE = 0;
 
-public static final int FST_SVT_MAX = 4;
+public static final int FST_SVT_VHDL_SIGNAL = 1;
+public static final int FST_SVT_VHDL_VARIABLE = 2;
+public static final int FST_SVT_VHDL_CONSTANT = 3;
+public static final int FST_SVT_VHDL_FILE = 4;
+public static final int FST_SVT_VHDL_MEMORY = 5;
+
+public static final int FST_SVT_MAX = 5;
 };
 

@@ -26,24 +26,26 @@ fstSupplimentalDataType( ) { }
 
 public static final int FST_SDT_MIN                    = 0;
 
-public static final int FST_SDT_VHDL_BOOLEAN           = 0;
-public static final int FST_SDT_VHDL_BIT               = 1;
-public static final int FST_SDT_VHDL_BIT_VECTOR        = 2;
-public static final int FST_SDT_VHDL_STD_ULOGIC        = 3;
-public static final int FST_SDT_VHDL_STD_ULOGIC_VECTOR = 4;
-public static final int FST_SDT_VHDL_STD_LOGIC         = 5;
-public static final int FST_SDT_VHDL_STD_LOGIC_VECTOR  = 6;
-public static final int FST_SDT_VHDL_UNSIGNED          = 7;
-public static final int FST_SDT_VHDL_SIGNED            = 8;
-public static final int FST_SDT_VHDL_INTEGER           = 9;
-public static final int FST_SDT_VHDL_REAL              = 10;
-public static final int FST_SDT_VHDL_NATURAL           = 11;
-public static final int FST_SDT_VHDL_POSITIVE          = 12;
-public static final int FST_SDT_VHDL_TIME              = 13;
-public static final int FST_SDT_VHDL_CHARACTER         = 14;
-public static final int FST_SDT_VHDL_STRING            = 15;
+public static final int FST_SDT_NONE                   = 0;
+
+public static final int FST_SDT_VHDL_BOOLEAN           = 1;
+public static final int FST_SDT_VHDL_BIT               = 2;
+public static final int FST_SDT_VHDL_BIT_VECTOR        = 3;
+public static final int FST_SDT_VHDL_STD_ULOGIC        = 4;
+public static final int FST_SDT_VHDL_STD_ULOGIC_VECTOR = 5;
+public static final int FST_SDT_VHDL_STD_LOGIC         = 6;
+public static final int FST_SDT_VHDL_STD_LOGIC_VECTOR  = 7;
+public static final int FST_SDT_VHDL_UNSIGNED          = 8;
+public static final int FST_SDT_VHDL_SIGNED            = 9;
+public static final int FST_SDT_VHDL_INTEGER           = 10;
+public static final int FST_SDT_VHDL_REAL              = 11;
+public static final int FST_SDT_VHDL_NATURAL           = 12;
+public static final int FST_SDT_VHDL_POSITIVE          = 13;
+public static final int FST_SDT_VHDL_TIME              = 14;
+public static final int FST_SDT_VHDL_CHARACTER         = 15;
+public static final int FST_SDT_VHDL_STRING            = 16;
     
-public static final int FST_SDT_MAX                    = 15;
+public static final int FST_SDT_MAX                    = 16;
   
 public static final int FST_SDT_SVT_SHIFT_COUNT        = 10; /* FST_SVT_* is ORed in to the left after shifting FST_SDT_SVT_SHIFT_COUNT */
 public static final int FST_SDT_ABS_MAX                = (1<<(FST_SDT_SVT_SHIFT_COUNT));
