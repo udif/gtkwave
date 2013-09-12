@@ -1349,3 +1349,5 @@
 		gtkwave can process these types (e.g., signal + std_ulogic), 
 		but there are currently no simulators supporting them.  These
 		are written by using fstWriterCreateVar2().
+3.3.50	11sep13	<< Development version update in SVN >>
+
