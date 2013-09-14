@@ -250,8 +250,8 @@ enum fstSupplimentalDataType {
 
     FST_SDT_MAX                    = 16,
 
-    FST_SDT_SVT_SHIFT_COUNT        = 10, /* FST_SVT_* is ORed in to the left after shifting FST_SDT_SVT_SHIFT_COUNT */
-    FST_SDT_ABS_MAX		   = (1<<(FST_SDT_SVT_SHIFT_COUNT))
+    FST_SDT_SVT_SHIFT_COUNT        = 10, /* FST_SVT_* is ORed in by fstWriterCreateVar2() to the left after shifting FST_SDT_SVT_SHIFT_COUNT */
+    FST_SDT_ABS_MAX		   = ((1<<(FST_SDT_SVT_SHIFT_COUNT))-1)
 };
 
 
