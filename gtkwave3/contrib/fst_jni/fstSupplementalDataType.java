@@ -20,9 +20,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-public class fstSupplimentalDataType
+public class fstSupplementalDataType
 {
-fstSupplimentalDataType( ) { }
+fstSupplementalDataType( ) { }
 
 public static final int FST_SDT_MIN                    = 0;
 

@@ -15,8 +15,8 @@ EXTRA_DIST= \
 	fstPackType.java \
 	fstReader.java \
 	fstScopeType.java \
-	fstSupplimentalDataType.java \
-	fstSupplimentalVarType.java \
+	fstSupplementalDataType.java \
+	fstSupplementalVarType.java \
 	fstVarDir.java \
 	fstVarType.java \
 	fstWriter.java \

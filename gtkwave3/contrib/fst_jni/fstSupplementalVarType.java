@@ -20,9 +20,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-public class fstSupplimentalVarType
+public class fstSupplementalVarType
 {
-fstSupplimentalVarType( ) { }
+fstSupplementalVarType( ) { }
 
 public static final int FST_SVT_MIN = 0;
 
