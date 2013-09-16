@@ -249,7 +249,8 @@ gdk_draw_rectangle(GLOBALS->mo_pixmap_mouseover_c_1, GLOBALS->mo_black_mouseover
 gtkwave_signal_connect(GTK_OBJECT(GLOBALS->mo_area_mouseover_c_1), "expose_event",GTK_SIGNAL_FUNC(expose_event), NULL);
 }
 
-#define MOUSEOVER_BREAKSIZE (32)
+#define MOUSEOVER_BREAKSIZE      (32)
+#define MOUSEOVER_BREAKSIZE_ROWS (64)
 
 void move_mouseover(Trptr t, gint xin, gint yin, TimeType tim)
 {
@@ -324,6 +325,7 @@ if(t)
 
 		num_info_rows++;
 		}
+	if(num_info_rows > MOUSEOVER_BREAKSIZE_ROWS) num_info_rows = MOUSEOVER_BREAKSIZE_ROWS; /* prevent possible X11 overflow */
 
 	totalmax = (nmaxlen > vmaxlen) ? nmaxlen : vmaxlen;
 	totalmax += 8;

@@ -1349,5 +1349,7 @@
 		gtkwave can process these types (e.g., signal + std_ulogic), 
 		but there are currently no simulators supporting them.  These
 		are written by using fstWriterCreateVar2().
-3.3.50	11sep13	<< Development version update in SVN >>
+3.3.50	16sep13	Limit number of rows that can be displayed in mouseover in
+		order to prevent potential X11 crashes on extremely wide
+		signals.
 
