@@ -2026,7 +2026,7 @@ return(0);
  */
 fstHandle fstWriterCreateVar2(void *ctx, enum fstVarType vt, enum fstVarDir vd,
         uint32_t len, const char *nam, fstHandle aliasHandle,
-        const char *type, enum fstSupplimentalVarType svt, enum fstSupplimentalDataType sdt)
+        const char *type, enum fstSupplimentalVarType svt, enum fstSupplementalDataType sdt)
 {
 fstWriterSetAttrGeneric(ctx, type ? type : "", FST_MT_SUPVAR, (svt<<FST_SDT_SVT_SHIFT_COUNT) | (sdt & FST_SDT_ABS_MAX));
 return(fstWriterCreateVar(ctx, vt, vd, len, nam, aliasHandle));
