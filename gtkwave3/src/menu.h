@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2012.
+ * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -104,6 +104,10 @@ WV_MENU_SEP2STMF,
 #if defined(HAVE_LIBTCL)
 WV_MENU_TCLSCR,
 WV_MENU_TCLSEP,
+#endif
+#ifdef WAVE_USE_GTK2
+WV_MENU_SGRAB,
+WV_MENU_SGRABSEP,
 #endif
 WV_MENU_FQY,
 WV_MENU_ESTMH,

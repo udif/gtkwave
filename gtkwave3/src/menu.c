@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2012.
+ * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -4267,6 +4267,80 @@ entrybox("Regexp Highlight",300,GLOBALS->regexp_string_menu_c_1,NULL,128,GTK_SIG
 
 /**/
 
+#ifdef WAVE_USE_GTK2
+
+void
+menu_write_screengrab_cleanup(GtkWidget *widget, gpointer data)
+{
+GdkWindow *gw;
+gint w, h;
+GdkColormap *cm;
+GdkPixbuf *dest = NULL;
+GdkPixbuf *dest2;
+GError *err = NULL;
+gboolean succ = FALSE;
+
+if(!GLOBALS->filesel_ok)
+	{
+	return;
+	}
+
+gw = gtk_widget_get_window(GTK_WIDGET(GLOBALS->mainwindow));
+if(gw)
+	{
+	gdk_drawable_get_size(gw, &w, &h);
+	cm = gdk_drawable_get_colormap(gw);
+	if(cm)
+		{
+		dest = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, w, h);
+		if(dest)
+			{
+			dest2 = gdk_pixbuf_get_from_drawable(dest, gw, cm, 0, 0, 0, 0, w, h);
+			if(dest2)
+				{
+				succ = gdk_pixbuf_save (dest2, *GLOBALS->fileselbox_text, "png", &err, NULL);
+				}
+			}
+		}
+	}
+
+if(dest)
+	{
+	g_object_unref(dest);
+	}
+
+if(!succ)
+	{
+        fprintf(stderr, "Error opening screengrab file '%s' for writing.\n",*GLOBALS->fileselbox_text);
+	perror("Why");
+	errno=0;
+	}
+	else
+	{
+	wave_gconf_client_set_string("/current/screengrab", GLOBALS->filesel_screengrab);
+	}
+}
+
+void
+menu_write_screengrab_as(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+	{
+	help_text_bold("\n\nWrite Screengrab As");
+	help_text(
+		" will open a file requester that will ask for the name"
+		" to be used for a PNG format screen grab of the main GTKWave window."
+	);
+	return;
+	}
+
+fileselbox("Write Screengrab File",&GLOBALS->filesel_screengrab,GTK_SIGNAL_FUNC(menu_write_screengrab_cleanup), GTK_SIGNAL_FUNC(NULL), "*.png", 1);
+}
+
+#endif
+
+/**/ 
+
 void
 menu_write_save_cleanup(GtkWidget *widget, gpointer data)
 {
@@ -6123,6 +6197,12 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/File/Read Tcl Script File", NULL, menu_read_script_file, WV_MENU_TCLSCR, "<Item>"),
     WAVE_GTKIFE("/File/<separator>", NULL, NULL, WV_MENU_TCLSEP, "<Separator>"),
 #endif
+
+#ifdef WAVE_USE_GTK2
+    WAVE_GTKIFE("/File/Write Screengrab As", NULL, menu_write_screengrab_as, WV_MENU_SGRAB, "<Item>"),
+    WAVE_GTKIFE("/File/<separator>", NULL, NULL, WV_MENU_SGRABSEP, "<Separator>"),
+#endif
+
     WAVE_GTKIFE("/File/Quit", "<Control>Q", menu_quit, WV_MENU_FQY, "<Item>"),
 
     WAVE_GTKIFE("/Edit/Set Trace Max Hier", NULL, menu_set_max_hier, WV_MENU_ESTMH, "<Item>"),
