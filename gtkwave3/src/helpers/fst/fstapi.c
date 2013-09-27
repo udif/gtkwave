@@ -4019,6 +4019,8 @@ scatterptr = calloc(xc->maxhandle, sizeof(uint32_t));
 headptr = calloc(xc->maxhandle, sizeof(uint32_t));
 length_remaining = calloc(xc->maxhandle, sizeof(uint32_t));
 
+if(fv) { fprintf(fv, "$dumpvars\n"); } 
+
 for(;;)
 	{
 	uint32_t *tc_head = NULL;

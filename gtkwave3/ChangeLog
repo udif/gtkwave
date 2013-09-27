@@ -1353,3 +1353,4 @@
 		order to prevent potential X11 crashes on extremely wide
 		signals.
 		Added "/File/Write Screengrab As" menu option.
+		Added missing $dumpvars emission in fst2vcd.
