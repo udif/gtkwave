@@ -597,7 +597,7 @@ NULL, /* filesel_newviewer_menu_c_1 245 */
 NULL, /* filesel_logfile_menu_c_1 246 */
 NULL, /* filesel_scriptfile_menu */
 NULL, /* filesel_writesave 247 */
-NULL, /* filesel_screengrab */
+NULL, /* filesel_imagegrab */
 0, /* save_success_menu_c_1 248 */
 NULL, /* filesel_vcd_writesave 249 */
 NULL, /* filesel_lxt_writesave 250 */
@@ -1927,7 +1927,7 @@ void reload_into_new_context_2(void)
  strcpy2_into_new_context(new_globals, &new_globals->fcurr_ptranslate_c_1, &GLOBALS->fcurr_ptranslate_c_1);
  strcpy2_into_new_context(new_globals, &new_globals->fcurr_translate_c_2, &GLOBALS->fcurr_translate_c_2);
 
- strcpy2_into_new_context(new_globals, &new_globals->filesel_screengrab, &GLOBALS->filesel_screengrab);
+ strcpy2_into_new_context(new_globals, &new_globals->filesel_imagegrab, &GLOBALS->filesel_imagegrab);
 
  /* renderopt.c */
 #ifdef WAVE_GTK_UNIX_PRINT

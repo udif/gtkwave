@@ -4311,13 +4311,13 @@ if(dest)
 
 if(!succ)
 	{
-        fprintf(stderr, "Error opening screengrab file '%s' for writing.\n",*GLOBALS->fileselbox_text);
+        fprintf(stderr, "Error opening imagegrab file '%s' for writing.\n",*GLOBALS->fileselbox_text);
 	perror("Why");
 	errno=0;
 	}
 	else
 	{
-	wave_gconf_client_set_string("/current/screengrab", GLOBALS->filesel_screengrab);
+	wave_gconf_client_set_string("/current/imagegrab", GLOBALS->filesel_imagegrab);
 	}
 }
 
@@ -4326,15 +4326,18 @@ menu_write_screengrab_as(gpointer null_data, guint callback_action, GtkWidget *w
 {
 if(GLOBALS->helpbox_is_active)
 	{
-	help_text_bold("\n\nWrite Screengrab As");
+	help_text_bold("\n\nGrab To File");
 	help_text(
 		" will open a file requester that will ask for the name"
-		" to be used for a PNG format screen grab of the main GTKWave window."
+		" to be used for a PNG format image grab of the main GTKWave window."
+		" Note that if the main window is covered by other windows or"
+		" is partially offscreen, the grabbed image might not appear properly."
 	);
 	return;
 	}
 
-fileselbox("Write Screengrab File",&GLOBALS->filesel_screengrab,GTK_SIGNAL_FUNC(menu_write_screengrab_cleanup), GTK_SIGNAL_FUNC(NULL), "*.png", 1);
+errno = 0;
+fileselbox("Grab To File",&GLOBALS->filesel_imagegrab,GTK_SIGNAL_FUNC(menu_write_screengrab_cleanup), GTK_SIGNAL_FUNC(NULL), "*.png", 1);
 }
 
 #endif
@@ -6181,6 +6184,11 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/File/Close", "<Control>W", menu_quit_close, WV_MENU_WCLOSE, "<Item>"),
     WAVE_GTKIFE("/File/<separator>", NULL, NULL, WV_MENU_SEP2VCD, "<Separator>"),
     WAVE_GTKIFE("/File/Print To File", "<Control>P", menu_print, WV_MENU_FPTF, "<Item>"),
+
+#if GTK_CHECK_VERSION(2,14,0)
+    WAVE_GTKIFE("/File/Grab To File", NULL, menu_write_screengrab_as, WV_MENU_SGRAB, "<Item>"),
+#endif
+
     WAVE_GTKIFE("/File/<separator>", NULL, NULL, WV_MENU_SEP1, "<Separator>"),
     WAVE_GTKIFE("/File/Read Save File", "<Control>O", menu_read_save_file, WV_MENU_FRSF, "<Item>"),
     WAVE_GTKIFE("/File/Write Save File", "<Control>S", menu_write_save_file, WV_MENU_FWSF, "<Item>"),
@@ -6196,11 +6204,6 @@ static gtkwave_mlist_t menu_items[] =
 #if defined(HAVE_LIBTCL)
     WAVE_GTKIFE("/File/Read Tcl Script File", NULL, menu_read_script_file, WV_MENU_TCLSCR, "<Item>"),
     WAVE_GTKIFE("/File/<separator>", NULL, NULL, WV_MENU_TCLSEP, "<Separator>"),
-#endif
-
-#if GTK_CHECK_VERSION(2,14,0)
-    WAVE_GTKIFE("/File/Write Screengrab As", NULL, menu_write_screengrab_as, WV_MENU_SGRAB, "<Item>"),
-    WAVE_GTKIFE("/File/<separator>", NULL, NULL, WV_MENU_SGRABSEP, "<Separator>"),
 #endif
 
     WAVE_GTKIFE("/File/Quit", "<Control>Q", menu_quit, WV_MENU_FQY, "<Item>"),
