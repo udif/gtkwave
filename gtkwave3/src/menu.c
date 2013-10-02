@@ -4267,7 +4267,7 @@ entrybox("Regexp Highlight",300,GLOBALS->regexp_string_menu_c_1,NULL,128,GTK_SIG
 
 /**/
 
-#ifdef WAVE_USE_GTK2
+#if GTK_CHECK_VERSION(2,14,0)
 
 void
 menu_write_screengrab_cleanup(GtkWidget *widget, gpointer data)
@@ -6198,7 +6198,7 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/File/<separator>", NULL, NULL, WV_MENU_TCLSEP, "<Separator>"),
 #endif
 
-#ifdef WAVE_USE_GTK2
+#if GTK_CHECK_VERSION(2,14,0)
     WAVE_GTKIFE("/File/Write Screengrab As", NULL, menu_write_screengrab_as, WV_MENU_SGRAB, "<Item>"),
     WAVE_GTKIFE("/File/<separator>", NULL, NULL, WV_MENU_SGRABSEP, "<Separator>"),
 #endif
