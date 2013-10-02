@@ -1033,6 +1033,8 @@ while(!feof(f))
 				case 'n': exp = -9; mat = 1; break;
 				case 'p': exp = -12; mat = 1; break;
 				case 'f': exp = -15; mat = 1; break;
+				case 'a': exp = -18; mat = 1; break;
+				case 'z': exp = -21; mat = 1; break;
 				case 's': exp = -0; mat = 1; break;
 				default: break;
 				}

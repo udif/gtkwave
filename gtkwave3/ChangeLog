@@ -1349,8 +1349,9 @@
 		gtkwave can process these types (e.g., signal + std_ulogic), 
 		but there are currently no simulators supporting them.  These
 		are written by using fstWriterCreateVar2().
-3.3.50	25sep13	Limit number of rows that can be displayed in mouseover in
+3.3.50	01oct13	Limit number of rows that can be displayed in mouseover in
 		order to prevent potential X11 crashes on extremely wide
 		signals.
 		Added "/File/Write Screengrab As" menu option.
 		Added missing $dumpvars emission in fst2vcd.
+		Added missing atto and zepto time prefix parsing in vcd2fst.
