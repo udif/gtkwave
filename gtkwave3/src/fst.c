@@ -589,6 +589,9 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			{
 			case FST_VT_VCD_PARAMETER:
 			case FST_VT_VCD_INTEGER:
+			case FST_VT_SV_INT:
+			case FST_VT_SV_SHORTINT:
+			case FST_VT_SV_LONGINT:
 				GLOBALS->mvlfacs_fst_c_3[i].flags = VZT_RD_SYM_F_INTEGER;
 				break;	
 
@@ -750,10 +753,19 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	
 			if(f->flags&VZT_RD_SYM_F_INTEGER)
 				{
-				node_block[i].msi=31;
-				node_block[i].lsi=0;
-				GLOBALS->mvlfacs_fst_c_3[i].len=32;
-				}
+				if((f->len == 16) || (f->len == 64))
+					{
+					node_block[i].msi = f->len - 1;
+					node_block[i].lsi = 0;
+					GLOBALS->mvlfacs_fst_c_3[i].len = f->len;
+					}
+					else
+					{
+					node_block[i].msi = 31;
+					node_block[i].lsi = 0;
+					GLOBALS->mvlfacs_fst_c_3[i].len = 32;
+					}	
+			}
 	
 			if(GLOBALS->fast_tree_sort) 
 				{
