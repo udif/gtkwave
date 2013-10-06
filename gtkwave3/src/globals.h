@@ -314,6 +314,7 @@ double *double_curr_fst;
 double *double_fini_fst;
 char nonimplicit_direction_encountered;
 char supplemental_datatypes_encountered;
+char supplemental_vartypes_encountered;
 
 
 /*

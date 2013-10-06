@@ -315,6 +315,7 @@ NULL, /* double_curr_fst */
 NULL, /* double_fini_fst */
 0, /* nonimplicit_direction_encountered */
 0, /* supplemental_datatypes_encountered */
+0, /* supplemental_vartypes_encountered */
 
 
 /*

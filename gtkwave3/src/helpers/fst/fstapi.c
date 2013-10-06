@@ -2486,7 +2486,7 @@ static const char *vartypes[] = {
 
 static const char *modtypes[] = {
 	"module", "task", "function", "begin", "fork", "generate", "struct", "union", "class", "interface", "package", "program",
-        "vhdl_architecture", "vhdl_procedure", "vhdl_function", "vhdl_record", "vhdl_process", "vhdl_block", "vhdl_for_generate", "vhdl_if_generate", "vhdl_generate"
+        "vhdl_architecture", "vhdl_procedure", "vhdl_function", "vhdl_record", "vhdl_process", "vhdl_block", "vhdl_for_generate", "vhdl_if_generate", "vhdl_generate", "vhdl_package"
 	};
 
 static const char *attrtypes[] = {

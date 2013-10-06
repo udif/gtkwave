@@ -77,8 +77,9 @@ enum fstScopeType {
     FST_ST_VHDL_FOR_GENERATE   = 18,
     FST_ST_VHDL_IF_GENERATE    = 19,
     FST_ST_VHDL_GENERATE       = 20,
+    FST_ST_VHDL_PACKAGE        = 21,
 
-    FST_ST_MAX                 = 20,
+    FST_ST_MAX                 = 21,
 
     FST_ST_GEN_ATTRBEGIN       = 252,
     FST_ST_GEN_ATTREND         = 253,

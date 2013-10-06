@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2009-2011.
+ * Copyright (c) Tony Bybell 2009-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -187,6 +187,7 @@ while((h = fstReaderIterateHier(xc)))
 				case FST_ST_VHDL_FOR_GENERATE:	ttype = TREE_VHDL_ST_GENFOR; break;
 				case FST_ST_VHDL_IF_GENERATE:	ttype = TREE_VHDL_ST_GENIF; break;
 				case FST_ST_VHDL_GENERATE:	ttype = TREE_VHDL_ST_GENERATE; break;
+				case FST_ST_VHDL_PACKAGE:	ttype = TREE_VHDL_ST_PACKAGE; break;
 
 				default:			ttype = TREE_UNKNOWN; break;
 				}
@@ -303,6 +304,7 @@ while((h = fstReaderIterateHier(xc)))
 					svt = h->u.attr.arg >> FST_SDT_SVT_SHIFT_COUNT;
 					sdt = h->u.attr.arg & (FST_SDT_ABS_MAX-1);
 					GLOBALS->supplemental_datatypes_encountered = 1;
+					GLOBALS->supplemental_vartypes_encountered |= ((svt != FST_SVT_NONE) && (svt != FST_SVT_VHDL_SIGNAL));
 					}
 				}
 			break;

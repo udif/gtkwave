@@ -200,7 +200,8 @@ fill_sig_store (void)
 			gtk_list_store_set (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter,
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
-				    TYPE_COLUMN, vartype_strings[vartype],
+				    TYPE_COLUMN, ((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
+							vardatatype_strings[vardt] : vartype_strings[vartype],
 				    DIR_COLUMN, vardir_strings[vardir],
 				    DTYPE_COLUMN, vardatatype_strings[vardt],
 				    -1);
@@ -220,7 +221,8 @@ fill_sig_store (void)
 			gtk_list_store_set (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter,
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
-				    TYPE_COLUMN, vartype_strings[vartype],
+				    TYPE_COLUMN, ((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
+							vardatatype_strings[vardt] : vartype_strings[vartype],
 				    DIR_COLUMN, vardir_strings[vardir],
 				    DTYPE_COLUMN, vardatatype_strings[vardt],
 				    -1);
@@ -1433,12 +1435,12 @@ do_tooltips:
 		case VCD_FILE:
 		case VCD_RECODER_FILE:
 		case DUMPLESS_FILE:
-					column = gtk_tree_view_column_new_with_attributes (GLOBALS->supplemental_datatypes_encountered ? "VType" : "Type",
+					column = gtk_tree_view_column_new_with_attributes (((GLOBALS->supplemental_datatypes_encountered) && (GLOBALS->supplemental_vartypes_encountered)) ? "VType" : "Type",
 							   renderer,
 							   "text", TYPE_COLUMN,
 							   NULL);
 					gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
-					if(GLOBALS->supplemental_datatypes_encountered)
+					if((GLOBALS->supplemental_datatypes_encountered) && (GLOBALS->supplemental_vartypes_encountered))
 						{
 						column = gtk_tree_view_column_new_with_attributes ("DType",
 							   renderer,
@@ -1712,12 +1714,12 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 		case VCD_FILE:
 		case VCD_RECODER_FILE:
 		case DUMPLESS_FILE:
-					column = gtk_tree_view_column_new_with_attributes (GLOBALS->supplemental_datatypes_encountered ? "VType" : "Type",
+					column = gtk_tree_view_column_new_with_attributes (((GLOBALS->supplemental_datatypes_encountered) && (GLOBALS->supplemental_vartypes_encountered)) ? "VType" : "Type",
 							   renderer,
 							   "text", TYPE_COLUMN,
 							   NULL);
 					gtk_tree_view_append_column (GTK_TREE_VIEW (sig_view), column);
-					if(GLOBALS->supplemental_datatypes_encountered)
+					if((GLOBALS->supplemental_datatypes_encountered) && (GLOBALS->supplemental_vartypes_encountered))
 						{
 						column = gtk_tree_view_column_new_with_attributes ("DType",
 							   renderer,
