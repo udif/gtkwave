@@ -777,7 +777,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	
 			if(f->flags&VZT_RD_SYM_F_INTEGER)
 				{
-				if((f->len == 16) || (f->len == 64))
+				if(f->len != 0)
 					{
 					node_block[i].msi = f->len - 1;
 					node_block[i].lsi = 0;
