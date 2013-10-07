@@ -111,6 +111,14 @@ return(s);
 }
 
 
+/* truncate VHDL types to string directly after final '.' */
+char *varxt_fix(char *s)
+{
+char *pnt = strrchr(s, '.');
+return(pnt ? (pnt+1) : s);
+}
+
+
 /* Fill the store model using current SIG_ROOT and FILTER_STR.  */
 void
 fill_sig_store (void)
@@ -136,8 +144,11 @@ fill_sig_store (void)
 	int is_tname = 0;
 	int wrexm;
 	int vardt;
+	unsigned int varxt;
 
 	if(i < 0) continue;
+
+	varxt = GLOBALS->facs[i]->n->varxt;
 
 	vartype = GLOBALS->facs[i]->n->vartype;
 	if((vartype < 0) || (vartype > ND_VARTYPE_MAX))
@@ -200,8 +211,9 @@ fill_sig_store (void)
 			gtk_list_store_set (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter,
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
-				    TYPE_COLUMN, ((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
-							vardatatype_strings[vardt] : vartype_strings[vartype],
+				    TYPE_COLUMN, varxt ? varxt_fix(GLOBALS->subvar_pnt[varxt]) :
+						(((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
+							vardatatype_strings[vardt] : vartype_strings[vartype]),
 				    DIR_COLUMN, vardir_strings[vardir],
 				    DTYPE_COLUMN, vardatatype_strings[vardt],
 				    -1);
@@ -221,8 +233,9 @@ fill_sig_store (void)
 			gtk_list_store_set (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter,
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
-				    TYPE_COLUMN, ((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
-							vardatatype_strings[vardt] : vartype_strings[vartype],
+				    TYPE_COLUMN, varxt ? varxt_fix(GLOBALS->subvar_pnt[varxt]) :
+						(((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
+							vardatatype_strings[vardt] : vartype_strings[vartype]),
 				    DIR_COLUMN, vardir_strings[vardir],
 				    DTYPE_COLUMN, vardatatype_strings[vardt],
 				    -1);

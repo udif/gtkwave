@@ -187,6 +187,8 @@ struct Node
     unsigned int array_height, this_row;
 #endif
 
+    unsigned varxt   : 16; /* reference inside subvar_pnt[] */
+
     unsigned vardt   : 6; /* see nodeVarDataType, this is an internal value */
 
     unsigned vardir  : 3; /* see nodeVarDir, this is an internal value (currently used only by extload and FST) */

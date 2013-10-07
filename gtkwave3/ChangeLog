@@ -1358,3 +1358,4 @@
 		Added VHDL package type to FST.
 		Added red box around 'U' vector values for VHDL similar to 
 		'X' for Verilog.
+		Used FST "attribute name" for variable types if specified.

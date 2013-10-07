@@ -316,6 +316,9 @@ char nonimplicit_direction_encountered;
 char supplemental_datatypes_encountered;
 char supplemental_vartypes_encountered;
 char is_vhdl_component_format;
+JRB subvar_jrb;
+unsigned int subvar_jrb_count;
+char **subvar_pnt;
 
 
 /*

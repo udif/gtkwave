@@ -277,6 +277,7 @@ union {
 
 		unsigned char svt_workspace; /* zeroed out by FST reader, for client code use */
 		unsigned char sdt_workspace; /* zeroed out by FST reader, for client code use */
+		unsigned int  sxt_workspace; /* zeroed out by FST reader, for client code use */
 
 		const char *name;
 		uint32_t length;

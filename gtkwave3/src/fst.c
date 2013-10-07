@@ -154,6 +154,7 @@ char *s;
 unsigned char ttype;
 int sdt = FST_SDT_NONE;
 int svt = FST_SVT_NONE;
+long sxt = 0;
 
 while((h = fstReaderIterateHier(xc)))
         {
@@ -292,6 +293,7 @@ while((h = fstReaderIterateHier(xc)))
 
 			h->u.var.svt_workspace = svt;
 			h->u.var.sdt_workspace = sdt;
+			h->u.var.sxt_workspace = sxt;
 
 			return(h);
                         break;
@@ -301,6 +303,27 @@ while((h = fstReaderIterateHier(xc)))
 				{
 				if(h->u.attr.subtype == FST_MT_SUPVAR)
 					{
+					if(h->u.attr.name)
+						{
+						JRB subvar_jrb_node;
+
+						if(!GLOBALS->subvar_jrb) GLOBALS->subvar_jrb = make_jrb();
+
+						/* sxt points to actual type name specified in FST file */
+						subvar_jrb_node = jrb_find_str(GLOBALS->subvar_jrb, h->u.attr.name);
+						if(subvar_jrb_node)
+							{
+							sxt = subvar_jrb_node->val.ui;
+							}
+							else
+							{
+							Jval jv;
+
+							sxt = jv.ui = ++GLOBALS->subvar_jrb_count;
+							subvar_jrb_node = jrb_insert_str(GLOBALS->subvar_jrb, strdup_2(h->u.attr.name), jv);
+							}
+						}					
+
 					svt = h->u.attr.arg >> FST_SDT_SVT_SHIFT_COUNT;
 					sdt = h->u.attr.arg & (FST_SDT_ABS_MAX-1);
 					GLOBALS->supplemental_datatypes_encountered = 1;
@@ -472,6 +495,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	struct fac *f;
 	int hier_len, name_len, tlen;
 	unsigned char nvt, nvd, ndt;
+	unsigned int nxt;
 	int longest_nam_candidate = 0;
 	char *fnam;
 
@@ -793,6 +817,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
         n->mv.mvlfac = GLOBALS->mvlfacs_fst_c_3+i;
 	GLOBALS->mvlfacs_fst_c_3[i].working_node = n;
 	n->vardir = nvd;
+	n->varxt  = h->u.var.sxt_workspace;
 	if((h->u.var.svt_workspace == FST_SVT_NONE) && (h->u.var.sdt_workspace == FST_SDT_NONE))
 		{
 		n->vartype = nvt;
@@ -859,6 +884,17 @@ free_2(f_name); f_name = NULL;
 free_2(f_name_len); f_name_len = NULL;
 
 if(numvars != GLOBALS->numfacs) { GLOBALS->mvlfacs_fst_rvs_alias = realloc_2(GLOBALS->mvlfacs_fst_rvs_alias, numvars * sizeof(fstHandle)); }
+
+if(GLOBALS->subvar_jrb_count) /* generate lookup table for typenames explicitly given as attributes */
+	{
+	JRB subvar_jrb_node = NULL;
+	GLOBALS->subvar_pnt = calloc_2(GLOBALS->subvar_jrb_count + 1, sizeof(char *));
+
+	jrb_traverse(subvar_jrb_node, GLOBALS->subvar_jrb)
+		{
+		GLOBALS->subvar_pnt[subvar_jrb_node->val.ui] = subvar_jrb_node->key.s;
+		}
+	}
 
 decorated_module_cleanup(); /* ...also now in gtk2_treesearch.c */
 freeze_facility_pack();

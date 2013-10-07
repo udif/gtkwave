@@ -317,6 +317,9 @@ NULL, /* double_fini_fst */
 0, /* supplemental_datatypes_encountered */
 0, /* supplemental_vartypes_encountered */
 0, /* is_vhdl_component_format */
+NULL, /* subvar_jrb */
+0, /* subvar_jrb_count */
+NULL, /* subvar_pnt */
 
 
 /*
@@ -1991,6 +1994,15 @@ void reload_into_new_context_2(void)
  if(new_globals->optimize_vcd) {
    strcpy2_into_new_context(new_globals, &new_globals->unoptimized_vcd_file_name, &GLOBALS->unoptimized_vcd_file_name);
  }
+
+
+ /* fst.c, though might be others later */
+ if(GLOBALS->subvar_jrb)
+	{
+ 	jrb_free_tree(GLOBALS->subvar_jrb);
+ 	GLOBALS->subvar_jrb = NULL;
+ 	GLOBALS->subvar_jrb_count = 0;
+	}
 
 
  /* deallocate any loader-related stuff */

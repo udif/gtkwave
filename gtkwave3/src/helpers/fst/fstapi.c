@@ -3247,6 +3247,7 @@ if(!(isfeof=feof(xc->fh)))
 			xc->hier.htyp = FST_HT_VAR;
 			xc->hier.u.var.svt_workspace = FST_SVT_NONE;
 			xc->hier.u.var.sdt_workspace = FST_SDT_NONE;
+			xc->hier.u.var.sxt_workspace = 0;
 			xc->hier.u.var.typ = tag;
 			xc->hier.u.var.direction = fgetc(xc->fh);
 			xc->hier.u.var.name = pnt = xc->str_scope_nam;
