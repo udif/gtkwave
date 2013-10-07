@@ -435,7 +435,14 @@ if(t2->t_which >= 0)
 			char *sc = GLOBALS->comp_name_idx[thidx];
 			int tlen = strlen(t2->name) + 2 + 1 + strlen(sc) + 1 + 1;
 			tmp = wave_alloca(tlen);
-			sprintf(tmp, "%s  (%s)", t2->name, sc);
+			if(!GLOBALS->is_vhdl_component_format)
+				{
+				sprintf(tmp, "%s  (%s)", t2->name, sc);
+				}
+			else
+				{
+				sprintf(tmp, "%s  : %s", t2->name, sc);
+				}
 			}
 			else
 			{

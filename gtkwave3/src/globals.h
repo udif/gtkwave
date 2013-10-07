@@ -315,6 +315,7 @@ double *double_fini_fst;
 char nonimplicit_direction_encountered;
 char supplemental_datatypes_encountered;
 char supplemental_vartypes_encountered;
+char is_vhdl_component_format;
 
 
 /*
