@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2011.
+ * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -121,6 +121,12 @@ if((!GLOBALS->max_compare_pos_bsearch_c_1)||(GLOBALS->max_compare_time_bsearch_c
 	GLOBALS->max_compare_index=&(n->harray[1]); 
 	}
 
+while(GLOBALS->max_compare_pos_bsearch_c_1->next) /* non-RoSync dumper deglitching fix */
+	{
+	if(GLOBALS->max_compare_pos_bsearch_c_1->time != GLOBALS->max_compare_pos_bsearch_c_1->next->time) break;
+	GLOBALS->max_compare_pos_bsearch_c_1 = GLOBALS->max_compare_pos_bsearch_c_1->next;
+	}
+
 return(GLOBALS->max_compare_pos_bsearch_c_1);
 }
 
@@ -168,6 +174,12 @@ if((!GLOBALS->vmax_compare_pos_bsearch_c_1)||(GLOBALS->vmax_compare_time_bsearch
 	/* because this array is allocated with size > that declared in the structure definition via end of structure malloc padding */
 	GLOBALS->vmax_compare_pos_bsearch_c_1=b->vectors[1]; /* aix bsearch fix */
 	GLOBALS->vmax_compare_index=&(b->vectors[1]);
+	}
+
+while(GLOBALS->vmax_compare_pos_bsearch_c_1->next) /* non-RoSync dumper deglitching fix */
+	{
+	if(GLOBALS->vmax_compare_pos_bsearch_c_1->time != GLOBALS->vmax_compare_pos_bsearch_c_1->next->time) break;
+	GLOBALS->vmax_compare_pos_bsearch_c_1 = GLOBALS->vmax_compare_pos_bsearch_c_1->next;
 	}
 
 return(GLOBALS->vmax_compare_pos_bsearch_c_1);
