@@ -723,6 +723,10 @@ int vtype(Trptr t, char *vec)
 	case 'x':
 	case 'X':
 			return(AN_X);
+	case AN_U:		
+	case 'u':
+	case 'U':
+			return(AN_U);
 	case AN_Z:		
 	case 'z':
 	case 'Z':
@@ -758,6 +762,10 @@ int vtype2(Trptr t, vptr v)
 			case 'x':
 			case 'X':
 					return(AN_X);
+			case AN_U:		
+			case 'u':
+			case 'U':
+					return(AN_U);
 			case AN_Z:		
 			case 'z':
 			case 'Z':

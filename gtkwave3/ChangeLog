@@ -1356,3 +1356,5 @@
 		Added missing $dumpvars emission in fst2vcd.
 		Added missing atto and zepto time prefix parsing in vcd2fst.
 		Added VHDL package type to FST.
+		Added red box around 'U' vector values for VHDL similar to 
+		'X' for Verilog.
