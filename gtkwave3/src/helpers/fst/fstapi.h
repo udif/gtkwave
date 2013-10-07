@@ -213,7 +213,7 @@ enum fstPackType {
     FST_PT_MAX           = 3
 };
 
-enum fstSupplimentalVarType {
+enum fstSupplementalVarType {
     FST_SVT_MIN                    = 0,
 
     FST_SVT_NONE                   = 0,
@@ -309,7 +309,7 @@ fstHandle fstWriterCreateVar(void *ctx, enum fstVarType vt, enum fstVarDir vd,
    the current Verilog/SV one.  The "type" string is optional for a more verbose or custom description */
 fstHandle fstWriterCreateVar2(void *ctx, enum fstVarType vt, enum fstVarDir vd,
         uint32_t len, const char *nam, fstHandle aliasHandle,
-	const char *type, enum fstSupplimentalVarType svt, enum fstSupplementalDataType sdt);
+	const char *type, enum fstSupplementalVarType svt, enum fstSupplementalDataType sdt);
 
 void fstWriterSetPackType(void *ctx, int typ); 		/* type = 0 (libz), 1 (fastlz) */
 void fstWriterSetRepackOnClose(void *ctx, int enable); 	/* type = 0 (none), 1 (libz) */
