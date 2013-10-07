@@ -145,10 +145,12 @@ fill_sig_store (void)
 	int wrexm;
 	int vardt;
 	unsigned int varxt;
+	char *varxt_pnt;
 
 	if(i < 0) continue;
 
 	varxt = GLOBALS->facs[i]->n->varxt;
+	varxt_pnt = varxt ? varxt_fix(GLOBALS->subvar_pnt[varxt]) : NULL;
 
 	vartype = GLOBALS->facs[i]->n->vartype;
 	if((vartype < 0) || (vartype > ND_VARTYPE_MAX))
@@ -211,11 +213,11 @@ fill_sig_store (void)
 			gtk_list_store_set (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter,
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
-				    TYPE_COLUMN, varxt ? varxt_fix(GLOBALS->subvar_pnt[varxt]) :
+				    TYPE_COLUMN, 
 						(((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
-							vardatatype_strings[vardt] : vartype_strings[vartype]),
+							(varxt ? varxt_pnt : vardatatype_strings[vardt]) : vartype_strings[vartype]),
 				    DIR_COLUMN, vardir_strings[vardir],
-				    DTYPE_COLUMN, vardatatype_strings[vardt],
+				    DTYPE_COLUMN, varxt ? varxt_pnt : vardatatype_strings[vardt],
 				    -1);
 
 			if(s != t->name)
@@ -233,11 +235,11 @@ fill_sig_store (void)
 			gtk_list_store_set (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter,
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
-				    TYPE_COLUMN, varxt ? varxt_fix(GLOBALS->subvar_pnt[varxt]) :
+				    TYPE_COLUMN, 
 						(((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
-							vardatatype_strings[vardt] : vartype_strings[vartype]),
+							(varxt ? varxt_pnt : vardatatype_strings[vardt]) : vartype_strings[vartype]),
 				    DIR_COLUMN, vardir_strings[vardir],
-				    DTYPE_COLUMN, vardatatype_strings[vardt],
+				    DTYPE_COLUMN, varxt ? varxt_pnt : vardatatype_strings[vardt],
 				    -1);
 			}
       		}
