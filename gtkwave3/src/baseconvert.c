@@ -709,72 +709,78 @@ return(rv);
 
 int vtype(Trptr t, char *vec)
 {
-	int i, nbits, res;
+int i, nbits, res;
+int an_u_encountered = 0;
 
-	if (vec == NULL)
-		return(AN_X);
-	nbits=t->n.nd->msi-t->n.nd->lsi;
-	if(nbits<0)nbits=-nbits;
-	nbits++;
-	res = AN_1;
-	for (i = 0; i < nbits; i++)
-	switch (*vec) {
-	case AN_X:		
-	case 'x':
-	case 'X':
-			return(AN_X);
-	case AN_U:		
-	case 'u':
-	case 'U':
-			return(AN_U);
-	case AN_Z:		
-	case 'z':
-	case 'Z':
-			if (res == AN_0) return(AN_X); vec++; res = AN_Z; break;
-	default:	if (res == AN_Z) return(AN_X); vec++; res = AN_0; break;
-	}
+if (vec == NULL)
+	return(AN_X);
 
-	return(res);
+nbits=t->n.nd->msi-t->n.nd->lsi;
+if(nbits<0)nbits=-nbits;
+nbits++;
+res = AN_1;
+for (i = 0; i < nbits; i++)
+	{
+	switch (*vec) 
+		{
+		case AN_X:		
+		case 'x':
+		case 'X':
+				return(AN_X);
+		case AN_U:		
+		case 'u':
+		case 'U':
+				an_u_encountered = 1; break;
+		case AN_Z:		
+		case 'z':
+		case 'Z':
+				if (res == AN_0) return(AN_X); vec++; res = AN_Z; break;
+		default:	if (res == AN_Z) return(AN_X); vec++; res = AN_0; break;
+		}
+	}	
+
+return(!an_u_encountered ? res : AN_U);
 }
 
 int vtype2(Trptr t, vptr v)
 {
-	int i, nbits, res;
-	char *vec=(char *)v->v;
+int i, nbits, res;
+int an_u_encountered = 0;
+char *vec=(char *)v->v;
 
-	if(!t->t_filter_converted)
-		{
-		if (vec == NULL)
-			return(AN_X);
-		}
-		else
-		{
-		return ( ((vec == NULL) || (vec[0] == 0)) ? AN_Z : AN_0 );
-		}
+if(!t->t_filter_converted)
+	{
+	if (vec == NULL)
+		return(AN_X);
+	}
+	else
+	{
+	return ( ((vec == NULL) || (vec[0] == 0)) ? AN_Z : AN_0 );
+	}
 
-	nbits=t->n.vec->nbits;
-	res = AN_1;
-	for (i = 0; i < nbits; i++)
+nbits=t->n.vec->nbits;
+res = AN_1;
+for (i = 0; i < nbits; i++)
+	{
+	switch (*vec) 
 		{
-		switch (*vec) 
-			{
-			case AN_X:		
-			case 'x':
-			case 'X':
-					return(AN_X);
-			case AN_U:		
-			case 'u':
-			case 'U':
-					return(AN_U);
-			case AN_Z:		
-			case 'z':
-			case 'Z':
-					if (res == AN_0) return(AN_X); vec++; res = AN_Z; break;
-			default:	if (res == AN_Z) return(AN_X); vec++; res = AN_0; break;
-			}
+		case AN_X:		
+		case 'x':
+		case 'X':
+				return(AN_X);
+		case AN_U:		
+		case 'u':
+		case 'U':
+				an_u_encountered = 1; break;
+		case AN_Z:		
+		case 'z':
+		case 'Z':
+				if (res == AN_0) return(AN_X); vec++; res = AN_Z; break;
+		default:	if (res == AN_Z) return(AN_X); vec++; res = AN_0; break;
 		}
+	}
 
-	return(res);
+return(!an_u_encountered ? res : AN_U);
 }
 
 /*
