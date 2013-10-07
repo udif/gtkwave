@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2009.
+ * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,19 +18,22 @@
 char *fgetmalloc(FILE *handle)
 {
 struct vlist_t *v;
-char *pnt;
+char *pnt = NULL;
 int i, ch;
 
 v = vlist_create(sizeof(char));
 
-for(;;)
+do
 	{
-	ch=fgetc(handle);
-	if((ch==EOF)||(ch==0x00)||(ch=='\n')||(ch=='\r')) break;
-
-	pnt = (char *)vlist_alloc(&v, 0);
-	*pnt = (char)ch;
-	}
+	for(;;)
+		{
+		ch=fgetc(handle);
+		if((ch==EOF)||(ch==0x00)||(ch=='\n')||(ch=='\r')) break;
+	
+		pnt = (char *)vlist_alloc(&v, 0);
+		*pnt = (char)ch;
+		}
+	} while(!pnt && ((ch=='\n')||(ch=='\r'))); /* fix for \n\r on \n systems */
 
 GLOBALS->fgetmalloc_len = vlist_size(v);
 
