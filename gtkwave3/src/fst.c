@@ -406,7 +406,7 @@ f_name_len = calloc_2(F_NAME_MODULUS+1,sizeof(int));
 f_name_max_len = calloc_2(F_NAME_MODULUS+1,sizeof(int));
 
 nnam_max = 16;
-nnam = malloc_2(nnam_max);
+nnam = malloc_2(nnam_max + 1);
 
 GLOBALS->numfacs=fstReaderGetVarCount(GLOBALS->fst_fst_c_1);
 GLOBALS->mvlfacs_fst_c_3=(struct fac *)calloc_2(GLOBALS->numfacs,sizeof(struct fac));

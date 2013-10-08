@@ -1360,3 +1360,4 @@
 		'X' for Verilog.
 		Used FST "attribute name" for variable types if specified.
 		CRLF fix for save file reading on LF-only systems.
+		Fix Valgrind hit in fst.c that was causing crashes on OSX.
