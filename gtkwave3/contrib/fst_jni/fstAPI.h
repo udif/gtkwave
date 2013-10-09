@@ -73,10 +73,10 @@ JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetPackType
 
 /*
  * Class:     fstAPI
- * Method:    fstWriterSetFiletype
+ * Method:    fstWriterSetFileType
  * Signature: (JI)V
  */
-JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetFiletype
+JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetFileType
   (JNIEnv *, jobject, jlong, jint);
 
 /*

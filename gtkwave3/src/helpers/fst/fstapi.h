@@ -331,7 +331,7 @@ int fstWriterGetFseekFailed(void *ctx);
 
 void *fstWriterCreate(const char *nam, int use_compressed_hier);
 void fstWriterClose(void *ctx);
-void fstWriterSetFiletype(void *ctx, enum fstFileType filetype);
+void fstWriterSetFileType(void *ctx, enum fstFileType filetype);
 void fstWriterSetDate(void *ctx, const char *dat);
 void fstWriterSetVersion(void *ctx, const char *vers);
 void fstWriterSetComment(void *ctx, const char *comm);
@@ -370,7 +370,7 @@ void *fstReaderGetCurrentScopeUserInfo(void *ctx);
 int fstReaderGetCurrentScopeLen(void *ctx);
 
 signed char fstReaderGetTimescale(void *ctx);
-int fstReaderGetFiletype(void *ctx);
+int fstReaderGetFileType(void *ctx);
 int64_t fstReaderGetTimezero(void *ctx);
 uint64_t fstReaderGetStartTime(void *ctx);
 uint64_t fstReaderGetEndTime(void *ctx);

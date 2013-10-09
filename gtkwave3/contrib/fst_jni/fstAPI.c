@@ -73,7 +73,7 @@ fstWriterSetPackType((void *)(long)ctx, (int)typ);
 }
 
 
-JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetFiletype
+JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetFileType
   (JNIEnv *env, jobject obj, jlong ctx, jint typ)
 {
 fstWriterSetFileType((void *)(long)ctx, (int)typ);

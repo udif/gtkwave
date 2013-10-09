@@ -429,7 +429,7 @@ f_name_max_len = calloc_2(F_NAME_MODULUS+1,sizeof(int));
 nnam_max = 16;
 nnam = malloc_2(nnam_max + 1);
 
-GLOBALS->fst_filetype = fstReaderGetFiletype(GLOBALS->fst_fst_c_1);
+GLOBALS->fst_filetype = fstReaderGetFileType(GLOBALS->fst_fst_c_1);
 if(GLOBALS->fst_filetype == FST_FT_VHDL)
 	{
 	GLOBALS->is_vhdl_component_format = 1;

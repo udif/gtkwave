@@ -57,7 +57,7 @@ public void 	fstWriterSetComment(String comm) { fstWriterSetComment(ctx, comm); 
 public void 	fstWriterSetDate(String dat) { fstWriterSetDate(ctx, dat); }
 public void 	fstWriterSetDumpSizeLimit(long numbytes) { fstWriterSetDumpSizeLimit(ctx, numbytes); }
 public void 	fstWriterSetEnvVar(String envvar) { fstWriterSetEnvVar(ctx, envvar); }
-public void     fstWriterSetFiletype(int typ) { fstWriterSetFiletype(ctx, typ); }
+public void     fstWriterSetFileType(int typ) { fstWriterSetFileType(ctx, typ); }
 public void 	fstWriterSetPackType(int typ) { fstWriterSetPackType(ctx, typ); }
 public void 	fstWriterSetParallelMode(boolean enable) { fstWriterSetParallelMode(ctx, enable); }
 public void 	fstWriterSetRepackOnClose(boolean enable) { fstWriterSetRepackOnClose(ctx, enable); }

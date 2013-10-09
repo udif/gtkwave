@@ -1850,7 +1850,7 @@ if(xc && vers)
 }
 
 
-void fstWriterSetFiletype(void *ctx, enum fstFileType filetype)
+void fstWriterSetFileType(void *ctx, enum fstFileType filetype)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
@@ -2944,7 +2944,7 @@ return(xc ? xc->date : NULL);
 }
 
 
-int fstReaderGetFiletype(void *ctx)
+int fstReaderGetFileType(void *ctx)
 {
 struct fstReaderContext *xc = (struct fstReaderContext *)ctx;
 return(xc ? xc->filetype : FST_FT_VERILOG);

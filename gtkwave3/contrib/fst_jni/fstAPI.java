@@ -48,7 +48,7 @@ protected native void fstWriterFlushContext(long ctx);
 protected native void fstWriterSetUpscope(long ctx);
 protected native void fstWriterSetAttrEnd(long ctx);
 protected native void fstWriterSetPackType(long ctx, int typ);
-protected native void fstWriterSetFiletype(long ctx, int typ);
+protected native void fstWriterSetFileType(long ctx, int typ);
 protected native void fstWriterSetRepackOnClose(long ctx, boolean enable);
 protected native void fstWriterSetParallelMode(long ctx, boolean enable);
 protected native void fstWriterSetTimescale(long ctx, int ts);
