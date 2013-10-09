@@ -46,6 +46,7 @@ public void 	fstReaderClrFacProcessMask(int facidx) { fstReaderClrFacProcessMask
 public long 	fstReaderGetAliasCount() { return(fstReaderGetAliasCount(ctx)); }
 public String 	fstReaderGetCurrentFlatScope() { return(fstReaderGetCurrentFlatScope(ctx)); }
 public int 	fstReaderGetCurrentScopeLen() { return(fstReaderGetCurrentScopeLen(ctx)); }
+public int 	fstReaderGetFileType() { return(fstReaderGetFileType(ctx)); }
 public String 	fstReaderGetCurrentScopeUserInfo() { return(fstReaderGetCurrentScopeUserInfo(ctx)); }
 public String 	fstReaderGetDateString() { return(fstReaderGetDateString(ctx)); }
 public long 	fstReaderGetDumpActivityChangeTime(int idx) { return(fstReaderGetDumpActivityChangeTime(ctx, idx)); }

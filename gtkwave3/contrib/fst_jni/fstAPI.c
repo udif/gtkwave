@@ -73,6 +73,13 @@ fstWriterSetPackType((void *)(long)ctx, (int)typ);
 }
 
 
+JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetFiletype
+  (JNIEnv *env, jobject obj, jlong ctx, jint typ)
+{
+fstWriterSetFileType((void *)(long)ctx, (int)typ);
+}
+
+
 JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetRepackOnClose
   (JNIEnv *env, jobject obj, jlong ctx, jboolean enable)
 {
@@ -314,6 +321,13 @@ JNIEXPORT jint JNICALL Java_fstAPI_fstReaderGetCurrentScopeLen
   (JNIEnv *env, jobject obj, jlong ctx)
 {
 return((jint)fstReaderGetCurrentScopeLen((void *)(long)ctx));
+}
+
+
+JNIEXPORT jint JNICALL Java_fstAPI_fstReaderGetFileType
+  (JNIEnv *env, jobject obj, jlong ctx)
+{
+return((jint)fstReaderGetFileType((void *)(long)ctx));
 }
 
 

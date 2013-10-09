@@ -73,6 +73,14 @@ JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetPackType
 
 /*
  * Class:     fstAPI
+ * Method:    fstWriterSetFiletype
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetFiletype
+  (JNIEnv *, jobject, jlong, jint);
+
+/*
+ * Class:     fstAPI
  * Method:    fstWriterSetRepackOnClose
  * Signature: (JZ)V
  */
@@ -269,6 +277,14 @@ JNIEXPORT void JNICALL Java_fstAPI_fstReaderResetScope
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_fstAPI_fstReaderGetCurrentScopeLen
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     fstAPI
+ * Method:    fstReaderGetFileType
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_fstAPI_fstReaderGetFileType
   (JNIEnv *, jobject, jlong);
 
 /*

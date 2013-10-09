@@ -9,6 +9,7 @@ EXTRA_DIST= \
 	fstArrayType.java \
 	fstAttrType.java \
 	fstEnumValueType.java \
+	fstFileType.java \
 	fstHier.java \
 	fstHierType.java \
 	fstMiscType.java \
