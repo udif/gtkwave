@@ -30,7 +30,7 @@ public static final String [] FST_ST_NAMESTRINGS =
 		"package", "program",
 
 		"vhdl_architecture", "vhdl_procedure", "vhdl_function", "vhdl_record", "vhdl_process", 
-		"vhdl_block", "vhdl_for_generate", "vhdl_if_generate", "vhdl_generate"
+		"vhdl_block", "vhdl_for_generate", "vhdl_if_generate", "vhdl_generate", "vhdl_package"
 	};
 
 public static final int FST_ST_MIN = 0;
@@ -57,8 +57,9 @@ public static final int FST_ST_VHDL_BLOCK = 17;
 public static final int FST_ST_VHDL_FOR_GENERATE = 18;
 public static final int FST_ST_VHDL_IF_GENERATE = 19;
 public static final int FST_ST_VHDL_GENERATE = 20;
+public static final int FST_ST_VHDL_PACKAGE = 21;
 
-public static final int FST_ST_MAX = 20;
+public static final int FST_ST_MAX = 21;
 
 public static final int FST_ST_GEN_ATTRBEGIN = 252;
 public static final int FST_ST_GEN_ATTREND = 253;
