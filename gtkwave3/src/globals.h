@@ -319,6 +319,7 @@ char is_vhdl_component_format;
 JRB subvar_jrb;
 unsigned int subvar_jrb_count;
 char **subvar_pnt;
+unsigned char fst_filetype;
 
 
 /*

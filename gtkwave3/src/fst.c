@@ -179,16 +179,16 @@ while((h = fstReaderIterateHier(xc)))
 				case FST_ST_VCD_PACKAGE:	ttype = TREE_VCD_ST_PACKAGE; break;
 				case FST_ST_VCD_PROGRAM:	ttype = TREE_VCD_ST_PROGRAM; break;
 
-				case FST_ST_VHDL_ARCHITECTURE:	ttype = TREE_VHDL_ST_ARCHITECTURE; GLOBALS->is_vhdl_component_format = 1;  break;
-				case FST_ST_VHDL_PROCEDURE:	ttype = TREE_VHDL_ST_PROCEDURE;    GLOBALS->is_vhdl_component_format = 1; break;
-				case FST_ST_VHDL_FUNCTION:	ttype = TREE_VHDL_ST_FUNCTION;     GLOBALS->is_vhdl_component_format = 1; break;
-				case FST_ST_VHDL_RECORD:	ttype = TREE_VHDL_ST_RECORD;       GLOBALS->is_vhdl_component_format = 1; break;
-				case FST_ST_VHDL_PROCESS:	ttype = TREE_VHDL_ST_PROCESS;      GLOBALS->is_vhdl_component_format = 1; break;
-				case FST_ST_VHDL_BLOCK:		ttype = TREE_VHDL_ST_BLOCK;        GLOBALS->is_vhdl_component_format = 1; break;
-				case FST_ST_VHDL_FOR_GENERATE:	ttype = TREE_VHDL_ST_GENFOR;       GLOBALS->is_vhdl_component_format = 1; break;
-				case FST_ST_VHDL_IF_GENERATE:	ttype = TREE_VHDL_ST_GENIF;        GLOBALS->is_vhdl_component_format = 1; break;
-				case FST_ST_VHDL_GENERATE:	ttype = TREE_VHDL_ST_GENERATE;     GLOBALS->is_vhdl_component_format = 1; break;
-				case FST_ST_VHDL_PACKAGE:	ttype = TREE_VHDL_ST_PACKAGE;      GLOBALS->is_vhdl_component_format = 1; break;
+				case FST_ST_VHDL_ARCHITECTURE:	ttype = TREE_VHDL_ST_ARCHITECTURE; break;
+				case FST_ST_VHDL_PROCEDURE:	ttype = TREE_VHDL_ST_PROCEDURE;    break;
+				case FST_ST_VHDL_FUNCTION:	ttype = TREE_VHDL_ST_FUNCTION;     break;
+				case FST_ST_VHDL_RECORD:	ttype = TREE_VHDL_ST_RECORD;       break;
+				case FST_ST_VHDL_PROCESS:	ttype = TREE_VHDL_ST_PROCESS;      break;
+				case FST_ST_VHDL_BLOCK:		ttype = TREE_VHDL_ST_BLOCK;        break;
+				case FST_ST_VHDL_FOR_GENERATE:	ttype = TREE_VHDL_ST_GENFOR;       break;
+				case FST_ST_VHDL_IF_GENERATE:	ttype = TREE_VHDL_ST_GENIF;        break;
+				case FST_ST_VHDL_GENERATE:	ttype = TREE_VHDL_ST_GENERATE;     break;
+				case FST_ST_VHDL_PACKAGE:	ttype = TREE_VHDL_ST_PACKAGE;      break;
 
 				default:			ttype = TREE_UNKNOWN; break;
 				}
@@ -306,11 +306,27 @@ while((h = fstReaderIterateHier(xc)))
 					if(h->u.attr.name)
 						{
 						JRB subvar_jrb_node;
+						char *attr_pnt;
 
 						if(!GLOBALS->subvar_jrb) GLOBALS->subvar_jrb = make_jrb();
 
+						if(GLOBALS->fst_filetype == FST_FT_VHDL)
+							{
+							char *lc_p = attr_pnt = strdup_2(h->u.attr.name);
+
+							while(*lc_p)
+								{
+								*lc_p = tolower(*lc_p); /* convert attrib name to lowercase for VHDL */
+								lc_p++;
+								}
+							}
+							else
+							{
+							attr_pnt = NULL;
+							}
+
 						/* sxt points to actual type name specified in FST file */
-						subvar_jrb_node = jrb_find_str(GLOBALS->subvar_jrb, h->u.attr.name);
+						subvar_jrb_node = jrb_find_str(GLOBALS->subvar_jrb, attr_pnt ? attr_pnt : h->u.attr.name);
 						if(subvar_jrb_node)
 							{
 							sxt = subvar_jrb_node->val.ui;
@@ -320,7 +336,12 @@ while((h = fstReaderIterateHier(xc)))
 							Jval jv;
 
 							sxt = jv.ui = ++GLOBALS->subvar_jrb_count;
-							subvar_jrb_node = jrb_insert_str(GLOBALS->subvar_jrb, strdup_2(h->u.attr.name), jv);
+							subvar_jrb_node = jrb_insert_str(GLOBALS->subvar_jrb, strdup_2(attr_pnt ? attr_pnt : h->u.attr.name), jv);
+							}
+
+						if(attr_pnt)
+							{
+							free_2(attr_pnt);
 							}
 						}					
 
@@ -407,6 +428,12 @@ f_name_max_len = calloc_2(F_NAME_MODULUS+1,sizeof(int));
 
 nnam_max = 16;
 nnam = malloc_2(nnam_max + 1);
+
+GLOBALS->fst_filetype = fstReaderGetFiletype(GLOBALS->fst_fst_c_1);
+if(GLOBALS->fst_filetype == FST_FT_VHDL)
+	{
+	GLOBALS->is_vhdl_component_format = 1;
+	}
 
 GLOBALS->numfacs=fstReaderGetVarCount(GLOBALS->fst_fst_c_1);
 GLOBALS->mvlfacs_fst_c_3=(struct fac *)calloc_2(GLOBALS->numfacs,sizeof(struct fac));

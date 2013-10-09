@@ -1349,7 +1349,7 @@
 		gtkwave can process these types (e.g., signal + std_ulogic), 
 		but there are currently no simulators supporting them.  These
 		are written by using fstWriterCreateVar2().
-3.3.50	07oct13	Limit number of rows that can be displayed in mouseover in
+3.3.50	08oct13	Limit number of rows that can be displayed in mouseover in
 		order to prevent potential X11 crashes on extremely wide
 		signals.
 		Added "/File/Grab To File" PNG image grab menu option.
@@ -1361,3 +1361,6 @@
 		Used FST "attribute name" for variable types if specified.
 		CRLF fix for save file reading on LF-only systems.
 		Fix Valgrind hit in fst.c that was causing crashes on OSX.
+		Added fstWriterSetFiletype() and fstReaderGetFiletype()
+		to provide sim language hint to gtkwave for language-
+		appropriate formatting of various data.
