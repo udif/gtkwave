@@ -22,6 +22,15 @@
 #define WAVE_ARRAY_SUPPORT
 #endif
 
+
+/* struct Node bitfield widths */
+#define WAVE_VARXT_WIDTH (16)
+#define WAVE_VARXT_MAX_ID ((1 << WAVE_VARXT_WIDTH) - 1)
+#define WAVE_VARDT_WIDTH (6)
+#define WAVE_VARDIR_WIDTH (3)
+#define WAVE_VARTYPE_WIDTH (6)
+
+
 typedef struct _SearchProgressData {
     GtkWidget *window;
     GtkWidget *pbar;
@@ -187,15 +196,14 @@ struct Node
     unsigned int array_height, this_row;
 #endif
 
-    unsigned varxt   : 16; /* reference inside subvar_pnt[] */
-
-    unsigned vardt   : 6; /* see nodeVarDataType, this is an internal value */
-
-    unsigned vardir  : 3; /* see nodeVarDir, this is an internal value (currently used only by extload and FST) */
-    unsigned vartype : 6; /* see nodeVarType, this is an internal value */
+    unsigned varxt   : WAVE_VARXT_WIDTH; /* reference inside subvar_pnt[] */
+    unsigned vardt   : WAVE_VARDT_WIDTH; /* see nodeVarDataType, this is an internal value */
+    unsigned vardir  : WAVE_VARDIR_WIDTH; /* see nodeVarDir, this is an internal value (currently used only by extload and FST) */
+    unsigned vartype : WAVE_VARTYPE_WIDTH; /* see nodeVarType, this is an internal value */
 
     unsigned extvals : 1; /* was formerly a pointer to ExtNode "ext", now simply a flag */
   };
+
 
 #ifdef WAVE_USE_STRUCT_PACKING
 #pragma pack(pop)

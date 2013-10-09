@@ -308,8 +308,6 @@ while((h = fstReaderIterateHier(xc)))
 						JRB subvar_jrb_node;
 						char *attr_pnt;
 
-						if(!GLOBALS->subvar_jrb) GLOBALS->subvar_jrb = make_jrb();
-
 						if(GLOBALS->fst_filetype == FST_FT_VHDL)
 							{
 							char *lc_p = attr_pnt = strdup_2(h->u.attr.name);
@@ -335,8 +333,20 @@ while((h = fstReaderIterateHier(xc)))
 							{
 							Jval jv;
 
-							sxt = jv.ui = ++GLOBALS->subvar_jrb_count;
-							subvar_jrb_node = jrb_insert_str(GLOBALS->subvar_jrb, strdup_2(attr_pnt ? attr_pnt : h->u.attr.name), jv);
+							if(GLOBALS->subvar_jrb_count != WAVE_VARXT_MAX_ID)
+								{
+								sxt = jv.ui = ++GLOBALS->subvar_jrb_count;
+								subvar_jrb_node = jrb_insert_str(GLOBALS->subvar_jrb, strdup_2(attr_pnt ? attr_pnt : h->u.attr.name), jv);
+								}
+								else
+								{
+								sxt = 0;
+								if(!GLOBALS->subvar_jrb_count_locked)
+									{
+									fprintf(stderr, FST_RDLOAD"Max number (%d) of type attributes reached, please increase WAVE_VARXT_MAX_ID.\n", WAVE_VARXT_MAX_ID);
+									GLOBALS->subvar_jrb_count_locked = 1;
+									}
+								}
 							}
 
 						if(attr_pnt)
@@ -434,6 +444,9 @@ if(GLOBALS->fst_filetype == FST_FT_VHDL)
 	{
 	GLOBALS->is_vhdl_component_format = 1;
 	}
+
+GLOBALS->subvar_jrb = make_jrb(); /* only used for attributes such as generated in VHDL, etc. */
+
 
 GLOBALS->numfacs=fstReaderGetVarCount(GLOBALS->fst_fst_c_1);
 GLOBALS->mvlfacs_fst_c_3=(struct fac *)calloc_2(GLOBALS->numfacs,sizeof(struct fac));

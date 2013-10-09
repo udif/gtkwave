@@ -321,6 +321,7 @@ NULL, /* subvar_jrb */
 0, /* subvar_jrb_count */
 NULL, /* subvar_pnt */
 0, /* fst_filetype */
+0, /* subvar_jrb_count_locked */
 
 
 /*

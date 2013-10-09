@@ -320,6 +320,7 @@ JRB subvar_jrb;
 unsigned int subvar_jrb_count;
 char **subvar_pnt;
 unsigned char fst_filetype;
+unsigned subvar_jrb_count_locked : 1;
 
 
 /*
