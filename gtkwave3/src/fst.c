@@ -336,7 +336,7 @@ while((h = fstReaderIterateHier(xc)))
 							if(GLOBALS->subvar_jrb_count != WAVE_VARXT_MAX_ID)
 								{
 								sxt = jv.ui = ++GLOBALS->subvar_jrb_count;
-								subvar_jrb_node = jrb_insert_str(GLOBALS->subvar_jrb, strdup_2(attr_pnt ? attr_pnt : h->u.attr.name), jv);
+								/* subvar_jrb_node = */ jrb_insert_str(GLOBALS->subvar_jrb, strdup_2(attr_pnt ? attr_pnt : h->u.attr.name), jv);
 								}
 								else
 								{
