@@ -305,6 +305,7 @@ enum nodeVarType {
 };
 
 
+#define WAVE_NODEVARDATATYPE_STR \
 static const char *vardatatype_strings[] = { \
     "", \
     "boolean", \
