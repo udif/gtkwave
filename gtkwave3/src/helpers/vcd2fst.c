@@ -490,6 +490,8 @@ fstWriterSetParallelMode(ctx, parallel_mode);
 
 while(!feof(f))
 	{
+	char *buf1;
+
 	ss = getline_replace(&wbuf, &buf, &glen, f);
 	if(ss == -1)
 		{
@@ -497,7 +499,10 @@ while(!feof(f))
 		}
 	line++;
 
-	if(!strncmp(buf, "$var", 4))
+	if(buf[0] != '$') continue;
+	buf1 = buf + 1;
+
+	if(!strncmp(buf1, "var", 3))
 		{
 		char *st = strtok(buf+5, " \t");
 		enum fstVarType vartype;
@@ -744,7 +749,7 @@ while(!feof(f))
 			}
 		}
 	else
-	if(!strncmp(buf, "$scope", 6))
+	if(!strncmp(buf1, "scope", 5))
 		{
 		char *st = strtok(buf+6, " \t");
 		enum fstScopeType scopetype = FST_ST_VCD_MODULE;
@@ -948,7 +953,7 @@ while(!feof(f))
 			}
 		}
 	else
-	if(!strncmp(buf, "$upscope", 8))
+	if(!strncmp(buf1, "upscope", 7))
 		{
 		fstWriterSetUpscope(ctx);
 #if defined(VCD2FST_EXTLOAD_CONV)
@@ -959,7 +964,7 @@ while(!feof(f))
 #endif
 		}
 	else
-	if(!strncmp(buf, "$endd", 5))
+	if(!strncmp(buf1, "endd", 4))
 		{
 #if defined(VCD2FST_EXTLOAD_CONV)
 #ifdef _WAVE_HAVE_JUDY
@@ -974,7 +979,7 @@ while(!feof(f))
 		break;
 		}
 	else
-	if(!strncmp(buf, "$timezero", 9))
+	if(!strncmp(buf1, "timezero", 8))
 		{
 		char *pnt;
 		uint64_t tzero = 0;
@@ -998,7 +1003,7 @@ while(!feof(f))
 		fstWriterSetTimezero(ctx, tzero);
 		}
 	else
-	if(!strncmp(buf, "$timescale", 10))
+	if(!strncmp(buf1, "timescale", 9))
 		{
 		char *pnt;
 		char *num = NULL;
@@ -1028,14 +1033,14 @@ while(!feof(f))
 			int mat = 0;
 			switch(*pnt)
 				{
-				case 'm': exp = -3; mat = 1; break;
-				case 'u': exp = -6; mat = 1; break;
-				case 'n': exp = -9; mat = 1; break;
+				case 'm': exp = -3;  mat = 1; break;
+				case 'u': exp = -6;  mat = 1; break;
+				case 'n': exp = -9;  mat = 1; break;
 				case 'p': exp = -12; mat = 1; break;
 				case 'f': exp = -15; mat = 1; break;
 				case 'a': exp = -18; mat = 1; break;
 				case 'z': exp = -21; mat = 1; break;
-				case 's': exp = -0; mat = 1; break;
+				case 's': exp =  0;  mat = 1; break;
 				default: break;
 				}
 			if(mat) break;
@@ -1056,7 +1061,7 @@ while(!feof(f))
 		fstWriterSetTimescale(ctx, exp);
 		}
 	else
-	if(!strncmp(buf, "$date", 5))
+	if(!strncmp(buf1, "date", 4))
 		{
 		char *pnt, *rsp;
 		int found = 0;
@@ -1112,7 +1117,7 @@ while(!feof(f))
 		fstWriterSetDate(ctx, pnt);
 		}
 	else
-	if((!strncmp(buf, "$version", 8)) || (!strncmp(buf, "$comment", 8)))
+	if((!strncmp(buf1, "version", 7)) || (!strncmp(buf1, "comment", 7)))
 		{
 		char *pnt, *crpnt, *rsp;
 		int is_version = (buf[1] == 'v');
