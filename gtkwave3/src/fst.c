@@ -535,7 +535,6 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	struct fac *f;
 	int hier_len, name_len, tlen;
 	unsigned char nvt, nvd, ndt;
-	unsigned int nxt;
 	int longest_nam_candidate = 0;
 	char *fnam;
 
