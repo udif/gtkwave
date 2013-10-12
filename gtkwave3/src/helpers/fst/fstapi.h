@@ -127,12 +127,12 @@ enum fstVarType {
 
     FST_VT_SV_BIT              = 22,
     FST_VT_SV_LOGIC            = 23,
-    FST_VT_SV_INT              = 24,	/* declare as 31:0 */
-    FST_VT_SV_SHORTINT         = 25,	/* declare as 15:0 */
-    FST_VT_SV_LONGINT          = 26,	/* declare as 63:0 */
-    FST_VT_SV_BYTE             = 27,	/* declare as 7:0  */
+    FST_VT_SV_INT              = 24,	/* declare as size = 32 */
+    FST_VT_SV_SHORTINT         = 25,	/* declare as size = 16 */
+    FST_VT_SV_LONGINT          = 26,	/* declare as size = 64 */
+    FST_VT_SV_BYTE             = 27,	/* declare as size = 8  */
     FST_VT_SV_ENUM             = 28,	/* declare as appropriate type range */
-    FST_VT_SV_SHORTREAL        = 29,	/* declare and emit same as FST_VT_VCD_REAL */
+    FST_VT_SV_SHORTREAL        = 29,	/* declare and emit same as FST_VT_VCD_REAL (needs to be emitted as double, not a float) */
 
     FST_VT_MAX                 = 29	/* end of vartypes */
 };
@@ -165,7 +165,7 @@ enum fstHierType {
 enum fstAttrType {
     FST_AT_MIN         = 0,
 
-    FST_AT_MISC        = 0,
+    FST_AT_MISC        = 0,	/* self-contained: does not need matching FST_HT_ATTREND */
     FST_AT_ARRAY       = 1,
     FST_AT_ENUM        = 2,
     FST_AT_PACK        = 3,
@@ -176,9 +176,9 @@ enum fstAttrType {
 enum fstMiscType {
     FST_MT_MIN         = 0,
 
-    FST_MT_COMMENT     = 0,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetComment() to emit */
-    FST_MT_ENVVAR      = 1,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetEnvVar() to emit */
-    FST_MT_SUPVAR      = 2,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterCreateVar2() to emit */
+    FST_MT_COMMENT     = 0,	/* use fstWriterSetComment() to emit */
+    FST_MT_ENVVAR      = 1,	/* use fstWriterSetEnvVar() to emit */
+    FST_MT_SUPVAR      = 2,	/* use fstWriterCreateVar2() to emit */
     FST_MT_UNKNOWN     = 3,
 
     FST_MT_MAX         = 3
