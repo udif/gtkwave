@@ -178,7 +178,7 @@ enum fstMiscType {
 
     FST_MT_COMMENT     = 0,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetComment() to emit */
     FST_MT_ENVVAR      = 1,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterSetEnvVar() to emit */
-    FST_MT_SUPVAR      = 2,
+    FST_MT_SUPVAR      = 2,	/* self-contained: does not need matching FST_HT_ATTREND, use fstWriterCreateVar2() to emit */
     FST_MT_UNKNOWN     = 3,
 
     FST_MT_MAX         = 3
