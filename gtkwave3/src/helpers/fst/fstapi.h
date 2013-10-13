@@ -179,9 +179,11 @@ enum fstMiscType {
     FST_MT_COMMENT     = 0,	/* use fstWriterSetComment() to emit */
     FST_MT_ENVVAR      = 1,	/* use fstWriterSetEnvVar() to emit */
     FST_MT_SUPVAR      = 2,	/* use fstWriterCreateVar2() to emit */
-    FST_MT_UNKNOWN     = 3,
+    FST_MT_PATHNAME    = 3,     /* reserved for fstWriterSetSourceStem() string -> number management */
+    FST_MT_SOURCESTEM  = 4,     /* use fstWriterSetSourceStem() to emit */
+    FST_MT_UNKNOWN     = 5,
 
-    FST_MT_MAX         = 3
+    FST_MT_MAX         = 5
 };
 
 enum fstArrayType {
@@ -300,6 +302,7 @@ union {
 		unsigned char subtype; /* from fstMiscType, fstArrayType, fstEnumValueType, fstPackType */
 		const char *name;
 		uint64_t arg; /* number of array elements, struct members, or some other payload (possibly ignored) */
+		uint64_t arg_from_name; /* for when name is overloaded as a variable-length integer (FST_AT_MISC + FST_MT_SOURCESTEM) */
 		uint32_t name_length; /* strlen(u.attr.name) */
 		} attr;
 	} u;
@@ -339,6 +342,7 @@ void 		fstWriterSetParallelMode(void *ctx, int enable);
 void 		fstWriterSetRepackOnClose(void *ctx, int enable); 	/* type = 0 (none), 1 (libz) */
 void 		fstWriterSetScope(void *ctx, enum fstScopeType scopetype,
                 	const char *scopename, const char *scopecomp);
+void		fstWriterSetSourceStem(void *ctx, char *path, unsigned int line);
 void 		fstWriterSetTimescale(void *ctx, int ts);
 void 		fstWriterSetTimescaleFromString(void *ctx, const char *s);
 void 		fstWriterSetTimezero(void *ctx, int64_t tim);

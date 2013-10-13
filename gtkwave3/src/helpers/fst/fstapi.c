@@ -38,6 +38,7 @@
 /* note that Judy versus Jenkins requires more experimentation: they are  */
 /* functionally equivalent though it appears Jenkins is slightly faster.  */
 /* in addition, Jenkins is not bound by the LGPL.                         */
+#define FST_PATH_HASHMASK 		((1UL << 16) - 1)
 #ifdef _WAVE_HAVE_JUDY
 #include <Judy.h>
 #else
@@ -306,6 +307,21 @@ do      {
 
 return(pnt);
 }
+
+
+static unsigned char *fstCopyVarint64ToRight(unsigned char *pnt, uint64_t v)
+{
+uint64_t nxt;
+
+while((nxt = v>>7))
+        {
+        *(pnt++) = (v&0x7f) | 0x80;
+        v = nxt;
+        }
+*(pnt++) = (v&0x7f);
+
+return(pnt);
+}
  
 
 static uint64_t fstGetVarint64(unsigned char *mem, int *skiplen)
@@ -492,7 +508,6 @@ uint64_t firsttime;
 uint32_t vchg_siz;
 uint32_t vchg_alloc_siz;
 
-
 uint32_t secnum;
 off_t section_start;
 
@@ -536,6 +551,9 @@ size_t fst_break_add_size;
 size_t fst_huge_break_size;
 
 fstHandle next_huge_break;
+
+Pvoid_t path_array;
+uint32_t path_array_count;
 
 unsigned fseek_failed : 1;
 };
@@ -1803,6 +1821,12 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 	pthread_attr_destroy(&xc->thread_attr);
 #endif
 
+	if(xc->path_array)
+		{
+		const uint32_t hashmask = FST_PATH_HASHMASK;
+		JudyHSFreeArray(&(xc->path_array), NULL);
+		}
+
 	free(xc->filename); xc->filename = NULL;
 	free(xc);
 	}
@@ -1870,6 +1894,20 @@ if(xc)
 }
 
 
+static void fstWriterSetAttrDoubleArgGeneric(void *ctx, int typ, uint64_t arg1, uint64_t arg2)
+{
+struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+if(xc)
+        {
+	char buf[11]; /* ceil(64/7) = 10 + null term */
+	char *pnt = fstCopyVarint64ToRight(buf, arg1);
+	*pnt = 0; /* this converts any nonzero arg1 when made a varint into a null-term string */
+
+	fstWriterSetAttrBegin(xc, FST_AT_MISC, typ, buf, arg2);
+	}
+}
+
+
 static void fstWriterSetAttrGeneric(void *ctx, const char *comm, int typ, uint64_t arg)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
@@ -1886,6 +1924,33 @@ if(xc && comm)
 
 	fstWriterSetAttrBegin(xc, FST_AT_MISC, typ, sf, arg);
 	free(sf);
+	}
+}
+
+
+void fstWriterSetSourceStem(void *ctx, char *path, unsigned int line)
+{
+struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
+
+if(xc && path)
+	{
+	uint64_t sidx = 0;
+	int slen = strlen(path);
+	const uint32_t hashmask = FST_PATH_HASHMASK;
+
+	PPvoid_t pv = JudyHSIns(&(xc->path_array), path, slen, NULL);
+        if(*pv)
+        	{
+                sidx = (long)(*pv);
+                }
+                else
+               	{
+		sidx = ++xc->path_array_count;
+               	*pv = (void *)(long)(xc->path_array_count);
+		fstWriterSetAttrGeneric(xc, path, FST_MT_PATHNAME, sidx);
+		}
+
+	fstWriterSetAttrDoubleArgGeneric(xc, FST_MT_SOURCESTEM, sidx, line);
 	}
 }
 
@@ -3245,6 +3310,15 @@ if(!(isfeof=feof(xc->fh)))
 			xc->hier.u.attr.name_length = pnt - xc->hier.u.scope.name;
 
 			xc->hier.u.attr.arg = fstReaderVarint64(xc->fh);
+
+			if(xc->hier.u.attr.typ == FST_AT_MISC)
+				{
+				if(xc->hier.u.attr.subtype == FST_MT_SOURCESTEM)
+					{
+					int sidx_skiplen_dummy = 0;
+	                                xc->hier.u.attr.arg_from_name = fstGetVarint64(xc->str_scope_nam, &sidx_skiplen_dummy);
+					}
+				}
 			break;
 
 		case FST_ST_GEN_ATTREND:
@@ -3470,7 +3544,17 @@ while(!feof(xc->fh))
 									}
 									else
 									{
-									fprintf(fv, "$attrbegin %s %02x %s %"PRId64" $end\n", attrtypes[attrtype], subtype, str, attrarg);
+									if(subtype == FST_MT_SOURCESTEM)
+										{
+										int sidx_skiplen_dummy = 0;
+										uint64_t sidx = fstGetVarint64(str, &sidx_skiplen_dummy);
+
+										fprintf(fv, "$attrbegin %s %02x %"PRId64" %"PRId64" $end\n", attrtypes[attrtype], subtype, sidx, attrarg);
+										}
+										else
+										{
+										fprintf(fv, "$attrbegin %s %02x %s %"PRId64" $end\n", attrtypes[attrtype], subtype, str, attrarg);
+										}
 									}
 								break;
 					}
