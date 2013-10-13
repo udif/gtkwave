@@ -1930,14 +1930,14 @@ if(xc && s)
         	{
                 switch(*pnt)
                 	{
-                        case 'm': seconds_exp = -3; mat = 1; break;
-                        case 'u': seconds_exp = -6; mat = 1; break;
-                        case 'n': seconds_exp = -9; mat = 1; break;
+                        case 'm': seconds_exp =  -3; mat = 1; break;
+                        case 'u': seconds_exp =  -6; mat = 1; break;
+                        case 'n': seconds_exp =  -9; mat = 1; break;
                         case 'p': seconds_exp = -12; mat = 1; break;
                         case 'f': seconds_exp = -15; mat = 1; break;
                         case 'a': seconds_exp = -18; mat = 1; break;
                         case 'z': seconds_exp = -21; mat = 1; break;
-                        case 's': seconds_exp = -0; mat = 1; break;
+                        case 's': seconds_exp =   0; mat = 1; break;
                         default: break;
                         }
 
