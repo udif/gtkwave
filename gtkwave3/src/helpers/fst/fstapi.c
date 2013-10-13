@@ -1901,7 +1901,10 @@ if(xc)
         {
 	char buf[11]; /* ceil(64/7) = 10 + null term */
 	char *pnt = fstCopyVarint64ToRight(buf, arg1);
-	*pnt = 0; /* this converts any nonzero arg1 when made a varint into a null-term string */
+	if(arg1)
+		{
+		*pnt = 0; /* this converts any *nonzero* arg1 when made a varint into a null-term string */
+		}
 
 	fstWriterSetAttrBegin(xc, FST_AT_MISC, typ, buf, arg2);
 	}
