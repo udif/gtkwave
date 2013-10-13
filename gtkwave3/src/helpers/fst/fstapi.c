@@ -1823,7 +1823,9 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 
 	if(xc->path_array)
 		{
+#ifndef _WAVE_HAVE_JUDY
 		const uint32_t hashmask = FST_PATH_HASHMASK;
+#endif
 		JudyHSFreeArray(&(xc->path_array), NULL);
 		}
 
@@ -1899,14 +1901,14 @@ static void fstWriterSetAttrDoubleArgGeneric(void *ctx, int typ, uint64_t arg1, 
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
         {
-	char buf[11]; /* ceil(64/7) = 10 + null term */
-	char *pnt = fstCopyVarint64ToRight(buf, arg1);
+	unsigned char buf[11]; /* ceil(64/7) = 10 + null term */
+	unsigned char *pnt = fstCopyVarint64ToRight(buf, arg1);
 	if(arg1)
 		{
 		*pnt = 0; /* this converts any *nonzero* arg1 when made a varint into a null-term string */
 		}
 
-	fstWriterSetAttrBegin(xc, FST_AT_MISC, typ, buf, arg2);
+	fstWriterSetAttrBegin(xc, FST_AT_MISC, typ, (char *)buf, arg2);
 	}
 }
 
@@ -1939,9 +1941,11 @@ if(xc && path)
 	{
 	uint64_t sidx = 0;
 	int slen = strlen(path);
+#ifndef _WAVE_HAVE_JUDY
 	const uint32_t hashmask = FST_PATH_HASHMASK;
+#endif
 
-	PPvoid_t pv = JudyHSIns(&(xc->path_array), path, slen, NULL);
+	PPvoid_t pv = JudyHSIns(&(xc->path_array), (unsigned char *)path, slen, NULL);
         if(*pv)
         	{
                 sidx = (long)(*pv);
@@ -3319,7 +3323,7 @@ if(!(isfeof=feof(xc->fh)))
 				if(xc->hier.u.attr.subtype == FST_MT_SOURCESTEM)
 					{
 					int sidx_skiplen_dummy = 0;
-	                                xc->hier.u.attr.arg_from_name = fstGetVarint64(xc->str_scope_nam, &sidx_skiplen_dummy);
+	                                xc->hier.u.attr.arg_from_name = fstGetVarint64((unsigned char *)xc->str_scope_nam, &sidx_skiplen_dummy);
 					}
 				}
 			break;
@@ -3550,7 +3554,7 @@ while(!feof(xc->fh))
 									if(subtype == FST_MT_SOURCESTEM)
 										{
 										int sidx_skiplen_dummy = 0;
-										uint64_t sidx = fstGetVarint64(str, &sidx_skiplen_dummy);
+										uint64_t sidx = fstGetVarint64((unsigned char *)str, &sidx_skiplen_dummy);
 
 										fprintf(fv, "$attrbegin %s %02x %"PRId64" %"PRId64" $end\n", attrtypes[attrtype], subtype, sidx, attrarg);
 										}
