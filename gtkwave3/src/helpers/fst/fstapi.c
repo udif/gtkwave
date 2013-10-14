@@ -1958,9 +1958,9 @@ if(xc && path && path[0])
 	int slen = strlen(path);
 #ifndef _WAVE_HAVE_JUDY
 	const uint32_t hashmask = FST_PATH_HASHMASK;
-	const unsigned char *path2 = path;	
+	const unsigned char *path2 = (const unsigned char *)path;	
 #else
-	unsigned char *path2 = alloca(slen + 1); /* judy lacks const qualifier in its JudyHSIns definition */
+	char *path2 = alloca(slen + 1); /* judy lacks const qualifier in its JudyHSIns definition */
 	strcpy(path2, path);
 #endif
 
@@ -1973,7 +1973,11 @@ if(xc && path && path[0])
                	{
 		sidx = ++xc->path_array_count;
                	*pv = (void *)(long)(xc->path_array_count);
-		fstWriterSetAttrGeneric(xc, path2, FST_MT_PATHNAME, sidx);
+		fstWriterSetAttrGeneric(xc, 
+#ifndef _WAVE_HAVE_JUDY
+			(const char *)
+#endif
+			path2, FST_MT_PATHNAME, sidx);
 		}
 
 	fstWriterSetAttrDoubleArgGeneric(xc, FST_MT_SOURCESTEM, sidx, line);
