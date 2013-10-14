@@ -342,7 +342,7 @@ void 		fstWriterSetParallelMode(void *ctx, int enable);
 void 		fstWriterSetRepackOnClose(void *ctx, int enable); 	/* type = 0 (none), 1 (libz) */
 void 		fstWriterSetScope(void *ctx, enum fstScopeType scopetype,
                 	const char *scopename, const char *scopecomp);
-void		fstWriterSetSourceStem(void *ctx, char *path, unsigned int line);
+void		fstWriterSetSourceStem(void *ctx, const char *path, unsigned int line);
 void 		fstWriterSetTimescale(void *ctx, int ts);
 void 		fstWriterSetTimescaleFromString(void *ctx, const char *s);
 void 		fstWriterSetTimezero(void *ctx, int64_t tim);

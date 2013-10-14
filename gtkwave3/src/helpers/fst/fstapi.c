@@ -33,25 +33,40 @@
 #include <pthread.h>
 #endif
 
+#if HAVE_ALLOCA_H
+#include <alloca.h>
+#elif defined(__GNUC__)
+#ifndef __MINGW32__
+#ifndef alloca
+#define alloca __builtin_alloca
+#endif
+#else
+#include <malloc.h>
+#endif
+#elif defined(_MSC_VER)
+#include <malloc.h>
+#define alloca _alloca
+#endif
+
 /* this define is to force writer backward compatibility with old readers */
 #ifndef FST_DYNAMIC_ALIAS_DISABLE
 /* note that Judy versus Jenkins requires more experimentation: they are  */
 /* functionally equivalent though it appears Jenkins is slightly faster.  */
 /* in addition, Jenkins is not bound by the LGPL.                         */
-#define FST_PATH_HASHMASK 		((1UL << 16) - 1)
 #ifdef _WAVE_HAVE_JUDY
 #include <Judy.h>
 #else
+/* should be more than enough for fstWriterSetSourceStem() */
+#define FST_PATH_HASHMASK 		((1UL << 16) - 1)
 typedef const void *Pcvoid_t;
 typedef void *Pvoid_t;
 typedef void **PPvoid_t;
 #define JudyHSIns(a,b,c,d) JenkinsIns((a),(b),(c),(hashmask))
 #define JudyHSFreeArray(a,b) JenkinsFree((a),(hashmask))
 void JenkinsFree(void *base_i, uint32_t hashmask);
-void **JenkinsIns(void *base_i, unsigned char *mem, uint32_t length, uint32_t hashmask);
+void **JenkinsIns(void *base_i, const unsigned char *mem, uint32_t length, uint32_t hashmask);
 #endif
 #endif
-
 
 #undef  FST_DEBUG
 
@@ -1933,7 +1948,7 @@ if(xc && comm)
 }
 
 
-void fstWriterSetSourceStem(void *ctx, char *path, unsigned int line)
+void fstWriterSetSourceStem(void *ctx, const char *path, unsigned int line)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 
@@ -1943,9 +1958,13 @@ if(xc && path && path[0])
 	int slen = strlen(path);
 #ifndef _WAVE_HAVE_JUDY
 	const uint32_t hashmask = FST_PATH_HASHMASK;
+	const unsigned char *path2 = path;	
+#else
+	unsigned char *path2 = alloca(slen + 1); /* judy lacks const qualifier in its JudyHSIns definition */
+	strcpy(path2, path);
 #endif
 
-	PPvoid_t pv = JudyHSIns(&(xc->path_array), (unsigned char *)path, slen, NULL);
+	PPvoid_t pv = JudyHSIns(&(xc->path_array), path2, slen, NULL);
         if(*pv)
         	{
                 sidx = (long)(*pv);
@@ -1954,7 +1973,7 @@ if(xc && path && path[0])
                	{
 		sidx = ++xc->path_array_count;
                	*pv = (void *)(long)(xc->path_array_count);
-		fstWriterSetAttrGeneric(xc, path, FST_MT_PATHNAME, sidx);
+		fstWriterSetAttrGeneric(xc, path2, FST_MT_PATHNAME, sidx);
 		}
 
 	fstWriterSetAttrDoubleArgGeneric(xc, FST_MT_SOURCESTEM, sidx, line);
@@ -5640,7 +5659,7 @@ acceptable.  Do NOT use for cryptographic purposes.
 --------------------------------------------------------------------
 */
 
-static uint32_t j_hash(uint8_t *k, uint32_t length, uint32_t initval)
+static uint32_t j_hash(const uint8_t *k, uint32_t length, uint32_t initval)
 {
    uint32_t a,b,c,len;
 
@@ -5699,7 +5718,7 @@ unsigned char mem[1];
 };
 
 
-void **JenkinsIns(void *base_i, unsigned char *mem, uint32_t length, uint32_t hashmask)
+void **JenkinsIns(void *base_i, const unsigned char *mem, uint32_t length, uint32_t hashmask)
 {
 struct collchain_t ***base = (struct collchain_t ***)base_i;
 uint32_t hf, h;
