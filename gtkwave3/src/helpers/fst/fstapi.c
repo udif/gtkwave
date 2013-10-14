@@ -1937,7 +1937,7 @@ void fstWriterSetSourceStem(void *ctx, char *path, unsigned int line)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 
-if(xc && path)
+if(xc && path && path[0])
 	{
 	uint64_t sidx = 0;
 	int slen = strlen(path);
