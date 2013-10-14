@@ -48,8 +48,10 @@
 #define alloca _alloca
 #endif
 
-/* this define is to force writer backward compatibility with old readers */
-#ifndef FST_DYNAMIC_ALIAS_DISABLE
+#ifndef PATH_MAX
+#define PATH_MAX (4096)
+#endif
+
 /* note that Judy versus Jenkins requires more experimentation: they are  */
 /* functionally equivalent though it appears Jenkins is slightly faster.  */
 /* in addition, Jenkins is not bound by the LGPL.                         */
@@ -65,7 +67,6 @@ typedef void **PPvoid_t;
 #define JudyHSFreeArray(a,b) JenkinsFree((a),(hashmask))
 void JenkinsFree(void *base_i, uint32_t hashmask);
 void **JenkinsIns(void *base_i, const unsigned char *mem, uint32_t length, uint32_t hashmask);
-#endif
 #endif
 
 #undef  FST_DEBUG
@@ -150,6 +151,36 @@ return(fwrite(buf, siz, cnt, fp));
 static int fstFtruncate(int fd, off_t length)
 {
 return(ftruncate(fd, length));
+}
+
+
+/*
+ * realpath compatibility
+ */
+static char *fstRealpath(const char *path, char *resolved_path) 
+{
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH
+
+#if (defined(__MACH__) && defined(__APPLE__))
+if(!resolved_path)
+        {
+        resolved_path = malloc(PATH_MAX+1); /* fixes bug on Leopard when resolved_path == NULL */
+        }
+#endif
+                         
+return(realpath(path, resolved_path));
+
+#else
+#ifdef __MINGW32__
+if(!resolved_path)
+        {
+        resolved_path = malloc(PATH_MAX+1);
+        }
+return(_fullpath(resolved_path, path, PATH_MAX));
+#else
+return(NULL);
+#endif
+#endif
 }
 
 
@@ -1948,7 +1979,7 @@ if(xc && comm)
 }
 
 
-void fstWriterSetSourceStem(void *ctx, const char *path, unsigned int line)
+void fstWriterSetSourceStem(void *ctx, const char *path, unsigned int line, unsigned int use_realpath)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 
@@ -1971,13 +2002,30 @@ if(xc && path && path[0])
                 }
                 else
                	{
+		char *rp = NULL;
+
 		sidx = ++xc->path_array_count;
                	*pv = (void *)(long)(xc->path_array_count);
-		fstWriterSetAttrGeneric(xc, 
+
+		if(use_realpath)
+			{
+			rp = fstRealpath(
+#ifndef _WAVE_HAVE_JUDY
+				(const char *)
+#endif
+				path2, NULL);
+			}
+		
+		fstWriterSetAttrGeneric(xc, rp ? rp : 
 #ifndef _WAVE_HAVE_JUDY
 			(const char *)
 #endif
 			path2, FST_MT_PATHNAME, sidx);
+
+		if(rp)
+			{
+			free(rp);
+			}
 		}
 
 	fstWriterSetAttrDoubleArgGeneric(xc, FST_MT_SOURCESTEM, sidx, line);
