@@ -36,10 +36,8 @@ else
     cd -P -- "$(dirname -- "$0")"
     export NNAM="$(pwd -P)/$(basename -- "$0")"
     name="$NNAM"
-    tmp="`pwd`/$0"
-    tmp=`dirname "$tmp"`
-    tmp=`dirname "$tmp"`
-    bundle=`dirname "$tmp"`/../..
+    tmp="$NNAM"
+    bundle=`dirname "$tmp"`/../../..
     cd $OWD
 fi
 
