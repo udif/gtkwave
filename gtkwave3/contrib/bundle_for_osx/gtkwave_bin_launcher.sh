@@ -32,7 +32,6 @@ if [[ $(echo $0 | awk '/^\//') == $0 ]]; then
     export NNAM=$(dirname $0)
     name="$NNAM"
     bundle="$NNAM/../../.."
-echo X: $NNAM
 else
     cd -P -- "$(dirname -- "$0")"
     export NNAM="$(pwd -P)/$(basename -- "$0")"
@@ -42,7 +41,6 @@ else
     tmp=`dirname "$tmp"`
     bundle=`dirname "$tmp"`/../..
     cd $OWD
-echo Y: $NNAM
 fi
 
 
