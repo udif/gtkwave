@@ -4268,6 +4268,7 @@ entrybox("Regexp Highlight",300,GLOBALS->regexp_string_menu_c_1,NULL,128,GTK_SIG
 /**/
 
 #if GTK_CHECK_VERSION(2,14,0)
+#ifndef MAC_INTEGRATION
 
 void
 menu_write_screengrab_cleanup(GtkWidget *widget, gpointer data)
@@ -4340,6 +4341,7 @@ errno = 0;
 fileselbox("Grab To File",&GLOBALS->filesel_imagegrab,GTK_SIGNAL_FUNC(menu_write_screengrab_cleanup), GTK_SIGNAL_FUNC(NULL), "*.png", 1);
 }
 
+#endif
 #endif
 
 /**/ 
@@ -6186,7 +6188,9 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/File/Print To File", "<Control>P", menu_print, WV_MENU_FPTF, "<Item>"),
 
 #if GTK_CHECK_VERSION(2,14,0)
+#ifndef MAC_INTEGRATION
     WAVE_GTKIFE("/File/Grab To File", NULL, menu_write_screengrab_as, WV_MENU_SGRAB, "<Item>"),
+#endif
 #endif
 
     WAVE_GTKIFE("/File/<separator>", NULL, NULL, WV_MENU_SEP1, "<Separator>"),
