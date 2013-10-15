@@ -1349,7 +1349,7 @@
 		gtkwave can process these types (e.g., signal + std_ulogic), 
 		but there are currently no simulators supporting them.  These
 		are written by using fstWriterCreateVar2().
-3.3.50	13oct13	Limit number of rows that can be displayed in mouseover in
+3.3.50	15oct13	Limit number of rows that can be displayed in mouseover in
 		order to prevent potential X11 crashes on extremely wide
 		signals.
 		Added "/File/Grab To File" PNG image grab menu option.
@@ -1367,4 +1367,6 @@
 		Added fstWriterSetSourceStem() so writers can embed source
 		stems in the FST file.  Specify before the appropriate
 		hierarchy or variable declaration.
-
+		Added gtkwave_bin_launcher.sh script to set up environment
+		variables on OSX for running the bin/ directory files from
+		a terminal rather than as an app invocation.
