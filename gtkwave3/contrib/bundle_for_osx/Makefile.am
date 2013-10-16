@@ -3,6 +3,7 @@
 
 EXTRA_DIST= \
 	gtk_diff_against_modulesets.patch \
+	gtk_diff_against_modulesets_2.patch \
 	gtkrc \
 	gtkwave.bundle \
 	gtkwave_files.icns \

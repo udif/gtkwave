@@ -274,5 +274,15 @@
     ${project}/gtk_diff_against_modulesets.patch
   </data>
 
+  <!-- Copy in the patches so users can recreate gtk from source.
+       This might be obsolete in future versions of gtk. 
+       No bug reported yet: this fixes yellow bars from gdk_pixbuf_get_from_drawable()
+       which invokes _gdk_quartz_image_copy_to_image() that attempts to use 24-bit
+       RGB pixels instead of 32-bit RGBA ones.
+    -->
+  <data dest="${bundle}/Contents/Resources/share/patches/gtk_diff_against_modulesets_2.patch">
+    ${project}/gtk_diff_against_modulesets_2.patch
+  </data>
+
 
 </app-bundle>
