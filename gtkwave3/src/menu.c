@@ -5231,7 +5231,7 @@ if(((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM)) && t_forced)
 					{
 	                                sprintf(buf, "+%d", GLOBALS->stem_struct_base[idx].stem_line_number);
 #ifdef MAC_INTEGRATION
-	                                execlp("open", "open", "-W", "-a", "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], "--args", buf, NULL);
+	                                execlp("open", "open", "-a", "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], "--args", buf, NULL);
 #else
 	                                execlp(GEDIT_PATH, "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], buf, NULL);
 #endif
@@ -5242,7 +5242,7 @@ if(((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM)) && t_forced)
 					{
 	                                sprintf(buf, "+%d", GLOBALS->istem_struct_base[idx].stem_line_number);
 #ifdef MAC_INTEGRATION
-	                                execlp("open", "open", "-W", "-a", "gedit", GLOBALS->istem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx], "--args", buf, NULL);
+	                                execlp("open", "open", "-a", "gedit", GLOBALS->istem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx], "--args", buf, NULL);
 #else
 	                                execlp(GEDIT_PATH, "gedit", GLOBALS->stem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx], buf, NULL);
 #endif
