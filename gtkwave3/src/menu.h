@@ -203,6 +203,11 @@ WV_MENU_SSR,
 WV_MENU_SSH,
 WV_MENU_SST,
 WV_MENU_SEP7,
+#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
+#if !defined __MINGW32__ && !defined _MSC_VER
+WV_MENU_OPENHS,
+#endif
+#endif
 WV_MENU_OPENH,
 WV_MENU_SEP7D,
 WV_MENU_ACOL,

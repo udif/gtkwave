@@ -322,6 +322,14 @@ NULL, /* subvar_jrb */
 NULL, /* subvar_pnt */
 0, /* fst_filetype */
 0, /* subvar_jrb_count_locked */
+0, /* stem_file_idx */
+0, /* stem_line_number */
+NULL, /* stem_path_string_table */
+NULL, /* stem_struct_base */
+0, /* stem_path_string_table_siz */
+0, /* stem_path_string_table_alloc */
+0, /* stem_struct_base_siz */
+0, /* stem_struct_base_siz_alloc */
 
 
 /*

@@ -14,7 +14,7 @@ void treebox(char *title, GtkSignalFunc func, GtkWidget *old_window);
 GtkWidget* treeboxframe(char *title, GtkSignalFunc func);
 void mkmenu_treesearch_cleanup(GtkWidget *widget, gpointer data);
 void dump_open_tree_nodes(FILE *wave, xl_Tree *t);
-int force_open_tree_node(char *name, int keep_path_nodes_open);
+int force_open_tree_node(char *name, int keep_path_nodes_open, struct tree **t_pnt);
 void select_tree_node(char *name);   
 void dnd_setup(GtkWidget *src, GtkWidget *widget, int enable_receive); /* dnd from gtk2 tree to signalwindow */
 void treeview_select_all_callback(void); /* gtk2 */

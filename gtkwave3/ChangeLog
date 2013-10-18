@@ -1375,3 +1375,6 @@
 		toolkit for Quartz is broken.
 		Updated examples/gtkwaverc accel options to reflect the
 		current state of the gtkwave main window main menu.
+		Added "Open Hierarchy Source" option that invokes gedit
+		on sourcecode when source stems are present in the
+		dumpfile (currently FST only).

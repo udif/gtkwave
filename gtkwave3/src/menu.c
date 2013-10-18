@@ -5085,23 +5085,41 @@ colorformat(WAVE_COLOR_CYCLE);
 }
 /**/
 
-void
-menu_open_hierarchy(gpointer null_data, guint callback_action, GtkWidget *widget)
+static void
+menu_open_hierarchy_2(gpointer null_data, guint callback_action, GtkWidget *widget, int typ)
 {
 Trptr t;
 int fix=0;
+struct tree *t_forced = NULL;
 
 if(GLOBALS->helpbox_is_active)
         {
-        help_text_bold("\n\nOpen Hierarchy");
-        help_text(
+#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
+	if(typ)
+		{
+	        help_text_bold("\n\nOpen Hierarchy Source");
+	        help_text(
 #if WAVE_USE_GTK2   
-		" opens and selects the appropriate level of hierarchy in the SST"
-		" for the first selected signal."
+			" opens and selects the appropriate level of hierarchy in the SST"
+			" for the first selected signal and also invokes gedit on the appropriate source unit."
 #else
-		" is not available with this build.  Please build against GTK 2."
+			" is not available with this build.  Please build against GTK 2."
 #endif
-        );
+			);
+		}
+		else
+#endif
+		{
+	        help_text_bold("\n\nOpen Hierarchy");
+	        help_text(
+#if WAVE_USE_GTK2   
+			" opens and selects the appropriate level of hierarchy in the SST"
+			" for the first selected signal."
+#else
+			" is not available with this build.  Please build against GTK 2."
+#endif
+		        );
+		}
         return;
         }
 
@@ -5144,7 +5162,7 @@ if((t=GLOBALS->traces.first))
 					lasthier++; /* zero out character after hierarchy */
 					*lasthier = 0;
 					tname_copy = strdup_2(tname); /* force_open_tree_node() is destructive */
-					if(!force_open_tree_node(tname_copy, 1))
+					if(force_open_tree_node(tname_copy, 1, &t_forced) >= 0)
 						{
 						if(GLOBALS->selected_hierarchy_name)
 							{
@@ -5176,9 +5194,65 @@ if((t=GLOBALS->traces.first))
 
 	}
 
+#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
+#if !defined __MINGW32__ && !defined _MSC_VER
+if(typ && t_forced)
+	{
+	uint32_t idx = t_forced->t_stem;
+
+	if(idx)
+		{
+                pid_t pid;
+
+                pid=fork();
+
+                if(((int)pid) < 0)
+                        {
+                        /* can't do anything about this */
+                        }
+                        else
+                        {
+                        if(pid) /* parent==original server_pid */
+                                {
+                                }
+                                else
+                                {
+                                char buf[64];
+
+				idx--;
+                                sprintf(buf, "+%d", GLOBALS->stem_struct_base[idx].stem_line_number);
+#ifdef MAC_INTEGRATION
+                                execlp("open", "open", "-W", "-a", "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], "--args", buf, NULL);
+#else
+                                execlp(GEDIT_PATH, "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], buf, NULL);
+#endif
+                                fprintf(stderr, "GTKWAVE | Could not find gedit executable, exiting!\n");
+                                exit(255); /* control never gets here if successful */
+                                }
+                        }
+		}
+	}
+#endif
+#endif
+
 #endif
 }
 
+
+void menu_open_hierarchy(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+menu_open_hierarchy_2(null_data, callback_action, widget, 0);
+}
+
+
+#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
+#if !defined __MINGW32__ && !defined _MSC_VER
+void menu_open_hierarchy_source(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+menu_open_hierarchy_2(null_data, callback_action, widget, 1); /* 1 for source */
+}
+#endif
+#endif
 
 /**/
 
@@ -6325,6 +6399,11 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Search/Signal Search Hierarchy", "<Alt>T", menu_hiersearch, WV_MENU_SSH, "<Item>"),
     WAVE_GTKIFE("/Search/Signal Search Tree", "<Shift><Alt>T", menu_treesearch, WV_MENU_SST, "<Item>"),
     WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7, "<Separator>"),
+#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
+#if !defined __MINGW32__ && !defined _MSC_VER
+    WAVE_GTKIFE("/Search/Open Hierarchy Source", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+#endif
+#endif
     WAVE_GTKIFE("/Search/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>"),
     WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7D, "<Separator>"),
     WAVE_GTKIFE("/Search/Autocoalesce", NULL, menu_autocoalesce, WV_MENU_ACOL, "<ToggleItem>"),
@@ -6952,6 +7031,11 @@ static gtkwave_mlist_t popmenu_items[] =
     WAVE_GTKIFE("/Copy", NULL, menu_copy_traces, WV_MENU_ECY, "<Item>"),
     WAVE_GTKIFE("/Paste", NULL, menu_paste_traces, WV_MENU_EP, "<Item>"),
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP4, "<Separator>"),
+#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
+#if !defined __MINGW32__ && !defined _MSC_VER
+    WAVE_GTKIFE("/Open Hierarchy Source", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+#endif
+#endif
     WAVE_GTKIFE("/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>")
 };
 

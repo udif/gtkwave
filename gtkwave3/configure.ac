@@ -416,6 +416,18 @@ AC_PROG_RANLIB
 AM_PROG_CC_C_O
 
 #
+# for "Open Hierarchy Source"
+#
+AC_PATH_PROG(GEDITTEST, [gedit], [notfound])
+if test "$GEDITTEST" = "notfound" ; then
+	GEDIT_CFLAGS=	
+else
+	GEDIT_CFLAGS="-DGEDIT_PATH=\\\"$GEDITTEST\\\""
+fi
+
+AC_SUBST(GEDIT_CFLAGS)
+
+#
 # only needed if user wishes to process various files with an external reader
 #
 AC_PATH_PROG(EXTDEBUG, [fsdbdebug], [notfound])
@@ -941,6 +953,8 @@ AC_MSG_NOTICE([
 
   GTK_UNIX_PRINT_CFLAGS : $GTK_UNIX_PRINT_CFLAGS
   GTK_UNIX_PRINT_LIBS   : $GTK_UNIX_PRINT_LIBS
+
+  GEDIT_CFLAGS          : $GEDIT_CFLAGS
 --------------------------------------------
 ])
 

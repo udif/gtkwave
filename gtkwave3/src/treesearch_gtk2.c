@@ -296,7 +296,7 @@ if(node)
 }
 
 
-int force_open_tree_node(char *name, int keep_path_nodes_open) {
+int force_open_tree_node(char *name, int keep_path_nodes_open, struct tree **t_pnt) {
   GtkCTree *ctree = GLOBALS->ctree_main;
   int rv = 1 ;			/* can possible open */
   if(ctree) {
@@ -315,6 +315,7 @@ int force_open_tree_node(char *name, int keep_path_nodes_open) {
     } 
     for(;;) {
       struct tree *t = gctr->row.data;
+      if(t_pnt) { *t_pnt = t; }
       while(*zap) {
 	if(*zap != GLOBALS->hier_delimeter) {
 	  zap++;

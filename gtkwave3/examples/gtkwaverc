@@ -217,6 +217,7 @@ accel "/Search/Signal Search Regexp" <Alt>S
 accel "/Search/Signal Search Hierarchy" <Alt>T
 accel "/Search/Signal Search Tree" <Shift><Alt>T
 accel "/Search/<separator>" (null)
+accel "/Search/Open Hierarchy Source" (null)
 accel "/Search/Open Hierarchy" (null)
 accel "/Search/<separator>" (null)
 accel "/Search/Autocoalesce" (null)

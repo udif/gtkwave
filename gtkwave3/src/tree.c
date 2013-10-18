@@ -140,7 +140,7 @@ return(1);
 /*
  * decorated module add
  */
-void allocate_and_decorate_module_tree_node(unsigned char ttype, const char *scopename, const char *compname, uint32_t scopename_len, uint32_t compname_len)
+void allocate_and_decorate_module_tree_node(unsigned char ttype, const char *scopename, const char *compname, uint32_t scopename_len, uint32_t compname_len, uint32_t t_stem)
 {
 struct tree *t;
 int mtyp = WAVE_T_WHICH_UNDEFINED_COMPNAME;
@@ -233,6 +233,7 @@ t_allocated:
 		strcpy(t->name, scopename);
 		t->kind = ttype;
 		t->t_which = mtyp;
+		t->t_stem = t_stem;
 
 		if(GLOBALS->mod_tree_parent->child)
 			{
@@ -258,6 +259,7 @@ t_allocated:
 		strcpy(t->name, scopename);
 		t->kind = ttype;
 		t->t_which = mtyp;
+		t->t_stem = t_stem;
 
 		t->next = GLOBALS->treeroot;
 		GLOBALS->mod_tree_parent = GLOBALS->treeroot = t;
@@ -269,6 +271,7 @@ t_allocated:
 	strcpy(t->name, scopename);
 	t->kind = ttype;
 	t->t_which = mtyp;
+	t->t_stem = t_stem;
 
 	GLOBALS->mod_tree_parent = GLOBALS->treeroot = t;
 	}

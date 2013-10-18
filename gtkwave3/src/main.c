@@ -2247,7 +2247,7 @@ if(GLOBALS->treeopen_chain_head)
 		{
 		if(GLOBALS->ctree_main)
 			{
-			force_open_tree_node(t->str, 0);
+			force_open_tree_node(t->str, 0, NULL);
 			}
 
 		t2 = t->next;

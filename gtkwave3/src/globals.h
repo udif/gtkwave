@@ -321,6 +321,14 @@ unsigned int subvar_jrb_count;
 char **subvar_pnt;
 unsigned char fst_filetype;
 unsigned subvar_jrb_count_locked : 1;
+uint32_t stem_file_idx;
+uint32_t stem_line_number;
+char **stem_path_string_table;
+struct stem_struct_t *stem_struct_base;
+uint32_t stem_path_string_table_siz;
+uint32_t stem_path_string_table_alloc;  
+uint32_t stem_struct_base_siz;
+uint32_t stem_struct_base_siz_alloc;
 
 
 /*

@@ -1140,7 +1140,7 @@ for(;;)
 				strcpy(s->str, GLOBALS->yytext_vcd_partial_c_2);
 				s->mod_tree_parent = GLOBALS->mod_tree_parent;
 
-				allocate_and_decorate_module_tree_node(ttype, GLOBALS->yytext_vcd_partial_c_2, NULL, GLOBALS->yylen_vcd_partial_c_2, 0);
+				allocate_and_decorate_module_tree_node(ttype, GLOBALS->yytext_vcd_partial_c_2, NULL, GLOBALS->yylen_vcd_partial_c_2, 0, 0);
 
 				if(GLOBALS->slistcurr)
 					{

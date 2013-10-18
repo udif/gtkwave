@@ -193,7 +193,7 @@ while((h = fstReaderIterateHier(xc)))
 				default:			ttype = TREE_UNKNOWN; break;
 				}
 
-			allocate_and_decorate_module_tree_node(ttype, h->u.scope.name, h->u.scope.component,  h->u.scope.name_length, h->u.scope.component_length);
+			allocate_and_decorate_module_tree_node(ttype, h->u.scope.name, h->u.scope.component,  h->u.scope.name_length, h->u.scope.component_length, GLOBALS->stem_struct_base_siz);
                         break;
                 case FST_HT_UPSCOPE:
 			GLOBALS->mod_tree_parent = fstReaderGetCurrentScopeUserInfo(xc);
@@ -359,6 +359,51 @@ while((h = fstReaderIterateHier(xc)))
 					sdt = h->u.attr.arg & (FST_SDT_ABS_MAX-1);
 					GLOBALS->supplemental_datatypes_encountered = 1;
 					GLOBALS->supplemental_vartypes_encountered |= ((svt != FST_SVT_NONE) && (svt != FST_SVT_VHDL_SIGNAL));
+					}
+				else
+				if(h->u.attr.subtype == FST_MT_SOURCESTEM)
+					{
+					uint32_t stem_path_number = (uint32_t)h->u.attr.arg_from_name;
+					uint32_t stem_line_number = (uint32_t)h->u.attr.arg;
+
+					if(!GLOBALS->stem_struct_base)
+						{
+						GLOBALS->stem_struct_base_siz_alloc = 1;
+						GLOBALS->stem_struct_base_siz = 0;
+						GLOBALS->stem_struct_base = malloc_2(GLOBALS->stem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
+						}
+
+					if(GLOBALS->stem_struct_base_siz == GLOBALS->stem_struct_base_siz_alloc)
+						{
+						GLOBALS->stem_struct_base_siz_alloc *= 2;
+						GLOBALS->stem_struct_base = realloc_2(GLOBALS->stem_struct_base, GLOBALS->stem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
+						}
+
+					GLOBALS->stem_struct_base[GLOBALS->stem_struct_base_siz].stem_idx = stem_path_number - 1;
+					GLOBALS->stem_struct_base[GLOBALS->stem_struct_base_siz].stem_line_number = stem_line_number;
+					GLOBALS->stem_struct_base_siz++;
+					}
+				else
+				if(h->u.attr.subtype == FST_MT_PATHNAME)
+					{
+					if(h->u.attr.name)
+						{
+						if(!GLOBALS->stem_path_string_table)
+							{
+							GLOBALS->stem_path_string_table_alloc = 1;
+							GLOBALS->stem_path_string_table_siz = 0;
+							GLOBALS->stem_path_string_table = malloc_2(GLOBALS->stem_path_string_table_alloc * sizeof(char *));
+							}
+
+						if(GLOBALS->stem_path_string_table_siz == GLOBALS->stem_path_string_table_alloc)
+							{
+							GLOBALS->stem_path_string_table_alloc *= 2;
+							GLOBALS->stem_path_string_table = realloc_2(GLOBALS->stem_path_string_table, GLOBALS->stem_path_string_table_alloc * sizeof(char *));
+							}
+						
+						GLOBALS->stem_path_string_table[GLOBALS->stem_path_string_table_siz] = strdup_2(h->u.attr.name);
+						GLOBALS->stem_path_string_table_siz++;
+						}
 					}
 				}
 			break;
@@ -932,6 +977,24 @@ if(GLOBALS->subvar_jrb_count) /* generate lookup table for typenames explicitly 
 	jrb_traverse(subvar_jrb_node, GLOBALS->subvar_jrb)
 		{
 		GLOBALS->subvar_pnt[subvar_jrb_node->val.ui] = subvar_jrb_node->key.s;
+		}
+	}
+
+if(GLOBALS->stem_struct_base)
+	{
+	if(GLOBALS->stem_struct_base_siz != GLOBALS->stem_struct_base_siz_alloc)
+		{
+		GLOBALS->stem_struct_base_siz_alloc = GLOBALS->stem_struct_base_siz;
+		GLOBALS->stem_struct_base = realloc_2(GLOBALS->stem_struct_base, GLOBALS->stem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
+		}
+	}
+
+if(GLOBALS->stem_path_string_table)
+	{
+	if(GLOBALS->stem_path_string_table_siz != GLOBALS->stem_path_string_table_alloc)
+		{
+		GLOBALS->stem_path_string_table_alloc = GLOBALS->stem_path_string_table_siz;
+		GLOBALS->stem_path_string_table = realloc_2(GLOBALS->stem_path_string_table, GLOBALS->stem_path_string_table_alloc * sizeof(char *));
 		}
 	}
 
