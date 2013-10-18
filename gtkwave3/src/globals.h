@@ -620,6 +620,7 @@ int lock_menu_c_1; /* from menu.c 268 */
 int lock_menu_c_2; /* from menu.c 269 */
 char *buf_menu_c_1; /* from menu.c 270 */
 GtkWidget *signal_popup_menu; /* from menu.c */
+GtkWidget *sst_signal_popup_menu; /* from menu.c */
 
 
 /*
@@ -1041,6 +1042,7 @@ GtkWidget *entry_a_treesearch_gtk2_c_2; /* from treesearch_gtk2.c 485 */
 char *entrybox_text_local_treesearch_gtk2_c_3; /* from treesearch_gtk2.c 486 */
 void (*cleanup_e_treesearch_gtk2_c_3)(void); /* from treesearch_gtk2.c 487 */
 struct tree *sig_root_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 488 */
+struct tree *sst_sig_root_treesearch_gtk2_c_1; /* from treesearch_gtk2.c */
 char *filter_str_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 489 */
 int filter_typ_treesearch_gtk2_c_1;
 int filter_matlen_treesearch_gtk2_c_1;

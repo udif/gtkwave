@@ -624,6 +624,7 @@ NULL, /* filesel_tim_writesave */
 0, /* lock_menu_c_2 252 */
 NULL, /* buf_menu_c_1 253 128 */
 NULL, /* signal_popup_menu */
+NULL, /* sst_signal_popup_menu */
 
 /*
  * mouseover.c
@@ -1058,6 +1059,7 @@ NULL, /* entry_a_treesearch_gtk2_c_2 455 */
 NULL, /* entrybox_text_local_treesearch_gtk2_c_3 456 */
 NULL, /* cleanup_e_treesearch_gtk2_c_3 457 */
 NULL, /* sig_root_treesearch_gtk2_c_1 458 */
+NULL, /* sst_sig_root_treesearch_gtk2_c_1 */
 NULL, /* filter_str_treesearch_gtk2_c_1 459 */
 ND_DIR_UNSPECIFIED, /* filter_typ_treesearch_gtk2_c_1 */
 0, /* filter_matlen_treesearch_gtk2_c_1 */

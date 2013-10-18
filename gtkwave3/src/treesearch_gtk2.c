@@ -545,6 +545,7 @@ if(ctree)
 				/* printf("[treeselectnode] '%s' ok\n", name); */
 				gtk_ctree_select(ctree, node);
 
+				GLOBALS->sst_sig_root_treesearch_gtk2_c_1 = t;
 				GLOBALS->sig_root_treesearch_gtk2_c_1 = t->child;
 				fill_sig_store ();
 
@@ -620,6 +621,7 @@ if(node)
 
 t=(struct tree *)gtk_clist_get_row_data(GTK_CLIST(GLOBALS->ctree_main), row);
 DEBUG(printf("TS: %08x %s\n",t,t->name));
+ GLOBALS->sst_sig_root_treesearch_gtk2_c_1 = t;
  GLOBALS->sig_root_treesearch_gtk2_c_1 = t->child;
  fill_sig_store ();
  gtkwavetcl_setvar(WAVE_TCLCB_TREE_SELECT, GLOBALS->selected_hierarchy_name, WAVE_TCLCB_TREE_SELECT_FLAGS);
@@ -643,6 +645,7 @@ if(t)
 	/* unused */
 	}
 DEBUG(printf("TU: %08x %s\n",t,t->name));
+ GLOBALS->sst_sig_root_treesearch_gtk2_c_1 = NULL;
  GLOBALS->sig_root_treesearch_gtk2_c_1 = GLOBALS->treeroot;
  fill_sig_store ();
 }
@@ -1312,6 +1315,17 @@ if(event->type == GDK_2BUTTON_PRESS)
 return(FALSE);
 }
 
+static gint hier_top_button_press_event_std(GtkWidget *widget, GdkEventButton *event)
+{
+if((event->button == 3) && (event->type == GDK_BUTTON_PRESS))
+        {
+        do_sst_popup_menu (widget, event);
+	return(TRUE);
+        }
+
+return(FALSE);
+}
+
 /**********************************************************************/
 
 /*
@@ -1373,6 +1387,8 @@ do_tooltips:
     GLOBALS->treesearch_gtk2_window_vbox = vbox = gtk_vbox_new (FALSE, 1);
     gtk_widget_show (vbox);
 
+    gtkwave_signal_connect(GTK_OBJECT(vbox), "button_press_event",GTK_SIGNAL_FUNC(hier_top_button_press_event_std), NULL); 
+
     vpan = gtk_vpaned_new ();
     gtk_widget_show (vpan);
     gtk_box_pack_start (GTK_BOX (vbox), vpan, TRUE, TRUE, 1);
@@ -1416,7 +1432,8 @@ do_tooltips:
 
 
     /* Signal names.  */
-    GLOBALS->sig_store_treesearch_gtk2_c_1 = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING);
+    GLOBALS->sig_store_treesearch_gtk2_c_1 = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    GLOBALS->sst_sig_root_treesearch_gtk2_c_1 = NULL;
     GLOBALS->sig_root_treesearch_gtk2_c_1 = GLOBALS->treeroot;
     fill_sig_store ();
 
@@ -1649,6 +1666,8 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     vbox = gtk_vbox_new (FALSE, 1);
     gtk_widget_show (vbox);
 
+    gtkwave_signal_connect(GTK_OBJECT(vbox), "button_press_event",GTK_SIGNAL_FUNC(hier_top_button_press_event_std), NULL); 
+
     vpan = gtk_vpaned_new (); /* GLOBALS->sst_vpaned is to be used to clone position over during reload */
     GLOBALS->sst_vpaned = (GtkPaned *)vpan;
     if(GLOBALS->vpanedwindow_size_cache)
@@ -1696,6 +1715,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 
     /* Signal names.  */
     GLOBALS->sig_store_treesearch_gtk2_c_1 = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+    GLOBALS->sst_sig_root_treesearch_gtk2_c_1 = NULL;
     GLOBALS->sig_root_treesearch_gtk2_c_1 = GLOBALS->treeroot;
     fill_sig_store ();
 

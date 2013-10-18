@@ -30,6 +30,7 @@
 #include "main.h"
 
 void do_popup_menu (GtkWidget *my_widget, GdkEventButton *event);
+void do_sst_popup_menu (GtkWidget *my_widget, GdkEventButton *event);
 void get_main_menu (GtkWidget *, GtkWidget **menubar);
 void menu_set_sensitive(void);
 int file_quit_cmd_callback (GtkWidget *widget, gpointer data);
@@ -203,11 +204,9 @@ WV_MENU_SSR,
 WV_MENU_SSH,
 WV_MENU_SST,
 WV_MENU_SEP7,
-#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
 #if !defined __MINGW32__ && !defined _MSC_VER
 WV_MENU_OPENHS,
 WV_MENU_OPENIHS,
-#endif
 #endif
 WV_MENU_OPENH,
 WV_MENU_SEP7D,

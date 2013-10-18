@@ -5085,6 +5085,93 @@ colorformat(WAVE_COLOR_CYCLE);
 }
 /**/
 
+static void open_index_in_forked_editor(uint32_t idx, int typ)
+{
+if(idx)
+	{
+        char buf[64];
+	char *edname = getenv("EDITOR");
+	char *arg0 = NULL, *arg1 = NULL;
+	char *fname = NULL;
+
+	if(edname)
+		{
+		arg0 = arg1 = edname;
+		}
+#ifdef GEDIT_PATH
+		else
+		{
+		arg0 = GEDIT_PATH;
+		arg1 = "gedit";
+		}
+#endif
+
+	idx--;
+	if(typ == FST_MT_SOURCESTEM)
+		{
+                sprintf(buf, "+%d", GLOBALS->stem_struct_base[idx].stem_line_number);
+                fname = GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx];
+		}
+		else
+		{
+                sprintf(buf, "+%d", GLOBALS->istem_struct_base[idx].stem_line_number);
+                fname = GLOBALS->stem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx];
+		}
+
+	if(arg1)
+		{
+		if(!strstr(arg1, "vi") && !strstr(arg1, "emacs") && !strstr(arg1, "gedit"))
+			{
+			buf[0] = 0; /* add to list later if more editors support +linenumber notation */
+			}
+		}
+		else
+		{
+		buf[0] = 0;
+		}
+
+#ifdef __MINGW32__        
+	{
+        fprintf(stderr, "GTKWAVE | Not supported in Windows!\n");
+	}
+#else
+	{
+        pid_t pid=fork();
+
+        if(((int)pid) < 0)
+                {
+                /* can't do anything about this */
+                }
+                else
+                {
+                if(pid) /* parent==original server_pid */
+                        {
+                        }
+                        else
+                        {
+			if(arg0 && arg1 && fname)
+				{
+				if(buf[0])
+					{
+		                        execlp(arg0, arg1, buf, fname, NULL);
+					}
+					else
+					{
+		                        execlp(arg0, arg1, fname, NULL);
+					}
+				}
+
+                        fprintf(stderr, "GTKWAVE | Could not find editor executable!\n");
+                        exit(255); /* control never gets here if successful */
+                        }
+		
+                }
+	}
+#endif
+	}
+}
+
+
 static void
 menu_open_hierarchy_2(gpointer null_data, guint callback_action, GtkWidget *widget, int typ)
 {
@@ -5094,7 +5181,6 @@ struct tree *t_forced = NULL;
 
 if(GLOBALS->helpbox_is_active)
         {
-#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
 	if((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM))
 		{
 		if(typ == FST_MT_SOURCESTEM)
@@ -5108,14 +5194,13 @@ if(GLOBALS->helpbox_is_active)
 	        help_text(
 #if WAVE_USE_GTK2   
 			" opens and selects the appropriate level of hierarchy in the SST"
-			" for the first selected signal and also invokes gedit on the appropriate source unit."
+			" for the first selected signal and also invokes $EDITOR or gedit (if found) on the appropriate source unit."
 #else
 			" is not available with this build.  Please build against GTK 2."
 #endif
 			);
 		}
 		else
-#endif
 		{
 	        help_text_bold("\n\nOpen Hierarchy");
 	        help_text(
@@ -5201,60 +5286,84 @@ if((t=GLOBALS->traces.first))
 
 	}
 
-#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
-#if !defined __MINGW32__ && !defined _MSC_VER
 if(((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM)) && t_forced)
 	{
 	uint32_t idx = (typ == FST_MT_SOURCESTEM) ? t_forced->t_stem : t_forced->t_istem;
 
-	if(idx)
+	if(!GLOBALS->stem_path_string_table)
 		{
-                pid_t pid;
-
-                pid=fork();
-
-                if(((int)pid) < 0)
-                        {
-                        /* can't do anything about this */
-                        }
-                        else
-                        {
-                        if(pid) /* parent==original server_pid */
-                                {
-                                }
-                                else
-                                {
-                                char buf[64];
-
-				idx--;
-				if(typ == FST_MT_SOURCESTEM)
-					{
-	                                sprintf(buf, "+%d", GLOBALS->stem_struct_base[idx].stem_line_number);
-#ifdef MAC_INTEGRATION
-	                                execlp("open", "open", "-a", "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], "--args", buf, NULL);
-#else
-	                                execlp(GEDIT_PATH, "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], buf, NULL);
-#endif
-	                                fprintf(stderr, "GTKWAVE | Could not find gedit executable, exiting!\n");
-	                                exit(255); /* control never gets here if successful */
-					}
-					else
-					{
-	                                sprintf(buf, "+%d", GLOBALS->istem_struct_base[idx].stem_line_number);
-#ifdef MAC_INTEGRATION
-	                                execlp("open", "open", "-a", "gedit", GLOBALS->istem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx], "--args", buf, NULL);
-#else
-	                                execlp(GEDIT_PATH, "gedit", GLOBALS->stem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx], buf, NULL);
-#endif
-	                                fprintf(stderr, "GTKWAVE | Could not find gedit executable, exiting!\n");
-	                                exit(255); /* control never gets here if successful */
-					}
-                                }
-                        }
+                fprintf(stderr, "GTKWAVE | Could not find stems information in this file!\n");
+		}
+		else
+		{
+		open_index_in_forked_editor(idx, typ);
 		}
 	}
+
 #endif
+}
+
+
+static void
+menu_open_hierarchy_2a(gpointer null_data, guint callback_action, GtkWidget *widget, int typ)
+{
+Trptr t;
+int fix=0;
+if(GLOBALS->helpbox_is_active)
+        {
+	if((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM))
+		{
+		if(typ == FST_MT_SOURCESTEM)
+			{
+		        help_text_bold("\n\nOpen Hierarchy Source Definition");
+			}
+			else
+			{
+		        help_text_bold("\n\nOpen Hierarchy Source Instantiation");
+			}
+	        help_text(
+#if WAVE_USE_GTK2   
+			" invokes $EDITOR or gedit (if found) on the appropriate source unit."
+#else
+			" is not available with this build.  Please build against GTK 2."
 #endif
+			);
+		}
+		else
+		{
+	        help_text_bold("\n\nOpen Hierarchy");
+	        help_text(
+#if WAVE_USE_GTK2   
+			" opens and selects the appropriate level of hierarchy in the SST"
+			" for the first selected signal."
+#else
+			" is not available with this build.  Please build against GTK 2."
+#endif
+		        );
+		}
+        return;
+        }
+
+#if WAVE_USE_GTK2   
+
+if((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM))
+	{
+	struct tree *t_forced = GLOBALS->sst_sig_root_treesearch_gtk2_c_1;
+
+	if(t_forced)
+		{
+		uint32_t idx = (typ == FST_MT_SOURCESTEM) ? t_forced->t_stem : t_forced->t_istem;
+
+		if(!GLOBALS->stem_path_string_table)
+			{
+	                fprintf(stderr, "GTKWAVE | Could not find stems information in this file!\n");
+			}
+			else
+			{
+			open_index_in_forked_editor(idx, typ);
+			}
+		}
+	}
 
 #endif
 }
@@ -5266,8 +5375,6 @@ menu_open_hierarchy_2(null_data, callback_action, widget, FST_MT_MIN); /* zero f
 }
 
 
-#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
-#if !defined __MINGW32__ && !defined _MSC_VER
 void menu_open_hierarchy_source(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 menu_open_hierarchy_2(null_data, callback_action, widget, FST_MT_SOURCESTEM); /* for definition source */
@@ -5277,8 +5384,17 @@ void menu_open_hierarchy_isource(gpointer null_data, guint callback_action, GtkW
 {
 menu_open_hierarchy_2(null_data, callback_action, widget, FST_MT_SOURCEISTEM); /* for instantiation source */
 }
-#endif
-#endif
+
+
+void menu_open_sst_hierarchy_source(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+menu_open_hierarchy_2a(null_data, callback_action, widget, FST_MT_SOURCESTEM); /* for definition source */
+}
+
+void menu_open_sst_hierarchy_isource(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+menu_open_hierarchy_2a(null_data, callback_action, widget, FST_MT_SOURCEISTEM); /* for instantiation source */
+}
 
 /**/
 
@@ -6425,11 +6541,9 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Search/Signal Search Hierarchy", "<Alt>T", menu_hiersearch, WV_MENU_SSH, "<Item>"),
     WAVE_GTKIFE("/Search/Signal Search Tree", "<Shift><Alt>T", menu_treesearch, WV_MENU_SST, "<Item>"),
     WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7, "<Separator>"),
-#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
 #if !defined __MINGW32__ && !defined _MSC_VER
     WAVE_GTKIFE("/Search/Open Hierarchy Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
     WAVE_GTKIFE("/Search/Open Hierarchy Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>"),
-#endif
 #endif
     WAVE_GTKIFE("/Search/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>"),
     WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7D, "<Separator>"),
@@ -7058,13 +7172,13 @@ static gtkwave_mlist_t popmenu_items[] =
     WAVE_GTKIFE("/Copy", NULL, menu_copy_traces, WV_MENU_ECY, "<Item>"),
     WAVE_GTKIFE("/Paste", NULL, menu_paste_traces, WV_MENU_EP, "<Item>"),
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP4, "<Separator>"),
-#if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
-#if !defined __MINGW32__ && !defined _MSC_VER
-    WAVE_GTKIFE("/Open Hierarchy Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
-    WAVE_GTKIFE("/Open Hierarchy Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>"),
-#endif
-#endif
     WAVE_GTKIFE("/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>")
+#if !defined __MINGW32__ && !defined _MSC_VER
+    ,
+    /* see do_popup_menu() for specific patch for this for if(!GLOBALS->stem_path_string_table) ... */
+    WAVE_GTKIFE("/Open Hierarchy Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+    WAVE_GTKIFE("/Open Hierarchy Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>")
+#endif
 };
 
 
@@ -7076,6 +7190,14 @@ void do_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
   if(!GLOBALS->signal_popup_menu)
     {
     int nmenu_items = sizeof(popmenu_items) / sizeof(popmenu_items[0]);
+
+#if !defined __MINGW32__ && !defined _MSC_VER
+    if(!GLOBALS->stem_path_string_table)
+	{
+	nmenu_items = nmenu_items - 2; /* to remove WV_MENU_OPENHS, WV_MENU_OPENIHS -> keep at end of list! */
+	}
+#endif
+
 #ifdef WAVE_USE_MLIST_T
     GLOBALS->signal_popup_menu = menu = alt_menu(popmenu_items, nmenu_items, NULL, NULL, FALSE);
 #else
@@ -7107,6 +7229,72 @@ void do_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
   gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
                   button, event_time);
 }
+
+/***************************/
+/*** sst popup menu code ***/
+/***************************/
+
+#if !defined __MINGW32__ && !defined _MSC_VER
+static gtkwave_mlist_t sst_popmenu_items[] =
+{
+    WAVE_GTKIFE("/Open Hierarchy Source Definition", NULL, menu_open_sst_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+    WAVE_GTKIFE("/Open Hierarchy Source Instantiation", NULL, menu_open_sst_hierarchy_isource, WV_MENU_OPENIHS, "<Item>")
+};
+
+
+void do_sst_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
+{
+  GtkWidget *menu;
+  int button, event_time;
+
+  if(!GLOBALS->stem_path_string_table)
+	{
+	return; /* no stems so no popup */
+	}
+
+  if(!GLOBALS->sst_signal_popup_menu)
+    {
+    int nmenu_items = sizeof(sst_popmenu_items) / sizeof(sst_popmenu_items[0]);
+#ifdef WAVE_USE_MLIST_T
+    GLOBALS->sst_signal_popup_menu = menu = alt_menu(sst_popmenu_items, nmenu_items, NULL, NULL, FALSE);
+#else
+    GtkItemFactory *item_factory = gtk_item_factory_new (GTK_TYPE_MENU, "<main>", NULL);
+    gtk_item_factory_create_items (item_factory, nmenu_items, sst_popmenu_items, NULL);
+    GLOBALS->sst_signal_popup_menu = menu = gtk_item_factory_get_widget (item_factory, "<main>");
+#endif
+    }
+    else
+    {
+    menu = GLOBALS->sst_signal_popup_menu;
+    }
+
+  if (event)
+    {
+      button = event->button;
+      event_time = event->time;
+    }
+  else
+    {
+      button = 0;
+#if WAVE_USE_GTK2
+      event_time = gtk_get_current_event_time ();
+#else
+      return; /* disabled in GTK1.2 */
+#endif
+    }
+
+  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
+                  button, event_time);
+}
+
+#else
+
+void do_sst_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
+{
+/* nothing */
+}
+#endif
+
 
 void SetTraceScrollbarRowValue(int row, unsigned location)
 {

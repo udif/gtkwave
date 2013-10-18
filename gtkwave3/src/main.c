@@ -23,7 +23,7 @@
 
 /*
 #define WAVE_CRASH_ON_GTK_WARNING
- */
+*/
 
 #include "wave_locale.h"
 
