@@ -1935,6 +1935,7 @@ void reload_into_new_context_2(void)
  strcpy2_into_new_context(new_globals, &new_globals->filesel_writesave, &GLOBALS->filesel_writesave);
  new_globals->save_success_menu_c_1 = GLOBALS->save_success_menu_c_1; 
  new_globals->signal_popup_menu = GLOBALS->signal_popup_menu;
+ new_globals->sst_signal_popup_menu = GLOBALS->sst_signal_popup_menu;
 
  strcpy2_into_new_context(new_globals, &new_globals->filesel_vcd_writesave, &GLOBALS->filesel_vcd_writesave);
  strcpy2_into_new_context(new_globals, &new_globals->filesel_lxt_writesave, &GLOBALS->filesel_lxt_writesave);
