@@ -480,7 +480,7 @@ for(;;)
 				ttype = TREE_UNKNOWN;
 				}
 
-	                allocate_and_decorate_module_tree_node(ttype, cname, ctype,  strlen(cname), strlen(ctype), 0);
+	                allocate_and_decorate_module_tree_node(ttype, cname, ctype,  strlen(cname), strlen(ctype), 0, 0);
 			}
 		}
 	else

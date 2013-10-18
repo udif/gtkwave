@@ -1191,7 +1191,7 @@ for(;;)
 				strcpy(s->str, GLOBALS->yytext_vcd_c_1);
 				s->mod_tree_parent = GLOBALS->mod_tree_parent;
 
-				allocate_and_decorate_module_tree_node(ttype, GLOBALS->yytext_vcd_c_1, NULL, GLOBALS->yylen_vcd_c_1, 0, 0);
+				allocate_and_decorate_module_tree_node(ttype, GLOBALS->yytext_vcd_c_1, NULL, GLOBALS->yylen_vcd_c_1, 0, 0, 0);
 
 				if(GLOBALS->slistcurr)
 					{

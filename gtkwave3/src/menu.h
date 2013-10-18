@@ -206,6 +206,7 @@ WV_MENU_SEP7,
 #if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
 #if !defined __MINGW32__ && !defined _MSC_VER
 WV_MENU_OPENHS,
+WV_MENU_OPENIHS,
 #endif
 #endif
 WV_MENU_OPENH,

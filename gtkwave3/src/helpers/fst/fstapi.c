@@ -1979,7 +1979,7 @@ if(xc && comm)
 }
 
 
-void fstWriterSetSourceStem(void *ctx, const char *path, unsigned int line, unsigned int use_realpath)
+static void fstWriterSetSourceStem_2(void *ctx, const char *path, unsigned int line, unsigned int use_realpath, int typ)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 
@@ -2028,8 +2028,20 @@ if(xc && path && path[0])
 			}
 		}
 
-	fstWriterSetAttrDoubleArgGeneric(xc, FST_MT_SOURCESTEM, sidx, line);
+	fstWriterSetAttrDoubleArgGeneric(xc, typ, sidx, line);
 	}
+}
+
+
+void fstWriterSetSourceStem(void *ctx, const char *path, unsigned int line, unsigned int use_realpath)
+{
+fstWriterSetSourceStem_2(ctx, path, line, use_realpath, FST_MT_SOURCESTEM);
+}
+
+
+void fstWriterSetSourceInstantiationStem(void *ctx, const char *path, unsigned int line, unsigned int use_realpath)
+{
+fstWriterSetSourceStem_2(ctx, path, line, use_realpath, FST_MT_SOURCEISTEM);
 }
 
 
@@ -3390,8 +3402,8 @@ if(!(isfeof=feof(xc->fh)))
 			xc->hier.u.attr.arg = fstReaderVarint64(xc->fh);
 
 			if(xc->hier.u.attr.typ == FST_AT_MISC)
-				{
-				if(xc->hier.u.attr.subtype == FST_MT_SOURCESTEM)
+				{ 
+				if((xc->hier.u.attr.subtype == FST_MT_SOURCESTEM)||(xc->hier.u.attr.subtype == FST_MT_SOURCEISTEM))
 					{
 					int sidx_skiplen_dummy = 0;
 	                                xc->hier.u.attr.arg_from_name = fstGetVarint64((unsigned char *)xc->str_scope_nam, &sidx_skiplen_dummy);
@@ -3622,7 +3634,7 @@ while(!feof(xc->fh))
 									}
 									else
 									{
-									if(subtype == FST_MT_SOURCESTEM)
+									if((subtype == FST_MT_SOURCESTEM)||(subtype == FST_MT_SOURCEISTEM))
 										{
 										int sidx_skiplen_dummy = 0;
 										uint64_t sidx = fstGetVarint64((unsigned char *)str, &sidx_skiplen_dummy);

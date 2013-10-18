@@ -325,10 +325,13 @@ uint32_t stem_file_idx;
 uint32_t stem_line_number;
 char **stem_path_string_table;
 struct stem_struct_t *stem_struct_base;
+struct stem_struct_t *istem_struct_base;
 uint32_t stem_path_string_table_siz;
 uint32_t stem_path_string_table_alloc;  
 uint32_t stem_struct_base_siz;
 uint32_t stem_struct_base_siz_alloc;
+uint32_t istem_struct_base_siz;
+uint32_t istem_struct_base_siz_alloc;
 
 
 /*

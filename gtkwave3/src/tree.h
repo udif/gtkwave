@@ -113,7 +113,8 @@ struct tree
 struct tree *next;
 struct tree *child;
 int t_which;		/* 'i' for facs[i] table, value of < 0 means not a full signame */
-uint32_t t_stem;	/* source stem (if >0) for Open Hierarchy Source, see stem_struct_t */
+uint32_t t_stem;	/* source stem (if >0) for Open Hierarchy Source Def,  see stem_struct_t */
+uint32_t t_istem;	/* source stem (if >0) for Open Hierarchy Source Inst, see stem_struct_t */
 
 unsigned kind : 7; 	/* Kind of the leaf: ghwlib reads this as val & 0x7f so only 7 bits needed */
 unsigned children_in_gui : 1; /* indicates that the child nodes are in the gtk2 tree, but gets borrowed during tree creation for fast judy sort */
@@ -152,7 +153,7 @@ void maketree2(GtkCTreeNode *subtree, struct tree *t, int depth, GtkCTreeNode *g
 #endif
 
 char *leastsig_hiername(char *nam);
-void allocate_and_decorate_module_tree_node(unsigned char ttype, const char *scopename, const char *compname, uint32_t scopename_len, uint32_t compname_len, uint32_t t_stem);
+void allocate_and_decorate_module_tree_node(unsigned char ttype, const char *scopename, const char *compname, uint32_t scopename_len, uint32_t compname_len, uint32_t t_stem, uint32_t t_istem);
 int decorated_module_cleanup(void);
 
 void treesort(struct tree *t, struct tree *p);

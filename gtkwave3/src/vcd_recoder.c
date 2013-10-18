@@ -1530,7 +1530,7 @@ for(;;)
 				strcpy(s->str, GLOBALS->yytext_vcd_recoder_c_3);
 				s->mod_tree_parent = GLOBALS->mod_tree_parent;
 
-				allocate_and_decorate_module_tree_node(ttype, GLOBALS->yytext_vcd_recoder_c_3, NULL, GLOBALS->yylen_vcd_recoder_c_3, 0, 0);
+				allocate_and_decorate_module_tree_node(ttype, GLOBALS->yytext_vcd_recoder_c_3, NULL, GLOBALS->yylen_vcd_recoder_c_3, 0, 0, 0);
 
 				if(GLOBALS->slistcurr)
 					{

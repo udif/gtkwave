@@ -193,7 +193,7 @@ while((h = fstReaderIterateHier(xc)))
 				default:			ttype = TREE_UNKNOWN; break;
 				}
 
-			allocate_and_decorate_module_tree_node(ttype, h->u.scope.name, h->u.scope.component,  h->u.scope.name_length, h->u.scope.component_length, GLOBALS->stem_struct_base_siz);
+			allocate_and_decorate_module_tree_node(ttype, h->u.scope.name, h->u.scope.component,  h->u.scope.name_length, h->u.scope.component_length, GLOBALS->stem_struct_base_siz, GLOBALS->istem_struct_base_siz);
                         break;
                 case FST_HT_UPSCOPE:
 			GLOBALS->mod_tree_parent = fstReaderGetCurrentScopeUserInfo(xc);
@@ -359,6 +359,29 @@ while((h = fstReaderIterateHier(xc)))
 					sdt = h->u.attr.arg & (FST_SDT_ABS_MAX-1);
 					GLOBALS->supplemental_datatypes_encountered = 1;
 					GLOBALS->supplemental_vartypes_encountered |= ((svt != FST_SVT_NONE) && (svt != FST_SVT_VHDL_SIGNAL));
+					}
+				else
+				if(h->u.attr.subtype == FST_MT_SOURCEISTEM)
+					{
+					uint32_t istem_path_number = (uint32_t)h->u.attr.arg_from_name;
+					uint32_t istem_line_number = (uint32_t)h->u.attr.arg;
+
+					if(!GLOBALS->istem_struct_base)
+						{
+						GLOBALS->istem_struct_base_siz_alloc = 1;
+						GLOBALS->istem_struct_base_siz = 0;
+						GLOBALS->istem_struct_base = malloc_2(GLOBALS->istem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
+						}
+
+					if(GLOBALS->istem_struct_base_siz == GLOBALS->istem_struct_base_siz_alloc)
+						{
+						GLOBALS->istem_struct_base_siz_alloc *= 2;
+						GLOBALS->istem_struct_base = realloc_2(GLOBALS->istem_struct_base, GLOBALS->istem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
+						}
+
+					GLOBALS->istem_struct_base[GLOBALS->istem_struct_base_siz].stem_idx = istem_path_number - 1;
+					GLOBALS->istem_struct_base[GLOBALS->istem_struct_base_siz].stem_line_number = istem_line_number;
+					GLOBALS->istem_struct_base_siz++;
 					}
 				else
 				if(h->u.attr.subtype == FST_MT_SOURCESTEM)
@@ -977,6 +1000,15 @@ if(GLOBALS->subvar_jrb_count) /* generate lookup table for typenames explicitly 
 	jrb_traverse(subvar_jrb_node, GLOBALS->subvar_jrb)
 		{
 		GLOBALS->subvar_pnt[subvar_jrb_node->val.ui] = subvar_jrb_node->key.s;
+		}
+	}
+
+if(GLOBALS->istem_struct_base)
+	{
+	if(GLOBALS->istem_struct_base_siz != GLOBALS->istem_struct_base_siz_alloc)
+		{
+		GLOBALS->istem_struct_base_siz_alloc = GLOBALS->istem_struct_base_siz;
+		GLOBALS->istem_struct_base = realloc_2(GLOBALS->istem_struct_base, GLOBALS->istem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
 		}
 	}
 

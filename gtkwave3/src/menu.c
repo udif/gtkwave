@@ -5095,9 +5095,16 @@ struct tree *t_forced = NULL;
 if(GLOBALS->helpbox_is_active)
         {
 #if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
-	if(typ)
+	if((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM))
 		{
-	        help_text_bold("\n\nOpen Hierarchy Source");
+		if(typ == FST_MT_SOURCESTEM)
+			{
+		        help_text_bold("\n\nOpen Hierarchy Source Definition");
+			}
+			else
+			{
+		        help_text_bold("\n\nOpen Hierarchy Source Instantiation");
+			}
 	        help_text(
 #if WAVE_USE_GTK2   
 			" opens and selects the appropriate level of hierarchy in the SST"
@@ -5196,9 +5203,9 @@ if((t=GLOBALS->traces.first))
 
 #if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
 #if !defined __MINGW32__ && !defined _MSC_VER
-if(typ && t_forced)
+if(((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM)) && t_forced)
 	{
-	uint32_t idx = t_forced->t_stem;
+	uint32_t idx = (typ == FST_MT_SOURCESTEM) ? t_forced->t_stem : t_forced->t_istem;
 
 	if(idx)
 		{
@@ -5220,14 +5227,28 @@ if(typ && t_forced)
                                 char buf[64];
 
 				idx--;
-                                sprintf(buf, "+%d", GLOBALS->stem_struct_base[idx].stem_line_number);
+				if(typ == FST_MT_SOURCESTEM)
+					{
+	                                sprintf(buf, "+%d", GLOBALS->stem_struct_base[idx].stem_line_number);
 #ifdef MAC_INTEGRATION
-                                execlp("open", "open", "-W", "-a", "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], "--args", buf, NULL);
+	                                execlp("open", "open", "-W", "-a", "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], "--args", buf, NULL);
 #else
-                                execlp(GEDIT_PATH, "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], buf, NULL);
+	                                execlp(GEDIT_PATH, "gedit", GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx], buf, NULL);
 #endif
-                                fprintf(stderr, "GTKWAVE | Could not find gedit executable, exiting!\n");
-                                exit(255); /* control never gets here if successful */
+	                                fprintf(stderr, "GTKWAVE | Could not find gedit executable, exiting!\n");
+	                                exit(255); /* control never gets here if successful */
+					}
+					else
+					{
+	                                sprintf(buf, "+%d", GLOBALS->istem_struct_base[idx].stem_line_number);
+#ifdef MAC_INTEGRATION
+	                                execlp("open", "open", "-W", "-a", "gedit", GLOBALS->istem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx], "--args", buf, NULL);
+#else
+	                                execlp(GEDIT_PATH, "gedit", GLOBALS->stem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx], buf, NULL);
+#endif
+	                                fprintf(stderr, "GTKWAVE | Could not find gedit executable, exiting!\n");
+	                                exit(255); /* control never gets here if successful */
+					}
                                 }
                         }
 		}
@@ -5241,7 +5262,7 @@ if(typ && t_forced)
 
 void menu_open_hierarchy(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
-menu_open_hierarchy_2(null_data, callback_action, widget, 0);
+menu_open_hierarchy_2(null_data, callback_action, widget, FST_MT_MIN); /* zero for regular open */
 }
 
 
@@ -5249,7 +5270,12 @@ menu_open_hierarchy_2(null_data, callback_action, widget, 0);
 #if !defined __MINGW32__ && !defined _MSC_VER
 void menu_open_hierarchy_source(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
-menu_open_hierarchy_2(null_data, callback_action, widget, 1); /* 1 for source */
+menu_open_hierarchy_2(null_data, callback_action, widget, FST_MT_SOURCESTEM); /* for definition source */
+}
+
+void menu_open_hierarchy_isource(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+menu_open_hierarchy_2(null_data, callback_action, widget, FST_MT_SOURCEISTEM); /* for instantiation source */
 }
 #endif
 #endif
@@ -6401,7 +6427,8 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7, "<Separator>"),
 #if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
 #if !defined __MINGW32__ && !defined _MSC_VER
-    WAVE_GTKIFE("/Search/Open Hierarchy Source", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+    WAVE_GTKIFE("/Search/Open Hierarchy Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+    WAVE_GTKIFE("/Search/Open Hierarchy Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>"),
 #endif
 #endif
     WAVE_GTKIFE("/Search/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>"),
@@ -7033,7 +7060,8 @@ static gtkwave_mlist_t popmenu_items[] =
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP4, "<Separator>"),
 #if defined(GEDIT_PATH) || defined(MAC_INTEGRATION)
 #if !defined __MINGW32__ && !defined _MSC_VER
-    WAVE_GTKIFE("/Open Hierarchy Source", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+    WAVE_GTKIFE("/Open Hierarchy Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+    WAVE_GTKIFE("/Open Hierarchy Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>"),
 #endif
 #endif
     WAVE_GTKIFE("/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>")
