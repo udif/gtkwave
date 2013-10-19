@@ -1,6 +1,9 @@
 #!/bin/sh
 
-export GTKWAVE_EDITOR="mate -w -l %d %s"
+if [ -z "$GTKWAVE_EDITOR" ]; then
+export GTKWAVE_EDITOR="mate -l %d %s"
+# export GTKWAVE_EDITOR="open -W -a gedit %s --args +%d"
+fi
 
 if test "x$IGE_DEBUG_LAUNCHER" != x; then
     set -x
