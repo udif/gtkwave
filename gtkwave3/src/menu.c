@@ -5085,49 +5085,55 @@ colorformat(WAVE_COLOR_CYCLE);
 }
 /**/
 
+char **grow_array(char ***src, int *siz, char *str)
+{
+if(!*src)
+        {
+        *src = malloc_2(sizeof(char *));
+        (*src)[0] = str;
+        *siz = 1;
+        }
+        else
+        {    
+        *src = realloc_2(*src, (*siz + 1) * sizeof(char *));
+        (*src)[*siz] = str;
+        *siz = *siz + 1;
+        }
+
+return(*src);
+}
+
+
 static void open_index_in_forked_editor(uint32_t idx, int typ)
 {
 if(idx)
 	{
-        char buf[64];
-	char *edname = getenv("EDITOR");
-	char *arg0 = NULL, *arg1 = NULL;
+	int lineno = 1;
+	char *edname = getenv("GTKWAVE_EDITOR");
 	char *fname = NULL;
 
 	if(edname)
 		{
-		arg0 = arg1 = edname;
+		/* ok */
 		}
 #ifdef GEDIT_PATH
 		else
 		{
-		arg0 = GEDIT_PATH;
-		arg1 = "gedit";
+		/* fallback */
+		edname = GEDIT_PATH;
 		}
 #endif
 
 	idx--;
 	if(typ == FST_MT_SOURCESTEM)
 		{
-                sprintf(buf, "+%d", GLOBALS->stem_struct_base[idx].stem_line_number);
+                lineno = GLOBALS->stem_struct_base[idx].stem_line_number;
                 fname = GLOBALS->stem_path_string_table[GLOBALS->stem_struct_base[idx].stem_idx];
 		}
 		else
 		{
-                sprintf(buf, "+%d", GLOBALS->istem_struct_base[idx].stem_line_number);
+                lineno = GLOBALS->istem_struct_base[idx].stem_line_number;
                 fname = GLOBALS->stem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx];
-		}
-
-	if(arg1)
-		{
-		if(!strstr(arg1, "vi") && !strstr(arg1, "emacs") && !strstr(arg1, "gedit"))
-			{
-			buf[0] = 0; /* add to list later if more editors support +linenumber notation */
-			}
-		}
-		else
-		{
-		buf[0] = 0;
 		}
 
 #ifdef __MINGW32__        
@@ -5149,22 +5155,67 @@ if(idx)
                         }
                         else
                         {
-			if(arg0 && arg1 && fname)
+			char *str = strdup_2(edname);
+	                char nbuf[32];
+
+			char *saveptr1 = NULL;
+			char *str1, *token, *sd_token;
+			const char *delim = " \t";
+			int num_seen = 0;
+			int fn_seen = 0;
+        
+			char **ar = NULL;
+			int siz = 0;
+         
+       			for(str1 = str;;str1 = NULL)
+			        {
+			        token = strtok_r(str1, delim, &saveptr1);
+			        if(!token) break;
+         
+			        if(strstr(token, "%d"))
+			                {
+			                sprintf(nbuf, token, lineno);
+			                sd_token = strdup_2(nbuf);
+					num_seen = 1;
+			                }
+			        else if(!strcmp(token, "%s"))
+			                {
+			                sd_token = strdup_2(fname);
+					fn_seen = 1;
+			                }
+		                else
+			                {   
+			                sd_token = strdup_2(token);
+			                }
+			        grow_array(&ar, &siz, sd_token);
+			        }
+
+			if(ar && edname)
 				{
-				if(buf[0])
+				if(!num_seen)
 					{
-		                        execlp(arg0, arg1, buf, fname, NULL);
+					if((!strstr(ar[0], "vi")) || (!strstr(ar[0], "emacs")) || (!strstr(ar[0], "gedit")))
+						{
+						sprintf(nbuf, "+%d", lineno);
+						sd_token = strdup_2(nbuf);
+					        grow_array(&ar, &siz, sd_token);
+						}
 					}
-					else
+
+				if(!fn_seen)
 					{
-		                        execlp(arg0, arg1, fname, NULL);
+					sd_token = strdup_2(fname);
+					grow_array(&ar, &siz, sd_token);
 					}
+		
+				grow_array(&ar, &siz, NULL);
+
+	                        execvp(ar[0], ar);
 				}
 
                         fprintf(stderr, "GTKWAVE | Could not find editor executable!\n");
                         exit(255); /* control never gets here if successful */
                         }
-		
                 }
 	}
 #endif
@@ -5194,7 +5245,7 @@ if(GLOBALS->helpbox_is_active)
 	        help_text(
 #if WAVE_USE_GTK2   
 			" opens and selects the appropriate level of hierarchy in the SST"
-			" for the first selected signal and also invokes $EDITOR or gedit (if found) on the appropriate source unit."
+			" for the first selected signal and also invokes $GTKWAVE_EDITOR or gedit (if found) on the appropriate source unit."
 #else
 			" is not available with this build.  Please build against GTK 2."
 #endif
@@ -5323,7 +5374,7 @@ if(GLOBALS->helpbox_is_active)
 			}
 	        help_text(
 #if WAVE_USE_GTK2   
-			" invokes $EDITOR or gedit (if found) on the appropriate source unit."
+			" invokes $GTKWAVE_EDITOR or gedit (if found) on the appropriate source unit."
 #else
 			" is not available with this build.  Please build against GTK 2."
 #endif
