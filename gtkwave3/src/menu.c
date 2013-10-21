@@ -5112,17 +5112,24 @@ if(idx)
 	char *edname = getenv("GTKWAVE_EDITOR");
 	char *fname = NULL;
 
-	if(edname)
+	if(GLOBALS->editor_name)
 		{
-		/* ok */
+		edname = GLOBALS->editor_name;		/* rcfile "editor" variable first */
 		}
+	else
+		{
+		if(edname)
+			{
+			/* ok, env var GTKWAVE_EDITOR second */
+			}
 #ifdef GEDIT_PATH
-		else
-		{
-		/* fallback */
-		edname = GEDIT_PATH;
-		}
+			else
+			{
+			/* fallback */
+			edname = GEDIT_PATH;
+			}
 #endif
+		}
 
 	idx--;
 	if(typ == FST_MT_SOURCESTEM)

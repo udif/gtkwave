@@ -192,6 +192,31 @@ GLOBALS->do_resize_signals=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_editor(char *str)
+{
+char *path, *pathend; 
+
+DEBUG(printf("f_editor(\"%s\")\n",str));
+
+path = strchr(str, '\"');
+if(path)
+	{
+	path++;
+	if(*path)
+		{
+		pathend = strchr(path, '\"');
+		if(pathend)
+			{
+			*pathend = 0;
+			if(GLOBALS->editor_name) free_2(GLOBALS->editor_name);
+			GLOBALS->editor_name=(char *)strdup_2(path);
+			}
+		}
+	}
+
+return(0);
+}
+
 int f_enable_fast_exit(char *str)
 {
 DEBUG(printf("f_enable_fast_exit(\"%s\")\n",str));
@@ -815,6 +840,7 @@ static struct rc_entry rcitems[]=
 { "disable_tooltips", f_disable_tooltips },
 { "do_initial_zoom_fit", f_do_initial_zoom_fit },
 { "dynamic_resizing", f_dynamic_resizing },
+{ "editor", f_editor },
 { "enable_fast_exit", f_enable_fast_exit },
 { "enable_ghost_marker", f_enable_ghost_marker },
 { "enable_horiz_grid", f_enable_horiz_grid },

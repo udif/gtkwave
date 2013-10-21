@@ -1376,6 +1376,6 @@
 		Updated examples/gtkwaverc accel options to reflect the
 		current state of the gtkwave main window main menu.
 		Added "Open Hierarchy Source Definition" and "Open Hierarchy
-		Source Instantiation" options that invoke $EDITOR (or gedit)
-		on sourcecode when source stems are present in the dumpfile 
-		(currently FST only).
+		Source Instantiation" options that invoke $GTKWAVE_EDITOR 
+		(or gedit) on sourcecode when source stems are present in the
+		dumpfile (currently FST only).

@@ -754,6 +754,7 @@ NULL, /* clist_ptranslate_c_2 316 */
  */
 0, /* rc_line_no 318 */
 1, /* possibly_use_rc_defaults 319 */
+NULL, /* editor_string */
 
 
 /*
@@ -1895,6 +1896,7 @@ void reload_into_new_context_2(void)
  new_globals->logfiles = GLOBALS->logfiles; /* this value is a ** chameleon!  malloc'd region is outside debug.c control! */
 
  strcpy2_into_new_context(new_globals, &new_globals->argvlist, &GLOBALS->argvlist);
+ strcpy2_into_new_context(new_globals, &new_globals->editor_name, &GLOBALS->editor_name);
  strcpy2_into_new_context(new_globals, &new_globals->fontname_logfile, &GLOBALS->fontname_logfile);
  strcpy2_into_new_context(new_globals, &new_globals->fontname_signals, &GLOBALS->fontname_signals); 
  strcpy2_into_new_context(new_globals, &new_globals->fontname_waves, &GLOBALS->fontname_waves);

@@ -650,6 +650,7 @@ if(!GLOBALS)
 	GLOBALS->make_vcd_save_file = old_g->make_vcd_save_file;
 	GLOBALS->strace_repeat_count = old_g->strace_repeat_count;
 
+	strcpy2_into_new_context(GLOBALS, &GLOBALS->editor_name, &old_g->editor_name);
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_logfile, &old_g->fontname_logfile);
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_signals, &old_g->fontname_signals); 
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_waves, &old_g->fontname_waves);

@@ -751,6 +751,7 @@ GtkWidget *clist_ptranslate_c_2; /* from ptranslate.c 334 */
  */
 int rc_line_no; /* from rc.c 336 */
 int possibly_use_rc_defaults; /* from rc.c 337 */
+char *editor_name; /* from rc.c */
 
 
 /*

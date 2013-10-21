@@ -3,6 +3,19 @@
 # (rename to .gtkwaverc and copy 
 # to home directory to be loaded automatically)
 #
+
+# NOTE: env var GTKWAVE_EDITOR can also be used for this, however the rc file overrides it
+# %d is line number (can be combined inside a string as shown for vimx)
+# %s is filename (must stand by itself, can't add anything to it)
+#
+# editor "vimx -g +%d %s"
+# editor "gedit +%d %s"
+# editor "emacs +%d %s"
+
+# For OSX
+# editor "mate -l %d %s"
+
+
 use_standard_trace_select no
 highlight_wavewindow no
 alt_wheel_mode yes
