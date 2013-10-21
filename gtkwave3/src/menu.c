@@ -5131,6 +5131,13 @@ if(idx)
 #endif
 		}
 
+#ifdef MAC_INTEGRATION
+	if(!edname)
+		{
+		edname = "open -t"; /* Use OSX TextEdit as editor of last resort */
+		}
+#endif
+
 	idx--;
 	if(typ == FST_MT_SOURCESTEM)
 		{
@@ -5201,7 +5208,7 @@ if(idx)
 				{
 				if(!num_seen)
 					{
-					if((!strstr(ar[0], "vi")) || (!strstr(ar[0], "emacs")) || (!strstr(ar[0], "gedit")))
+					if((strstr(ar[0], "vi")) || (strstr(ar[0], "emacs")) || (strstr(ar[0], "gedit")))
 						{
 						sprintf(nbuf, "+%d", lineno);
 						sd_token = strdup_2(nbuf);

@@ -265,6 +265,12 @@
     ${project}/../../examples/transaction
   </data>
 
+  <!-- Empty config file
+    -->
+  <data dest="${bundle}/Contents/Resources/gtkwaverc">
+    ${project}/gtkwaverc
+  </data>
+
 
   <!-- Copy in the patches so users can recreate gtk from source. 
        This might be obsolete in future versions of gtk. 

@@ -1003,7 +1003,7 @@ if(!(handle=fopen(rcname,"rb")))
 		if(bundle_id)
 			{
 			const gchar *rpath = quartz_application_get_resource_path();
-			const char *suf = "/examples/gtkwaverc";
+			const char *suf = "/gtkwaverc";
 
 			rcpath = NULL;
 			if(rpath)
