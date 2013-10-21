@@ -112,16 +112,27 @@ fst2Vcd(String fnam)
 				break;
 
 			case fstHierType.FST_HT_ATTRBEGIN:
-				switch(fh.typ)
-					{
-					case fstMiscType.FST_MT_COMMENT:
-						System.out.println("$comment\n\t" + fh.name1 + "\n$end");
-						break;
-					default:
-						System.out.println("$attrbegin " + fh.name1 + " " + fh.arg + " $end");
-						break;
-					}
 
+				if(fh.typ == fstAttrType.FST_AT_MISC)
+					{
+					switch(fh.subtype)
+						{
+						case fstMiscType.FST_MT_COMMENT:
+							System.out.println("$comment\n\t" + fh.name1 + "\n$end");
+							break;
+
+						case fstMiscType.FST_MT_SOURCESTEM:
+						case fstMiscType.FST_MT_SOURCEISTEM:
+							System.out.println("$attrbegin " + fstAttrType.FST_AT_NAMESTRINGS[fh.typ] + " " + 
+								Integer.toHexString(fh.subtype) + " " + fh.arg_from_name + " " + fh.arg + " $end");
+							break;
+
+						default:
+							System.out.println("$attrbegin " + fstAttrType.FST_AT_NAMESTRINGS[fh.typ] + " " + 
+								Integer.toHexString(fh.subtype) + " " + fh.name1 + " " + fh.arg + " $end");
+							break;
+						}
+					}
 				break;
 
 			case fstHierType.FST_HT_ATTREND:

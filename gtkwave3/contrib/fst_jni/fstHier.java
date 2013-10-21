@@ -22,17 +22,18 @@
 
 public class fstHier 
 {
-public boolean valid; 	// all types
-public int htyp;	// FST_HT_SCOPE, FST_HT_UPSCOPE, FST_HT_VAR, FST_HT_ATTRBEGIN, FST_HT_ATTREND
-public int typ;		// appropriate FST_ST_* type for htyp, vartype, etc.
-public int subtype;	// FST_HT_ATTRBEGIN
-public String name1;	// FST_HT_SCOPE, FST_HT_VAR, FST_HT_ATTRBEGIN
-public String name2;	// FST_HT_SCOPE
-public int direction;	// FST_HT_VAR
-public int handle;	// FST_HT_VAR
-public int length;	// FST_HT_VAR
-public boolean is_alias;// FST_HT_VAR
-public long arg;	// FST_HT_ATTRBEGIN
+public boolean valid; 	   // all types
+public int htyp;	   // FST_HT_SCOPE, FST_HT_UPSCOPE, FST_HT_VAR, FST_HT_ATTRBEGIN, FST_HT_ATTREND
+public int typ;		   // appropriate FST_ST_* type for htyp, vartype, etc.
+public int subtype;	   // FST_HT_ATTRBEGIN
+public String name1;	   // FST_HT_SCOPE, FST_HT_VAR, FST_HT_ATTRBEGIN
+public String name2;	   // FST_HT_SCOPE
+public int direction;	   // FST_HT_VAR
+public int handle;	   // FST_HT_VAR
+public int length;	   // FST_HT_VAR
+public boolean is_alias;   // FST_HT_VAR
+public long arg;	   // FST_HT_ATTRBEGIN
+public long arg_from_name; // FST_HT_ATTRBEGIN
 
 public fstHier() 
 	{
@@ -47,5 +48,6 @@ public fstHier()
 	length = 0;
 	is_alias = false;
 	arg = 0;
+	arg_from_name = 0;
 	};
 };
