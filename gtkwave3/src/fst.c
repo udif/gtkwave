@@ -366,22 +366,25 @@ while((h = fstReaderIterateHier(xc)))
 					uint32_t istem_path_number = (uint32_t)h->u.attr.arg_from_name;
 					uint32_t istem_line_number = (uint32_t)h->u.attr.arg;
 
-					if(!GLOBALS->istem_struct_base)
+					if(istem_path_number <= GLOBALS->stem_path_string_table_siz) /* prevent overflows from malformed writers */
 						{
-						GLOBALS->istem_struct_base_siz_alloc = 1;
-						GLOBALS->istem_struct_base_siz = 0;
-						GLOBALS->istem_struct_base = malloc_2(GLOBALS->istem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
-						}
+						if(!GLOBALS->istem_struct_base)
+							{
+							GLOBALS->istem_struct_base_siz_alloc = 1;
+							GLOBALS->istem_struct_base_siz = 0;
+							GLOBALS->istem_struct_base = malloc_2(GLOBALS->istem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
+							}
 
-					if(GLOBALS->istem_struct_base_siz == GLOBALS->istem_struct_base_siz_alloc)
-						{
-						GLOBALS->istem_struct_base_siz_alloc *= 2;
-						GLOBALS->istem_struct_base = realloc_2(GLOBALS->istem_struct_base, GLOBALS->istem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
-						}
+						if(GLOBALS->istem_struct_base_siz == GLOBALS->istem_struct_base_siz_alloc)
+							{
+							GLOBALS->istem_struct_base_siz_alloc *= 2;
+							GLOBALS->istem_struct_base = realloc_2(GLOBALS->istem_struct_base, GLOBALS->istem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
+							}
 
-					GLOBALS->istem_struct_base[GLOBALS->istem_struct_base_siz].stem_idx = istem_path_number - 1;
-					GLOBALS->istem_struct_base[GLOBALS->istem_struct_base_siz].stem_line_number = istem_line_number;
-					GLOBALS->istem_struct_base_siz++;
+						GLOBALS->istem_struct_base[GLOBALS->istem_struct_base_siz].stem_idx = istem_path_number - 1;
+						GLOBALS->istem_struct_base[GLOBALS->istem_struct_base_siz].stem_line_number = istem_line_number;
+						GLOBALS->istem_struct_base_siz++;
+						}
 					}
 				else
 				if(h->u.attr.subtype == FST_MT_SOURCESTEM)
@@ -389,28 +392,32 @@ while((h = fstReaderIterateHier(xc)))
 					uint32_t stem_path_number = (uint32_t)h->u.attr.arg_from_name;
 					uint32_t stem_line_number = (uint32_t)h->u.attr.arg;
 
-					if(!GLOBALS->stem_struct_base)
+					if(stem_path_number <= GLOBALS->stem_path_string_table_siz) /* prevent overflows from malformed writers */
 						{
-						GLOBALS->stem_struct_base_siz_alloc = 1;
-						GLOBALS->stem_struct_base_siz = 0;
-						GLOBALS->stem_struct_base = malloc_2(GLOBALS->stem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
-						}
+						if(!GLOBALS->stem_struct_base)
+							{
+							GLOBALS->stem_struct_base_siz_alloc = 1;
+							GLOBALS->stem_struct_base_siz = 0;
+							GLOBALS->stem_struct_base = malloc_2(GLOBALS->stem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
+							}
 
-					if(GLOBALS->stem_struct_base_siz == GLOBALS->stem_struct_base_siz_alloc)
-						{
-						GLOBALS->stem_struct_base_siz_alloc *= 2;
-						GLOBALS->stem_struct_base = realloc_2(GLOBALS->stem_struct_base, GLOBALS->stem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
-						}
+						if(GLOBALS->stem_struct_base_siz == GLOBALS->stem_struct_base_siz_alloc)
+							{
+							GLOBALS->stem_struct_base_siz_alloc *= 2;
+							GLOBALS->stem_struct_base = realloc_2(GLOBALS->stem_struct_base, GLOBALS->stem_struct_base_siz_alloc * sizeof(struct stem_struct_t));
+							}
 
-					GLOBALS->stem_struct_base[GLOBALS->stem_struct_base_siz].stem_idx = stem_path_number - 1;
-					GLOBALS->stem_struct_base[GLOBALS->stem_struct_base_siz].stem_line_number = stem_line_number;
-					GLOBALS->stem_struct_base_siz++;
+						GLOBALS->stem_struct_base[GLOBALS->stem_struct_base_siz].stem_idx = stem_path_number - 1;
+						GLOBALS->stem_struct_base[GLOBALS->stem_struct_base_siz].stem_line_number = stem_line_number;
+						GLOBALS->stem_struct_base_siz++;
+						}
 					}
 				else
 				if(h->u.attr.subtype == FST_MT_PATHNAME)
 					{
-					if(h->u.attr.name)
+					if(h->u.attr.name && ((GLOBALS->stem_path_string_table_siz+1) == h->u.attr.arg))
 						{
+						/* == check against h->u.attr.arg is a sanity check against the writer */
 						if(!GLOBALS->stem_path_string_table)
 							{
 							GLOBALS->stem_path_string_table_alloc = 1;
