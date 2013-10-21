@@ -7111,8 +7111,8 @@ if(!path) return(1);
 path++;
 if(!*path) return(1);
 
-pathend = strchr(path+1, '\"');
-if(!path) return(1);
+pathend = strchr(path, '\"');
+if(!pathend) return(1);
 
 *pathend = 0;
 
