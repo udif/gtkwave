@@ -1370,12 +1370,13 @@
 		Added gtkwave_bin_launcher.sh script to set up environment
 		variables on OSX for running the bin/ directory files from
 		a terminal rather than as an app invocation.
-3.3.51	18oct13	Fix "/File/Grab To File" on OSX with an OSX patch as the 
+3.3.51	21oct13	Fix "/File/Grab To File" on OSX with an OSX patch as the 
 		_gdk_quartz_image_copy_to_image() function in the GTK 
 		toolkit for Quartz is broken.
 		Updated examples/gtkwaverc accel options to reflect the
 		current state of the gtkwave main window main menu.
 		Added "Open Hierarchy Source Definition" and "Open Hierarchy
-		Source Instantiation" options that invoke $GTKWAVE_EDITOR 
-		(or gedit) on sourcecode when source stems are present in the
-		dumpfile (currently FST only).
+		Source Instantiation" options that invoke .gtkwaverc variable
+		"editor" (or $GTKWAVE_EDITOR or gedit or open -t [OSX]) on 
+		sourcecode when source stems are present in the dumpfile 
+		(currently FST only).

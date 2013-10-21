@@ -5272,8 +5272,16 @@ if(GLOBALS->helpbox_is_active)
 			}
 	        help_text(
 #if WAVE_USE_GTK2   
-			" opens and selects the appropriate level of hierarchy in the SST"
-			" for the first selected signal and also invokes $GTKWAVE_EDITOR or gedit (if found) on the appropriate source unit."
+                        " opens and selects the appropriate level of hierarchy in the SST"
+                        " for the first selected signal and also invokes the editor specified by the"
+                        " \"editor\" gtkwaverc variable, that specified by the environment variable $GTKWAVE_EDITOR,"
+#ifndef MAC_INTEGRATION
+
+                        " or gedit (if found during ./configure)"
+#else
+                        " gedit (if found during ./configure), or lastly open -t"
+#endif
+			" on the appropriate source unit.  This is currently only supported by FST."
 #else
 			" is not available with this build.  Please build against GTK 2."
 #endif
