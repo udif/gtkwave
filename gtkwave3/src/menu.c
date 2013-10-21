@@ -5111,6 +5111,7 @@ if(idx)
 	int lineno = 1;
 	char *edname = getenv("GTKWAVE_EDITOR");
 	char *fname = NULL;
+	FILE *ftest = NULL;
 
 	if(GLOBALS->editor_name)
 		{
@@ -5155,6 +5156,19 @@ if(idx)
         fprintf(stderr, "GTKWAVE | Not supported in Windows!\n");
 	}
 #else
+
+	if(!(ftest = fopen(fname, "rb")))
+		{
+		int clen = strlen(fname);
+		int wid = clen * 10;
+
+		if(wid < 400) wid = 400;
+
+		simplereqbox("Could not open file!", wid, fname, "OK", NULL, NULL, 1);
+		return;
+		}
+	fclose(ftest); ftest = NULL;
+
 	{
         pid_t pid=fork();
 
