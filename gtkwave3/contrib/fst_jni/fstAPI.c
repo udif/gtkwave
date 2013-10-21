@@ -232,6 +232,28 @@ return((jint)handle);
 }
 
 
+JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetSourceStem
+  (JNIEnv *env, jobject obj, jlong ctx, jstring j_path, jint line, jboolean use_realpath)
+{
+const char *path = (*env)->GetStringUTFChars(env, j_path, 0);
+
+fstWriterSetSourceStem((void *)(long)ctx, path, line, use_realpath);
+
+(*env)->ReleaseStringUTFChars(env, j_path, path);
+}
+
+
+JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetSourceInstantiationStem
+  (JNIEnv *env, jobject obj, jlong ctx, jstring j_path, jint line, jboolean use_realpath)
+{
+const char *path = (*env)->GetStringUTFChars(env, j_path, 0);
+
+fstWriterSetSourceInstantiationStem((void *)(long)ctx, path, line, use_realpath);
+
+(*env)->ReleaseStringUTFChars(env, j_path, path);
+}
+
+
 JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetScope
   (JNIEnv *env, jobject obj, jlong ctx, jint scopetype, jstring j_scopename, jstring j_scopecomp)
 {

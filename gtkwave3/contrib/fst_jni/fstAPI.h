@@ -193,6 +193,22 @@ JNIEXPORT jint JNICALL Java_fstAPI_fstWriterCreateVar2
 
 /*
  * Class:     fstAPI
+ * Method:    fstWriterSetSourceStem
+ * Signature: (JLjava/lang/String;IZ)V
+ */
+JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetSourceStem
+  (JNIEnv *, jobject, jlong, jstring, jint, jboolean);
+
+/*
+ * Class:     fstAPI
+ * Method:    fstWriterSetSourceInstantiationStem
+ * Signature: (JLjava/lang/String;IZ)V
+ */
+JNIEXPORT void JNICALL Java_fstAPI_fstWriterSetSourceInstantiationStem
+  (JNIEnv *, jobject, jlong, jstring, jint, jboolean);
+
+/*
+ * Class:     fstAPI
  * Method:    fstWriterSetScope
  * Signature: (JILjava/lang/String;Ljava/lang/String;)V
  */

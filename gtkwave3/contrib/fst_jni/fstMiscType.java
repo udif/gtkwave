@@ -29,8 +29,12 @@ public static final int FST_MT_MIN = 0;
 public static final int FST_MT_COMMENT = 0;
 public static final int FST_MT_ENVVAR = 1;
 public static final int FST_MT_SUPVAR = 2;
-public static final int FST_MT_UNKNOWN = 3;
+public static final int FST_MT_PATHNAME = 3;
+public static final int FST_MT_SOURCESTEM = 4;
+public static final int FST_MT_SOURCEISTEM = 5;
 
-public static final int FST_MT_MAX = 3;
+public static final int FST_MT_UNKNOWN = 6;
+
+public static final int FST_MT_MAX = 6;
 };
 
