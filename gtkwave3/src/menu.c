@@ -7254,6 +7254,13 @@ void do_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
 	{
 	nmenu_items = nmenu_items - 2; /* to remove WV_MENU_OPENHS, WV_MENU_OPENIHS -> keep at end of list! */
 	}
+    else
+	{
+        if(!GLOBALS->istem_struct_base) 
+		{
+		nmenu_items--; /* remove "/Open Hierarchy Source Instantiation" if not present */
+		}
+	}
 #endif
 
 #ifdef WAVE_USE_MLIST_T
@@ -7313,6 +7320,12 @@ void do_sst_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
   if(!GLOBALS->sst_signal_popup_menu)
     {
     int nmenu_items = sizeof(sst_popmenu_items) / sizeof(sst_popmenu_items[0]);
+
+    if(!GLOBALS->istem_struct_base) 
+	{
+	nmenu_items--; /* remove "/Open Hierarchy Source Instantiation" if not present */
+	}
+
 #ifdef WAVE_USE_MLIST_T
     GLOBALS->sst_signal_popup_menu = menu = alt_menu(sst_popmenu_items, nmenu_items, NULL, NULL, FALSE);
 #else
