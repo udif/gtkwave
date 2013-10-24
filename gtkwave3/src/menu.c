@@ -5383,6 +5383,13 @@ if(((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM)) && t_forced)
 		}
 		else
 		{
+		if(!idx && (typ == FST_MT_SOURCEISTEM) && GLOBALS->istem_struct_base)
+			{
+			/* handle top level where istem == stem and istem is deliberately not specified */
+			typ = FST_MT_SOURCESTEM;
+			idx = t_forced->t_stem;
+			}
+
 		open_index_in_forked_editor(idx, typ);
 		}
 	}
@@ -5447,6 +5454,13 @@ if((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM))
 			}
 			else
 			{
+			if(!idx && (typ == FST_MT_SOURCEISTEM) && GLOBALS->istem_struct_base)
+				{
+				/* handle top level where istem == stem and istem is deliberately not specified */
+				typ = FST_MT_SOURCESTEM;
+				idx = t_forced->t_stem;
+				}
+
 			open_index_in_forked_editor(idx, typ);
 			}
 		}
