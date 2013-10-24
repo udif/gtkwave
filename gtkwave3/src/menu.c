@@ -5248,6 +5248,10 @@ if(idx)
 	}
 #endif
 	}
+	else
+	{
+	simplereqbox("Open Hierarchy Source", 400, "Source stem not present!", "OK", NULL, NULL, 1);
+	}
 }
 
 
