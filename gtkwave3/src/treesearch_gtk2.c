@@ -1319,7 +1319,7 @@ static gint hier_top_button_press_event_std(GtkWidget *widget, GdkEventButton *e
 {
 if((event->button == 3) && (event->type == GDK_BUTTON_PRESS))
         {
-	if(GLOBALS->selected_hierarchy_name)
+	if(GLOBALS->sst_sig_root_treesearch_gtk2_c_1)
 		{
 	        do_sst_popup_menu (widget, event);
 		return(TRUE);
@@ -1441,6 +1441,7 @@ do_tooltips:
     fill_sig_store ();
 
     sig_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (GLOBALS->sig_store_treesearch_gtk2_c_1));
+    gtkwave_signal_connect(GTK_OBJECT(sig_view), "button_press_event",GTK_SIGNAL_FUNC(hier_top_button_press_event_std), NULL);
 
     /* The view now holds a reference.  We can get rid of our own reference */
     g_object_unref (G_OBJECT (GLOBALS->sig_store_treesearch_gtk2_c_1));
@@ -1723,6 +1724,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     fill_sig_store ();
 
     sig_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (GLOBALS->sig_store_treesearch_gtk2_c_1));
+    gtkwave_signal_connect(GTK_OBJECT(sig_view), "button_press_event",GTK_SIGNAL_FUNC(hier_top_button_press_event_std), NULL);
 
     /* The view now holds a reference.  We can get rid of our own reference */
     g_object_unref (G_OBJECT (GLOBALS->sig_store_treesearch_gtk2_c_1));
