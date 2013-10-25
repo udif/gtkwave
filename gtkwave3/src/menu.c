@@ -5327,6 +5327,11 @@ if((t=GLOBALS->traces.first))
 	    		{
 			char *tname = NULL;
 
+			if(!HasWave(t))
+				{
+				break;
+				}
+
 	      		if (HasAlias(t))
 				{
 		  		tname = strdup_2(t->name_full);
