@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2012.
+ * Copyright (c) Tony Bybell 2012-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -588,7 +588,7 @@ if(GLOBALS->sfn)
 }
 
 
-static char *get_relative_adjusted_name(char *sfn, char *dfn, char *lcname)
+char *get_relative_adjusted_name(char *sfn, char *dfn, char *lcname)
 {
 char *rp = NULL;
 FILE *f;
@@ -601,13 +601,16 @@ FILE *f;
 
                 free(can);
 
-                f = fopen(fdf, "rb");
-                if(f) 
-                        {
-                        rp = fdf;
-                        fclose(f);
-                        goto bot;
-                        }
+		if(fdf)
+			{
+	                f = fopen(fdf, "rb");
+	                if(f) 
+	                        {
+	                        rp = fdf;
+	                        fclose(f);
+	                        goto bot;
+	                        }
+			}
                 }
 #endif
 

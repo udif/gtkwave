@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2012.
+ * Copyright (c) Tony Bybell 2012-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,5 +42,6 @@ void read_save_helper_relative_init(char *wname);
 int suffix_check(const char *s, const char *sfx);
 
 char *extract_dumpname_from_save_file(char *lcname, gboolean *modified, int *opt_vcd);
+char *get_relative_adjusted_name(char *sfn, char *dfn, char *lcname);
 
 #endif

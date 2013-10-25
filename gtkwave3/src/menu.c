@@ -5159,15 +5159,26 @@ if(idx)
 
 	if(!(ftest = fopen(fname, "rb")))
 		{
-		int clen = strlen(fname);
-		int wid = clen * 10;
+		char *rp = get_relative_adjusted_name(GLOBALS->loaded_file_name, fname, GLOBALS->loaded_file_name);
+		if(!rp)
+			{
+			int clen = strlen(fname);
+			int wid = clen * 10;
 
-		if(wid < 400) wid = 400;
+			if(wid < 400) wid = 400;
 
-		simplereqbox("Could not open file!", wid, fname, "OK", NULL, NULL, 1);
-		return;
+			simplereqbox("Could not open file!", wid, fname, "OK", NULL, NULL, 1);
+			return;
+			}
+		
+		fname = wave_alloca(strlen(rp) + 1);
+		strcpy(fname, rp);
+		free_2(rp);
 		}
-	fclose(ftest); ftest = NULL;
+		else
+		{
+		fclose(ftest); ftest = NULL;
+		}
 
 	{
         pid_t pid=fork();
