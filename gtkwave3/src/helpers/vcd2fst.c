@@ -62,30 +62,6 @@ Pvoid_t  PJArray = NULL;
 JRB comp_name_jrb = NULL;
 #endif
 
-static uint64_t atoi_2(const unsigned char *s)
-{
-uint64_t res = 0;
-unsigned char ch;
-
-ch = *s - '0';
-while(*s && (ch > 9))
-        {
-        s++;
-	ch = *s - '0';
-        }
-
-while(ch < 10)
-        {
-        s++;
-        res *= 10;
-        res += ch;
-	ch = *s - '0';
-        }
-
-return(res);
-}
-
-
 static const char *fst_scope_name = NULL;
 static uint32_t numfacs = 0;
 
@@ -357,6 +333,30 @@ if(comp_name_jrb)
 /*********************************************************/
 /*** ^^^ extload component type name determination ^^^ ***/
 /*********************************************************/
+
+static uint64_t atoi_2(const unsigned char *s)
+{
+uint64_t res = 0;
+unsigned char ch;
+
+ch = *s - '0';
+while(*s && (ch > 9))
+        {
+        s++;
+	ch = *s - '0';
+        }
+
+while(ch < 10)
+        {
+        s++;
+        res *= 10;
+        res += ch;
+	ch = *s - '0';
+        }
+
+return(res);
+}
+
 
 size_t getline_replace(char **wbuf, char **buf, size_t *len, FILE *f)
 {
