@@ -62,6 +62,30 @@ Pvoid_t  PJArray = NULL;
 JRB comp_name_jrb = NULL;
 #endif
 
+static uint64_t atoi_2(const unsigned char *s)
+{
+uint64_t res = 0;
+unsigned char ch;
+
+ch = *s - '0';
+while(*s && (ch > 9))
+        {
+        s++;
+	ch = *s - '0';
+        }
+
+while(ch < 10)
+        {
+        s++;
+        res *= 10;
+        res += ch;
+	ch = *s - '0';
+        }
+
+return(res);
+}
+
+
 static const char *fst_scope_name = NULL;
 static uint32_t numfacs = 0;
 
@@ -987,7 +1011,7 @@ while(!feof(f))
 		if((pnt = strstr(buf, "$end")))
 			{
 			*pnt = 0;
-			sscanf(buf+10, "%"SCNu64, &tzero);
+			sscanf(buf+10, "%"SCNd64, &tzero);
 			}
 		else
                         {
@@ -997,7 +1021,7 @@ while(!feof(f))
                                 break;
                                 }
                         line++;             
-			sscanf(buf, "%"SCNu64, &tzero);
+			sscanf(buf, "%"SCNd64, &tzero);
                         }
 
 		fstWriterSetTimezero(ctx, tzero);
@@ -1431,7 +1455,7 @@ while(!feof(f))
 			break;
 
 		case '#':
-			sscanf(buf+1, "%"SCNu64, &tim);
+			tim = atoi_2(buf+1);
 			if((tim >= prev_tim)||(!prev_tim))
 				{
 				prev_tim = tim;
