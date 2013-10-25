@@ -5261,7 +5261,7 @@ if(idx)
 	}
 	else
 	{
-	simplereqbox("Open Hierarchy Source", 400, "Source stem not present!", "OK", NULL, NULL, 1);
+	simplereqbox("Open Source", 400, "Source stem not present!", "OK", NULL, NULL, 1);
 	}
 }
 
@@ -5279,11 +5279,11 @@ if(GLOBALS->helpbox_is_active)
 		{
 		if(typ == FST_MT_SOURCESTEM)
 			{
-		        help_text_bold("\n\nOpen Hierarchy Source Definition");
+		        help_text_bold("\n\nOpen Source Definition");
 			}
 			else
 			{
-		        help_text_bold("\n\nOpen Hierarchy Source Instantiation");
+		        help_text_bold("\n\nOpen Source Instantiation");
 			}
 	        help_text(
 #if WAVE_USE_GTK2   
@@ -5343,6 +5343,11 @@ if((t=GLOBALS->traces.first))
 	      		else
 				{
 				int flagged = HIER_DEPACK_ALLOC;
+
+				if(!t->n.nd)
+					{
+					break; /* additional guard on top of !HasWave(t) */
+					}
 
 				tname = hier_decompress_flagged(t->n.nd->nname, &flagged);
 				if(!flagged)
@@ -5429,11 +5434,11 @@ if(GLOBALS->helpbox_is_active)
 		{
 		if(typ == FST_MT_SOURCESTEM)
 			{
-		        help_text_bold("\n\nOpen Hierarchy Source Definition");
+		        help_text_bold("\n\nOpen Source Definition");
 			}
 			else
 			{
-		        help_text_bold("\n\nOpen Hierarchy Source Instantiation");
+		        help_text_bold("\n\nOpen Source Instantiation");
 			}
 	        help_text(
 #if WAVE_USE_GTK2   
@@ -6663,8 +6668,8 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Search/Signal Search Tree", "<Shift><Alt>T", menu_treesearch, WV_MENU_SST, "<Item>"),
     WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7, "<Separator>"),
 #if !defined __MINGW32__ && !defined _MSC_VER
-    WAVE_GTKIFE("/Search/Open Hierarchy Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
-    WAVE_GTKIFE("/Search/Open Hierarchy Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>"),
+    WAVE_GTKIFE("/Search/Open Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+    WAVE_GTKIFE("/Search/Open Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>"),
 #endif
     WAVE_GTKIFE("/Search/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>"),
     WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7D, "<Separator>"),
@@ -7297,8 +7302,8 @@ static gtkwave_mlist_t popmenu_items[] =
 #if !defined __MINGW32__ && !defined _MSC_VER
     ,
     /* see do_popup_menu() for specific patch for this for if(!GLOBALS->stem_path_string_table) ... */
-    WAVE_GTKIFE("/Open Hierarchy Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
-    WAVE_GTKIFE("/Open Hierarchy Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>")
+    WAVE_GTKIFE("/Open Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+    WAVE_GTKIFE("/Open Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>")
 #endif
 };
 
@@ -7321,7 +7326,7 @@ void do_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
 	{
         if(!GLOBALS->istem_struct_base) 
 		{
-		nmenu_items--; /* remove "/Open Hierarchy Source Instantiation" if not present */
+		nmenu_items--; /* remove "/Open Source Instantiation" if not present */
 		}
 	}
 #endif
@@ -7365,8 +7370,8 @@ void do_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
 #if !defined __MINGW32__ && !defined _MSC_VER
 static gtkwave_mlist_t sst_popmenu_items[] =
 {
-    WAVE_GTKIFE("/Open Hierarchy Source Definition", NULL, menu_open_sst_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
-    WAVE_GTKIFE("/Open Hierarchy Source Instantiation", NULL, menu_open_sst_hierarchy_isource, WV_MENU_OPENIHS, "<Item>")
+    WAVE_GTKIFE("/Open Source Definition", NULL, menu_open_sst_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
+    WAVE_GTKIFE("/Open Source Instantiation", NULL, menu_open_sst_hierarchy_isource, WV_MENU_OPENIHS, "<Item>")
 };
 
 
@@ -7386,7 +7391,7 @@ void do_sst_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
 
     if(!GLOBALS->istem_struct_base) 
 	{
-	nmenu_items--; /* remove "/Open Hierarchy Source Instantiation" if not present */
+	nmenu_items--; /* remove "/Open Source Instantiation" if not present */
 	}
 
 #ifdef WAVE_USE_MLIST_T

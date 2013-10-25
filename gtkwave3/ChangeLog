@@ -1375,10 +1375,10 @@
 		toolkit for Quartz is broken.
 		Updated examples/gtkwaverc accel options to reflect the
 		current state of the gtkwave main window main menu.
-		Added "Open Hierarchy Source Definition" and "Open Hierarchy
-		Source Instantiation" options that invoke .gtkwaverc variable
-		"editor" (or $GTKWAVE_EDITOR or gedit or open -t [OSX]) on 
-		sourcecode when source stems are present in the dumpfile 
-		(currently FST only).
+		Added "Open Source Definition" and "Open Source Instantiation"
+		options that invoke .gtkwaverc variable "editor" (or 
+		$GTKWAVE_EDITOR or gedit or open -t [OSX]) on sourcecode when
+		source stems are present in the dumpfile (currently FST only).
 		Fixed timezero in vcd2fst as it was only parsing unsigned
 		numbers.
+		Fixed Open Hierarchy crash on blank signals.
