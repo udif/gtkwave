@@ -1319,8 +1319,11 @@ static gint hier_top_button_press_event_std(GtkWidget *widget, GdkEventButton *e
 {
 if((event->button == 3) && (event->type == GDK_BUTTON_PRESS))
         {
-        do_sst_popup_menu (widget, event);
-	return(TRUE);
+	if(GLOBALS->selected_hierarchy_name)
+		{
+	        do_sst_popup_menu (widget, event);
+		return(TRUE);
+		}
         }
 
 return(FALSE);
