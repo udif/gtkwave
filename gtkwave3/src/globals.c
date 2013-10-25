@@ -333,6 +333,8 @@ NULL, /* istem_struct_base */
 0, /* stem_struct_base_siz_alloc */
 0, /* istem_struct_base_siz */
 0, /* istem_struct_base_siz_alloc */
+0, /* stem_valid  */
+0, /* istem_valid */
 
 
 /*

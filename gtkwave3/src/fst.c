@@ -193,7 +193,10 @@ while((h = fstReaderIterateHier(xc)))
 				default:			ttype = TREE_UNKNOWN; break;
 				}
 
-			allocate_and_decorate_module_tree_node(ttype, h->u.scope.name, h->u.scope.component,  h->u.scope.name_length, h->u.scope.component_length, GLOBALS->stem_struct_base_siz, GLOBALS->istem_struct_base_siz);
+			allocate_and_decorate_module_tree_node(ttype, h->u.scope.name, h->u.scope.component, h->u.scope.name_length, h->u.scope.component_length, 
+				GLOBALS->stem_valid ? GLOBALS->stem_struct_base_siz : 0, 
+				GLOBALS->istem_valid ? GLOBALS->istem_struct_base_siz : 0);
+			GLOBALS->stem_valid = GLOBALS->istem_valid = 0;
                         break;
                 case FST_HT_UPSCOPE:
 			GLOBALS->mod_tree_parent = fstReaderGetCurrentScopeUserInfo(xc);
@@ -368,6 +371,7 @@ while((h = fstReaderIterateHier(xc)))
 
 					if(istem_path_number <= GLOBALS->stem_path_string_table_siz) /* prevent overflows from malformed writers */
 						{
+						GLOBALS->istem_valid = 1;
 						if(!GLOBALS->istem_struct_base)
 							{
 							GLOBALS->istem_struct_base_siz_alloc = 1;
@@ -394,6 +398,7 @@ while((h = fstReaderIterateHier(xc)))
 
 					if(stem_path_number <= GLOBALS->stem_path_string_table_siz) /* prevent overflows from malformed writers */
 						{
+						GLOBALS->stem_valid = 1;
 						if(!GLOBALS->stem_struct_base)
 							{
 							GLOBALS->stem_struct_base_siz_alloc = 1;

@@ -332,6 +332,8 @@ uint32_t stem_struct_base_siz;
 uint32_t stem_struct_base_siz_alloc;
 uint32_t istem_struct_base_siz;
 uint32_t istem_struct_base_siz_alloc;
+unsigned stem_valid : 1;
+unsigned istem_valid : 1;
 
 
 /*
