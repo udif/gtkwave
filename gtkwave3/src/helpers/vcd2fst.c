@@ -1455,7 +1455,7 @@ while(!feof(f))
 			break;
 
 		case '#':
-			tim = atoi_2(buf+1);
+			tim = atoi_2((unsigned char *)(buf+1));
 			if((tim >= prev_tim)||(!prev_tim))
 				{
 				prev_tim = tim;
