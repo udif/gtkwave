@@ -358,7 +358,7 @@ return(res);
 }
 
 
-size_t getline_replace(char **wbuf, char **buf, size_t *len, FILE *f)
+int getline_replace(char **wbuf, char **buf, size_t *len, FILE *f)
 {
 char *fgets_rc;
 
@@ -386,7 +386,7 @@ while(*(buf)[0]==' ') { (*buf)++; } /* verilator leading spaces fix */
 
 if((!(*buf)[0])||(!fgets_rc))
 	{
-	return(-1);
+	return(0);
 	}
 	else
 	{
@@ -431,7 +431,7 @@ char *buf = NULL, *wbuf = NULL;
 size_t glen = 0;
 void *ctx;
 int line = 0;
-size_t ss;
+int ss;
 fstHandle returnedhandle;
 JRB node;
 uint64_t prev_tim = 0;
@@ -517,7 +517,7 @@ while(!feof(f))
 	char *buf1;
 
 	ss = getline_replace(&wbuf, &buf, &glen, f);
-	if(ss == -1)
+	if(!ss)
 		{
 		break;
 		}
@@ -1016,7 +1016,7 @@ while(!feof(f))
 		else
                         {
                         ss = getline_replace(&wbuf, &buf, &glen, f);
-                        if(ss == -1)
+                        if(!ss)
                                 {
                                 break;
                                 }
@@ -1043,7 +1043,7 @@ while(!feof(f))
 		if(!num)
 			{
 			ss = getline_replace(&wbuf, &buf, &glen, f);
-			if(ss == -1)
+			if(!ss)
 				{
 				break;
 				}
@@ -1129,7 +1129,7 @@ while(!feof(f))
 		if(!found)		
 			{
 			ss = getline_replace(&wbuf, &buf, &glen, f);
-			if(ss == -1)
+			if(!ss)
 				{
 				break;
 				}
@@ -1166,7 +1166,7 @@ while(!feof(f))
 			else
 			{
 			ss = getline_replace(&wbuf, &buf, &glen, f);
-			if(ss == -1)
+			if(!ss)
 				{
 				break;
 				}
@@ -1218,7 +1218,7 @@ if((!hash_kill) && (vcd_ids))
 	hash_kill = 1; /* scan-build */
 	}
 
-while(!feof(f))
+for(;;) /* was while(!feof(f)) */
 	{
 	unsigned int hash;
 	uint64_t tim;
@@ -1226,7 +1226,7 @@ while(!feof(f))
 	double doub;
 
 	ss = getline_replace(&wbuf, &buf, &glen, f);
-	if(ss == -1)
+	if(!ss)
 		{
 		break;
 		}
