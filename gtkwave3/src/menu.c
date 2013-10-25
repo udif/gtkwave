@@ -5304,7 +5304,7 @@ if(GLOBALS->helpbox_is_active)
 		}
 		else
 		{
-	        help_text_bold("\n\nOpen Hierarchy");
+	        help_text_bold("\n\nOpen Scope");
 	        help_text(
 #if WAVE_USE_GTK2   
 			" opens and selects the appropriate level of hierarchy in the SST"
@@ -5450,7 +5450,7 @@ if(GLOBALS->helpbox_is_active)
 		}
 		else
 		{
-	        help_text_bold("\n\nOpen Hierarchy");
+	        help_text_bold("\n\nOpen Scope");
 	        help_text(
 #if WAVE_USE_GTK2   
 			" opens and selects the appropriate level of hierarchy in the SST"
@@ -6671,7 +6671,7 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Search/Open Source Definition", NULL, menu_open_hierarchy_source, WV_MENU_OPENHS, "<Item>"),
     WAVE_GTKIFE("/Search/Open Source Instantiation", NULL, menu_open_hierarchy_isource, WV_MENU_OPENIHS, "<Item>"),
 #endif
-    WAVE_GTKIFE("/Search/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>"),
+    WAVE_GTKIFE("/Search/Open Scope", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>"),
     WAVE_GTKIFE("/Search/<separator>", NULL, NULL, WV_MENU_SEP7D, "<Separator>"),
     WAVE_GTKIFE("/Search/Autocoalesce", NULL, menu_autocoalesce, WV_MENU_ACOL, "<ToggleItem>"),
     WAVE_GTKIFE("/Search/Autocoalesce Reversal", NULL, menu_autocoalesce_reversal, WV_MENU_ACOLR, "<ToggleItem>"),
@@ -7298,7 +7298,7 @@ static gtkwave_mlist_t popmenu_items[] =
     WAVE_GTKIFE("/Copy", NULL, menu_copy_traces, WV_MENU_ECY, "<Item>"),
     WAVE_GTKIFE("/Paste", NULL, menu_paste_traces, WV_MENU_EP, "<Item>"),
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP4, "<Separator>"),
-    WAVE_GTKIFE("/Open Hierarchy", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>")
+    WAVE_GTKIFE("/Open Scope", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>")
 #if !defined __MINGW32__ && !defined _MSC_VER
     ,
     /* see do_popup_menu() for specific patch for this for if(!GLOBALS->stem_path_string_table) ... */

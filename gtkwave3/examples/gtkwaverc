@@ -232,7 +232,7 @@ accel "/Search/Signal Search Tree" <Shift><Alt>T
 accel "/Search/<separator>" (null)
 accel "/Search/Open Source Definition" (null)
 accel "/Search/Open Source Instantiation" (null)
-accel "/Search/Open Hierarchy" (null)
+accel "/Search/Open Scope" (null)
 accel "/Search/<separator>" (null)
 accel "/Search/Autocoalesce" (null)
 accel "/Search/Autocoalesce Reversal" (null)
