@@ -331,7 +331,7 @@ struct macro_stack_t *mac;
 static char inside_skip = 0;
 static int prevrc = 0;
 
-if((mac_nest_head)&&(!(--mac_nest_head->remaining)))
+if((mac_nest_head) /* &&(!(--mac_nest_head->remaining)) */)
 	{
 	free(mac_nest_head->macname);
 	free(mac_nest_head->deftext);
