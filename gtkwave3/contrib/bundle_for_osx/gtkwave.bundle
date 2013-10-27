@@ -242,8 +242,8 @@
 
   <!-- Examples files
     -->
-  <data dest="${bundle}/Contents/Resources/examples/des.vzt">
-    ${project}/../../examples/des.vzt
+  <data dest="${bundle}/Contents/Resources/examples/des.fst">
+    ${project}/../../examples/des.fst
   </data>
   <data dest="${bundle}/Contents/Resources/examples/des.gtkw">
     ${project}/../../examples/des.gtkw
