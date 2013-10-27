@@ -1370,7 +1370,10 @@
 		Added gtkwave_bin_launcher.sh script to set up environment
 		variables on OSX for running the bin/ directory files from
 		a terminal rather than as an app invocation.
-3.3.51	25oct13	Fix "/File/Grab To File" on OSX with an OSX patch as the 
+3.3.51	27oct13	MAINTAINERS: Please add gedit to the list of dependencies
+		for gtkwave in order to enable new function that Icarus
+		Verilog dumps into FST files.
+		Fix "/File/Grab To File" on OSX with an OSX patch as the 
 		_gdk_quartz_image_copy_to_image() function in the GTK 
 		toolkit for Quartz is broken.
 		Updated examples/gtkwaverc accel options to reflect the
