@@ -527,6 +527,8 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
 		case GDK_Left:
 		case GDK_KP_Left:
 
+			service_left_edge(NULL, 0);
+			/*
 			hadj=GTK_ADJUSTMENT(GLOBALS->signal_hslider);
   
 			if(hadj->value < hadj->page_increment)
@@ -538,9 +540,10 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
 				hadj->value = hadj->value - hadj->page_increment;
 				}
 
-			gtk_signal_emit_by_name (GTK_OBJECT (hadj), "changed");	/* force bar update */
-			gtk_signal_emit_by_name (GTK_OBJECT (hadj), "value_changed"); /* force text update */
+			gtk_signal_emit_by_name (GTK_OBJECT (hadj), "changed");
+			gtk_signal_emit_by_name (GTK_OBJECT (hadj), "value_changed");
 			signalarea_configure_event(GLOBALS->signalarea, NULL);
+			*/
 
 			rc = TRUE;
 			break;
@@ -548,7 +551,8 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
 		case GDK_Right:
 		case GDK_KP_Right:
 
-			/* fill in left/right hscroll here */
+			service_right_edge(NULL, 0);
+			/*
 			hadj=GTK_ADJUSTMENT(GLOBALS->signal_hslider);
 
 			if( ((int) hadj->value + hadj->page_increment) >= hadj->upper)
@@ -560,9 +564,10 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
 				hadj->value = hadj->value + hadj->page_increment;
 				}
 
-			gtk_signal_emit_by_name (GTK_OBJECT (hadj), "changed");	/* force bar update */
-			gtk_signal_emit_by_name (GTK_OBJECT (hadj), "value_changed"); /* force text update */
+			gtk_signal_emit_by_name (GTK_OBJECT (hadj), "changed");
+			gtk_signal_emit_by_name (GTK_OBJECT (hadj), "value_changed");
 			signalarea_configure_event(GLOBALS->signalarea, NULL);
+			*/
 
 			rc = TRUE;
 			break;

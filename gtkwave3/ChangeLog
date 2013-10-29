@@ -1386,3 +1386,5 @@
 		numbers.
 		Fixed Open Hierarchy crash on blank signals.
 3.3.52	29oct13	Another partial VCD loader fix.
+		Changed left/right arrow function in signal/wave windows to
+		find next transition of selected signal(s).
