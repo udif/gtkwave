@@ -1385,3 +1385,4 @@
 		Fixed timezero in vcd2fst as it was only parsing unsigned
 		numbers.
 		Fixed Open Hierarchy crash on blank signals.
+3.3.52	29oct13	Another partial VCD loader fix.

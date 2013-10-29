@@ -2478,6 +2478,10 @@ if(t->vector)
 					bts->nodes[i]->harray = NULL;
 					}
 				}
+				else
+				{
+				t->interactive_vector_needs_regeneration = 1;
+				}
 			}
 		}
 
@@ -2651,9 +2655,29 @@ if(GLOBALS->partial_vcd)
 gtkwave_main_iteration();
 }
 
+
+static void vcd_partial_regen_node_expansion(Trptr t)
+{
+if(!t->vector) 
+	{
+	if(t->n.nd && t->n.nd->expansion)
+		{
+		nptr np_ex = ExtractNodeSingleBit(t->n.nd->expansion->parent, t->n.nd->expansion->parentbit);
+
+		DeleteNode(t->n.nd);
+		t->n.nd = np_ex;
+		t->name_full = np_ex->nname;
+		t->name = (GLOBALS->hier_max_level) ? hier_extract(t->name_full, GLOBALS->hier_max_level) : t->name_full;
+		}
+	}
+
+}
+
 void vcd_partial_mark_and_sweep(int mandclear)
 {
 Trptr t;
+
+
 
 /* node */
 t = GLOBALS->traces.first; while(t) { if(!t->vector) regen_trace_mark(t, mandclear); t = t->t_next; }
@@ -2661,6 +2685,10 @@ t = GLOBALS->traces.buffer; while(t) { if(!t->vector) regen_trace_mark(t, mandcl
 
 t = GLOBALS->traces.first; while(t) { if(!t->vector) regen_trace_sweep(t); t = t->t_next; }
 t = GLOBALS->traces.buffer; while(t) { if(!t->vector) regen_trace_sweep(t); t = t->t_next; }
+
+/* node that is single bit extracted */
+t = GLOBALS->traces.first; while(t) { vcd_partial_regen_node_expansion(t); t = t->t_next; }
+t = GLOBALS->traces.buffer; while(t) { vcd_partial_regen_node_expansion(t); t = t->t_next; }
 
 /* vector */
 t = GLOBALS->traces.first; while(t) { if(t->vector) regen_trace_mark(t, mandclear); t = t->t_next; }
