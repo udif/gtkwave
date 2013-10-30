@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2012.
+ * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -720,6 +720,61 @@ gint xi, yi;
 GdkEventMotion event[1];
 event[0].deviceid = GDK_CORE_POINTER;  
 #endif
+
+if((GLOBALS->dnd_state)||(GLOBALS->tree_dnd_begin)) /* drag scroll on DnD */
+	{
+	GtkAdjustment *wadj, *hadj;
+	int num_traces_displayable;
+	int target;
+	int which;
+	int yscroll;
+
+	WAVE_GDK_GET_POINTER(GLOBALS->signalarea->window, &x, &y, &xi, &yi, &state);
+	WAVE_GDK_GET_POINTER_COPY;
+
+	if(y > GLOBALS->signalarea->allocation.height)
+		{
+                wadj=GTK_ADJUSTMENT(GLOBALS->wave_vslider);
+                num_traces_displayable=(GLOBALS->signalarea->allocation.height)/(GLOBALS->fontheight);
+                num_traces_displayable--;   /* for the time trace that is always there */
+                      
+               	if(num_traces_displayable<GLOBALS->traces.visible)
+			{
+			yscroll = 1;
+                        target=((int)wadj->value)+yscroll;  
+                        which=num_traces_displayable-1;
+
+                        if(target+which>=(GLOBALS->traces.visible-1)) target=GLOBALS->traces.visible-which-1;
+       			wadj->value=target;
+
+       			if(GLOBALS->cachedwhich_signalwindow_c_1==which) GLOBALS->cachedwhich_signalwindow_c_1=which-1; /* force update */
+
+       			gtk_signal_emit_by_name (GTK_OBJECT (wadj), "changed"); /* force bar update */
+       			gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /* force text update */
+			}
+		}
+	else 
+	if(y < 0)
+		{
+                wadj=GTK_ADJUSTMENT(GLOBALS->wave_vslider);
+                num_traces_displayable=(GLOBALS->signalarea->allocation.height)/(GLOBALS->fontheight);
+                num_traces_displayable--;   /* for the time trace that is always there */
+                      
+               	if(num_traces_displayable<GLOBALS->traces.visible)
+			{
+			yscroll = 1;
+       			target=((int)wadj->value)-yscroll;
+       			if(target<0) target=0;
+       			wadj->value=target;
+                         
+			which=0;
+       			if(GLOBALS->cachedwhich_signalwindow_c_1==which) GLOBALS->cachedwhich_signalwindow_c_1=-1; /* force update */
+
+       			gtk_signal_emit_by_name (GTK_OBJECT (wadj), "changed"); /* force bar update */
+       			gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /* force text update */
+			}
+		}
+	}
 
 if(in_main_iteration()) return(TRUE);
 
