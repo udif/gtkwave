@@ -21,6 +21,10 @@
 #include <cocoa_misc.h>
 #endif
 
+#if defined __MINGW32__
+#include <windows.h>
+#endif
+
 #if GTK_CHECK_VERSION(2,4,0)
 
 #ifndef MAC_INTEGRATION
@@ -136,12 +140,82 @@ gtkwave_main_iteration();
 if(GLOBALS->bad_cleanup_file_c_1) GLOBALS->bad_cleanup_file_c_1();
 }
 
-void fileselbox_old(char *title, char **filesel_path, GtkSignalFunc ok_func, GtkSignalFunc notok_func, char *pattn)
+void fileselbox_old(char *title, char **filesel_path, GtkSignalFunc ok_func, GtkSignalFunc notok_func, char *pattn, int is_writemode)
 {
+#if defined __MINGW32__
+OPENFILENAME ofn;
+char szFile[260];       /* buffer for file name */
+char szPath[260];       /* buffer for path name */
+char lpstrFilter[260];	/* more than enough room for some patterns */
+BOOL rc;
+#endif
+
 GLOBALS->fileselbox_text=filesel_path;
 GLOBALS->filesel_ok=0;
 GLOBALS->cleanup_file_c_2=ok_func;
 GLOBALS->bad_cleanup_file_c_1=notok_func;
+
+#if defined __MINGW32__
+ZeroMemory(&ofn, sizeof(ofn));
+ofn.lStructSize = sizeof(ofn);
+ofn.lpstrFile = szFile;
+ofn.lpstrFile[0] = '\0';
+ofn.lpstrFilter = lpstrFilter;
+ofn.nMaxFile = sizeof(szFile);
+ofn.lpstrFileTitle = NULL;
+ofn.nMaxFileTitle = 0;
+ofn.lpstrInitialDir = NULL;
+ofn.Flags = is_writemode ? (OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT) : (OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST);
+
+if((!pattn)||(!strcmp(pattn, "*")))
+	{
+	sprintf(lpstrFilter, "%s%c%s%c", "All", 0, "*.*", 0);
+	ofn.nFilterIndex = 0;
+	}
+	else
+	{
+	sprintf(lpstrFilter, "%s%c%s%c%s%c%s%c", pattn, 0, pattn, 0, "All", 0, "*.*"); 
+	ofn.nFilterIndex = 0;
+	}
+
+if(*filesel_path) 
+	{
+	char *fsp = *filesel_path;
+	int ch_idx = 0;
+	char ch = 0;
+
+	while(*fsp)
+		{
+		ch = *fsp;
+		szFile[ch_idx++] = (ch != '/') ? ch : '\\';
+		fsp++;
+		} 
+
+	szFile[ch_idx] = 0;
+
+	if((ch == '/') || (ch == '\\'))
+		{
+		strcpy(szPath, szFile);
+		szFile[0] = 0;
+		ofn.lpstrInitialDir = szPath;
+		}
+	}
+
+rc = is_writemode ? GetSaveFileName(&ofn) : GetOpenFileName(&ofn);
+
+if (rc==TRUE) 
+	{
+	GLOBALS->filesel_ok=1;
+        if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
+        *GLOBALS->fileselbox_text=(char *)strdup_2(szFile);
+	GLOBALS->cleanup_file_c_2();
+	}
+	else
+	{
+	if(GLOBALS->bad_cleanup_file_c_1) GLOBALS->bad_cleanup_file_c_1();
+	}
+
+#else
 
 GLOBALS->fs_file_c_1=gtk_file_selection_new(title);
 gtkwave_signal_connect(GTK_OBJECT(GLOBALS->fs_file_c_1), "destroy", (GtkSignalFunc) destroy_callback, NULL);
@@ -157,6 +231,8 @@ if(*GLOBALS->fileselbox_text) gtk_file_selection_set_filename(GTK_FILE_SELECTION
 
 gtk_widget_show(GLOBALS->fs_file_c_1);
 wave_gtk_grab_add(GLOBALS->fs_file_c_1);
+
+#endif
 }
 
 
@@ -245,7 +321,7 @@ return;
 
 #if defined __MINGW32__ || !GTK_CHECK_VERSION(2,4,0)
 
-fileselbox_old(title, filesel_path, ok_func, notok_func, pattn);
+fileselbox_old(title, filesel_path, ok_func, notok_func, pattn, is_writemode);
 return;
 
 #else

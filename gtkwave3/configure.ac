@@ -806,6 +806,8 @@ if test "X$OSTYPE" = "Xdarwin" ; then
 	fi
 else
 if test "X$OSTYPE" = "Xmsys" ; then
+# add library for common dialog found in file.c
+	MINGW_LDADD="-lcomdlg32"
 # skip Tcl_CreateInterp check on mingw (until we figure out)...
 	if test "X$STUBIFY" = "Xyes" ; then
 	TCL_DEFADD="-DHAVE_LIBTCL -DWAVE_TCL_STUBIFY -DUSE_TCL_STUBS -DUSE_TK_STUBS"
@@ -842,7 +844,7 @@ fi
 fi
 fi
 
-
+AC_SUBST(MINGW_LDADD)
 AC_SUBST(TCL_LDADD)
 AC_SUBST(TCL_DEFADD)
 AC_SUBST(TK_LDADD)
@@ -942,6 +944,7 @@ AC_MSG_NOTICE([
   LIBS                  : $LIBS
   INLINE_ASM            : $INLINE_ASM
 
+  MINGW_LDADD           : $MINGW_LDADD
   GTK_MAC_CFLAGS        : $GTK_MAC_CFLAGS
   GTK_MAC_LIBS          : $GTK_MAC_LIBS
   COCOA_GTK_CFLAGS      : $COCOA_GTK_CFLAGS

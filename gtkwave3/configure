@@ -629,6 +629,7 @@ LTLIBOBJS
 TK_LDADD
 TCL_DEFADD
 TCL_LDADD
+MINGW_LDADD
 POW_LIB
 LIBOBJS
 ALLOCA
@@ -10176,6 +10177,8 @@ if test "X$OSTYPE" = "Xdarwin" ; then
 	fi
 else
 if test "X$OSTYPE" = "Xmsys" ; then
+# add library for common dialog found in file.c
+	MINGW_LDADD="-lcomdlg32"
 # skip Tcl_CreateInterp check on mingw (until we figure out)...
 	if test "X$STUBIFY" = "Xyes" ; then
 	TCL_DEFADD="-DHAVE_LIBTCL -DWAVE_TCL_STUBIFY -DUSE_TCL_STUBS -DUSE_TK_STUBS"
@@ -10312,6 +10315,7 @@ ac_config_files="$ac_config_files Makefile doc/Makefile contrib/Makefile contrib
   LIBS                  : $LIBS
   INLINE_ASM            : $INLINE_ASM
 
+  MINGW_LDADD           : $MINGW_LDADD
   GTK_MAC_CFLAGS        : $GTK_MAC_CFLAGS
   GTK_MAC_LIBS          : $GTK_MAC_LIBS
   COCOA_GTK_CFLAGS      : $COCOA_GTK_CFLAGS
@@ -10373,6 +10377,7 @@ $as_echo "$as_me:
   LIBS                  : $LIBS
   INLINE_ASM            : $INLINE_ASM
 
+  MINGW_LDADD           : $MINGW_LDADD
   GTK_MAC_CFLAGS        : $GTK_MAC_CFLAGS
   GTK_MAC_LIBS          : $GTK_MAC_LIBS
   COCOA_GTK_CFLAGS      : $COCOA_GTK_CFLAGS
