@@ -73,6 +73,7 @@ public String 	fstReaderPushScope(String nam, long user_info) { return(fstReader
 public void 	fstReaderResetScope() { fstReaderResetScope(ctx); }
 public void 	fstReaderSetFacProcessMaskAll() { fstReaderSetFacProcessMaskAll(ctx); }
 public void 	fstReaderSetFacProcessMask(int facidx) { fstReaderSetFacProcessMask(ctx, facidx); }
+public void     fstReaderSetVcdExtensions(boolean enable) { fstReaderSetVcdExtensions(ctx, enable); }
 public void 	fstReaderSetLimitTimeRange(long start_time, long end_time) { fstReaderSetLimitTimeRange(ctx, start_time, end_time); }
 public void 	fstReaderSetUnlimitedTimeRange() { fstReaderSetUnlimitedTimeRange(ctx); }
 

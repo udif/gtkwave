@@ -401,6 +401,14 @@ JNIEXPORT void JNICALL Java_fstAPI_fstReaderSetLimitTimeRange
 
 /*
  * Class:     fstAPI
+ * Method:    fstReaderSetVcdExtensions
+ * Signature: (JZ)V
+ */
+JNIEXPORT void JNICALL Java_fstAPI_fstReaderSetVcdExtensions
+  (JNIEnv *, jobject, jlong, jboolean);
+
+/*
+ * Class:     fstAPI
  * Method:    fstReaderGetNumberDumpActivityChanges
  * Signature: (J)I
  */

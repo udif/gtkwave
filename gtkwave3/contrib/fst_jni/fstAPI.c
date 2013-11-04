@@ -459,6 +459,13 @@ fstReaderSetLimitTimeRange((void *)(long)ctx, (uint64_t)start_time, (uint64_t)en
 }
 
 
+JNIEXPORT void JNICALL Java_fstAPI_fstReaderSetVcdExtensions
+  (JNIEnv *env, jobject obj, jlong ctx, jboolean enable)
+{
+fstReaderSetVcdExtensions((void *)(long)ctx, (int)enable);
+}
+
+
 JNIEXPORT jint JNICALL Java_fstAPI_fstReaderGetNumberDumpActivityChanges
   (JNIEnv *env, jobject obj, jlong ctx)
 {

@@ -91,6 +91,7 @@ protected native long fstReaderGetValueChangeSectionCount(long ctx);
 protected native boolean fstReaderGetFseekFailed(long ctx);
 protected native void fstReaderSetUnlimitedTimeRange(long ctx);
 protected native void fstReaderSetLimitTimeRange(long ctx, long start_time, long end_time);
+protected native void fstReaderSetVcdExtensions(long ctx, boolean enable);
 protected native int fstReaderGetNumberDumpActivityChanges(long ctx);
 protected native long fstReaderGetDumpActivityChangeTime(long ctx, int idx);
 protected native boolean fstReaderGetFacProcessMask(long ctx, int facidx); 
