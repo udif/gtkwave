@@ -2720,6 +2720,7 @@ unsigned char *temp_signal_value_buf;	/* malloced for len in longest_signal_valu
 signed char timescale;
 unsigned char filetype;
 
+unsigned use_vcd_extensions : 1;
 unsigned double_endian_match : 1;
 unsigned native_doubles_for_cb : 1;
 unsigned contains_geom_section : 1;
@@ -3174,6 +3175,17 @@ if(xc)
 }
 
 
+void fstReaderSetVcdExtensions(void *ctx, int enable)
+{
+struct fstReaderContext *xc = (struct fstReaderContext *)ctx;
+
+if(xc)
+	{
+	xc->use_vcd_extensions = (enable != 0);
+	}
+}
+
+
 void fstReaderIterBlocksSetNativeDoublesOnCallback(void *ctx, int enable)
 {
 struct fstReaderContext *xc = (struct fstReaderContext *)ctx;
@@ -3613,7 +3625,7 @@ while(!feof(xc->fh))
 
 			attrarg = fstReaderVarint64(xc->fh);
 
-			if(fv)
+			if(fv && xc->use_vcd_extensions)
 				{
 				switch(attrtype)
 					{
@@ -3652,7 +3664,7 @@ while(!feof(xc->fh))
 			break;
 
 		case FST_ST_GEN_ATTREND:
-			if(fv) fprintf(fv, "$attrend $end\n");
+			if(fv && xc->use_vcd_extensions) fprintf(fv, "$attrend $end\n");
 			break;
 
 		case FST_VT_VCD_EVENT:

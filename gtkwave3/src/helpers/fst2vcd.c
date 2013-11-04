@@ -38,6 +38,7 @@ printf(
 "Usage: %s [OPTION]... [FSTFILE]\n\n"
 "  -f, --fstname=FILE         specify FST input filename\n"
 "  -o, --output=FILE          specify output filename\n"
+"  -e, --extensions           emit FST extensions to VCD\n"
 "  -h, --help                 display this help then exit\n\n"
 "VCD is emitted to stdout if output filename is unspecified.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
@@ -46,6 +47,7 @@ printf(
 "Usage: %s [OPTION]... [FSTFILE]\n\n"
 "  -f                         specify FST input filename\n"
 "  -o                         specify output filename\n"
+"  -e                         emit FST extensions to VCD\n"
 "  -h                         display this help then exit\n\n"
 "VCD is emitted to stdout if output filename is unspecified.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
@@ -64,6 +66,7 @@ char *fvbuf=NULL;
 int c;
 struct fstReaderContext *xc;
 FILE *fv;
+int use_extensions = 0;
 
 WAVE_LOCALE_FIX
 
@@ -74,21 +77,26 @@ while (1)
                         
         static struct option long_options[] =
                 {
+		{"extensions", 0, 0, 'e'},
 		{"fstname", 1, 0, 'f'},
 		{"output", 1, 0, 'o'},
                 {"help", 0, 0, 'h'},
                 {0, 0, 0, 0}  
                 };
                 
-        c = getopt_long (argc, argv, "f:o:h", long_options, &option_index);
+        c = getopt_long (argc, argv, "ef:o:h", long_options, &option_index);
 #else
-        c = getopt      (argc, argv, "f:o:h");
+        c = getopt      (argc, argv, "ef:o:h");
 #endif
                         
         if (c == -1) break;     /* no more args */
                         
         switch (c)
                 {
+		case 'e':
+			use_extensions = 1;
+			break;
+
 		case 'f':
 			if(fstname) free(fstname);
                         fstname = malloc(strlen(optarg)+1);
@@ -167,6 +175,7 @@ if(outname)
 	fv = stdout;
 	}
 
+fstReaderSetVcdExtensions(xc, use_extensions);	/* TRUE is incompatible with vfast and other tools */
 if(!fstReaderProcessHier(xc, fv))		/* these 3 lines do all the VCD writing work */
 	{
 	fprintf(stderr, "could not process hierarchy for '%s', exiting.\n", fstname);
