@@ -313,7 +313,7 @@ fsdbRC rc = fsdb_obj->ffrExtractScaleUnit(su, digit, unit);
 
 if(rc == FSDB_RC_SUCCESS)
 	{
-	*mult = ((int)digit);
+	*mult = digit ? ((int)digit) : 1; /* in case digit is zero */
 	*scale = unit[0];
 	}
 
