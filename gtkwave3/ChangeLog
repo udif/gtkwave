@@ -1392,3 +1392,6 @@
 		Now use libcomdlg32 file requesters on MinGW.
 		Added --extensions flag to fstvcd to enable emission of
 		FST extensions/attributes to VCD files.  
+		Fix in extload.c FsdbReader for 1.x files that always return
+		zero for ffrObject::ffrGetMaxVarIdcode().
+

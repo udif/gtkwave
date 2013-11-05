@@ -782,18 +782,23 @@ if(GLOBALS->extload_ffr_ctx)
 		}
 
 	attempt_count++;
-	max_idcode = fsdbReaderGetMaxVarIdcode(GLOBALS->extload_ffr_ctx);
-	if(max_idcode)
-		{
-		success_count++;
-		}
-	
-	attempt_count++;
 	gs = fsdbReaderGetStatistics(GLOBALS->extload_ffr_ctx);
 	if(gs)
 		{
 		GLOBALS->numfacs = gs->varCount;
 		free(gs);
+		success_count++;
+		}
+
+	attempt_count++;
+	max_idcode = fsdbReaderGetMaxVarIdcode(GLOBALS->extload_ffr_ctx);
+	if(max_idcode)
+		{
+		success_count++;
+		}
+	else
+		{
+		max_idcode = GLOBALS->numfacs; /* for 1.x format files */
 		success_count++;
 		}
 
