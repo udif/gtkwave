@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2011.
+ * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ static char *stype[WAVE_STYPE_COUNT]=
 
 static struct item_mark_string item_mark_start_strings[]=
 	{
-	   { "Start of Time",  0  },
+	   { "Start of Time",  0 },
 	   { "Named Marker A", 0 },
 	   { "Named Marker B", 0 },
 	   { "Named Marker C", 0 },

@@ -1394,3 +1394,4 @@
 		FST extensions/attributes to VCD files.  
 		Fix in FsdbReader interface for 1.x files.
 		Added debounce for baseline (middle) mouse button.
+		Some warnings fixes from -Wextra.
