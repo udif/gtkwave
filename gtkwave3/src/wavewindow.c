@@ -1469,7 +1469,11 @@ if((event->button==1)||((event->button==3)&&(!GLOBALS->in_button_press_wavewindo
 else
 if(event->button==2)
 	{
-	button_motion_common(event->x,event->y,1,1);
+	if(!GLOBALS->button2_debounce_flag)
+		{
+		GLOBALS->button2_debounce_flag = 1; /* cleared by mouseover_timer() interrupt */
+		button_motion_common(event->x,event->y,1,1);
+		}
 	}
 
 return(TRUE);

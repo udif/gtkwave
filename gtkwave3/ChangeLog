@@ -1385,13 +1385,12 @@
 		Fixed timezero in vcd2fst as it was only parsing unsigned
 		numbers.
 		Fixed Open Hierarchy crash on blank signals.
-3.3.52	04nov13	Another partial VCD loader fix.
+3.3.52	06nov13	Another partial VCD loader fix.
 		Changed left/right arrow function in signal/wave windows to
 		find next transition of selected signal(s).
 		Re-enabled drag scroll on DnD.
 		Now use libcomdlg32 file requesters on MinGW.
 		Added --extensions flag to fstvcd to enable emission of
 		FST extensions/attributes to VCD files.  
-		Fix in extload.c FsdbReader for 1.x files that always return
-		zero for ffrObject::ffrGetMaxVarIdcode().
-
+		Fix in FsdbReader interface for 1.x files.
+		Added debounce for baseline (middle) mouse button.

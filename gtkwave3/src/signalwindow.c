@@ -721,6 +721,11 @@ GdkEventMotion event[1];
 event[0].deviceid = GDK_CORE_POINTER;  
 #endif
 
+if(GLOBALS->button2_debounce_flag)
+	{
+	GLOBALS->button2_debounce_flag = 0;
+	}
+
 if((GLOBALS->dnd_state)||(GLOBALS->tree_dnd_begin)) /* drag scroll on DnD */
 	{
 	GtkAdjustment *wadj, *hadj;

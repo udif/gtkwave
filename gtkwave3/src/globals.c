@@ -875,6 +875,8 @@ NULL, /* signalarea_event_box */
 0, /* cached_mouseover_x */
 0, /* cached_mouseover_y */
 0, /* mouseover_counter */
+0, /* button2_debounce_flag */
+
 
 /*
  * simplereq.c
