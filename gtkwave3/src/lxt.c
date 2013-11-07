@@ -183,7 +183,7 @@ inline static unsigned int get_64(offset) {
 
 #ifdef USE_X86_INLINE_ASM
 
-inline static unsigned int get_byte(offset) {
+inline static unsigned int get_byte(off_t offset) {
   return ((unsigned int)(*((unsigned char *) GLOBALS->mm_lxt_c_1+offset)));
 }
 

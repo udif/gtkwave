@@ -104,8 +104,8 @@ NULL, /* ae2_time_xlate */
  * analyzer.c
  */
 TR_RJUSTIFY, /* default_flags 5 */
-{0, 0, 0, 0, 0, 0, 0}, /* tims 6 */
-{0, 0, NULL, NULL, NULL, NULL, 0, NULL, NULL}, /* traces 9 */
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0}, /* tims 6 */
+{0, 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0}, /* traces 9 */
 0, /* hier_max_level 8 */
 0, /* hier_max_level_shadow */
 0, /* timestart_from_savefile */
@@ -369,7 +369,7 @@ NULL, /* gtk_context_bridge_ptr */
 0, /* text_help_c_1 111 */
 0, /* vscrollbar_help_c_1 112 */
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
-{0}, /* iter_help_c_1 113 */
+{NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, NULL}, /* iter_help_c_1 113 */
 0, /* bold_tag_help_c_1 114 */
 #endif
 0, /* window_help_c_2 115 */
@@ -416,7 +416,7 @@ NULL, /* logfiles */
 NULL, /* fontname_logfile 133 */
 NULL, /* font_logfile_c_1 134 */
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
-{0}, /* iter_logfile_c_2 135 */
+{NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, NULL}, /* iter_logfile_c_2 135 */
 NULL, /* bold_tag_logfile_c_2 136 */
 NULL, /* mono_tag_logfile_c_1 137 */
 NULL, /* size_tag_logfile_c_1 138 */
@@ -908,7 +908,7 @@ NULL, /* gt_splash_c_1 393 */
 NULL, /* text_status_c_2 398 */
 NULL, /* vscrollbar_status_c_2 399 */
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
-{0}, /* iter_status_c_3 400 */
+{NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, NULL}, /* iter_status_c_3 400 */
 NULL, /* bold_tag_status_c_3 401 */
 #endif
 
@@ -1081,7 +1081,7 @@ NULL, /* tree_treesearch_gtk2_c_1 466 */
 0, /* bundle_direction_treesearch_gtk2_c_3 467 */
 NULL, /* cleanup_treesearch_gtk2_c_8 468 */
 0, /* pre_import_treesearch_gtk2_c_1 469 */
-{0,0,0,NULL,NULL,NULL,0}, /* tcache_treesearch_gtk2_c_2 470 */
+{0,0,NULL,NULL,NULL,NULL,0,NULL,NULL,0}, /* tcache_treesearch_gtk2_c_2 470 */
 0, /* dnd_tgt_on_signalarea_treesearch_gtk2_c_1 471 */
 0, /* dnd_tgt_on_wavearea_treesearch_gtk2_c_1 */
 NULL, /* dnd_sigview */
