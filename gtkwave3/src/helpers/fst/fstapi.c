@@ -4673,7 +4673,7 @@ for(;;)
 					fstFread(mc, chain_table_lengths[i], 1, xc->f);
 					if(packtype == 'F')
 						{
-						rc = fastlz_decompress(mc, sourcelen, mu, destlen);
+						fastlz_decompress(mc, sourcelen, mu, destlen); /* rc appears unreliable */
 						}
 						else
 						{
