@@ -18,9 +18,11 @@ bin_PROGRAMS= rtlbrowse
 rtlbrowse_SOURCES = definehash.c fgetdynamic.c fgetdynamic.h \
 	logfile.c splay.c tcl_helper.c tree_widget.c \
 	$(srcdir)/../../src/helpers/fst/fastlz.c \
+	$(srcdir)/../../src/helpers/fst/fastlz.h \
 	$(srcdir)/../../src/helpers/fst/fstapi.c \
-	stem_recurse.c jrb.c jrb.h $(srcdir)/../../src/helpers/vzt_read.c \
-	$(srcdir)/../../src/helpers/lxt2_read.c splay.h \
+	$(srcdir)/../../src/helpers/fst/fstapi.h \
+	stem_recurse.c jrb.c jrb.h $(srcdir)/../../src/helpers/vzt_read.c $(srcdir)/../../src/helpers/vzt_read.h \
+	$(srcdir)/../../src/helpers/lxt2_read.c $(srcdir)/../../src/helpers/lxt2_read.h splay.h \
 	vlex.l vlex.h wavelink.h $(srcdir)/../../src/liblzma/LzmaLib.c $(srcdir)/../../src/liblzma/LzmaLib.h
 
 LDADD= $(GTK_LIBS) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBLZMA_LDADD) $(AET2_LDADD) \
