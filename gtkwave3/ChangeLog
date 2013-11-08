@@ -1396,3 +1396,4 @@
 		Fix in FsdbReader interface for version 1.x files.
 		Added debounce for baseline (middle) mouse button.
 		Many warnings fixes found from gcc -Wextra flag.
+		Fixed thread-unsafe static allocations in fstapi.c.

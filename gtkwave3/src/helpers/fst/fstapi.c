@@ -3198,9 +3198,8 @@ if(xc)
 /*
  * hierarchy processing
  */
-static char *fstVcdID(int value)
+static void fstVcdID(char *buf, int value)
 {
-static char buf[16];
 char *pnt = buf;
 int vmod;
 
@@ -3220,12 +3219,10 @@ for(;;)
         }
 
 *pnt = 0;
-return(buf);
 }
 
-static char *fstVcdIDForFwrite(int value, int *len)
+static int fstVcdIDForFwrite(char *buf, int value)
 {
-static char buf[16];
 char *pnt = buf;
 int vmod;
 
@@ -3244,8 +3241,7 @@ for(;;)
         if(!value) { break; }
         }
 
-*len = pnt-buf;
-return(buf);
+return(pnt - buf);
 }
 
 
@@ -3732,8 +3728,10 @@ while(!feof(xc->fh))
 					}
 				if(fv) 
 					{
+					char vcdid_buf[16];
 					uint32_t modlen = (vartype != FST_VT_VCD_PORT) ? len : ((len - 2) / 3);
-					fprintf(fv, "$var %s %"PRIu32" %s %s $end\n", vartypes[vartype], modlen, fstVcdID(xc->maxhandle+1), str);
+					fstVcdID(vcdid_buf, xc->maxhandle+1);
+					fprintf(fv, "$var %s %"PRIu32" %s %s $end\n", vartypes[vartype], modlen, vcdid_buf, str);
 					}
                 		xc->maxhandle++;
 				}
@@ -3746,8 +3744,10 @@ while(!feof(xc->fh))
 					}
 				if(fv) 
 					{
+					char vcdid_buf[16];
 					uint32_t modlen = (vartype != FST_VT_VCD_PORT) ? len : ((len - 2) / 3);
-					fprintf(fv, "$var %s %"PRIu32" %s %s $end\n", vartypes[vartype], modlen, fstVcdID(alias), str);
+					fstVcdID(vcdid_buf, alias);
+					fprintf(fv, "$var %s %"PRIu32" %s %s $end\n", vartypes[vartype], modlen, vcdid_buf, str);
 					}
 				xc->num_alias++;
 				}
@@ -4436,8 +4436,8 @@ for(;;)
 								{
 								if(fv)
 									{
-									int vcdid_len;
-									const char *vcd_id = fstVcdIDForFwrite(idx+1, &vcdid_len);
+									char vcd_id[16];
+									int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
 									fputc(val, fv);
 									fstFwrite(vcd_id, vcdid_len, 1, fv);
 									fputc('\n', fv);
@@ -4463,8 +4463,8 @@ for(;;)
 								{
 								if(fv)
 									{
-									int vcdid_len;
-									const char *vcd_id = fstVcdIDForFwrite(idx+1, &vcdid_len);
+									char vcd_id[16];
+									int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
 									fputc((xc->signal_typs[idx] != FST_VT_VCD_PORT) ? 'b' : 'p', fv);
 									fstFwrite(mu+sig_offs, xc->signal_lens[idx], 1, fv);
 									fputc(' ', fv);
@@ -4523,6 +4523,7 @@ for(;;)
 								{
 								if(fv)
 									{
+									char vcdid_buf[16];
 									clone_d = (unsigned char *)&d;
 									if(xc->double_endian_match)
 										{
@@ -4538,7 +4539,8 @@ for(;;)
 											}
 										}
 						
-									fprintf(fv, "r%.16g %s\n", d, fstVcdID(idx+1));
+									fstVcdID(vcdid_buf, idx+1);
+									fprintf(fv, "r%.16g %s\n", d, vcdid_buf);
 									}
 								}
 							}
@@ -4781,8 +4783,8 @@ for(;;)
 						{
 						if(fv) 
 							{
-							int vcdid_len;
-							const char *vcd_id = fstVcdIDForFwrite(idx+1, &vcdid_len);
+							char vcd_id[16];
+							int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
 							fputc(val, fv);
 							fstFwrite(vcd_id, vcdid_len, 1, fv);
 							fputc('\n', fv);
@@ -4826,8 +4828,8 @@ for(;;)
 							{
 							if(fv) 
 								{
-								int vcdid_len;
-								const char *vcd_id = fstVcdIDForFwrite(idx+1, &vcdid_len);
+								char vcd_id[16];
+								int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
 	
 								fputc('s', fv);
 								{
@@ -5015,8 +5017,8 @@ for(;;)
 
 				if(fv) 
 					{
-					int vcdid_len;
-					const char *vcd_id = fstVcdIDForFwrite(idx+1, &vcdid_len);
+					char vcd_id[16];
+					int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
 					fputc(' ', fv);
 					fstFwrite(vcd_id, vcdid_len, 1, fv);
 					fputc('\n', fv);
