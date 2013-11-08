@@ -4238,6 +4238,8 @@ uint32_t traversal_mem_offs;
 uint32_t *scatterptr, *headptr, *length_remaining;
 uint32_t cur_blackout = 0;
 int packtype;
+unsigned char *mc_mem = NULL;
+uint32_t mc_mem_len; /* corresponds to largest value encountered in chain_table_lengths[i] */
 
 if(!xc) return(0);
 
@@ -4647,6 +4649,10 @@ for(;;)
 #ifdef FST_DEBUG
 	printf("\tdecompressed chain idx len: %"PRIu32"\n", idx);
 #endif
+
+	mc_mem_len = 16384;
+	mc_mem = malloc(mc_mem_len); /* buffer for compressed reads */
+
 	/* check compressed VC data */
 	if(idx > xc->maxhandle) idx = xc->maxhandle;
 	for(i=0;i<idx;i++)
@@ -4667,11 +4673,18 @@ for(;;)
 				val = fstReaderVarint32WithSkip(xc->f, &skiplen);
 				if(val)
 					{
-					unsigned char *mu = mem_for_traversal + traversal_mem_offs;
-					unsigned char *mc = malloc(chain_table_lengths[i]);
+					unsigned char *mu = mem_for_traversal + traversal_mem_offs; /* uncomp: dst */
+					unsigned char *mc;					    /* comp:   src */
 					unsigned long destlen = val;
 					unsigned long sourcelen = chain_table_lengths[i];
-	
+
+					if(mc_mem_len < chain_table_lengths[i])
+						{
+						free(mc_mem);
+						mc_mem = malloc(mc_mem_len = chain_table_lengths[i]);
+						}
+					mc = mc_mem;	
+
 					fstFread(mc, chain_table_lengths[i], 1, xc->f);
 					if(packtype == 'F')
 						{
@@ -4681,7 +4694,7 @@ for(;;)
 						{
 						rc = uncompress(mu, &destlen, mc, sourcelen);
 						}
-					free(mc);
+
 					/* data to process is for(j=0;j<destlen;j++) in mu[j] */
 					headptr[i] = traversal_mem_offs;
 					length_remaining[i] = val;
@@ -4721,6 +4734,8 @@ for(;;)
 				}
 			}
 		}
+
+	free(mc_mem); /* there is no usage below for this, no real need to clear out mc_mem or mc_mem_len */
 
 	for(i=0;i<tsec_nitems;i++)
 		{
