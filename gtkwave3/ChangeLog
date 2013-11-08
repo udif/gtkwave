@@ -1385,13 +1385,14 @@
 		Fixed timezero in vcd2fst as it was only parsing unsigned
 		numbers.
 		Fixed Open Hierarchy crash on blank signals.
-3.3.52	06nov13	Another partial VCD loader fix.
-		Changed left/right arrow function in signal/wave windows to
+3.3.52	06nov13	Changed left/right arrow function in signal/wave windows to
 		find next transition of selected signal(s).
-		Re-enabled drag scroll on DnD.
+		Re-enabled DnD scroll beyond top/bottom of Signals pane.
+		Another partial VCD loader fix.
 		Now use libcomdlg32 file requesters on MinGW.
 		Added --extensions flag to fstvcd to enable emission of
-		FST extensions/attributes to VCD files.  
-		Fix in FsdbReader interface for 1.x files.
+		FST extensions/attributes to VCD files.  This is to keep FST
+		attributes from making VCD files unparseable with other tools.
+		Fix in FsdbReader interface for version 1.x files.
 		Added debounce for baseline (middle) mouse button.
-		Some warnings fixes from -Wextra.
+		Many warnings fixes found from gcc -Wextra flag.
