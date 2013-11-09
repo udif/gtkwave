@@ -1285,7 +1285,7 @@ for(i=0;i<xc->maxhandle;i++)
 					dmem = packmem = malloc(packmemlen = (wrlen * 2) + 2);
 					}
 
-				rc = (xc->fourpack) ? LZ4_compress(scratchpnt, dmem, wrlen) : fastlz_compress(scratchpnt, wrlen, dmem);
+				rc = (xc->fourpack) ? LZ4_compress((char *)scratchpnt, (char *)dmem, wrlen) : fastlz_compress(scratchpnt, wrlen, dmem);
 				if(rc < destlen)
         				{
 #ifndef FST_DYNAMIC_ALIAS_DISABLE
@@ -1758,7 +1758,7 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 			lz4_maxlen = LZ4_compressBound(xc->hier_file_len);
 			mem = malloc(lz4_maxlen);
 			hmem = fstMmap(NULL, xc->hier_file_len, PROT_READ|PROT_WRITE, MAP_SHARED, fileno(xc->hier_handle), 0);
-			packed_len = LZ4_compress(hmem, mem, xc->hier_file_len);
+			packed_len = LZ4_compress((char *)hmem, (char *)mem, xc->hier_file_len);
 			fstFwrite(mem, packed_len, 1, xc->handle);
 			fstMunmap(hmem, xc->hier_file_len);
 			free(mem);			
@@ -3282,13 +3282,25 @@ if(!xc->fh)
 	off_t clen = 0;
 	gzFile zhandle;
 	int zfd;
+	int htyp = FST_BL_SKIP;
+
+	/* can't handle both set at once should never happen in a real file */
+	if(!xc->contains_hier_section_lz4 && xc->contains_hier_section)
+		{
+		htyp = FST_BL_HIER;
+		}
+	else
+	if(xc->contains_hier_section_lz4 && !xc->contains_hier_section)
+		{
+		htyp = FST_BL_HIER_LZ4;
+		}
 
 	sprintf(fnam, "%s.hier_%d_%p", xc->filename, getpid(), (void *)xc);
 	fstReaderFseeko(xc, xc->f, xc->hier_pos, SEEK_SET);
 	uclen = fstReaderUint64(xc->f);
 	fflush(xc->f);
 
-	if(!xc->contains_hier_section_lz4 && xc->contains_hier_section)
+	if(htyp == FST_BL_HIER)
 		{
 		fstReaderFseeko(xc, xc->f, xc->hier_pos, SEEK_SET);
 		uclen = fstReaderUint64(xc->f);
@@ -3304,8 +3316,8 @@ if(!xc->fh)
 			return(0);
 			}
 		}
-
-	if(xc->contains_hier_section_lz4 && !xc->contains_hier_section)
+	else
+	if(htyp == FST_BL_HIER_LZ4)
 		{
 		fstReaderFseeko(xc, xc->f, xc->hier_pos - 8, SEEK_SET); /* get section len */
 		clen =  fstReaderUint64(xc->f) - 16;
@@ -3331,7 +3343,7 @@ if(!xc->fh)
 	if(fnam) unlink(fnam);
 #endif
 
-	if(!xc->contains_hier_section_lz4 && xc->contains_hier_section)
+	if(htyp == FST_BL_HIER)
 		{
 	        for(hl = 0; hl < uclen; hl += FST_GZIO_LEN)
 			{
@@ -3355,13 +3367,13 @@ if(!xc->fh)
 	        gzclose(zhandle);
 		}
 	else
-	if(xc->contains_hier_section_lz4 && !xc->contains_hier_section)
+	if(htyp == FST_BL_HIER_LZ4)
 		{
 		unsigned char *lz4_cmem  = malloc(clen);		
 		unsigned char *lz4_ucmem = malloc(uclen);		
 		
 		fstFread(lz4_cmem, clen, 1, xc->f);
-		pass_status = (uclen == LZ4_decompress_safe_partial (lz4_cmem, lz4_ucmem, clen, uclen, uclen));
+		pass_status = (uclen == LZ4_decompress_safe_partial ((char *)lz4_cmem, (char *)lz4_ucmem, clen, uclen, uclen));
 
 		if(fstFwrite(lz4_ucmem, uclen, 1, xc->fh) != 1)
 			{
@@ -3371,7 +3383,7 @@ if(!xc->fh)
 		free(lz4_ucmem);
 		free(lz4_cmem);
 		}
-	else
+	else /* FST_BL_SKIP */
 		{
 		pass_status = 0;
 		}
@@ -4760,15 +4772,12 @@ for(;;)
 
 					switch(packtype)
 						{
-						case 'Z': rc = uncompress(mu, &destlen, mc, sourcelen);
+						case '4': rc = (destlen == LZ4_decompress_safe_partial((char *)mc, (char *)mu, sourcelen, destlen, destlen)) ? Z_OK : Z_DATA_ERROR;
 							  break;
 						case 'F': fastlz_decompress(mc, sourcelen, mu, destlen); /* rc appears unreliable */
 							  break;
-						case '4': rc = (destlen == LZ4_decompress_safe_partial (mc, mu, sourcelen, destlen, destlen)) ? Z_OK : Z_DATA_ERROR;
+						default:  rc = uncompress(mu, &destlen, mc, sourcelen);
 							  break;
-						default:  printf("\tunknown pack type: %d, exiting!\n", packtype);
-							  exit(255);
-						          break;
 						}
 
 					/* data to process is for(j=0;j<destlen;j++) in mu[j] */
