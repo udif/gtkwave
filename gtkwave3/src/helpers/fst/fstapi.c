@@ -24,6 +24,7 @@
 
 #include "fstapi.h"
 #include "fastlz.h"
+#include "lz4.h"
 
 #ifndef HAVE_LIBPTHREAD
 #undef FST_WRITER_PARALLEL
@@ -544,6 +545,7 @@ uint32_t maxvalpos;
 
 unsigned vc_emitted : 1;
 unsigned is_initial_time : 1;
+unsigned fourpack : 1;
 unsigned fastpack : 1;
 
 int64_t timezero;
@@ -1064,7 +1066,7 @@ vchg_mem = xc->vchg_mem;
 
 f = xc->handle;
 fstWriterVarint(f, xc->maxhandle);	/* emit current number of handles */
-fputc(xc->fastpack ? 'F' : 'Z', f);
+fputc(xc->fourpack ? '4' : (xc->fastpack ? 'F' : 'Z'), f);
 fpos = 1;
 
 packmemlen = 1024;			/* maintain a running "longest" allocation to */
@@ -1283,7 +1285,7 @@ for(i=0;i<xc->maxhandle;i++)
 					dmem = packmem = malloc(packmemlen = (wrlen * 2) + 2);
 					}
 
-				rc = fastlz_compress(scratchpnt, wrlen, dmem);
+				rc = (xc->fourpack) ? LZ4_compress(scratchpnt, dmem, wrlen) : fastlz_compress(scratchpnt, wrlen, dmem);
 				if(rc < destlen)
         				{
 #ifndef FST_DYNAMIC_ALIAS_DISABLE
@@ -1708,7 +1710,6 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 
 	if(xc->compress_hier)
 		{
-		unsigned char *mem = malloc(FST_GZIO_LEN);
 		off_t hl, eos;
 		gzFile zhandle;
 		int zfd;
@@ -1722,25 +1723,46 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 		fstWriterUint64(xc->handle, 0);			/* section length */
 		fstWriterUint64(xc->handle, xc->hier_file_len);	/* uncompressed length */
 		
-		fflush(xc->handle);
-		zfd = dup(fileno(xc->handle));
-		zhandle = gzdopen(zfd, "wb4");
-		if(zhandle)
+		if(!xc->fourpack)
 			{
-			fstWriterFseeko(xc, xc->hier_handle, 0, SEEK_SET);
-			for(hl = 0; hl < xc->hier_file_len; hl += FST_GZIO_LEN)
+			unsigned char *mem = malloc(FST_GZIO_LEN);
+			zfd = dup(fileno(xc->handle));
+			fflush(xc->handle);
+			zhandle = gzdopen(zfd, "wb4");
+			if(zhandle)
 				{
-				unsigned len = ((xc->hier_file_len - hl) > FST_GZIO_LEN) ? FST_GZIO_LEN : (xc->hier_file_len - hl);
-				fstFread(mem, len, 1, xc->hier_handle);
-				gzwrite(zhandle, mem, len);
+				fstWriterFseeko(xc, xc->hier_handle, 0, SEEK_SET);
+				for(hl = 0; hl < xc->hier_file_len; hl += FST_GZIO_LEN)
+					{
+					unsigned len = ((xc->hier_file_len - hl) > FST_GZIO_LEN) ? FST_GZIO_LEN : (xc->hier_file_len - hl);
+					fstFread(mem, len, 1, xc->hier_handle);
+					gzwrite(zhandle, mem, len);
+					}
+				gzclose(zhandle);
 				}
-			gzclose(zhandle);
+				else
+				{
+				close(zfd);
+				}
+			free(mem);
 			}
 			else
 			{
-			close(zfd);
+			int lz4_maxlen;
+			unsigned char *mem;
+			unsigned char *hmem;
+			int packed_len;
+
+			fflush(xc->handle);
+
+			lz4_maxlen = LZ4_compressBound(xc->hier_file_len);
+			mem = malloc(lz4_maxlen);
+			hmem = fstMmap(NULL, xc->hier_file_len, PROT_READ|PROT_WRITE, MAP_SHARED, fileno(xc->hier_handle), 0);
+			packed_len = LZ4_compress(hmem, mem, xc->hier_file_len);
+			fstFwrite(mem, packed_len, 1, xc->handle);
+			fstMunmap(hmem, xc->hier_file_len);
+			free(mem);			
 			}
-		free(mem);
 
 		fstWriterFseeko(xc, xc->handle, 0, SEEK_END);
 		eos = ftello(xc->handle);
@@ -1749,7 +1771,7 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 		fflush(xc->handle);
 
 		fstWriterFseeko(xc, xc->handle, fixup_offs, SEEK_SET);
-		fputc(FST_BL_HIER, xc->handle);		/* actual tag */
+		fputc(xc->fourpack ? FST_BL_HIER_LZ4 : FST_BL_HIER, xc->handle); /* actual tag now also == compression type */
 
 		fstWriterFseeko(xc, xc->handle, 0, SEEK_END);	/* move file pointer to end for any section adds */
 		fflush(xc->handle);
@@ -2129,12 +2151,13 @@ if(xc)
 }
 
 
-void fstWriterSetPackType(void *ctx, int typ)
+void fstWriterSetPackType(void *ctx, enum fstWriterPackType typ)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
 	{
-	xc->fastpack = (typ != 0);
+	xc->fastpack = (typ != FST_WR_PT_ZLIB);
+	xc->fourpack = (typ == FST_WR_PT_LZ4);
 	}
 }
 
@@ -2725,6 +2748,7 @@ unsigned double_endian_match : 1;
 unsigned native_doubles_for_cb : 1;
 unsigned contains_geom_section : 1;
 unsigned contains_hier_section : 1;	/* valid for hier_pos */
+unsigned contains_hier_section_lz4 : 1;	/* valid for hier_pos */
 unsigned limit_range_valid : 1;		/* valid for limit_range_start, limit_range_end */
 
 char version[FST_HDR_SIM_VERSION_SIZE + 1];
@@ -3255,6 +3279,7 @@ if(!xc->fh)
 	char *fnam = malloc(strlen(xc->filename) + 6 + 16 + 32 + 1);
 	unsigned char *mem = malloc(FST_GZIO_LEN);
 	off_t hl, uclen;
+	off_t clen = 0;
 	gzFile zhandle;
 	int zfd;
 
@@ -3262,14 +3287,30 @@ if(!xc->fh)
 	fstReaderFseeko(xc, xc->f, xc->hier_pos, SEEK_SET);
 	uclen = fstReaderUint64(xc->f);
 	fflush(xc->f);
-	zfd = dup(fileno(xc->f));
-	zhandle = gzdopen(zfd, "rb");
-	if(!zhandle)
+
+	if(!xc->contains_hier_section_lz4 && xc->contains_hier_section)
 		{
-		close(zfd);
-		free(mem);
-		free(fnam);
-		return(0);
+		fstReaderFseeko(xc, xc->f, xc->hier_pos, SEEK_SET);
+		uclen = fstReaderUint64(xc->f);
+		fflush(xc->f);
+
+		zfd = dup(fileno(xc->f));
+		zhandle = gzdopen(zfd, "rb");
+		if(!zhandle)
+			{
+			close(zfd);
+			free(mem);
+			free(fnam);
+			return(0);
+			}
+		}
+
+	if(xc->contains_hier_section_lz4 && !xc->contains_hier_section)
+		{
+		fstReaderFseeko(xc, xc->f, xc->hier_pos - 8, SEEK_SET); /* get section len */
+		clen =  fstReaderUint64(xc->f) - 16;
+		uclen = fstReaderUint64(xc->f);
+		fflush(xc->f);
 		}
 
 #ifndef __MINGW32__
@@ -3290,26 +3331,51 @@ if(!xc->fh)
 	if(fnam) unlink(fnam);
 #endif
 
-        for(hl = 0; hl < uclen; hl += FST_GZIO_LEN)
+	if(!xc->contains_hier_section_lz4 && xc->contains_hier_section)
 		{
-                size_t len = ((uclen - hl) > FST_GZIO_LEN) ? FST_GZIO_LEN : (uclen - hl);
-		size_t gzreadlen = gzread(zhandle, mem, len); /* rc should equal len... */
-		size_t fwlen;
+	        for(hl = 0; hl < uclen; hl += FST_GZIO_LEN)
+			{
+	                size_t len = ((uclen - hl) > FST_GZIO_LEN) ? FST_GZIO_LEN : (uclen - hl);
+			size_t gzreadlen = gzread(zhandle, mem, len); /* rc should equal len... */
+			size_t fwlen;
+	
+			if(gzreadlen != len)
+				{
+				pass_status = 0;
+				break;
+				}
+	
+			fwlen = fstFwrite(mem, len, 1, xc->fh);
+			if(fwlen != 1)
+				{
+				pass_status = 0;
+				break;
+				}
+	                }
+	        gzclose(zhandle);
+		}
+	else
+	if(xc->contains_hier_section_lz4 && !xc->contains_hier_section)
+		{
+		unsigned char *lz4_cmem  = malloc(clen);		
+		unsigned char *lz4_ucmem = malloc(uclen);		
+		
+		fstFread(lz4_cmem, clen, 1, xc->f);
+		pass_status = (uclen == LZ4_decompress_safe_partial (lz4_cmem, lz4_ucmem, clen, uclen, uclen));
 
-		if(gzreadlen != len)
+		if(fstFwrite(lz4_ucmem, uclen, 1, xc->fh) != 1)
 			{
 			pass_status = 0;
-			break;
 			}
 
-		fwlen = fstFwrite(mem, len, 1, xc->fh);
-		if(fwlen != 1)
-			{
-			pass_status = 0;
-			break;
-			}
-                }
-        gzclose(zhandle);
+		free(lz4_ucmem);
+		free(lz4_cmem);
+		}
+	else
+		{
+		pass_status = 0;
+		}
+
 	free(mem);
 	free(fnam);
 
@@ -4041,6 +4107,11 @@ if(gzread_pass_status)
 			xc->contains_hier_section = 1;
 			xc->hier_pos = ftello(xc->f);
 			}
+		else if(sectype == FST_BL_HIER_LZ4)
+			{
+			xc->contains_hier_section_lz4 = 1;
+			xc->hier_pos = ftello(xc->f);
+			}
 		else if(sectype == FST_BL_BLACKOUT)
 			{
 			uint32_t i;
@@ -4119,7 +4190,7 @@ if((!nam)||(!(xc->f=fopen(nam, "rb"))))
 	xc->filename = strdup(nam);
 	rc = fstReaderInit(xc);
 
-	if((rc) && (xc->vc_section_count) && (xc->maxhandle) && ((xc->fh)||(xc->contains_hier_section)))
+	if((rc) && (xc->vc_section_count) && (xc->maxhandle) && ((xc->fh)||(xc->contains_hier_section||(xc->contains_hier_section_lz4))))
 		{
 		/* more init */
 		xc->do_rewind = 1;
@@ -4686,13 +4757,18 @@ for(;;)
 					mc = mc_mem;	
 
 					fstFread(mc, chain_table_lengths[i], 1, xc->f);
-					if(packtype == 'F')
+
+					switch(packtype)
 						{
-						fastlz_decompress(mc, sourcelen, mu, destlen); /* rc appears unreliable */
-						}
-						else
-						{
-						rc = uncompress(mu, &destlen, mc, sourcelen);
+						case 'Z': rc = uncompress(mu, &destlen, mc, sourcelen);
+							  break;
+						case 'F': fastlz_decompress(mc, sourcelen, mu, destlen); /* rc appears unreliable */
+							  break;
+						case '4': rc = (destlen == LZ4_decompress_safe_partial (mc, mu, sourcelen, destlen, destlen)) ? Z_OK : Z_DATA_ERROR;
+							  break;
+						default:  printf("\tunknown pack type: %d, exiting!\n", packtype);
+							  exit(255);
+						          break;
 						}
 
 					/* data to process is for(j=0;j<destlen;j++) in mu[j] */

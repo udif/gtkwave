@@ -68,7 +68,7 @@ am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
 libfst_a_AR = $(AR) $(ARFLAGS)
 libfst_a_LIBADD =
-am_libfst_a_OBJECTS = fastlz.$(OBJEXT) fstapi.$(OBJEXT)
+am_libfst_a_OBJECTS = fastlz.$(OBJEXT) lz4.$(OBJEXT) fstapi.$(OBJEXT)
 libfst_a_OBJECTS = $(am_libfst_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -275,7 +275,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = $(LIBZ_CFLAGS) $(LIBJUDY_CFLAGS)
 noinst_LIBRARIES = libfst.a
-libfst_a_SOURCES = fastlz.c fastlz.h fstapi.c fstapi.h
+libfst_a_SOURCES = fastlz.c fastlz.h lz4.c lz4.h fstapi.c fstapi.h
 EXTRA_DIST = block_format.txt
 all: all-am
 
@@ -327,6 +327,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fastlz.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fstapi.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lz4.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

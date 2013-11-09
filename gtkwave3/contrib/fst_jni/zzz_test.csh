@@ -17,6 +17,7 @@ javac \
 	fstVarDir.java \
 	fstVarType.java \
 	fstWriter.java \
+	fstWriterPackType.java \
 	fstReader.java
 			 
 javac \

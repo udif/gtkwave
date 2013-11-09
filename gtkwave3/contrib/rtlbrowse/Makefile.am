@@ -17,6 +17,8 @@ bin_PROGRAMS= rtlbrowse
 
 rtlbrowse_SOURCES = definehash.c fgetdynamic.c fgetdynamic.h \
 	logfile.c splay.c tcl_helper.c tree_widget.c \
+	$(srcdir)/../../src/helpers/fst/lz4.c \
+	$(srcdir)/../../src/helpers/fst/lz4.h \
 	$(srcdir)/../../src/helpers/fst/fastlz.c \
 	$(srcdir)/../../src/helpers/fst/fastlz.h \
 	$(srcdir)/../../src/helpers/fst/fstapi.c \

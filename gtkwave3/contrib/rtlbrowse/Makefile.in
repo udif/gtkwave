@@ -64,9 +64,10 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_rtlbrowse_OBJECTS = definehash.$(OBJEXT) fgetdynamic.$(OBJEXT) \
 	logfile.$(OBJEXT) splay.$(OBJEXT) tcl_helper.$(OBJEXT) \
-	tree_widget.$(OBJEXT) fastlz.$(OBJEXT) fstapi.$(OBJEXT) \
-	stem_recurse.$(OBJEXT) jrb.$(OBJEXT) vzt_read.$(OBJEXT) \
-	lxt2_read.$(OBJEXT) vlex.$(OBJEXT) LzmaLib.$(OBJEXT)
+	tree_widget.$(OBJEXT) lz4.$(OBJEXT) fastlz.$(OBJEXT) \
+	fstapi.$(OBJEXT) stem_recurse.$(OBJEXT) jrb.$(OBJEXT) \
+	vzt_read.$(OBJEXT) lxt2_read.$(OBJEXT) vlex.$(OBJEXT) \
+	LzmaLib.$(OBJEXT)
 rtlbrowse_OBJECTS = $(am_rtlbrowse_OBJECTS)
 rtlbrowse_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
@@ -343,6 +344,8 @@ LIBLZMA_CFLAGS = -I$(srcdir)/../../src/liblzma $(LIBXZ_CFLAGS)
 LIBLZMA_LDADD = $(LIBXZ_LDADD)
 rtlbrowse_SOURCES = definehash.c fgetdynamic.c fgetdynamic.h \
 	logfile.c splay.c tcl_helper.c tree_widget.c \
+	$(srcdir)/../../src/helpers/fst/lz4.c \
+	$(srcdir)/../../src/helpers/fst/lz4.h \
 	$(srcdir)/../../src/helpers/fst/fastlz.c \
 	$(srcdir)/../../src/helpers/fst/fastlz.h \
 	$(srcdir)/../../src/helpers/fst/fstapi.c \
@@ -456,6 +459,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jrb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lxt2_read.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lz4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/splay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stem_recurse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tcl_helper.Po@am__quote@
@@ -476,6 +480,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c `$(CYGPATH_W) '$<'`
+
+lz4.o: $(srcdir)/../../src/helpers/fst/lz4.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lz4.o -MD -MP -MF $(DEPDIR)/lz4.Tpo -c -o lz4.o `test -f '$(srcdir)/../../src/helpers/fst/lz4.c' || echo '$(srcdir)/'`$(srcdir)/../../src/helpers/fst/lz4.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/lz4.Tpo $(DEPDIR)/lz4.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$(srcdir)/../../src/helpers/fst/lz4.c' object='lz4.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lz4.o `test -f '$(srcdir)/../../src/helpers/fst/lz4.c' || echo '$(srcdir)/'`$(srcdir)/../../src/helpers/fst/lz4.c
+
+lz4.obj: $(srcdir)/../../src/helpers/fst/lz4.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT lz4.obj -MD -MP -MF $(DEPDIR)/lz4.Tpo -c -o lz4.obj `if test -f '$(srcdir)/../../src/helpers/fst/lz4.c'; then $(CYGPATH_W) '$(srcdir)/../../src/helpers/fst/lz4.c'; else $(CYGPATH_W) '$(srcdir)/$(srcdir)/../../src/helpers/fst/lz4.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/lz4.Tpo $(DEPDIR)/lz4.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$(srcdir)/../../src/helpers/fst/lz4.c' object='lz4.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o lz4.obj `if test -f '$(srcdir)/../../src/helpers/fst/lz4.c'; then $(CYGPATH_W) '$(srcdir)/../../src/helpers/fst/lz4.c'; else $(CYGPATH_W) '$(srcdir)/$(srcdir)/../../src/helpers/fst/lz4.c'; fi`
 
 fastlz.o: $(srcdir)/../../src/helpers/fst/fastlz.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT fastlz.o -MD -MP -MF $(DEPDIR)/fastlz.Tpo -c -o fastlz.o `test -f '$(srcdir)/../../src/helpers/fst/fastlz.c' || echo '$(srcdir)/'`$(srcdir)/../../src/helpers/fst/fastlz.c

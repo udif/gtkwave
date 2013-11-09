@@ -12,13 +12,13 @@ bin_PROGRAMS= evcd2vcd fst2vcd vcd2fst fstminer ghwdump lxt2miner lxt2vcd \
 	shmidcat vcd2lxt vcd2lxt2 vcd2vzt \
 	vzt2vcd vztminer
 
-vcd2fst_SOURCES= vcd2fst.c $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h $(srcdir)/../../contrib/rtlbrowse/jrb.h $(srcdir)/../../contrib/rtlbrowse/jrb.c
+vcd2fst_SOURCES= vcd2fst.c $(srcdir)/fst/lz4.c $(srcdir)/fst/lz4.h $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h $(srcdir)/../../contrib/rtlbrowse/jrb.h $(srcdir)/../../contrib/rtlbrowse/jrb.c
 vcd2fst_LDADD= $(LIBZ_LDADD) $(LIBJUDY_LDADD)
 
-fst2vcd_SOURCES= fst2vcd.c $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h
+fst2vcd_SOURCES= fst2vcd.c $(srcdir)/fst/lz4.c $(srcdir)/fst/lz4.h $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h
 fst2vcd_LDADD= $(LIBZ_LDADD) $(LIBJUDY_LDADD)
 
-fstminer_SOURCES= fstminer.c $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h
+fstminer_SOURCES= fstminer.c $(srcdir)/fst/lz4.c $(srcdir)/fst/lz4.h $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h
 fstminer_LDADD= $(LIBZ_LDADD) $(LIBJUDY_LDADD)
 
 vcd2lxt_SOURCES= vcd2lxt.c lxt_write.c lxt_write.h v2l_analyzer.h v2l_debug.c v2l_debug.h

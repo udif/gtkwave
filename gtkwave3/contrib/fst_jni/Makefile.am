@@ -21,6 +21,7 @@ EXTRA_DIST= \
 	fstVarDir.java \
 	fstVarType.java \
 	fstWriter.java \
+	fstWriterPackType.java \
 	Main.java \
 	zzz_test.csh
 

@@ -412,7 +412,7 @@ for(i=0;i<len;i++)
 return(val);
 }  
 
-int pack_type = 0;  /* set to 1 for fastlz */
+int pack_type = FST_WR_PT_ZLIB;  /* set to fstWriterPackType */
 int repack_all = 0; /* 0 is normal, 1 does the repack (via fstapi) at end */
 int parallel_mode = 0; /* 0 is is single threaded, 1 is multi-threaded */
 
@@ -1578,6 +1578,7 @@ printf(
 #endif
 "  -f, --fstname=FILE         specify FST output filename\n"
 "  -F, --fastpack             use fastlz algorithm for speed\n"
+"  -4, --fourpack             use lz4 algorithm for speed\n"
 "  -c, --compress             compress entire file on close\n"
 "  -p, --parallel             enable parallel mode\n"
 "  -h, --help                 display this help then exit\n\n"
@@ -1599,6 +1600,7 @@ printf(
 #endif
 "  -f FILE                    specify FST output filename\n"
 "  -F                         use fastlz algorithm for speed\n"
+"  -4                         use lz4 algorithm for speed\n"
 "  -c                         compress entire file on close\n"
 "  -p                         enable parallel mode\n"
 "  -h                         display this help then exit\n\n"
@@ -1638,15 +1640,16 @@ while (1)
 		{"vcdname", 1, 0, 'v'},
 		{"fstname", 1, 0, 'f'},
 		{"fastpack", 0, 0, 'F'},
+		{"fourpack", 0, 0, '4'},
 		{"compress", 0, 0, 'c'},
 		{"parallel", 0, 0, 'p'},
                 {"help", 0, 0, 'h'},
                 {0, 0, 0, 0}  
                 };
                 
-        c = getopt_long (argc, argv, "v:f:Fcph", long_options, &option_index);
+        c = getopt_long (argc, argv, "v:f:F4cph", long_options, &option_index);
 #else
-        c = getopt      (argc, argv, "v:f:Fcph");
+        c = getopt      (argc, argv, "v:f:F4cph");
 #endif
                         
         if (c == -1) break;     /* no more args */
@@ -1666,7 +1669,14 @@ while (1)
 			break;
 
 		case 'F':
-			pack_type = 1;
+			if(pack_type == FST_WR_PT_ZLIB)
+				{
+				pack_type = FST_WR_PT_FASTLZ;
+				}
+			break;
+
+		case '4':
+			pack_type = FST_WR_PT_LZ4;
 			break;
 
 		case 'c':
