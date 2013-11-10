@@ -1400,3 +1400,6 @@
 		Added debounce for baseline (middle) mouse button.
 		Many warnings fixes found from gcc -Wextra flag.
 		Fixed thread-unsafe static allocations in fstapi.c.
+		Added WLF support via wlf2vcd.  To use, specify -o
+		at the command line.  (e.g., gtkwave -o test.wlf)
+

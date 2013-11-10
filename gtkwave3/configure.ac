@@ -451,6 +451,13 @@ if test "$EXTDEBUG3" != "notfound" ; then
 	EXTLOAD_CFLAGS="$EXTLOAD_CFLAGS -DEXT2CONV_PATH=\\\"$EXTDEBUG3\\\" -DEXT2LOAD_SUFFIX=\\\"vpd\\\""
 fi
 
+# enables .wlf as input filetype in vcd2fst, and also gtkwave -o
+
+AC_PATH_PROG(EXTDEBUG4, [wlf2vcd], [notfound])
+if test "$EXTDEBUG4" != "notfound" ; then
+	EXTLOAD_CFLAGS="$EXTLOAD_CFLAGS -DEXT3CONV_PATH=\\\"$EXTDEBUG4\\\" -DEXT3LOAD_SUFFIX=\\\"wlf\\\""
+fi
+
 AC_SUBST(EXTLOAD_CFLAGS)
 
 #

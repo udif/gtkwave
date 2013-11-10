@@ -42,7 +42,13 @@
 #endif
 #endif
 
-#if defined(VCD2FST_EXTLOAD_CONV) || defined(VCD2FST_EXT2LOAD_CONV)
+#ifdef EXT3LOAD_SUFFIX
+#ifdef EXT3CONV_PATH
+#define VCD2FST_EXT3LOAD_CONV
+#endif
+#endif
+
+#if defined(VCD2FST_EXTLOAD_CONV) || defined(VCD2FST_EXT2LOAD_CONV) || defined(VCD2FST_EXT3LOAD_CONV)
 #define VCD2FST_EXTLOADERS_CONV
 #endif
 
@@ -473,6 +479,15 @@ if(!strcmp("-", vname))
 		if(suffix_check(vname, "."EXT2LOAD_SUFFIX))
 			{
 			sprintf(bin_fixbuff, EXT2CONV_PATH" %s", vname);
+			f = popen(bin_fixbuff, "r");
+			is_popen = 1;
+			}
+			else
+#endif
+#ifdef VCD2FST_EXT3LOAD_CONV
+		if(suffix_check(vname, "."EXT3LOAD_SUFFIX))
+			{
+			sprintf(bin_fixbuff, EXT3CONV_PATH" %s", vname);
 			f = popen(bin_fixbuff, "r");
 			is_popen = 1;
 			}
@@ -1525,54 +1540,43 @@ return(0);
 void print_help(char *nam)
 {
 #ifdef VCD2FST_EXTLOADERS_CONV
-#if defined(VCD2FST_EXTLOAD_CONV) && defined(VCD2FST_EXT2LOAD_CONV)
 
-int slen = strlen(EXTLOAD_SUFFIX) + 1 + strlen(EXT2LOAD_SUFFIX);
-char *ucase_ext = calloc(1, slen+1);
+int slen;
+char *ucase_ext = calloc(1, 1024);
 int i;
 
-sprintf(ucase_ext, "%s/%s", EXTLOAD_SUFFIX, EXT2LOAD_SUFFIX);
+ucase_ext[0] = 0;
+
+#if defined(VCD2FST_EXTLOAD_CONV)
+strcat(ucase_ext, "/");
+strcat(ucase_ext, EXTLOAD_SUFFIX);
+#endif
+
+#if defined(VCD2FST_EXT2LOAD_CONV)
+strcat(ucase_ext, "/");
+strcat(ucase_ext, EXT2LOAD_SUFFIX);
+#endif
+
+#if defined(VCD2FST_EXT3LOAD_CONV)
+strcat(ucase_ext, "/");
+strcat(ucase_ext, EXT3LOAD_SUFFIX);
+#endif
+
+slen = strlen(ucase_ext);
 
 for(i=0;i<slen;i++)
 	{
 	ucase_ext[i] = toupper(ucase_ext[i]);
 	}
 
-#else
-#ifdef VCD2FST_EXTLOAD_CONV
-int slen = strlen(EXTLOAD_SUFFIX);
-char *ucase_ext = calloc(1, slen+1);
-int i;
-
-for(i=0;i<slen;i++)
-	{
-	ucase_ext[i] = toupper(EXTLOAD_SUFFIX[i]);
-	}
 #endif
-#ifdef VCD2FST_EXT2LOAD_CONV
-int slen = strlen(EXT2LOAD_SUFFIX);
-char *ucase_ext = calloc(1, slen+1);
-int i;
-
-for(i=0;i<slen;i++)
-	{
-	ucase_ext[i] = toupper(EXT2LOAD_SUFFIX[i]);
-	}
-#endif
-#endif
-
-#endif
-
-
-
-
 
 
 #ifdef __linux__ 
 printf(
 "Usage: %s [OPTION]... [VCDFILE] [FSTFILE]\n\n"
 #ifdef VCD2FST_EXTLOADERS_CONV
-"  -v, --vcdname=FILE         specify VCD/%s input filename\n"
+"  -v, --vcdname=FILE         specify VCD%s input filename\n"
 #else
 "  -v, --vcdname=FILE         specify VCD input filename\n"
 #endif
@@ -1594,7 +1598,7 @@ printf(
 printf(
 "Usage: %s [OPTION]... [VCDFILE] [FSTFILE]\n\n"
 #ifdef VCD2FST_EXTLOADERS_CONV
-"  -v FILE                    specify VCD/%s input filename\n"
+"  -v FILE                    specify VCD%s input filename\n"
 #else
 "  -v FILE                    specify VCD input filename\n"
 #endif
