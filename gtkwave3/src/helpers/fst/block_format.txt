@@ -46,7 +46,14 @@ hierarchy block
 uint8_t         FST_BL_HIER
 uint64_t        section length
 uint64_t        length of uncompressed hier data
-[compressed data]
+[zlib compressed data]
+
+or
+
+uint8_t         FST_BL_HIER_LZ4
+uint64_t        section length
+uint64_t        length of uncompressed hier data
+[lz4 compressed data]
 
 ===========================================================================
 
