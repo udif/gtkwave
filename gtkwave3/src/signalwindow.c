@@ -413,7 +413,7 @@ if(!GLOBALS || !GLOBALS->filter_entry || !event)
  */
 static gint keypress_local(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-GtkAdjustment *wadj, *hadj;
+GtkAdjustment *wadj;
 int num_traces_displayable;
 int target;
 int which;
@@ -728,7 +728,7 @@ if(GLOBALS->button2_debounce_flag)
 
 if((GLOBALS->dnd_state)||(GLOBALS->tree_dnd_begin)) /* drag scroll on DnD */
 	{
-	GtkAdjustment *wadj, *hadj;
+	GtkAdjustment *wadj;
 	int num_traces_displayable;
 	int target;
 	int which;

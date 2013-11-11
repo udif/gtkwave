@@ -5426,8 +5426,6 @@ if(((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM)) && t_forced)
 static void
 menu_open_hierarchy_2a(gpointer null_data, guint callback_action, GtkWidget *widget, int typ)
 {
-Trptr t;
-int fix=0;
 if(GLOBALS->helpbox_is_active)
         {
 	if((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM))
