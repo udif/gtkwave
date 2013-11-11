@@ -1385,21 +1385,21 @@
 		Fixed timezero in vcd2fst as it was only parsing unsigned
 		numbers.
 		Fixed Open Hierarchy crash on blank signals.
-3.3.52	06nov13	Added LZ4 as compression type for FST.  When enabled with
+3.3.52	11nov13	Added LZ4 as compression type for FST.  When enabled with
 		--fourpack in vcd2fst, this compresses both signal data
 		and the hierarchy using LZ4.
+		Added WLF support via wlf2vcd.  To use, specify -o
+		at the command line.  (e.g., gtkwave -o test.wlf)
 		Changed left/right arrow function in signal/wave windows to
 		find next transition of selected signal(s).
 		Re-enabled DnD scroll beyond top/bottom of Signals pane.
+		Added debounce for baseline (middle) mouse button.
 		Another partial VCD loader fix.
 		Now use libcomdlg32 file requesters on MinGW.
 		Added --extensions flag to fstvcd to enable emission of
 		FST extensions/attributes to VCD files.  This is to keep FST
 		attributes from making VCD files unparseable with other tools.
 		Fix in FsdbReader interface for version 1.x files.
-		Added debounce for baseline (middle) mouse button.
 		Many warnings fixes found from gcc -Wextra flag.
 		Fixed thread-unsafe static allocations in fstapi.c.
-		Added WLF support via wlf2vcd.  To use, specify -o
-		at the command line.  (e.g., gtkwave -o test.wlf)
 
