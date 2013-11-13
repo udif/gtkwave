@@ -343,10 +343,10 @@ uint32_t nxt;
 
 while((nxt = v>>7))
         {
-        *(spnt++) = (v&0x7f) | 0x80;
+        *(spnt++) = ((unsigned char)v) | 0x80;
         v = nxt;
         }
-*(spnt++) = (v&0x7f);
+*(spnt++) = (unsigned char)v;
 
 do      {
         *(--pnt) = *(--spnt);
@@ -362,10 +362,10 @@ uint64_t nxt;
 
 while((nxt = v>>7))
         {
-        *(pnt++) = (v&0x7f) | 0x80;
+        *(pnt++) = ((unsigned char)v) | 0x80;
         v = nxt;
         }
-*(pnt++) = (v&0x7f);
+*(pnt++) = (unsigned char)v;
 
 return(pnt);
 }
@@ -493,10 +493,10 @@ int len;
 
 while((nxt = v>>7))
         {
-        *(pnt++) = (v&0x7f) | 0x80;
+        *(pnt++) = ((unsigned char)v) | 0x80;
         v = nxt;
         }
-*(pnt++) = (v&0x7f);
+*(pnt++) = (unsigned char)v;
 
 len = pnt-buf;
 fstFwrite(buf, len, 1, handle);
@@ -640,10 +640,10 @@ pnt += 4;
 
 while((nxt = v>>7))
         {
-        *(pnt++) = (v&0x7f) | 0x80;
+        *(pnt++) = ((unsigned char)v) | 0x80;
         v = nxt;
         }
-*(pnt++) = (v&0x7f);
+*(pnt++) = (unsigned char)v;
 memcpy(pnt, dbuf, siz);
 
 len = pnt-buf + siz;
@@ -667,18 +667,18 @@ pnt += 4;
 
 while((nxt = v>>7))
         {
-        *(pnt++) = (v&0x7f) | 0x80;
+        *(pnt++) = ((unsigned char)v) | 0x80;
         v = nxt;
         }
-*(pnt++) = (v&0x7f);
+*(pnt++) = (unsigned char)v;
 
 v = siz;
 while((nxt = v>>7))
         {
-        *(pnt++) = (v&0x7f) | 0x80;
+        *(pnt++) = ((unsigned char)v) | 0x80;
         v = nxt;
         }
-*(pnt++) = (v&0x7f);
+*(pnt++) = (unsigned char)v;
 
 memcpy(pnt, dbuf, siz);
 
