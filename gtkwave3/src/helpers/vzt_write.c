@@ -547,10 +547,10 @@ nmemb=gzwrite_buffered(lt);
 return(nmemb);
 }
 
-static int vzt_wr_emit_uv64z(struct vzt_wr_trace *lt, unsigned long long v)
+static int vzt_wr_emit_uv64z(struct vzt_wr_trace *lt, vztint64_t v)
 {
 int nmemb;
-unsigned long long nxt;
+vztint64_t nxt;
 unsigned int oldpnt = lt->gzbufpnt;
 
 while((nxt = v>>7))

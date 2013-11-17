@@ -25,6 +25,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <inttypes.h>
 #include <wavealloca.h>
 
 struct memchunk
@@ -41,8 +42,8 @@ size_t size;
  * types...
  */
 #define G_HAVE_GINT64
-#define gint64 long long
-#define guint64 unsigned long long
+#define gint64 int64_t
+#define guint64 uint64_t
 
 #ifdef G_HAVE_GINT64
 typedef gint64          TimeType; 

@@ -47,7 +47,7 @@ int numfacs=0;
 int deadcnt=0;
 
 int opt_depth = 4;
-unsigned long long opt_break_size = 0;
+uint64_t opt_break_size = 0;
 int opt_partial_mode = -1;
 int opt_checkpoint_disable = 0;
 int opt_maxgranule = 8;
@@ -1959,7 +1959,7 @@ while (1)
 			break;
 
 		case 'b':
-			sscanf(optarg, "%llu", &opt_break_size);
+			sscanf(optarg, "%"SCNu64, &opt_break_size);
 			errno = 0;
 			break;
 

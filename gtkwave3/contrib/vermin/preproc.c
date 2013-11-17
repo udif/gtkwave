@@ -4,6 +4,7 @@
 #include <string.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <inttypes.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "vpp_common.h"
@@ -127,9 +128,9 @@ zzrewind=0;
 
 unsigned int atoi_with_underscores(char *s)
 {
-const unsigned long long max32 = 4294967295ULL;
+const uint64_t max32 = 4294967295ULL;
 
-unsigned long long val;
+uint64_t val;
 unsigned int chval;
 
 val = 0ULL;
@@ -139,7 +140,7 @@ while((*s) && (*s!='\''))
                 {
 		chval = ((*s) -'0');
                 val *= 10ULL;
-                val += ((unsigned long long)chval);
+                val += ((uint64_t)chval);
                 if(val>max32)
                         {
                         warn("** Warning: Large constant truncated to MAXINT in file '%s' line %d\n", zzfilename, zzline);
