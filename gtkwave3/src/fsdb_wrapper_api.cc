@@ -19,7 +19,9 @@
 #include "ffrAPI.h"
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
+#endif
 
 #ifndef FALSE
 #define FALSE   0

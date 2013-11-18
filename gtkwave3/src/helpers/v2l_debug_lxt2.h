@@ -25,7 +25,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
+#endif
 #include <wavealloca.h>
 
 struct memchunk

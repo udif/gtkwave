@@ -31,7 +31,9 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
+#endif
 
 #ifndef _AIX
 #if HAVE_GETOPT_H
