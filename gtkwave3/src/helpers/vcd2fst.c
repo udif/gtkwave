@@ -418,7 +418,7 @@ for(i=0;i<len;i++)
 return(val);
 }  
 
-int pack_type = FST_WR_PT_ZLIB;  /* set to fstWriterPackType */
+int pack_type = FST_WR_PT_LZ4;  /* set to fstWriterPackType */
 int repack_all = 0; /* 0 is normal, 1 does the repack (via fstapi) at end */
 int parallel_mode = 0; /* 0 is is single threaded, 1 is multi-threaded */
 
@@ -1581,9 +1581,10 @@ printf(
 "  -v, --vcdname=FILE         specify VCD input filename\n"
 #endif
 "  -f, --fstname=FILE         specify FST output filename\n"
+"  -4, --fourpack             use lz4 algorithm for speed (default)\n"
 "  -F, --fastpack             use fastlz algorithm for speed\n"
-"  -4, --fourpack             use lz4 algorithm for speed\n"
-"  -c, --compress             compress entire file on close\n"
+"  -Z, --zlibpack             use zlib algorithm for size\n"
+"  -c, --compress             zlib compress entire file on close\n"
 "  -p, --parallel             enable parallel mode\n"
 "  -h, --help                 display this help then exit\n\n"
 
@@ -1603,9 +1604,10 @@ printf(
 "  -v FILE                    specify VCD input filename\n"
 #endif
 "  -f FILE                    specify FST output filename\n"
+"  -4                         use lz4 algorithm for speed (default)\n"
 "  -F                         use fastlz algorithm for speed\n"
-"  -4                         use lz4 algorithm for speed\n"
-"  -c                         compress entire file on close\n"
+"  -Z                         use zlib algorithm for size\n"
+"  -c                         zlib compress entire file on close\n"
 "  -p                         enable parallel mode\n"
 "  -h                         display this help then exit\n\n"
 
@@ -1645,15 +1647,16 @@ while (1)
 		{"fstname", 1, 0, 'f'},
 		{"fastpack", 0, 0, 'F'},
 		{"fourpack", 0, 0, '4'},
+		{"zlibpack", 0, 0, 'Z'},
 		{"compress", 0, 0, 'c'},
 		{"parallel", 0, 0, 'p'},
                 {"help", 0, 0, 'h'},
                 {0, 0, 0, 0}  
                 };
                 
-        c = getopt_long (argc, argv, "v:f:F4cph", long_options, &option_index);
+        c = getopt_long (argc, argv, "v:f:ZF4cph", long_options, &option_index);
 #else
-        c = getopt      (argc, argv, "v:f:F4cph");
+        c = getopt      (argc, argv, "v:f:ZF4cph");
 #endif
                         
         if (c == -1) break;     /* no more args */
@@ -1672,11 +1675,12 @@ while (1)
                         strcpy(lxname, optarg);
 			break;
 
+		case 'Z':
+			pack_type = FST_WR_PT_ZLIB;
+			break;
+
 		case 'F':
-			if(pack_type == FST_WR_PT_ZLIB)
-				{
-				pack_type = FST_WR_PT_FASTLZ;
-				}
+			pack_type = FST_WR_PT_FASTLZ;
 			break;
 
 		case '4':

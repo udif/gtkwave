@@ -18,11 +18,14 @@ VCD requires that the appropriate 2vcd converter was found during ./configure.
 \fB\-f,\-\-fstname\fR <\fIfilename\fP>
 Specify FST output filename.
 .TP 
-\fB\-F,\-\-fastpack\fR
-Indicates that fastlz should be used instead of gzip for block data.
-.TP 
 \fB\-4,\-\-fourpack\fR
-Indicates that LZ4 should be used instead of gzip/fastlz for block data and hierarchy data.
+Indicates that LZ4 should be used for value change data (default).
+.TP 
+\fB\-F,\-\-fastpack\fR
+Indicates that fastlz should be used instead of LZ4 for value change data.
+.TP 
+\fB\-4,\-\-zlibpack\fR
+Indicates that zlib should be used instead of LZ4 for value change data.
 .TP 
 \fB\-c,\-\-compress\fR
 Indicates that the entire file should be run through gzip on close.  This
