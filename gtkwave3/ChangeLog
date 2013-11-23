@@ -1402,5 +1402,7 @@
 		Fix in FsdbReader interface for version 1.x files.
 		Many warnings fixes found from gcc -Wextra flag.
 		Fixed thread-unsafe static allocations in fstapi.c.
-3.3.53	19nov13	Remove redundant ANDing in variable integer writer routines.
+3.3.53	23nov13	Remove redundant ANDing in variable integer writer routines.
 		Made LZ4 the default compression routine selected for vcd2fst.
+		Automatically invoke --optimize if VPD or WLF is detected,
+		invoke on FSDB is FsdbReader is missing.

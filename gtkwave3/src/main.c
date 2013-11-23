@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2013.
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -83,7 +83,6 @@
 #endif
 
 char *gtkwave_argv0_cached = NULL;
-
 
 static void switch_page(GtkNotebook     *notebook,
 			GtkNotebookPage *page,
@@ -1145,6 +1144,28 @@ if(is_wish && is_vcd)
 		"GTKWAVE | exiting!\n");
 	exit(255);
 	}
+
+
+#if defined(EXTLOAD_SUFFIX) && defined(EXTCONV_PATH)
+#if !defined(FSDB_IS_PRESENT) || !defined(FSDB_NSYS_IS_PRESENT)
+if(suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX))
+	{
+	opt_vcd = 1;
+	}
+#endif
+#endif
+#if defined(EXT2LOAD_SUFFIX) && defined(EXT2CONV_PATH)
+if(suffix_check(GLOBALS->loaded_file_name, "."EXT2LOAD_SUFFIX))
+	{
+	opt_vcd = 1;
+	}
+#endif
+#if defined(EXT3LOAD_SUFFIX) && defined(EXT3CONV_PATH)
+if(suffix_check(GLOBALS->loaded_file_name, "."EXT3LOAD_SUFFIX))
+	{
+	opt_vcd = 1;
+	}
+#endif
 
 /* attempt to load a dump+save file if only a savefile is specified at the command line */
 if((GLOBALS->loaded_file_name) && (!wname) &&
