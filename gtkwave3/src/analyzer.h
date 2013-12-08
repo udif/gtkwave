@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2013.
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -73,6 +73,7 @@ enum AnalyzerBits  { AN_0, AN_X, AN_Z, AN_1, AN_H, AN_U, AN_W, AN_L, AN_DASH, AN
 #define AN_USTR_INV "1XZ0LUWH-???????"
 
 /* for writing out 4 state formats (read GHW, write LXT) */
+#define AN_STR4ST   "0xz11xz0xxxxxxxx"
 #define AN_USTR4ST  "0XZ11XZ0XXXXXXXX"
 
 /* for hex/oct conversion in baseconvert.c */

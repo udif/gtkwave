@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2005-2011.
+ * Copyright (c) Tony Bybell 2005-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,7 +49,7 @@ if(!strict)
 	{
 	if(ch < AN_COUNT)
 		{
-		return(AN_USTR[ch]);
+		return(AN_STR[ch]);
 		}
 		else
 		{
@@ -60,7 +60,7 @@ else
 	{
 	if(ch < AN_COUNT)
 		{
-		return(AN_USTR4ST[ch]);
+		return(AN_STR4ST[ch]);
 		}
 		else
 		{
