@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2012.
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -2629,6 +2629,7 @@ if(!GLOBALS->vcd_handle_vcd_c_1)
 	{
 	fprintf(stderr, "Error opening %s .vcd file '%s'.\n",
 		GLOBALS->vcd_is_compressed_vcd_c_1?"compressed":"", fname);
+	perror("Why");
 	vcd_exit(255);
 	}
 
