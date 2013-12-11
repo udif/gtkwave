@@ -47,7 +47,9 @@ static void AddSymbolToCB(
 /* structure to hold callback data */
 typedef struct cbData 
 {
-WlfSymbolId sym;
+#ifdef BYPASS_USING_VALUE_TO_STRING
+void *pv;
+#endif
 WlfValueId val;
 unsigned int vcdid;
 unsigned int num_bits;
@@ -363,7 +365,6 @@ static WlfCallbackResponse sigCb(
         WlfCallbackReason reason)  
 {  
 WlfValueId v = ((cbData*) data)->val;  
-WlfSymbolId s = ((cbData*) data)->sym;  
 WlfTime64 time;  
 int i;
 char vbuf[16];
@@ -386,7 +387,7 @@ if(time != wgc.old_time)
 if(!((cbData*) data)->is_real)
 	{
 	unsigned int nbits = ((cbData*) data)->num_bits;
-	unsigned char *pv = wlfValueGetValue(v);
+	unsigned char *pv = ((cbData*) data)->pv;
 	char *value = wgc.value_string;
 
 	if(((cbData*) data)->is_vbit)
@@ -450,7 +451,7 @@ if(!((cbData*) data)->is_real)
 	}
 	else
 	{
-	double *d = wlfValueGetValue(v);
+	double *d = ((cbData*) data)->pv;
 	double dv;
 
 	if(d)
@@ -480,7 +481,6 @@ static WlfCallbackResponse sigCb(
         WlfCallbackReason reason)  
 {  
 WlfValueId v = ((cbData*) data)->val;  
-WlfSymbolId s = ((cbData*) data)->sym;  
 WlfTime64 time;  
 char *value;  
 char vbuf[16];
@@ -559,8 +559,10 @@ if(wlfSymIsSymbolSelect64(sym, wlfSelAllSignals))
 	{  
         WlfValueId val = wlfValueCreate(sym);  
         pdata = (cbData *) malloc(sizeof(cbData));  
-        pdata->sym = sym;  
         pdata->val = val;  
+#ifdef BYPASS_USING_VALUE_TO_STRING
+        pdata->pv = wlfValueGetValue(val);
+#endif
 	pdata->vcdid = vcdid;
 	pdata->num_bits = num_bits;
 	pdata->is_real = is_real;
