@@ -108,7 +108,7 @@ int cnt;
 iter = wlfSymChildren64(top, wlfSelAll);  
 if(iter == NULL) return;  
       
-/* interate through the children */  
+/* iterate through the children */  
 while ((sym = wlfIterate(iter)) != NULL) 
 	{  
      	cnt = wlfSymPropInt(sym, WLF_PROP_SUBELEMENT_COUNT);  
@@ -162,7 +162,7 @@ char vcdid_str[10];
 iter = wlfSymChildren64(top, wlfSelAll);  
 if(iter == NULL) return;  
       
-/* interate through the children */  
+/* iterate through the children */  
 while ((sym = wlfIterate(iter)) != NULL) 
 	{  
 //	printf("\n");
