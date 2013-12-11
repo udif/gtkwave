@@ -881,6 +881,7 @@ AC_CONFIG_FILES([Makefile
 		contrib/vermin/Makefile
 		contrib/bundle_for_osx/Makefile
 		contrib/fst_jni/Makefile
+		contrib/wlf2vcd/Makefile
 		examples/Makefile
 		man/Makefile
 		src/Makefile
