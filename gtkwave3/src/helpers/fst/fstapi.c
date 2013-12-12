@@ -3615,9 +3615,9 @@ if(fv)
 	
         switch(xc->timescale)
                 {
-                case  2:        time_scale = 100;               time_dimension[0] = ' '; break;
+                case  2:        time_scale = 100;               time_dimension[0] = 0;   break;
                 case  1:        time_scale = 10;
-                case  0:                                        time_dimension[0] = ' '; break;
+                case  0:                                        time_dimension[0] = 0;   break;
 
                 case -1:        time_scale = 100;               time_dimension[0] = 'm'; break;
                 case -2:        time_scale = 10;
