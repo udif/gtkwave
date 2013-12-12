@@ -152,7 +152,7 @@ wlfIteratorDestroy(iter);
 /****************************************************************************** 
 //  printSubElements 
 //  Recursively prints the context tree information starting at the top and 
-//  adds elements to the symbol list. 
+//  adds elements to the symbol callback iterator. 
 ******************************************************************************/  
 static void printSubElements(WlfSymbolId top)
 {  
@@ -323,7 +323,7 @@ while ((sym = wlfIterate(iter)) != NULL)
 
 	            	name = wlfSymPropString(sym, WLF_PROP_SYMBOL_PATH);  
 
-			/* add the symbol to the symbollist */  
+			/* add the symbol to the callback iterator if not an alias */  
 			unsigned int vcdid = 0;
 
 			if(arch >= 0)
@@ -615,7 +615,7 @@ if(wlfSymIsSymbolSelect64(sym, wlfSelAllSignals))
         status = wlfAddSignalEventCB(wgc.pack, sym, val, WLF_REQUEST_POSTPONED, sigCb, pdata);  
         if(status != WLF_OK)
 		{  
-                errorExit("AddSymbolToList");  
+                errorExit("AddSymbolToCB");  
 		}
         }  
 }  
