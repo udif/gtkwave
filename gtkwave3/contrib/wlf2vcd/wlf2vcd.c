@@ -29,8 +29,10 @@ unsigned int vcdid_added;
 unsigned int num_scopes;
 unsigned int num_symbols;
 unsigned int max_bits;
+unsigned int num_aliases;
 
 unsigned char *value_string;
+int *archive_number;
 } WlfGlobalContext;
 
 WlfGlobalContext wgc;
@@ -180,8 +182,6 @@ while ((sym = wlfIterate(iter)) != NULL)
 //	printf("exp: '%s'\n", exp);
 //	int ssor = wlfSymPropInt(sym, WLF_PROP_SYMBOL_SOURCE);
 //	printf("sym source: '%d'\n", ssor);
-//	int arch = wlfSymPropInt(sym, WLF_PROP_ARCHIVE_NUMBER);
-//	printf("arch number: '%d'\n", arch);
 //	char *apath = wlfSymPropString(sym, WLF_PROP_SYMBOL_ABSOLUTE_PATH);
 //	printf("abs path: '%s'\n", apath);
 //	char *dname = wlfSymPropString(sym, WLF_PROP_SYMBOL_DATASET_NAME);
@@ -191,6 +191,25 @@ while ((sym = wlfIterate(iter)) != NULL)
       
      	cnt = wlfSymPropInt(sym, WLF_PROP_SUBELEMENT_COUNT);  
     	WlfSymbolSel64 typ = wlfSymPropSymbolSel64(sym, WLF_PROP_SYMBOL_TYPE);
+
+	int arch = wlfSymPropInt(sym, WLF_PROP_ARCHIVE_NUMBER);
+	if(arch < 0)
+		{
+		if(cnt > 0)
+			{
+			WlfIterId iter2 = wlfSymChildren64(sym, wlfSelAll);
+			if(iter2)
+				{
+				WlfSymbolId sym2 = wlfIterate(iter2);
+				if(sym2)
+					{
+					arch = wlfSymPropInt(sym2, WLF_PROP_ARCHIVE_NUMBER);
+					/* NOTE: alias comparisons should really look across ALL bits, not just the first */
+					}
+				wlfIteratorDestroy(iter2);
+				}
+			}
+		}
 
 	unsigned int is_real = 0;
 	unsigned int is_vbit = 0;
@@ -299,26 +318,51 @@ while ((sym = wlfIterate(iter)) != NULL)
 				is_real = 1;
 				len = lft = rgh = 0;
 				vartype = "real";
+				if(64 > wgc.max_bits) wgc.max_bits = 64;
 				}
 
 	            	name = wlfSymPropString(sym, WLF_PROP_SYMBOL_PATH);  
 
 			/* add the symbol to the symbollist */  
-	            	AddSymbolToCB(sym, ++wgc.vcdid_added, num_bits = len, is_real, is_vbit, is_vreg);  
+			unsigned int vcdid = 0;
+
+			if(arch >= 0)
+				{
+				vcdid = wgc.archive_number[arch];
+				}
+
+			if(!vcdid)
+				{
+		            	AddSymbolToCB(sym, ++wgc.vcdid_added, num_bits = len, is_real, is_vbit, is_vreg);  
+				vcdid = wgc.vcdid_added;
+				if(arch >= 0)
+					{
+					wgc.archive_number[arch] = vcdid;
+					}
+				}
+				else
+				{
+				if(arch >= 0)
+					{
+					wgc.archive_number[arch] = vcdid;
+					}
+
+				wgc.num_aliases++;
+				}
 
 			if((lft != rgh) && (!is_vbit) && (!is_real))
 				{
-				printf("$var %s %d %s %s [%d:%d] $end\n", vartype, len, genVcdID(vcdid_str, wgc.vcdid_added), strrchr(name, '/')+1, lft, rgh);
+				printf("$var %s %d %s %s [%d:%d] $end\n", vartype, len, genVcdID(vcdid_str, vcdid), strrchr(name, '/')+1, lft, rgh);
 				}
 				else
 				{
 				if(cnt && (!is_vbit) && (!is_real))
 					{
-					printf("$var %s %d %s %s [%d] $end\n", vartype, len, genVcdID(vcdid_str, wgc.vcdid_added), strrchr(name, '/')+1, lft);
+					printf("$var %s %d %s %s [%d] $end\n", vartype, len, genVcdID(vcdid_str, vcdid), strrchr(name, '/')+1, lft);
 					}
 					else
 					{
-					printf("$var %s %d %s %s $end\n", vartype, len, genVcdID(vcdid_str, wgc.vcdid_added), strrchr(name, '/')+1);
+					printf("$var %s %d %s %s $end\n", vartype, len, genVcdID(vcdid_str, vcdid), strrchr(name, '/')+1);
 					}
 				}
 			}
@@ -522,7 +566,7 @@ if(!((cbData*) data)->is_real)
 	}
 	else
 	{
-	if((value=wlfValueToString(v, WLF_RADIX_SYMBOLIC, wgc.max_bits))==NULL)  
+	if((value=wlfValueToString(v, WLF_RADIX_SYMBOLIC, 0))==NULL)  
 		{
 		value = "0";
 		}
@@ -620,6 +664,8 @@ if(status != WLF_OK)
 	{
         errorExit("wlfFileInfo");  
 	}
+fprintf(stderr, "max archive num: %d\n", fileInfo.signalCount);
+wgc.archive_number = calloc(fileInfo.signalCount + 1, sizeof(int));
         
 time_t walltime = fileInfo.creationTime;
 printf("$date\n\t%s\n$end\n", asctime(localtime(&walltime)));
@@ -642,24 +688,24 @@ if(top == NULL)
 char *tscale = NULL;
 switch(resolution)
 	{
-	case WLF_TIME_RES_1FS:	tscale = "1 fs"; break;
-	case WLF_TIME_RES_10FS:	tscale = "10 fs"; break;
-	case WLF_TIME_RES_100FS:tscale = "100 fs"; break;
-	case WLF_TIME_RES_1PS:	tscale = "1 ps"; break;
-	case WLF_TIME_RES_10PS:	tscale = "10 ps"; break;
-	case WLF_TIME_RES_100PS:tscale = "100 ps"; break;
-	case WLF_TIME_RES_1NS:	tscale = "1 ns"; break;
-	case WLF_TIME_RES_10NS:	tscale = "10 ns"; break;
-	case WLF_TIME_RES_100NS:tscale = "100 ns"; break;
-	case WLF_TIME_RES_1US:	tscale = "1 us"; break;
-	case WLF_TIME_RES_10US:	tscale = "10 us"; break;
-	case WLF_TIME_RES_100US:tscale = "100 us"; break;
-	case WLF_TIME_RES_1MS:	tscale = "1 ms"; break;
-	case WLF_TIME_RES_10MS:	tscale = "10 ms"; break;
-	case WLF_TIME_RES_100MS:tscale = "100 ms"; break;
-	case WLF_TIME_RES_1SEC:	tscale = "1 s"; break;
-	case WLF_TIME_RES_10SEC:tscale = "10 s"; break;
-	case WLF_TIME_RES_100SEC:tscale = "100 s"; break;
+	case WLF_TIME_RES_1FS:	tscale = "1fs"; break;
+	case WLF_TIME_RES_10FS:	tscale = "10fs"; break;
+	case WLF_TIME_RES_100FS:tscale = "100fs"; break;
+	case WLF_TIME_RES_1PS:	tscale = "1ps"; break;
+	case WLF_TIME_RES_10PS:	tscale = "10ps"; break;
+	case WLF_TIME_RES_100PS:tscale = "100ps"; break;
+	case WLF_TIME_RES_1NS:	tscale = "1ns"; break;
+	case WLF_TIME_RES_10NS:	tscale = "10ns"; break;
+	case WLF_TIME_RES_100NS:tscale = "100ns"; break;
+	case WLF_TIME_RES_1US:	tscale = "1us"; break;
+	case WLF_TIME_RES_10US:	tscale = "10us"; break;
+	case WLF_TIME_RES_100US:tscale = "100us"; break;
+	case WLF_TIME_RES_1MS:	tscale = "1ms"; break;
+	case WLF_TIME_RES_10MS:	tscale = "10ms"; break;
+	case WLF_TIME_RES_100MS:tscale = "100ms"; break;
+	case WLF_TIME_RES_1SEC:	tscale = "1s"; break;
+	case WLF_TIME_RES_10SEC:tscale = "10s"; break;
+	case WLF_TIME_RES_100SEC:tscale ="100s"; break;
 	default: tscale = "1ns"; break;
 	}
 printf("$timescale\n\t%s\n$end\n", tscale);
@@ -673,14 +719,15 @@ if(wgc.pack == NULL)
           
 /* gather symbol information */  
 countSubElements(top);  
-fprintf(stderr, "num_scopes: %d\n", wgc.num_scopes);
-fprintf(stderr, "num_symbols: %d\n", wgc.num_symbols);
-fprintf(stderr, "max_bits: %d\n", wgc.max_bits);
-if(wgc.max_bits < 64) wgc.max_bits = 64; /* generic lower bound */
-wgc.value_string = malloc(wgc.max_bits+1);
 
 /* print out symbol information */  
 printSubElements(top);  
+fprintf(stderr, "num_scopes: %d\n", wgc.num_scopes);
+fprintf(stderr, "num_symbols: %d\n", wgc.num_symbols);
+fprintf(stderr, "max_bits: %d\n", wgc.max_bits);
+wgc.value_string = malloc(wgc.max_bits+1);
+fprintf(stderr, "num_signals %d\n", wgc.num_symbols - wgc.num_aliases);
+fprintf(stderr, "num_aliases %d\n", wgc.num_aliases);
 
 while(wgc.prev_hier_len && strncmp("/", wgc.prev_hier, wgc.prev_hier_len))
 	{ 
@@ -694,6 +741,8 @@ while(wgc.prev_hier_len && strncmp("/", wgc.prev_hier, wgc.prev_hier_len))
 
 printf("$enddefinitions $end\n");
 printf("$dumpvars\n");
+
+free(wgc.archive_number); wgc.archive_number = NULL;
       
 /* Scan the data starting at time 0 through the end of file */  
 status = wlfReadDataOverRange(wgc.pack, fileInfo.startTime, fileInfo.startDelta, fileInfo.lastTime, fileInfo.lastDelta, NULL, NULL, NULL);  
