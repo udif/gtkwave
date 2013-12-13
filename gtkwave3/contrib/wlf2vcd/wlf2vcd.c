@@ -33,6 +33,7 @@ unsigned int num_aliases;
 
 unsigned char *value_string;
 int *archive_number;
+WlfSymbolId *archive_sym;
 } WlfGlobalContext;
 
 WlfGlobalContext wgc;
@@ -192,7 +193,9 @@ while ((sym = wlfIterate(iter)) != NULL)
      	cnt = wlfSymPropInt(sym, WLF_PROP_SUBELEMENT_COUNT);  
     	WlfSymbolSel64 typ = wlfSymPropSymbolSel64(sym, WLF_PROP_SYMBOL_TYPE);
 
-	int arch = wlfSymPropInt(sym, WLF_PROP_ARCHIVE_NUMBER);
+	int this_arch;
+	int arch = this_arch = wlfSymPropInt(sym, WLF_PROP_ARCHIVE_NUMBER);
+	int alias_ok = 0;
 	if(arch < 0)
 		{
 		if(cnt > 0)
@@ -207,6 +210,57 @@ while ((sym = wlfIterate(iter)) != NULL)
 					/* NOTE: alias comparisons should really look across ALL bits, not just the first */
 					}
 				wlfIteratorDestroy(iter2);
+				}
+			}
+		}
+
+	if(arch >= 0)
+		{
+		WlfSymbolId archive_sym = wgc.archive_sym[arch];
+		if(archive_sym)
+			{
+			int archive_arch = wlfSymPropInt(archive_sym, WLF_PROP_ARCHIVE_NUMBER);
+			if((this_arch >= 0) && (archive_arch >= 0))
+				{
+				alias_ok = (this_arch == archive_arch);
+				}
+			else
+				{
+				WlfIterId this_iter = wlfSymChildren64(sym, wlfSelAll);
+				WlfIterId archive_iter = wlfSymChildren64(archive_sym, wlfSelAll);
+				WlfSymbolId this_child;
+				WlfSymbolId archive_child;
+	
+				alias_ok = 1;
+				for(;;)
+					{
+					this_child = wlfIterate(this_iter);
+					archive_child = wlfIterate(archive_iter);
+	
+					if(this_child && archive_child)
+						{
+						int this_child_arch    = wlfSymPropInt(this_child, WLF_PROP_ARCHIVE_NUMBER);
+						int archive_child_arch = wlfSymPropInt(archive_child, WLF_PROP_ARCHIVE_NUMBER);
+						if(this_child_arch != archive_child_arch)
+							{
+							alias_ok = 0;
+							break;
+							}
+						}
+					else
+					if(!this_child && !archive_child)
+						{
+						break;
+						}
+					else
+						{
+						alias_ok = 0;
+						break;
+						}
+					}
+	
+				wlfIteratorDestroy(archive_iter);
+				wlfIteratorDestroy(this_iter);
 				}
 			}
 		}
@@ -326,7 +380,7 @@ while ((sym = wlfIterate(iter)) != NULL)
 			/* add the symbol to the callback iterator if not an alias */  
 			unsigned int vcdid = 0;
 
-			if(arch >= 0)
+			if((arch >= 0) && (alias_ok))
 				{
 				vcdid = wgc.archive_number[arch];
 				}
@@ -338,6 +392,7 @@ while ((sym = wlfIterate(iter)) != NULL)
 				if(arch >= 0)
 					{
 					wgc.archive_number[arch] = vcdid;
+					wgc.archive_sym[arch] = sym;
 					}
 				}
 				else
@@ -345,6 +400,7 @@ while ((sym = wlfIterate(iter)) != NULL)
 				if(arch >= 0)
 					{
 					wgc.archive_number[arch] = vcdid;
+					wgc.archive_sym[arch] = sym;
 					}
 
 				wgc.num_aliases++;
@@ -666,6 +722,7 @@ if(status != WLF_OK)
 	}
 fprintf(stderr, "max archive num: %d\n", fileInfo.signalCount);
 wgc.archive_number = calloc(fileInfo.signalCount + 1, sizeof(int));
+wgc.archive_sym = calloc(fileInfo.signalCount + 1, sizeof(WlfSymbolId));
         
 time_t walltime = fileInfo.creationTime;
 printf("$date\n\t%s\n$end\n", asctime(localtime(&walltime)));
@@ -742,6 +799,7 @@ while(wgc.prev_hier_len && strncmp("/", wgc.prev_hier, wgc.prev_hier_len))
 printf("$enddefinitions $end\n");
 printf("$dumpvars\n");
 
+free(wgc.archive_sym); wgc.archive_sym = NULL;
 free(wgc.archive_number); wgc.archive_number = NULL;
       
 /* Scan the data starting at time 0 through the end of file */  
