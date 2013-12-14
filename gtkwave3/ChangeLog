@@ -1402,7 +1402,7 @@
 		Fix in FsdbReader interface for version 1.x files.
 		Many warnings fixes found from gcc -Wextra flag.
 		Fixed thread-unsafe static allocations in fstapi.c.
-3.3.53	11dec13	Made LZ4 the default compression routine selected for vcd2fst.
+3.3.53	13dec13	Made LZ4 the default compression routine selected for vcd2fst.
 		Automatically invoke --optimize if VPD or WLF is detected,
 		invoke on FSDB if FsdbReader is missing.
 		Corrected non-function typos in documentation.
@@ -1410,5 +1410,5 @@
 		Standardized export feature to write vcd using lower case
 		for non 0/1 values.
 		Added perror() on errno-related exits in vcd loaders.
-		Added experimental wlf2vcd that is considerably faster than
-		vendor version.  It is currently not compiled in.
+		Added experimental wlf2vcd in contrib.  It is not currently 
+		compiled or used.
