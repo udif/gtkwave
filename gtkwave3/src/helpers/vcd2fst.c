@@ -727,7 +727,29 @@ while(!feof(f))
 		len = atoi(st);
 		switch(vartype)
 			{
-			case FST_VT_VCD_PORT: len = (len * 3) + 2; break;
+			case FST_VT_VCD_PORT: 
+				if(*st == '[') /* VCS extension, so reparse */
+					{
+					int p_hi = atoi(st+1);
+					int p_lo = p_hi;
+					char *p_colon = strchr(st+1, ':');
+					if(p_colon)
+						{
+						p_lo = atoi(p_colon+1);
+						}
+
+					if(p_hi > p_lo)
+						{
+						len = p_hi - p_lo + 1;
+						}
+						else
+						{
+						len = p_lo - p_hi + 1;
+						}
+					}
+
+				len = (len * 3) + 2; 
+				break;
 			case FST_VT_GEN_STRING: len = 0; break;
 			case FST_VT_VCD_EVENT: len = (len != 0) ? len : 1;  break;
 			default: 
@@ -1386,7 +1408,7 @@ for(;;) /* was while(!feof(f)) */
 
 			for(;;)
 				{
-				if((*src == '\n') || (*src == '\r')) break;
+				if(!*src) break;
 				if(isspace((int)(unsigned char)*src))
 					{
 					if(pchar != ' ') { *(pnt++) = pchar = ' '; }
@@ -1404,7 +1426,8 @@ for(;;) /* was while(!feof(f)) */
 			sp = strchr(sp+1, ' ');
 			if(!sp) break;
 			*sp = 0;
-			hash = vcdid_hash(sp+1, nl - (sp+1));
+
+			hash = vcdid_hash(sp+1, strlen(sp+1)); /* nl is no longer good here */
 			if(!hash_kill)
 				{
 				fstWriterEmitValueChange(ctx, hash, bin_fixbuff);
