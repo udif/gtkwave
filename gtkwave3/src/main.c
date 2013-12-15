@@ -1148,20 +1148,20 @@ if(is_wish && is_vcd)
 
 #if defined(EXTLOAD_SUFFIX) && defined(EXTCONV_PATH)
 #if !defined(FSDB_IS_PRESENT) || !defined(FSDB_NSYS_IS_PRESENT)
-if(suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX))
+if(GLOBALS->loaded_file_name && suffix_check(GLOBALS->loaded_file_name, "."EXTLOAD_SUFFIX))
 	{
 	opt_vcd = 1;
 	}
 #endif
 #endif
 #if defined(EXT2LOAD_SUFFIX) && defined(EXT2CONV_PATH)
-if(suffix_check(GLOBALS->loaded_file_name, "."EXT2LOAD_SUFFIX))
+if(GLOBALS->loaded_file_name && suffix_check(GLOBALS->loaded_file_name, "."EXT2LOAD_SUFFIX))
 	{
 	opt_vcd = 1;
 	}
 #endif
 #if defined(EXT3LOAD_SUFFIX) && defined(EXT3CONV_PATH)
-if(suffix_check(GLOBALS->loaded_file_name, "."EXT3LOAD_SUFFIX))
+if(GLOBALS->loaded_file_name && suffix_check(GLOBALS->loaded_file_name, "."EXT3LOAD_SUFFIX))
 	{
 	opt_vcd = 1;
 	}
