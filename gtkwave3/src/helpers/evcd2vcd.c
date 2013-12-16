@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Tony Bybell.
+ * Copyright (c) 2009-2014 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -195,7 +195,29 @@ while(!feof(f))
 			}
 
 		st = strtok(NULL, " \t");
-		len = atoi(st);
+                if(*st == '[') /* VCS extension */
+			{
+                        int p_hi = atoi(st+1);
+                        int p_lo = p_hi;
+                        char *p_colon = strchr(st+1, ':');
+                        if(p_colon)
+				{
+                                p_lo = atoi(p_colon+1);
+                                }
+
+                        if(p_hi > p_lo)
+				{
+                                len = p_hi - p_lo + 1;
+                                }
+                                else
+                                {
+                                len = p_lo - p_hi + 1;
+                                }
+			}
+			else
+			{
+			len = atoi(st);
+			}
 
 		st = strtok(NULL, " \t"); /* vcdid */
 		hash = vcdid_hash(st);
@@ -313,7 +335,7 @@ while(!feof(f))
 
 			for(;;)
 				{
-				if((*src == '\n') || (*src == '\r')) break;
+				if(!*src) break;
 				if(isspace((int)(unsigned char)*src))
 					{
 					if(pchar != ' ') { *(pnt++) = pchar = ' '; }
