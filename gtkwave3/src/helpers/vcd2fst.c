@@ -501,7 +501,7 @@ if(!strcmp("-", vname))
 
 if(!f)
 	{
-	printf("could not open '%s', exiting.\n", vname);
+	printf("Could not open '%s', exiting.\n", vname);
 	free(bin_fixbuff); bin_fixbuff = NULL;
 	exit(255);
 	}
@@ -510,7 +510,7 @@ ctx = fstWriterCreate(fstname, 1);
 
 if(!ctx)
 	{
-	printf("could not open '%s', exiting.\n", fstname);
+	printf("Could not open '%s', exiting.\n", fstname);
 	free(bin_fixbuff); bin_fixbuff = NULL;
 	exit(255);
 	}
