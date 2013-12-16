@@ -312,7 +312,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = doc examples man src contrib share
-EXTRA_DIST = ANALOG_README.TXT ChangeLog COPYING INSTALL LICENSE.TXT MIT.TXT README NEWS AUTHORS \
+EXTRA_DIST = ChangeLog COPYING INSTALL LICENSE.TXT README NEWS AUTHORS \
 	autogen.sh wave_locale.h tcl.m4
 
 all: config.h
