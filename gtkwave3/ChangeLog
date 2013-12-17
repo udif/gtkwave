@@ -1412,4 +1412,4 @@
 		Added experimental wlf2vcd in contrib.  It is not currently 
 		compiled or used.
 		Corrected non-functional typos in documentation.
-
+3.3.54	16dec13	<< Version bump >>
