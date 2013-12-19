@@ -55,6 +55,13 @@ uint64_t        section length
 uint64_t        length of uncompressed hier data
 [lz4 compressed data]
 
+uint8_t         FST_BL_HIER_LZ4DUO
+uint64_t        section length
+uint64_t        length of uncompressed hier data
+varint		length of hier data compressed once with lz4
+[lz4 double compressed data]
+
+
 ===========================================================================
 
 dumpon/off block

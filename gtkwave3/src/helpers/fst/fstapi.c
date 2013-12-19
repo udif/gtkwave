@@ -1763,7 +1763,7 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 			packed_len = LZ4_compress((char *)hmem, (char *)mem, xc->hier_file_len);
 			fstMunmap(hmem, xc->hier_file_len);
 
-			fourpack_duo = (xc->hier_file_len > FST_HDR_FOURPACK_DUO_SIZE); /* double pack when hierarchy is large */
+			fourpack_duo = (!xc->repack_on_close) && (xc->hier_file_len > FST_HDR_FOURPACK_DUO_SIZE); /* double pack when hierarchy is large */
 
 			if(fourpack_duo)	/* double packing with LZ4 is faster than gzip */
 				{
