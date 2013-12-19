@@ -64,6 +64,7 @@ enum fstBlockType {
     FST_BL_HIER                = 4,
     FST_BL_VCDATA_DYN_ALIAS    = 5,
     FST_BL_HIER_LZ4            = 6,
+    FST_BL_HIER_LZ4DUO         = 7,
 
     FST_BL_ZWRAPPER	       = 254,   /* indicates that whole trace is gz wrapped */
     FST_BL_SKIP		       = 255	/* used while block is being written */

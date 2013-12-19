@@ -87,6 +87,7 @@ void **JenkinsIns(void *base_i, const unsigned char *mem, uint32_t length, uint3
 #define FST_HDR_FILETYPE_SIZE		(1)
 #define FST_HDR_TIMEZERO_SIZE		(8)
 #define FST_GZIO_LEN			(32768)
+#define FST_HDR_FOURPACK_DUO_SIZE	(4*1024*1024)
 
 #if defined(__i386__) || defined(__x86_64__) || defined(_AIX)
 #define FST_DO_MISALIGNED_OPS
@@ -1713,6 +1714,7 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 		off_t hl, eos;
 		gzFile zhandle;
 		int zfd;
+		int fourpack_duo = 0;
 #ifndef __MINGW32__
 		char *fnam = malloc(strlen(xc->filename) + 5 + 1);
 #endif
@@ -1759,8 +1761,29 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 			mem = malloc(lz4_maxlen);
 			hmem = fstMmap(NULL, xc->hier_file_len, PROT_READ|PROT_WRITE, MAP_SHARED, fileno(xc->hier_handle), 0);
 			packed_len = LZ4_compress((char *)hmem, (char *)mem, xc->hier_file_len);
-			fstFwrite(mem, packed_len, 1, xc->handle);
 			fstMunmap(hmem, xc->hier_file_len);
+
+			fourpack_duo = (xc->hier_file_len > FST_HDR_FOURPACK_DUO_SIZE); /* double pack when hierarchy is large */
+
+			if(fourpack_duo)	/* double packing with LZ4 is faster than gzip */
+				{
+				unsigned char *mem_duo;
+				int lz4_maxlen_duo;
+				int packed_len_duo;
+
+				lz4_maxlen_duo = LZ4_compressBound(packed_len);
+				mem_duo = malloc(lz4_maxlen_duo);
+				packed_len_duo = LZ4_compress((char *)mem, (char *)mem_duo, packed_len);
+
+				fstWriterVarint(xc->handle, packed_len); /* 1st round compressed length */
+				fstFwrite(mem_duo, packed_len_duo, 1, xc->handle);
+				free(mem_duo);
+				}
+				else
+				{
+				fstFwrite(mem, packed_len, 1, xc->handle);
+				}
+
 			free(mem);			
 			}
 
@@ -1771,7 +1794,9 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 		fflush(xc->handle);
 
 		fstWriterFseeko(xc, xc->handle, fixup_offs, SEEK_SET);
-		fputc(xc->fourpack ? FST_BL_HIER_LZ4 : FST_BL_HIER, xc->handle); /* actual tag now also == compression type */
+		fputc(xc->fourpack ? 
+			( fourpack_duo ? FST_BL_HIER_LZ4DUO : FST_BL_HIER_LZ4) : 
+			FST_BL_HIER, xc->handle); /* actual tag now also == compression type */
 
 		fstWriterFseeko(xc, xc->handle, 0, SEEK_END);	/* move file pointer to end for any section adds */
 		fflush(xc->handle);
@@ -2156,8 +2181,8 @@ void fstWriterSetPackType(void *ctx, enum fstWriterPackType typ)
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
 	{
-	xc->fastpack = (typ != FST_WR_PT_ZLIB);
-	xc->fourpack = (typ == FST_WR_PT_LZ4);
+	xc->fastpack     = (typ != FST_WR_PT_ZLIB);
+	xc->fourpack     = (typ == FST_WR_PT_LZ4);
 	}
 }
 
@@ -2747,9 +2772,10 @@ unsigned use_vcd_extensions : 1;
 unsigned double_endian_match : 1;
 unsigned native_doubles_for_cb : 1;
 unsigned contains_geom_section : 1;
-unsigned contains_hier_section : 1;	/* valid for hier_pos */
-unsigned contains_hier_section_lz4 : 1;	/* valid for hier_pos */
-unsigned limit_range_valid : 1;		/* valid for limit_range_start, limit_range_end */
+unsigned contains_hier_section : 1;	   /* valid for hier_pos */
+unsigned contains_hier_section_lz4duo : 1; /* valid for hier_pos (contains_hier_section_lz4 always also set) */
+unsigned contains_hier_section_lz4 : 1;	   /* valid for hier_pos */
+unsigned limit_range_valid : 1;		   /* valid for limit_range_start, limit_range_end */
 
 char version[FST_HDR_SIM_VERSION_SIZE + 1];
 char date[FST_HDR_DATE_SIZE + 1];
@@ -3292,7 +3318,7 @@ if(!xc->fh)
 	else
 	if(xc->contains_hier_section_lz4 && !xc->contains_hier_section)
 		{
-		htyp = FST_BL_HIER_LZ4;
+		htyp = xc->contains_hier_section_lz4duo ? FST_BL_HIER_LZ4DUO : FST_BL_HIER_LZ4;
 		}
 
 	sprintf(fnam, "%s.hier_%d_%p", xc->filename, getpid(), (void *)xc);
@@ -3317,7 +3343,7 @@ if(!xc->fh)
 			}
 		}
 	else
-	if(htyp == FST_BL_HIER_LZ4)
+	if((htyp == FST_BL_HIER_LZ4) || (htyp == FST_BL_HIER_LZ4DUO))
 		{
 		fstReaderFseeko(xc, xc->f, xc->hier_pos - 8, SEEK_SET); /* get section len */
 		clen =  fstReaderUint64(xc->f) - 16;
@@ -3365,6 +3391,34 @@ if(!xc->fh)
 				}
 	                }
 	        gzclose(zhandle);
+		}
+	else
+	if(htyp == FST_BL_HIER_LZ4DUO)
+		{
+		unsigned char *lz4_cmem  = malloc(clen);		
+		unsigned char *lz4_ucmem = malloc(uclen);		
+		unsigned char *lz4_ucmem2;		
+		uint64_t uclen2;		
+		int skiplen2 = 0;
+
+		fstFread(lz4_cmem, clen, 1, xc->f);
+
+		uclen2 = fstGetVarint64(lz4_cmem, &skiplen2);
+		lz4_ucmem2 = malloc(uclen2);
+		pass_status = (uclen2 == LZ4_decompress_safe_partial ((char *)lz4_cmem + skiplen2, (char *)lz4_ucmem2, clen - skiplen2, uclen2, uclen2));
+		if(pass_status)
+			{
+			pass_status = (uclen == LZ4_decompress_safe_partial ((char *)lz4_ucmem2, (char *)lz4_ucmem, uclen2, uclen, uclen));
+
+			if(fstFwrite(lz4_ucmem, uclen, 1, xc->fh) != 1)
+				{
+				pass_status = 0;
+				}
+			}
+
+		free(lz4_ucmem2);
+		free(lz4_ucmem);
+		free(lz4_cmem);
 		}
 	else
 	if(htyp == FST_BL_HIER_LZ4)
@@ -4117,6 +4171,12 @@ if(gzread_pass_status)
 		else if(sectype == FST_BL_HIER)
 			{
 			xc->contains_hier_section = 1;
+			xc->hier_pos = ftello(xc->f);
+			}
+		else if(sectype == FST_BL_HIER_LZ4DUO)
+			{
+			xc->contains_hier_section_lz4    = 1;
+			xc->contains_hier_section_lz4duo = 1;
 			xc->hier_pos = ftello(xc->f);
 			}
 		else if(sectype == FST_BL_HIER_LZ4)
