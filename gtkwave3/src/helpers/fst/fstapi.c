@@ -1276,6 +1276,7 @@ for(i=0;i<xc->maxhandle;i++)
 				}
 				else
 				{
+				/* this is extremely conservative: fastlz needs +5% for worst case, lz4 needs siz+(siz/255)+16 */
 				if(((wrlen * 2) + 2) <= packmemlen)
 					{
 					dmem = packmem;
