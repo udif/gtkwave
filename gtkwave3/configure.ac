@@ -595,7 +595,7 @@ if test "X$EXZ" == "Xyes"; then
 	AC_CHECK_LIB([lzma], [lzma_end], [LIBLZMA_LDADD=-llzma] , [have_liblzma=yes])
 	if test "$have_liblzma" = "yes" ; then
 		AC_MSG_ERROR([LZMA support for VZT is enabled, but xz could not be found.
-Please install xz, see the http://tukaani.org/xz website or use the --disable-xz flag.])
+Please install the xz-devel package, see the http://tukaani.org/xz website, or use the --disable-xz flag.])
 	fi
 	LIBXZ_LDADD='-llzma'
 	LIBXZ_CFLAGS='-D_WAVE_HAVE_XZ'

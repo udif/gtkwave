@@ -6897,7 +6897,7 @@ fi
 
 	if test "$have_liblzma" = "yes" ; then
 		as_fn_error $? "LZMA support for VZT is enabled, but xz could not be found.
-Please install xz, see the http://tukaani.org/xz website or use the --disable-xz flag." "$LINENO" 5
+Please install the xz-devel package, see the http://tukaani.org/xz website, or use the --disable-xz flag." "$LINENO" 5
 	fi
 	LIBXZ_LDADD='-llzma'
 	LIBXZ_CFLAGS='-D_WAVE_HAVE_XZ'
