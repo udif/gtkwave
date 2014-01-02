@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tristan Gingold and Tony Bybell 2006-2012.
+ * Copyright (c) Tristan Gingold and Tony Bybell 2006-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -202,10 +202,12 @@ fill_sig_store (void)
                         }
                 }
 
+	wrexm = 0;
 	if 	(
 		(GLOBALS->filter_str_treesearch_gtk2_c_1 == NULL) || 
 		((!GLOBALS->filter_noregex_treesearch_gtk2_c_1) && (wrexm = wave_regex_match(t->name, WAVE_REGEX_TREE)) && (!GLOBALS->filter_matlen_treesearch_gtk2_c_1)) ||
-		(GLOBALS->filter_matlen_treesearch_gtk2_c_1 && (GLOBALS->filter_typ_treesearch_gtk2_c_1 == vardir) && wrexm)
+		(GLOBALS->filter_matlen_treesearch_gtk2_c_1 && (GLOBALS->filter_typ_treesearch_gtk2_c_1 == vardir) && 
+			(wrexm || (wrexm = wave_regex_match(t->name, WAVE_REGEX_TREE)))	)
 		)
       		{
 		gtk_list_store_prepend (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter);

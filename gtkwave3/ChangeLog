@@ -1412,5 +1412,9 @@
 		Added experimental wlf2vcd in contrib.  It is not currently 
 		compiled or used.
 		Corrected non-functional typos in documentation.
-3.3.54	19dec13	Added LZ4 double compression on hierarchy tree for FST when
+3.3.54	02feb14	Added LZ4 double compression on hierarchy tree for FST when
 		size exceeds 4MB.
+		Fix to regular expression filtering when +I+ form expressions
+		are encountered in the SST.  Previously, the wrong value of
+		regex match was used on 32-bit architectures due to the
+		stack layout.
