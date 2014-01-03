@@ -723,7 +723,6 @@ TCL_BIN_DIR
 TCL_PATCH_LEVEL
 TCL_VERSION
 STRUCT_PACK
-INLINE_ASM
 FDO_MIME_FALSE
 FDO_MIME_TRUE
 UPDATE_DESKTOP_DATABASE
@@ -805,7 +804,6 @@ enable_maintainer_mode
 with_gconf
 with_xdgdatadir
 enable_mime_update
-enable_inline_asm
 enable_struct_pack
 enable_tcl
 with_tcl
@@ -1464,7 +1462,6 @@ Optional Features:
                           enable make rules and dependencies not useful (and
                           sometimes confusing) to the casual installer
   --disable-mime-update   Disables MIME type and desktop/icon updating
-  --disable-inline-asm    Disables usage of inline x86 assembly
   --enable-struct-pack    Enables C language structure packing pragmas
                           intended for use on architectures which support
                           misaligned loads and stores (x86/x86_64/AVR32/
@@ -3347,28 +3344,6 @@ fi
 
 
 # Checks for build options
-# ------------- Inline -------------------
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if inline assembly should be enabled" >&5
-$as_echo_n "checking if inline assembly should be enabled... " >&6; }
-
-INL=yes
-INLINE_ASM=-DUSE_INLINE_ASM
-# Check whether --enable-inline_asm was given.
-if test "${enable_inline_asm+set}" = set; then :
-  enableval=$enable_inline_asm;
-if test "X$enable_inline_asm" = "Xno" ; then
-	INL=no
-        INLINE_ASM=
-fi
-
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $INL" >&5
-$as_echo "$INL" >&6; }
-
-
-
 # ------------- Structure Packing -------------------
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking if structure packing should be enabled" >&5
@@ -10361,7 +10336,6 @@ ac_config_files="$ac_config_files Makefile doc/Makefile contrib/Makefile contrib
   CFLAGS                : $CFLAGS
   LDFLAGS               : $LDFLAGS
   LIBS                  : $LIBS
-  INLINE_ASM            : $INLINE_ASM
 
   MINGW_LDADD           : $MINGW_LDADD
   GTK_MAC_CFLAGS        : $GTK_MAC_CFLAGS
@@ -10423,7 +10397,6 @@ $as_echo "$as_me:
   CFLAGS                : $CFLAGS
   LDFLAGS               : $LDFLAGS
   LIBS                  : $LIBS
-  INLINE_ASM            : $INLINE_ASM
 
   MINGW_LDADD           : $MINGW_LDADD
   GTK_MAC_CFLAGS        : $GTK_MAC_CFLAGS

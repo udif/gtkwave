@@ -236,7 +236,6 @@ GTK_MAC_CFLAGS = @GTK_MAC_CFLAGS@
 GTK_MAC_LIBS = @GTK_MAC_LIBS@
 GTK_UNIX_PRINT_CFLAGS = @GTK_UNIX_PRINT_CFLAGS@
 GTK_UNIX_PRINT_LIBS = @GTK_UNIX_PRINT_LIBS@
-INLINE_ASM = @INLINE_ASM@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -339,7 +338,7 @@ BIGFILES = -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
 AIXFLAGS = -bmaxdata:0xd0000000/dsa
 LIBLZMA_CFLAGS = -I$(srcdir)/../liblzma $(LIBXZ_CFLAGS)
 LIBLZMA_LDADD = $(LIBXZ_LDADD)
-AM_CFLAGS = -I$(srcdir)/.. -I$(srcdir)/../.. $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBJUDY_CFLAGS) $(INLINE_ASM) $(EXTLOAD_CFLAGS) -I$(srcdir)/fst -I$(srcdir)/../../contrib/rtlbrowse
+AM_CFLAGS = -I$(srcdir)/.. -I$(srcdir)/../.. $(LIBZ_CFLAGS) $(LIBBZ2_CFLAGS) $(LIBLZMA_CFLAGS) $(LIBJUDY_CFLAGS) $(EXTLOAD_CFLAGS) -I$(srcdir)/fst -I$(srcdir)/../../contrib/rtlbrowse
 vcd2fst_SOURCES = vcd2fst.c $(srcdir)/fst/lz4.c $(srcdir)/fst/lz4.h $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h $(srcdir)/../../contrib/rtlbrowse/jrb.h $(srcdir)/../../contrib/rtlbrowse/jrb.c
 vcd2fst_LDADD = $(LIBZ_LDADD) $(LIBJUDY_LDADD)
 fst2vcd_SOURCES = fst2vcd.c $(srcdir)/fst/lz4.c $(srcdir)/fst/lz4.h $(srcdir)/fst/fastlz.c $(srcdir)/fst/fastlz.h $(srcdir)/fst/fstapi.c $(srcdir)/fst/fstapi.h

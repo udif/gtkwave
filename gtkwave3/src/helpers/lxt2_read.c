@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2012 Tony Bybell.
+ * Copyright (c) 2003-2014 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,12 +23,6 @@
 #include <config.h>
 #include "lxt2_read.h"
 
-#if defined(USE_INLINE_ASM)
-#if defined(__i386__) || defined(__x86_64__)
-#define USE_X86_INLINE_ASM
-#endif
-#endif
-
 /****************************************************************************/
 
 #ifdef _WAVE_BE32
@@ -48,44 +42,6 @@
 #define lxt2_rd_get_24(mm,offset)      ((lxt2_rd_get_32((mm),(offset)-1)<<8)>>8)
 #define lxt2_rd_get_64(mm,offset)      ((((lxtint64_t)lxt2_rd_get_32((mm),(offset)))<<32)|((lxtint64_t)lxt2_rd_get_32((mm),(offset)+4)))
  
-#else
-
-/*
- * reconstruct 8/16/24/32 bits out of the lxt's representation
- * of a big-endian integer.  x86 specific version...
- */
-
-#ifdef USE_X86_INLINE_ASM
-
-#define lxt2_rd_get_byte(mm,offset)		((unsigned int)(*((unsigned char *)(mm)+(offset))))
-
-_LXT2_RD_INLINE static unsigned int lxt2_rd_get_16(void *mm, int offset)
-{
-unsigned short x = *((unsigned short *)((unsigned char *)mm+offset));
-
-#if defined(__x86_64__)
-    __asm("xchgb %b0,%h0" : "=Q" (x) : "0" (x));
-#else
-    __asm("xchgb %b0,%h0" : "=q" (x) : "0" (x));
-#endif
-
-    return (unsigned int) x;
-}
-
-_LXT2_RD_INLINE static unsigned int lxt2_rd_get_32(void *mm, int offset)		/* note that bswap is really 486+ */
-{
-unsigned int x = *((unsigned int *)((unsigned char *)mm+offset));
-
- __asm("bswap   %0":
-      "=r" (x) :
-      "0" (x));
-
-  return x;
-}
-
-#define lxt2_rd_get_24(mm,offset)  	   ((lxt2_rd_get_32((mm),(offset)-1)<<8)>>8)
-#define lxt2_rd_get_64(mm,offset)      ((((lxtint64_t)lxt2_rd_get_32((mm),(offset)))<<32)|((lxtint64_t)lxt2_rd_get_32((mm),(offset)+4)))
-
 #else
 
 /*
@@ -129,7 +85,6 @@ return(
 );
 }
 
-#endif
 #endif
 
 /****************************************************************************/

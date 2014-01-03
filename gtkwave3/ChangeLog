@@ -1413,8 +1413,11 @@
 		compiled or used.
 		Corrected non-functional typos in documentation.
 3.3.54	02feb14	Added LZ4 double compression on hierarchy tree for FST when
-		size exceeds 4MB.
+		hierarchy size exceeds 4MB.
 		Fix to regular expression filtering when +I+ form expressions
 		are encountered in the SST.  Previously, the wrong value of
 		regex match was used on 32-bit architectures due to the
 		stack layout.
+		Removed --disable-inline-asm ./configure flag as inline
+		assembly has been removed because it is generating incorrectly
+		in some cases on x86_64.

@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2001-2013.
+ * Copyright (c) Tony Bybell 2001-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,13 +32,6 @@
 #include "bsearch.h"
 #include "debug.h"
 #include "hierpack.h"
-
-#if defined(USE_INLINE_ASM)
-#if defined(__i386__) || defined(__x86_64__)
-#define USE_X86_INLINE_ASM
-#endif
-#endif
-
 
 /****************************************************************************/
 
@@ -178,53 +171,13 @@ inline static unsigned int get_64(offset) {
 
 /*
  * reconstruct 8/16/24/32 bits out of the lxt's representation
- * of a big-endian integer.  x86 specific version...
- */
-
-#ifdef USE_X86_INLINE_ASM
-
-inline static unsigned int get_byte(off_t offset) {
-  return ((unsigned int)(*((unsigned char *) GLOBALS->mm_lxt_c_1+offset)));
-}
-
-inline static unsigned int get_16(off_t offset)
-{
-unsigned short x = *((unsigned short *)((unsigned char *)GLOBALS->mm_lxt_c_1+offset));
-
-#if defined(__x86_64__)
-    __asm("xchgb %b0,%h0" : "=Q" (x) : "0" (x));
-#else
-    __asm("xchgb %b0,%h0" : "=q" (x) : "0" (x));
-#endif
-
-    return (unsigned int) x;
-}
-
-inline static unsigned int get_32(off_t offset)	/* note that bswap is really 486+ */
-{
-unsigned int x = *((unsigned int *)((unsigned char *)GLOBALS->mm_lxt_c_1+offset));
-
- __asm("bswap   %0":
-      "=r" (x) :
-      "0" (x));
-
-  return x;
-}
-
-#define get_24(offset)		((get_32((offset)-1)<<8)>>8)
-#define get_64(offset)          ((((UTimeType)get_32(offset))<<32)|((UTimeType)get_32((offset)+4)))
-
-#else
-
-/*
- * reconstruct 8/16/24/32 bits out of the lxt's representation
  * of a big-endian integer.  this should work on all architectures.
  */
 #define get_byte(offset) 	((unsigned int)(*((unsigned char *)GLOBALS->mm_lxt_c_1+offset)))
 
 static unsigned int get_16(off_t offset)
 {
-  unsigned char *nn=(unsigned char *)GLOBALS->mm_lxt_c_1+offset;
+unsigned char *nn=(unsigned char *)GLOBALS->mm_lxt_c_1+offset;
 unsigned int m1=*((unsigned char *)(nn++));
 unsigned int m2=*((unsigned char *)nn);
 return((m1<<8)|m2);
@@ -257,7 +210,6 @@ return(
 );
 }
 
-#endif
 #endif
 
 /****************************************************************************/

@@ -76,24 +76,6 @@ fi
 
 
 # Checks for build options
-# ------------- Inline -------------------
-
-AC_MSG_CHECKING([if inline assembly should be enabled])
-
-INL=yes
-INLINE_ASM=-DUSE_INLINE_ASM
-AC_ARG_ENABLE([inline_asm],
-[  --disable-inline-asm    Disables usage of inline x86 assembly],
-[
-if test "X$enable_inline_asm" = "Xno" ; then
-	INL=no
-        INLINE_ASM=
-fi
-])
-AC_MSG_RESULT([$INL])
-AC_SUBST(INLINE_ASM)
-
-
 # ------------- Structure Packing -------------------
 
 AC_MSG_CHECKING([if structure packing should be enabled])
@@ -950,7 +932,6 @@ AC_MSG_NOTICE([
   CFLAGS                : $CFLAGS
   LDFLAGS               : $LDFLAGS
   LIBS                  : $LIBS
-  INLINE_ASM            : $INLINE_ASM
 
   MINGW_LDADD           : $MINGW_LDADD
   GTK_MAC_CFLAGS        : $GTK_MAC_CFLAGS
