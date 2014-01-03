@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001 Tony Bybell.
+ * Copyright (c) 2001-2014 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -55,7 +55,11 @@ typedef guint64         UTimeType;
 #define LLDescriptor(x) x##LL
 #define ULLDescriptor(x) x##ULL
 #ifndef __MINGW32__
+#if __WORDSIZE == 64
+#define TTFormat "%ld"
+#else
 #define TTFormat "%lld"
+#endif
 #else
 #define TTFormat "%I64d"
 #endif
