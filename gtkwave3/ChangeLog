@@ -1421,4 +1421,5 @@
 		Removed --disable-inline-asm ./configure flag as inline
 		assembly has been removed because it is generating incorrectly
 		in some cases on x86_64.
-3.3.55	03jan14	<< Version bump in svn >>
+3.3.55	06jan14	Fixed problem with FST_DYNAMIC_ALIAS_DISABLE enabled when
+		Judy arrays are not present.
