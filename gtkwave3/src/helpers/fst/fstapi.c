@@ -338,20 +338,27 @@ return(rc);
 
 static unsigned char *fstCopyVarint32ToLeft(unsigned char *pnt, uint32_t v)
 {
-unsigned char buf[5];
-unsigned char *spnt = buf;  
-uint32_t nxt;
+unsigned char *spnt;  
+uint32_t nxt = v;
+int cnt = 1;
+int i;
 
-while((nxt = v>>7))
+while((nxt = nxt>>7)) /* determine len to avoid temp buffer copying to cut down on load-hit-store */
         {
+	cnt++;
+        }
+
+pnt -= cnt;
+spnt = pnt;
+cnt--;
+
+for(i=0;i<cnt;i++) /* now generate left to right as normal */
+        {
+	nxt = v>>7;
         *(spnt++) = ((unsigned char)v) | 0x80;
         v = nxt;
         }
-*(spnt++) = (unsigned char)v;
-
-do      {
-        *(--pnt) = *(--spnt);
-        } while(spnt != buf);
+*spnt = (unsigned char)v;
 
 return(pnt);
 }
@@ -5822,6 +5829,7 @@ if(xc->signal_lens[facidx] == 1)
 
 
 /**********************************************************************/
+#ifndef FST_DYNAMIC_ALIAS_DISABLE
 #ifndef _WAVE_HAVE_JUDY
 
 /***********************/
@@ -6024,6 +6032,7 @@ if(base && *base)
 	}
 }
 
+#endif
 #endif
 
 /**********************************************************************/
