@@ -364,7 +364,7 @@ return(res);
 }
 
 
-int getline_replace(char **wbuf, char **buf, size_t *len, FILE *f)
+static inline int getline_replace(char **wbuf, char **buf, size_t *len, FILE *f)
 {
 char *fgets_rc;
 
@@ -1043,7 +1043,7 @@ while(!feof(f))
 	if(!strncmp(buf1, "timezero", 8))
 		{
 		char *pnt;
-		uint64_t tzero = 0;
+		int64_t tzero = 0;
 
 		if((pnt = strstr(buf, "$end")))
 			{
@@ -1304,7 +1304,24 @@ for(;;) /* was while(!feof(f)) */
 			break;
 
 		case 'b':
-			sp = strchr(buf, ' ');
+			{ /* this block replaces the single statement sp = strchr(buf, ' ');        */
+			  /* as the odds are the VCD ID will be small compared to the vector length */
+			char *sp_scan = nl;
+			sp = NULL;
+
+			/* if(buf != sp_scan) [can't happen or switch() wouldn't get here] */
+				{
+				while(buf != --sp_scan)
+					{
+					if(*sp_scan == ' ')
+						{
+						sp = sp_scan;
+						break;
+						}
+					}
+				}
+			}
+
 			if(!sp) break;
 			*sp = 0;
 			hash = vcdid_hash(sp+1, nl - (sp+1));
