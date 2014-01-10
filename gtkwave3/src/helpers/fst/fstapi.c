@@ -72,11 +72,14 @@ void **JenkinsIns(void *base_i, const unsigned char *mem, uint32_t length, uint3
 
 #undef  FST_DEBUG
 
+/* these defines have a large impact on writer speed when a model has a */
+/* huge number of symbols.  as a default, use 128MB and increment when  */
+/* every 1M signals are defined.                                        */
 #define FST_BREAK_SIZE 			(1UL << 27)
 #define FST_BREAK_ADD_SIZE		(1UL << 22)
 #define FST_BREAK_SIZE_MAX		(1UL << 31)
-#define FST_ACTIVATE_HUGE_BREAK		(2000000)
-#define FST_ACTIVATE_HUGE_INC		(2000000)
+#define FST_ACTIVATE_HUGE_BREAK		(1000000)
+#define FST_ACTIVATE_HUGE_INC		(1000000)
 
 #define FST_WRITER_STR 			"fstWriter"
 #define FST_ID_NAM_SIZ 			(512)
