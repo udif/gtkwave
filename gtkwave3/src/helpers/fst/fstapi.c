@@ -983,7 +983,7 @@ if(xc)
 
 	destlen = xc->maxvalpos;
 	dmem = malloc(destlen);
-        rc = compress2(dmem, &destlen, xc->curval_mem, xc->maxvalpos, 9);
+        rc = compress2(dmem, &destlen, xc->curval_mem, xc->maxvalpos, 4); /* was 9...which caused performance drag on traces with many signals */
 
 	fputc(FST_BL_SKIP, xc->handle);			/* temporarily tag the section, use FST_BL_VCDATA on finalize */
 	xc->section_start = ftello(xc->handle);
