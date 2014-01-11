@@ -42,6 +42,7 @@ static bool_T __MyTreeCB(fsdbTreeCBType cb_type, void *client_data, void *tree_c
 extern "C" void *fsdbReaderOpenFile(char *nam)
 {
 fsdbFileType ft;
+uint_T blk_idx = 0;
 
 if(!ffrObject::ffrIsFSDB(nam))
 	{
@@ -69,6 +70,8 @@ if((ft != FSDB_FT_VERILOG) && (ft != FSDB_FT_VERILOG_VHDL) && (ft != FSDB_FT_VHD
         fsdb_obj->ffrClose();
 	return(NULL);
 	}
+
+fsdb_obj->ffrReadDataTypeDefByBlkIdx(blk_idx); /* necessary if FSDB file has transaction data ... we don't process this but it prevents possible crashes */
 
 return((void *)fsdb_obj);
 }
@@ -788,6 +791,21 @@ switch (cb_type)
     	}
 
 return(TRUE);
+}
+
+
+/*
+ * Transactions are currently not processed and are skipped
+ */
+extern "C" int fsdbReaderGetTransInfo(void *ctx, int idx, void **trans_info)
+{
+ffrObject *fsdb_obj = (ffrObject *)ctx;
+ffrTransInfo *info = NULL;
+
+fsdbRC rc = fsdb_obj->ffrGetTransInfo((fsdbTransId)idx, info);
+*trans_info = info;
+
+return(rc != FSDB_RC_FAILURE);
 }
 
 

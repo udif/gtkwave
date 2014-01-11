@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2013.
+ * Copyright (c) Tony Bybell 2013-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,9 +58,10 @@ int fsdbReaderExtractScaleUnit(void *ctx, int *mult, char *scale);
 int fsdbReaderGetMinFsdbTag64(void *ctx, uint64_t *tim);
 int fsdbReaderGetMaxFsdbTag64(void *ctx, uint64_t *tim);
 
+int fsdbReaderGetTransInfo(void *ctx, int idx, void **trans_info);
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif
-

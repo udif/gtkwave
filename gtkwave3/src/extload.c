@@ -1266,6 +1266,9 @@ int len, i;
 struct fac *f;
 int txidx, txidx_in_trace;
 nptr nold = np;
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+void *trans_info;
+#endif
 
 if(!(f=np->mv.mvlfac)) return;	/* already imported */
 
@@ -1295,6 +1298,11 @@ fprintf(stderr, EXTLOAD"Import: %s\n", np->nname);
 len = np->mv.mvlfac->len;
 
 #ifdef WAVE_FSDB_READER_IS_PRESENT
+if(0)
+{
+/* process transactions here */
+}
+else /* "normal" VC data */
 {
 void *hdl;
 
