@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2009-2013.
+ * Copyright (c) Tony Bybell 2009-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -350,6 +350,11 @@ for(;;)
 						}
 						else
 						{
+						if(!strcmp(vtyp_nam, "stream"))
+							{
+							GLOBALS->extload_idcodes[i] = 0; /* kill being able to read stream variables [transactions] for now */
+							}
+
 						vt = V_WIRE;
 						}
 					}

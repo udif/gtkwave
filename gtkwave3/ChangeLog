@@ -1421,6 +1421,8 @@
 		Removed --disable-inline-asm ./configure flag as inline
 		assembly has been removed because it is generating incorrectly
 		in some cases on x86_64.
-3.3.55	08jan14	Fixed problem with FST_DYNAMIC_ALIAS_DISABLE enabled when
+3.3.55	10jan14	Fixed problem with FST_DYNAMIC_ALIAS_DISABLE enabled when
 		Judy arrays are not present.
 		FST writer performance tweaks.
+		Keep FSDB_VT_STREAM (transactions) from attempting to be read
+		(for now) as they will crash the viewer.

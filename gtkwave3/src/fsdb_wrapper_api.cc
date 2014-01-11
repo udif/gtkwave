@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2013.
+ * Copyright (c) Tony Bybell 2013-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -646,6 +646,11 @@ switch (var->type)
 					}
 				break;
 			}
+		break;
+
+	case FSDB_VT_STREAM: /* these hold transactions: not yet supported */
+		type = (str_T) "stream";
+		typelen = 6;
 		break;
 
     	default:
