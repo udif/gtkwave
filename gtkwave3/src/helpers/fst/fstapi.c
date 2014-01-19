@@ -515,6 +515,61 @@ return(len);
 }
 
 
+/* signed integer read/write routines are currently unused */
+static int64_t fstGetSVarint64(unsigned char *mem, int *skiplen)
+{
+unsigned char *mem_orig = mem;
+int64_t rc = 0;
+const int64_t one = 1;
+const int siz = sizeof(int64_t) * 8;
+int shift = 0;
+unsigned char byt;
+
+do      {
+        byt = *(mem++);
+        rc |= ((int64_t)(byt & 0x7f)) << shift;
+        shift += 7;
+
+        } while(byt & 0x80);
+
+if((shift<siz) && (byt & 0x40))
+        {
+        rc |= -(one << shift); /* sign extend */
+        }
+
+*skiplen = mem - mem_orig;
+
+return(rc);
+}
+
+
+static int fstWriterSVarint(FILE *handle, int64_t v)
+{
+unsigned char buf[15]; /* ceil(64/7) = 10 + sign byte padded way up */
+unsigned char byt;
+unsigned char *pnt = buf;
+int more = 1;
+int len;
+
+do      {
+        byt = v | 0x80;
+        v >>= 7;
+
+        if (((!v) && (!(byt & 0x40))) || ((v == -1) && (byt & 0x40)))
+                {
+                more = 0;
+                byt &= 0x7f;
+                }
+
+        *(pnt++) = byt;
+        } while(more);
+
+len = pnt-buf;
+fstFwrite(buf, len, 1, handle);
+return(len);
+}
+
+
 /***********************/
 /***                 ***/
 /*** writer function ***/
@@ -1394,7 +1449,7 @@ for(i=0;i<xc->maxhandle;i++)
 
 		if(vm4ip[2] & 0x80000000)
 			{
-			fpos += fstWriterVarint(f, 0); /* signal */
+			fpos += fstWriterVarint(f, 0); /* signal, note that using a *signed* varint would be more efficient than this byte escape! */
 			fpos += fstWriterVarint(f, (-(int32_t)vm4ip[2]));
 			}
 			else
