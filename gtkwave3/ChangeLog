@@ -1421,9 +1421,10 @@
 		Removed --disable-inline-asm ./configure flag as inline
 		assembly has been removed because it is generating incorrectly
 		in some cases on x86_64.
-3.3.55	11jan14	Fixed problem with FST_DYNAMIC_ALIAS_DISABLE enabled when
+3.3.55	21jan14	Fixed problem with FST_DYNAMIC_ALIAS_DISABLE enabled when
 		Judy arrays are not present.
 		FST writer performance tweaks for traces with millions of 
 		signal declarations.
 		Keep FSDB_VT_STREAM (FSDB transaction type) traces from 
 		attempting to be read (for now) as they aren't yet processed.
+		Added more space efficient FST dynamic alias encoding.

@@ -1435,36 +1435,83 @@ free(scratchpad); scratchpad = NULL;
 indxpos = ftello(f);
 xc->secnum++;
 
-for(i=0;i<xc->maxhandle;i++)
+#ifndef FST_DYNAMIC_ALIAS2_DISABLE
+if(1)
 	{
-	vm4ip = &(xc->valpos_mem[4*i]);
+	uint32_t prev_alias = 0;
 
-	if(vm4ip[2])
+	for(i=0;i<xc->maxhandle;i++)
 		{
-		if(zerocnt)
-			{
-			fpos += fstWriterVarint(f, (zerocnt << 1));
-			zerocnt = 0;
-			}
+		vm4ip = &(xc->valpos_mem[4*i]);
 
-		if(vm4ip[2] & 0x80000000)
+		if(vm4ip[2])
 			{
-			fpos += fstWriterVarint(f, 0); /* signal, note that using a *signed* varint would be more efficient than this byte escape! */
-			fpos += fstWriterVarint(f, (-(int32_t)vm4ip[2]));
+			if(zerocnt)
+				{
+				fpos += fstWriterVarint(f, (zerocnt << 1));
+				zerocnt = 0;
+				}
+	
+			if(vm4ip[2] & 0x80000000)
+				{
+				if(vm4ip[2] != prev_alias)
+					{					
+					fpos += fstWriterSVarint(f, (((int64_t)((int32_t)(prev_alias = vm4ip[2]))) << 1) | 1);
+					}
+					else
+					{
+					fpos += fstWriterSVarint(f, (0 << 1) | 1);
+					}
+				}
+				else
+				{
+				fpos += fstWriterSVarint(f, ((vm4ip[2] - prevpos) << 1) | 1);
+				prevpos = vm4ip[2];
+				}
+			vm4ip[2] = 0;
+			vm4ip[3] = 0; /* clear out tchn idx */
 			}
 			else
 			{
-			fpos += fstWriterVarint(f, ((vm4ip[2] - prevpos) << 1) | 1);
-			prevpos = vm4ip[2];
+			zerocnt++;		
 			}
-		vm4ip[2] = 0;
-		vm4ip[3] = 0; /* clear out tchn idx */
-		}
-		else
-		{
-		zerocnt++;		
 		}
 	}
+	else
+#endif
+	{
+	for(i=0;i<xc->maxhandle;i++)
+		{
+		vm4ip = &(xc->valpos_mem[4*i]);
+
+		if(vm4ip[2])
+			{
+			if(zerocnt)
+				{
+				fpos += fstWriterVarint(f, (zerocnt << 1));
+				zerocnt = 0;
+				}
+	
+			if(vm4ip[2] & 0x80000000)
+				{
+				fpos += fstWriterVarint(f, 0); /* signal, note that using a *signed* varint would be more efficient than this byte escape! */
+				fpos += fstWriterVarint(f, (-(int32_t)vm4ip[2]));
+				}
+				else
+				{
+				fpos += fstWriterVarint(f, ((vm4ip[2] - prevpos) << 1) | 1);
+				prevpos = vm4ip[2];
+				}
+			vm4ip[2] = 0;
+			vm4ip[3] = 0; /* clear out tchn idx */
+			}
+			else
+			{
+			zerocnt++;		
+			}
+		}
+	}
+
 if(zerocnt)
 	{
 	/* fpos += */ fstWriterVarint(f, (zerocnt << 1)); /* scan-build */
@@ -1523,7 +1570,11 @@ fflush(xc->handle);
 fstWriterFseeko(xc, xc->handle, xc->section_start-1, SEEK_SET);		/* write out FST_BL_VCDATA over FST_BL_SKIP */
 
 #ifndef FST_DYNAMIC_ALIAS_DISABLE
+#ifndef FST_DYNAMIC_ALIAS2_DISABLE
+fputc(FST_BL_VCDATA_DYN_ALIAS2, xc->handle);
+#else
 fputc(FST_BL_VCDATA_DYN_ALIAS, xc->handle);
+#endif
 #else
 fputc(FST_BL_VCDATA, xc->handle);
 #endif
@@ -4147,7 +4198,7 @@ if(gzread_pass_status)
 				xc->timezero = fstReaderUint64(xc->f);
 				}
 			}
-		else if((sectype == FST_BL_VCDATA) || (sectype == FST_BL_VCDATA_DYN_ALIAS))
+		else if((sectype == FST_BL_VCDATA) || (sectype == FST_BL_VCDATA_DYN_ALIAS) || (sectype == FST_BL_VCDATA_DYN_ALIAS2))
 			{
 			if(hdr_incomplete)
 				{
@@ -4477,7 +4528,7 @@ for(;;)
 		}
 
 	blkpos++;
-	if((sectype != FST_BL_VCDATA) && (sectype != FST_BL_VCDATA_DYN_ALIAS))
+	if((sectype != FST_BL_VCDATA) && (sectype != FST_BL_VCDATA_DYN_ALIAS) && (sectype != FST_BL_VCDATA_DYN_ALIAS2))
 		{
 		blkpos += seclen;
 		continue;
@@ -4806,37 +4857,83 @@ for(;;)
 	idx = 0;
 	pval = 0;
 
-	do
+	if(sectype == FST_BL_VCDATA_DYN_ALIAS2)
 		{
-		int skiplen;
-		uint64_t val = fstGetVarint32(pnt, &skiplen);
-		
-		if(!val)
-			{
-			pnt += skiplen;
-			val = fstGetVarint32(pnt, &skiplen);
-			chain_table[idx] = 0;			/* need to explicitly zero as calloc above might not run */
-			chain_table_lengths[idx] = -val;	/* because during this loop iter would give stale data! */
-			idx++;
-			}
-		else 
-		if(val&1)
-			{
-			pval = chain_table[idx] = pval + (val >> 1);
-			if(idx) { chain_table_lengths[pidx] = pval - chain_table[pidx]; }
-			pidx = idx++;
-			}
-		else
-			{
-			int loopcnt = val >> 1;
-			for(i=0;i<loopcnt;i++)
+		uint32_t prev_alias = 0;
+
+		do	{
+			int skiplen;
+
+			if(*pnt & 0x01)
 				{
-				chain_table[idx++] = 0;
+				int64_t shval = fstGetSVarint64(pnt, &skiplen) >> 1;
+				if(shval > 0)
+					{
+					pval = chain_table[idx] = pval + shval;
+					if(idx) { chain_table_lengths[pidx] = pval - chain_table[pidx]; }
+					pidx = idx++;
+					}
+				else if(shval < 0)
+					{
+					chain_table[idx] = 0;					/* need to explicitly zero as calloc above might not run */
+					chain_table_lengths[idx] = prev_alias = shval;		/* because during this loop iter would give stale data! */
+					idx++;
+					}
+				else
+					{
+					chain_table[idx] = 0;					/* need to explicitly zero as calloc above might not run */
+					chain_table_lengths[idx] = prev_alias;			/* because during this loop iter would give stale data! */
+					idx++;
+					}
 				}
-			}
+				else
+				{
+				uint64_t val = fstGetVarint32(pnt, &skiplen);
+
+				int loopcnt = val >> 1;
+				for(i=0;i<loopcnt;i++)
+					{
+					chain_table[idx++] = 0;
+					}
+				}
+			
+			pnt += skiplen;
+			} while (pnt != (chain_cmem + chain_clen));
+		}
+		else
+		{
+		do	{
+			int skiplen;
+			uint64_t val = fstGetVarint32(pnt, &skiplen);
 		
-		pnt += skiplen;
-		} while (pnt != (chain_cmem + chain_clen));
+			if(!val)
+				{
+				pnt += skiplen;
+				val = fstGetVarint32(pnt, &skiplen);
+				chain_table[idx] = 0;			/* need to explicitly zero as calloc above might not run */
+				chain_table_lengths[idx] = -val;	/* because during this loop iter would give stale data! */
+				idx++;
+				}
+			else 
+			if(val&1)
+				{
+				pval = chain_table[idx] = pval + (val >> 1);
+				if(idx) { chain_table_lengths[pidx] = pval - chain_table[pidx]; }
+				pidx = idx++;
+				}
+			else
+				{
+				int loopcnt = val >> 1;
+				for(i=0;i<loopcnt;i++)
+					{
+					chain_table[idx++] = 0;
+					}
+				}
+			
+			pnt += skiplen;
+			} while (pnt != (chain_cmem + chain_clen));
+		}
+
 	chain_table[idx] = indx_pos - vc_start;
 	chain_table_lengths[pidx] = chain_table[idx] - chain_table[pidx];
 
@@ -5407,7 +5504,7 @@ for(;;)
 		}
 
 	blkpos++;
-	if((sectype != FST_BL_VCDATA) && (sectype != FST_BL_VCDATA_DYN_ALIAS))
+	if((sectype != FST_BL_VCDATA) && (sectype != FST_BL_VCDATA_DYN_ALIAS) && (sectype != FST_BL_VCDATA_DYN_ALIAS2))
 		{
 		blkpos += seclen;
 		continue;
@@ -5429,7 +5526,7 @@ for(;;)
 			beg_tim2 = fstReaderUint64(xc->f);
 			end_tim2 = fstReaderUint64(xc->f);
 
-			if(((sectype != FST_BL_VCDATA)&&(sectype != FST_BL_VCDATA_DYN_ALIAS)) || (!seclen) || (beg_tim2 != tim))
+			if(((sectype != FST_BL_VCDATA)&&(sectype != FST_BL_VCDATA_DYN_ALIAS)&&(sectype != FST_BL_VCDATA_DYN_ALIAS2)) || (!seclen) || (beg_tim2 != tim))
 				{
 				blkpos = prev_blkpos;
 				break;
