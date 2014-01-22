@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2012
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -545,9 +545,33 @@ if(!GLOBALS->disable_tooltips)
 char *tmpnam_2(char *s, int *fd)
 {
 #if defined _MSC_VER || defined __MINGW32__
+char *fname = NULL;
+TCHAR szTempFileName[MAX_PATH];  
+TCHAR lpTempPathBuffer[MAX_PATH];
+DWORD dwRetVal = 0;
+UINT uRetVal = 0;
 
-*fd = -1;
-return(tmpnam(s));
+*fd = -1; 
+
+dwRetVal = GetTempPath(MAX_PATH, lpTempPathBuffer);
+if((dwRetVal > MAX_PATH) || (dwRetVal == 0))
+    	{
+	fprintf(stderr, "GetTempPath() failed\n");
+    	}
+	else
+	{
+	uRetVal = GetTempFileName(lpTempPathBuffer, TEXT("GTKW"), 0, szTempFileName);
+    	if (uRetVal == 0)
+    		{
+        	fprintf(stderr, "GetTempFileName() failed\n");
+		}
+		else
+		{
+		fname = strdup_2(szTempFileName);
+		}
+	}
+
+return(fname);
 
 #else
 

@@ -1603,12 +1603,10 @@ void reload_into_new_context_2(void)
 
  /* Save state to file */
  save_tmpfilename = tmpnam_2(NULL, &fd_dummy);
- statefile = fopen(save_tmpfilename,"wb");
+ statefile = save_tmpfilename ? fopen(save_tmpfilename,"wb") : NULL;
  if(statefile == NULL) {
-   fprintf(stderr, "Failed to reload file.\n");
-#if !defined _MSC_VER && !defined __MINGW32__
-   free_2(save_tmpfilename);
-#endif
+   fprintf(stderr, "Failed to create temp file required for file reload.\n");
+   if(save_tmpfilename) { perror("Why"); free_2(save_tmpfilename); }
    gtkwavetcl_setvar_nonblocking(WAVE_TCLCB_ERROR,"reload failed",WAVE_TCLCB_ERROR_FLAGS);
    return;
  }
@@ -1617,9 +1615,7 @@ void reload_into_new_context_2(void)
  fclose(statefile);
 
  reload_tmpfilename = strdup(save_tmpfilename);
-#if !defined _MSC_VER && !defined __MINGW32__
  free_2(save_tmpfilename);
-#endif
  
  /* save off size of tree frame if active */
 #if WAVE_USE_GTK2
