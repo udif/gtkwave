@@ -419,6 +419,7 @@ return(val);
 }  
 
 int pack_type = FST_WR_PT_LZ4;  /* set to fstWriterPackType */
+int compression_explicitly_set = 0;
 int repack_all = 0; /* 0 is normal, 1 does the repack (via fstapi) at end */
 int parallel_mode = 0; /* 0 is is single threaded, 1 is multi-threaded */
 
@@ -451,6 +452,7 @@ int is_popen = 0;
 int is_extload = 0;
 void *xc = NULL;
 #endif
+int port_encountered = 0;
 
 bin_fixbuff = malloc(bin_fixbuff_len);
 
@@ -599,6 +601,7 @@ while(!feof(f))
 				if(!strcmp(st, "port"))
 					{
 					vartype = FST_VT_VCD_PORT;
+					port_encountered = 1;
 					}
 				break;
 
@@ -1037,6 +1040,10 @@ while(!feof(f))
 			dealloc_scope();
 			}
 #endif
+		if(port_encountered && (!compression_explicitly_set) && (pack_type == FST_WR_PT_LZ4)) /* EVCD data compresses far better with fastlz, so use if not directed explicitly */
+			{
+			fstWriterSetPackType(ctx, (pack_type = FST_WR_PT_FASTLZ));
+			}
 		break;
 		}
 	else
@@ -1716,14 +1723,17 @@ while (1)
 			break;
 
 		case 'Z':
+			compression_explicitly_set = 1;
 			pack_type = FST_WR_PT_ZLIB;
 			break;
 
 		case 'F':
+			compression_explicitly_set = 1;
 			pack_type = FST_WR_PT_FASTLZ;
 			break;
 
 		case '4':
+			compression_explicitly_set = 1;
 			pack_type = FST_WR_PT_LZ4;
 			break;
 
