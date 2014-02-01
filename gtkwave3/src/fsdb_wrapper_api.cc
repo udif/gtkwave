@@ -295,7 +295,7 @@ switch (vc_trvs_hdl->ffrGetBytesPerBit())
 		break;
 	
 	case FSDB_BYTES_PER_BIT_8B:
-		sprintf((char *)buffer, "%lg", *((double*)vc_ptr));
+		sprintf((char *)buffer, "%.16g", *((double*)vc_ptr));
 		break;
 
 	default:

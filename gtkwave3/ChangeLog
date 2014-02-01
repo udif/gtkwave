@@ -1421,7 +1421,7 @@
 		Removed --disable-inline-asm ./configure flag as inline
 		assembly has been removed because it is generating incorrectly
 		in some cases on x86_64.
-3.3.55	25jan14	Fixed problem with FST_DYNAMIC_ALIAS_DISABLE enabled when
+3.3.55	31jan14	Fixed problem with FST_DYNAMIC_ALIAS_DISABLE enabled when
 		Judy arrays are not present.
 		FST writer performance tweaks for traces with millions of 
 		signal declarations.
@@ -1433,3 +1433,5 @@
 		Make vcd2fst use FastLZ instead of LZ4 as a default compression
 		type if an EVCD file is being processed as it (re-)compresses
 		much better.  Using -4/-F/-Z still gives expected results.
+		Changed double printf formatting for FSDB to "%.16g" to match
+		VCD formatting.
