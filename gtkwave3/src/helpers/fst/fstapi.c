@@ -20,6 +20,23 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * possible disables:
+ *
+ * FST_DYNAMIC_ALIAS_DISABLE : dynamic aliases are not processed
+ * FST_DYNAMIC_ALIAS2_DISABLE : new encoding for dynamic aliases is not generated
+ * FST_WRITEX_DISABLE : fast write I/O routines are disabled
+ *
+ * possible enables:
+ *
+ * FST_DEBUG : not for production use, only enable for development
+ * FST_REMOVE_DUPLICATE_VC : glitch removal (has writer performance impact)
+ * HAVE_LIBPTHREAD -> FST_WRITER_PARALLEL : enables inclusion of parallel writer code
+ * FST_DO_MISALIGNED_OPS (defined automatically for x86 and some others) : CPU architecture can handle misaligned loads/stores
+ * _WAVE_HAVE_JUDY : use Judy arrays instead of Jenkins (undefine if LGPL is not acceptable)
+ *
+ */
+
 #include <config.h>
 
 #include "fstapi.h"
@@ -70,7 +87,13 @@ void JenkinsFree(void *base_i, uint32_t hashmask);
 void **JenkinsIns(void *base_i, const unsigned char *mem, uint32_t length, uint32_t hashmask);
 #endif
 
-#undef  FST_DEBUG
+
+#ifndef FST_WRITEX_DISABLE
+#define FST_WRITEX_MAX			(64 * 1024)
+#else
+#define fstWritex(a,b,c) fstFwrite((b), (c), 1, fv)
+#endif
+
 
 /* these defines have a large impact on writer speed when a model has a */
 /* huge number of symbols.  as a default, use 128MB and increment when  */
@@ -1517,7 +1540,7 @@ if(zerocnt)
 	/* fpos += */ fstWriterVarint(f, (zerocnt << 1)); /* scan-build */
 	}
 #ifdef FST_DEBUG
-printf("value chains: %d\n", cnt);
+fprintf(stderr, "value chains: %d\n", cnt);
 #endif
 
 xc->vchg_mem[0] = '!';
@@ -1592,7 +1615,7 @@ if(xc->dump_size_limit)
 		xc2->size_limit_locked = 1;
 		xc2->is_initial_time = 1; /* to trick emit value and emit time change */
 #ifdef FST_DEBUG
-		printf("<< dump file size limit reached, stopping dumping >>\n");
+		fprintf(stderr, "<< dump file size limit reached, stopping dumping >>\n");
 #endif
 		}
 	}
@@ -2941,6 +2964,14 @@ char str_scope_nam[FST_ID_NAM_SIZ+1];
 char str_scope_comp[FST_ID_NAM_SIZ+1];
 
 unsigned fseek_failed : 1;
+
+/* self-buffered I/O for writes */
+
+#ifndef FST_WRITEX_DISABLE
+int writex_pos;
+int writex_fd;
+unsigned char writex_buf[FST_WRITEX_MAX];
+#endif
 };
 
 
@@ -2959,6 +2990,41 @@ if(rc<0)
 
 return(rc);
 }
+
+
+#ifndef FST_WRITEX_DISABLE
+static void fstWritex(struct fstReaderContext *xc, void *v, int len)
+{
+unsigned char *s = (unsigned char *)v;
+
+if(len)
+	{
+	if(len < FST_WRITEX_MAX)
+		{
+		if(xc->writex_pos + len >= FST_WRITEX_MAX)
+			{
+			fstWritex(xc, NULL, 0);
+			}
+
+		memcpy(xc->writex_buf + xc->writex_pos, s, len);
+		xc->writex_pos += len;
+		}
+		else
+		{
+		fstWritex(xc, NULL, 0);
+		write(xc->writex_fd, s, len);
+		}
+	}
+	else
+	{
+	if(xc->writex_pos)
+		{
+		write(xc->writex_fd, xc->writex_buf, xc->writex_pos);
+		xc->writex_pos = 0;
+		}
+	}
+}
+#endif
 
 
 /*
@@ -4507,7 +4573,15 @@ scatterptr = calloc(xc->maxhandle, sizeof(uint32_t));
 headptr = calloc(xc->maxhandle, sizeof(uint32_t));
 length_remaining = calloc(xc->maxhandle, sizeof(uint32_t));
 
-if(fv) { fprintf(fv, "$dumpvars\n"); } 
+if(fv)
+	{ 
+	fprintf(fv, "$dumpvars\n"); 
+#ifndef FST_WRITEX_DISABLE
+	fflush(fv);
+	setvbuf(fv, (char *) NULL, _IONBF, 0); /* even buffered IO is slow so disable it and use our own routines that don't need seeking */
+	xc->writex_fd = fileno(fv);
+#endif
+	} 
 
 for(;;)
 	{
@@ -4522,7 +4596,7 @@ for(;;)
 	if((sectype == EOF) || (sectype == FST_BL_SKIP))
 		{
 #ifdef FST_DEBUG
-		printf("<< EOF >>\n");
+		fprintf(stderr, "<< EOF >>\n");
 #endif
 		break;
 		}
@@ -4561,9 +4635,9 @@ for(;;)
 	mem_required_for_traversal = fstReaderUint64(xc->f);
 	mem_for_traversal = malloc(mem_required_for_traversal + 66); /* add in potential fastlz overhead */
 #ifdef FST_DEBUG
-	printf("sec: %d seclen: %d begtim: %d endtim: %d\n",
+	fprintf(stderr, "sec: %d seclen: %d begtim: %d endtim: %d\n",
 		secnum, (int)seclen, (int)beg_tim, (int)end_tim);
-	printf("\tmem_required_for_traversal: %d\n", (int)mem_required_for_traversal);
+	fprintf(stderr, "\tmem_required_for_traversal: %d\n", (int)mem_required_for_traversal);
 #endif
 	/* process time block */
 	{
@@ -4581,7 +4655,7 @@ for(;;)
 	tsec_clen = fstReaderUint64(xc->f);
 	tsec_nitems = fstReaderUint64(xc->f);
 #ifdef FST_DEBUG
-	printf("\ttime section unc: %d, com: %d (%d items)\n", 
+	fprintf(stderr, "\ttime section unc: %d, com: %d (%d items)\n", 
 		(int)tsec_uclen, (int)tsec_clen, (int)tsec_nitems);
 #endif		
 	if(tsec_clen > seclen) break; /* corrupted tsec_clen: by definition it can't be larger than size of section */
@@ -4643,12 +4717,20 @@ for(;;)
 
 			if(fv)
 				{
-				if(beg_tim) { fprintf(fv, "#%"PRIu64"\n", beg_tim); }
+				char wx_buf[32];
+				int wx_len;
+
+				if(beg_tim) 
+					{ 
+					wx_len = sprintf(wx_buf, "#%"PRIu64"\n", beg_tim); 
+					fstWritex(xc, wx_buf, wx_len);
+					}
 				if((xc->num_blackouts)&&(cur_blackout != xc->num_blackouts))
 					{
 					if(beg_tim == xc->blackout_times[cur_blackout])
 						{
-						fprintf(fv, "$dump%s $end\n", (xc->blackout_activity[cur_blackout++]) ? "on" : "off");
+						wx_len = sprintf(wx_buf, "$dump%s $end\n", (xc->blackout_activity[cur_blackout++]) ? "on" : "off");
+						fstWritex(xc, wx_buf, wx_len);
 						}
 					}
 				}
@@ -4699,10 +4781,11 @@ for(;;)
 								if(fv)
 									{
 									char vcd_id[16];
-									int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
-									fputc(val, fv);
-									fstFwrite(vcd_id, vcdid_len, 1, fv);
-									fputc('\n', fv);
+
+									int vcdid_len = fstVcdIDForFwrite(vcd_id+1, idx+1);
+									vcd_id[0] = val; /* collapse 3 writes into one I/O call */
+									vcd_id[vcdid_len + 1] = '\n';
+									fstWritex(xc, vcd_id, vcdid_len + 2);
 									}
 								}
 							}
@@ -4726,12 +4809,15 @@ for(;;)
 								if(fv)
 									{
 									char vcd_id[16];
-									int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
-									fputc((xc->signal_typs[idx] != FST_VT_VCD_PORT) ? 'b' : 'p', fv);
-									fstFwrite(mu+sig_offs, xc->signal_lens[idx], 1, fv);
-									fputc(' ', fv);
-									fstFwrite(vcd_id, vcdid_len, 1, fv);
-									fputc('\n', fv);
+									int vcdid_len = fstVcdIDForFwrite(vcd_id+1, idx+1);
+
+									vcd_id[0] = (xc->signal_typs[idx] != FST_VT_VCD_PORT) ? 'b' : 'p';
+									fstWritex(xc, vcd_id, 1);		
+									fstWritex(xc,mu+sig_offs, xc->signal_lens[idx]);
+
+									vcd_id[0] = ' '; /* collapse 3 writes into one I/O call */
+									vcd_id[vcdid_len + 1] = '\n';
+									fstWritex(xc, vcd_id, vcdid_len + 2);
 									}
 								}
 							}
@@ -4786,6 +4872,9 @@ for(;;)
 								if(fv)
 									{
 									char vcdid_buf[16];
+									char wx_buf[64];
+									int wx_len;
+
 									clone_d = (unsigned char *)&d;
 									if(xc->double_endian_match)
 										{
@@ -4802,7 +4891,8 @@ for(;;)
 										}
 						
 									fstVcdID(vcdid_buf, idx+1);
-									fprintf(fv, "r%.16g %s\n", d, vcdid_buf);
+									wx_len = sprintf(wx_buf, "r%.16g %s\n", d, vcdid_buf);
+									fstWritex(xc, wx_buf, wx_len);
 									}
 								}
 							}
@@ -4824,9 +4914,9 @@ for(;;)
 	packtype = fgetc(xc->f);
 
 #ifdef FST_DEBUG
-	printf("\tframe_uclen: %d, frame_clen: %d, frame_maxhandle: %d\n",
+	fprintf(stderr, "\tframe_uclen: %d, frame_clen: %d, frame_maxhandle: %d\n",
 		(int)frame_uclen, (int)frame_clen, (int)frame_maxhandle);
-	printf("\tvc_maxhandle: %d, packtype: %c\n", (int)vc_maxhandle, packtype);
+	fprintf(stderr, "\tvc_maxhandle: %d, packtype: %c\n", (int)vc_maxhandle, packtype);
 #endif
 
 	indx_pntr = blkpos + seclen - 24 -tsec_clen -8;
@@ -4834,7 +4924,7 @@ for(;;)
 	chain_clen = fstReaderUint64(xc->f);
 	indx_pos = indx_pntr - chain_clen;
 #ifdef FST_DEBUG
-	printf("\tindx_pos: %d (%d bytes)\n", (int)indx_pos, (int)chain_clen);
+	fprintf(stderr, "\tindx_pos: %d (%d bytes)\n", (int)indx_pos, (int)chain_clen);
 #endif
 	chain_cmem = malloc(chain_clen);
 	if(!chain_cmem) goto block_err;
@@ -4953,7 +5043,7 @@ for(;;)
 		}
 
 #ifdef FST_DEBUG
-	printf("\tdecompressed chain idx len: %"PRIu32"\n", idx);
+	fprintf(stderr, "\tdecompressed chain idx len: %"PRIu32"\n", idx);
 #endif
 
 	mc_mem_len = 16384;
@@ -5053,6 +5143,9 @@ for(;;)
 
 		if(fv)
 			{
+			char wx_buf[32];
+			int wx_len;
+
 			if(time_table[i] != previous_time)
 				{
 				if(xc->limit_range_valid)
@@ -5063,12 +5156,15 @@ for(;;)
 						}
 					}
 
-				fprintf(fv, "#%"PRIu64"\n", time_table[i]);
+				wx_len = sprintf(wx_buf, "#%"PRIu64"\n", time_table[i]);
+				fstWritex(xc, wx_buf, wx_len);
+
 				if((xc->num_blackouts)&&(cur_blackout != xc->num_blackouts))
 					{
 					if(time_table[i] == xc->blackout_times[cur_blackout])
 						{
-						fprintf(fv, "$dump%s $end\n", (xc->blackout_activity[cur_blackout++]) ? "on" : "off");
+						wx_len = sprintf(wx_buf, "$dump%s $end\n", (xc->blackout_activity[cur_blackout++]) ? "on" : "off");
+						fstWritex(xc, wx_buf, wx_len);
 						}
 					}
 				previous_time = time_table[i];
@@ -5107,10 +5203,11 @@ for(;;)
 						if(fv) 
 							{
 							char vcd_id[16];
-							int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
-							fputc(val, fv);
-							fstFwrite(vcd_id, vcdid_len, 1, fv);
-							fputc('\n', fv);
+							int vcdid_len = fstVcdIDForFwrite(vcd_id+1, idx+1);
+
+							vcd_id[0] = val;
+							vcd_id[vcdid_len+1] = '\n';
+							fstWritex(xc, vcd_id, vcdid_len+2);
 							}
 						}
 					headptr[idx] += skiplen;
@@ -5152,20 +5249,22 @@ for(;;)
 							if(fv) 
 								{
 								char vcd_id[16];
-								int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
-	
-								fputc('s', fv);
+								int vcdid_len;
+
+								vcd_id[0] = 's';
+								fstWritex(xc, vcd_id, 1);	
+
+								vcdid_len = fstVcdIDForFwrite(vcd_id+1, idx+1);
 								{
 								unsigned char *vesc = malloc(len*4 + 1);
 								int vlen = fstUtilityBinToEsc(vesc, vdata, len);
-
-								vesc[vlen] = 0;
-								fstFwrite(vesc, vlen, 1, fv);
+								fstWritex(xc, vesc, vlen);
 								free(vesc);
 								}
-								fputc(' ', fv);
-								fstFwrite(vcd_id, vcdid_len, 1, fv);
-								fputc('\n', fv);
+
+								vcd_id[0] = ' ';								
+								vcd_id[vcdid_len + 1] = '\n';
+								fstWritex(xc, vcd_id, vcdid_len+2);
 								}
 							}
 						}
@@ -5221,8 +5320,10 @@ for(;;)
 							else
 							{
 							if(fv)	{ 
-								fputc((xc->signal_typs[idx] != FST_VT_VCD_PORT) ? 'b' : 'p', fv);
-								fstFwrite(xc->temp_signal_value_buf, len, 1, fv);
+								unsigned char ch_bp = (xc->signal_typs[idx] != FST_VT_VCD_PORT) ? 'b' : 'p';
+							
+								fstWritex(xc, &ch_bp, 1);
+								fstWritex(xc, xc->temp_signal_value_buf, len);
 								}
 							}
 
@@ -5240,8 +5341,10 @@ for(;;)
 							{
 							if(fv)
 								{
-								fputc((xc->signal_typs[idx] != FST_VT_VCD_PORT) ? 'b' : 'p', fv);
-								fstFwrite(vdata, len, 1, fv);
+								unsigned char ch_bp =  (xc->signal_typs[idx] != FST_VT_VCD_PORT) ? 'b' : 'p';
+
+								fstWritex(xc, &ch_bp, 1);
+								fstWritex(xc, vdata, len);
 								}
 							}
 						}
@@ -5318,6 +5421,9 @@ for(;;)
 						{
 						if(fv)
 							{
+							char wx_buf[32];
+							int wx_len;
+
 							clone_d = (unsigned char *)&d;
 							if(xc->double_endian_match)
 								{
@@ -5333,7 +5439,8 @@ for(;;)
 									}
 								}
 						
-							fprintf(fv, "r%.16g", d);
+							wx_len = sprintf(wx_buf, "r%.16g", d);
+							fstWritex(xc, wx_buf, wx_len);
 							}
 						}
 					}
@@ -5341,10 +5448,10 @@ for(;;)
 				if(fv) 
 					{
 					char vcd_id[16];
-					int vcdid_len = fstVcdIDForFwrite(vcd_id, idx+1);
-					fputc(' ', fv);
-					fstFwrite(vcd_id, vcdid_len, 1, fv);
-					fputc('\n', fv);
+					int vcdid_len = fstVcdIDForFwrite(vcd_id+1, idx+1);
+					vcd_id[0] = ' ';
+					vcd_id[vcdid_len+1] = '\n';
+					fstWritex(xc, vcd_id, vcdid_len+2);
 					}
 
 				skiplen += len;
@@ -5387,6 +5494,13 @@ if(chain_table)
 	}
 
 free(time_table);
+
+#ifndef FST_WRITEX_DISABLE
+if(fv)
+	{
+	fstWritex(xc, NULL, 0);
+	}
+#endif
 
 return(1);
 }
@@ -5551,9 +5665,9 @@ mem_required_for_traversal =
 	fstReaderUint64(xc->f);
 
 #ifdef FST_DEBUG
-printf("rvat sec: %d seclen: %d begtim: %d endtim: %d\n",
+fprintf(stderr, "rvat sec: %d seclen: %d begtim: %d endtim: %d\n",
 	secnum, (int)seclen, (int)beg_tim, (int)end_tim);
-printf("\tmem_required_for_traversal: %d\n", (int)mem_required_for_traversal);
+fprintf(stderr, "\tmem_required_for_traversal: %d\n", (int)mem_required_for_traversal);
 #endif
 
 /* process time block */
@@ -5572,7 +5686,7 @@ tsec_uclen = fstReaderUint64(xc->f);
 tsec_clen = fstReaderUint64(xc->f);
 tsec_nitems = fstReaderUint64(xc->f);
 #ifdef FST_DEBUG
-printf("\ttime section unc: %d, com: %d (%d items)\n", 
+fprintf(stderr, "\ttime section unc: %d, com: %d (%d items)\n", 
 	(int)tsec_uclen, (int)tsec_clen, (int)tsec_nitems);
 #endif		
 ucdata = malloc(tsec_uclen);
@@ -5647,9 +5761,9 @@ xc->rvat_vc_maxhandle = fstReaderVarint64(xc->f);
 xc->rvat_vc_start = ftello(xc->f);	/* points to '!' character */
 
 #ifdef FST_DEBUG
-printf("\tframe_uclen: %d, frame_clen: %d, frame_maxhandle: %d\n",
+fprintf(stderr, "\tframe_uclen: %d, frame_clen: %d, frame_maxhandle: %d\n",
 	(int)frame_uclen, (int)frame_clen, (int)xc->rvat_frame_maxhandle);
-printf("\tvc_maxhandle: %d\n", (int)xc->rvat_vc_maxhandle);
+fprintf(stderr, "\tvc_maxhandle: %d\n", (int)xc->rvat_vc_maxhandle);
 #endif
 
 indx_pntr = blkpos + seclen - 24 -tsec_clen -8;
@@ -5657,7 +5771,7 @@ fstReaderFseeko(xc, xc->f, indx_pntr, SEEK_SET);
 chain_clen = fstReaderUint64(xc->f);
 indx_pos = indx_pntr - chain_clen;
 #ifdef FST_DEBUG
-printf("\tindx_pos: %d (%d bytes)\n", (int)indx_pos, (int)chain_clen);
+fprintf(stderr, "\tindx_pos: %d (%d bytes)\n", (int)indx_pos, (int)chain_clen);
 #endif
 chain_cmem = malloc(chain_clen);
 fstReaderFseeko(xc, xc->f, indx_pos, SEEK_SET);
@@ -5721,7 +5835,7 @@ for(i=0;i<idx;i++)
 	}
 
 #ifdef FST_DEBUG
-printf("\tdecompressed chain idx len: %"PRIu32"\n", idx);
+fprintf(stderr, "\tdecompressed chain idx len: %"PRIu32"\n", idx);
 #endif
 
 xc->rvat_data_valid = 1;
