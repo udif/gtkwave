@@ -23,6 +23,8 @@
 #include <inttypes.h>
 #endif
 
+#define FSDBR_FXT2U64(xt) (((uint64_t)(xt).hltag.H << 32) | ((uint64_t)(xt).hltag.L))
+
 #ifndef FALSE
 #define FALSE   0
 #endif
@@ -791,6 +793,38 @@ switch (cb_type)
     	}
 
 return(TRUE);
+}
+
+
+/*
+ * $dumpoff/$dumpon support
+ */
+extern "C" unsigned int fsdbReaderGetDumpOffRange(void *ctx, struct fsdbReaderBlackoutChain_t **r)   
+{
+ffrObject *fsdb_obj = (ffrObject *)ctx;
+ 
+if(fsdb_obj->ffrHasDumpOffRange())
+        {
+        uint_T count;
+        fsdbDumpOffRange *fdr = NULL;
+
+        if(FSDB_RC_SUCCESS == fsdb_obj->ffrGetDumpOffRange(count, fdr))
+                {
+                uint_T i;
+                *r = (struct fsdbReaderBlackoutChain_t *)calloc(count * 2, sizeof(struct fsdbReaderBlackoutChain_t));
+
+                for(i=0;i<count;i++)
+                        {
+                        (*r)[i].tim = FSDBR_FXT2U64(fdr[i*2  ].begin); (*r)[i*2  ].active = 0;
+                        (*r)[i].tim = FSDBR_FXT2U64(fdr[i*2+1].begin); (*r)[i*2+1].active = 1;
+                        }
+
+                return(count*2);
+                }
+        }
+
+if(*r) { *r = NULL; }
+return(0);
 }
 
 

@@ -32,6 +32,12 @@ int varCount;
 int scopeCount;
 };
 
+struct fsdbReaderBlackoutChain_t
+{
+uint64_t tim;
+unsigned active : 1;
+};
+
 
 void *fsdbReaderOpenFile(char *nam);
 void fsdbReaderReadScopeVarTree(void *ctx,void (*cb)(void *));
@@ -58,6 +64,7 @@ int fsdbReaderExtractScaleUnit(void *ctx, int *mult, char *scale);
 int fsdbReaderGetMinFsdbTag64(void *ctx, uint64_t *tim);
 int fsdbReaderGetMaxFsdbTag64(void *ctx, uint64_t *tim);
 
+unsigned int fsdbReaderGetDumpOffRange(void *ctx, struct fsdbReaderBlackoutChain_t **r);
 int fsdbReaderGetTransInfo(void *ctx, int idx, void **trans_info);
 
 #ifdef __cplusplus
