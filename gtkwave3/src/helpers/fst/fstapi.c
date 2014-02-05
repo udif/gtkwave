@@ -3431,10 +3431,10 @@ if(xc)
 /*
  * hierarchy processing
  */
-static void fstVcdID(char *buf, int value)
+static void fstVcdID(char *buf, unsigned int value)
 {
 char *pnt = buf;
-int vmod;
+unsigned int vmod;
 
 /* zero is illegal for a value...it is assumed they start at one */
 for(;;)
@@ -3454,10 +3454,10 @@ for(;;)
 *pnt = 0;
 }
 
-static int fstVcdIDForFwrite(char *buf, int value)
+static int fstVcdIDForFwrite(char *buf, unsigned int value)
 {
 char *pnt = buf;
-int vmod;
+unsigned int vmod;
 
 /* zero is illegal for a value...it is assumed they start at one */
 for(;;)

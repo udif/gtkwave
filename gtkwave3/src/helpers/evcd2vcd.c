@@ -80,11 +80,11 @@ for(i=0;i<len;i++)
 return(val);
 }  
 
-static char *vcdid_unhash(int value)
+static char *vcdid_unhash(unsigned int value)
 {
 static char buf[16];  
 char *pnt = buf;
-int vmod;
+unsigned int vmod;
 
 /* zero is illegal for a value...it is assumed they start at one */
 for(;;)  

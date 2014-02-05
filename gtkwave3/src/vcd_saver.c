@@ -73,15 +73,15 @@ else
 /*
  * generate a vcd identifier for a given facindx
  */
-static char *vcdid(int value, int export_typ)
+static char *vcdid(unsigned int value, int export_typ)
 {
 char *pnt = GLOBALS->buf_vcd_saver_c_3;
-int i, vmod;
+unsigned int vmod;
 
 if(export_typ != WAVE_EXPORT_TRANS)
 	{
 	value++;
-	for(i=0;;i++)
+	for(;;)
 	        {
 	        if((vmod = (value % 94)))
 	                {

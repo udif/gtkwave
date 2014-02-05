@@ -44,14 +44,14 @@ extern char *fv_output_hier(FILE *fv, char *name);
 /*
  * generate a vcd identifier for a given facindx
  */
-static char *vcdid(int value)
+static char *vcdid(unsigned int value)
 {
 static char buf[16];
 char *pnt = buf;
-int i, vmod;
+unsigned int vmod;
 
 value++;
-for(i=0;;i++)
+for(;;)
         {
         if((vmod = (value % 94)))
                 {
