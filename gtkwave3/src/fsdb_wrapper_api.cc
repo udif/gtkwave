@@ -657,6 +657,11 @@ switch (var->type)
 		typelen = 7;
 		break;
 
+    	case FSDB_VT_VCD_PORT:
+		type = (str_T) "vcd_port";
+		typelen = 8;
+		break;
+
     	case FSDB_VT_VHDL_SIGNAL:
     	case FSDB_VT_VHDL_VARIABLE:
     	case FSDB_VT_VHDL_CONSTANT:
