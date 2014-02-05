@@ -263,17 +263,59 @@ switch (vc_trvs_hdl->ffrGetBytesPerBit())
 		    		case FSDB_BT_VCD_1:
 		        		buffer[i] = '1';
 		        		break;
-
-		    		case FSDB_BT_VCD_X:
-		        		buffer[i] = 'x';
-		        		break;
 	
 		    		case FSDB_BT_VCD_Z:
 		        		buffer[i] = 'z';
 		        		break;
 	
+		    		case FSDB_BT_VCD_X:
 		    		default:
-		        		buffer[i] = 'u';
+		        		buffer[i] = 'x';
+					break;
+		    		}
+	        	}
+	        buffer[i] = 0;
+		break;
+
+	case FSDB_BYTES_PER_BIT_2B:
+	        for (i = 0; i < vc_trvs_hdl->ffrGetBitSize(); i++) 
+			{
+		    	switch(vc_ptr[i * 2]) 
+				{
+				case FSDB_BT_EVCD_D:
+				case FSDB_BT_EVCD_d:
+				case FSDB_BT_EVCD_L:
+				case FSDB_BT_EVCD_l:
+				case FSDB_BT_EVCD_0:
+		        		buffer[i] = '0';
+		        		break;
+	
+				case FSDB_BT_EVCD_U:
+				case FSDB_BT_EVCD_u:
+				case FSDB_BT_EVCD_H:
+				case FSDB_BT_EVCD_h:
+				case FSDB_BT_EVCD_1:
+		        		buffer[i] = '1';
+		        		break;
+	
+				case FSDB_BT_EVCD_Z:
+				case FSDB_BT_EVCD_T:
+				case FSDB_BT_EVCD_F:
+				case FSDB_BT_EVCD_f:
+		        		buffer[i] = 'z';
+		        		break;
+	
+				case FSDB_BT_EVCD_N:
+				case FSDB_BT_EVCD_X:
+				case FSDB_BT_EVCD_QSTN:
+				case FSDB_BT_EVCD_A:
+				case FSDB_BT_EVCD_a:
+				case FSDB_BT_EVCD_B:
+				case FSDB_BT_EVCD_b:
+				case FSDB_BT_EVCD_C:
+				case FSDB_BT_EVCD_c:
+		    		default:
+		        		buffer[i] = 'x';
 					break;
 		    		}
 	        	}
