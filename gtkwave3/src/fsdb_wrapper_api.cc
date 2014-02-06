@@ -408,6 +408,8 @@ switch (cb_type)
 	{
 	case FSDB_TREE_CBT_VAR:		gs->varCount++;
 					break;
+
+	case FSDB_TREE_CBT_STRUCT_BEGIN:
 	case FSDB_TREE_CBT_SCOPE:	gs->scopeCount++;
 					break;
 
