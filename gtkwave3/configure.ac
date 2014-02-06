@@ -864,6 +864,7 @@ AC_CONFIG_FILES([Makefile
 		contrib/bundle_for_osx/Makefile
 		contrib/fst_jni/Makefile
 		contrib/wlf2vcd/Makefile
+		contrib/fsdb2vcd/Makefile
 		examples/Makefile
 		man/Makefile
 		src/Makefile
