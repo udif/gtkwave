@@ -125,6 +125,7 @@ void
 fill_sig_store (void)
 {
   struct tree *t;
+  struct tree *t_prev = NULL;
   GtkTreeIter iter;
 
   if(GLOBALS->selected_sig_name)
@@ -148,7 +149,20 @@ fill_sig_store (void)
 	unsigned int varxt;
 	char *varxt_pnt;
 
-	if(i < 0) continue;
+	if(i < 0) 
+		{
+		t_prev = NULL;
+		continue;
+		}
+
+	if(t_prev) /* duplicates removal for faulty dumpers */
+		{
+		if(!strcmp(t_prev->name, t->name))
+			{
+			continue;
+			}
+		}
+	t_prev = t;
 
 	varxt = GLOBALS->facs[i]->n->varxt;
 	varxt_pnt = varxt ? varxt_fix(GLOBALS->subvar_pnt[varxt]) : NULL;

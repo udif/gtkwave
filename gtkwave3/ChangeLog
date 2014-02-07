@@ -1439,3 +1439,5 @@
 		Added support for FSDB_BYTES_PER_BIT_2B (EVCD) in FSDB loader.
 		Added experimental fsdb2vcd in contrib.  It is not currently 
 		compiled or used.
+		Fix to treesearch to remove duplicate signal names because of
+		faulty dumpers.
