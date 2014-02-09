@@ -3461,9 +3461,8 @@ menu_new_viewer_tab_cleanup_2(char *fname, int optimize_vcd)
 
 		/* not sure what's really needed here */
 		/* for now, add back in repscript_name */
-		/* if(GLOBALS->repscript_name) free_2(GLOBALS->repscript_name); */
-/* 		GLOBALS->repscript_name = malloc_2(strlen(g_old->repscript_name)+1); */
-/* 		strcpy(GLOBALS->repscript_name, g_old->repscript_name); */
+		GLOBALS->repscript_period = g_old->repscript_period;
+		strcpy2_into_new_context(GLOBALS, &GLOBALS->repscript_name, &g_old->repscript_name);
 
 		GLOBALS->strace_repeat_count = g_old->strace_repeat_count;
 

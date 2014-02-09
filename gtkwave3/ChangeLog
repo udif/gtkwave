@@ -1441,3 +1441,4 @@
 		compiled or used.
 		Fix to treesearch to remove duplicate signal names because of
 		faulty dumpers.
+		Repscript fix for if -R starts without a dumpfile name.
