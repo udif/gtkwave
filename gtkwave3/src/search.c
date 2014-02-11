@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2011.
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -729,6 +729,7 @@ int i, row;
 char *s, *tmp2;
 gfloat interval;
 int depack_cnt = 0;
+char *duplicate_row_buffer = NULL;
 
 if(GLOBALS->is_searching_running_search_c_1) return;
 GLOBALS->is_searching_running_search_c_1 = ~0;
@@ -768,10 +769,13 @@ GTK_ADJUSTMENT(GLOBALS->pdata->adj)->upper = (gfloat)((GLOBALS->numfacs>1)?GLOBA
 GLOBALS->pdata->oldvalue = -1.0;
 interval = (gfloat)(GLOBALS->numfacs/100.0);
 
+duplicate_row_buffer = (char *)calloc_2(1, GLOBALS->longestname+1);
+
 for(i=0;i<GLOBALS->numfacs;i++)
 	{
 	int was_packed = HIER_DEPACK_STATIC;
 	char *hfacname = NULL;
+	int skiprow;
 
 	GLOBALS->pdata->value = i;
 	if(((int)(GLOBALS->pdata->value/interval))!=((int)(GLOBALS->pdata->oldvalue/interval)))		
@@ -782,9 +786,19 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	GLOBALS->pdata->oldvalue = i;
 
 	hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
+	if(!strcmp(hfacname, duplicate_row_buffer))
+		{
+		skiprow = 1;
+		}
+		else
+		{
+		skiprow = 0;
+		strcpy(duplicate_row_buffer, hfacname);
+		}
+
 	depack_cnt += was_packed;
 
-	if(wave_regex_match(hfacname, WAVE_REGEX_SEARCH))
+	if((!skiprow) && wave_regex_match(hfacname, WAVE_REGEX_SEARCH))
 	if((!GLOBALS->is_ghw)||(strcmp(WAVE_GHW_DUMMYFACNAME, hfacname)))
 		{
 		if(!GLOBALS->facs[i]->vec_root)
@@ -825,6 +839,8 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 	/* if(was_packed) { free_2(hfacname); } ...not needed with HIER_DEPACK_STATIC */
 	}
+
+free_2(duplicate_row_buffer);
 
 if(depack_cnt) 
 	{ 

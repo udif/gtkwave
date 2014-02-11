@@ -1443,3 +1443,6 @@
 		faulty dumpers.
 		Repscript fix for if -R starts without a dumpfile name.
 3.3.56	10feb14	Added another crash fix patch for GTK-OSX.
+		Fix to regex search to remove duplicate signal names because of
+		faulty dumpers.
+
