@@ -1442,4 +1442,4 @@
 		Fix to treesearch to remove duplicate signal names because of
 		faulty dumpers.
 		Repscript fix for if -R starts without a dumpfile name.
-3.3.56	09feb14	<< Version bump for next updates >>
+3.3.56	10feb14	Added another crash fix patch for GTK-OSX.
