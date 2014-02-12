@@ -10169,6 +10169,10 @@ fi
 
 CFLAGS="${CFLAGS} ${STRUCT_PACK} -DFST_WRITER_PARALLEL"
 
+if test "X$OSTYPE" = "Xmsys" ; then
+# add library for common dialog found in file.c
+	MINGW_LDADD="-lcomdlg32"
+	fi
 
 if test "X$ETCL" = "Xyes" ; then
 if test "X$OSTYPE" = "Xcygwin" ; then
@@ -10200,8 +10204,6 @@ if test "X$OSTYPE" = "Xdarwin" ; then
 	fi
 else
 if test "X$OSTYPE" = "Xmsys" ; then
-# add library for common dialog found in file.c
-	MINGW_LDADD="-lcomdlg32"
 # skip Tcl_CreateInterp check on mingw (until we figure out)...
 	if test "X$STUBIFY" = "Xyes" ; then
 	TCL_DEFADD="-DHAVE_LIBTCL -DWAVE_TCL_STUBIFY -DUSE_TCL_STUBS -DUSE_TK_STUBS"
