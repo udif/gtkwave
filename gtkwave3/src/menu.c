@@ -3495,6 +3495,7 @@ menu_new_viewer_tab_cleanup_2(char *fname, int optimize_vcd)
                         }
                 free_outstanding(); /* free anything allocated in loader ctx */
 		free(GLOBALS);
+		GLOBALS = NULL; /* valgrind fix */
 	
 		set_GLOBALS(g_old);
                 free(GLOBALS->vcd_jmp_buf); GLOBALS->vcd_jmp_buf = NULL;

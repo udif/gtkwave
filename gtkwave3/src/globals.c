@@ -2185,6 +2185,7 @@ void reload_into_new_context_2(void)
  /* Free the old globals struct, memsetting it to zero in the hope of forcing crashes. */
  memset(GLOBALS, 0, sizeof(struct Global));
  free(GLOBALS);
+ GLOBALS = NULL; /* valgrind fix */
 
  /* Set the GLOBALS pointer to the newly allocated struct. */
  set_GLOBALS(new_globals);
@@ -2692,6 +2693,7 @@ if(gp)
 	/* Free the old globals struct, memsetting it to zero in the hope of forcing crashes. */
 	memset(GLOBALS, 0, sizeof(struct Global));
 	free(GLOBALS);
+	GLOBALS = NULL; /* valgrind fix */
 
 	set_GLOBALS(g_curr);
 	}

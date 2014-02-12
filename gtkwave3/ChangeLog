@@ -1442,8 +1442,10 @@
 		Fix to treesearch to remove duplicate signal names because of
 		faulty dumpers.
 		Repscript fix for if -R starts without a dumpfile name.
-3.3.56	11feb14	Added another crash fix patch for GTK-OSX.
+3.3.56	12feb14	Added another crash fix patch for GTK-OSX.
 		Fix to regex search to remove duplicate signal names because of
 		faulty dumpers.
 		Fix to configure.ac for MSYS not adding -lcomdlg32 when Tcl
 		is disabled.
+		Valgrind fix on deallocated context: old GLOBALS pointer could
+		be examined in set_GLOBALS_x().
