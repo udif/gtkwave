@@ -1924,7 +1924,6 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     gtk_box_pack_start (GTK_BOX (hbox), button4, TRUE, FALSE, 0);
 
     gtk_container_add (GTK_CONTAINER (frameh), hbox);
-    gtk_widget_show(vbox);
     return vbox;
 }
 

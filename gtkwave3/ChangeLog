@@ -1449,3 +1449,5 @@
 		is disabled.
 		Valgrind fix on deallocated context: old GLOBALS pointer could
 		be examined in set_GLOBALS_x().
+		Minor cleanup in treesearch_gtk2.c: removed redundant show
+		widget invocation.
