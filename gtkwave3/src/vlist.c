@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2006-9.
+ * Copyright (c) Tony Bybell 2006-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -242,7 +242,7 @@ if(v->siz > 32)
 	{
 	struct vlist_t *vz;
 	unsigned int *ipnt;
-	char *dmem = malloc_2(v->siz);
+	char *dmem = malloc_2(compressBound(v->siz));
 	unsigned long destlen = v->siz;
 	int rc;
 	

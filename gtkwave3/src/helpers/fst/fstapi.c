@@ -1060,7 +1060,7 @@ if(xc)
         int rc;
 
 	destlen = xc->maxvalpos;
-	dmem = malloc(destlen);
+	dmem = malloc(compressBound(destlen));
         rc = compress2(dmem, &destlen, xc->curval_mem, xc->maxvalpos, 4); /* was 9...which caused performance drag on traces with many signals */
 
 	fputc(FST_BL_SKIP, xc->handle);			/* temporarily tag the section, use FST_BL_VCDATA on finalize */
@@ -1317,7 +1317,7 @@ for(i=0;i<xc->maxhandle;i++)
 					else
 					{
 					free(packmem);
-					dmem = packmem = malloc(packmemlen = wrlen);
+					dmem = packmem = malloc(compressBound(packmemlen = wrlen));
 					}
 
 		        	rc = compress2(dmem, &destlen, scratchpnt, wrlen, 4);
@@ -1558,7 +1558,7 @@ tmem = fstMmap(NULL, tlen, PROT_READ|PROT_WRITE, MAP_SHARED, fileno(xc->tchn_han
 if(tmem)
 	{
 	unsigned long destlen = tlen;
-	unsigned char *dmem = malloc(destlen);
+	unsigned char *dmem = malloc(compressBound(destlen));
         int rc = compress2(dmem, &destlen, tmem, tlen, 9);
 
 	if((rc == Z_OK) && (destlen < tlen))
@@ -1788,7 +1788,7 @@ if(xc && !xc->already_in_close && !xc->already_in_flush)
 	if(tmem)
 		{
 		unsigned long destlen = tlen;
-		unsigned char *dmem = malloc(destlen);
+		unsigned char *dmem = malloc(compressBound(destlen));
 	        int rc = compress2(dmem, &destlen, tmem, tlen, 9);
 
 		if((rc != Z_OK) || (destlen > tlen))
