@@ -516,7 +516,7 @@ if((vl->elem_siz == 1)&&(siz))
 	{
 	struct vlist_t *w, *v2;
 
-	if(vl->offs*2 < vl->siz)
+	if(vl->offs*2 <= vl->siz) /* Electric Fence, change < to <= */
 		{
 		v2 = calloc_2(1, sizeof(struct vlist_t) + (vl->siz /* * vl->elem_siz */)); /* scan-build */
 		memcpy(v2, vl, sizeof(struct vlist_t) + (vl->siz/2 /* * vl->elem_siz */)); /* scan-build */

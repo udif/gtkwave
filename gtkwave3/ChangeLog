@@ -1452,4 +1452,4 @@
 		Minor cleanup in treesearch_gtk2.c: removed redundant show
 		widget invocation.
 		Added missing compressBound() for compress2() dest mallocs.
-3.3.57	12feb14	<< placeholder for next version >>
+3.3.57	13feb14	Fix for Electric Fence crash in vlist_freeze().
