@@ -2610,7 +2610,7 @@ if(suffix_check(fname, ".gz") || suffix_check(fname, ".zip"))
 		if(GLOBALS->vcd_fsiz_vcd_c_1 > (GLOBALS->vcd_warning_filesize * (1024 * 1024)))
 			{
 			fprintf(stderr, "Warning! File size is %d MB.  This might fail to load.\n"
-                                        "Consider converting it to the fst database format instead.  (See the\n"
+                                        "Consider converting it to the FST database format instead.  (See the\n"
                                         "vcd2fst(1) manpage for more information.)\n"
 					"To disable this warning, set rc variable vcd_warning_filesize to zero.\n"
 					"Alternatively, use the -o, --optimize command line option to convert to LXT2.\n\n",

@@ -2796,7 +2796,7 @@ if(suffix_check(fname, ".gz") || suffix_check(fname, ".zip"))
 			if(!GLOBALS->vlist_prepack)
 				{
 				fprintf(stderr, "Warning! File size is %d MB.  This might fail in recoding.\n"
-					"Consider converting it to the fst database format instead.  (See the\n"
+					"Consider converting it to the FST database format instead.  (See the\n"
 					"vcd2fst(1) manpage for more information.)\n"
 					"To disable this warning, set rc variable vcd_warning_filesize to zero.\n"
 					"Alternatively, use the -o, --optimize command line option to convert to FST\n"
