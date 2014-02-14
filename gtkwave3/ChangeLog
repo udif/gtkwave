@@ -1454,3 +1454,4 @@
 		Added missing compressBound() for compress2() dest mallocs.
 3.3.57	13feb14	Fix for Electric Fence crash in vlist_freeze().
 		Updated LZ4 for version r113.
+3.3.58	14feb14	<< placeholder entry for next version >>
