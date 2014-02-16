@@ -247,7 +247,7 @@ if(v->siz > 32)
 	int rc;
 	
 	rc = compress2((unsigned char *)dmem, &destlen, (unsigned char *)(v+1), v->siz, GLOBALS->vlist_compression_depth);
-	if((rc == Z_OK)&&(destlen < (v->siz - sizeof(long))))
+	if( (rc == Z_OK) && ((destlen + sizeof(int)) < v->siz) )
 		{
 		/* printf("siz: %d, dest: %d rc: %d\n", v->siz, (int)destlen, rc); */
 
