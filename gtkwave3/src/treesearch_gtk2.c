@@ -82,7 +82,6 @@ static void *fix_escaped_names(char *s, int do_free)
 {
 char *s2 = s;
 int found = 0;
-int len;
 
 while(*s2)
 	{
@@ -96,7 +95,6 @@ while(*s2)
 
 if(found)
 	{
-	len = strlen(s);
 	s2 = strdup_2(s);
 	if(do_free) free_2(s);
 	s = s2;

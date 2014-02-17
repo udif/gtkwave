@@ -3012,14 +3012,14 @@ if(len)
 		else
 		{
 		fstWritex(xc, NULL, 0);
-		write(xc->writex_fd, s, len);
+		if (write(xc->writex_fd, s, len)) { };
 		}
 	}
 	else
 	{
 	if(xc->writex_pos)
 		{
-		write(xc->writex_fd, xc->writex_buf, xc->writex_pos);
+		if(write(xc->writex_fd, xc->writex_buf, xc->writex_pos)) { };
 		xc->writex_pos = 0;
 		}
 	}
@@ -3489,7 +3489,7 @@ if(!xc->fh)
 	unsigned char *mem = malloc(FST_GZIO_LEN);
 	off_t hl, uclen;
 	off_t clen = 0;
-	gzFile zhandle;
+	gzFile zhandle = NULL;
 	int zfd;
 	int htyp = FST_BL_SKIP;
 

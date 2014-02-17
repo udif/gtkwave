@@ -758,6 +758,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		else /* convert any variable length records into strings */
 		{
 		nvt = ND_GEN_STRING;
+		nvd = ND_DIR_IMPLICIT;
 		GLOBALS->mvlfacs_fst_c_3[i].flags = VZT_RD_SYM_F_STRING;
 		GLOBALS->mvlfacs_fst_c_3[i].len = 2;
 		}

@@ -424,11 +424,13 @@ int repack_all = 0; /* 0 is normal, 1 does the repack (via fstapi) at end */
 int parallel_mode = 0; /* 0 is is single threaded, 1 is multi-threaded */
 
 
+#ifdef VCD2FST_EXTLOADERS_CONV
 static int suffix_check(const char *s, const char *sfx)
 {
 int sfxlen = strlen(sfx);
 return((strlen(s)>=sfxlen)&&(!strcasecmp(s+strlen(s)-sfxlen,sfx)));
 }
+#endif
 
 
 int fst_main(char *vname, char *fstname)
