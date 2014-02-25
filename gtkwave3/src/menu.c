@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2013.
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -5795,6 +5795,42 @@ dataformat( ~(TR_GRAYMASK|TR_ANALOGMASK), 0 );
 }
 
 void
+menu_dataformat_popcnt_on(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nData Format-Popcnt-On");
+        help_text(
+                " will step through all highlighted traces and ensure that"
+                " bits and vectors with this qualifier will be displayed after"       
+                " going through a population (one's) count conversion.  This is a filter"
+                " which sits before other Data Format options such as hex, etc."
+        );
+        return;
+        }  
+
+dataformat( ~(TR_POPCNT), TR_POPCNT );
+}
+
+void
+menu_dataformat_popcnt_off(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nData Format-Popcnt-Off");
+        help_text(
+                " will step through all highlighted traces and ensure that"
+                " bits and vectors with this qualifier will be displayed with"
+                " normal encoding."
+        );
+        return;
+        }  
+
+dataformat( ~(TR_POPCNT), 0 );
+}
+
+//
+void
 menu_dataformat_invert_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
@@ -6480,6 +6516,7 @@ if(GLOBALS->helpbox_is_active)
 		" F = File Filter\n"
 		" P = Process Filter\n"
 		" T = Transaction Filter\n"
+		" p = Population Count\n"
         );
         }
 	else
@@ -6611,6 +6648,9 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Edit/Data Format/Gray Filters/To Gray", NULL, menu_dataformat_bingray_on, WV_MENU_B2G, "<Item>"),
     WAVE_GTKIFE("/Edit/Data Format/Gray Filters/From Gray", NULL, menu_dataformat_graybin_on, WV_MENU_G2B, "<Item>"),
     WAVE_GTKIFE("/Edit/Data Format/Gray Filters/None", NULL, menu_dataformat_nogray,    WV_MENU_GBNONE, "<Item>"),
+    WAVE_GTKIFE("/Edit/Data Format/Popcnt/On", NULL, menu_dataformat_popcnt_on, WV_MENU_POPON, "<Item>"),
+    WAVE_GTKIFE("/Edit/Data Format/Popcnt/Off", NULL, menu_dataformat_popcnt_off,    WV_MENU_POPOFF, "<Item>"),
+
     WAVE_GTKIFE("/Edit/Color Format/Normal", NULL, menu_colorformat_0,    WV_MENU_CLRFMT0, "<Item>"),
     WAVE_GTKIFE("/Edit/Color Format/Red", NULL, menu_colorformat_1,    WV_MENU_CLRFMT1, "<Item>"),
     WAVE_GTKIFE("/Edit/Color Format/Orange", NULL, menu_colorformat_2,    WV_MENU_CLRFMT2, "<Item>"),
@@ -7274,6 +7314,9 @@ static gtkwave_mlist_t popmenu_items[] =
     WAVE_GTKIFE("/Data Format/Gray Filters/To Gray", NULL, menu_dataformat_bingray_on, WV_MENU_B2G, "<Item>"),
     WAVE_GTKIFE("/Data Format/Gray Filters/From Gray", NULL, menu_dataformat_graybin_on, WV_MENU_G2B, "<Item>"),
     WAVE_GTKIFE("/Data Format/Gray Filters/None", NULL, menu_dataformat_nogray,    WV_MENU_GBNONE, "<Item>"),
+    WAVE_GTKIFE("/Data Format/Popcnt/On", NULL, menu_dataformat_popcnt_on, WV_MENU_POPON, "<Item>"),
+    WAVE_GTKIFE("/Data Format/Popcnt/Off", NULL, menu_dataformat_popcnt_off,    WV_MENU_POPOFF, "<Item>"),
+
     WAVE_GTKIFE("/Color Format/Normal", NULL, menu_colorformat_0,    WV_MENU_CLRFMT0, "<Item>"),
     WAVE_GTKIFE("/Color Format/Red", NULL, menu_colorformat_1,    WV_MENU_CLRFMT1, "<Item>"),
     WAVE_GTKIFE("/Color Format/Orange", NULL, menu_colorformat_2,    WV_MENU_CLRFMT2, "<Item>"),

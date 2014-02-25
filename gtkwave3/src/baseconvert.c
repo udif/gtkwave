@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2009.
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,14 +29,15 @@
 #endif
 
 /*
- * convert binary <=> gray in place
+ * convert binary <=> gray/popcnt in place
  */
 #define cvt_gray(f,p,n) \
 do { \
-if((f)&TR_GRAYMASK) \
+if((f)&(TR_GRAYMASK|TR_POPCNT)) \
 	{ \
 	if((f)&TR_BINGRAY) { convert_bingray((p),(n)); } \
 	if((f)&TR_GRAYBIN) { convert_graybin((p),(n)); } \
+	if((f)&TR_POPCNT)  { convert_popcnt((p),(n)); } \
 	} \
 } while(0)
 
@@ -134,6 +135,35 @@ for(i=0;i<nbits;i++)
 		{
 		pnt[i] = pch;
 		}
+	}
+}
+
+
+static void convert_popcnt(char *pnt, int nbits)
+{
+int i;
+unsigned int pop = 0;
+
+for(i=0;i<nbits;i++)
+	{
+	char ch = pnt[i];
+
+	switch(ch)
+		{
+		case AN_1:
+		case AN_H:	pop++;
+				break;
+	
+		default:
+				break;	
+			}
+	
+	}
+
+for(i=nbits-1;i>=0;i--) /* always requires less number of bits */
+	{
+	pnt[i] = (pop & 1) ? AN_1 : AN_0;
+	pop >>= 1;
 	}
 }
 

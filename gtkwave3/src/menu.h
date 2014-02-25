@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2013.
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -160,6 +160,8 @@ WV_MENU_RFILLOFF,
 WV_MENU_B2G,
 WV_MENU_G2B,
 WV_MENU_GBNONE,
+WV_MENU_POPON,
+WV_MENU_POPOFF,
 WV_MENU_CLRFMT0,
 WV_MENU_CLRFMT1,
 WV_MENU_CLRFMT2,

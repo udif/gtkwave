@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2006-2012.
+ * Copyright (c) Tony Bybell 2006-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -82,7 +82,10 @@ if((flags & TR_PTRANSLATED) != 0) { ch[pos++] = 'P'; }
 /* [13] */
 if((flags & TR_TTRANSLATED) != 0) { ch[pos++] = 'T'; }
 
-/* [14]  (at worst case this needs 14 characters) */
+/* [14] */
+if((flags & TR_POPCNT) != 0) { ch[pos++] = 'p'; }
+
+/* [15]  (at worst case this needs 16 characters) */
 ch[pos] = 0;
 
 return(pos);
