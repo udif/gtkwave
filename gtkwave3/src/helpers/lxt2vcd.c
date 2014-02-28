@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-9 Tony Bybell.
+ * Copyright (c) 2003-2014 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -48,21 +48,14 @@ static char *vcdid(unsigned int value)
 {
 static char buf[16];
 char *pnt = buf;
-unsigned int vmod;
 
 value++;
-for(;;)
+/* zero is illegal for a value...it is assumed they start at one */
+while (value)
         {
-        if((vmod = (value % 94)))
-                {
-                *(pnt++) = (char)(vmod + 32);
-                }   
-                else
-                {
-                *(pnt++) = '~'; value -= 94;
-                }
-        value = value / 94;  
-        if(!value) { break; }
+        value--;
+        *(pnt++) = (char)('!' + value % 94);
+        value = value / 94;
         }
 
 *pnt = 0;   

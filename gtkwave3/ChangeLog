@@ -1454,5 +1454,7 @@
 		Added missing compressBound() for compress2() dest mallocs.
 3.3.57	13feb14	Fix for Electric Fence crash in vlist_freeze().
 		Updated LZ4 for version r113.
-3.3.58	17feb14	Added /Data Format/Popcnt function for ones counting.
+3.3.58	28feb14	Added /Data Format/Popcnt function for ones counting.
 		Warnings fixes.
+		Updated VCD ID generation in various helpers to use a faster,
+		equivalent algorithm.
