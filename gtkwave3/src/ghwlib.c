@@ -1,5 +1,5 @@
 /*  GHDL Wavefile reader library.
-    Copyright (C) 2005-2012 Tristan Gingold
+    Copyright (C) 2005-2014 Tristan Gingold
 
     GHDL is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License as published by the Free
@@ -462,6 +462,12 @@ get_nbr_elements (union ghw_type *t)
 int
 ghw_get_range_length (union ghw_range *rng)
 {
+if(!rng) /* scan-build */
+	{
+	fprintf (stderr, "get_range_length: null pointer passed, is GHW file corrupt?\n");
+	abort ();
+	}
+
   switch (rng->kind)
     {
     case ghdl_rtik_type_i32:
