@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012 Tony Bybell.
+ * Copyright (c) 2012-2014 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -130,7 +130,7 @@ if(plen >= matchlen)
 	{
 	if(!killed_list[pnt_facidx])
 		{
-		if((!match) || (strstr((const char *)pnt_value, match)))
+		if((!match) || (pnt_value /* scan-build */ && (strstr((const char *)pnt_value, match))))
 			{
 			char *fn;
 			fn = get_facname(lt, pnt_facidx);

@@ -3811,6 +3811,7 @@ uint32_t len, alias;
 int num_signal_dyn = 65536;
 int attrtype, subtype;
 uint64_t attrarg;
+fstHandle maxhandle_scanbuild;
 
 if(!xc) return(0);
 
@@ -3874,7 +3875,7 @@ if(fv)
 	if(fv) fprintf(fv, "$timescale\n\t%d%ss\n$end\n", time_scale, time_dimension);
 	}
 
-xc->maxhandle = 0;
+xc->maxhandle = 0; 
 xc->num_alias = 0;
 
 free(xc->signal_lens);
@@ -4060,11 +4061,13 @@ while(!feof(xc->fh))
 	}
 if(fv) fprintf(fv, "$enddefinitions $end\n");
 
-xc->signal_lens = realloc(xc->signal_lens, xc->maxhandle*sizeof(uint32_t));
-xc->signal_typs = realloc(xc->signal_typs, xc->maxhandle*sizeof(unsigned char));
+maxhandle_scanbuild = xc->maxhandle ? xc->maxhandle : 1; /*scan-build warning suppression, in reality we have at least one signal */
+
+xc->signal_lens = realloc(xc->signal_lens, maxhandle_scanbuild*sizeof(uint32_t));
+xc->signal_typs = realloc(xc->signal_typs, maxhandle_scanbuild*sizeof(unsigned char));
 
 free(xc->process_mask);
-xc->process_mask = calloc(1, (xc->maxhandle+7)/8);
+xc->process_mask = calloc(1, (maxhandle_scanbuild+7)/8);
 
 free(xc->temp_signal_value_buf);
 xc->temp_signal_value_buf = malloc(xc->longest_signal_value_len + 1);
@@ -4683,7 +4686,7 @@ for(;;)
 		tpnt += skiplen;	
 		}
 
-	tc_head = calloc(tsec_nitems, sizeof(uint32_t));
+	tc_head = calloc(tsec_nitems /* scan-build */ ? tsec_nitems : 1, sizeof(uint32_t));
 	free(ucdata);
 	}
 
@@ -5461,22 +5464,20 @@ for(;;)
 block_err:
 	free(tc_head);
 	free(chain_cmem);
-	free(mem_for_traversal);
+	free(mem_for_traversal); mem_for_traversal = NULL;
 
 	secnum++;
 	if(secnum == xc->vc_section_count) break; /* in case file is growing, keep with original block count */
 	blkpos += seclen;
 	}
 
+if(mem_for_traversal) free(mem_for_traversal); /* scan-build */
 free(length_remaining);
 free(headptr);
 free(scatterptr);
 
-if(chain_table)
-	{
-	free(chain_table);
-	free(chain_table_lengths);
-	}
+if(chain_table) free(chain_table);
+if(chain_table_lengths)	free(chain_table_lengths);
 
 free(time_table);
 

@@ -383,7 +383,7 @@ mod_cnt = 0;
 rec_tree(modules, &mod_cnt);
 /* printf("number of modules: %d\n", mod_cnt); */
 
-mod_list = calloc(mod_cnt, sizeof(ds_Tree *));
+mod_list = calloc(mod_cnt /* scan-build */ ? mod_cnt : 1, sizeof(ds_Tree *));
 mod_cnt = 0;
 rec_tree_populate(modules, &mod_cnt, mod_list);
 

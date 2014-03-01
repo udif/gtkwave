@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 1999-2012.
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -109,9 +109,12 @@ void updateTraceGroup(Trptr t)
 	  if (IsGroupEnd(t))
 	    {
 	      Trptr g_begin = t->t_prev->t_grp;
-	      t->t_grp = g_begin->t_grp;
-	      t->t_match = g_begin;
-	      g_begin->t_match = t;
+	      if(g_begin) /* scan-build */
+		{
+	      	t->t_grp = g_begin->t_grp;
+	      	t->t_match = g_begin;
+	      	g_begin->t_match = t;
+		}
 	    }
 	  else
 	    { 

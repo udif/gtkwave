@@ -809,7 +809,10 @@ static void DNDDataReceivedCB(
 
 	for(i=impcnt-1;i>=0;i--) /* reverse list so it is forwards in rtlbrowse */
 		{
-	        bwlogbox(fta[i]->fullname, 640 + 8*8, fta[i], 0);
+		if(fta[i]) /* scan-build */
+			{
+		        bwlogbox(fta[i]->fullname, 640 + 8*8, fta[i], 0);
+			}
 		}
 
 	free(fta);

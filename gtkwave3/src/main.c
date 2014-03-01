@@ -470,7 +470,7 @@ if(!GLOBALS)
 	mainwindow_already_built = 0;
 	tcl_interpreter_needs_making = 1;
 
-	GLOBALS->logfiles = calloc(1, sizeof(void **)); /* calloc is deliberate! */
+	GLOBALS->logfiles = calloc(1, sizeof(void *)); /* calloc is deliberate! */
 	}
 	else
 	{
@@ -2295,12 +2295,12 @@ if(!GLOBALS->notebook)
 	{
 	GLOBALS->num_notebook_pages = 1;
 	GLOBALS->this_context_page = 0;
-	GLOBALS->contexts = calloc(1, sizeof(struct Globals ***)); /* calloc is deliberate! */
-	*GLOBALS->contexts = calloc(1, sizeof(struct Globals **)); /* calloc is deliberate! */
+	GLOBALS->contexts = calloc(1, sizeof(struct Global **)); /* calloc is deliberate! */ /* scan-build */
+	*GLOBALS->contexts = calloc(1, sizeof(struct Global *)); /* calloc is deliberate! */ /* scan-build */
 	(*GLOBALS->contexts)[0] = GLOBALS;
 
-	GLOBALS->dead_context = calloc(1, sizeof(struct Globals ***)); /* calloc is deliberate! */
-	*GLOBALS->dead_context = calloc(1, sizeof(struct Globals **)); /* calloc is deliberate! */
+	GLOBALS->dead_context = calloc(1, sizeof(struct Global **)); /* calloc is deliberate! */ /* scan-build */
+	*GLOBALS->dead_context = calloc(1, sizeof(struct Global *)); /* calloc is deliberate! */ /* scan-build */
 	*(GLOBALS->dead_context)[0] = NULL;
 
 	GLOBALS->notebook = gtk_notebook_new();
@@ -2318,7 +2318,7 @@ if(!GLOBALS->notebook)
 	GLOBALS->this_context_page = GLOBALS->num_notebook_pages;
 	GLOBALS->num_notebook_pages++;
 	GLOBALS->num_notebook_pages_cumulative++; /* this never decreases, acts as an incrementing flipper id for side tabs */
-	*GLOBALS->contexts = realloc(*GLOBALS->contexts, GLOBALS->num_notebook_pages * sizeof(struct Globals *)); /* realloc is deliberate! */
+	*GLOBALS->contexts = realloc(*GLOBALS->contexts, GLOBALS->num_notebook_pages * sizeof(struct Global *)); /* realloc is deliberate! */ /* scan-build */
 	(*GLOBALS->contexts)[GLOBALS->this_context_page] = GLOBALS;
 
 	for(ix=0;ix<GLOBALS->num_notebook_pages;ix++)

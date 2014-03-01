@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) Tony Bybell 2005-6.
+ * Copyright (c) Tony Bybell 2005-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -352,7 +352,7 @@ if(*GLOBALS->fileselbox_text)
 
 GLOBALS->num_file_filters++;
 load_file_filter(GLOBALS->num_file_filters, *GLOBALS->fileselbox_text);
-if(GLOBALS->xl_file_filter[GLOBALS->num_file_filters])
+if(GLOBALS->xl_file_filter[GLOBALS->num_file_filters] && (*GLOBALS->fileselbox_text /* scan-build */))
 	{
 	if(GLOBALS->filesel_filter[GLOBALS->num_file_filters]) free_2(GLOBALS->filesel_filter[GLOBALS->num_file_filters]);
 	GLOBALS->filesel_filter[GLOBALS->num_file_filters] = malloc_2(strlen(*GLOBALS->fileselbox_text) + 1);

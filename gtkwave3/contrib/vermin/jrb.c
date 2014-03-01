@@ -130,7 +130,7 @@ JRB make_jrb()
 {
   JRB head;
  
-  head = (JRB) malloc (sizeof(struct jrb_node));
+  head = (JRB) calloc (1, sizeof(struct jrb_node)); /* scan-build because of sethead() below */
   head->flink = head;
   head->blink = head;
   head->parent = head;

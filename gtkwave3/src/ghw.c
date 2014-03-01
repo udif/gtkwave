@@ -1,5 +1,5 @@
 /*  GHDL Wavefile reader interface.
-    Copyright (C) 2005-2011 Tristan Gingold and Tony Bybell
+    Copyright (C) 2005-2014 Tristan Gingold and Tony Bybell
 
     GHDL is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License as published by the Free
@@ -1135,7 +1135,7 @@ ghw_main(char *fname)
 
  struct tree *t = calloc_2(1, sizeof(struct tree) + strlen(base_hier));
  memcpy(t, GLOBALS->treeroot, sizeof(struct tree));
- strcpy(t->name, base_hier);
+ strcpy(t->name, base_hier); /* scan-build false warning here, thinks name[1] is total length */
 #ifndef WAVE_TALLOC_POOL_SIZE
  free_2(GLOBALS->treeroot); /* if using tree alloc pool, can't deallocate this */
 #endif

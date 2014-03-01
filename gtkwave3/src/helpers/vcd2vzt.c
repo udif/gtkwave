@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999-2010 Tony Bybell.
+ * Copyright (c) 1999-2014 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -247,6 +247,8 @@ return(strcmp(v1->id, v2->id));
  */
 static void alias_vs_normal_symadd(struct vcdsymbol *v, struct vcdsymbol *root_v)
 {
+if(!v) return; /* scan-build : should never happen */
+
 if(!root_v) 
 	{
 	if((v->vartype==V_INTEGER)||(v->vartype==V_REAL))

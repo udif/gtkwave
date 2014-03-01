@@ -817,7 +817,7 @@ struct vzt_ncycle_autosort *autofacs= calloc(lt->numrealfacs, sizeof(struct vzt_
 vzt_rd_block_vch_decode(lt, b);
 vzt_rd_pthread_mutex_lock(lt, &b->mutex);
 
-autosort = calloc(b->num_time_ticks, sizeof(struct vzt_ncycle_autosort));
+autosort = calloc(b->num_time_ticks, sizeof(struct vzt_ncycle_autosort *));
 for(i=0;i<b->num_time_ticks;i++) autosort[i]=NULL;
 deadlist=NULL;
 
@@ -2057,6 +2057,8 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 				}
 			}
 		}
+
+	free(pbuff); /* scan-build */
 
 	for(i=lt->numrealfacs;i<lt->numfacs;i++)
 		{

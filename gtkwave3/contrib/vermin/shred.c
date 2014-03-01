@@ -19,7 +19,7 @@ void shred_alloc(void)
 {
 shred_root=shred_pnt=(void **)calloc(SHRED_ROOT_SIZE,sizeof(void *));	/* with 12+ preclevels this is more than enough */
 exp_root=exp_pnt=(void **)calloc(EXP_ROOT_SIZE,sizeof(void *));		/* dictates longest expr */
-exp_now_root=exp_now_pnt=(void ***)calloc(EXP_NOW_SIZE,sizeof(void *)); /* levels of parentheses */
+exp_now_root=exp_now_pnt=(void ***)calloc(EXP_NOW_SIZE,sizeof(void **)); /* levels of parentheses */
 }
 
 void shred_free(void)

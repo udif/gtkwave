@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell and Concept Engineering GmbH 2008-2012.
+ * Copyright (c) Tony Bybell and Concept Engineering GmbH 2008-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -2658,7 +2658,7 @@ if(objc > 1)
 			/*  alloca used in case we context switch and get our allocator ripped out from under us -- the call stack won't go away */
 		if(slen)
 			{
-			strcpy(w->payload, s);
+			strcpy(w->payload, s); /* scan-build complains but it thinks payload[1] is the actual memory allocated */
 			}
 		w->curr = NULL; /* yes, curr is only ever used for the 1st struct, but there is no sense creating head/follower structs for this */
 		w->next = NULL;

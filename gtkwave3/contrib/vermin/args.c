@@ -180,5 +180,7 @@ for(i=0;i<argc;i++)
 		total_args++;
 		}
 	}
+
+free(shadow_list); /* scan-build */
 }
 
