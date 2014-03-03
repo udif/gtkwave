@@ -459,7 +459,7 @@ return(NULL);
 
 static void fst_append_graft_chain(int len, char *nam, int which, struct tree *par)
 {
-struct tree *t = talloc_2(sizeof(struct tree) + len);
+struct tree *t = talloc_2(sizeof(struct tree) + len + 1);
 
 memcpy(t->name, nam, len+1);
 t->t_which = which;

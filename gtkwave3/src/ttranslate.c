@@ -624,11 +624,11 @@ if((t->t_filter) && (t->flags & TR_TTRANSLATED) && (t->vector) && (!t->t_filter_
 
 			cvt_ok = 1;
 
-			vt_head = vt_curr = vt = calloc_2(1, sizeof(struct VectorEnt));
+			vt_head = vt_curr = vt = calloc_2(1, sizeof(struct VectorEnt) + 1);
 			vt->time = LLDescriptor(-2);
 			vprev = vt; /* for duplicate removal */
 
-			vt_curr = vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt));
+			vt_curr = vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt) + 1);
 			vt->time = LLDescriptor(-1);
 
 			for(;;)
@@ -694,7 +694,7 @@ ex:     			buf[n] = 0;
 							} while(pnt != (sp-1));
 						}
 						
-					vt = calloc_2(1, sizeof(struct VectorEnt) + slen);
+					vt = calloc_2(1, sizeof(struct VectorEnt) + slen + 1);
 					if(sp) strcpy((char *)vt->v, sp);
 	
 					if(tim > prev_tim) 
@@ -795,15 +795,15 @@ ex:     			buf[n] = 0;
 					}
 				}
 	
-			vt_curr = vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt));
+			vt_curr = vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt) + 1);
 			vt->time = MAX_HISTENT_TIME - 1;
 			regions++;
 	
-			/* vt_curr = */ vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt)); /* scan-build */
+			/* vt_curr = */ vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt) + 1); /* scan-build */
 			vt->time = MAX_HISTENT_TIME;
 			regions++;
 	
-			bv = calloc_2(1, sizeof(struct BitVector) + (sizeof(vptr) * (regions-1)));
+			bv = calloc_2(1, sizeof(struct BitVector) + (sizeof(vptr) * (regions)));
 			bv->bvname = strdup_2(trace_name ? trace_name : orig_name);
 			bv->nbits = 1;
 			bv->numregions = regions;

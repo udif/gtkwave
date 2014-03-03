@@ -251,7 +251,7 @@ if(!b) return(NULL);
 
 h=(hptr *)calloc_2(b->nnbits, sizeof(hptr));
 
-numextrabytes=(b->nnbits)-1;
+numextrabytes=b->nnbits;
 
 for(i=0;i<b->nnbits;i++)
 	{
@@ -380,11 +380,11 @@ while(h[0])	/* should never exit through this point the way we set up histents w
 
 vadd=(vptr)calloc_2(1,sizeof(struct VectorEnt)+numextrabytes);
 vadd->time=MAX_HISTENT_TIME;
-for(i=0;i<=numextrabytes;i++) vadd->v[i]=AN_U; /* formerly 0x55 */
+for(i=0;i<numextrabytes;i++) vadd->v[i]=AN_U; /* formerly 0x55 */
 if(vcurr) { vcurr->next=vadd; } /* scan-build */
 regions++;
 
-bitvec=(bvptr)calloc_2(1,sizeof(struct BitVector)+((regions-1)*sizeof(vptr))); /* ajb : found "regions" by manual inspection, changed to "regions-1" as array is already [1] */
+bitvec=(bvptr)calloc_2(1,sizeof(struct BitVector)+((regions)*sizeof(vptr))); /* ajb : found "regions" by manual inspection, changed to "regions-1" as array is already [1] */ /* C99, back to regions with [] */
 
 strcpy(bitvec->bvname=(char *)malloc_2(strlen(b->name)+1),b->name);
 bitvec->nbits=b->nnbits;
@@ -666,8 +666,7 @@ str=pnt;
 ifnode:
 if(nodepnt)
 	{
-	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt-1)*
-				  sizeof(struct Node *));
+	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt)*sizeof(struct Node *));
 
 	for(i=0;i<nodepnt;i++)
 		{
@@ -831,8 +830,7 @@ str=pnt;
 ifnode:
 if(nodepnt)
 	{
-	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt-1)*
-				  sizeof(struct Node *));
+	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt)*sizeof(struct Node *));
 
 	b->attribs = calloc_2(nodepnt, sizeof(struct BitAttributes));
 
@@ -884,8 +882,7 @@ for(i=0;i<GLOBALS->numfacs;i++)		/* to keep vectors in lo..hi order */
 
 if(nodepnt)
 	{
-	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt-1)*
-				  sizeof(struct Node *));
+	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt)*sizeof(struct Node *));
 
 	for(i=0;i<nodepnt;i++)
 		{
@@ -981,8 +978,7 @@ if(!GLOBALS->autocoalesce_reversal)		/* normal case for MTI */
 
 if(nodepnt)
 	{
-	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt-1)*
-				  sizeof(struct Node *));
+	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt)*sizeof(struct Node *));
 
 	for(i=0;i<nodepnt;i++)
 		{
@@ -1192,8 +1188,7 @@ for(i=lo;i<=hi;i++)	/* to keep vectors in lo..hi order */
 
 if(nodepnt)
 	{
-	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt-1)*
-				  sizeof(struct Node *));
+	b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt)*sizeof(struct Node *));
 
 	for(i=0;i<nodepnt;i++)
 		{

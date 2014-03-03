@@ -2908,8 +2908,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	  t=t->t_next;
 	}
 
-      b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt-1)*
-				sizeof(struct Node *));
+      b=(struct Bits *)calloc_2(1,sizeof(struct Bits)+(nodepnt)*sizeof(struct Node *));
 
       b->attribs = malloc_2(nodepnt * sizeof(struct BitAttributes));
       for(i=0;i<nodepnt;i++)	/* for up combine we need to reverse the attribs list! */

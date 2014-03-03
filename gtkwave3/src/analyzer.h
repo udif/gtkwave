@@ -142,7 +142,7 @@ typedef struct VectorEnt
 {
 TimeType time;
 vptr next;
-unsigned char v[1];
+unsigned char v[]; /* C99 */
 } VectorEnt;
 
 #ifdef WAVE_USE_STRUCT_PACKING
@@ -395,7 +395,7 @@ typedef struct Bits
     int     nnbits;		/* number of bits in this vector */
     baptr attribs;  		/* for keeping track of combined timeshifts and inversions (and for savefile) */
     
-    nptr    nodes[1];		/* pointers to the bits (nodes)  */
+    nptr    nodes[];		/* C99 pointers to the bits (nodes)  */
   } Bits;
 
 #ifdef WAVE_USE_STRUCT_PACKING
@@ -418,7 +418,7 @@ typedef struct BitVector
     int     nbits;		/* number of bits in this vector         */
     int     numregions;		/* number of regions that follow         */
     bptr    bits;		/* pointer to Bits structs for save file */
-    vptr    vectors[1];		/* pointers to the vectors               */
+    vptr    vectors[];		/* C99 pointers to the vectors           */
   } BitVector;
 
 #ifdef WAVE_USE_STRUCT_PACKING

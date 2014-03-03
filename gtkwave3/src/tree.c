@@ -176,7 +176,7 @@ if(GLOBALS->treeroot)
 				return;
 				}
 
-			t = talloc_2(sizeof(struct tree) + scopename_len);
+			t = talloc_2(sizeof(struct tree) + scopename_len + 1);
 			*PPValue = t;
 			goto t_allocated;
 			}
@@ -219,14 +219,14 @@ if(GLOBALS->treeroot)
 
 				strcpy(str+len, scopename);
 				PPValue = JudySLIns(&GLOBALS->sym_tree, (uint8_t *)str, PJE0);
-				t = talloc_2(sizeof(struct tree) + scopename_len);
+				t = talloc_2(sizeof(struct tree) + scopename_len + 1);
 				*PPValue = t;
 				goto t_allocated;
 				}
 			}
 #endif
 
-		t = talloc_2(sizeof(struct tree) + scopename_len);
+		t = talloc_2(sizeof(struct tree) + scopename_len + 1);
 #ifdef _WAVE_HAVE_JUDY
 t_allocated:
 #endif
@@ -256,7 +256,7 @@ t_allocated:
 			t = t->next;
 			}
 
-		t = talloc_2(sizeof(struct tree) + scopename_len);
+		t = talloc_2(sizeof(struct tree) + scopename_len + 1);
 		strcpy(t->name, scopename);
 		t->kind = ttype;
 		t->t_which = mtyp;
@@ -269,7 +269,7 @@ t_allocated:
 	}
 	else
 	{
-	t = talloc_2(sizeof(struct tree) + scopename_len);
+	t = talloc_2(sizeof(struct tree) + scopename_len + 1);
 	strcpy(t->name, scopename);
 	t->kind = ttype;
 	t->t_which = mtyp;
@@ -796,7 +796,7 @@ rescan:
 #ifdef _WAVE_HAVE_JUDY
 construct:
 #endif
-		nt=(struct tree *)talloc_2(sizeof(struct tree)+GLOBALS->module_len_tree_c_1);
+		nt=(struct tree *)talloc_2(sizeof(struct tree)+GLOBALS->module_len_tree_c_1 + 1);
 		memcpy(nt->name, GLOBALS->module_tree_c_1, GLOBALS->module_len_tree_c_1);
 
 		if(s)
@@ -836,7 +836,7 @@ construct:
 			{
 			s=get_module_name(s);
 		
-			nt=(struct tree *)talloc_2(sizeof(struct tree)+GLOBALS->module_len_tree_c_1);
+			nt=(struct tree *)talloc_2(sizeof(struct tree)+GLOBALS->module_len_tree_c_1 + 1);
 			memcpy(nt->name, GLOBALS->module_tree_c_1, GLOBALS->module_len_tree_c_1);
 
 			if(s)
@@ -862,7 +862,7 @@ else
 		{
 		s=get_module_name(s);
 
-		nt=(struct tree *)talloc_2(sizeof(struct tree)+GLOBALS->module_len_tree_c_1);
+		nt=(struct tree *)talloc_2(sizeof(struct tree)+GLOBALS->module_len_tree_c_1 + 1);
 		memcpy(nt->name, GLOBALS->module_tree_c_1, GLOBALS->module_len_tree_c_1);
 
 		if(!s) nt->t_which=which; else nt->t_which = WAVE_T_WHICH_UNDEFINED_COMPNAME;

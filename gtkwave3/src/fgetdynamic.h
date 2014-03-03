@@ -18,7 +18,7 @@
 struct wave_script_args {
   struct wave_script_args *curr;
   struct wave_script_args *next;
-  char payload[1];
+  char payload[]; /* C99 */
 };
 
 char *fgetmalloc(FILE *handle);

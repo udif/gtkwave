@@ -2654,7 +2654,7 @@ if(objc > 1)
 		{
 		char *s = Tcl_GetString(objv[i]);
 		int slen = strlen(s);
-		struct wave_script_args *w = wave_alloca(sizeof(struct wave_script_args) + slen);
+		struct wave_script_args *w = wave_alloca(sizeof(struct wave_script_args) + slen + 1);
 			/*  alloca used in case we context switch and get our allocator ripped out from under us -- the call stack won't go away */
 		if(slen)
 			{
@@ -2681,7 +2681,7 @@ if(objc > 1)
 
 	if(!GLOBALS->wave_script_args) /* create a dummy list in order to keep requesters from popping up in file.c, etc. */
 		{
-		GLOBALS->wave_script_args = wave_alloca(sizeof(struct wave_script_args));
+		GLOBALS->wave_script_args = wave_alloca(sizeof(struct wave_script_args) + 1);
 		GLOBALS->wave_script_args->curr = NULL;
 		GLOBALS->wave_script_args->next = NULL;
 		GLOBALS->wave_script_args->payload[0] = 0;

@@ -456,7 +456,7 @@ build_hierarchy_type (struct ghw_handler *h, union ghw_type *t,
         GLOBALS->curnode->symbol=s;
 
       GLOBALS->nbr_sig_ref_ghw_c_1++;
-      res = (struct tree *) calloc_2(1, sizeof (struct tree) + strlen(pfx));
+      res = (struct tree *) calloc_2(1, sizeof (struct tree) + strlen(pfx) + 1);
       strcpy(res->name, (char *)pfx);
       res->t_which = *(*sig)++;
 
@@ -466,7 +466,7 @@ build_hierarchy_type (struct ghw_handler *h, union ghw_type *t,
     case ghdl_rtik_subtype_array_ptr:
       {
 	struct tree *r;
-	res = (struct tree *) calloc_2(1, sizeof (struct tree) + strlen(pfx));
+	res = (struct tree *) calloc_2(1, sizeof (struct tree) + strlen(pfx) + 1);
 	strcpy(res->name, (char *)pfx);
 	res->t_which = WAVE_T_WHICH_UNDEFINED_COMPNAME;
 	r = res;
@@ -481,7 +481,7 @@ build_hierarchy_type (struct ghw_handler *h, union ghw_type *t,
 	struct tree *c;
 	int i;
 
-	res = (struct tree *) calloc_2(1, sizeof (struct tree) + strlen(pfx));
+	res = (struct tree *) calloc_2(1, sizeof (struct tree) + strlen(pfx) + 1);
 	strcpy(res->name, (char *)pfx);
 	res->t_which = WAVE_T_WHICH_UNDEFINED_COMPNAME;
 
@@ -549,7 +549,7 @@ build_hierarchy (struct ghw_handler *h, struct ghw_hie *hie)
 	  name_len = strlen (hie->name);
 	  buf_len = strlen (buf);
 
-          t = (struct tree *) calloc_2(1, sizeof (struct tree) + (2 + buf_len + name_len));
+          t = (struct tree *) calloc_2(1, sizeof (struct tree) + (2 + buf_len + name_len + 1));
 	  t->kind = ttype;
 	  n = t->name;
 
@@ -565,13 +565,13 @@ build_hierarchy (struct ghw_handler *h, struct ghw_hie *hie)
         {
           if(hie->name)
 		{
-          	t = (struct tree *) calloc_2(1, sizeof (struct tree) + strlen(hie->name));
+          	t = (struct tree *) calloc_2(1, sizeof (struct tree) + strlen(hie->name) + 1);
 	  	t->kind = ttype;
           	strcpy(t->name, (char *)hie->name);
 		}
 		else
 		{
-          	t = (struct tree *) calloc_2(1, sizeof (struct tree));
+          	t = (struct tree *) calloc_2(1, sizeof (struct tree) + 1);
 	  	t->kind = ttype;
 		}
         }
@@ -1133,7 +1133,7 @@ ghw_main(char *fname)
  {
  const char *base_hier = "top";
 
- struct tree *t = calloc_2(1, sizeof(struct tree) + strlen(base_hier));
+ struct tree *t = calloc_2(1, sizeof(struct tree) + strlen(base_hier) + 1);
  memcpy(t, GLOBALS->treeroot, sizeof(struct tree));
  strcpy(t->name, base_hier); /* scan-build false warning here, thinks name[1] is total length */
 #ifndef WAVE_TALLOC_POOL_SIZE
