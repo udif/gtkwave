@@ -91,21 +91,13 @@ static char *makeVcdID(unsigned int value, int *idlen)
 {
 static char buf[16];
 char *pnt = buf;
-unsigned int vmod;
 
 /* zero is illegal for a value...it is assumed they start at one */
-for(;;)
+while (value)
         {
-        if((vmod = (value % 94)))
-               	{
-                *(pnt++) = (char)(vmod + 32);
-                }
-                else
-               	{
-                *(pnt++) = '~'; value -= 94;
-                }
+        value--;
+        *(pnt++) = (char)('!' + value % 94);
         value = value / 94;
-        if(!value) { break; }
         }
 
 *pnt = 0;
