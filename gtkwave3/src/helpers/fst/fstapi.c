@@ -922,7 +922,7 @@ static void fstDetermineBreakSize(struct fstWriterContext *xc)
 #ifdef __linux__
 FILE *f = fopen("/proc/meminfo", "rb");
 #else
-FILE *f = popen("system_profiler", "r");
+FILE *f = popen("system_profiler SPHardwareDataType", "r"); 
 #endif
 
 int was_set = 0;
