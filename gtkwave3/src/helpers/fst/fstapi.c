@@ -26,6 +26,7 @@
  * FST_DYNAMIC_ALIAS_DISABLE : dynamic aliases are not processed
  * FST_DYNAMIC_ALIAS2_DISABLE : new encoding for dynamic aliases is not generated
  * FST_WRITEX_DISABLE : fast write I/O routines are disabled
+ * FST_DISABLE_DUFFS_DEVICE : only if indirect branches are incredibly bad on host arch
  *
  * possible enables:
  *
@@ -1291,6 +1292,8 @@ for(i=0;i<xc->maxhandle;i++)
 				if(is_binary)
 					{
 					unsigned char acc = 0;
+#ifdef FST_DISABLE_DUFFS_DEVICE
+					/* old algorithm */
 					int shift = 7 - ((vm4ip[1]-1) & 7);
 					for(idx=vm4ip[1]-1;idx>=0;idx--)
 						{
@@ -1303,6 +1306,24 @@ for(i=0;i<xc->maxhandle;i++)
 							acc = 0;
 							}						
 						}					
+#else
+                                        /* new algorithm */
+                                        idx = ((vm4ip[1]+7) & ~7);
+                                        switch(vm4ip[1] & 7)
+                                                {
+                                                case 0: do {    acc  = (pnt[idx+7-8] & 1) << 0;
+                                                case 7:         acc |= (pnt[idx+6-8] & 1) << 1;
+                                                case 6:         acc |= (pnt[idx+5-8] & 1) << 2;
+                                                case 5:         acc |= (pnt[idx+4-8] & 1) << 3;
+                                                case 4:         acc |= (pnt[idx+3-8] & 1) << 4;
+                                                case 3:         acc |= (pnt[idx+2-8] & 1) << 5;
+                                                case 2:         acc |= (pnt[idx+1-8] & 1) << 6;
+                                                case 1:         acc |= (pnt[idx+0-8] & 1) << 7;
+                                                                *(--scratchpnt) = acc;
+                                                                idx -= 8;
+                                                        } while(idx);
+                                                }
+#endif
 
 	                                scratchpnt = fstCopyVarint32ToLeft(scratchpnt, (time_delta << 1));
 					}

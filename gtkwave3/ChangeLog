@@ -1461,4 +1461,5 @@
 		Change [1] at end of struct to C99 [] notation with appropriate
 		allocation size modification.
 		System_profiler speed fix for OSX.
-3.3.59	21mar14	<< next version >>
+3.3.59	31mar14	Use Duff's Device for 8 byte -> 1 byte binary value compression 
+		algorithm in FST writer.
