@@ -140,8 +140,14 @@ void **JenkinsIns(void *base_i, const unsigned char *mem, uint32_t length, uint3
 #endif
 #endif
 
-
-/* the recoded "extra" values... */ 
+/*
+ * the recoded "extra" values...
+ * note that FST_RCV_Q is currently unused and is for future expansion.
+ * its intended use is as another level of escape such that any arbitrary
+ * value can be stored as the value: { time_delta, 8 bits, FST_RCV_Q }.
+ * this is currently not implemented so that the branchless decode is:
+ * uint32_t shcnt = 2 << (vli & 1); tdelta = vli >> shcnt;
+ */
 #define FST_RCV_X (1 | (0<<1))
 #define FST_RCV_Z (1 | (1<<1))
 #define FST_RCV_H (1 | (2<<1))
@@ -149,6 +155,7 @@ void **JenkinsIns(void *base_i, const unsigned char *mem, uint32_t length, uint3
 #define FST_RCV_W (1 | (4<<1))
 #define FST_RCV_L (1 | (5<<1))
 #define FST_RCV_D (1 | (6<<1))
+#define FST_RCV_Q (1 | (7<<1))
 
 #define FST_RCV_STR "xzhuwl-?"
 /*                   01234567 */
