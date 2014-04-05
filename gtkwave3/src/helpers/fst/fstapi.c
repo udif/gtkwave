@@ -3493,7 +3493,6 @@ while (value)
 static int fstVcdIDForFwrite(char *buf, unsigned int value)
 {
 char *pnt = buf;
-unsigned int vmod;
 
 /* zero is illegal for a value...it is assumed they start at one */
 while (value)
