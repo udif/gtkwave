@@ -1436,7 +1436,7 @@ struct vzt_pth_args *vpa = malloc(sizeof(struct vzt_pth_args));
 vpa->lt = lt;
 vpa->b = b;
 
-vzt_rd_pthread_create(lt, &b->pth, &b->pth_attr, vzt_rd_decompress_blk_pth_actual, vpa);
+vzt_rd_pthread_create(lt, &b->pth, &b->pth_attr, vzt_rd_decompress_blk_pth_actual, vpa); /* cppcheck misfires thinking vpa is not freed even though vzt_rd_decompress_blk_pth_actual() does it */
 }
 
 /*

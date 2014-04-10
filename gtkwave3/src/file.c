@@ -174,7 +174,7 @@ if((!pattn)||(!strcmp(pattn, "*")))
 	}
 	else
 	{
-	sprintf(lpstrFilter, "%s%c%s%c%s%c%s%c", pattn, 0, pattn, 0, "All", 0, "*.*"); 
+	sprintf(lpstrFilter, "%s%c%s%c%s%c%s%c", pattn, 0, pattn, 0, "All", 0, "*.*", 0); /* cppcheck */
 	ofn.nFilterIndex = 0;
 	}
 

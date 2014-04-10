@@ -55,6 +55,20 @@
 static uint32_t var_direction_idx = 0;
 static unsigned char *var_direction = NULL;
 
+
+static void *realloc_2(void *ptr, size_t siz) /* cppcheck */
+{
+void *pnt = realloc(ptr, siz);
+if(!pnt)
+	{
+	fprintf(stderr, "ERROR: Out of memory in realloc(), exiting!\n"); /* normally free(ptr) here */
+	exit(255);
+	}
+
+return(pnt);
+}
+
+
 /*********************************************************/
 /*** vvv extload component type name determination vvv ***/
 /*********************************************************/
@@ -380,7 +394,7 @@ fgets_rc = fgets(*wbuf, (*len) + 1, f);
 while(((*wbuf)[*len] != 1) && !feof(f))
 	{
 	/* fprintf(stderr, "overflow %d\n", (int)(*len)); */
-	*wbuf = realloc(*wbuf, (*len) * 2 + 1);
+	*wbuf = realloc_2(*wbuf, (*len) * 2 + 1);
 	(*wbuf)[(*len) * 2] = 1;
 
 	fgets_rc = fgets(*wbuf + (*len), (*len) + 1, f);	
@@ -1350,7 +1364,7 @@ for(;;) /* was while(!feof(f)) */
 					if(node_len >= bin_fixbuff_len)
 						{
 						bin_fixbuff_len = node_len + 1;
-						bin_fixbuff = realloc(bin_fixbuff, bin_fixbuff_len);
+						bin_fixbuff = realloc_2(bin_fixbuff, bin_fixbuff_len);
 						}
 
 					memset(bin_fixbuff, buf[1] != '1' ? buf[1] : '0', delta);
@@ -1376,7 +1390,7 @@ for(;;) /* was while(!feof(f)) */
 						if(node_len >= bin_fixbuff_len)
 							{
 							bin_fixbuff_len = node_len + 1;
-							bin_fixbuff = realloc(bin_fixbuff, bin_fixbuff_len);
+							bin_fixbuff = realloc_2(bin_fixbuff, bin_fixbuff_len);
 							}
 
 						memset(bin_fixbuff, buf[1] != '1' ? buf[1] : '0', delta);
@@ -1428,7 +1442,7 @@ for(;;) /* was while(!feof(f)) */
 			if(p_len >= bin_fixbuff_len)
 				{
 				bin_fixbuff_len = p_len + 1;
-				bin_fixbuff = realloc(bin_fixbuff, bin_fixbuff_len);
+				bin_fixbuff = realloc_2(bin_fixbuff, bin_fixbuff_len);
 				}
 			pnt = bin_fixbuff;
 

@@ -140,8 +140,8 @@ static void load_proc_filter(int which, char *name)
   if((strlen(abs_path) == 0)||(!result))
     {
       status_text("Could not find filter process!\n");
+      pclose(stream); /* cppcheck */
       return;
-
     }
 
   pclose(stream);

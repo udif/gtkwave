@@ -524,7 +524,10 @@ ghw_read_type (struct ghw_handler *h)
 	    e->wkt = ghw_wkt_unknown;
 	    e->name = ghw_read_strid (h);
 	    if (ghw_read_uleb128 (h, (uint32_t *)&e->nbr) != 0)
-	      return -1;
+		{
+		free(e); /* cppcheck */
+	      	return -1;
+		}
 	    e->lits = (const char **) calloc (1, e->nbr * sizeof (char *));
 	    if (h->flag_verbose > 1)
 	      printf ("enum %s:", e->name);
@@ -568,13 +571,20 @@ ghw_read_type (struct ghw_handler *h)
 		int ix;
 
 		if (ghw_read_uleb128 (h, &ph->nbr_units) != 0)
-		  return -1;
+			{
+			free(ph); /* cppcheck */
+		  	return -1;
+			}
 		ph->units = calloc (ph->nbr_units, sizeof (struct ghw_unit));
 		for (ix = 0; ix < ph->nbr_units; ix++)
 		  {
 		    ph->units[ix].name = ghw_read_strid (h);
 		    if (ghw_read_lsleb128 (h, &ph->units[ix].val) < 0)
-		      return -1;
+			{
+			free(ph->units); /* missed by cppcheck */
+			free(ph); /* missed by cppcheck */
+		      	return -1;
+			}
 		  }
 	      }
 	    if (h->flag_verbose > 1)
@@ -606,7 +616,10 @@ ghw_read_type (struct ghw_handler *h)
 	    arr->name = ghw_read_strid (h);
 	    arr->el = ghw_read_typeid (h);
 	    if (ghw_read_uleb128 (h, (uint32_t *)&arr->nbr_dim) != 0)
-	      return -1;
+		{
+		free(arr); /* cppcheck */
+	      	return -1;
+		}
 	    arr->dims = (union ghw_type **)
 	      calloc (arr->nbr_dim, sizeof (union ghw_type *));
 	    for (j = 0; j < arr->nbr_dim; j++)
@@ -650,7 +663,10 @@ ghw_read_type (struct ghw_handler *h)
 	    rec->kind = t;
 	    rec->name = ghw_read_strid (h);
 	    if (ghw_read_uleb128 (h, (uint32_t *)&rec->nbr_fields) != 0)
-	      return -1;
+		{
+		free(rec); /* cppcheck */
+	      	return -1;
+		}
 	    rec->el = calloc
 	      (rec->nbr_fields, sizeof (struct ghw_record_element));
 	    nbr_el = 0;

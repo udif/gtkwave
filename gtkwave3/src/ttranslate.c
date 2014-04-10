@@ -159,6 +159,7 @@ static void load_ttrans_filter(int which, char *name)
   if((strlen(abs_path) == 0)||(!result))
     {
       status_text("Could not find transaction filter process!\n");
+      pclose(stream); /* cppcheck */
       return;
 
     }
