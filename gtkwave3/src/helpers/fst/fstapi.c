@@ -1169,7 +1169,7 @@ hashmask |= hashmask >> 16;
 #endif
 #endif
 
-if((!xc)||(xc->vchg_siz <= 1)||(xc->already_in_flush)) return;
+if((xc->vchg_siz <= 1)||(xc->already_in_flush)) return;
 xc->already_in_flush = 1; /* should really do this with a semaphore */
 
 xc->section_header_only = 0;
