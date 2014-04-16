@@ -3535,14 +3535,16 @@ if(!xc->fh)
 	sprintf(fnam, "%s.hier_%d_%p", xc->filename, getpid(), (void *)xc);
 	fstReaderFseeko(xc, xc->f, xc->hier_pos, SEEK_SET);
 	uclen = fstReaderUint64(xc->f);
+#ifndef __MINGW32__
 	fflush(xc->f);
-
+#endif
 	if(htyp == FST_BL_HIER)
 		{
 		fstReaderFseeko(xc, xc->f, xc->hier_pos, SEEK_SET);
 		uclen = fstReaderUint64(xc->f);
+#ifndef __MINGW32__
 		fflush(xc->f);
-
+#endif
 		zfd = dup(fileno(xc->f));
 		zhandle = gzdopen(zfd, "rb");
 		if(!zhandle)
@@ -3559,7 +3561,9 @@ if(!xc->fh)
 		fstReaderFseeko(xc, xc->f, xc->hier_pos - 8, SEEK_SET); /* get section len */
 		clen =  fstReaderUint64(xc->f) - 16;
 		uclen = fstReaderUint64(xc->f);
+#ifndef __MINGW32__
 		fflush(xc->f);
+#endif
 		}
 
 #ifndef __MINGW32__
@@ -4179,7 +4183,9 @@ if(sectype == FST_BL_ZWRAPPER)
 #endif
 
 	fstReaderFseeko(xc, xc->f, 1+8+8, SEEK_SET);
+#ifndef __MINGW32__
 	fflush(xc->f);
+#endif
 
 	zfd = dup(fileno(xc->f));
 	zhandle = gzdopen(zfd, "rb");
