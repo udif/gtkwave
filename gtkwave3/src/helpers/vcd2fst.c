@@ -521,6 +521,7 @@ if(!f)
 	{
 	printf("Could not open '%s', exiting.\n", vname);
 	free(bin_fixbuff); bin_fixbuff = NULL;
+	free(vname); free(fstname);
 	exit(255);
 	}
 
@@ -530,6 +531,8 @@ if(!ctx)
 	{
 	printf("Could not open '%s', exiting.\n", fstname);
 	free(bin_fixbuff); bin_fixbuff = NULL;
+	free(vname); free(fstname);
+	fclose(f);
 	exit(255);
 	}
 

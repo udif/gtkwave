@@ -1464,3 +1464,7 @@
 3.3.59	10apr14	Use Duff's Device for 8 byte -> 1 byte binary value compression 
 		algorithm in FST writer.
 		Warnings fixes from cppcheck.
+		Moved MinGW for FST to using different windows tempfile 
+		generation instead of tmpfile().
+		Removed fflush() in FST for MinGW in places that can cause
+		crashes with read only files.
