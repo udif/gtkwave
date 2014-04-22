@@ -1468,3 +1468,4 @@
 		generation instead of tmpfile().
 		Removed fflush() in FST for MinGW in places that can cause
 		crashes with read only files.
+		Updated man page for gtkwave.1 indicating that XID is in hex.
