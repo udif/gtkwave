@@ -1461,7 +1461,7 @@
 		Change [1] at end of struct to C99 [] notation with appropriate
 		allocation size modification.
 		System_profiler speed fix for OSX.
-3.3.59	10apr14	Use Duff's Device for 8 byte -> 1 byte binary value compression 
+3.3.59	26apr14	Use Duff's Device for 8 byte -> 1 byte binary value compression 
 		algorithm in FST writer.
 		Warnings fixes from cppcheck.
 		Moved MinGW for FST to using different windows tempfile 
@@ -1469,3 +1469,5 @@
 		Removed fflush() in FST for MinGW in places that can cause
 		crashes with read only files.
 		Updated man page for gtkwave.1 indicating that XID is in hex.
+		Allow decimal conversions on popcnt filtered vectors that are
+		greater than 64 bits (they will never overflow).

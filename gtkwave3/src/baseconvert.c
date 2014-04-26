@@ -330,7 +330,7 @@ if(flags&TR_ASCII)
 	if(GLOBALS->show_base) { *(pnt++)='"'; }
 	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
-else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)))
+else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POPCNT))))
 	{
 	char *parse;
 
@@ -990,7 +990,7 @@ if(flags&TR_ASCII)
 	if(GLOBALS->show_base) { *(pnt++)='"'; }
 	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
-else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)))
+else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POPCNT))))
 	{
 	char *parse;
 
