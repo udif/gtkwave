@@ -189,30 +189,33 @@ DWORD dwRetVal = 0;
 UINT uRetVal = 0;
 FILE *fh = NULL;
 
-dwRetVal = GetTempPath(MAX_PATH, lpTempPathBuffer);
-if((dwRetVal > MAX_PATH) || (dwRetVal == 0))
-        {
-        fprintf(stderr, "GetTempPath() failed in "__FILE__" line %d, exiting.\n", __LINE__);
-	exit(255);
-        }
-        else   
-        {
-        uRetVal = GetTempFileName(lpTempPathBuffer, TEXT("FSTW"), 0, szTempFileName);
-        if (uRetVal == 0)
-                {
-                fprintf(stderr, "GetTempFileName() failed in "__FILE__" line %d, exiting.\n", __LINE__);
-		exit(255);
-                }
-                else
-                {
-                fname = strdup(szTempFileName);
-                }
-        }
-
-if(fname)
+if(nam) /* cppcheck warning fix: nam is always defined, so this is not needed */
 	{
-	if(nam) { *nam = fname; }
-	fh = unlink_fopen("fname", "w+b");
+	dwRetVal = GetTempPath(MAX_PATH, lpTempPathBuffer);
+	if((dwRetVal > MAX_PATH) || (dwRetVal == 0))
+	        {
+	        fprintf(stderr, "GetTempPath() failed in "__FILE__" line %d, exiting.\n", __LINE__);
+		exit(255);
+	        }
+	        else   
+	        {
+	        uRetVal = GetTempFileName(lpTempPathBuffer, TEXT("FSTW"), 0, szTempFileName);
+	        if (uRetVal == 0)
+	                {
+	                fprintf(stderr, "GetTempFileName() failed in "__FILE__" line %d, exiting.\n", __LINE__);
+			exit(255);
+	                }
+	                else
+	                {
+	                fname = strdup(szTempFileName);
+	                }
+	        }
+
+	if(fname)
+		{
+		*nam = fname;
+		fh = unlink_fopen(fname, "w+b");
+		}
 	}
 
 return(fh);
