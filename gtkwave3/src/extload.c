@@ -1312,10 +1312,11 @@ void *hdl;
 hdl = fsdbReaderCreateVCTraverseHandle(GLOBALS->extload_ffr_ctx, txidx_in_trace);
 if(fsdbReaderHasIncoreVC(GLOBALS->extload_ffr_ctx, hdl))
 	{
+	TimeType mxt_max = -2; 
 	TimeType mxt = (TimeType)fsdbReaderGetMinXTag(GLOBALS->extload_ffr_ctx, hdl);
-	fsdbReaderGotoXTag(GLOBALS->extload_ffr_ctx, hdl, mxt);
+	int rc_xtag = fsdbReaderGotoXTag(GLOBALS->extload_ffr_ctx, hdl, mxt);
 
-	for(;;)
+	while(rc_xtag && (mxt >= mxt_max)) /* malformed traces sometimes backtrack time */
 		{
 		void *val_ptr;
 		char *b;
@@ -1332,7 +1333,8 @@ if(fsdbReaderHasIncoreVC(GLOBALS->extload_ffr_ctx, hdl))
 			break;
 			}
 			
-		mxt = (TimeType)fsdbReaderGetXTag(GLOBALS->extload_ffr_ctx, hdl);
+		mxt_max = mxt;
+		mxt = (TimeType)fsdbReaderGetXTag(GLOBALS->extload_ffr_ctx, hdl, &rc_xtag);
 		}
 	}
 fsdbReaderFree(GLOBALS->extload_ffr_ctx, hdl);

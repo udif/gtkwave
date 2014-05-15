@@ -5828,7 +5828,6 @@ if(GLOBALS->helpbox_is_active)
 dataformat( ~(TR_POPCNT), 0 );
 }
 
-//
 void
 menu_dataformat_invert_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {

@@ -159,7 +159,7 @@ return(rv);
 }
 
 
-extern "C" void fsdbReaderGotoXTag(void *ctx, void *hdl, uint64_t tim)
+extern "C" int fsdbReaderGotoXTag(void *ctx, void *hdl, uint64_t tim)
 {
 ffrObject *fsdb_obj = (ffrObject *)ctx;
 ffrVCTrvsHdl fsdb_hdl = (ffrVCTrvsHdl)hdl;
@@ -168,17 +168,17 @@ fsdbTag64 timetag;
 timetag.H = (uint32_t)(tim >> 32);
 timetag.L = (uint32_t)(tim & 0xFFFFFFFFUL);
 
-fsdb_hdl->ffrGotoXTag((void*)&timetag);
+return(fsdb_hdl->ffrGotoXTag((void*)&timetag) == FSDB_RC_SUCCESS);
 }
 
 
-extern "C" uint64_t fsdbReaderGetXTag(void *ctx, void *hdl)
+extern "C" uint64_t fsdbReaderGetXTag(void *ctx, void *hdl, int *rc)
 {
 ffrObject *fsdb_obj = (ffrObject *)ctx;
 ffrVCTrvsHdl fsdb_hdl = (ffrVCTrvsHdl)hdl;
 fsdbTag64 timetag;
 
-fsdb_hdl->ffrGetXTag((void*)&timetag);
+*rc = (fsdb_hdl->ffrGetXTag((void*)&timetag) == FSDB_RC_SUCCESS);
 uint64_t rv = (((uint64_t)timetag.H) << 32) | ((uint64_t)timetag.L);
 return(rv);
 }

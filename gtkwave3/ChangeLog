@@ -1471,5 +1471,6 @@
 		Updated man page for gtkwave.1 indicating that XID is in hex.
 		Allow decimal conversions on popcnt filtered vectors that are
 		greater than 64 bits (they will never overflow).
-3.3.60	29apr14	Fix MinGW tmpfile_open() patch from previous release as it
+3.3.60	14may14	Fix MinGW tmpfile_open() patch from previous release as it
 		was using the wrong filename.
+		Harden fsdb reader against xtags that move backward in time.
