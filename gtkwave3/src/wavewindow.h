@@ -12,7 +12,7 @@
 
 void button_press_release_common(void);
 void UpdateSigValue(Trptr t);
-void MaxSignalLength(void);  
+void MaxSignalLength(void);
 void RenderSigs(int trtarget, int update_waves);
 int RenderSig(Trptr t, int i, int dobackground);
 void populateBuffer(Trptr t, char *altname, char* buf);

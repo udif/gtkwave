@@ -1,19 +1,19 @@
 /*
- * Copyright (c) Tony Bybell 1999-2012. 
+ * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free
  * Software Foundation; either version 2 of the License, or (at your option)
- * any later version. 
+ * any later version.
  */
 
 /*
  * This module has been re-implemented by Udi Finkelstein. Since it is no
- * longer a PostScript-only module, it had been renamed "print.c". 
+ * longer a PostScript-only module, it had been renamed "print.c".
  *
  * Much of the code has been "C++"-ized in style, yet written in C. We use
  * classes, virtual functions, class members, and "this" pointers written in
- * C. 
+ * C.
  */
 
 
@@ -43,7 +43,7 @@
 					 * pixel->ps scale mapping  */
 
 
-/* 
+/*
  * PostScript device specific operations
  */
 gtk_print_device ps_print_device = {
@@ -126,7 +126,7 @@ pr_draw_string (pr_context * prc, int x, int y, char *str, int xsize,
  *************************************************************************/
 
 /*
- * Set current gray level, with 0.0 being white, and 1.0 being black. 
+ * Set current gray level, with 0.0 being white, and 1.0 being black.
  */
 void
 ps_setgray (pr_context * prc, gdouble gray)
@@ -135,7 +135,7 @@ ps_setgray (pr_context * prc, gdouble gray)
 }
 
 /*
- * Create a rectangular path 
+ * Create a rectangular path
  */
 void
 ps_box (pr_context * prc, gdouble t_x1, gdouble t_y1, gdouble tx2, gdouble ty2)
@@ -144,7 +144,7 @@ ps_box (pr_context * prc, gdouble t_x1, gdouble t_y1, gdouble tx2, gdouble ty2)
 }
 
 /*
- * Draw a box 
+ * Draw a box
  */
 void
 ps_draw_box (pr_context * prc, gdouble _x1, gdouble _y1, gdouble x2, gdouble y2)
@@ -300,7 +300,7 @@ ps_trailer (pr_context * prc)
  *************************************************************************/
 
 /*
- * Generic maint functions missing in gcc 
+ * Generic maint functions missing in gcc
  */
 #ifndef _MSC_VER
 static gdouble
@@ -318,7 +318,7 @@ mindbl (gdouble a, gdouble b)
 
 
 /*
- * Set current gray level, with 0.0 being white, and 1.0 being black. 
+ * Set current gray level, with 0.0 being white, and 1.0 being black.
  */
 void
 mif_setgray (pr_context * prc, gdouble gray)
@@ -327,7 +327,7 @@ mif_setgray (pr_context * prc, gdouble gray)
 }
 
 /*
- * Set current gray level, with 0.0 being white, and 1.0 being black. 
+ * Set current gray level, with 0.0 being white, and 1.0 being black.
  */
 void
 mif_translate (pr_context * prc, gdouble x, gdouble y)
@@ -337,7 +337,7 @@ mif_translate (pr_context * prc, gdouble x, gdouble y)
 }
 
 /*
- * Draw an empty box 
+ * Draw an empty box
  */
 void
 mif_box (pr_context * prc, gdouble _x1, gdouble _y1, gdouble x2, gdouble y2)
@@ -360,7 +360,7 @@ mif_box (pr_context * prc, gdouble _x1, gdouble _y1, gdouble x2, gdouble y2)
 }
 
 /*
- * Draw a filled box 
+ * Draw a filled box
  */
 
 void
@@ -535,7 +535,7 @@ mif_trailer (pr_context * prc)
 /**********************************************/
 
 /*
- * Initialize print related constants 
+ * Initialize print related constants
  */
 static void
 pr_wave_init (pr_context * prc)
@@ -611,10 +611,10 @@ ps_MaxSignalLength (void)
 
   for (i = 0; (i < num_traces_displayable) && (t); i++)
     {
-    char *subname = NULL;  
+    char *subname = NULL;
     bv = NULL;
-    tscan = NULL;  
-                      
+    tscan = NULL;
+
   if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if present... */
         {
         int bcnt = 0;
@@ -637,7 +637,7 @@ ps_MaxSignalLength (void)
                         bcnt++; /* bcnt is number of blank traces */
                         }
                 }
-           
+
         if((tscan)&&(tscan->vector))
                 {
                 bv = tscan->n.vec;
@@ -653,7 +653,7 @@ ps_MaxSignalLength (void)
                         }
                 }
         }
-                        
+
     populateBuffer(t, subname, buf);
 
       if (!bv && (t->flags & (TR_BLANK | TR_ANALOG_BLANK_STRETCH))) /* for "comment" style blank traces */
@@ -748,7 +748,7 @@ ps_MaxSignalLength (void)
 		      if (!t->n.nd->extvals)
 			{
 			  unsigned char h_val = h_ptr->v.h_val;
-			
+
  			  if(t->n.nd->vartype == ND_VCD_EVENT)
 				{
 				h_val = (h_ptr->time >= GLOBALS->tims.first) && ((GLOBALS->tims.marker-GLOBALS->shift_timebase) == h_ptr->time) ? AN_1 : AN_0; /* generate impulse */
@@ -879,7 +879,7 @@ pr_renderhash (pr_context * prc, int x, TimeType tim)
                 timearray_encountered = 1;
                 break;
                 }
-        }       
+        }
 
   pr_setgray (prc, 0.75);
 
@@ -953,7 +953,7 @@ pr_renderblackout (pr_context * prc)
 
 	      lclip -= lhs;
 	      rclip -= lhs;
-              if(rclip>((GLOBALS->wavewidth+1)*GLOBALS->nspx)) 
+              if(rclip>((GLOBALS->wavewidth+1)*GLOBALS->nspx))
                 rclip = (GLOBALS->wavewidth+1)*(GLOBALS->nspx);
 
 	      pr_setgray (prc, 0.80);
@@ -978,7 +978,7 @@ pr_rendertimes (pr_context * prc)
   int x, len, lenhalf;
   char timebuff[32];
   gdouble realx;
-  int s_ctx_iter;  
+  int s_ctx_iter;
   int timearray_encountered = 0;
 
   pr_renderblackout (prc);
@@ -1118,7 +1118,7 @@ if(GLOBALS->ruler_step && !timearray_encountered)
 		}
 		else
 		{
-                timebuff[0] = 0;   
+                timebuff[0] = 0;
 		}
 	}
       else
@@ -1291,7 +1291,7 @@ pr_draw_marker (pr_context * prc)
 
 /*
  * draw single traces and use this for rendering the grid lines for
- * "excluded" traces 
+ * "excluded" traces
  */
 static void
 pr_draw_hptr_trace (pr_context * prc, Trptr t, hptr h, int which, int dodraw,
@@ -1544,7 +1544,7 @@ pr_draw_hptr_trace (pr_context * prc, Trptr t, hptr h, int which, int dodraw,
 
 
 /*
- * draw hptr vectors (integer+real) 
+ * draw hptr vectors (integer+real)
  */
 static void
 pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
@@ -1573,7 +1573,7 @@ pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
   yu = (_y0 + _y1) / 2;
   /* ytext = yu - (GLOBALS->wavefont->ascent / 2) + GLOBALS->wavefont->ascent; */ /* scan-build */
 
-  /* scan-build : unused 
+  /* scan-build : unused
   ysiz = GLOBALS->wavefont->ascent - 1;
   if (ysiz < 1)
     ysiz = 1;
@@ -1882,7 +1882,7 @@ pr_draw_hptr_trace_vector_analog (pr_context * prc, Trptr t, hptr h,
 
 if(yt0 < _y1) yt0 = _y1;
 else if(yt0 > _y0) yt0 = _y0;
-                        
+
 if(yt1 < _y1) yt1 = _y1;
 else if(yt1 > _y0) yt1 = _y0;
 
@@ -1902,12 +1902,12 @@ else { coords[2] = _x1; }
 coords[1] = yt0;
 coords[3] = yt1;
 
-                                
-rect[0] = -10;   
+
+rect[0] = -10;
 rect[1] = _y1;
 rect[2] = GLOBALS->wavewidth + 10;
-rect[3] = _y0c;          
-                                
+rect[3] = _y0c;
+
 if((t->flags & (TR_ANALOG_INTERPOLATED|TR_ANALOG_STEP)) != TR_ANALOG_STEP)
         {
         line_in_range = wave_lineclip(coords, rect);
@@ -2148,19 +2148,19 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
         else
         {
         /* s\000 ID is special "z" case */
-        type = AN_0;         
+        type = AN_0;
 
-        if(h->flags&HIST_STRING)                 
+        if(h->flags&HIST_STRING)
                 {
                 if(h->v.h_vector)
                         {
                         if(!h->v.h_vector[0])
                                 {
-                                type = AN_Z;                  
+                                type = AN_Z;
                                 }
                         else
                                 {
-                                if(!strcmp(h->v.h_vector, "UNDEF")) 
+                                if(!strcmp(h->v.h_vector, "UNDEF"))
                                         {
                                         type = AN_X;
                                         }
@@ -2170,8 +2170,8 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
                         {
                         type = AN_X;
                         }
-                }   
-        }       
+                }
+        }
       /* type = !(h->flags & (HIST_REAL | HIST_STRING))) ? vtype (t, h->v.h_vector) : AN_0; */
       if (_x0 > -1)
 	{
@@ -2330,7 +2330,7 @@ pr_draw_hptr_trace_vector (pr_context * prc, Trptr t, hptr h, int which)
 
 
 /*
- * draw vector traces 
+ * draw vector traces
  */
 static void
 pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
@@ -2595,7 +2595,7 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 	{
           if(_x0==_x1)
                 {
-                skipcnt++; 
+                skipcnt++;
                 }
                 else
                 {
@@ -2617,7 +2617,7 @@ pr_draw_vptr_trace_analog (pr_context * prc, Trptr t, vptr v, int which,
 
 if(yt0 < _y1) yt0 = _y1;
 else if(yt0 > _y0) yt0 = _y0;
-                        
+
 if(yt1 < _y1) yt1 = _y1;
 else if(yt1 > _y0) yt1 = _y0;
 
@@ -2637,12 +2637,12 @@ else { coords[2] = _x1; }
 coords[1] = yt0;
 coords[3] = yt1;
 
-                                
-rect[0] = -10;   
+
+rect[0] = -10;
 rect[1] = _y1;
 rect[2] = GLOBALS->wavewidth + 10;
-rect[3] = _y0c;          
-                                
+rect[3] = _y0c;
+
 if((t->flags & (TR_ANALOG_INTERPOLATED|TR_ANALOG_STEP)) != TR_ANALOG_STEP)
         {
         line_in_range = wave_lineclip(coords, rect);
@@ -3099,7 +3099,7 @@ pr_rendertraces (pr_context * prc)
                         	{
                                 tn = GiveNextTrace(t);
                                 bv = bv->transaction_chain;
-        
+
                                 if(bv && tn && (tn->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
                                 	{
                                         i++;
@@ -3150,10 +3150,10 @@ pr_RenderSig (pr_context * prc, Trptr t, int i)
   int texty, liney;
   int retval;
   char buf[2048];
-  char *subname = NULL;  
-                        
+  char *subname = NULL;
+
   buf[0] = 0;
-                 
+
   if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if present... */
         {
         Trptr tscan = t;
@@ -3192,7 +3192,7 @@ pr_RenderSig (pr_context * prc, Trptr t, int i)
                         }
                 }
         }
-                         
+
   populateBuffer(t, subname, buf);
 
   UpdateSigValue (t);		/* in case it's stale on nonprop */

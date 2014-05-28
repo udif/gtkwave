@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2006-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -46,7 +46,7 @@ FILE *aetf;
 AE2_HANDLE ae2 = NULL;
 #endif
 
-static int bwsigcmp(char *s1, char *s2) 
+static int bwsigcmp(char *s1, char *s2)
 {
 unsigned char c1, c2;
 int u1, u2;
@@ -55,13 +55,13 @@ for(;;)
         {
         c1=(unsigned char)*(s1++);
         c2=(unsigned char)*(s2++);
-                 
+
         if((!c1)&&(!c2)) return(0);
         if((c1<='9')&&(c2<='9')&&(c2>='0')&&(c1>='0'))
                 {
                 u1=(int)(c1&15);
                 u2=(int)(c2&15);
-                
+
                 while(((c2=(unsigned char)*s2)>='0')&&(c2<='9'))
                         {
                         u2*=10;
@@ -75,7 +75,7 @@ for(;;)
                         u1+=(unsigned int)(c2&15);
                         s1++;
                         }
-                                
+
                 if(u1==u2) continue;
                         else return((int)u1-(int)u2);
                 }
@@ -94,7 +94,7 @@ char *key, *obj;
 
 key=(*((struct ds_component **)s1))->compname;
 obj=(*((struct ds_component **)s2))->compname;
-         
+
 return(bwsigcmp(key, obj));
 }
 
@@ -118,7 +118,7 @@ flattened_mod_list_root = t;
 if(compname_build)
 	{
 	int cnl = strlen(compname_build);
-	
+
 	compname_full = malloc(cnl + 1 + strlen(compname) + 1);
 	strcpy(compname_full, compname_build);
 	compname_full[cnl] = '.';
@@ -161,7 +161,7 @@ if(comp)
 		{
 		comp_array[i] = comp;
 		comp = comp->next;
-		}	
+		}
 	qsort(comp_array, numcomps, sizeof(struct ds_component *), compar_comp_array_bsearch);
 	for(i=0;i<numcomps;i++)
 		{
@@ -211,7 +211,7 @@ if(t->left)
 
 if(t->right)
 	{
-	rec_tree(t->right, cnt);	
+	rec_tree(t->right, cnt);
 	}
 }
 
@@ -229,7 +229,7 @@ list_root[*cnt] = t;
 
 if(t->right)
 	{
-	rec_tree_populate(t->right, cnt, list_root);	
+	rec_tree_populate(t->right, cnt, list_root);
 	}
 }
 
@@ -259,7 +259,7 @@ for(i=0;i<len;i++)
 if(i==len)
 	{
 	unsigned int shmid;
-	
+
 	sscanf(id, "%x", &shmid);
 #ifdef __MINGW32__
                 {
@@ -318,7 +318,7 @@ if(!f)
 while(!feof(f))
 	{
 	char *ln = fgetmalloc(f);
-	
+
 	if(fgetmalloc_len > 4)
 		{
 		if((ln[0] == '+')&&(ln[1] == '+')&&(ln[2]==' '))
@@ -339,18 +339,18 @@ while(!feof(f))
 					}
 				which_module = modules;
 				which_module->refcnt++;
-				
+
 				modules = ds_splay(pname, modules);
 				if(strcmp(modules->item, pname))
 					{
-					modules = ds_insert(strdup(pname), modules);				
+					modules = ds_insert(strdup(pname), modules);
 					}
 
 				dc = calloc(1, sizeof(struct ds_component));
 				dc->compname = strdup(cname);
 				dc->module = which_module;
 				dc->next = modules->comp;
-				modules->comp = dc;				
+				modules->comp = dc;
 				}
 			else
 			if((ln[3]=='m')||(ln[3]=='u'))
@@ -361,7 +361,7 @@ while(!feof(f))
 				sscanf(ln+3, "%s %s %s %s %s %d %s %d", scratch, mname, scratch, fname, scratch, &s_line, scratch, &e_line);
 				/* printf("mod: %s from %s %d-%d\n", mname, fname, s_line, e_line); */
 
-				modules = ds_insert(strdup(mname), modules);				
+				modules = ds_insert(strdup(mname), modules);
 				modules->filename = strdup(fname);
 				modules->s_line = s_line;
 				modules->e_line = e_line;
@@ -372,7 +372,7 @@ while(!feof(f))
 				{
 				}
 			}
-		}	
+		}
 
 
 	free(ln);
@@ -447,7 +447,7 @@ static void msg_fn(int sev, const char *format, ...)
 {
 va_list ap;
 va_start(ap, format);
-        
+
 fprintf(stderr, "AE2 %03d | ", sev);
 vfprintf(stderr, format, ap);
 fprintf(stderr, "\n");
@@ -478,11 +478,11 @@ if(anno_ctx)
 		{
 		case WAVE_ANNO_FST:
 			fst=fstReaderOpen(anno_ctx->aet_name);
-			if(!fst)         
+			if(!fst)
 			        {
 			        fprintf(stderr, "Could not initialize '%s', exiting.\n", anno_ctx->aet_name);
 			        exit(255);
-			        }   
+			        }
 				else
 				{
 				timezero = fstReaderGetTimezero(fst);
@@ -491,20 +491,20 @@ if(anno_ctx)
 
 		case WAVE_ANNO_VZT:
 			vzt=vzt_rd_init(anno_ctx->aet_name);
-			if(!vzt)         
+			if(!vzt)
 			        {
 			        fprintf(stderr, "Could not initialize '%s', exiting.\n", anno_ctx->aet_name);
 			        exit(255);
-			        }   
+			        }
 			break;
 
 		case WAVE_ANNO_LXT2:
 			lx2=lxt2_rd_init(anno_ctx->aet_name);
-			if(!lx2)         
+			if(!lx2)
 			        {
 			        fprintf(stderr, "Could not initialize '%s', exiting.\n", anno_ctx->aet_name);
 			        exit(255);
-			        }   
+			        }
 			break;
 
 		case WAVE_ANNO_AE2:
@@ -518,7 +518,7 @@ if(anno_ctx)
 
 			break;
 
-#endif			
+#endif
 		default:
 			fprintf(stderr, "Unsupported wave file type %d encountered, exiting.\n", anno_ctx->aet_type);
 			exit(255);

@@ -42,7 +42,7 @@ return(rv);
 
 int bsearch_timechain(TimeType key)
 {
-GLOBALS->max_compare_time_tc_bsearch_c_1=-2; GLOBALS->max_compare_pos_tc_bsearch_c_1=NULL; 
+GLOBALS->max_compare_time_tc_bsearch_c_1=-2; GLOBALS->max_compare_pos_tc_bsearch_c_1=NULL;
 
 if(!GLOBALS->strace_ctx->timearray) return(-1);
 
@@ -51,7 +51,7 @@ if(bsearch(&key, GLOBALS->strace_ctx->timearray, GLOBALS->strace_ctx->timearray_
         /* nothing, all side effects are in bsearch */
         }
 
-if((!GLOBALS->max_compare_pos_tc_bsearch_c_1)||(GLOBALS->max_compare_time_tc_bsearch_c_1<GLOBALS->shift_timebase)) 
+if((!GLOBALS->max_compare_pos_tc_bsearch_c_1)||(GLOBALS->max_compare_time_tc_bsearch_c_1<GLOBALS->shift_timebase))
 	{
 	GLOBALS->max_compare_pos_tc_bsearch_c_1=GLOBALS->strace_ctx->timearray; /* aix bsearch fix */
 	}
@@ -63,7 +63,7 @@ return(GLOBALS->max_compare_pos_tc_bsearch_c_1-GLOBALS->strace_ctx->timearray);
 
 int bsearch_aetinfo_timechain(TimeType key)
 {
-GLOBALS->max_compare_time_tc_bsearch_c_1=-2; GLOBALS->max_compare_pos_tc_bsearch_c_1=NULL; 
+GLOBALS->max_compare_time_tc_bsearch_c_1=-2; GLOBALS->max_compare_pos_tc_bsearch_c_1=NULL;
 
 if(!GLOBALS->ae2_time_xlate) return(-1);
 
@@ -115,10 +115,10 @@ if(bsearch(&key, n->harray, n->numhist, sizeof(hptr), compar_histent))
         /* nothing, all side effects are in bsearch */
         }
 
-if((!GLOBALS->max_compare_pos_bsearch_c_1)||(GLOBALS->max_compare_time_bsearch_c_1<LLDescriptor(0))) 
+if((!GLOBALS->max_compare_pos_bsearch_c_1)||(GLOBALS->max_compare_time_bsearch_c_1<LLDescriptor(0)))
 	{
 	GLOBALS->max_compare_pos_bsearch_c_1=n->harray[1]; /* aix bsearch fix */
-	GLOBALS->max_compare_index=&(n->harray[1]); 
+	GLOBALS->max_compare_index=&(n->harray[1]);
 	}
 
 while(GLOBALS->max_compare_pos_bsearch_c_1->next) /* non-RoSync dumper deglitching fix */
@@ -168,7 +168,7 @@ if(bsearch(&key, b->vectors, b->numregions, sizeof(vptr), compar_vectorent))
         /* nothing, all side effects are in bsearch */
         }
 
-if((!GLOBALS->vmax_compare_pos_bsearch_c_1)||(GLOBALS->vmax_compare_time_bsearch_c_1<LLDescriptor(0))) 
+if((!GLOBALS->vmax_compare_pos_bsearch_c_1)||(GLOBALS->vmax_compare_time_bsearch_c_1<LLDescriptor(0)))
 	{
 	/* ignore warning: array index of '1' indexes past the end of an array (that contains 1 elements) [-Warray-bounds] */
 	/* because this array is allocated with size > that declared in the structure definition via end of structure malloc padding */
@@ -265,7 +265,7 @@ if(ascii[len-1]=='}')
 	int i;
 
 	for(i=len-2;i>=2;i--)
-		{	
+		{
 		if(isdigit((int)(unsigned char)ascii[i])) continue;
 		if(ascii[i]=='{')
 			{
@@ -273,22 +273,22 @@ if(ascii[len-1]=='}')
 			memcpy(tsc, ascii, i+1);
 			tsc[i] = 0;
 			rc=(struct symbol **)bsearch(tsc, GLOBALS->facs, GLOBALS->numfacs, sizeof(struct symbol *), compar_facs);
-			if(rc) 
+			if(rc)
 				{
 				unsigned int whichrow = atoi(&ascii[i+1]);
 				if(rows_return) *rows_return = whichrow;
 
 #ifdef WAVE_ARRAY_SUPPORT
-				if(whichrow <= (*rc)->n->array_height) 
+				if(whichrow <= (*rc)->n->array_height)
 #endif
-					{	
+					{
 					return(*rc);
 					}
 				}
 			}
 		break;	/* fallthrough to normal handler */
 		}
-	
+
 	}
 
 rc=(struct symbol **)bsearch(ascii, GLOBALS->facs, GLOBALS->numfacs, sizeof(struct symbol *), compar_facs);

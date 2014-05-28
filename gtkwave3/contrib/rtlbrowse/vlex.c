@@ -880,7 +880,7 @@ char *yytext;
  * of the License, or (at your option) any later version.
  */
 #line 11 "vlex.l"
-        
+
 /*
  * vlex.l
  * 06apr06ajb
@@ -911,7 +911,7 @@ if(!v_preproc_initialized)
 	yyin = fopen(v_preproc_name, "rb");
 	if(!yyin) return(0);
 	v_preproc_initialized = 1;
-	my_yylineno = 1;	
+	my_yylineno = 1;
 	}
 
 ch = fgetc(yyin);
@@ -1832,7 +1832,7 @@ YY_RULE_SETUP
 case 133:
 YY_RULE_SETUP
 #line 207 "vlex.l"
-{ 
+{
 							if(is_builtin_define (yytext+1, yyleng-1))
 								{
 								BEGIN PREPROC;
@@ -1920,7 +1920,7 @@ YY_RULE_SETUP
 case 149:
 YY_RULE_SETUP
 #line 233 "vlex.l"
-{ return V_IGNORE; } 
+{ return V_IGNORE; }
 	YY_BREAK
 case 150:
 YY_RULE_SETUP

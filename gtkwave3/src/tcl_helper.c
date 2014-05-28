@@ -146,7 +146,7 @@ static char tclBackslash(const char* src, int* readPtr) {
  *  sequences.
  *----------------------------------------------------------------------
  */
-static int tclFindElement(const char* list, const char** elementPtr, 
+static int tclFindElement(const char* list, const char** elementPtr,
 			  const char** nextPtr, int* sizePtr, int *bracePtr) {
     register const char *p;
     int openBraces = 0;
@@ -389,7 +389,7 @@ char** zSplitTclList(const char* list, int* argcPtr) {
  * 1. They produce a proper list, one that will yield back the
  * argument strings when evaluated or when disassembled with
  * zSplitTclList.  This is the most important thing.
- * 
+ *
  * 2. They try to produce legible output, which means minimizing the
  * use of backslashes (using braces instead).  However, there are
  * some situations where backslashes must be used (e.g. an element
@@ -654,7 +654,7 @@ char* zMergeTclList(int argc, const char** argv) {
  * Results:
  *      Returns Trptr which corresponds to the mouse pointer y position.
  * ----------------------------------------------------------------------------
- */     
+ */
 
 static Trptr determine_trace_from_y(void)
 {
@@ -691,7 +691,7 @@ else
 	}
 
 if((t=GLOBALS->traces.first))
-        {       
+        {
         while(t)
                 {
                 t->flags&=~TR_HIGHLIGHT;
@@ -701,8 +701,8 @@ if((t=GLOBALS->traces.first))
         wavearea_configure_event(GLOBALS->wavearea, NULL);
 	}
 
-trtarget = ((int)y / (int)GLOBALS->fontheight) - 2; 
-if(trtarget < 0) 
+trtarget = ((int)y / (int)GLOBALS->fontheight) - 2;
+if(trtarget < 0)
 	{
 	return(NULL);
 	}
@@ -730,7 +730,7 @@ return(t);
 
 
 /* ----------------------------------------------------------------------------
- * check_gtkwave_directive_from_tcl_list - parses tcl list for any gtkwave 
+ * check_gtkwave_directive_from_tcl_list - parses tcl list for any gtkwave
  * directives
  *
  * Results:
@@ -741,11 +741,11 @@ return(t);
 
 static char **check_gtkwave_directive_from_tcl_list(char *s, int *l)
 {
-char** elem = NULL; 
-                         
+char** elem = NULL;
+
 elem = zSplitTclList(s, l);
-                 
-if(elem)  
+
+if(elem)
         {
         if(strcmp("gtkwave", elem[0]))
 		{
@@ -763,7 +763,7 @@ return(elem);
  * Results:
  *      Returns suitable name or NULL if not applicable.
  * ----------------------------------------------------------------------------
- */     
+ */
 
 static char *make_net_name_from_tcl_list(char *s, char **unescaped_str)
 {
@@ -838,7 +838,7 @@ if(elem)
 			}
 		*unescaped_str = s_new;
 		/* free_2(s_new); */
-		s_new = s_new2;				
+		s_new = s_new2;
 		}
 		else
 		{
@@ -856,7 +856,7 @@ return(s_new);
  * Results:
  *      Inserts traces if found in dumpfile, returns number of traces inserted
  * ----------------------------------------------------------------------------
- */     
+ */
 
 int process_tcl_list(char *sl, gboolean track_mouse_y)
 {
@@ -944,7 +944,7 @@ for(ii=0;ii<c;ii++)
 										{
 										lx2_import_masked();
 										}
-									
+
 									if(track_mouse_y)
 										{
 										t = determine_trace_from_y();
@@ -952,12 +952,12 @@ for(ii=0;ii<c;ii++)
 											{
 											t->flags |=  TR_HIGHLIGHT;
 											}
-										}	
+										}
 
 									memcpy(&GLOBALS->tcache_treesearch_gtk2_c_2,&GLOBALS->traces,sizeof(Traces));
 									GLOBALS->traces.total=0;
 									GLOBALS->traces.first=GLOBALS->traces.last=NULL;
-	
+
 									continue;
 									}
 									else
@@ -979,7 +979,7 @@ for(ii=0;ii<c;ii++)
 										{
 										break;
 										}
-	
+
 									if((!is)&&(GLOBALS->is_lx2)) { parsewavline_lx2(nxt_hd, NULL, 0); found++; } else { parsewavline(nxt_hd, NULL, 0); }
 									break;
 									}
@@ -1029,10 +1029,10 @@ for(ii=0;ii<c;ii++)
 	        {
 	        int was_packed = HIER_DEPACK_ALLOC;
 	        char *hfacname = NULL;
-	                                 
+
        		hfacname = hier_decompress_flagged(GLOBALS->facs[curr_srch_idx]->name, &was_packed);
 
-	        if(!strncmp(unescaped_str, hfacname, unesc_len)) 
+	        if(!strncmp(unescaped_str, hfacname, unesc_len))
 	                {
 			int hfacname_len = strlen(hfacname);
 			if((unesc_len == hfacname_len) || ((hfacname_len > unesc_len) && (hfacname[unesc_len] == '[')))
@@ -1048,7 +1048,7 @@ for(ii=0;ii<c;ii++)
 
 		curr_srch_idx++;
 		if(curr_srch_idx == GLOBALS->numfacs) curr_srch_idx = 0; /* optimization for rtlbrowse as names should be in order */
-		        
+
 	        if(was_packed) { free_2(hfacname); }
 	        }
 
@@ -1060,15 +1060,15 @@ for(ii=0;ii<c;ii++)
 	strcat(entry_suffixed,s_new);
 	strcat(entry_suffixed,this_regex);
 
-	wave_regex_compile(entry_suffixed, WAVE_REGEX_DND); 
+	wave_regex_compile(entry_suffixed, WAVE_REGEX_DND);
 	for(i=0;i<GLOBALS->numfacs;i++)
 	        {
 	        int was_packed = HIER_DEPACK_ALLOC;
 	        char *hfacname = NULL;
-	                                 
+
        		hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
 
-	        if(wave_regex_match(hfacname, WAVE_REGEX_DND)) 
+	        if(wave_regex_match(hfacname, WAVE_REGEX_DND))
 	                {
 			found++;
 			match_idx_list[ii] = i;
@@ -1076,7 +1076,7 @@ for(ii=0;ii<c;ii++)
 		        if(was_packed) { free_2(hfacname); }
 			goto import;
 	                }
-		        
+
 	        if(was_packed) { free_2(hfacname); }
 	        }
 
@@ -1090,15 +1090,15 @@ for(ii=0;ii<c;ii++)
 		strcat(entry_suffixed,s_new);
 		strcat(entry_suffixed,this_regex);
 
-		wave_regex_compile(entry_suffixed, WAVE_REGEX_DND); 
+		wave_regex_compile(entry_suffixed, WAVE_REGEX_DND);
 		for(i=0;i<GLOBALS->numfacs;i++)
 		        {
 		        int was_packed = HIER_DEPACK_ALLOC;
 		        char *hfacname = NULL;
-		                                 
+
         		hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
-	
-		        if(wave_regex_match(hfacname, WAVE_REGEX_DND)) 
+
+		        if(wave_regex_match(hfacname, WAVE_REGEX_DND))
 		                {
 				found++;
 				match_idx_list[ii] = i;
@@ -1106,7 +1106,7 @@ for(ii=0;ii<c;ii++)
 			        if(was_packed) { free_2(hfacname); }
 				goto import;
 		                }
-			        
+
 		        if(was_packed) { free_2(hfacname); }
 		        }
 		}
@@ -1166,7 +1166,7 @@ for(ii=0;ii<c;ii++)
 			nptr nexp;
 			int bit = atoi(most_recent_lbrack_list[ii]+1 + (match_type_list[ii] == 3)); /* == 3 for adjustment when lbrack is escaped */
 			int which, cnt;
-			
+
 			if(s->n->lsi > s->n->msi)
 				{
 				for(which=0,cnt=s->n->lsi ; cnt>=s->n->msi ; cnt--,which++)
@@ -1221,13 +1221,13 @@ GLOBALS->traces.bufferlast=GLOBALS->traces.last;
 GLOBALS->traces.first=GLOBALS->tcache_treesearch_gtk2_c_2.first;
 GLOBALS->traces.last=GLOBALS->tcache_treesearch_gtk2_c_2.last;
 GLOBALS->traces.total=GLOBALS->tcache_treesearch_gtk2_c_2.total;
-                                
+
 if((t) || (!track_mouse_y))
 	{
 	PasteBuffer();
 	}
 	else
-	{	
+	{
 	PrependBuffer();
 	}
 
@@ -1324,15 +1324,15 @@ if(s)
 	int was_packed = HIER_DEPACK_ALLOC;
 	char *s2;
 
-	s = hier_decompress_flagged(s, &was_packed);	
+	s = hier_decompress_flagged(s, &was_packed);
 	len = strlen(s);
 	s2 = wave_alloca(len+1);
-	
+
 	strcpy(s2, s);
 	if(was_packed)
 		{
 		free_2(s);
-		s = NULL; 
+		s = NULL;
 		}
 
 	pnt = s2;
@@ -1346,10 +1346,10 @@ if(s)
 		else if(*pnt == '[') { lbrack = pnt; }
 		else if(*pnt == ':') { colon  = pnt; }
 		else if(*pnt == ']') { rbrack = pnt; }
-	
+
 		pnt++;
 		}
-	
+
 	if(!preserve_range) /* added for gtkwave::addSignalsFromList */
 		{
 		if((lbrack && colon && rbrack && ((colon-lbrack)>0) && ((rbrack - colon)>0) && ((rbrack-lbrack)>0)) || (lbrack && promote_to_bus))
@@ -1378,7 +1378,7 @@ if(s)
 			}
 		}
 
-	
+
 	tcllist = zMergeTclList(delim_cnt+1, names);
 	tcllist_len = strlen(tcllist);
 	free_2(names);
@@ -1388,7 +1388,7 @@ if(s)
 		if(is_bus)
 			{
 			len = 8 + strlen(tcllist) + 1 + 1 + 1; /* "{netBus ...} " + trailing null char */
-	
+
 			/* pnt = s2; */ /* scan-build */
 			rpnt = malloc_2(len+1);
 			strcpy(rpnt, "{netBus ");
@@ -1397,7 +1397,7 @@ if(s)
 			else
 			{
 			len = 5 + strlen(tcllist) + 1 + 1 + 1; /* "{net ...} " + trailing null char */
-	
+
 			/* pnt = s2; */ /* scan-build */
 			rpnt = malloc_2(len+1);
 			strcpy(rpnt, "{net ");
@@ -1411,7 +1411,7 @@ if(s)
 		if(is_bus)
 			{
 			len = 15 + (len_value + 1) + strlen(tcllist) + 1 + 1 + 1; /* "{netBusValue 0x...} " + trailing null char */
-	
+
 			/* pnt = s2; */ /* scan-build */
 			rpnt = malloc_2(len+1);
 			sprintf(rpnt, "{netBusValue 0x%s ", opt_value);
@@ -1420,7 +1420,7 @@ if(s)
 			else
 			{
 			len = 10 + (len_value + 1) + strlen(tcllist) + 1 + 1 + 1; /* "{netValue ...} " + trailing null char */
-	
+
 			/* pnt = s2; */ /* scan-build */
 			rpnt = malloc_2(len+1);
 			sprintf(rpnt, "{netValue %s ", opt_value);
@@ -1608,7 +1608,7 @@ return(add_traces_from_signal_window(FALSE));
  * add_traces_from_signal_window - generates tcl names from all sigwin ones
  *
  * Results:
- *      tcl list containing all generated names, does not contain 
+ *      tcl list containing all generated names, does not contain
  *      {gtkwave NET OFF} directive as this is intended for tcl program usage.
  * ----------------------------------------------------------------------------
  */
@@ -1641,7 +1641,7 @@ while(t)
 			unsigned char *bits = v ? (v->v) : NULL;
 			char *first_str = NULL;
 			int coalesce_pass = 1;
-                                        
+
                         nodes=t->n.vec->bits->nodes;
 
 			for(i=0;i<t->n.vec->bits->nnbits;i++)
@@ -1722,8 +1722,8 @@ while(t)
 					nptr n = nodes[i]->expansion->parent;
 					char *str = append_array_row(n);
 					char *p = strrchr(str, '[');
-					if(p) { *p = 0; }					
-              
+					if(p) { *p = 0; }
+
                         		if(n->lsi > n->msi)
                                 		{
                                 		for(which=0,cnt=n->lsi ; cnt>=n->msi ; cnt--,which++)
@@ -1737,7 +1737,7 @@ while(t)
                                         		{
                                         		if(cnt==bit) break;
                                         		}
-                                		}   
+                                		}
 
 					sprintf(str+strlen(str), "[%d]", which);
 					if(!mult_entry) { one_entry = make_gtkwave_pid(); WAVE_OE_ME one_entry = strdup_2(netoff); WAVE_OE_ME }
@@ -1783,8 +1783,8 @@ while(t)
 				nptr n = t->n.nd->expansion->parent;
 				char *str = append_array_row(n);
 				char *p = strrchr(str, '[');
-				if(p) { *p = 0; }					
-              
+				if(p) { *p = 0; }
+
                        		if(n->lsi > n->msi)
                                		{
                                		for(which=0,cnt=n->lsi ; cnt>=n->msi ; cnt--,which++)
@@ -1798,7 +1798,7 @@ while(t)
                                        		{
                                        		if(cnt==bit) break;
                                        		}
-                               		}   
+                               		}
 
 				sprintf(str+strlen(str), "[%d]", which);
 				if(!mult_entry) { one_entry = make_gtkwave_pid(); WAVE_OE_ME one_entry = strdup_2(netoff); WAVE_OE_ME}
@@ -1878,12 +1878,12 @@ sig_selection_foreach_dnd
 
   /* Get the tree.  */
   gtk_tree_model_get (model, iter, TREE_COLUMN, &sel, -1);
- 
+
   if(!sel) return;
 
   low = fetchlow(sel)->t_which;
   high = fetchhigh(sel)->t_which;
- 
+
   /* If signals are vectors, iterate through them if so.  */
   for(i=low;i<=high;i++)
         {
@@ -1900,7 +1900,7 @@ sig_selection_foreach_dnd
                         }
                 }
 		else
-		{		
+		{
                 one_entry = make_single_tcl_list_name(s->n->nname, NULL, 0, 0);
                 WAVE_OE_ME
 		}
@@ -1985,8 +1985,8 @@ static char *make_message (const char *fmt, ...)
  *
  * Results:
  *      tcl list which mimics a gtkwave save file for cut and paste entries
- *      which is later iteratively run through the normal gtkwave save file 
- *      loader parsewavline() on the distant end.  the reason this is 
+ *      which is later iteratively run through the normal gtkwave save file
+ *      loader parsewavline() on the distant end.  the reason this is
  *      necessary is in order to pass attribute and concatenation information
  *      along to the distant end.
  * ----------------------------------------------------------------------------
@@ -2051,7 +2051,7 @@ char *emit_gtkwave_savefile_formatted_entries_in_tcl_list(Trptr t, gboolean use_
 			}
 		prevshift=t->shift;
 
-		if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))	
+		if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
 			{
 			if(t->flags & TR_FTRANSLATED)
 				{
@@ -2114,7 +2114,7 @@ char *emit_gtkwave_savefile_formatted_entries_in_tcl_list(Trptr t, gboolean use_
 				bptr bits;
 				baptr ba;
 
-				if(HasAlias(t)) { one_entry = make_message("+{%s} ",t->name_full); 
+				if(HasAlias(t)) { one_entry = make_message("+{%s} ",t->name_full);
 				                  WAVE_OE_ME }
 				bits = t->n.vec->bits;
 				ba = bits ? bits->attribs : NULL;
@@ -2150,7 +2150,7 @@ char *emit_gtkwave_savefile_formatted_entries_in_tcl_list(Trptr t, gboolean use_
 				{
 				  nptr nd = (t->vector && t->n.vec->transaction_cache && t->n.vec->transaction_cache->transaction_nd) ?
 						t->n.vec->transaction_cache->transaction_nd : t->n.nd;
-			
+
 				  if(HasAlias(t))
 					{
 					if(nd->expansion)
@@ -2221,7 +2221,7 @@ return(mult_entry);
 enum GtkwaveFtype { WAVE_FTYPE_UNKNOWN, WAVE_FTYPE_DUMPFILE, WAVE_FTYPE_STEMSFILE, WAVE_FTYPE_SAVEFILE };
 
 /* ----------------------------------------------------------------------------
- * determine_ftype - examines filename (perhaps initial contents) and 
+ * determine_ftype - examines filename (perhaps initial contents) and
  *      determines file type
  *
  * Results:
@@ -2285,7 +2285,7 @@ if(dot)
 			(!strcasecmp("ghw.bz2", dot2+1)) ||
 			(!strcasecmp("ghw.bz2", dot2+1)) ||
 			(!strcasecmp("vcd.gz", dot2+1))  ||
-			(!strcasecmp("vcd.zip", dot2+1)) 
+			(!strcasecmp("vcd.zip", dot2+1))
 			)
 			{
 			ftype = WAVE_FTYPE_DUMPFILE;
@@ -2308,7 +2308,7 @@ if(dot)
 			{
 			ftype = WAVE_FTYPE_STEMSFILE; /* stems file */
 			}
-		else 
+		else
 		if(ch0 == '[')
 			{
 			ftype = WAVE_FTYPE_SAVEFILE; /* save file */
@@ -2348,7 +2348,7 @@ switch(ftype)
 				{
 				char *dfn_local = strdup(dfn);
 				free_2(dfn);
-				
+
 				processing_missing_file = 1;
 				if(process_url_file(dfn_local))
 					{
@@ -2501,7 +2501,7 @@ for(;;)
 
 if(url_list)
 	{
-	if(url_cnt > 2) 
+	if(url_cnt > 2)
 		{
 		qsort(url_list, url_cnt, sizeof(struct gchar *), uri_cmp);
 		}
@@ -2552,10 +2552,10 @@ static const int tclcb_var_flags[] = { WAVE_TCLCB_MACRO_EXPANSION };
 #define WAVE_TCLCB_M(a,b,c) c
 static const char *tclcb_var_inits[] = { WAVE_TCLCB_MACRO_EXPANSION };
 
-static void declare_tclcb_variables(Tcl_Interp *interp) 
+static void declare_tclcb_variables(Tcl_Interp *interp)
 {
 int i = 0 ;
-while(tclcb_var_flags[i] != -1) 
+while(tclcb_var_flags[i] != -1)
 	{
 	gtkwavetcl_setvar(tclcb_var_names[i], tclcb_var_inits[i], tclcb_var_flags[i]) ;
 	i++;
@@ -2638,7 +2638,7 @@ if(GLOBALS->in_tcl_callback) /* don't allow callbacks to call menu functions (ye
 	sprintf(reportString, "gtkwave::%s prohibited in callback", menuItem);
 	gtkwavetcl_setvar_nonblocking(WAVE_TCLCB_ERROR,reportString,WAVE_TCLCB_ERROR_FLAGS);
 
-	aobj = Tcl_NewStringObj(reportString, -1); 
+	aobj = Tcl_NewStringObj(reportString, -1);
 	Tcl_SetObjResult(interp, aobj);
 	return(TCL_ERROR);
 	}
@@ -2724,9 +2724,9 @@ if((nam) && (strlen(nam)) && (!GLOBALS->tcl_running))
 	tclrc = Tcl_Eval (GLOBALS->interp, tcl_cmd);
 	GLOBALS->tcl_running = 0;
 
-	if(tclrc != TCL_OK) 
-		{ 
-		tpnt = strdup_2(Tcl_GetStringResult (GLOBALS->interp)); 
+	if(tclrc != TCL_OK)
+		{
+		tpnt = strdup_2(Tcl_GetStringResult (GLOBALS->interp));
 		}
 		else
 		{
@@ -2782,7 +2782,7 @@ int  gtkwaveInterpreterInit(Tcl_Interp *interp) {
 	      if(*pnt==' ') *pnt='_';
 	      pnt++;
 	    }
-	
+
 	  Tcl_CreateObjCommand(interp, commandName,
 			       (Tcl_ObjCmdProc *)menu_func,
 			       (ClientData)(ife+i), (Tcl_CmdDeleteProc *)NULL);
@@ -2804,7 +2804,7 @@ int  gtkwaveInterpreterInit(Tcl_Interp *interp) {
   /* hide the "wish" window */
   Tcl_Eval(interp, "wm withdraw .");
 
-  Tcl_Eval(interp, 
+  Tcl_Eval(interp,
     "puts \"Interpreter id is [file tail $::argv0]\"");
 
   if (GLOBALS->tcl_init_cmd)
@@ -2844,14 +2844,14 @@ if((GLOBALS->repscript_name) && (!GLOBALS->tcl_running))
 	tclrc = Tcl_Eval (GLOBALS->interp, tcl_cmd);
 	GLOBALS->tcl_running = 0;
 #if WAVE_TCL_CHECK_VERSION(8,5,0)
-	if(tclrc != TCL_OK) { 
+	if(tclrc != TCL_OK) {
 	  Tcl_Obj *options;
 	  Tcl_Obj *key;
 	  Tcl_Obj *stackTrace;
 
-	  fprintf(stderr, "GTKWAVE | %s\n", 
-		  Tcl_GetStringResult (GLOBALS->interp)); 
-	  options = Tcl_GetReturnOptions(GLOBALS->interp, tclrc);  
+	  fprintf(stderr, "GTKWAVE | %s\n",
+		  Tcl_GetStringResult (GLOBALS->interp));
+	  options = Tcl_GetReturnOptions(GLOBALS->interp, tclrc);
 	  key = Tcl_NewStringObj("-errorinfo", -1);
 	  Tcl_IncrRefCount(key);
 	  Tcl_DictObjGet(NULL, options, key, &stackTrace);
@@ -2900,7 +2900,7 @@ void make_tcl_interpreter(char *argv[])
   gtkwave_mlist_t *ife;
   int num_menu_items;
   int n = 0;
-  
+
 #ifndef WAVE_TCL_STUBIFY
   Tcl_FindExecutable(argv[0]);
 #endif
@@ -2944,46 +2944,46 @@ void make_tcl_interpreter(char *argv[])
 #endif
 
 #ifndef WAVE_TCL_STUBIFY
-  if (TCL_OK != Tcl_Init(GLOBALS->interp)) 
+  if (TCL_OK != Tcl_Init(GLOBALS->interp))
     {
       fprintf(stderr, "GTKWAVE | Tcl_Init error: %s\n", Tcl_GetStringResult (GLOBALS->interp));
       exit(EXIT_FAILURE);
     }
 #endif
-  
+
   strcpy(commandName, "gtkwave::");
-  
+
   ife = retrieve_menu_items_array(&num_menu_items);
   for(i=0;i<num_menu_items;i++)
     {
       if(ife[i].callback)
 	{
 	  char *pnt = commandName + 9;
-	  strcpy(pnt, ife[i].path);	
+	  strcpy(pnt, ife[i].path);
 	  while(*pnt)
 	    {
 	      if(*pnt==' ') *pnt='_';
 	      pnt++;
 	    }
-	  
+
 	  Tcl_CreateObjCommand(GLOBALS->interp, commandName,
 			       (Tcl_ObjCmdProc *)menu_func,
 			       (ClientData)(ife+i), (Tcl_CmdDeleteProc *)NULL);
 	}
     }
-  
-  
-  for (i = 0; gtkwave_commands[i].func != NULL; i++) 
+
+
+  for (i = 0; gtkwave_commands[i].func != NULL; i++)
     {
       strcpy(commandName + 9, gtkwave_commands[i].cmdstr);
-      
+
       Tcl_CreateObjCommand(GLOBALS->interp, commandName,
                 (Tcl_ObjCmdProc *)gtkwave_commands[i].func,
 			   (ClientData)NULL, (Tcl_CmdDeleteProc *)NULL);
     }
-  
+
   declare_tclcb_variables(GLOBALS->interp);
-  
+
   if(GLOBALS->repscript_name)
     {
       FILE *f = fopen(GLOBALS->repscript_name, "rb");
@@ -2999,7 +2999,7 @@ void make_tcl_interpreter(char *argv[])
 	  exit(255);
 	}
     }
-  
+
   init_setvar_timer(GLOBALS->interp);
 }
 

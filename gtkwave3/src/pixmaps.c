@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -13,19 +13,19 @@
 
 #ifdef WAVE_USE_GTK2
 /* Apply GMASK to GPIX and return a GdkPixbuf with an alpha channel.  */
-/* this function from gtkutil.c in emacs                              */      
+/* this function from gtkutil.c in emacs                              */
 static GdkPixbuf *
 xg_get_pixbuf_from_pix_and_mask (GdkPixmap *gpix, GdkPixmap *gmask, GdkColormap *cmap)
 {
   int width, height;
   GdkPixbuf *icon_buf, *tmp_buf;
-      
+
   gdk_drawable_get_size (gpix, &width, &height);
   tmp_buf = gdk_pixbuf_get_from_drawable (NULL, gpix, cmap,
                                           0, 0, 0, 0, width, height);
   icon_buf = gdk_pixbuf_add_alpha (tmp_buf, FALSE, 0, 0, 0);
   g_object_unref (G_OBJECT (tmp_buf));
-          
+
   if (gmask)
     {
       GdkPixbuf *mask_buf = gdk_pixbuf_get_from_drawable (NULL,
@@ -42,26 +42,26 @@ xg_get_pixbuf_from_pix_and_mask (GdkPixmap *gpix, GdkPixmap *gmask, GdkColormap 
       for (y = 0; y < height; ++y)
         {
           guchar *iconptr, *maskptr;
-          int x;  
- 
+          int x;
+
           iconptr = pixels + y * rowstride;
           maskptr = mask_pixels + y * mask_rowstride;
-          
+
           for (x = 0; x < width; ++x)
             {
               /* In a bitmap, RGB is either 255/255/255 or 0/0/0.  Checking
                  just R is sufficient.  */
               if (maskptr[0] == 0)
                 iconptr[3] = 0; /* 0, 1, 2 is R, G, B.  3 is alpha.  */
-                
+
               iconptr += rowstride/width;
               maskptr += mask_rowstride/width;
             }
         }
-         
+
       g_object_unref (G_OBJECT (mask_buf));
     }
-     
+
   return(icon_buf);
 }
 #endif

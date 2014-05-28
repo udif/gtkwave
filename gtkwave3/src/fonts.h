@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2008
  *
  * This program is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ unsigned is_mono : 1;
 
 void load_all_fonts(void);
 
-void font_engine_draw_string    
+void font_engine_draw_string
 			(GdkDrawable      		*drawable,
                          struct font_engine_font_t 	*font,
                          GdkGC            		*gc,
@@ -44,7 +44,7 @@ void font_engine_draw_string
                          gint              		y,
                          const gchar      		*string);
 
-gint font_engine_string_measure 
+gint font_engine_string_measure
 			(struct font_engine_font_t      *font,
                          const gchar    		*string);
 

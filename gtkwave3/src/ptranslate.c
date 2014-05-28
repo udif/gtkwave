@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2005-2009.
  *
  * This program is free software; you can redistribute it and/or
@@ -52,7 +52,7 @@ for(j=0;j<GLOBALS->num_notebook_pages;j++)
 				pipeio_destroy(GLOBALS->proc_filter[i]);
 				GLOBALS->proc_filter[i] = NULL;
 				}
-	
+
 			if(GLOBALS->procsel_filter[i])
 				{
 				free_2(GLOBALS->procsel_filter[i]);
@@ -110,7 +110,7 @@ static void load_proc_filter(int which, char *name)
 
   /* if name has arguments grab only the first word (the name of the executable)*/
   sscanf(name, "%s ", exec_name);
-  
+
   arg = name + strlen(exec_name);
 
   /* remove leading spaces from argument */
@@ -167,7 +167,7 @@ if((which<0)||(which>=(PROC_FILTER_MAX+1)))
         which = 0;
         }
 
-if(GLOBALS->traces.first)  
+if(GLOBALS->traces.first)
         {
         Trptr t = GLOBALS->traces.first;
         while(t)
@@ -245,7 +245,7 @@ if(*GLOBALS->fileselbox_text)
 		{
 		if(GLOBALS->procsel_filter[i])
 			{
-			if(!strcmp(GLOBALS->procsel_filter[i], *GLOBALS->fileselbox_text)) 
+			if(!strcmp(GLOBALS->procsel_filter[i], *GLOBALS->fileselbox_text))
 				{
 				status_text("Filter already imported.\n");
 				if(GLOBALS->is_active_ptranslate_c_2) gdk_window_raise(GLOBALS->window_ptranslate_c_5->window);
@@ -304,7 +304,7 @@ void ptrans_searchbox(char *title)
     GtkWidget *table;
     GtkTooltips *tooltips;
 
-    if(GLOBALS->is_active_ptranslate_c_2) 
+    if(GLOBALS->is_active_ptranslate_c_2)
 	{
 	gdk_window_raise(GLOBALS->window_ptranslate_c_5->window);
 	return;
@@ -339,7 +339,7 @@ void ptrans_searchbox(char *title)
                         GTK_FILL | GTK_EXPAND | GTK_SHRINK, 1, 1);
 
     GLOBALS->clist_ptranslate_c_2=gtk_clist_new_with_titles(1,titles);
-    gtk_clist_column_titles_passive(GTK_CLIST(GLOBALS->clist_ptranslate_c_2)); 
+    gtk_clist_column_titles_passive(GTK_CLIST(GLOBALS->clist_ptranslate_c_2));
 
     gtk_clist_set_selection_mode(GTK_CLIST(GLOBALS->clist_ptranslate_c_2), GTK_SELECTION_EXTENDED);
     gtkwave_signal_connect_object (GTK_OBJECT (GLOBALS->clist_ptranslate_c_2), "select_row",GTK_SIGNAL_FUNC(select_row_callback),NULL);
@@ -381,7 +381,7 @@ void ptrans_searchbox(char *title)
     gtk_container_border_width (GTK_CONTAINER (button6), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button6), "clicked",GTK_SIGNAL_FUNC(add_filter_callback),GTK_OBJECT (GLOBALS->window_ptranslate_c_5));
     gtk_widget_show (button6);
-    gtk_tooltips_set_tip_2(tooltips, button6, 
+    gtk_tooltips_set_tip_2(tooltips, button6,
 		"Bring up a file requester to add a process filter to the filter select window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox0), button6, TRUE, FALSE, 0);
@@ -402,7 +402,7 @@ void ptrans_searchbox(char *title)
     gtk_container_border_width (GTK_CONTAINER (button1), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button1), "clicked",GTK_SIGNAL_FUNC(ok_callback),GTK_OBJECT (GLOBALS->window_ptranslate_c_5));
     gtk_widget_show (button1);
-    gtk_tooltips_set_tip_2(tooltips, button1, 
+    gtk_tooltips_set_tip_2(tooltips, button1,
 		"Add selected signals to end of the display on the main window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox), button1, TRUE, FALSE, 0);
@@ -410,7 +410,7 @@ void ptrans_searchbox(char *title)
     button5 = gtk_button_new_with_label (" Cancel ");
     gtk_container_border_width (GTK_CONTAINER (button5), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button5), "clicked",GTK_SIGNAL_FUNC(destroy_callback),GTK_OBJECT (GLOBALS->window_ptranslate_c_5));
-    gtk_tooltips_set_tip_2(tooltips, button5, 
+    gtk_tooltips_set_tip_2(tooltips, button5,
 		"Do nothing and return to the main window.",NULL);
     gtk_widget_show (button5);
     gtk_box_pack_start (GTK_BOX (hbox), button5, TRUE, FALSE, 0);
@@ -432,7 +432,7 @@ int i;
 
 for(i=1;i<GLOBALS->num_proc_filters+1;i++)
 	{
-	if(!strcmp(GLOBALS->procsel_filter[i], name)) { GLOBALS->current_translate_proc = i; return; } 
+	if(!strcmp(GLOBALS->procsel_filter[i], name)) { GLOBALS->current_translate_proc = i; return; }
 	}
 
 if(GLOBALS->num_proc_filters < PROC_FILTER_MAX)

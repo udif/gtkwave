@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -117,14 +117,14 @@ void *malloc_2(size_t size
 void *ret;
 
 ret=malloc(size);
-if(ret)  
+if(ret)
         {
 	Judy1Set ((Pvoid_t)&GLOBALS->alloc2_chain, (Word_t)ret, PJE0);
 
         GLOBALS->outstanding++;
-        
+
         return(ret);
-        }   
+        }
         else
         {
 #ifdef DEBUG_MALLOC_LINES
@@ -213,7 +213,7 @@ void *ret;
 void **ret2 = ((void **)ptr) - 2;
 void **prv = (void **)*(ret2+0);
 void **nxt = (void **)*(ret2+1);
-                 
+
 if(prv)
 	{
         *(prv+1) = nxt;
@@ -222,7 +222,7 @@ if(prv)
         {
         GLOBALS->alloc2_chain = nxt;
         }
-        
+
 if(nxt)
 	{
         *(nxt+0) = prv;
@@ -384,7 +384,7 @@ if(ptr)
 	if(prv)
 		{
 		*(prv+1) = nxt;
-		}	
+		}
 		else
 		{
 		GLOBALS->alloc2_chain = nxt;
@@ -424,7 +424,7 @@ if(s)
 	{
 	int nbytes = strlen(s) + 1;
 	s2 = malloc_2(nbytes);
-	memcpy(s2, s, nbytes); 
+	memcpy(s2, s, nbytes);
 	}
 
 return(s2);
@@ -510,7 +510,7 @@ return(nflag?(-val):val);
 /*
  * wrapped tooltips
  */
-void gtk_tooltips_set_tip_2(GtkTooltips *tooltips, GtkWidget *widget, 
+void gtk_tooltips_set_tip_2(GtkTooltips *tooltips, GtkWidget *widget,
 	const gchar *tip_text, const gchar *tip_private)
 {
 if(!GLOBALS->disable_tooltips)
@@ -546,12 +546,12 @@ char *tmpnam_2(char *s, int *fd)
 {
 #if defined _MSC_VER || defined __MINGW32__
 char *fname = NULL;
-TCHAR szTempFileName[MAX_PATH];  
+TCHAR szTempFileName[MAX_PATH];
 TCHAR lpTempPathBuffer[MAX_PATH];
 DWORD dwRetVal = 0;
 UINT uRetVal = 0;
 
-*fd = -1; 
+*fd = -1;
 
 dwRetVal = GetTempPath(MAX_PATH, lpTempPathBuffer);
 if((dwRetVal > MAX_PATH) || (dwRetVal == 0))
@@ -616,7 +616,7 @@ if(window && title)
 			{
 			const char *pfx = "[Modified] ";
 			char *t = wave_alloca(strlen(pfx) + strlen(title) + 1);
-	
+
 			strcpy(t, pfx);
 			strcat(t, title);
 			gtk_window_set_title(window, t);
@@ -626,14 +626,14 @@ if(window && title)
 		case WAVE_SET_TITLE_LOADING:
 			{
 			char *t = wave_alloca(64 + strlen(title) + 1); /* make extra long */
-	
+
 			sprintf(t, "[Loading %d%%] %s", pct, title);
 			gtk_window_set_title(window, t);
 			}
 			break;
 
 		case WAVE_SET_TITLE_NONE:
-		default:		
+		default:
 			gtk_window_set_title(window, title);
 			break;
 		}
@@ -736,7 +736,7 @@ if(stat(path, &buf) == 0)
 							if(fgetc(f) == EOF) goto chk_ex;
 							}
 
-						
+
 						for(i=0;i<8;i++)
 							{
 							e_ch[i] = c = fgetc(f);

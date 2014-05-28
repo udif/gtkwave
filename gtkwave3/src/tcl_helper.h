@@ -53,14 +53,14 @@ extern tcl_cmdstruct gtkwave_commands[];
 			} \
 		}
 
-struct iter_dnd_strings 
+struct iter_dnd_strings
 	{
 	char *one_entry;
 	char *mult_entry;
 	int mult_len;
 	};
 
-typedef enum {LL_NONE, LL_INT, LL_UINT, LL_CHAR, LL_SHORT, LL_STR, 
+typedef enum {LL_NONE, LL_INT, LL_UINT, LL_CHAR, LL_SHORT, LL_STR,
 	      LL_VOID_P, LL_TIMETYPE} ll_elem_type;
 
 typedef union llist_payload {

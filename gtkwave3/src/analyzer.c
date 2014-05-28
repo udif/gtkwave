@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -7,7 +7,7 @@
  * of the License, or (at your option) any later version.
  */
 
-/* AIX may need this for alloca to work */ 
+/* AIX may need this for alloca to work */
 #if defined _AIX
   #pragma alloca
 #endif
@@ -50,7 +50,7 @@ len=strlen(pnt);
 if(!len) return(pnt);
 
 if(levels<1) levels=1;
-if((esc=strchr(pnt, '\\'))) 
+if((esc=strchr(pnt, '\\')))
 	{
 	return((levels==1) ? esc : pnt); /* shortcut out on escape IDs: level=1, esc char else all */
 	}
@@ -68,7 +68,7 @@ for(i=0;i<len;i++)
 		}
 	else
 		{
-		if(ch==GLOBALS->hier_delimeter) 
+		if(ch==GLOBALS->hier_delimeter)
 			{
 			if(!only_nums_so_far) levels--;
 			if(!levels)
@@ -117,14 +117,14 @@ void updateTraceGroup(Trptr t)
 		}
 	    }
 	  else
-	    { 
+	    {
 	      t->t_grp = t->t_prev->t_grp;
 	    }
 
 
 	}
     }
-  else 
+  else
     { /* very first trace */
       t->t_grp = NULL;
     }
@@ -223,7 +223,7 @@ void ClearGroupTraces(Trptr t_grp)
     }
 }
 
-/* 
+/*
  * Add a trace to the display...
  */
 static void AddTrace( Trptr t )
@@ -435,7 +435,7 @@ if(!GLOBALS->traces.first)
 	tb.buffer=GLOBALS->traces.buffer;
 	tb.bufferlast=GLOBALS->traces.bufferlast;
 	tb.buffercount=GLOBALS->traces.buffercount;
-	
+
 	GLOBALS->traces.buffer=GLOBALS->traces.bufferlast=t;
 	GLOBALS->traces.buffercount=1;
 	PasteBuffer();
@@ -465,7 +465,7 @@ int AddNodeTraceReturn(nptr nd, char *aliasname, Trptr *tret)
 
   GLOBALS->signalwindow_width_dirty=1;
   GLOBALS->traces.dirty = 1;
-    
+
   if( (t = (Trptr) calloc_2( 1, sizeof( TraceEnt ))) == NULL )
     {
       fprintf( stderr, "Out of memory, can't add to analyzer\n" );
@@ -484,7 +484,7 @@ int AddNodeTraceReturn(nptr nd, char *aliasname, Trptr *tret)
 	}
 
       nd->numhist=histcount;
-	
+
       if(!(nd->harray=harray=(hptr *)malloc_2(histcount*sizeof(hptr))))
 	{
 	  fprintf( stderr, "Out of memory, can't add to analyzer\n" );
@@ -502,18 +502,18 @@ int AddNodeTraceReturn(nptr nd, char *aliasname, Trptr *tret)
     }
 
   if(aliasname)
-   {	
+   {
      char *alias;
 
      t->name_full = alias =(char *)malloc_2(strlen(aliasname)+1);
      strcpy(alias,aliasname);
      t->name = t->name_full;
-     if(GLOBALS->hier_max_level) 
+     if(GLOBALS->hier_max_level)
        t->name = hier_extract(t->name_full, GLOBALS->hier_max_level);
    }
   else
     {
-      if(!GLOBALS->hier_max_level) 
+      if(!GLOBALS->hier_max_level)
 	{
 	  int flagged = HIER_DEPACK_ALLOC;
 
@@ -538,7 +538,7 @@ int AddNodeTraceReturn(nptr nd, char *aliasname, Trptr *tret)
     }
 
   if(nd->extvals) /* expansion vectors */
-    {	
+    {
       int n;
 
       n = nd->msi - nd->lsi;
@@ -664,7 +664,7 @@ if(t->vector)
 	bv=t->n.vec;
 	/* back out allocation to revert (if any) */
         if(bv->transaction_cache)
-		{ 
+		{
 		t->n.vec = bv->transaction_cache;
 
 		while(bv)
@@ -679,7 +679,7 @@ if(t->vector)
 
 	                free_2(bv);
 			bv = bv2;
-			}			
+			}
 
 		bv=t->n.vec;
                 }
@@ -689,7 +689,7 @@ if(t->vector)
 		{
 		if(bv->vectors[i]) free_2(bv->vectors[i]);
 		}
-	
+
 	if(bv->bits)
 		{
 		if(bv->bits->name) free_2(bv->bits->name);
@@ -721,9 +721,9 @@ if(t->vector)
 
 
 /*
- * Remove a trace from the display and optionally 
+ * Remove a trace from the display and optionally
  * deallocate its memory usage...
- */ 
+ */
 void RemoveTrace( Trptr t, int dofree )
   {
     GLOBALS->traces.dirty = 1;
@@ -762,7 +762,7 @@ void RemoveTrace( Trptr t, int dofree )
         else
             GLOBALS->traces.last = t->t_prev;
       }
-    
+
     if(dofree)
 	{
         FreeTrace(t);
@@ -783,7 +783,7 @@ while(t)
 	{
 	t2=t->t_next;
 	FreeTrace(t);
-	t=t2;	
+	t=t2;
 	}
 
 GLOBALS->traces.buffer=GLOBALS->traces.bufferlast=NULL;
@@ -877,7 +877,7 @@ Trptr PasteBuffer(void)
 	  GLOBALS->traces.last=t;
 	  GLOBALS->traces.total++;
 	  t=t->t_next;
-	}	
+	}
 
       GLOBALS->traces.buffer=GLOBALS->traces.bufferlast=NULL;
       GLOBALS->traces.buffercount=0;
@@ -887,7 +887,7 @@ Trptr PasteBuffer(void)
 
   while(t)
     {
-      if(t->flags&TR_HIGHLIGHT) 
+      if(t->flags&TR_HIGHLIGHT)
 	{
 	  tinsert=t;
 	}
@@ -956,7 +956,7 @@ Trptr PasteBuffer(void)
         t->t_prev = prev;
 	prev = t;
 	t=t->t_next;
-	}	
+	}
 
   return(GLOBALS->traces.first);
 }
@@ -1037,7 +1037,7 @@ while(t)
         t->t_prev = prev;
 	prev = t;
 	t=t->t_next;
-	}	
+	}
 
 return(GLOBALS->traces.first);
 }
@@ -1101,7 +1101,7 @@ if((!str2) || (!*str2))
 	{
 	return(-1);		/* str1==str2==zero case is covered above */
 	}
-  
+
 return(strcmp(str1, str2));
 }
 
@@ -1129,7 +1129,7 @@ if((!str2) || (!*str2))
 	{
 	return(-1);		/* str1==str2==zero case is covered above */
 	}
-  
+
 return(strcasecmp(str1, str2));
 }
 
@@ -1156,7 +1156,7 @@ if((!str2) || (!*str2))
 	{
 	return(-1);		/* str1==str2==zero case is covered above */
 	}
-  
+
 return(sigcmp(str1, str2));
 }
 
@@ -1173,12 +1173,12 @@ char *subst, ch;
 #endif
 int i;
 int (*cptr)(const void*, const void*);
-   
+
 if(!GLOBALS->traces.total) return(0);
 GLOBALS->traces.dirty = 1;
 
 t=GLOBALS->traces.first;
-tsort=tsort_pnt=wave_alloca(sizeof(Trptr)*GLOBALS->traces.total);   
+tsort=tsort_pnt=wave_alloca(sizeof(Trptr)*GLOBALS->traces.total);
 memset(tsort_pnt, 0, sizeof(Trptr)*GLOBALS->traces.total);
 
 for(i=0;i<GLOBALS->traces.total;i++)
@@ -1227,26 +1227,26 @@ if((cptr) && (!groupsArePresent()))
 	        if(tsort[i]->flags & TR_GRP_BEGIN)
 	                {
 	                int cnt = 0;
-	                
+
 	                for(j=i;j<GLOBALS->traces.total;j++)
 	                        {
-	                        if(tsort[j]->flags & TR_GRP_BEGIN) { cnt++; }   
+	                        if(tsort[j]->flags & TR_GRP_BEGIN) { cnt++; }
 	                        else if(tsort[j]->flags & TR_GRP_END) { cnt--; }
-	                        
-	                        if(!cnt) 
+
+	                        if(!cnt)
 	                                {
 	                                tsort_reduced[num_reduced] = calloc_2(1, sizeof(struct TraceEnt));
 	                                tsort_reduced[num_reduced]->name = tsort[i]->name;
 	                                tsort_reduced[num_reduced]->is_sort_group = 1;
 	                                tsort_reduced[num_reduced]->t_grp = tsort[i];
-	                                
+
 	                                tsort[j]->t_next = NULL;
-	                                num_reduced++;        
-	                                
+	                                num_reduced++;
+
 	                                i = j; break;
 	                                }
 	                        }
-	                }   
+	                }
 	                else
 	                {
 	                tsort_reduced[num_reduced++] = tsort[i];
@@ -1260,11 +1260,11 @@ if((cptr) && (!groupsArePresent()))
 			for(i=0;i<=(num_reduced/2);i++)
 				{
 				Trptr t_tmp = tsort_reduced[i];
-								
+
 				j = num_reduced-i-1;
 				tsort_reduced[i] = tsort_reduced[j];
 				tsort_reduced[j] = t_tmp;
-				}			
+				}
 			}
 			else
 			{
@@ -1327,7 +1327,7 @@ GLOBALS->traces.last=prev;
 if(prev) { prev->t_next=NULL; } /* scan-build */
 
 return(1);
-}  
+}
 
 
 Trptr GiveNextTrace(Trptr t)
@@ -1416,9 +1416,9 @@ void UpdateTraceSelection(Trptr t)
 	                        else
 	                        {
 	                        bcnt++; /* bcnt is number of blank traces */
-	                        }        
+	                        }
 	                }
-	         
+
 	        if((tscan)&&(tscan->vector)&&(IsSelected(tscan)))
 	                {
 	                bvptr bv = tscan->n.vec;
@@ -1499,7 +1499,7 @@ char* GetFullName( Trptr t, int *was_packed )
   else if (t->vector)
     {
       return (t->n.vec->bvname);
-      
+
     }
   else
     {
@@ -1541,7 +1541,7 @@ while(t)
 				}
 			}
 
-		if(oc_cnt < 0) 
+		if(oc_cnt < 0)
 			{
 			/*
 			if(!underflow_sticky)

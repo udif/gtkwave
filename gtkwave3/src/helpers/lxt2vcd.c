@@ -58,7 +58,7 @@ while (value)
         value = value / 94;
         }
 
-*pnt = 0;   
+*pnt = 0;
 return(buf);
 }
 
@@ -139,7 +139,7 @@ if(!(*pnt_value)[0])
 		{
 		vcd_blackout = 0;
 		fprintf(fv, "$dumpon\n");
-		}	
+		}
 	}
 
 if(g->flags & LXT2_RD_SYM_F_DOUBLE)
@@ -158,10 +158,10 @@ else
                 fprintf(fv, "%c%s\n", (*pnt_value)[0], vcdid(*pnt_facidx));
                 }
                 else
-                {                        
+                {
                 fprintf(fv, "b%s %s\n", vcd_truncate_bitvec(*pnt_value), vcdid(*pnt_facidx));
                 }
-	}                               
+	}
 }
 
 
@@ -180,7 +180,7 @@ if(lt)
 	signed char scale;
 	time_t walltime;
 	lxtsint64_t timezero;
-	
+
 	numfacs = lxt2_rd_get_num_facs(lt);
 	lxt2_rd_set_fac_process_mask_all(lt);
 	lxt2_rd_set_max_block_mem_usage(lt, 0);	/* no need to cache blocks */
@@ -189,7 +189,7 @@ if(lt)
         switch(scale)
                 {
                 case 0:         time_dimension = 's'; break;
-         
+
                 case -1:        time_scale = 100; 		time_dimension = 'm'; break;
                 case -2:        time_scale = 10;
                 case -3:                                        time_dimension = 'm'; break;
@@ -197,15 +197,15 @@ if(lt)
                 case -4:        time_scale = 100; 		time_dimension = 'u'; break;
                 case -5:        time_scale = 10;
                 case -6:                                        time_dimension = 'u'; break;
-                
+
                 case -10:       time_scale = 100; 		time_dimension = 'p'; break;
                 case -11:       time_scale = 10;
                 case -12:                                       time_dimension = 'p'; break;
-                  
+
                 case -13:       time_scale = 100; 		time_dimension = 'f'; break;
                 case -14:       time_scale = 10;
                 case -15:                                       time_dimension = 'f'; break;
-         
+
                 case -7:        time_scale = 100; 		time_dimension = 'n'; break;
                 case -8:        time_scale = 10;
                 case -9:
@@ -249,7 +249,7 @@ if(lt)
                        fprintf(fv, "$var real 1 %s %s $end\n", vcdid(newindx), netname);
                        }
                 else
-			
+
                         {
                        	if(g->len==1)
                        		{
@@ -260,7 +260,7 @@ if(lt)
                                         else
                                         {
                                         fprintf(fv, "$var wire 1 %s %s $end\n", vcdid(newindx), netname);
-                                        }  
+                                        }
 				}
                                 else
                                 {
@@ -309,7 +309,7 @@ return(0);
 
 void print_help(char *nam)
 {
-#ifdef __linux__ 
+#ifdef __linux__
 printf(
 "Usage: %s [OPTION]... [LXT2FILE]\n\n"
 "  -l, --lxtname=FILE         specify LXT2 input filename\n"
@@ -350,7 +350,7 @@ while (1)
         {
 #ifdef __linux__
         int option_index = 0;
-                        
+
         static struct option long_options[] =
                 {
 		{"lxtname", 1, 0, 'l'},
@@ -358,16 +358,16 @@ while (1)
 		{"flatearth", 0, 0, 'f'},
 		{"notruncate", 0, 0, 'n'},
                 {"help", 0, 0, 'h'},
-                {0, 0, 0, 0}  
+                {0, 0, 0, 0}
                 };
-                
+
         c = getopt_long (argc, argv, "l:o:fnh", long_options, &option_index);
 #else
         c = getopt      (argc, argv, "l:o:fnh");
 #endif
-                        
+
         if (c == -1) break;     /* no more args */
-                        
+
         switch (c)
                 {
 		case 'l':
@@ -391,24 +391,24 @@ while (1)
                 case 'h':
 			print_help(argv[0]);
                         break;
-                        
+
                 case '?':
                         opt_errors_encountered=1;
                         break;
-                        
+
                 default:
                         /* unreachable */
                         break;
                 }
         }
-                        
+
 if(opt_errors_encountered)
         {
         print_help(argv[0]);
         }
 
 if (optind < argc)
-        {               
+        {
         while (optind < argc)
                 {
                 if(!lxname)
@@ -422,7 +422,7 @@ if (optind < argc)
 			}
                 }
         }
-                        
+
 if(!lxname)
         {
         print_help(argv[0]);

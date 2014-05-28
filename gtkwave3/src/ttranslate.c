@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2010-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -67,7 +67,7 @@ for(j=0;j<GLOBALS->num_notebook_pages;j++)
 			pipeio_destroy(GLOBALS->ttrans_filter[i]);
 			GLOBALS->ttrans_filter[i] = NULL;
 			}
-	
+
 		if(GLOBALS->ttranssel_filter[i])
 			{
 			free_2(GLOBALS->ttranssel_filter[i]);
@@ -129,7 +129,7 @@ static void load_ttrans_filter(int which, char *name)
 
   /* if name has arguments grab only the first word (the name of the executable)*/
   sscanf(name, "%s ", exec_name);
-  
+
   arg = name + strlen(exec_name);
 
   /* remove leading spaces from argument */
@@ -186,7 +186,7 @@ if((which<0)||(which>=(PROC_FILTER_MAX+1)))
         which = 0;
         }
 
-if(GLOBALS->traces.first)  
+if(GLOBALS->traces.first)
         {
         Trptr t = GLOBALS->traces.first;
         while(t)
@@ -278,7 +278,7 @@ if(GLOBALS->traces.first)
 					{
 					Trptr curr_trace = t;
 					t = t->t_next;
-					while(t && (t->t_match != curr_trace))					
+					while(t && (t->t_match != curr_trace))
 						{
 						t = t->t_next;
 						}
@@ -340,7 +340,7 @@ if(*GLOBALS->fileselbox_text)
 		{
 		if(GLOBALS->ttranssel_filter[i])
 			{
-			if(!strcmp(GLOBALS->ttranssel_filter[i], *GLOBALS->fileselbox_text)) 
+			if(!strcmp(GLOBALS->ttranssel_filter[i], *GLOBALS->fileselbox_text))
 				{
 				status_text("Filter already imported.\n");
 				if(GLOBALS->is_active_ttranslate_c_2) gdk_window_raise(GLOBALS->window_ttranslate_c_5->window);
@@ -401,7 +401,7 @@ void ttrans_searchbox(char *title)
     GtkWidget *label;
     GtkWidget *entry;
 
-    if(GLOBALS->is_active_ttranslate_c_2) 
+    if(GLOBALS->is_active_ttranslate_c_2)
 	{
 	gdk_window_raise(GLOBALS->window_ttranslate_c_5->window);
 	return;
@@ -436,7 +436,7 @@ void ttrans_searchbox(char *title)
                         GTK_FILL | GTK_EXPAND | GTK_SHRINK, 1, 1);
 
     GLOBALS->clist_ttranslate_c_2=gtk_clist_new_with_titles(1,titles);
-    gtk_clist_column_titles_passive(GTK_CLIST(GLOBALS->clist_ttranslate_c_2)); 
+    gtk_clist_column_titles_passive(GTK_CLIST(GLOBALS->clist_ttranslate_c_2));
 
     gtk_clist_set_selection_mode(GTK_CLIST(GLOBALS->clist_ttranslate_c_2), GTK_SELECTION_EXTENDED);
     gtkwave_signal_connect_object (GTK_OBJECT (GLOBALS->clist_ttranslate_c_2), "select_row",GTK_SIGNAL_FUNC(select_row_callback),NULL);
@@ -478,7 +478,7 @@ void ttrans_searchbox(char *title)
     gtk_container_border_width (GTK_CONTAINER (button6), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button6), "clicked",GTK_SIGNAL_FUNC(add_filter_callback),GTK_OBJECT (GLOBALS->window_ttranslate_c_5));
     gtk_widget_show (button6);
-    gtk_tooltips_set_tip_2(tooltips, button6, 
+    gtk_tooltips_set_tip_2(tooltips, button6,
 		"Bring up a file requester to add a transaction process filter to the filter select window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox0), button6, TRUE, FALSE, 0);
@@ -486,8 +486,8 @@ void ttrans_searchbox(char *title)
 
     	/* args entry box */
 	{
-	Trptr t=GLOBALS->traces.first; 
-	while(t) 
+	Trptr t=GLOBALS->traces.first;
+	while(t)
 	        {
 		if(t->flags&TR_HIGHLIGHT)
 			{
@@ -500,18 +500,18 @@ void ttrans_searchbox(char *title)
 	                }
 
 	        t=t->t_next;
-	        }      
+	        }
 
     	frameh0 = gtk_frame_new (NULL);
     	gtk_container_border_width (GTK_CONTAINER (frameh0), 3);
     	gtk_widget_show(frameh0);
-    	gtk_table_attach (GTK_TABLE (table), frameh0, 0, 1, 254, 255, 
+    	gtk_table_attach (GTK_TABLE (table), frameh0, 0, 1, 254, 255,
                         GTK_FILL | GTK_EXPAND,
                         GTK_FILL | GTK_EXPAND | GTK_SHRINK, 1, 1);
-        
+
 	label=gtk_label_new("Args:");
 	entry=gtk_entry_new_with_max_length(1025);
-    
+
 	gtk_entry_set_text(GTK_ENTRY(entry), GLOBALS->ttranslate_args ? GLOBALS->ttranslate_args : "");
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",GTK_SIGNAL_FUNC (args_entry_callback), entry);
 	gtk_signal_connect (GTK_OBJECT (entry), "changed",GTK_SIGNAL_FUNC (args_entry_callback), entry);
@@ -541,7 +541,7 @@ void ttrans_searchbox(char *title)
     gtk_container_border_width (GTK_CONTAINER (button1), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button1), "clicked",GTK_SIGNAL_FUNC(ok_callback),GTK_OBJECT (GLOBALS->window_ttranslate_c_5));
     gtk_widget_show (button1);
-    gtk_tooltips_set_tip_2(tooltips, button1, 
+    gtk_tooltips_set_tip_2(tooltips, button1,
 		"Add selected signals to end of the display on the main window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox), button1, TRUE, FALSE, 0);
@@ -549,7 +549,7 @@ void ttrans_searchbox(char *title)
     button5 = gtk_button_new_with_label (" Cancel ");
     gtk_container_border_width (GTK_CONTAINER (button5), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button5), "clicked",GTK_SIGNAL_FUNC(destroy_callback),GTK_OBJECT (GLOBALS->window_ttranslate_c_5));
-    gtk_tooltips_set_tip_2(tooltips, button5, 
+    gtk_tooltips_set_tip_2(tooltips, button5,
 		"Do nothing and return to the main window.",NULL);
     gtk_widget_show (button5);
     gtk_box_pack_start (GTK_BOX (hbox), button5, TRUE, FALSE, 0);
@@ -571,7 +571,7 @@ int i;
 
 for(i=1;i<GLOBALS->num_ttrans_filters+1;i++)
 	{
-	if(!strcmp(GLOBALS->ttranssel_filter[i], name)) { GLOBALS->current_translate_ttrans = i; return; } 
+	if(!strcmp(GLOBALS->ttranssel_filter[i], name)) { GLOBALS->current_translate_ttrans = i; return; }
 	}
 
 if(GLOBALS->num_ttrans_filters < TTRANS_FILTER_MAX)
@@ -636,10 +636,10 @@ if((t->t_filter) && (t->flags & TR_TTRANSLATED) && (t->vector) && (!t->t_filter_
 				{
 				char buf[1025];
 				char *pnt, *rtn;
-	
+
 #if !defined _MSC_VER && !defined __MINGW32__
 				if(feof(GLOBALS->ttrans_filter[t->t_filter]->sin)) break; /* should never happen */
-	
+
 				buf[0] = 0;
 				pnt = fgets(buf, 1024, GLOBALS->ttrans_filter[t->t_filter]->sin);
 				if(!pnt) break;
@@ -663,7 +663,7 @@ if((t->t_filter) && (t->flags & TR_TTRANSLATED) && (t->vector) && (!t->t_filter_
 			                                {
 			                                goto ex;
 			                                }
-			
+
 			                        } while(buf[n]=='\r');
 			                }
 ex:     			buf[n] = 0;
@@ -671,21 +671,21 @@ ex:     			buf[n] = 0;
 			        }
 #endif
 
-	
+
 				while(*pnt) { if(isspace((int)(unsigned char)*pnt)) pnt++; else break;}
-	
+
 				if(*pnt=='#')
 					{
 					TimeType tim = atoi_64(pnt+1) * GLOBALS->time_scale;
 					int slen;
 					char *sp;
-	
+
 					while(*pnt) { if(!isspace((int)(unsigned char)*pnt)) pnt++; else break; }
 					while(*pnt) { if(isspace((int)(unsigned char)*pnt)) pnt++; else break; }
-	
+
 					sp = pnt;
 					slen = strlen(sp);
-	
+
 					if(slen)
 						{
 						pnt = sp + slen - 1;
@@ -694,12 +694,12 @@ ex:     			buf[n] = 0;
 							if(isspace((int)(unsigned char)*pnt)) { *pnt = 0; pnt--; slen--; } else { break; }
 							} while(pnt != (sp-1));
 						}
-						
+
 					vt = calloc_2(1, sizeof(struct VectorEnt) + slen + 1);
 					if(sp) strcpy((char *)vt->v, sp);
-	
-					if(tim > prev_tim) 
-						{ 
+
+					if(tim > prev_tim)
+						{
 						prev_tim = vt->time = tim;
 						vt_curr->next = vt;
 						vt_curr = vt;
@@ -716,7 +716,7 @@ ex:     			buf[n] = 0;
 						{
 						free_2(vt); /* throw it away */
 						}
-	
+
 					continue;
 					}
 				else
@@ -729,16 +729,16 @@ ex:     			buf[n] = 0;
 						TimeType tim = atoi_64(pnt+1) * GLOBALS->time_scale;
 						int slen;
 						char *sp;
-	
+
 						if(tim < LLDescriptor(0)) tim = LLDescriptor(-1);
 						GLOBALS->named_markers[which_marker] = tim;
-	
+
 						while(*pnt) { if(!isspace((int)(unsigned char)*pnt)) pnt++; else break; }
 						while(*pnt) { if(isspace((int)(unsigned char)*pnt)) pnt++; else break; }
-		
+
 						sp = pnt;
 						slen = strlen(sp);
-		
+
 						if(slen)
 							{
 							pnt = sp + slen - 1;
@@ -747,37 +747,37 @@ ex:     			buf[n] = 0;
 								if(isspace((int)(unsigned char)*pnt)) { *pnt = 0; pnt--; slen--; } else { break; }
 								} while(pnt != (sp-1));
 							}
-	
+
 	                                	if(GLOBALS->marker_names[which_marker]) free_2(GLOBALS->marker_names[which_marker]);
 	                                	GLOBALS->marker_names[which_marker] = (sp && (*sp) && (tim >= LLDescriptor(0))) ? strdup_2(sp) : NULL;
 						}
-	
+
 					continue;
 					}
 				else if(*pnt == '$')
 					{
-					if(!strncmp(pnt+1, "finish", 6)) 
+					if(!strncmp(pnt+1, "finish", 6))
 						{
 						is_finish = 1;
 						break;
 						}
 					else
-					if(!strncmp(pnt+1, "next", 4)) 
+					if(!strncmp(pnt+1, "next", 4))
 						{
 						break;
 						}
-					else 
+					else
 					if(!strncmp(pnt+1, "name", 4))
 						{
 						int slen;
 						char *sp;
-	
+
 						pnt+=5;
 						while(*pnt) { if(isspace((int)(unsigned char)*pnt)) pnt++; else break; }
-		
+
 						sp = pnt;
 						slen = strlen(sp);
-		
+
 						if(slen)
 							{
 							pnt = sp + slen - 1;
@@ -786,51 +786,51 @@ ex:     			buf[n] = 0;
 								if(isspace((int)(unsigned char)*pnt)) { *pnt = 0; pnt--; slen--; } else { break; }
 								} while(pnt != (sp-1));
 							}
-	
+
 						if(sp && *sp)
 							{
 							if(trace_name) free_2(trace_name);
 							trace_name = strdup_2(sp);
 							}
-						}				
+						}
 					}
 				}
-	
+
 			vt_curr = vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt) + 1);
 			vt->time = MAX_HISTENT_TIME - 1;
 			regions++;
-	
+
 			/* vt_curr = */ vt_curr->next = vt = calloc_2(1, sizeof(struct VectorEnt) + 1); /* scan-build */
 			vt->time = MAX_HISTENT_TIME;
 			regions++;
-	
+
 			bv = calloc_2(1, sizeof(struct BitVector) + (sizeof(vptr) * (regions)));
 			bv->bvname = strdup_2(trace_name ? trace_name : orig_name);
 			bv->nbits = 1;
 			bv->numregions = regions;
 			bv->bits = t->n.vec->bits;
-		
+
 			vt = vt_head;
 			for(i=0;i<regions;i++)
 				{
 				bv->vectors[i] = vt;
 				vt = vt->next;
 				}
-	
+
 			if(!prev_transaction_trace)
 				{
 				prev_transaction_trace = bv;
 				bv->transaction_cache = t->n.vec; /* for possible restore later */
 				t->n.vec = bv;
-	
+
 				t->t_filter_converted = 1;
-	
+
 				if(trace_name)	/* if NULL, no need to regen display as trace name didn't change */
 					{
 					t->name = t->n.vec->bvname;
 			               		if(GLOBALS->hier_max_level)
 			               			t->name = hier_extract(t->name, GLOBALS->hier_max_level);
-			
+
 					regen_display();
 					}
 				}

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -7,12 +7,12 @@
  * of the License, or (at your option) any later version.
  */
 
-/* AIX may need this for alloca to work */ 
+/* AIX may need this for alloca to work */
 #if defined _AIX
   #pragma alloca
 #endif
 
-#include "globals.h" 
+#include "globals.h"
 #include <config.h>
 #include "analyzer.h"
 #include "symbol.h"
@@ -238,7 +238,7 @@ set_window_idle(NULL);
 bvptr bits2vector(struct Bits *b)
 {
 int i;
-int regions=0;	
+int regions=0;
 struct Node *n;
 hptr *h;
 vptr vhead=NULL, vcurr=NULL, vadd;
@@ -264,7 +264,7 @@ while(h[0])	/* should never exit through this point the way we set up histents w
 	mintime=MAX_HISTENT_TIME;
 
 	vadd=(vptr)calloc_2(1,sizeof(struct VectorEnt)+numextrabytes);
-	
+
 	for(i=0;i<b->nnbits;i++) /* was 1...big mistake */
 		{
 		tshift = (b->attribs) ? b->attribs[i].shift : 0;
@@ -283,14 +283,14 @@ while(h[0])	/* should never exit through this point the way we set up histents w
 				}
 
 			if(tmod < mintime)
-				{	
+				{
 				mintime = tmod;
 				}
 			}
 		}
 
 	vadd->time=lasttime;
-	lasttime=mintime;	
+	lasttime=mintime;
 
 	regions++;
 
@@ -329,7 +329,7 @@ while(h[0])	/* should never exit through this point the way we set up histents w
 				case 'w': case 'W':
 					enc = AN_W; break;
 
-				default: 
+				default:
 					enc = enc & AN_MSK; break;
 				}
 			}
@@ -354,7 +354,7 @@ while(h[0])	/* should never exit through this point the way we set up histents w
 				}
 
 			if(tmod < mintime)
-				{	
+				{
 				mintime = tmod;
 				}
 
@@ -416,7 +416,7 @@ unsigned int rows = 0;
 pnt=str;
 while((ch=*pnt))
 	{
-	if(ch=='*') 
+	if(ch=='*')
 		{
 		wild_active=1;
 		break;
@@ -553,7 +553,7 @@ if(len)
 	pnt2=wild;
 	while((ch2=*pnt2))
 		{
-		if(ch2=='*') 
+		if(ch2=='*')
 			{
 			wild_active=1;
 			break;
@@ -567,13 +567,13 @@ if(len)
 		if(wild[0]=='(')
 			{
 			nptr nexp;
-			
+
 			for(i=1;;i++)
 				{
 				if(wild[i]==0) break;
-				if((wild[i]==')')&&(wild[i+1])) 
+				if((wild[i]==')')&&(wild[i+1]))
 					{
-					i++; 
+					i++;
 					s=symfind(wild+i, &rows);
 					if(s)
 						{
@@ -582,7 +582,7 @@ if(len)
 							{
 							n[nodepnt++]=nexp;
 							if(nodepnt==BITATTRIBUTES_MAX) { free_2(wild); goto ifnode; }
-							}		
+							}
 						}
 					else
                                               	{
@@ -614,7 +614,7 @@ if(len)
                                                                 actual = bval; /* punt */
                                                                 }
 
-                                                        sprintf(ns, "%s[%d]", wild+i, actual); 
+                                                        sprintf(ns, "%s[%d]", wild+i, actual);
                                                         *lp = '[';
 
                                                         s=symfind(ns, &rows);
@@ -637,7 +637,7 @@ if(len)
 			}
 			else
 			{
-			if((s=symfind(wild, &rows)))	
+			if((s=symfind(wild, &rows)))
 				{
 				n[nodepnt++]=&s->n[rows];
 				if(nodepnt==BITATTRIBUTES_MAX) { free_2(wild); goto ifnode; }
@@ -721,7 +721,7 @@ if(len)
 		{
 		ba[nodepnt-1].shift = atoi_64(wild);
 		state++;
-		goto fw;		
+		goto fw;
 		}
 	else
 	if(state==2)
@@ -742,13 +742,13 @@ if(len)
 		if(wild[0]=='(')
 			{
 			nptr nexp;
-			
+
 			for(i=1;;i++)
 				{
 				if(wild[i]==0) break;
-				if((wild[i]==')')&&(wild[i+1])) 
+				if((wild[i]==')')&&(wild[i+1]))
 					{
-					i++; 
+					i++;
 					s=symfind(wild+i, &rows);
 					if(s)
 						{
@@ -757,7 +757,7 @@ if(len)
 							{
 							n[nodepnt++]=nexp;
 							if(nodepnt==BITATTRIBUTES_MAX) { free_2(wild); goto ifnode; }
-							}		
+							}
 						}
 					else
                                               	{
@@ -789,7 +789,7 @@ if(len)
                                                                 actual = bval; /* punt */
                                                                 }
 
-                                                        sprintf(ns, "%s[%d]", wild+i, actual); 
+                                                        sprintf(ns, "%s[%d]", wild+i, actual);
                                                         *lp = '[';
 
                                                         s=symfind(ns, &rows);
@@ -813,7 +813,7 @@ if(len)
 			}
 			else
 			{
-			if((s=symfind(wild, &rows)))	
+			if((s=symfind(wild, &rows)))
 				{
 				n[nodepnt++]=&s->n[rows];
 				}
@@ -1007,15 +1007,15 @@ if(nodepnt)
 			s1 = hier_decompress_flagged(s1, &s1_was_packed);
 			s2 = hier_decompress_flagged(s2, &s2_was_packed);
 			}
-		
-		l1=strlen(s1); 
+
+		l1=strlen(s1);
 
 		for(i=l1-1;i>=0;i--)
 			{
 			if(s1[i]==hier_delimeter2) { root1len=i+1; break; }
 			}
 
-		l2=strlen(s2);	
+		l2=strlen(s2);
 		for(i=l2-1;i>=0;i--)
 			{
 			if(s2[i]==hier_delimeter2) { root2len=i+1; break; }
@@ -1052,7 +1052,7 @@ if(nodepnt)
 				add1--;
 				add2--;
 				}
-			
+
 			if(symlo!=symhi)
 				{
 				unsigned char fixup1 = 0, fixup2 = 0;
@@ -1225,15 +1225,15 @@ if(nodepnt)
 			s1 = hier_decompress_flagged(s1, &s1_was_packed);
 			s2 = hier_decompress_flagged(s2, &s2_was_packed);
 			}
-		
-		l1=strlen(s1); 
+
+		l1=strlen(s1);
 
 		for(i=l1-1;i>=0;i--)
 			{
 			if(s1[i]==GLOBALS->hier_delimeter) { root1len=i+1; break; }
 			}
 
-		l2=strlen(s2);	
+		l2=strlen(s2);
 		for(i=l2-1;i>=0;i--)
 			{
 			if(s2[i]==GLOBALS->hier_delimeter) { root2len=i+1; break; }
@@ -1265,7 +1265,7 @@ if(nodepnt)
 			int add1, add2, totallen;
 
 			add1=l1-root1len; add2=l2-root2len;
-			
+
 			if(lo!=hi)
 				{
 				totallen=
@@ -1359,7 +1359,7 @@ ptr=str;
 
 while((ch=*ptr))
         {
-        if((ch>='0')&&(ch<='9')) 
+        if((ch>='0')&&(ch<='9'))
                 {
                 if(!numptr) numptr=ptr;
                 }
@@ -1384,7 +1384,7 @@ if(numptr)
  * compares two facilities a la strcmp but preserves
  * numbers for comparisons
  *
- * there are two flavors..the slow and accurate to any 
+ * there are two flavors..the slow and accurate to any
  * arbitrary number of digits version (first) and the
  * fast one good to 2**31-1.  we default to the faster
  * version since there's probably no real need to
@@ -1518,7 +1518,7 @@ return(rc);
 
 
 #ifndef __linux__
-/* 
+/*
  * heapsort algorithm.  this typically outperforms quicksort.  note
  * that glibc will use a modified mergesort if memory is available, so
  * under linux use the stock qsort instead.
@@ -1530,16 +1530,16 @@ int l, r;
 unsigned int largest;
 struct symbol *t;
 int maxele=heap_size/2-1;	/* points to where heapswaps don't matter anymore */
-                
+
 for(;;)
         {
         l=2*i+1;
         r=l+1;
-                         
+
         if((l<heap_size)&&(sigcmp(hp[l]->name,hp[i]->name)>0))
                 {
                 largest=l;
-                }   
+                }
                 else
                 {
                 largest=i;
@@ -1548,13 +1548,13 @@ for(;;)
                 {
                 largest=r;
                 }
-        
+
         if(i!=largest)
                 {
                 t=hp[i];
                 hp[i]=hp[largest];
                 hp[largest]=t;
-                
+
                 if(largest<=maxele)
                         {
                         i=largest;
@@ -1562,8 +1562,8 @@ for(;;)
                         else
                         {
                         break;
-                        } 
-                }   
+                        }
+                }
                 else
                 {
                 break;
@@ -1673,15 +1673,15 @@ if(!GLOBALS->autocoalesce_reversal)		/* normal case for MTI */
 
 s1=hier_decompress_flagged(symhi->n->nname, &s1_was_packed);
 s2=hier_decompress_flagged(symlo->n->nname, &s2_was_packed);
-		
-l1=strlen(s1); 
+
+l1=strlen(s1);
 
 for(i=l1-1;i>=0;i--)
 	{
 	if(s1[i]==hier_delimeter2) { root1len=i+1; break; }
 	}
 
-l2=strlen(s2);	
+l2=strlen(s2);
 for(i=l2-1;i>=0;i--)
 	{
 	if(s2[i]==hier_delimeter2) { root2len=i+1; break; }
@@ -1710,7 +1710,7 @@ if((root1len!=root2len)||(!root1len)||(!root2len)||
 		add1--;
 		add2--;
 		}
-			
+
 	if(symlo!=symhi)
 		{
 		unsigned char fixup1 = 0, fixup2 = 0;
@@ -1856,21 +1856,21 @@ if(!n->extvals)
 
 	        histpnt=&(n->head);
 	        histcount=0;
-	
+
 	        while(histpnt)
 	                {
 	                histcount++;
 	                histpnt=histpnt->next;
 	                }
-	
+
 	        n->numhist=histcount;
-	 
+
 	        if(!(n->harray=harray=(hptr *)malloc_2(histcount*sizeof(hptr))))
 	                {
 	                fprintf( stderr, "Out of memory, can't add to analyzer\n");
 	                return(NULL);
 	                }
-	
+
 	        histpnt=&(n->head);
 	        for(i=0;i<histcount;i++)
 	                {
@@ -1892,7 +1892,7 @@ if(!n->extvals)
 	for(i=0;i<width;i++)
 		{
 		narray[i] = (nptr)calloc_2(1, sizeof(struct Node));
-		sprintf(nam+offset, "[%d]", actual);	
+		sprintf(nam+offset, "[%d]", actual);
 #ifdef WAVE_ARRAY_SUPPORT
 		if(n->array_height)
 			{
@@ -1921,7 +1921,7 @@ if(!n->extvals)
 				{
 				if(narray[j]->curr)
 					{
-					htemp = (hptr) calloc_2(1, sizeof(struct HistEnt));				
+					htemp = (hptr) calloc_2(1, sizeof(struct HistEnt));
 					htemp->v.h_val = AN_X;			/* 'x' */
 					htemp->time = h->time;
 					narray[j]->curr->next = htemp;
@@ -1958,7 +1958,7 @@ if(!n->extvals)
 
 				if(narray[j]->curr->v.h_val != val) 		/* curr will have been established already by 'x' at time: -1 */
 					{
-					htemp = (hptr) calloc_2(1, sizeof(struct HistEnt));				
+					htemp = (hptr) calloc_2(1, sizeof(struct HistEnt));
 					htemp->v.h_val = val;
 					htemp->time = h->time;
 					narray[j]->curr->next = htemp;
@@ -2058,21 +2058,21 @@ if(!n->extvals)
 
 	        histpnt=&(n->head);
 	        histcount=0;
-	
+
 	        while(histpnt)
 	                {
 	                histcount++;
 	                histpnt=histpnt->next;
 	                }
-	
+
 	        n->numhist=histcount;
-	 
+
 	        if(!(n->harray=harray=(hptr *)malloc_2(histcount*sizeof(hptr))))
 	                {
 	                DEBUG(fprintf( stderr, "Out of memory, can't add to analyzer\n"));
 	                return(NULL);
 	                }
-	
+
 	        histpnt=&(n->head);
 	        for(i=0;i<histcount;i++)
 	                {
@@ -2119,7 +2119,7 @@ if(!n->extvals)
 			{
 			if(np->curr)
 				{
-				htemp = (hptr) calloc_2(1, sizeof(struct HistEnt));				
+				htemp = (hptr) calloc_2(1, sizeof(struct HistEnt));
 				htemp->v.h_val = AN_X;			/* 'x' */
 				htemp->time = h->time;
 				np->curr->next = htemp;
@@ -2153,7 +2153,7 @@ if(!n->extvals)
 
 			if(np->curr->v.h_val != val) 		/* curr will have been established already by 'x' at time: -1 */
 				{
-				htemp = (hptr) calloc_2(1, sizeof(struct HistEnt));				
+				htemp = (hptr) calloc_2(1, sizeof(struct HistEnt));
 				htemp->v.h_val = val;
 				htemp->time = h->time;
 				np->curr->next = htemp;
@@ -2190,7 +2190,7 @@ if(n->expansion)
 		{
 		for(i=1;i<n->numhist;i++)	/* 1st is actually part of the Node! */
 			{
-			free_2(n->harray[i]);	
+			free_2(n->harray[i]);
 			}
 		free_2(n->harray);
 		free_2(n->expansion);

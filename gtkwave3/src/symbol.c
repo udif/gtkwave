@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2001-2010
  *
  * This program is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
 
 #ifndef _MSC_VER
 #include <unistd.h>
-#ifndef __MINGW32__ 
+#ifndef __MINGW32__
 #include <sys/mman.h>
 #endif
 #else
@@ -141,7 +141,7 @@ for(p=s;*p;p++)
                 {
                 h=h^(g>>24);
                 h=h^g;
-                }   
+                }
         }
 
 h^=h2;						/* combine the two hashes */
@@ -218,12 +218,12 @@ if(!GLOBALS->facs_are_sorted)
 #else
 	hv=hash(s);
 	if(!(temp=GLOBALS->sym_hash[hv])) return(NULL); /* no hash entry, add here wanted to add */
-	
+
 	while(temp)
 	        {
 	        if(!strcmp(temp->name,s))
 	                {
-	                return(temp); /* in table already */    
+	                return(temp); /* in table already */
 	                }
 	        if(!temp->sym_next) break;
 	        temp=temp->sym_next;
@@ -232,7 +232,7 @@ if(!GLOBALS->facs_are_sorted)
 	return(NULL); /* not found, add here if you want to add*/
 	}
 	else	/* no sense hashing if the facs table is built */
-	{	
+	{
 	struct symbol *sr;
 	DEBUG(printf("BSEARCH: %s\n",s));
 
@@ -268,7 +268,7 @@ if(!GLOBALS->facs_are_sorted)
 				        {
 				        int was_packed = HIER_DEPACK_STATIC;
 				        char *hfacname = NULL;
-		
+
 				        hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
 					s2 = hfacname;
 					while(*s2)
@@ -280,13 +280,13 @@ if(!GLOBALS->facs_are_sorted)
 							}
 						s2++;
 						}
-	
+
 				        /* if(was_packed) { free_2(hfacname); } ...not needed with HIER_DEPACK_STATIC */
 					if(mat) { break; }
 				        }
 				}
 
-			if(mat) 
+			if(mat)
 				{ GLOBALS->facs_have_symbols_state_machine = 1; }
 				else
 				{ GLOBALS->facs_have_symbols_state_machine = 2; } /* prevent code below from executing */
@@ -299,13 +299,13 @@ if(!GLOBALS->facs_are_sorted)
 			        {
 			        int was_packed = HIER_DEPACK_STATIC;
 			        char *hfacname = NULL;
-	
+
 			        hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
 				if(!strcmp(hfacname, s))
 					{
 					mat = 1;
 					}
-	
+
 			        /* if(was_packed) { free_2(hfacname); } ...not needed with HIER_DEPACK_STATIC */
 				if(mat)
 					{
@@ -322,26 +322,26 @@ if(!GLOBALS->facs_are_sorted)
 }
 
 
-struct symbol *symfind(char *s, unsigned int *rows_return) 
-{ 
-struct symbol *s_pnt = symfind_2(s, rows_return); 
+struct symbol *symfind(char *s, unsigned int *rows_return)
+{
+struct symbol *s_pnt = symfind_2(s, rows_return);
 
-if(!s_pnt) 
-	{ 
-       	int len = strlen(s); 
-       	if(len) 
+if(!s_pnt)
+	{
+       	int len = strlen(s);
+       	if(len)
         	{
 		char ch = s[len-1];
                 if((ch != ']') && (ch != '}'))
 			{
-                       	char *s2 = wave_alloca(len + 4); 
-                       	memcpy(s2, s, len); 
+                       	char *s2 = wave_alloca(len + 4);
+                       	memcpy(s2, s, len);
                        	strcpy(s2+len, "[0]"); /* bluespec vs modelsim */
 
-                       	s_pnt = symfind_2(s2, rows_return); 
-                       	} 
-               	} 
-       	} 
+                       	s_pnt = symfind_2(s2, rows_return);
+                       	}
+               	}
+       	}
 
-return(s_pnt); 
-} 
+return(s_pnt);
+}

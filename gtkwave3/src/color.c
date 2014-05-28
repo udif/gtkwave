@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2011.
  *
  * This program is free software; you can redistribute it and/or
@@ -12,7 +12,7 @@
 #include "color.h"
 #include "debug.h"
 
-/* 
+/*
  * return graphics context with tuple's color or
  * a fallback context.  Note that if tuple<0,
  * the fallback will be used!
@@ -33,7 +33,7 @@ if((gc=gdk_gc_new(widget->window)))
 	struct wave_gcchain_t *wg = calloc_2(1, sizeof(struct wave_gcchain_t));
 
 	color.red=red*(65535/255);
-	color.blue=blue*(65535/255);  
+	color.blue=blue*(65535/255);
 	color.green=green*(65535/255);
 	color.pixel=(gulong)(tuple&0x00ffffff);
 	gdk_color_alloc(gtk_widget_get_colormap(widget),&color);

@@ -54,7 +54,7 @@
 #include "tree.h"
 #include "vcd.h"
 #include "vcd_saver.h"
-#include "vlist.h" 
+#include "vlist.h"
 #include "vzt.h"
 #include "version.h"
 #include "wavealloca.h"
@@ -66,7 +66,7 @@
 #endif
 
 
-struct Global{ 
+struct Global{
 
 /*
  * ae2.c
@@ -137,7 +137,7 @@ char *maxlen_trunc_pos_bsearch_c_1; /* from bsearch.c 21 */
 char *trunc_asciibase_bsearch_c_1; /* from bsearch.c 22 */
 
 
-/* 
+/*
  * busy.c
  */
 GdkCursor *busycursor_busy_c_1; /* from busy.c 23 */
@@ -280,9 +280,9 @@ void (*cleanup_file_c_2)(void); /* from file.c 90 */
 void (*bad_cleanup_file_c_1)(void); /* from file.c 91 */
 
 
-/* 
+/*
  * fonts.c
- */ 
+ */
 char *fontname_signals; /* from fonts.c 92 */
 char *fontname_waves; /* from fonts.c 93 */
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN) && GTK_CHECK_VERSION(2,8,0)
@@ -298,18 +298,18 @@ char use_pango_fonts;
 /*
  * fst.c
  */
-void *fst_fst_c_1; 
+void *fst_fst_c_1;
 const char *fst_scope_name;
 int fst_scope_name_len;
 TimeType first_cycle_fst_c_3;
-TimeType last_cycle_fst_c_3; 
+TimeType last_cycle_fst_c_3;
 TimeType total_cycles_fst_c_3;
-struct lx2_entry *fst_table_fst_c_1; 
+struct lx2_entry *fst_table_fst_c_1;
 struct fac *mvlfacs_fst_c_3;
 fstHandle *mvlfacs_fst_alias;
 fstHandle *mvlfacs_fst_rvs_alias;
 fstHandle fst_maxhandle;
-int busycnt_fst_c_2; 
+int busycnt_fst_c_2;
 double *double_curr_fst;
 double *double_fini_fst;
 char nonimplicit_direction_encountered;
@@ -327,7 +327,7 @@ char **stem_path_string_table;
 struct stem_struct_t *stem_struct_base;
 struct stem_struct_t *istem_struct_base;
 uint32_t stem_path_string_table_siz;
-uint32_t stem_path_string_table_alloc;  
+uint32_t stem_path_string_table_alloc;
 uint32_t stem_struct_base_siz;
 uint32_t stem_struct_base_siz_alloc;
 uint32_t istem_struct_base_siz;
@@ -640,13 +640,13 @@ int mo_height_mouseover_c_1; /* from mouseover.c 278 */
 
 /*
  * pagebuttons.c
- */ 
+ */
 double page_divisor; /* from pagebuttons.c 279 */
 
 
 /*
  * pixmaps.c
- */ 
+ */
 GdkDrawable *redo_pixmap; /* from pixmaps.c */
 GdkDrawable *redo_mask; /* from pixmaps.c */
 GdkDrawable *larrow_pixmap; /* from pixmaps.c 281 */
@@ -721,7 +721,7 @@ GdkDrawable *hiericon_linkage_pixmap;
 GdkDrawable *hiericon_linkage_mask;
 
 
-/* 
+/*
  * print.c
  */
 int inch_print_c_1; /* from print.c 316 */
@@ -763,7 +763,7 @@ struct re_pattern_buffer *preg_regex_c_1; /* from regex.c 339 */
 int *regex_ok_regex_c_1; /* from regex.c 340 */
 
 
-/* 
+/*
  * renderopt.c
  */
 #ifdef WAVE_GTK_UNIX_PRINT
@@ -1011,14 +1011,14 @@ int comp_name_longest;
  * treesearch_gtk1.c
  */
 GtkWidget *window1_treesearch_gtk1_c;  /* manual adds by ajb... */
-GtkWidget *entry_a_treesearch_gtk1_c; 
-char *entrybox_text_local_treesearch_gtk1_c; 
+GtkWidget *entry_a_treesearch_gtk1_c;
+char *entrybox_text_local_treesearch_gtk1_c;
 void (*cleanup_e_treesearch_gtk1_c)(void);
-struct tree *selectedtree_treesearch_gtk1_c; 
-int is_active_treesearch_gtk1_c; 
-GtkWidget *window_treesearch_gtk1_c; 
+struct tree *selectedtree_treesearch_gtk1_c;
+int is_active_treesearch_gtk1_c;
+GtkWidget *window_treesearch_gtk1_c;
 GtkWidget *tree_treesearch_gtk1_c;
-char bundle_direction_treesearch_gtk1_c; 
+char bundle_direction_treesearch_gtk1_c;
 void (*cleanup_treesearch_gtk1_c)(void); /* ...end of manual adds */
 
 
@@ -1051,7 +1051,7 @@ char *filter_str_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 489 */
 int filter_typ_treesearch_gtk2_c_1;
 int filter_matlen_treesearch_gtk2_c_1;
 unsigned char filter_noregex_treesearch_gtk2_c_1;
-#if defined(WAVE_USE_GTK2) 
+#if defined(WAVE_USE_GTK2)
 GtkListStore *sig_store_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 490 */
 GtkTreeSelection *sig_selection_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 491 */
 #endif

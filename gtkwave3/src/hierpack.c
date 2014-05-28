@@ -23,14 +23,14 @@ GLOBALS->fmem_buf[GLOBALS->fmem_buf_offs++] = ch;
 
 
 static int enc_var(size_t v, unsigned char *buf)
-{               
+{
 size_t nxt;
 unsigned char *pnt = buf+VLI_SIZE;
 
-while((nxt = v>>7)) 
+while((nxt = v>>7))
         {
         *(--pnt) = (v&0x7f) | 0x80;
-        v = nxt;         
+        v = nxt;
         }
 *(--pnt) = (v&0x7f);
 return(buf+VLI_SIZE-pnt);
@@ -87,7 +87,7 @@ char *compress_facility(unsigned char *key, int len)
 size_t mat = 0;
 size_t plen;
 size_t i;
-unsigned char vli[VLI_SIZE]; 
+unsigned char vli[VLI_SIZE];
 
 if(len > GLOBALS->hp_buf_siz)
 	{
@@ -106,7 +106,7 @@ for(i=0;i<=len;i++)
         if(key[i] != GLOBALS->hp_buf[i]) break;
         }
 
-if(!mat) 
+if(!mat)
 	{
         GLOBALS->hp_prev += (plen = enc_var(mat, vli));
         out_write(vli+VLI_SIZE-plen, plen);
@@ -114,7 +114,7 @@ if(!mat)
         else
         {
         size_t back = GLOBALS->hp_prev - GLOBALS->hp_offs[mat-1];
-         
+
         plen = enc_var(back, vli);
         if(mat > plen)
         	{
@@ -131,7 +131,7 @@ if(!mat)
 
 out_c(0);
 GLOBALS->hp_prev++;
-                 
+
 for(i=mat;i<len;i++)
 	{
         out_c(key[i]);
@@ -175,7 +175,7 @@ str = GLOBALS->module_tree_c_1;
 ob = GLOBALS->longestname + 1;
 
 str[--ob] = 0;
-       
+
 do
 	{
         while(GLOBALS->fmem_buf[dcd])
@@ -184,7 +184,7 @@ do
                 dcd--;
                 }
 
-        dcd2 = --dcd;   
+        dcd2 = --dcd;
         val = 0;
         shamt = 0;
         for(;;)

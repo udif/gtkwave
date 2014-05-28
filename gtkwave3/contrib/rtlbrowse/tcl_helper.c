@@ -128,7 +128,7 @@ static char tclBackslash(const char* src, int* readPtr) {
  *  sequences.
  *----------------------------------------------------------------------
  */
-static int tclFindElement(const char* list, const char** elementPtr, 
+static int tclFindElement(const char* list, const char** elementPtr,
 			  const char** nextPtr, int* sizePtr, int *bracePtr) {
     register const char *p;
     int openBraces = 0;
@@ -371,7 +371,7 @@ char** zSplitTclList(const char* list, int* argcPtr) {
  * 1. They produce a proper list, one that will yield back the
  * argument strings when evaluated or when disassembled with
  * zSplitTclList.  This is the most important thing.
- * 
+ *
  * 2. They try to produce legible output, which means minimizing the
  * use of backslashes (using braces instead).  However, there are
  * some situations where backslashes must be used (e.g. an element
@@ -653,17 +653,17 @@ static gboolean DNDDragMotionCB(
          * If no valid actions are listed then we respond with 0.
          */
         suggested_action = GDK_ACTION_MOVE;
- 
+
         /* Only move? */
         if(dc->actions == GDK_ACTION_MOVE)
             gdk_drag_status(dc, GDK_ACTION_MOVE, tt);
         /* Only copy? */
         else if(dc->actions == GDK_ACTION_COPY)
-            gdk_drag_status(dc, GDK_ACTION_COPY, tt);  
+            gdk_drag_status(dc, GDK_ACTION_COPY, tt);
         /* Only link? */
         else if(dc->actions == GDK_ACTION_LINK)
             gdk_drag_status(dc, GDK_ACTION_LINK, tt);
-        /* Other action, check if listed in our actions list? */   
+        /* Other action, check if listed in our actions list? */
         else if(dc->actions & suggested_action)
             gdk_drag_status(dc, suggested_action, tt);
         /* All else respond with 0. */
@@ -682,7 +682,7 @@ static void DNDBeginCB(
 
 static void DNDEndCB(
         GtkWidget *widget, GdkDragContext *dc, gpointer data
-)                
+)
 {
 }
 
@@ -769,7 +769,7 @@ static void DNDDataReceivedCB(
 
 			ft = flattened_mod_list_root;
 			while(ft)
-			        {  
+			        {
 			        if(!strcmp(ss, ft->fullname))
 			                {
 					if(!ft->dnd_to_import)
@@ -792,10 +792,10 @@ static void DNDDataReceivedCB(
     if(impcnt)
 	{
 	ds_Tree **fta = calloc(impcnt, sizeof(ds_Tree *));
-	int i = 0;	
+	int i = 0;
 
 	while(ft)
-	        {  
+	        {
 	        if(ft->dnd_to_import)
 	                {
 			ft->dnd_to_import = 0;
@@ -823,7 +823,7 @@ static void DNDDataReceivedCB(
 void setup_dnd(GtkWidget *wid)
 {
 	GtkTargetEntry target_entry[3];
-    
+
         target_entry[0].target = WAVE_DRAG_TAR_NAME_0;
         target_entry[0].flags = 0;
         target_entry[0].info = WAVE_DRAG_TAR_INFO_0;
@@ -833,7 +833,7 @@ void setup_dnd(GtkWidget *wid)
         target_entry[2].target = WAVE_DRAG_TAR_NAME_2;
         target_entry[2].flags = 0;
         target_entry[2].info = WAVE_DRAG_TAR_INFO_2;
- 
+
         gtk_drag_dest_set(
                 GTK_WIDGET(wid),
                 GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_HIGHLIGHT |
@@ -846,6 +846,6 @@ void setup_dnd(GtkWidget *wid)
         gtk_signal_connect(GTK_OBJECT(wid), "drag_data_received", GTK_SIGNAL_FUNC(DNDDataReceivedCB), GTK_WIDGET(wid));
         gtk_signal_connect(GTK_OBJECT(wid), "drag_motion", GTK_SIGNAL_FUNC(DNDDragMotionCB), GTK_WIDGET(wid));
         gtk_signal_connect(GTK_OBJECT(wid), "drag_begin", GTK_SIGNAL_FUNC(DNDBeginCB), GTK_WIDGET(wid));
-        gtk_signal_connect(GTK_OBJECT(wid), "drag_end", GTK_SIGNAL_FUNC(DNDEndCB), GTK_WIDGET(wid));                 
+        gtk_signal_connect(GTK_OBJECT(wid), "drag_end", GTK_SIGNAL_FUNC(DNDEndCB), GTK_WIDGET(wid));
 }
 

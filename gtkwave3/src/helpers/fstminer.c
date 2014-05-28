@@ -47,7 +47,7 @@ while(*s)
 	char ch = *(s++);
 	if(ch != ' ')
 		{
-		*(d++) = ch;		
+		*(d++) = ch;
 		}
 	}
 *d = 0;
@@ -76,7 +76,7 @@ while((h = fstReaderIterateHier(xc)))
 				{
 				long new_allocated_scopes = allocated_scopes * 2;
 				char **scope_names_2 = calloc(new_allocated_scopes, sizeof(char *));
-			
+
 				memcpy(scope_names_2, scope_names, allocated_scopes * sizeof(char *));
 				free(scope_names);
 
@@ -182,7 +182,7 @@ lt=fstReaderOpen(fname);
 if(lt)
 	{
 	int numfacs;
-	
+
 	numfacs = fstReaderGetVarCount(lt) + 1;
 	killed_list = calloc(numfacs, sizeof(char));
 
@@ -218,7 +218,7 @@ return(0);
 
 void print_help(char *nam)
 {
-#ifdef __linux__ 
+#ifdef __linux__
 printf(
 "Usage: %s [OPTION]... [FSTFILE]\n\n"
 "  -d, --dumpfile=FILE        specify FST input dumpfile\n"
@@ -262,7 +262,7 @@ while (1)
         {
 #ifdef __linux__
         int option_index = 0;
-                        
+
         static struct option long_options[] =
                 {
 		{"dumpfile", 1, 0, 'd'},
@@ -271,16 +271,16 @@ while (1)
 		{"namesonly", 0, 0, 'n'},
 		{"comprehensive", 0, 0, 'c'},
                 {"help", 0, 0, 'h'},
-                {0, 0, 0, 0}  
+                {0, 0, 0, 0}
                 };
-                
+
         c = getopt_long (argc, argv, "d:m:x:nch", long_options, &option_index);
 #else
         c = getopt      (argc, argv, "d:m:x:nch");
 #endif
-                        
+
         if (c == -1) break;     /* no more args */
-                        
+
         switch (c)
                 {
 		case 'c':
@@ -347,29 +347,29 @@ while (1)
                 case 'h':
 			print_help(argv[0]);
                         break;
-                        
+
                 case '?':
                         opt_errors_encountered=1;
                         break;
-                        
+
                 default:
                         /* unreachable */
                         break;
                 }
         }
 
-if(!names_only && comprehensive) 
+if(!names_only && comprehensive)
 	{
 	killed_value = 0;
 	}
-                        
+
 if(opt_errors_encountered)
         {
         print_help(argv[0]);
         }
 
 if (optind < argc)
-        {               
+        {
         while (optind < argc)
                 {
                 if(lxname)
@@ -380,7 +380,7 @@ if (optind < argc)
                 strcpy(lxname, argv[optind++]);
                 }
         }
-                        
+
 if(!lxname)
         {
         print_help(argv[0]);

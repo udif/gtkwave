@@ -123,7 +123,7 @@ writesave_callback(GConfClient* gclient,
 		  if(fn)
 			{
 		  	FILE *wave;
-	
+
 		  	if(!(wave=fopen(fn, "wb")))
 		        	{
 		        	fprintf(stderr, "GTKWAVE | RPC Writesave: error opening save file '%s' for writing.\n", fn);
@@ -192,13 +192,13 @@ if(!client)
 	                          quit_callback,
 	                          NULL, /* user data */
 	                          NULL, NULL);
-	
+
 	strcpy(ks + len, "/writesave");
 	gconf_client_notify_add(client, ks,
 	                          writesave_callback,
 	                          NULL, /* user data */
 	                          NULL, NULL);
-	
+
 	strcpy(ks + len, "/reload");
 	gconf_client_notify_add(client, ks,
 	                          reload_callback,

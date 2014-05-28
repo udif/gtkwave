@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -249,8 +249,8 @@ WV_MENU_SRE,
 WV_MENU_SEP8B,
 WV_MENU_HSWM,
 WV_MENU_MWSON,
-WV_MENU_MLKLT, 
-WV_MENU_MLKRT, 
+WV_MENU_MLKLT,
+WV_MENU_MLKRT,
 WV_MENU_MLKOFF,
 WV_MENU_VSG,
 WV_MENU_SEP9,

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2003-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -99,7 +99,7 @@ if(GLOBALS->numfacs)
 for(i=0;i<GLOBALS->numfacs;i++)
         {
 	char buf[65537];
-	char *str;	
+	char *str;
 	struct fac *f;
 
 	if(i!=(GLOBALS->numfacs-1))
@@ -155,7 +155,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
                 int gatecmp = (f->len==1) && (!(f->flags&(VZT_RD_SYM_F_INTEGER|VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING))) && (node_block[i].msi!=-1) && (node_block[i].lsi!=-1);
                 int revcmp = gatecmp && (i) && (!strcmp(f_name[(i)&F_NAME_MODULUS], f_name[(i-1)&F_NAME_MODULUS]));
 
-		if(gatecmp)		
+		if(gatecmp)
 			{
 			int len = sprintf(buf, "%s[%d]", f_name[(i)&F_NAME_MODULUS],node_block[i].msi);
 			str=malloc_2(len+1);
@@ -204,7 +204,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 				}
 			}
 		}
-		
+
         n=&node_block[i];
         n->nname=s->name;
         n->mv.mvlfac = GLOBALS->mvlfacs_vzt_c_3+i;
@@ -214,7 +214,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		n->extvals = 1;
 		}
-                 
+
         n->head.time=-1;        /* mark 1st node as negative time */
         n->head.v.h_val=AN_X;
         s->n=n;
@@ -230,7 +230,7 @@ for(i=0;i<=F_NAME_MODULUS;i++)
 	}
 free_2(f_name); f_name = NULL;
 
-/* SPLASH */                            splash_sync(2, 5);  
+/* SPLASH */                            splash_sync(2, 5);
 GLOBALS->facs=(struct symbol **)malloc_2(GLOBALS->numfacs*sizeof(struct symbol *));
 
 if(GLOBALS->fast_tree_sort)
@@ -238,10 +238,10 @@ if(GLOBALS->fast_tree_sort)
         for(i=0;i<GLOBALS->numfacs;i++)
                 {
                 int len;
-                GLOBALS->facs[i]=&sym_block[i]; 
+                GLOBALS->facs[i]=&sym_block[i];
                 if((len=strlen(GLOBALS->facs[i]->name))>GLOBALS->longestname) GLOBALS->longestname=len;
                 }
-                                
+
         if(numalias)
                 {
                 unsigned int idx_lft = 0;
@@ -252,11 +252,11 @@ if(GLOBALS->fast_tree_sort)
 		fprintf(stderr, VZT_RDLOAD"Merging in %d aliases.\n", numalias);
 
                 for(i=0;i<GLOBALS->numfacs;i++)  /* fix possible tail appended aliases by remerging in partial one pass merge sort */
-                        { 
+                        {
                         if(strcmp(GLOBALS->facs[idx_lft]->name, GLOBALS->facs[idx_rgh]->name) <= 0)
                                 {
                                 facs_merge[i] = GLOBALS->facs[idx_lft++];
-                
+
                                 if(idx_lft == idx_lftmax)
                                         {
                                         for(i++;i<GLOBALS->numfacs;i++)
@@ -268,7 +268,7 @@ if(GLOBALS->fast_tree_sort)
                                 else
                                 {
                                 facs_merge[i] = GLOBALS->facs[idx_rgh++];
-        
+
                                 if(idx_rgh == GLOBALS->numfacs)
                                         {
                                         for(i++;i<GLOBALS->numfacs;i++)
@@ -277,14 +277,14 @@ if(GLOBALS->fast_tree_sort)
                                                 }
                                         }
                                 }
-                        } 
-                        
+                        }
+
                 free_2(GLOBALS->facs); GLOBALS->facs = facs_merge;
                 }
-                
-/* SPLASH */                            splash_sync(3, 5);  
+
+/* SPLASH */                            splash_sync(3, 5);
         fprintf(stderr, VZT_RDLOAD"Building facility hierarchy tree.\n");
-                                         
+
         init_tree();
         for(i=0;i<GLOBALS->numfacs;i++)
                 {
@@ -301,7 +301,7 @@ if(GLOBALS->fast_tree_sort)
 
 		build_tree_from_name(GLOBALS->facs[i]->name, i);
                 }
-/* SPLASH */                            splash_sync(4, 5);  
+/* SPLASH */                            splash_sync(4, 5);
         if(GLOBALS->escaped_names_found_vcd_c_1)
                 {
                 for(i=0;i<GLOBALS->numfacs;i++)
@@ -316,16 +316,16 @@ if(GLOBALS->fast_tree_sort)
                         }
                 }
         treegraft(&GLOBALS->treeroot);
-                                
+
         fprintf(stderr, VZT_RDLOAD"Sorting facility hierarchy tree.\n");
         treesort(GLOBALS->treeroot, NULL);
-/* SPLASH */                            splash_sync(5, 5);  
+/* SPLASH */                            splash_sync(5, 5);
         order_facs_from_treesort(GLOBALS->treeroot, &GLOBALS->facs);
         if(GLOBALS->escaped_names_found_vcd_c_1)
                 {
-                treenamefix(GLOBALS->treeroot); 
+                treenamefix(GLOBALS->treeroot);
                 }
-                                
+
         GLOBALS->facs_are_sorted=1;
         }
         else
@@ -350,36 +350,36 @@ if(GLOBALS->fast_tree_sort)
                         }
 		}
 
-/* SPLASH */                            splash_sync(3, 5);  
+/* SPLASH */                            splash_sync(3, 5);
 	fprintf(stderr, VZT_RDLOAD"Sorting facilities at hierarchy boundaries.\n");
 	wave_heapsort(GLOBALS->facs,GLOBALS->numfacs);
 
-#ifdef WAVE_HIERFIX	
+#ifdef WAVE_HIERFIX
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *subst, ch;
-	
+
 		subst=GLOBALS->facs[i]->name;
 		while((ch=(*subst)))
-			{	
+			{
 			if(ch==VCDNAM_HIERSORT) { *subst=GLOBALS->hier_delimeter; }	/* restore back to normal */
 			subst++;
 			}
 		}
 #endif
-	
+
 	GLOBALS->facs_are_sorted=1;
 
-/* SPLASH */                            splash_sync(4, 5);  
+/* SPLASH */                            splash_sync(4, 5);
 	fprintf(stderr, VZT_RDLOAD"Building facility hierarchy tree.\n");
 
-	init_tree();		
-	for(i=0;i<GLOBALS->numfacs;i++)	
+	init_tree();
+	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *nf = GLOBALS->facs[i]->name;
 	        build_tree_from_name(nf, i);
 		}
-/* SPLASH */                            splash_sync(5, 5);  
+/* SPLASH */                            splash_sync(5, 5);
         if(GLOBALS->escaped_names_found_vcd_c_1)
                 {
                 for(i=0;i<GLOBALS->numfacs;i++)
@@ -452,7 +452,7 @@ struct lx2_entry *l2e = GLOBALS->vzt_table_vzt_c_1+(*facidx);
 struct fac *f = GLOBALS->mvlfacs_vzt_c_3+(*facidx);
 
 
-GLOBALS->busycnt_vzt_c_2++; 
+GLOBALS->busycnt_vzt_c_2++;
 if(GLOBALS->busycnt_vzt_c_2==WAVE_BUSY_ITER)
 	{
 	busy_window_refresh();
@@ -463,7 +463,7 @@ if(GLOBALS->busycnt_vzt_c_2==WAVE_BUSY_ITER)
 
 if(!(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
 	{
-	if(f->len>1)        
+	if(f->len>1)
 	        {
 	        htemp->v.h_vector = (char *)malloc_2(f->len);
 		memcpy(htemp->v.h_vector, *value, f->len);
@@ -520,7 +520,7 @@ l2e->numtrans++;
  * this is the black magic that handles aliased signals...
  */
 static void vzt_resolver(nptr np, nptr resolve)
-{ 
+{
 np->extvals = resolve->extvals;
 np->msi = resolve->msi;
 np->lsi = resolve->lsi;
@@ -533,8 +533,8 @@ np->mv.mvlfac=NULL;
 
 
 
-/* 
- * actually import a vzt trace but don't do it if it's already been imported 
+/*
+ * actually import a vzt trace but don't do it if it's already been imported
  */
 void import_vzt_trace(nptr np)
 {
@@ -547,12 +547,12 @@ nptr nold = np;
 if(!(f=np->mv.mvlfac)) return;	/* already imported */
 
 txidx = f - GLOBALS->mvlfacs_vzt_c_3;
-if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS) 
+if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 	{
 	txidx = vzt_rd_get_alias_root(GLOBALS->vzt_vzt_c_1, txidx);
 	np = GLOBALS->mvlfacs_vzt_c_3[txidx].working_node;
 
-	if(!(f=np->mv.mvlfac)) 
+	if(!(f=np->mv.mvlfac))
 		{
 		vzt_resolver(nold, np);
 		return;	/* already imported */
@@ -594,7 +594,7 @@ if(len>1)
 	htemp->v.h_val = AN_X;		/* x */
 	}
 htemp->time = MAX_HISTENT_TIME-1;
-htemp->next = histent_tail;			
+htemp->next = histent_tail;
 
 if(GLOBALS->vzt_table_vzt_c_1[txidx].histent_curr)
 	{
@@ -652,7 +652,7 @@ if(nold!=np)
 }
 
 
-/* 
+/*
  * pre-import many traces at once so function above doesn't have to iterate...
  */
 void vzt_set_fac_process_mask(nptr np)
@@ -664,7 +664,7 @@ if(!(f=np->mv.mvlfac)) return;	/* already imported */
 
 txidx = f-GLOBALS->mvlfacs_vzt_c_3;
 
-if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS) 
+if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 	{
 	txidx = vzt_rd_get_alias_root(GLOBALS->vzt_vzt_c_1, txidx);
 	np = GLOBALS->mvlfacs_vzt_c_3[txidx].working_node;
@@ -724,7 +724,7 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 			htemp->v.h_val = AN_Z;		/* z */
 			}
 		htemp->time = MAX_HISTENT_TIME;
-			
+
 		htemp = histent_calloc();
 		if(len>1)
 			{
@@ -736,7 +736,7 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 			htemp->v.h_val = AN_X;		/* x */
 			}
 		htemp->time = MAX_HISTENT_TIME-1;
-		htemp->next = histent_tail;			
+		htemp->next = histent_tail;
 
 		if(GLOBALS->vzt_table_vzt_c_1[txidx].histent_curr)
 			{

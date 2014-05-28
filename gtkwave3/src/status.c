@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2008
  *
  * This program is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
 #include "symbol.h"
 #include "lxt2_read.h"
 #include "lx2.h"
-   
+
 /* Add some text to our text widget - this is a callback that is invoked
 when our window is realized. We could also force our window to be
 realized with gtk_widget_realize, but it would have to be part of
@@ -43,7 +43,7 @@ if(!GLOBALS->quiet_checkmenu) /* when gtkwave_mlist_t check menuitems are being 
 	{
 	char *stemp = wave_alloca(len+1);
 	strcpy(stemp, str);
-	
+
 	if(ch == '\n')
 		{
 		stemp[len-1] = 0;
@@ -116,7 +116,7 @@ else
 	status_text(buf);
 	}
 }
-   
+
 /* Create a scrolled text area that displays a "message" */
 GtkWidget *
 create_text (void)
@@ -130,7 +130,7 @@ gtk_tooltips_set_delay_2(tooltips,1500);
 
 /* Create a table to hold the text widget and scrollbars */
 table = gtk_table_new (1, 16, FALSE);
-   
+
 /* Put a text widget in the upper left hand corner. Note the use of
 * GTK_SHRINK in the y direction */
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
@@ -146,28 +146,28 @@ gtk_text_set_editable(GTK_TEXT(GLOBALS->text_status_c_2), FALSE);
 gtk_table_attach (GTK_TABLE (table), GLOBALS->text_status_c_2, 0, 14, 0, 1,
 		      	GTK_FILL | GTK_EXPAND,
 		      	GTK_FILL | GTK_SHRINK | GTK_EXPAND, 0, 0);
-gtk_widget_set_usize(GTK_WIDGET(GLOBALS->text_status_c_2), 100, 50); 
+gtk_widget_set_usize(GTK_WIDGET(GLOBALS->text_status_c_2), 100, 50);
 gtk_widget_show (GLOBALS->text_status_c_2);
 
 /* And a VScrollbar in the upper right */
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
 {
 GtkTextViewClass *tc = (GtkTextViewClass*)GTK_OBJECT_GET_CLASS(GTK_OBJECT(GLOBALS->text_status_c_2));
- 
+
 tc->set_scroll_adjustments(GTK_TEXT_VIEW (GLOBALS->text_status_c_2), NULL, NULL);
-GLOBALS->vscrollbar_status_c_2 = gtk_vscrollbar_new (GTK_TEXT_VIEW (GLOBALS->text_status_c_2)->vadjustment);  
+GLOBALS->vscrollbar_status_c_2 = gtk_vscrollbar_new (GTK_TEXT_VIEW (GLOBALS->text_status_c_2)->vadjustment);
 }
-#else 
+#else
 GLOBALS->vscrollbar_status_c_2 = gtk_vscrollbar_new ((GTK_TEXT (GLOBALS->text_status_c_2))->vadj);
 #endif
 gtk_table_attach (GTK_TABLE (table), GLOBALS->vscrollbar_status_c_2, 15, 16, 0, 1,
 			GTK_FILL, GTK_FILL | GTK_SHRINK | GTK_EXPAND, 0, 0);
 gtk_widget_show (GLOBALS->vscrollbar_status_c_2);
-   
+
 /* Add a handler to put a message in the text widget when it is realized */
 gtk_signal_connect (GTK_OBJECT (GLOBALS->text_status_c_2), "realize", GTK_SIGNAL_FUNC (realize_text), NULL);
-   
+
 gtk_tooltips_set_tip_2(tooltips, GLOBALS->text_status_c_2, "Status Window", NULL);
 return(table);
 }
-   
+

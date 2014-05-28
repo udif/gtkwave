@@ -78,7 +78,7 @@ char reportString[33];
 
 sprintf(reportString, "%d", intVal);
 
-aobj = Tcl_NewStringObj(reportString, -1); 
+aobj = Tcl_NewStringObj(reportString, -1);
 Tcl_SetObjResult(interp, aobj);
 
 return(TCL_OK);
@@ -91,7 +91,7 @@ char reportString[65];
 
 sprintf(reportString, TTFormat, ttVal);
 
-aobj = Tcl_NewStringObj(reportString, -1); 
+aobj = Tcl_NewStringObj(reportString, -1);
 Tcl_SetObjResult(interp, aobj);
 
 return(TCL_OK);
@@ -104,7 +104,7 @@ char reportString[65];
 
 sprintf(reportString, "%e", dVal);
 
-aobj = Tcl_NewStringObj(reportString, -1); 
+aobj = Tcl_NewStringObj(reportString, -1);
 Tcl_SetObjResult(interp, aobj);
 
 return(TCL_OK);
@@ -114,7 +114,7 @@ static int gtkwavetcl_printString(ClientData clientData, Tcl_Interp *interp, int
 {
 Tcl_Obj *aobj;
 
-aobj = Tcl_NewStringObj(reportString, -1); 
+aobj = Tcl_NewStringObj(reportString, -1);
 Tcl_SetObjResult(interp, aobj);
 
 return(TCL_OK);
@@ -197,12 +197,12 @@ if(objc == 2)
 
         	hfacname = hier_decompress_flagged(GLOBALS->facs[which]->name, &was_packed);
 
-		aobj = Tcl_NewStringObj(hfacname, -1); 
+		aobj = Tcl_NewStringObj(hfacname, -1);
 		Tcl_SetObjResult(interp, aobj);
 		if(was_packed) free_2(hfacname);
 		}
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -282,12 +282,12 @@ static int gtkwavetcl_getDumpType(ClientData clientData, Tcl_Interp *interp, int
 Tcl_Obj *aobj;
 char *reportString = "UNKNOWN";
 
-if(GLOBALS->is_vcd) 
+if(GLOBALS->is_vcd)
         {
         if(GLOBALS->partial_vcd)
                 {
                 reportString = "PVCD";
-                }  
+                }
                 else
                 {
                 reportString = "VCD";
@@ -350,7 +350,7 @@ if(objc == 2)
 		return(gtkwavetcl_printTimeType(clientData, interp, objc, objv, value));
 		}
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -436,7 +436,7 @@ if(objc == 2)
 			}
 		}
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 2));
         }
@@ -467,7 +467,7 @@ if(objc == 2)
 			}
 		}
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -508,7 +508,7 @@ if(objc == 2)
 			}
 		}
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -548,7 +548,7 @@ if(objc == 2)
 			}
 		}
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -617,7 +617,7 @@ if(objc == 3)
 				char *pnt = t->asciivalue;
 				if(*pnt == '=') pnt++;
 
-				aobj = Tcl_NewStringObj(pnt, -1); 
+				aobj = Tcl_NewStringObj(pnt, -1);
 				Tcl_SetObjResult(interp, aobj);
 
 				GLOBALS->tims.marker = oldmarker;
@@ -641,7 +641,7 @@ if(objc == 3)
 			}
 		}
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -723,7 +723,7 @@ if(objc == 2)
 
 	gtkwave_main_iteration();
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -756,7 +756,7 @@ if(objc == 2)
 
 	gtkwave_main_iteration();
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -778,11 +778,11 @@ if(objc == 2)
 	        GtkAdjustment *hadj;
 	        TimeType pageinc;
 
-	        gt=unformat_time(s, GLOBALS->time_dimension);    
-          
+	        gt=unformat_time(s, GLOBALS->time_dimension);
+
 	        if(gt<GLOBALS->tims.first) gt=GLOBALS->tims.first;
 	        else if(gt>GLOBALS->tims.last) gt=GLOBALS->tims.last;
- 
+
 	        hadj=GTK_ADJUSTMENT(GLOBALS->wave_hslider);
 	        hadj->value=gt;
 
@@ -794,9 +794,9 @@ if(objc == 2)
 	                GLOBALS->tims.timecache=GLOBALS->tims.last-pageinc+1;
 	                if(GLOBALS->tims.timecache<GLOBALS->tims.first) GLOBALS->tims.timecache=GLOBALS->tims.first;
 	                }
-	
+
 	        reformat_time(timval,GLOBALS->tims.timecache,GLOBALS->time_dimension);
-	        
+
 	        time_update();
 	        }
 
@@ -804,7 +804,7 @@ if(objc == 2)
         wavearea_configure_event(GLOBALS->wavearea, NULL);
 	gtkwave_main_iteration();
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -818,7 +818,7 @@ if(objc == 2)
         {
         char *s = get_Tcl_string(objv[1]);
         float f;
-         
+
         sscanf(s, "%f", &f);
         if(f>0.0)
                 {
@@ -828,9 +828,9 @@ if(objc == 2)
         if(f<-62.0)
                 {
                 f=-62.0; /* in case they try to go out of range */
-                } 
-                
-        GLOBALS->tims.prevzoom=GLOBALS->tims.zoom; 
+                }
+
+        GLOBALS->tims.prevzoom=GLOBALS->tims.zoom;
         GLOBALS->tims.zoom=(gdouble)f;
         calczoom(GLOBALS->tims.zoom);
         fix_wavehadj();
@@ -840,7 +840,7 @@ if(objc == 2)
 
 	gtkwave_main_iteration();
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -876,7 +876,7 @@ if(objc == 3)
 
 	gtkwave_main_iteration();
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -897,7 +897,7 @@ if(objc == 2)
 
 	gtkwave_main_iteration();
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -912,16 +912,16 @@ if((objc == 3)||(objc == 4))
         char *s = get_Tcl_string(objv[1]);
 	int which = -1;
 
-        if((s[0]>='A')&&(s[0]<='Z'))  
+        if((s[0]>='A')&&(s[0]<='Z'))
                 {
                 which = s[0] - 'A';
                 }
         else
-        if((s[0]>='a')&&(s[0]<='z'))  
+        if((s[0]>='a')&&(s[0]<='z'))
                 {
                 which = s[0] - 'a';
                 }
-	else                
+	else
 		{
 	        which = atoi(s);
 		}
@@ -933,7 +933,7 @@ if((objc == 3)||(objc == 4))
 
                 GLOBALS->named_markers[which] = gt;
 
-		if(GLOBALS->marker_names[which]) 
+		if(GLOBALS->marker_names[which])
 			{
 			free_2(GLOBALS->marker_names[which]);
 			GLOBALS->marker_names[which] = NULL;
@@ -948,9 +948,9 @@ if((objc == 3)||(objc == 4))
 
 	        wavearea_configure_event(GLOBALS->wavearea, NULL);
 		gtkwave_main_iteration();
-                } 
+                }
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 2));
         }
@@ -983,7 +983,7 @@ if(objc == 2)
 /*         gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /\* force text update *\/ */
 /*	gtkwave_main_iteration(); */
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -1032,7 +1032,7 @@ if(objc==2)
         		}
                 }
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -1059,14 +1059,14 @@ if(objc==2)
 	int l = 0;
 
 	elem = zSplitTclList(s, &l);
- 
+
 	if(elem)
         	{
 		Trptr t = GLOBALS->traces.first;
 		while(t)
 			{
 			t->cached_flags = t->flags;
-			t->flags &= (~TR_HIGHLIGHT);	
+			t->flags &= (~TR_HIGHLIGHT);
 			t = t->t_next;
 			}
 
@@ -1123,7 +1123,7 @@ if(objc==2)
         		}
                 }
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -1150,15 +1150,15 @@ if(objc==2)
 	int l = 0;
 
 	elem = zSplitTclList(s, &l);
- 
+
 	if(elem)
         	{
 		Trptr t = GLOBALS->traces.first;
 		while(t)
 			{
 			t->cached_flags = t->flags;
-			t->flags &= (~TR_HIGHLIGHT);	
-		
+			t->flags &= (~TR_HIGHLIGHT);
+
 			if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
 				{
 				char *name = extractFullTraceName(t);
@@ -1210,7 +1210,7 @@ if(objc==2)
         		}
                 }
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -1237,7 +1237,7 @@ if(objc==2)
 	int l = 0;
 
 	elem = zSplitTclList(s, &l);
- 
+
 	if(elem)
         	{
 		Trptr t = GLOBALS->traces.first;
@@ -1276,7 +1276,7 @@ if(objc==2)
         		}
                 }
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -1303,7 +1303,7 @@ if(objc==2)
 	int l = 0;
 
 	elem = zSplitTclList(s, &l);
- 
+
 	if(elem)
         	{
 		Trptr t = GLOBALS->traces.first;
@@ -1342,7 +1342,7 @@ if(objc==2)
         		}
                 }
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -1391,7 +1391,7 @@ if(objc == 3)
 			}
 		}
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 2));
         }
@@ -1506,7 +1506,7 @@ static int gtkwavetcl_signalChangeList(ClientData clientData, Tcl_Interp *interp
 	  else {
 	    if(strstr("forward", str1_p))
 	      dir = STRACE_FORWARD ;
-	    else 
+	    else
 	      if(strstr("backward", str1_p))
 		dir = STRACE_BACKWARD ;
 	      else
@@ -1531,10 +1531,10 @@ static int gtkwavetcl_signalChangeList(ClientData clientData, Tcl_Interp *interp
     }
     if(error) {
       Tcl_SetObjResult
-	(interp, 
+	(interp,
 	 Tcl_NewStringObj("Usage: signal_change_list ?name? ?-start time? ?-end time? ?-max size? ?-dir forward|backward?", -1)) ;
       return TCL_ERROR;
-    } 
+    }
     l_head = signal_change_list(sig_name, dir, start_time, end_time, max_elements) ;
     l_obj = Tcl_NewListObj(0, NULL) ;
     p = l_head;
@@ -1576,7 +1576,7 @@ static int gtkwavetcl_forceOpenTreeNode(ClientData clientData, Tcl_Interp *inter
   char *s = NULL ;
   if(objc == 2)
     s = get_Tcl_string(objv[1]);
-  
+
   if(s && (strlen(s) > 1)) {	/* exclude empty strings */
     int len = strlen(s);
     if(s[len-1]!=GLOBALS->hier_delimeter)
@@ -1603,7 +1603,7 @@ static int gtkwavetcl_forceOpenTreeNode(ClientData clientData, Tcl_Interp *inter
 		   Tcl_NewStringObj(GLOBALS->selected_hierarchy_name,
 				    strlen(GLOBALS->selected_hierarchy_name)) :
 		   Tcl_NewIntObj(rv)) ;
-  
+
   return(TCL_OK);
 }
 
@@ -1616,12 +1616,12 @@ if(objc == 2)
 	if(s)
 		{
 		gtk_entry_set_text(GTK_ENTRY(GLOBALS->from_entry),s);
-		from_entry_callback(NULL, GLOBALS->from_entry);		
+		from_entry_callback(NULL, GLOBALS->from_entry);
 		}
 
 	gtkwave_main_iteration();
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -1639,12 +1639,12 @@ if(objc == 2)
 	if(s)
 		{
 		gtk_entry_set_text(GTK_ENTRY(GLOBALS->to_entry),s);
-		to_entry_callback(NULL, GLOBALS->to_entry);		
+		to_entry_callback(NULL, GLOBALS->to_entry);
 		}
 
 	gtkwave_main_iteration();
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -1662,7 +1662,7 @@ if(value)
         }
 
 return(TCL_OK);
-}       
+}
 
 
 static int gtkwavetcl_getToEntry(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
@@ -1674,7 +1674,7 @@ if(value)
         }
 
 return(TCL_OK);
-}       
+}
 
 
 static int gtkwavetcl_getDisplayedSignals(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
@@ -1721,7 +1721,7 @@ if(objc == 2)
 		return(gtkwavetcl_printInteger(clientData, interp, objc, objv, t->flags));
 		}
 	}
-        else  
+        else
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
@@ -1734,8 +1734,8 @@ static int gtkwavetcl_loadFile(ClientData clientData, Tcl_Interp *interp, int ob
   if(objc == 2)
     {
       char *s = get_Tcl_string(objv[1]);
-	
-      if(!GLOBALS->in_tcl_callback)                          
+
+      if(!GLOBALS->in_tcl_callback)
         {
 	/* wave_gconf_client_set_string("/current/savefile", s); */
         /*	read_save_helper(s, NULL, NULL, NULL, NULL); */
@@ -1748,7 +1748,7 @@ static int gtkwavetcl_loadFile(ClientData clientData, Tcl_Interp *interp, int ob
 	gtkwavetcl_setvar_nonblocking(WAVE_TCLCB_ERROR,"gtkwave::loadFile prohibited in callback",WAVE_TCLCB_ERROR_FLAGS);
 	}
     }
-  else  
+  else
     {
       return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
     }
@@ -1770,7 +1770,7 @@ static int gtkwavetcl_reLoadFile(ClientData clientData, Tcl_Interp *interp, int 
 	gtkwavetcl_setvar_nonblocking(WAVE_TCLCB_ERROR,"gtkwave::reLoadFile prohibited in callback",WAVE_TCLCB_ERROR_FLAGS);
 	}
     }
-  else  
+  else
     {
       return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 0));
     }
@@ -1782,13 +1782,13 @@ static int gtkwavetcl_presentWindow(ClientData clientData, Tcl_Interp *interp, i
 
   if(objc == 1)
     {
-#ifdef WAVE_USE_GTK2 
+#ifdef WAVE_USE_GTK2
       gtk_window_present(GTK_WINDOW(GLOBALS->mainwindow));
 #else
       gdk_window_raise(GTK_WIDGET(GLOBALS->mainwindow)->window);
 #endif
     }
-  else  
+  else
     {
       return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 0));
     }
@@ -1812,7 +1812,7 @@ static int gtkwavetcl_showSignal(ClientData clientData, Tcl_Interp *interp, int 
 
       SetTraceScrollbarRowValue(row, location);
     }
-  else  
+  else
     {
       return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 2));
     }
@@ -1821,18 +1821,18 @@ static int gtkwavetcl_showSignal(ClientData clientData, Tcl_Interp *interp, int 
 }
 
 
-/* 
+/*
  * swap to a given context based on tab number (from Tcl)
  */
 static gint switch_to_tab_number(unsigned int i)
-{       
-if(i < GLOBALS->num_notebook_pages)  
+{
+if(i < GLOBALS->num_notebook_pages)
         {
         struct Global *g_old = GLOBALS;
         /* printf("Switching to: %d\n", i); */
 
         set_GLOBALS((*GLOBALS->contexts)[i]);
-        
+
         GLOBALS->lxt_clock_compress_to_z = g_old->lxt_clock_compress_to_z;
         GLOBALS->autoname_bundles = g_old->autoname_bundles;
         GLOBALS->autocoalesce_reversal = g_old->autocoalesce_reversal;
@@ -1851,23 +1851,23 @@ if(i < GLOBALS->num_notebook_pages)
         GLOBALS->highlight_wavewindow = g_old->highlight_wavewindow;
         GLOBALS->disable_mouseover = g_old->disable_mouseover;
         GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;
-                                         
+
         GLOBALS->scale_to_time_dimension = g_old->scale_to_time_dimension;
         GLOBALS->zoom_dyn = g_old->zoom_dyn;
         GLOBALS->zoom_dyne = g_old->zoom_dyne;
-                                                         
+
         gtk_notebook_set_current_page(GTK_NOTEBOOK(GLOBALS->notebook), GLOBALS->this_context_page);
         return(TRUE);
         }
-                
+
 return(FALSE);
-}                     
+}
 
 
 static int gtkwavetcl_setTabActive(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 if(objc == 2)
-        {       
+        {
 	gint rc;
 
 	if(!GLOBALS->in_tcl_callback)
@@ -1875,10 +1875,10 @@ if(objc == 2)
         	char *s = get_Tcl_string(objv[1]);
         	unsigned int tabnum = atoi(s);
 		rc = switch_to_tab_number(tabnum);
-        
+
         	MaxSignalLength();
         	signalarea_configure_event(GLOBALS->signalarea, NULL);
-        
+
         	gtkwave_main_iteration();
 		}
 		else
@@ -1893,7 +1893,7 @@ if(objc == 2)
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
-       
+
 }
 
 
@@ -1907,11 +1907,11 @@ return(gtkwavetcl_printInteger(clientData, interp, objc, objv, value));
 static int gtkwavetcl_installFileFilter(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 if(objc == 2)
-        {       
+        {
         char *s = get_Tcl_string(objv[1]);
         unsigned int which = atoi(s);
 	gint rc = install_file_filter(which);
-        
+
         gtkwave_main_iteration();
 	return(gtkwavetcl_printInteger(clientData, interp, objc, objv, rc));
         }
@@ -1919,14 +1919,14 @@ if(objc == 2)
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
-       
+
 }
 
 
 static int gtkwavetcl_setCurrentTranslateFile(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 if(objc == 2)
-        {       
+        {
         char *s = get_Tcl_string(objv[1]);
 	set_current_translate_file(s);
 
@@ -1936,14 +1936,14 @@ if(objc == 2)
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
-       
+
 }
 
 
 static int gtkwavetcl_setCurrentTranslateEnums(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 if(objc == 2)
-        {       
+        {
         char *s = get_Tcl_string(objv[1]);
 	set_current_translate_enums(s);
 
@@ -1953,18 +1953,18 @@ if(objc == 2)
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
-       
+
 }
 
 
 static int gtkwavetcl_installProcFilter(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 if(objc == 2)
-        {       
+        {
         char *s = get_Tcl_string(objv[1]);
         unsigned int which = atoi(s);
 	gint rc = install_file_filter(which);
-        
+
         gtkwave_main_iteration();
 	return(gtkwavetcl_printInteger(clientData, interp, objc, objv, rc));
         }
@@ -1972,14 +1972,14 @@ if(objc == 2)
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
-       
+
 }
 
 
 static int gtkwavetcl_setCurrentTranslateProc(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 if(objc == 2)
-        {       
+        {
         char *s = get_Tcl_string(objv[1]);
 	set_current_translate_proc(s);
 
@@ -1989,18 +1989,18 @@ if(objc == 2)
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
-       
+
 }
 
 
 static int gtkwavetcl_installTransFilter(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 if(objc == 2)
-        {       
+        {
         char *s = get_Tcl_string(objv[1]);
         unsigned int which = atoi(s);
 	gint rc = install_ttrans_filter(which);
-        
+
         gtkwave_main_iteration();
 	return(gtkwavetcl_printInteger(clientData, interp, objc, objv, rc));
         }
@@ -2008,14 +2008,14 @@ if(objc == 2)
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
-       
+
 }
 
 
 static int gtkwavetcl_setCurrentTranslateTransProc(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 if(objc == 2)
-        {       
+        {
         char *s = get_Tcl_string(objv[1]);
 	set_current_translate_ttrans(s);
 
@@ -2025,7 +2025,7 @@ if(objc == 2)
         {
         return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
         }
-       
+
 }
 
 

@@ -95,7 +95,7 @@ ds_Tree * ds_insert(char *i, ds_Tree * t) {
 /* Insert i into the tree t, unless it's already there.    */
 /* Return a pointer to the resulting tree.                 */
     ds_Tree * n;
-    
+
     n = (ds_Tree *) calloc (1, sizeof (ds_Tree));
     if (n == NULL) {
 	fprintf(stderr, "ds_insert: ran out of memory, exiting.\n");

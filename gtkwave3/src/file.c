@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
@@ -38,7 +38,7 @@ if(!rms) rms = filter_info->filename; else rms++;
 rms2 = strrchr(rms, '/');
 if(!rms2) rms2 = rms; else rms2++;
 
-if(!GLOBALS->pFileChooseFilterName || !GLOBALS->pPatternSpec) 
+if(!GLOBALS->pFileChooseFilterName || !GLOBALS->pPatternSpec)
 	{
 	return(TRUE);
 	}
@@ -91,7 +91,7 @@ if(folder_filename)
 }
 
 
-static   
+static
 void press_callback (GtkWidget *widget, gpointer *data)
 {
 GdkEventKey ev;
@@ -178,7 +178,7 @@ if((!pattn)||(!strcmp(pattn, "*")))
 	ofn.nFilterIndex = 0;
 	}
 
-if(*filesel_path) 
+if(*filesel_path)
 	{
 	char *fsp = *filesel_path;
 	int ch_idx = 0;
@@ -189,7 +189,7 @@ if(*filesel_path)
 		ch = *fsp;
 		szFile[ch_idx++] = (ch != '/') ? ch : '\\';
 		fsp++;
-		} 
+		}
 
 	szFile[ch_idx] = 0;
 
@@ -203,7 +203,7 @@ if(*filesel_path)
 
 rc = is_writemode ? GetSaveFileName(&ofn) : GetOpenFileName(&ofn);
 
-if (rc==TRUE) 
+if (rc==TRUE)
 	{
 	GLOBALS->filesel_ok=1;
         if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
@@ -262,8 +262,8 @@ if(!*filesel_path) /* if no name specified, hijack loaded file name path */
 		char *tname = strdup_2(GLOBALS->loaded_file_name);
 		char *delim = strrchr(tname, '/');
 		if(!delim) delim =  strrchr(tname, '\\');
-		if(delim) 
-			{ 
+		if(delim)
+			{
 			*(delim+1) = 0; /* keep slash for gtk_file_chooser_set_filename vs gtk_file_chooser_set_current_folder test below */
 			*filesel_path = tname;
 			}
@@ -284,7 +284,7 @@ if(GLOBALS->wave_script_args)
 
 	while((!s)&&(GLOBALS->wave_script_args->curr)) s = wave_script_args_fgetmalloc_stripspaces(GLOBALS->wave_script_args);
 
-	if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text); 
+	if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
 	if(!s)
 		{
 		fprintf(stderr, "Null filename passed to fileselbox in script, exiting.\n");
@@ -293,7 +293,7 @@ if(GLOBALS->wave_script_args)
 	*GLOBALS->fileselbox_text = s;
 	fprintf(stderr, "GTKWAVE | Filename '%s'\n", s);
 
-	ok_func();	
+	ok_func();
 	return;
 	}
 
@@ -301,7 +301,7 @@ if(GLOBALS->wave_script_args)
 
 GLOBALS->fileselbox_text=filesel_path;
 GLOBALS->filesel_ok=0;
-char *rc = gtk_file_req_bridge(title, *filesel_path, pattn, is_writemode); 
+char *rc = gtk_file_req_bridge(title, *filesel_path, pattn, is_writemode);
 if(rc)
 	{
         GLOBALS->filesel_ok=1;
@@ -389,7 +389,7 @@ if(is_writemode)
 
 GLOBALS->pFileChoose = pFileChoose;
 
-if((can_set_filename) && (*filesel_path)) 
+if((can_set_filename) && (*filesel_path))
 	{
 	int flen = strlen(*filesel_path);
 	if(((*filesel_path)[flen-1]=='/') || ((*filesel_path)[flen-1]=='\\'))
@@ -417,8 +417,8 @@ gtk_widget_show(label);
 gtk_box_pack_start(GTK_BOX(box), label_ent, FALSE, FALSE, 0);
 gtk_widget_set_usize(GTK_WIDGET(label_ent), 300, 22);
 gtk_tooltips_set_tip_2(tooltips, label_ent, "Enter custom pattern match filter here. Note that \"string\" without * or ? achieves a match on \"*string*\".", NULL);
-gtk_widget_show(label_ent);  
-gtk_widget_show(box);  
+gtk_widget_show(label_ent);
+gtk_widget_show(box);
 
 gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(pFileChoose), box);
 
@@ -459,7 +459,7 @@ if(GLOBALS->pFileChooseFilterName)
 	{
 	GLOBALS->pPatternSpec = g_pattern_spec_new(GLOBALS->pFileChooseFilterName);
 	}
-	
+
 gtk_dialog_set_default_response(GTK_DIALOG(pFileChoose), GTK_RESPONSE_ACCEPT);
 
 gtk_object_set_data(GTK_OBJECT(pFileChoose), "FileChooseWindow", pFileChoose);
@@ -477,7 +477,7 @@ wave_gtk_grab_add(pFileChoose);
 
 /* check against old_globals is because of DnD context swapping so make response fail */
 
-if((gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT) && 
+if((gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT) &&
 		(GLOBALS == old_globals) && (GLOBALS->fileselbox_text))
 	{
 	G_CONST_RETURN char *allocbuf;
@@ -499,7 +499,7 @@ if((gtk_dialog_run(GTK_DIALOG (pFileChoose)) == GTK_RESPONSE_ACCEPT) &&
 			{
 			char *s = *GLOBALS->fileselbox_text;
 			char *s2;
-			char *suffix = wave_alloca(strlen(pattn) + 1);					
+			char *suffix = wave_alloca(strlen(pattn) + 1);
 			char *term;
 			int attempt_suffix = 1;
 
@@ -561,7 +561,7 @@ fix_suffix: 	                    	s2 = malloc_2(strlen(s) + strlen(suffix) + 1);
 	if(GLOBALS->bad_cleanup_file_c_1) notok_func();
 	}
 
-if(GLOBALS->pPatternSpec) 
+if(GLOBALS->pPatternSpec)
 	{
 	g_pattern_spec_free(GLOBALS->pPatternSpec);
 	GLOBALS->pPatternSpec = NULL;

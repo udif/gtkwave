@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2008-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -20,7 +20,7 @@ Trptr t = NULL;
 
 for(t=GLOBALS->traces.first;t;t=t->t_next)
 	{
-	if ((t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))||(!(t->flags&TR_HIGHLIGHT))||(!(t->name))) 
+	if ((t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))||(!(t->flags&TR_HIGHLIGHT))||(!(t->name)))
 		{
 		continue;
 		}
@@ -36,11 +36,11 @@ return(t);
 static Trptr find_next_highlighted_trace(Trptr t)
 {
 if(t)
-	{	
+	{
 	t = t->t_next;
 	for(;t;t=t->t_next)
 		{
-		if ((t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))||(!(t->flags&TR_HIGHLIGHT))||(!(t->name))) 
+		if ((t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))||(!(t->flags&TR_HIGHLIGHT))||(!(t->name)))
 			{
 			continue;
 			}
@@ -99,7 +99,7 @@ if(GLOBALS->tims.marker<0)
 	basetime=MAX_HISTENT_TIME;
 	}
 	else
-	{	
+	{
 	basetime=GLOBALS->tims.marker;
 	}
 }
@@ -110,10 +110,10 @@ if(GLOBALS->tims.marker<0)
 	basetime=GLOBALS->tims.first;
 	}
 	else
-	{	
+	{
 	basetime=GLOBALS->tims.marker;
 	}
-} 
+}
 
 sttim=GLOBALS->tims.first;
 fintim=GLOBALS->tims.last;
@@ -184,7 +184,7 @@ while(s)
 		if((whichpass)||(GLOBALS->tims.marker>=0)) h=h->next;
 		if(!h) return;
 		s->his.h=h;
-		utt=strace_adjust(h->time,GLOBALS->shift_timebase); tt=utt;		
+		utt=strace_adjust(h->time,GLOBALS->shift_timebase); tt=utt;
 		if(tt < maxbase) maxbase=tt;
 		}
 		else
@@ -218,10 +218,10 @@ while(s)
 	t=s->trace;
 	s->search_result=0;	/* explicitly must set this */
 	GLOBALS->shift_timebase=t->shift;
-	
+
 	if((!t->vector)&&(!(t->n.nd->extvals)))
 		{
-		if(strace_adjust(s->his.h->time,GLOBALS->shift_timebase)!=maxbase) 
+		if(strace_adjust(s->his.h->time,GLOBALS->shift_timebase)!=maxbase)
 			{
 			s->his.h=bsearch_node(t->n.nd, maxbase - t->shift);
 			while(s->his.h->next && s->his.h->time==s->his.h->next->time) s->his.h=s->his.h->next;
@@ -229,11 +229,11 @@ while(s)
 /* commented out, maybe will have possible future expansion later,
  * this was cut and pasted from strace.c */
 #if 0
-		if(t->flags&TR_INVERT)  
+		if(t->flags&TR_INVERT)
                 	{
                         str[0]=AN_STR_INV[s->his.h->v.h_val];
                         }
-                        else   
+                        else
                         {
                         str[0]=AN_STR[s->his.h->v.h_val];
                         }
@@ -246,20 +246,20 @@ while(s)
 				totaltraces++;
 				s->search_result=1;
 				break;
-		
+
 /* commented out, maybe will have possible future expansion later,
  * this was cut and pasted from strace.c */
 #if 0
 			case ST_DC:
 				break;
-				
+
 			case ST_HIGH:
 				totaltraces++;
-				if((str[0]=='1')||(str[0]=='H')) s->search_result=1;	
+				if((str[0]=='1')||(str[0]=='H')) s->search_result=1;
 				break;
 
 			case ST_RISE:
-				if((str[0]=='1')||(str[0]=='H')) s->search_result=1;	
+				if((str[0]=='1')||(str[0]=='H')) s->search_result=1;
 				totaltraces++;
 				break;
 
@@ -277,7 +277,7 @@ while(s)
 				totaltraces++;
 				if(str[0]=='Z')
  					s->search_result=1;
-				break;				
+				break;
 
 			case ST_X:
 				totaltraces++;
@@ -305,7 +305,7 @@ while(s)
 
 		if(t->vector)
 			{
-			if(strace_adjust(s->his.v->time,GLOBALS->shift_timebase)!=maxbase) 
+			if(strace_adjust(s->his.v->time,GLOBALS->shift_timebase)!=maxbase)
 				{
 				s->his.v=bsearch_vector(t->n.vec, maxbase - t->shift);
 				while(s->his.v->next && s->his.v->time==s->his.v->next->time) s->his.v=s->his.v->next;
@@ -314,7 +314,7 @@ while(s)
 			}
 			else
 			{
-			if(strace_adjust(s->his.h->time,GLOBALS->shift_timebase)!=maxbase) 
+			if(strace_adjust(s->his.h->time,GLOBALS->shift_timebase)!=maxbase)
 				{
 				s->his.h=bsearch_node(t->n.nd, maxbase - t->shift);
 				while(s->his.h->next && s->his.h->time==s->his.h->next->time) s->his.h=s->his.h->next;
@@ -352,7 +352,7 @@ while(s)
 				totaltraces++;
 				s->search_result=1;
 				break;
-		
+
 /* commented out, maybe will have possible future expansion later,
  * this was cut and pasted from strace.c */
 #if 0
@@ -363,7 +363,7 @@ while(s)
 			case ST_FALL:
 				totaltraces++;
 				break;
-				
+
 			case ST_HIGH:
 				totaltraces++;
 				if((chval2=chval))
@@ -480,13 +480,13 @@ if(is_last_iteration)
 		                if((GLOBALS->tims.start&1)&&(GLOBALS->tims.end&1)) middle++;
 		                }
 		                else
-		                { 
+		                {
 		                middle=GLOBALS->tims.marker;
 		                }
-	
+
 		GLOBALS->tims.start=time_trunc(middle-(width/2));
 		if(GLOBALS->tims.start+width>GLOBALS->tims.last) GLOBALS->tims.start=GLOBALS->tims.last-width;
-		if(GLOBALS->tims.start<GLOBALS->tims.first) GLOBALS->tims.start=GLOBALS->tims.first;  
+		if(GLOBALS->tims.start<GLOBALS->tims.first) GLOBALS->tims.start=GLOBALS->tims.first;
 		GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache=GLOBALS->tims.start;
 		}
 
@@ -566,7 +566,7 @@ pixmapwid1=gtk_pixmap_new(GLOBALS->larrow_pixmap, GLOBALS->larrow_mask);
 gtk_widget_show(pixmapwid1);
 pixmapwid2=gtk_pixmap_new(GLOBALS->rarrow_pixmap, GLOBALS->rarrow_mask);
 gtk_widget_show(pixmapwid2);
-   
+
 /* Create a table to hold the text widget and scrollbars */
 table = gtk_table_new (1, 1, FALSE);
 
@@ -604,4 +604,4 @@ gtk_container_add (GTK_CONTAINER (frame), table2);
 gtk_widget_show(table2);
 return(table);
 }
-   
+

@@ -65,8 +65,8 @@
 struct Global *GLOBALS = NULL;
 
 /* make this const so if we try to write to it we coredump */
-static const struct Global globals_base_values = 
-{ 
+static const struct Global globals_base_values =
+{
 /*
  * ae2.c
  */
@@ -119,7 +119,7 @@ TR_RJUSTIFY, /* default_flags 5 */
 0, /* color_active_in_filter 9 */
 
 
-/* 
+/*
  * bsearch.c
  */
 LLDescriptor(0), /* shift_timebase 10 */
@@ -146,7 +146,7 @@ NULL, /* busycursor_busy_c_1 23 */
 
 /*
  * color.c
- */ 
+ */
 0, /* keep_xz_colors */
 NULL, /* wave_gcchain */
 -1, /* color_back 25 */
@@ -230,8 +230,8 @@ NULL, /* entrybox_text 82 */
 0, /* cleanup_entry_c_1 83 */
 0, /* entry_raise_timer */
 
-/* 
- * extload.c 
+/*
+ * extload.c
  */
 0, /* extload_ffr_import_count */
 NULL, /* extload_ffr_ctx */
@@ -409,7 +409,7 @@ NULL, /* treechain_hiersearch_c_1 130 */
 0, /* is_active_hiersearch_c_1 131 */
 
 
-/* 
+/*
  * logfile.c
  */
 NULL, /* logfiles */
@@ -500,7 +500,7 @@ NULL, /* resolve_lxt_alias_to */
 NULL, /* lastchange */
 
 
-/* 
+/*
  * main.c
  */
 1, /* is_gtkw_save_file */
@@ -599,7 +599,7 @@ NULL, /* cleanup_markerbox_c_4 233 */
 
 /*
  * menu.c
- */ 
+ */
 NULL, /* cutcopylist */
 0, /* enable_fast_exit 236 */
 0, /* quiet_checkmenu */
@@ -837,7 +837,7 @@ NULL, /* tcache_showchange_c_1 367 */
 0, /* flags_showchange_c_1 368 */
 
 
-/* 
+/*
  * signalwindow.c
  */
 NULL, /* signalarea 369 */
@@ -887,7 +887,7 @@ NULL, /* cleanup 386 */
 
 /*
  * splash.c
- */ 
+ */
 0, /* splash_is_loading */
 0, /* splash_fix_win_title */
 1, /* splash_disable 387 */
@@ -1369,7 +1369,7 @@ void *calloc_2_into_context(struct Global *g, size_t nmemb, size_t size);
 /*
  * context manipulation functions
  */
-struct Global *initialize_globals(void) 
+struct Global *initialize_globals(void)
 {
 struct Global *g = calloc(1,sizeof(struct Global));	/* allocate viewer context */
 
@@ -1442,13 +1442,13 @@ GLOBALS->outstanding = 0;				/* zero out count of chunks in this ctx */
 if(!setjmp(*(GLOBALS->vcd_jmp_buf)))			/* loader exception handling */
 	{
 	switch(GLOBALS->loaded_file_type)		/* on fail, longjmp called in these loaders */
-		{			
+		{
    		case LXT_FILE: lxt_main(GLOBALS->loaded_file_name); break;
    		case VCD_FILE: vcd_main(GLOBALS->loaded_file_name); break;
 		case VCD_RECODER_FILE: vcd_recoder_main(GLOBALS->loaded_file_name); break;
 		default: break;
 		}
-	
+
 #ifdef _WAVE_HAVE_JUDY
 	{
 	Pvoid_t  PJArray = (Pvoid_t)setjmp_globals->alloc2_chain;
@@ -1486,7 +1486,7 @@ if(!setjmp(*(GLOBALS->vcd_jmp_buf)))			/* loader exception handling */
 				}
 			GLOBALS->alloc2_chain = setjmp_globals->alloc2_chain;
 			GLOBALS->outstanding += setjmp_globals->outstanding;
-			break;					
+			break;
 			}
 		}
 	}
@@ -1518,7 +1518,7 @@ if(!setjmp(*(GLOBALS->vcd_jmp_buf)))			/* loader exception handling */
 	        				{
 	        				pclose(GLOBALS->vcd_handle_vcd_recoder_c_2);
 	        				GLOBALS->vcd_handle_vcd_recoder_c_2 = NULL;
-	        				}    
+	        				}
 	        				else
 	        				{
 	        				fclose(GLOBALS->vcd_handle_vcd_recoder_c_2);
@@ -1529,10 +1529,10 @@ if(!setjmp(*(GLOBALS->vcd_jmp_buf)))			/* loader exception handling */
 
 	if(GLOBALS->vlist_handle) { fclose(GLOBALS->vlist_handle); GLOBALS->vlist_handle = NULL; }
 	if(GLOBALS->mm_lxt_mmap_addr)
-		{                        
-		munmap(GLOBALS->mm_lxt_mmap_addr, GLOBALS->mm_lxt_mmap_len); 
+		{
+		munmap(GLOBALS->mm_lxt_mmap_addr, GLOBALS->mm_lxt_mmap_len);
 		GLOBALS->mm_lxt_mmap_addr = NULL;
-		}                        
+		}
 	free_outstanding(); /* free anything allocated in loader ctx */
 
 	memcpy(GLOBALS, setjmp_globals, sizeof(struct Global)); /* copy over old ctx */
@@ -1599,7 +1599,7 @@ void reload_into_new_context_2(void)
 #endif
 
  printf("GTKWAVE | Reloading waveform...\n");
- gtkwavetcl_setvar(WAVE_TCLCB_RELOAD_BEGIN, GLOBALS->loaded_file_name, WAVE_TCLCB_RELOAD_BEGIN_FLAGS); 
+ gtkwavetcl_setvar(WAVE_TCLCB_RELOAD_BEGIN, GLOBALS->loaded_file_name, WAVE_TCLCB_RELOAD_BEGIN_FLAGS);
 
  /* Save state to file */
  save_tmpfilename = tmpnam_2(NULL, &fd_dummy);
@@ -1616,7 +1616,7 @@ void reload_into_new_context_2(void)
 
  reload_tmpfilename = strdup(save_tmpfilename);
  free_2(save_tmpfilename);
- 
+
  /* save off size of tree frame if active */
 #if WAVE_USE_GTK2
  if(GLOBALS->gtk2_tree_frame)
@@ -1665,7 +1665,7 @@ void reload_into_new_context_2(void)
 	GLOBALS->fd_lxt_c_1 = -1;
 	}
 
- 
+
  /* Marker positions */
  memcpy(new_globals->named_markers, GLOBALS->named_markers, sizeof(GLOBALS->named_markers));
  new_globals->named_marker_lock_idx = GLOBALS->named_marker_lock_idx;
@@ -1711,7 +1711,7 @@ void reload_into_new_context_2(void)
  memcpy(&new_globals->gc_rainbow, &GLOBALS->gc_rainbow, 2 * WAVE_NUM_RAINBOW * sizeof(GdkGC *));
 
  new_globals->mainwindow = GLOBALS->mainwindow;
- new_globals->signalwindow = GLOBALS->signalwindow; 
+ new_globals->signalwindow = GLOBALS->signalwindow;
  new_globals->wavewindow = GLOBALS->wavewindow;
  new_globals->toppanedwindow = GLOBALS->toppanedwindow;
  new_globals->panedwindow = GLOBALS->panedwindow;
@@ -1724,7 +1724,7 @@ void reload_into_new_context_2(void)
  new_globals->hscroll_wavewindow_c_2 = GLOBALS->hscroll_wavewindow_c_2;
  new_globals->max_or_marker_label_currenttime_c_1 = GLOBALS->max_or_marker_label_currenttime_c_1;
  new_globals->maxtext_currenttime_c_1 = (char *) calloc_2_into_context(new_globals,1,40);
- memcpy(new_globals->maxtext_currenttime_c_1, GLOBALS->maxtext_currenttime_c_1,40); 
+ memcpy(new_globals->maxtext_currenttime_c_1, GLOBALS->maxtext_currenttime_c_1,40);
  new_globals->maxtimewid_currenttime_c_1 = GLOBALS->maxtimewid_currenttime_c_1;
  new_globals->curtext_currenttime_c_1 = (char *) calloc_2_into_context(new_globals,1,40);
  memcpy(new_globals->curtext_currenttime_c_1, GLOBALS->curtext_currenttime_c_1, 40);
@@ -1898,7 +1898,7 @@ void reload_into_new_context_2(void)
  strcpy2_into_new_context(new_globals, &new_globals->argvlist, &GLOBALS->argvlist);
  strcpy2_into_new_context(new_globals, &new_globals->editor_name, &GLOBALS->editor_name);
  strcpy2_into_new_context(new_globals, &new_globals->fontname_logfile, &GLOBALS->fontname_logfile);
- strcpy2_into_new_context(new_globals, &new_globals->fontname_signals, &GLOBALS->fontname_signals); 
+ strcpy2_into_new_context(new_globals, &new_globals->fontname_signals, &GLOBALS->fontname_signals);
  strcpy2_into_new_context(new_globals, &new_globals->fontname_waves, &GLOBALS->fontname_waves);
  strcpy2_into_new_context(new_globals, &new_globals->cutcopylist, &GLOBALS->cutcopylist);
  strcpy2_into_new_context(new_globals, &new_globals->tcl_init_cmd, &GLOBALS->tcl_init_cmd);
@@ -1935,7 +1935,7 @@ void reload_into_new_context_2(void)
  new_globals->item_factory_menu_c_1 = GLOBALS->item_factory_menu_c_1;
 #endif
  strcpy2_into_new_context(new_globals, &new_globals->filesel_writesave, &GLOBALS->filesel_writesave);
- new_globals->save_success_menu_c_1 = GLOBALS->save_success_menu_c_1; 
+ new_globals->save_success_menu_c_1 = GLOBALS->save_success_menu_c_1;
  new_globals->signal_popup_menu = GLOBALS->signal_popup_menu;
  new_globals->sst_signal_popup_menu = GLOBALS->sst_signal_popup_menu;
 
@@ -2000,7 +2000,7 @@ void reload_into_new_context_2(void)
  new_globals->socket_xid = GLOBALS->socket_xid;
 #endif
  new_globals->dual_ctx = GLOBALS->dual_ctx;
-  
+
  /* Times struct */
  memcpy(&(new_globals->tims), &(GLOBALS->tims), sizeof(Times));
 
@@ -2031,20 +2031,20 @@ void reload_into_new_context_2(void)
                         munmap(GLOBALS->mm_lxt_mmap_addr, GLOBALS->mm_lxt_mmap_len);
                         }
                 break;
-        
+
    case LX2_FILE: lxt2_rd_close(GLOBALS->lx2_lx2_c_1); break;
    case VZT_FILE: vzt_rd_close(GLOBALS->vzt_vzt_c_1); break;
    case FST_FILE: fstReaderClose(GLOBALS->fst_fst_c_1); GLOBALS->fst_fst_c_1 = NULL; break;
-   case AE2_FILE: 
+   case AE2_FILE:
 #ifdef AET2_IS_PRESENT
 #ifdef AET2_ALIASDB_IS_PRESENT
 	if(GLOBALS->adb) { adb_close_db(GLOBALS->adb); GLOBALS->adb = 0; }
 	/* if(GLOBALS->m_alias_stream_file) { fclose(GLOBALS->m_alias_stream_file); GLOBALS->m_alias_stream_file = NULL; } */
-	ae2_read_end(GLOBALS->ae2); fclose(GLOBALS->ae2_f); 
+	ae2_read_end(GLOBALS->ae2); fclose(GLOBALS->ae2_f);
 #endif
 #endif
 	break;
-  
+
 #ifdef EXTLOAD_SUFFIX
    case EXTLOAD_FILE:
 	if(GLOBALS->extload_ffr_ctx)
@@ -2061,7 +2061,7 @@ void reload_into_new_context_2(void)
    case DUMPLESS_FILE:
    case GHW_FILE:
    case VCD_FILE:
-   case VCD_RECODER_FILE: 
+   case VCD_RECODER_FILE:
    default:
 	/* do nothing */ break;
  }
@@ -2095,7 +2095,7 @@ void reload_into_new_context_2(void)
  widget_ungrab_destroy(&GLOBALS->window_simplereq_c_9);		/* simplereq.c */
  widget_ungrab_destroy(&GLOBALS->window1_treesearch_gtk1_c);	/* treesearch_gtk1.c */
  widget_ungrab_destroy(&GLOBALS->window1_treesearch_gtk2_c_3);	/* treesearch_gtk2.c */
- 
+
  /* supported migration of window contexts... */
  if(GLOBALS->window_hiersearch_c_3)
         {
@@ -2127,13 +2127,13 @@ void reload_into_new_context_2(void)
 	new_globals->cleanup_hiersearch_c_3 = GLOBALS->cleanup_hiersearch_c_3;
 	new_globals->is_active_hiersearch_c_1 = GLOBALS->is_active_hiersearch_c_1;
         }
- 
+
  if(GLOBALS->mouseover_mouseover_c_1) /* mouseover regenerates as the pointer moves so no real context lost */
         {
         gtk_widget_destroy(GLOBALS->mouseover_mouseover_c_1); GLOBALS->mouseover_mouseover_c_1 = NULL;
         gdk_pixmap_unref(GLOBALS->mo_pixmap_mouseover_c_1);   GLOBALS->mo_pixmap_mouseover_c_1 = NULL;
         }
-         
+
  if(GLOBALS->window_renderopt_c_6)
         {
 	new_globals->is_active_renderopt_c_3 = GLOBALS->is_active_renderopt_c_3;
@@ -2163,7 +2163,7 @@ void reload_into_new_context_2(void)
 	new_globals->entry_search_c_3 = GLOBALS->entry_search_c_3;
 	new_globals->clist_search_c_3 = GLOBALS->clist_search_c_3;
 
-	strcpy2_into_new_context(new_globals, &new_globals->searchbox_text_search_c_1, &GLOBALS->searchbox_text_search_c_1);	
+	strcpy2_into_new_context(new_globals, &new_globals->searchbox_text_search_c_1, &GLOBALS->searchbox_text_search_c_1);
 
 	for(i=0;i<5;i++)
 		{
@@ -2171,7 +2171,7 @@ void reload_into_new_context_2(void)
 		new_globals->regex_mutex_search_c_1[i] = GLOBALS->regex_mutex_search_c_1[i];
 		}
         }
-        
+
 
  /* erase any old tabbed contexts if they exist... */
  dead_context_sweep();
@@ -2203,16 +2203,16 @@ void reload_into_new_context_2(void)
 
  /* Check to see if we need to reload a vcd file */
 #if !defined _MSC_VER && !defined __MINGW32__
-	if(GLOBALS->optimize_vcd) 
+	if(GLOBALS->optimize_vcd)
 		{
 	   	optimize_vcd_file();
 	 	}
 #endif
 	/* Load new file from disk, no reload on partial vcd or vcd from stdin. */
-	switch(GLOBALS->loaded_file_type) 
+	switch(GLOBALS->loaded_file_type)
 		{
-#ifdef EXTLOAD_SUFFIX   
-   		case EXTLOAD_FILE: 
+#ifdef EXTLOAD_SUFFIX
+   		case EXTLOAD_FILE:
 			extload_main(GLOBALS->loaded_file_name, GLOBALS->skip_start, GLOBALS->skip_end);
 			load_was_success = (GLOBALS->extload != NULL) && (!GLOBALS->extload_already_errored);
 			GLOBALS->extload_already_errored = 0;
@@ -2220,22 +2220,22 @@ void reload_into_new_context_2(void)
 			break;
 #endif
 
-   		case LX2_FILE: 
+   		case LX2_FILE:
 			lx2_main(GLOBALS->loaded_file_name,GLOBALS->skip_start,GLOBALS->skip_end);
 			load_was_success = (GLOBALS->lx2_lx2_c_1 != NULL);
 			break;
 
-   		case VZT_FILE: 
-			vzt_main(GLOBALS->loaded_file_name,GLOBALS->skip_start,GLOBALS->skip_end); 
+   		case VZT_FILE:
+			vzt_main(GLOBALS->loaded_file_name,GLOBALS->skip_start,GLOBALS->skip_end);
 			load_was_success = (GLOBALS->vzt_vzt_c_1 != NULL);
 			break;
 
-   		case FST_FILE: 
-			fst_main(GLOBALS->loaded_file_name,GLOBALS->skip_start,GLOBALS->skip_end); 
+   		case FST_FILE:
+			fst_main(GLOBALS->loaded_file_name,GLOBALS->skip_start,GLOBALS->skip_end);
 			load_was_success = (GLOBALS->fst_fst_c_1 != NULL);
 			break;
 
-   		case AE2_FILE: 
+   		case AE2_FILE:
 #ifdef AET2_IS_PRESENT
 			ae2_main(GLOBALS->loaded_file_name,GLOBALS->skip_start,GLOBALS->skip_end);
 			load_was_success = (GLOBALS->ae2 != NULL);
@@ -2244,18 +2244,18 @@ void reload_into_new_context_2(void)
 #endif
 			break;
 
-   		case GHW_FILE: 
+   		case GHW_FILE:
 			load_was_success = (ghw_main(GLOBALS->loaded_file_name) != 0);
 			break;
 
 		case LXT_FILE:
-   		case VCD_FILE: 
-		case VCD_RECODER_FILE: 
+   		case VCD_FILE:
+		case VCD_RECODER_FILE:
 			load_was_success = handle_setjmp();
 			break;
 		default:
 			break;
- 		} 
+ 		}
 
 	set_window_idle(NULL);
 
@@ -2311,7 +2311,7 @@ void reload_into_new_context_2(void)
  if(GLOBALS->tims.prevmarker < GLOBALS->tims.first) { GLOBALS->tims.prevmarker = GLOBALS->tims.first; }
  if(GLOBALS->tims.prevmarker > GLOBALS->tims.last)  { GLOBALS->tims.prevmarker = GLOBALS->tims.last; }
  if(GLOBALS->tims.laststart < GLOBALS->tims.first)  { GLOBALS->tims.laststart = GLOBALS->tims.first; }
- if(GLOBALS->tims.laststart > GLOBALS->tims.last)   { GLOBALS->tims.laststart = GLOBALS->tims.last; } 
+ if(GLOBALS->tims.laststart > GLOBALS->tims.last)   { GLOBALS->tims.laststart = GLOBALS->tims.last; }
 
  reformat_time(timestr, GLOBALS->tims.first + GLOBALS->global_time_offset, GLOBALS->time_dimension);
  gtk_entry_set_text(GTK_ENTRY(GLOBALS->from_entry),timestr);
@@ -2341,7 +2341,7 @@ void reload_into_new_context_2(void)
 	}
  }
  #endif
- #if WAVE_USE_GTK2 
+ #if WAVE_USE_GTK2
  if(GLOBALS->window_treesearch_gtk2_c_12)
 	{
    	gtk_container_remove(GTK_CONTAINER(GLOBALS->window_treesearch_gtk2_c_12), GLOBALS->treesearch_gtk2_window_vbox);
@@ -2389,12 +2389,12 @@ void reload_into_new_context_2(void)
 	GtkAdjustment *vadj = gtk_clist_get_vadjustment(cl);
 
 	if((vadj) && (tree_vadj_value >= vadj->lower) && (tree_vadj_value <= vadj->upper))
-		{ 
+		{
 		vadj->value = tree_vadj_value;
 		gtk_clist_set_vadjustment(cl, vadj);
 
 		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "changed");
-		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "value_changed"); 
+		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "value_changed");
 		}
 	}
 
@@ -2403,12 +2403,12 @@ void reload_into_new_context_2(void)
 	GtkAdjustment *hadj = gtk_clist_get_hadjustment(cl);
 
 	if((hadj) && (tree_hadj_value >= hadj->lower) && (tree_hadj_value <= hadj->upper))
-		{ 
+		{
 		hadj->value = tree_hadj_value;
 		gtk_clist_set_hadjustment(cl, hadj);
 
 		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(hadj)), "changed");
-		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(hadj)), "value_changed"); 
+		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(hadj)), "value_changed");
 		}
 	}
 
@@ -2475,7 +2475,7 @@ void reload_into_new_context_2(void)
 			                        GLOBALS->treechain_hiersearch_c_1->tree=GLOBALS->current_tree_hiersearch_c_1;
 			                        GLOBALS->treechain_hiersearch_c_1->label=t;
 			                        }
-			
+
 			                GLOBALS->current_tree_hiersearch_c_1=t->child;
 			                }
 
@@ -2493,8 +2493,8 @@ void reload_into_new_context_2(void)
 			hier_head = hier_curr->next;
 			free_2(hier_curr->name);
 			free_2(hier_curr);
-			hier_curr = hier_head;			
-			}		
+			hier_curr = hier_head;
+			}
 		}
 
 	refresh_hier_tree(GLOBALS->current_tree_hiersearch_c_1);
@@ -2521,28 +2521,28 @@ void reload_into_new_context_2(void)
 		   if(treeview_vadj_value != 0.0)
 			{
 			GtkAdjustment *vadj = gtk_tree_view_get_vadjustment((GtkTreeView *)GLOBALS->dnd_sigview);
-		
+
 			if((vadj) && (treeview_vadj_value >= vadj->lower) && (treeview_vadj_value <= vadj->upper))
-				{ 
+				{
 				vadj->value = treeview_vadj_value;
 				gtk_tree_view_set_vadjustment((GtkTreeView *)GLOBALS->dnd_sigview, vadj);
-		
+
 				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "changed");
-				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "value_changed"); 
+				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(vadj)), "value_changed");
 				}
 			}
-	
+
 		   if(treeview_hadj_value != 0.0)
 			{
 			GtkAdjustment *hadj = gtk_tree_view_get_hadjustment((GtkTreeView *)GLOBALS->dnd_sigview);
-		
+
 			if((hadj) && (treeview_hadj_value >= hadj->lower) && (treeview_hadj_value <= hadj->upper))
-				{ 
+				{
 				hadj->value = treeview_hadj_value;
 				gtk_tree_view_set_hadjustment((GtkTreeView *)GLOBALS->dnd_sigview, hadj);
-		
+
 				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(hadj)), "changed");
-				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(hadj)), "value_changed"); 
+				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(hadj)), "value_changed");
 				}
 			}
 		}
@@ -2557,17 +2557,17 @@ static int reloading = 0;
 
 if(!reloading)
 	{
-#ifdef MAC_INTEGRATION   
+#ifdef MAC_INTEGRATION
 	osx_menu_sensitivity(FALSE);
-#endif   
+#endif
 	reload_into_new_context_2();
 	reloading = 0;
-#ifdef MAC_INTEGRATION   
+#ifdef MAC_INTEGRATION
 	if(GLOBALS->loaded_file_type != MISSING_FILE)
 		{
 		osx_menu_sensitivity(TRUE);
 		}
-#endif   
+#endif
 	}
 }
 
@@ -2587,7 +2587,7 @@ void free_and_destroy_page_context(void)
                         munmap(GLOBALS->mm_lxt_mmap_addr, GLOBALS->mm_lxt_mmap_len);
                         }
                 break;
- 
+
    case LX2_FILE: lxt2_rd_close(GLOBALS->lx2_lx2_c_1); break;
    case VZT_FILE: vzt_rd_close(GLOBALS->vzt_vzt_c_1); break;
    case FST_FILE: fstReaderClose(GLOBALS->fst_fst_c_1); GLOBALS->fst_fst_c_1 = NULL; break;
@@ -2612,12 +2612,12 @@ void free_and_destroy_page_context(void)
 		}
 	break;
 #endif
- 
+
    case MISSING_FILE:
    case DUMPLESS_FILE:
    case GHW_FILE:
    case VCD_FILE:
-   case VCD_RECODER_FILE: 
+   case VCD_RECODER_FILE:
    default:
 	/* do nothing */ break;
  }
@@ -2626,7 +2626,7 @@ void free_and_destroy_page_context(void)
 
  widget_only_destroy(&GLOBALS->window_ptranslate_c_5);		/* ptranslate.c */
 
- WAVE_STRACE_ITERATOR(s_ctx_iter)                                
+ WAVE_STRACE_ITERATOR(s_ctx_iter)
         {
         GLOBALS->strace_ctx = &GLOBALS->strace_windows[GLOBALS->strace_current_window = s_ctx_iter];
 	widget_only_destroy(&GLOBALS->strace_ctx->window_strace_c_10);	/* strace.c */
@@ -2645,16 +2645,16 @@ void free_and_destroy_page_context(void)
  widget_ungrab_destroy(&GLOBALS->window_simplereq_c_9);		/* simplereq.c */
  widget_ungrab_destroy(&GLOBALS->window1_treesearch_gtk1_c);	/* treesearch_gtk1.c */
  widget_ungrab_destroy(&GLOBALS->window1_treesearch_gtk2_c_3);	/* treesearch_gtk2.c */
- 
+
  /* supported migration of window contexts... */
  widget_only_destroy(&GLOBALS->window_hiersearch_c_3);
- 
+
  if(GLOBALS->mouseover_mouseover_c_1) /* mouseover regenerates as the pointer moves so no real context lost */
         {
         gtk_widget_destroy(GLOBALS->mouseover_mouseover_c_1); GLOBALS->mouseover_mouseover_c_1 = NULL;
         gdk_pixmap_unref(GLOBALS->mo_pixmap_mouseover_c_1);   GLOBALS->mo_pixmap_mouseover_c_1 = NULL;
         }
-         
+
  widget_only_destroy(&GLOBALS->window_renderopt_c_6);
  widget_only_destroy(&GLOBALS->window_search_c_7);
 
@@ -2701,7 +2701,7 @@ if(gp)
 
 
 
-/* 
+/*
  * focus directed context switching of GLOBALS in multiple tabs mode
  */
 static gint context_swapper(GtkWindow *w, GdkEvent *event, void *data)
@@ -2725,8 +2725,8 @@ switch(type)
 			{
 			unsigned int i;
 			void **vp;
-			GtkWindow *wcmp;	
-	
+			GtkWindow *wcmp;
+
 			for(i=0;i<GLOBALS->num_notebook_pages;i++)
 				{
 				struct Global *test_g = (*GLOBALS->contexts)[i];
@@ -2749,7 +2749,7 @@ switch(type)
 							GLOBALS->lxt_clock_compress_to_z = g_old->lxt_clock_compress_to_z;
 							GLOBALS->autoname_bundles = g_old->autoname_bundles;
 							GLOBALS->autocoalesce_reversal = g_old->autocoalesce_reversal;
-							GLOBALS->autocoalesce = g_old->autocoalesce; 
+							GLOBALS->autocoalesce = g_old->autocoalesce;
 							GLOBALS->hier_grouping = g_old->hier_grouping;
 							GLOBALS->wave_scrolling = g_old->wave_scrolling;
 							GLOBALS->constant_marker_update = g_old->constant_marker_update;
@@ -2811,7 +2811,7 @@ struct Global *watch = *w;
 if(GLOBALS->gtk_context_bridge_ptr != w)
 	{
 #ifdef GTKWAVE_SIGNAL_CONNECT_DEBUG
-	fprintf(stderr, "GTKWAVE | WARNING: globals change caught by ctx_swap_watchdog()! %p vs %p, session %d vs %d\n", 
+	fprintf(stderr, "GTKWAVE | WARNING: globals change caught by ctx_swap_watchdog()! %p vs %p, session %d vs %d\n",
 		(void *)GLOBALS->gtk_context_bridge_ptr,(void *)w, (*GLOBALS->gtk_context_bridge_ptr)->this_context_page, watch->this_context_page);
 #endif
 
@@ -2901,7 +2901,7 @@ void clone_icon_pointers_across_contexts(struct Global *a, struct Global *b)
  a->hiericon_function_pixmap = b->hiericon_function_pixmap;
  a->hiericon_function_mask = b->hiericon_function_mask;
  a->hiericon_begin_pixmap = b->hiericon_begin_pixmap;
- a->hiericon_begin_mask = b->hiericon_begin_mask;  
+ a->hiericon_begin_mask = b->hiericon_begin_mask;
  a->hiericon_fork_pixmap = b->hiericon_fork_pixmap;
  a->hiericon_fork_mask = b->hiericon_fork_mask;
  a->hiericon_interface_pixmap = b->hiericon_interface_pixmap;
@@ -2917,7 +2917,7 @@ void clone_icon_pointers_across_contexts(struct Global *a, struct Global *b)
  a->hiericon_generate_pixmap = b->hiericon_generate_pixmap;
  a->hiericon_generate_mask = b->hiericon_generate_mask;
  a->hiericon_design_pixmap = b->hiericon_design_pixmap;
- a->hiericon_design_mask = b->hiericon_design_mask;  
+ a->hiericon_design_mask = b->hiericon_design_mask;
  a->hiericon_block_pixmap = b->hiericon_block_pixmap;
  a->hiericon_block_mask = b->hiericon_block_mask;
  a->hiericon_generateif_pixmap = b->hiericon_generateif_pixmap;
@@ -2925,7 +2925,7 @@ void clone_icon_pointers_across_contexts(struct Global *a, struct Global *b)
  a->hiericon_generatefor_pixmap = b->hiericon_generatefor_pixmap;
  a->hiericon_generatefor_mask = b->hiericon_generatefor_mask;
  a->hiericon_instance_pixmap = b->hiericon_instance_pixmap;
- a->hiericon_instance_mask = b->hiericon_instance_mask;  
+ a->hiericon_instance_mask = b->hiericon_instance_mask;
  a->hiericon_package_pixmap = b->hiericon_package_pixmap;
  a->hiericon_package_mask = b->hiericon_package_mask;
 
@@ -2941,5 +2941,5 @@ void clone_icon_pointers_across_contexts(struct Global *a, struct Global *b)
  a->hiericon_buffer_mask = b->hiericon_buffer_mask;
  a->hiericon_linkage_pixmap = b->hiericon_linkage_pixmap;
  a->hiericon_linkage_mask = b->hiericon_linkage_mask;
-} 
+}
 

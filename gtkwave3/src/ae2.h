@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2004-2011.
  *
  * This program is free software; you can redistribute it and/or

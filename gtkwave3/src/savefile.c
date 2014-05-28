@@ -199,7 +199,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 		if(GLOBALS->marker_names[i])
 			{
 			fprintf(wave, "[markername] %c%s\n", 'A'+i, GLOBALS->marker_names[i]);
-			}	
+			}
 		}
 
 	if(GLOBALS->ruler_step)
@@ -254,7 +254,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 			}
 		prevshift=t->shift;
 
-		if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))	
+		if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
 			{
 			if(t->t_color)
 				{
@@ -324,7 +324,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 				bits = t->n.vec->bits;
 				ba = bits ? bits->attribs : NULL;
 
-				fprintf(wave,"%c{%s}", ba ? ':' : '#', 
+				fprintf(wave,"%c{%s}", ba ? ':' : '#',
 						t->n.vec->transaction_cache ? t->n.vec->transaction_cache->bvname : t->n.vec->bvname);
 
 				nodes=t->n.vec->bits->nodes;
@@ -409,7 +409,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 					{
 					fprintf(wave, "?%02x\n", (unsigned char)st->value);	/* else search type for this trace.. */
 					}
-			
+
 				t=st->trace;
 
 				if(t->flags!=def)
@@ -426,7 +426,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 					}
 				prevshift=t->shift;
 
-				if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))	
+				if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
 					{
 					if(t->flags & TR_FTRANSLATED)
 						{
@@ -493,7 +493,7 @@ void write_save_helper(const char *savnam, FILE *wave) {
 						bits = t->n.vec->bits;
 						ba = bits ? bits->attribs : NULL;
 
-						fprintf(wave,"%c{%s}", ba ? ':' : '#', 
+						fprintf(wave,"%c{%s}", ba ? ':' : '#',
 							t->n.vec->transaction_cache ? t->n.vec->transaction_cache->bvname : t->n.vec->bvname);
 
 						nodes=t->n.vec->bits->nodes;
@@ -551,14 +551,14 @@ void write_save_helper(const char *savnam, FILE *wave) {
 				{
 				fprintf(wave, "!!\n");	/* mark end of strace region */
 				}
-		
+
 				swap_strace_contexts();
 			}
 			else
 			{
 			struct mprintf_buff_t *mt = GLOBALS->strace_ctx->mprintf_buff_head;
 
-			while(mt)	
+			while(mt)
 				{
 				fprintf(wave, "%s", mt->str);
 				mt=mt->next;
@@ -604,7 +604,7 @@ FILE *f;
 		if(fdf)
 			{
 	                f = fopen(fdf, "rb");
-	                if(f) 
+	                if(f)
 	                        {
 	                        rp = fdf;
 	                        fclose(f);
@@ -630,7 +630,7 @@ return(rp);
 }
 
 
-int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumpsiz, time_t *dumptim, int *opt_vcd) {  
+int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumpsiz, time_t *dumptim, int *opt_vcd) {
         FILE *wave;
         char *str = NULL;
         int wave_is_compressed;
@@ -649,21 +649,21 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
                 wave_is_compressed=~0;
                 }
                 else
-                {   
+                {
                 wave=fopen(wname,"rb");
                 wave_is_compressed=0;
                 }
 
 
-        if(!wave)  
-                {  
+        if(!wave)
+                {
                 fprintf(stderr, "Error opening save file '%s' for reading.\n", wname);
 		perror("Why");
 		errno=0;
                 }
                 else
                 {
-                char *iline;      
+                char *iline;
 		int s_ctx_iter;
 
 		if(extract_dumpfile_savefile_only)
@@ -691,12 +691,12 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 						char *lhq = strchr(iline+16, '"');
 						char *rhq = strrchr(iline+16, '"');
 						memset(&tm, 0, sizeof(struct tm));
-						
+
 						*dumptim = -1;
 #if !defined _MSC_VER && !defined __MINGW32__
 						/* format is: "Fri Feb  4 15:50:48 2011" */
 						if(lhq && rhq && (lhq != rhq))
-							{						
+							{
 							int slen;
 							char *strp_buf;
 
@@ -704,7 +704,7 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 							slen = strlen(lhq+1);
 							strp_buf = calloc_2(1, slen + 32); /* workaround: linux strptime seems to overshoot its buffer */
 							strcpy(strp_buf, lhq+1);
-							
+
 							if(strptime(strp_buf, "%a %b %d %H:%M:%S %Y", &tm) != NULL)
 								{
 								t = timegm(&tm);
@@ -785,13 +785,13 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 		                wave=popen(str,"r");
 		                }
 		                else
-		                {   
+		                {
 				fclose(wave);
 		                wave=fopen(wname,"rb");
 		                }
 
-		        if(!wave)  
-		                {  
+		        if(!wave)
+		                {
 		                fprintf(stderr, "Error opening save file '%s' for reading.\n", wname);
 				perror("Why");
 				errno=0;
@@ -825,11 +825,11 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 				if(GLOBALS->strace_ctx->shadow_straces)
 					{
 					GLOBALS->strace_ctx->shadow_active = 1;
-	
+
 					swap_strace_contexts();
 					strace_maketimetrace(1);
 					swap_strace_contexts();
-	
+
 					GLOBALS->strace_ctx->shadow_active = 0;
 					}
 				}
@@ -852,11 +852,11 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 #ifdef MAC_INTEGRATION
 		if(GLOBALS->num_notebook_pages > 1)
 #endif
-			{		
+			{
 			if(!GLOBALS->block_xy_update)
 				{
 				int x, y;
-	
+
 				get_window_size(&x, &y);
 				set_window_size(x, y);
 				}
@@ -924,7 +924,7 @@ if(w)
 
 			mem = calloc_2(1, siz);
 			t = mem + sprintf(mem, "#%s[%d:%d] ", rname, msb, lsb);
-			
+
 			if(msb > lsb)
 				{
 				for(i = msb; i >= lsb; i--)
@@ -954,7 +954,7 @@ return(mem);
 /******************************************************************/
 
 /*
- * Parse a line of the wave file and act accordingly.. 
+ * Parse a line of the wave file and act accordingly..
  * Returns nonzero if trace(s) added.
  */
 int parsewavline(char *w, char *alias, int depth)
@@ -1052,12 +1052,12 @@ if(*w2=='*')
 		while(*w2==' ') w2++;
 		if(*w2==0) return(~0);
 
-		if(!which) 
-			{ 
-			sscanf(w2,"%f",&f); 
+		if(!which)
+			{
+			sscanf(w2,"%f",&f);
 			if((!GLOBALS->do_initial_zoom_fit)||(!GLOBALS->do_initial_zoom_fit_used))
 				{
-				GLOBALS->tims.zoom=(gdouble)f; 
+				GLOBALS->tims.zoom=(gdouble)f;
 				}
 			}
 		else
@@ -1066,8 +1066,8 @@ if(*w2=='*')
 		switch(which)
 			{
 			case 1:  GLOBALS->tims.marker=ttlocal; break;
-			default: 
-				if((which-2)<26) GLOBALS->named_markers[which-2]=ttlocal; 
+			default:
+				if((which-2)<26) GLOBALS->named_markers[which-2]=ttlocal;
 				break;
 			}
 		}
@@ -1118,7 +1118,7 @@ if(*w2=='+')
 		  if(suffix[i]==0) return(0);
 		  if((suffix[i]==')')&&(suffix[i+1])) {i++; break; }
 		}
-	      
+
 	      s=symfind(suffix+i, &rows);
 	      if (s) {
 		nexp = ExtractNodeSingleBit(&s->n[rows], atoi(suffix+1));
@@ -1131,8 +1131,8 @@ if(*w2=='+')
 		  {
 		    return(0);
 		  }
-	      }	
-	      else 
+	      }
+	      else
 		{
 		char *lp = strrchr(suffix+i, '[');
 		if(lp)
@@ -1163,7 +1163,7 @@ if(*w2=='+')
 				}
 
 			sprintf(ns, "%s[%d]", suffix+i, actual);
-			*lp = '[';			
+			*lp = '[';
 
 			s=symfind(ns, &rows);
 			free_2(ns);
@@ -1181,7 +1181,7 @@ if(*w2=='+')
 	  else
 	    {
 	      int rc;
-	      
+
 	      char *newl   = strdup_2(w2+strlen(prefix));
 	      char *nalias = strdup_2(prefix+1);
 
@@ -1215,7 +1215,7 @@ if((*w2=='#')||(*w2==':'))
 	while(1)
 		{
 		if(isspace((int)(unsigned char)*w2)) { w2++; continue; }
-		if(!(*w2)) return(0);	/* no more args */	
+		if(!(*w2)) return(0);	/* no more args */
 		break;			/* start grabbing chars from here */
 		}
 
@@ -1283,7 +1283,7 @@ if((*w2=='#')||(*w2==':'))
 				}
 			}
 		}
-	
+
 	return(v!=NULL);
 	}
 else
@@ -1326,7 +1326,7 @@ if(*w2=='!')
 			{
 			if (isupper((int)(unsigned char)ch) || ch=='@')
 				GLOBALS->strace_ctx->shadow_mark_idx_start = ch - '@';
-		
+
 			ch = *(w2+8);
 			if(ch != 0)
 				{
@@ -1351,7 +1351,7 @@ if(*w2=='?')
 
 		if(lens)
 			{
-			GLOBALS->strace_ctx->shadow_string = malloc_2(lens+1);		
+			GLOBALS->strace_ctx->shadow_string = malloc_2(lens+1);
 			strcpy(GLOBALS->strace_ctx->shadow_string, w2+2);
 			}
 
@@ -1360,7 +1360,7 @@ if(*w2=='?')
 		else
 		{
 		unsigned int hex;
-		sscanf(w2+1, "%x", &hex);	
+		sscanf(w2+1, "%x", &hex);
 		GLOBALS->strace_ctx->shadow_type = hex;
 		}
 
@@ -1380,7 +1380,7 @@ else if(*w2=='^')
 			if(fn)
 				{
 				while(*fn && isspace((int)(unsigned char)*fn)) fn++;
-				if(*fn && !isspace((int)(unsigned char)*fn)) 
+				if(*fn && !isspace((int)(unsigned char)*fn))
 					{
 					char *rp = get_relative_adjusted_name(GLOBALS->sfn, fn, GLOBALS->lcname);
 					set_current_translate_proc(rp ? rp : fn);
@@ -1401,7 +1401,7 @@ else if(*w2=='^')
 			if(fn)
 				{
 				while(*fn && isspace((int)(unsigned char)*fn)) fn++;
-				if(*fn && !isspace((int)(unsigned char)*fn)) 
+				if(*fn && !isspace((int)(unsigned char)*fn))
 					{
 					char *rp = get_relative_adjusted_name(GLOBALS->sfn, fn, GLOBALS->lcname);
 					set_current_translate_ttrans(rp ? rp : fn);
@@ -1420,7 +1420,7 @@ else if(*w2=='^')
 			if(fn)
 				{
 				while(*fn && isspace((int)(unsigned char)*fn)) fn++;
-				if(*fn && !isspace((int)(unsigned char)*fn)) 
+				if(*fn && !isspace((int)(unsigned char)*fn))
 					{
 					char *rp = get_relative_adjusted_name(GLOBALS->sfn, fn, GLOBALS->lcname);
 					set_current_translate_file(rp ? rp : fn);
@@ -1439,7 +1439,7 @@ else if (*w2 == '[')
 	break;
     if (!*w)
       return 0;
-    
+
     *w++ = 0;
     if (strcmp (w2, "size") == 0)
       {
@@ -1646,7 +1646,7 @@ else if (*w2 == '[')
 
 	if(GLOBALS->sfn)
 		{
-		free_2(GLOBALS->sfn); GLOBALS->sfn = NULL; 
+		free_2(GLOBALS->sfn); GLOBALS->sfn = NULL;
 		}
 
 	if((lhq) && (rhq) && (lhq != rhq)) /* no real need to check rhq != NULL*/
@@ -1662,7 +1662,7 @@ else if (*w2 == '[')
 
 	if(GLOBALS->ttranslate_args)
 		{
-		free_2(GLOBALS->ttranslate_args); GLOBALS->ttranslate_args = NULL; 
+		free_2(GLOBALS->ttranslate_args); GLOBALS->ttranslate_args = NULL;
 		}
 
 	if((lhq) && (rhq) && (lhq != rhq)) /* no real need to check rhq != NULL*/
@@ -1733,7 +1733,7 @@ int made = 0;
 pnt=str;
 while((ch=*pnt))
 	{
-	if(ch=='*') 
+	if(ch=='*')
 		{
 		wild_active=1;
 		break;
@@ -1843,7 +1843,7 @@ if(len)
 	pnt2=wild;
 	while((ch2=*pnt2))
 		{
-		if(ch2=='*') 
+		if(ch2=='*')
 			{
 			wild_active=1;
 			break;
@@ -1859,9 +1859,9 @@ if(len)
 			for(i=1;;i++)
 				{
 				if(wild[i]==0) break;
-				if((wild[i]==')')&&(wild[i+1])) 
+				if((wild[i]==')')&&(wild[i+1]))
 					{
-					i++; 
+					i++;
 					s=symfind(wild+i, NULL);
 					if(s)
 						{
@@ -1874,7 +1874,7 @@ if(len)
 			}
 			else
 			{
-			if((s=symfind(wild, NULL)))	
+			if((s=symfind(wild, NULL)))
 				{
 				lx2_set_fac_process_mask(s->n);
 				rc = 1;
@@ -1905,7 +1905,7 @@ return(rc);
 
 
 /*
- * Parse a line of the wave file and act accordingly.. 
+ * Parse a line of the wave file and act accordingly..
  * Returns nonzero if trace(s) added.
  */
 int parsewavline_lx2(char *w, char *alias, int depth)
@@ -2042,7 +2042,7 @@ if(*w2=='+')
 					{
 					msi = atoi(lp+1);
 					lsi = atoi(colon+1);
-	
+
 					if(lsi > msi)
 						{
 						actual = msi + bval;
@@ -2058,7 +2058,7 @@ if(*w2=='+')
 					}
 
 				sprintf(ns, "%s[%d]", suffix+i, actual);
-				*lp = '[';			
+				*lp = '[';
 
 				s=symfind(ns, NULL);
 				free_2(ns);
@@ -2104,7 +2104,7 @@ if((*w2=='#')||(*w2==':'))
 	while(1)
 		{
 		if(isspace((int)(unsigned char)*w2)) { w2++; continue; }
-		if(!(*w2)) return(0);	/* no more args */	
+		if(!(*w2)) return(0);	/* no more args */
 		break;			/* start grabbing chars from here */
 		}
 
@@ -2224,14 +2224,14 @@ char* GetRelativeFilename(char *currentDirectory, char *absoluteFilename, int *d
 
 	cdLen = strlen(currentDirectory);
 	afLen = strlen(absoluteFilename);
-	
+
 	/* make sure the names are not too long or too short */
-	if(cdLen > MAX_FILENAME_LEN || cdLen < ABSOLUTE_NAME_START+1 || 
+	if(cdLen > MAX_FILENAME_LEN || cdLen < ABSOLUTE_NAME_START+1 ||
 		afLen > MAX_FILENAME_LEN || afLen < ABSOLUTE_NAME_START+1)
 	{
 		return(NULL);
 	}
-	
+
 	/* Handle DOS names that are on different drives: */
 	if(currentDirectory[0] != absoluteFilename[0])
 	{
@@ -2306,7 +2306,7 @@ char* GetRelativeFilename(char *currentDirectory, char *absoluteFilename, int *d
 	{
 		return(NULL);
 	}
-	
+
 	/* add the appropriate number of "..\"s. */
 	rfMarker = 0;
 	*dotdot_levels = levels;
@@ -2382,7 +2382,7 @@ if(orig_save && orig_dump && this_save)
 			char *dup_this_save = strdup_2(this_save);
 			char *rhs_this_save_slash = strrchr(dup_this_save, SLASH);
 			char *p = dup_this_save;
-			int levels = 0;	
+			int levels = 0;
 
 			if(rhs_this_save_slash)
 				{
@@ -2401,10 +2401,10 @@ if(orig_save && orig_dump && this_save)
 					strcat(synth_nam, grf);
 					}
 				}
-	
+
 			free_2(dup_this_save);
 			}
-	
+
 		}
 
 	free_2(dup_orig_save);
@@ -2493,7 +2493,7 @@ if(lc && !is_working)
 					strcpy(dfn, old_dfn);
 					free_2(old_dfn);
 					}
-	
+
 				if(sfn)
 					{
 					char *old_sfn = sfn;
@@ -2508,12 +2508,12 @@ if(lc && !is_working)
 	              			{
 		                        char *can = realpath_2(lcname, NULL);
 		                        char *old_fdf = find_dumpfile(sfn, dfn, can);
-	
+
 		                        free(can);
 					fdf = wave_alloca(strlen(old_fdf)+1);
 					strcpy(fdf, old_fdf);
 					free_2(old_fdf);
-	
+
 		                       	f = fopen(fdf, "rb");
 		                        if(f)
 		                                {
@@ -2601,10 +2601,10 @@ gboolean deal_with_rpc_open_2(const gchar *path, gpointer user_data, gboolean is
 const char *suffixes[] =
 {
  ".vcd", ".evcd", ".dump",
- ".lxt", ".lxt2", ".lx2", 
- ".vzt", 
- ".fst", 
- ".ghw", 
+ ".lxt", ".lxt2", ".lx2",
+ ".vzt",
+ ".fst",
+ ".ghw",
 #ifdef EXTLOAD_SUFFIX
  EXTLOAD_SUFFIX,
 #endif
@@ -2675,14 +2675,14 @@ return(deal_with_rpc_open_2(path, user_data, FALSE));
  * block termination if in the middle of something important
  */
 gboolean deal_with_termination(GtkOSXApplication *app, gpointer user_data)
-{       
+{
 gboolean do_not_terminate = FALSE; /* future expansion */
-        
+
 if(do_not_terminate)
         {
         status_text("GTKWAVE | Busy, quit signal blocked.\n");
         }
-        
+
 return(do_not_terminate);
 }
 

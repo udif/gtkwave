@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -175,7 +175,7 @@ for(i=0;i<26;i++)
 		success = 1;
 		break;
 		}
-	
+
 	ent_idx--;
 	if(ent_idx < 0) ent_idx = 25;
 	}
@@ -228,7 +228,7 @@ for(i=0;i<26;i++)
 		success = 1;
 		break;
 		}
-	
+
 	ent_idx++;
 	if(ent_idx > 25) ent_idx = 0;
 	}
@@ -567,8 +567,8 @@ int rc;
 if(!GLOBALS->filesel_ok)
         {
         return;
-        }               
-                                
+        }
+
 if(GLOBALS->lock_menu_c_1 == 1) return; /* avoid recursion */
 GLOBALS->lock_menu_c_1 = 1;
 
@@ -637,8 +637,8 @@ int rc;
 if(!GLOBALS->filesel_ok)
         {
         return;
-        }               
-                                
+        }
+
 if(GLOBALS->lock_menu_c_2 == 1) return; /* avoid recursion */
 GLOBALS->lock_menu_c_2 = 1;
 
@@ -699,8 +699,8 @@ int rc;
 if(!GLOBALS->filesel_ok)
         {
         return;
-        }               
-                                
+        }
+
 if(GLOBALS->lock_menu_c_2 == 1) return; /* avoid recursion */
 GLOBALS->lock_menu_c_2 = 1;
 
@@ -1282,15 +1282,15 @@ void set_hier_cleanup(GtkWidget *widget, gpointer data, int level)
 			t->is_depacked = (flagged != 0);
 
 			if(!flagged)
-			  {   
+			  {
 			    t->name = hier_extract(t->n.nd->nname, GLOBALS->hier_max_level);
 			  }
 			else
-			  {   
+			  {
 			    t->name = strdup_2(hier_extract(tbuff, GLOBALS->hier_max_level));
 			    free_2(tbuff);
 			  }
-		      } 
+		      }
 		}
 	    }
 	  t=t->t_next;
@@ -1334,7 +1334,7 @@ if(GLOBALS->helpbox_is_active)
 		" with bit numbers or ranges ignored) that is displayable"
 		" for trace names.  Zero indicates that no truncation will"
 		" be performed (default).  Note that any aliased signals"
-		" (prefix of a \"+\") will not have truncated names." 
+		" (prefix of a \"+\") will not have truncated names."
         );
         return;
         }
@@ -1498,7 +1498,7 @@ if(GLOBALS->helpbox_is_active)
 
 	calczoom(GLOBALS->tims.zoom);
 	fix_wavehadj();
-                        
+
 	gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed"); /* force zoom update */
 	gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */
 	update_maxmarker_labels();
@@ -1531,10 +1531,10 @@ if(GLOBALS->helpbox_is_active)
 			{
 			delete_strace_context();
 			}
-	
+
 		strace_maketimetrace(0);
 		}
-  
+
 	MaxSignalLength();
 	signalarea_configure_event(GLOBALS->signalarea, NULL);
 	wavearea_configure_event(GLOBALS->wavearea, NULL);
@@ -1553,7 +1553,7 @@ if(GLOBALS->helpbox_is_active)
 	else
 	{
 	force_normal_gcs();
-  
+
 	MaxSignalLength();
 	signalarea_configure_event(GLOBALS->signalarea, NULL);
 	wavearea_configure_event(GLOBALS->wavearea, NULL);
@@ -1573,7 +1573,7 @@ if(GLOBALS->helpbox_is_active)
 	else
 	{
 	force_screengrab_gcs();
-  
+
 	MaxSignalLength();
 	signalarea_configure_event(GLOBALS->signalarea, NULL);
 	wavearea_configure_event(GLOBALS->wavearea, NULL);
@@ -1621,7 +1621,7 @@ if(GLOBALS->helpbox_is_active)
 		{
 		calczoom(GLOBALS->tims.zoom);
 		fix_wavehadj();
-                        
+
 		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed"); /* force zoom update */
 		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */
 		}
@@ -1956,7 +1956,7 @@ if(GLOBALS->helpbox_is_active)
                 {
                 const gchar *rpath = quartz_application_get_resource_path();
                 const char *suf = "/doc/gtkwave.pdf";
-		char *pdfpath = NULL;                                    
+		char *pdfpath = NULL;
 		FILE *handle;
 
                 if(rpath)
@@ -1965,14 +1965,14 @@ if(GLOBALS->helpbox_is_active)
                         strcpy(pdfpath, rpath);
                         strcat(pdfpath, suf);
                         }
-                         
+
                 if(!pdfpath || !(handle=fopen(pdfpath,"rb")))
 			{
 			}
 			else
 			{
 			fclose(handle);
-			gtk_open_external_file(pdfpath); 
+			gtk_open_external_file(pdfpath);
 			return;
 			}
 		}
@@ -2019,8 +2019,8 @@ if(data)
 	{
 #ifdef __CYGWIN__
 	kill_stems_browser();
-#endif	
-	g_print("Exiting.\n");	
+#endif
+	g_print("Exiting.\n");
 	sprintf(sstr, "%d", GLOBALS->this_context_page);
 	gtkwavetcl_setvar(WAVE_TCLCB_QUIT_PROGRAM, sstr, WAVE_TCLCB_QUIT_PROGRAM_FLAGS);
 
@@ -2083,9 +2083,9 @@ for(i=0;i<np;i++)
 		}
 	}
 (*GLOBALS->contexts)[j] = old_g;
-	
-gtk_notebook_set_show_tabs(GTK_NOTEBOOK(n), (np>2)); 
-gtk_notebook_set_show_border(GTK_NOTEBOOK(n), (np>2)); 
+
+gtk_notebook_set_show_tabs(GTK_NOTEBOOK(n), (np>2));
+gtk_notebook_set_show_border(GTK_NOTEBOOK(n), (np>2));
 
 gtk_notebook_remove_page(GTK_NOTEBOOK(n), this_page);
 gtk_notebook_set_current_page(GTK_NOTEBOOK(n), new_page);
@@ -2111,8 +2111,8 @@ update_maxmarker_labels();
 update_basetime(GLOBALS->tims.baseline);
 
 gtk_window_set_title(GTK_WINDOW(GLOBALS->mainwindow), GLOBALS->winname);
- 
-MaxSignalLength();   
+
+MaxSignalLength();
 signalarea_configure_event(GLOBALS->signalarea, NULL);
 wavearea_configure_event(GLOBALS->wavearea, NULL);
 }
@@ -2128,7 +2128,7 @@ if(GLOBALS->helpbox_is_active)
                 " requester is given the OK to quit."
         );
         return;
-        } 
+        }
 
 if((GLOBALS->num_notebook_pages < 2) && (!GLOBALS->enable_fast_exit))
 	{
@@ -2267,14 +2267,14 @@ static unsigned create_group (char* name, Trptr t_composite)
 	 t_begin = t_composite;
 	 t_begin->flags |=TR_GRP_BEGIN;
        }
-     else 
+     else
        {
 	 if( (t_begin = (Trptr) calloc_2( 1, sizeof( TraceEnt ))) == NULL )
 	   {
 	     fprintf( stderr, "Out of memory, can't add trace.\n");
 	     return(0);
 	   }
-     
+
 	 t_begin->flags = (TR_BLANK|TR_GRP_BEGIN);
 	 t_begin->name = (char *)malloc_2(1+strlen(name));
 	 strcpy(t_begin->name, name);
@@ -2292,7 +2292,7 @@ static unsigned create_group (char* name, Trptr t_composite)
        }
 
      t_end->flags = (TR_BLANK|TR_GRP_END);
-    
+
      if (t_composite)
        {
 	 /* make the group end trace invisible */
@@ -2314,7 +2314,7 @@ static unsigned create_group (char* name, Trptr t_composite)
      t_begin->t_match = t_end;
      t_end->t_match   = t_begin;
 
-     if (t_prev) 
+     if (t_prev)
        {
 	 t_prev->flags |= TR_HIGHLIGHT;
 	 PasteBuffer();
@@ -2328,7 +2328,7 @@ static unsigned create_group (char* name, Trptr t_composite)
 }
 
 
-static void 
+static void
 create_group_cleanup(GtkWidget *widget, gpointer data)
 {
   unsigned dirty = 0;
@@ -2350,7 +2350,7 @@ create_group_cleanup(GtkWidget *widget, gpointer data)
 
 
 
-void 
+void
 menu_create_group(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 
@@ -2381,7 +2381,7 @@ menu_create_group(gpointer null_data, guint callback_action, GtkWidget *widget)
   if(dirty)
     {
       /* don't mess with sigs when dnd active */
-      if(GLOBALS->dnd_state) { dnd_error(); return; } 
+      if(GLOBALS->dnd_state) { dnd_error(); return; }
       entrybox("Create Group",300,"","Enter group name:",128,GTK_SIGNAL_FUNC(create_group_cleanup));
     }
   else
@@ -2414,7 +2414,7 @@ static unsigned expand_trace(Trptr t_top)
 
       if(t->vector)
 	{
-	  bptr bits;	
+	  bptr bits;
 	  int i;
 	  Trptr tfix;
 	  TimeType otime = t->shift;
@@ -2463,7 +2463,7 @@ static unsigned expand_trace(Trptr t_top)
 	      for(i=0;i<e->width;i++)
 		{
 		  GLOBALS->which_t_color = color;
-		  AddNode(e->narray[i], NULL);	
+		  AddNode(e->narray[i], NULL);
 		}
 	      GLOBALS->do_hier_compress = dhc_sav;
 	      free_2(e->narray);
@@ -2476,7 +2476,7 @@ static unsigned expand_trace(Trptr t_top)
       tmpi=GLOBALS->traces.buffercount; GLOBALS->traces.buffercount=GLOBALS->traces.total;
       GLOBALS->traces.total=tmpi;
 
-      if (GLOBALS->traces.buffercount > 0) 
+      if (GLOBALS->traces.buffercount > 0)
 	{
 
 	  /* buffer now contains the created signals */
@@ -2489,14 +2489,14 @@ static unsigned expand_trace(Trptr t_top)
 	      PasteBuffer();
 	      t_top->t_prev->flags &= ~TR_HIGHLIGHT;
 	    }
-	  else 
+	  else
 	    {
 	      RemoveTrace(t_top, 0);
 	      PrependBuffer();
 	    }
 
 	  dirty = create_group("unused_2", t_top);
-	
+
 	}
     }
 
@@ -2729,7 +2729,7 @@ static void menu_rename(GtkWidget *widget, gpointer data)
   GLOBALS->trace_to_alias_menu_c_1=NULL;
 
   /* don't mess with sigs when dnd active */
-  if(GLOBALS->dnd_state) { dnd_error(); return; } 
+  if(GLOBALS->dnd_state) { dnd_error(); return; }
 
   t = GLOBALS->traces.first;
   while(t)
@@ -2851,7 +2851,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 		  if(t->vector)
 		    {
 		      int ix;
-		      bptr bits = t->n.vec->bits;	
+		      bptr bits = t->n.vec->bits;
 		      baptr oldba = bits ? bits->attribs : NULL;
 
 		      bits=t->n.vec->bits;
@@ -2894,7 +2894,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 			    {
 			      ba[nodepnt].shift = t->shift;
 			      ba[nodepnt].flags = t->flags;
-			      n[nodepnt++]=e->narray[ix];	
+			      n[nodepnt++]=e->narray[ix];
 			      e->narray[ix]->expansion->refcnt++;
 			    }
 			  free_2(e->narray);
@@ -2950,7 +2950,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	      b->nodes[i]=n[i];
 	      if(n[i] && n[i]->expansion) /* scan-build */
 		{
-		  if(bitblast_parent != n[i]->expansion->parent) 
+		  if(bitblast_parent != n[i]->expansion->parent)
 		    {
 		      bitblast_parent=NULL;
 		    }
@@ -2990,7 +2990,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	      b->nodes[i]=n[rev--];
 	      if(n[i] && n[i]->expansion) /* scan-build */
 		{
-		  if(bitblast_parent != n[i]->expansion->parent) 
+		  if(bitblast_parent != n[i]->expansion->parent)
 		    {
 		      bitblast_parent=NULL;
 		    }
@@ -3093,7 +3093,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	      if(namex[ix]=='[') break;
 	    }
 	  if(ix>-1) offset=ix;
-	
+
 	  nam=(char *)wave_alloca(offset+40);
 	  memcpy(nam, namex, offset);
 	  if(was_packed) { free_2(namex); }
@@ -3106,7 +3106,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	    {
 	      sprintf(nam+offset, "[%d%s%d]", n[nodepnt-1]->expansion->actual,  (bitblast_delta!=0) ? ":" : "|", n[0]->expansion->actual);
 	    }
-	
+
 	  strcpy(b->name=(char *)malloc_2(offset + strlen(nam+offset)+1), nam);
 	  DEBUG(printf("Name is: '%s'\n", nam));
 	}
@@ -3247,7 +3247,7 @@ void menu_tracesearchbox(gpointer null_data, guint callback_action, GtkWidget *w
 Trptr t;
 
 if(GLOBALS->helpbox_is_active)
-        {  
+        {
         help_text_bold("\n\nPattern Search");
         help_text(
 		" only works when at least one trace is highlighted. "
@@ -3281,7 +3281,7 @@ if(GLOBALS->helpbox_is_active)
 	    char buf[128];
 	    long which = ((long)callback_action) - WV_MENU_SPS;
 
-	    if((which < 0) || (which >= WAVE_NUM_STRACE_WINDOWS)) 
+	    if((which < 0) || (which >= WAVE_NUM_STRACE_WINDOWS))
 			{ /* should never happen unless menus are defined wrong */
 			sprintf(buf, "Pattern search ID %d out of range of 1-%d available, ignoring.", (int)(which+1), WAVE_NUM_STRACE_WINDOWS);
 			status_text(buf);
@@ -3314,7 +3314,7 @@ if(GLOBALS->filesel_ok)
          */
 	pid=fork();
 	if(((int)pid) < 0) { return; /* not much we can do about this.. */ }
-	
+
 	if(pid)         /* parent==original server_pid */
 	        {
 		return;
@@ -3365,9 +3365,9 @@ if(GLOBALS->filesel_ok)
 	      NULL,          /* use parent's current directory */
 	      &si,           /* STARTUPINFO pointer */
 	      &piProcInfo);  /* receives PROCESS_INFORMATION */
-	
+
 	free_2(szCmdline);
-	
+
 	if(!bSuccess)
 	        {
 	        /* failed */
@@ -3456,7 +3456,7 @@ menu_new_viewer_tab_cleanup_2(char *fname, int optimize_vcd)
 		strcpy2_into_new_context(GLOBALS, &GLOBALS->filesel_print_pdf_renderopt_c_1, &g_old->filesel_print_pdf_renderopt_c_1);
 		strcpy2_into_new_context(GLOBALS, &GLOBALS->filesel_print_ps_renderopt_c_1, &g_old->filesel_print_ps_renderopt_c_1);
 		strcpy2_into_new_context(GLOBALS, &GLOBALS->filesel_print_mif_renderopt_c_1, &g_old->filesel_print_mif_renderopt_c_1);
-#endif		
+#endif
 
 		/* not sure what's really needed here */
 		/* for now, add back in repscript_name */
@@ -3477,10 +3477,10 @@ menu_new_viewer_tab_cleanup_2(char *fname, int optimize_vcd)
 	        wave_gconf_client_set_string("/current/pwd", getenv("PWD"));
 
 	        wave_gconf_client_set_string("/current/dumpfile", GLOBALS->optimize_vcd ? GLOBALS->unoptimized_vcd_file_name : GLOBALS->loaded_file_name);
-	        wave_gconf_client_set_string("/current/optimized_vcd", GLOBALS->optimize_vcd ? "1" : "0");  
+	        wave_gconf_client_set_string("/current/optimized_vcd", GLOBALS->optimize_vcd ? "1" : "0");
 
 	        wave_gconf_client_set_string("/current/savefile", GLOBALS->filesel_writesave);
-	
+
 		rc = 1;
 		}
                 else
@@ -3495,7 +3495,7 @@ menu_new_viewer_tab_cleanup_2(char *fname, int optimize_vcd)
                 free_outstanding(); /* free anything allocated in loader ctx */
 		free(GLOBALS);
 		GLOBALS = NULL; /* valgrind fix */
-	
+
 		set_GLOBALS(g_old);
                 free(GLOBALS->vcd_jmp_buf); GLOBALS->vcd_jmp_buf = NULL;
 		set_window_idle(NULL);
@@ -3514,7 +3514,7 @@ void
 menu_new_viewer_tab_cleanup(GtkWidget *widget, gpointer data)
 {
 if(GLOBALS->filesel_ok)
-        { 
+        {
 	menu_new_viewer_tab_cleanup_2(*GLOBALS->fileselbox_text, GLOBALS->optimize_vcd);
 	}
 }
@@ -3545,7 +3545,7 @@ if(!GLOBALS->partial_vcd)
 	}
 }
 
-/**/ 
+/**/
 
 void
 menu_reload_waveform(gpointer null_data, guint callback_action, GtkWidget *widget)
@@ -3560,7 +3560,7 @@ menu_reload_waveform(gpointer null_data, guint callback_action, GtkWidget *widge
 	return;
 	}
 
- if(in_main_iteration()) return;      
+ if(in_main_iteration()) return;
 
  if(GLOBALS->gt_splash_c_1 || GLOBALS->splash_is_loading)
 	{
@@ -3666,7 +3666,7 @@ if(GLOBALS->helpbox_is_active)
                 " removes the primary marker from the display if present."
         );
         return;
-        }        
+        }
 
 DEBUG(printf("delete_unnamed marker()\n"));
 
@@ -3839,7 +3839,7 @@ if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd
 treebox("Signal Search Tree",GTK_SIGNAL_FUNC(menu_treesearch_cleanup), NULL);
 }
 /**/
-void 
+void
 menu_showchangeall_cleanup(GtkWidget *widget, gpointer data)
 {
 Trptr t;
@@ -3854,7 +3854,7 @@ if(t)
 		if((t->flags&TR_HIGHLIGHT)&&(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))&&(t->name))
 			{
 			t->flags=flags;
-			}	
+			}
 		t=t->t_next;
 		}
 	}
@@ -3866,14 +3866,14 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 DEBUG(printf("menu_showchangeall_cleanup()\n"));
 }
 
-void 
+void
 menu_showchangeall(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
 
 if(GLOBALS->helpbox_is_active)
         {
-        help_text_bold("\n\nShow-Change All Highlighted");   
+        help_text_bold("\n\nShow-Change All Highlighted");
         help_text(
                 " provides an easy means of changing trace attributes en masse."
                 " Various functions are provided in a Show-Change requester."
@@ -3899,7 +3899,7 @@ must_sel();
 }
 
 /**/
-void 
+void
 menu_showchange_cleanup(GtkWidget *widget, gpointer data)
 {
 GLOBALS->signalwindow_width_dirty=1;
@@ -3909,7 +3909,7 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 DEBUG(printf("menu_showchange_cleanup()\n"));
 }
 
-void 
+void
 menu_showchange(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 Trptr t;
@@ -3982,7 +3982,7 @@ void menu_remove_aliases(gpointer null_data, guint callback_action, GtkWidget *w
 		}
 
 	  t->name = name_full;
-	  if (GLOBALS->hier_max_level) 
+	  if (GLOBALS->hier_max_level)
 		{
 		if(!was_packed)
 			{
@@ -4085,7 +4085,7 @@ void menu_alias(gpointer null_data, guint callback_action, GtkWidget *widget)
   GLOBALS->trace_to_alias_menu_c_1=NULL;
 
   /* don't mess with sigs when dnd active */
-  if(GLOBALS->dnd_state) { dnd_error(); return; } 
+  if(GLOBALS->dnd_state) { dnd_error(); return; }
 
   t = GLOBALS->traces.first;
   while(t)
@@ -4169,7 +4169,7 @@ if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd
 searchbox("Signal Search",GTK_SIGNAL_FUNC(menu_signalsearch_cleanup));
 }
 /**/
-static void 
+static void
 regexp_highlight_generic(int mode)
 {
 if(GLOBALS->entrybox_text)
@@ -4216,13 +4216,13 @@ if(GLOBALS->entrybox_text)
 	}
 }
 
-static void 
+static void
 regexp_unhighlight_cleanup(GtkWidget *widget, gpointer data)
 {
 regexp_highlight_generic(0);
 }
 
-void 
+void
 menu_regexp_unhighlight(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
@@ -4240,13 +4240,13 @@ if(GLOBALS->helpbox_is_active)
 entrybox("Regexp UnHighlight",300,GLOBALS->regexp_string_menu_c_1,NULL,128,GTK_SIGNAL_FUNC(regexp_unhighlight_cleanup));
 }
 /**/
-static void 
+static void
 regexp_highlight_cleanup(GtkWidget *widget, gpointer data)
 {
 regexp_highlight_generic(1);
 }
 
-void 
+void
 menu_regexp_highlight(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
@@ -4341,7 +4341,7 @@ fileselbox("Grab To File",&GLOBALS->filesel_imagegrab,GTK_SIGNAL_FUNC(menu_write
 
 #endif
 
-/**/ 
+/**/
 
 void
 menu_write_save_cleanup(GtkWidget *widget, gpointer data)
@@ -4473,7 +4473,7 @@ char *fname ;
 if(GLOBALS->filesel_ok)
 	{
 	DEBUG(printf("Read Stems Fini: %s\n", *GLOBALS->fileselbox_text));
-        
+
         fname=*GLOBALS->fileselbox_text;
 	if((fname)&&strlen(fname))
 		{
@@ -4521,7 +4521,7 @@ char *fname ;
 if(GLOBALS->filesel_ok)
 	{
 	DEBUG(printf("Read Log Fini: %s\n", *GLOBALS->fileselbox_text));
-        
+
         fname=*GLOBALS->fileselbox_text;
 	if((fname)&&strlen(fname))
 		{
@@ -4556,7 +4556,7 @@ char *fname ;
 if(GLOBALS->filesel_ok)
 	{
 	DEBUG(printf("Read Script Fini: %s\n", *GLOBALS->fileselbox_text));
-        
+
         fname=*GLOBALS->fileselbox_text;
 	if((fname)&&strlen(fname))
 		{
@@ -4587,7 +4587,7 @@ void
 menu_insert_blank_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
-        {  
+        {
         help_text_bold("\n\nInsert Blank");
         help_text(
                 " inserts a blank trace after the last highlighted trace."
@@ -4610,7 +4610,7 @@ void
 menu_insert_analog_height_extension(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
-        {  
+        {
         help_text_bold("\n\nInsert Analog Height Extension");
         help_text(
                 " inserts a blank analog extension trace after the last highlighted trace."
@@ -4644,7 +4644,7 @@ void
 menu_insert_comment_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 if(GLOBALS->helpbox_is_active)
-        {  
+        {
         help_text_bold("\n\nInsert Comment");
         help_text(
                 " inserts a comment trace after the last highlighted trace."
@@ -4782,7 +4782,7 @@ void menu_fetchsize(gpointer null_data, guint callback_action, GtkWidget *widget
 {
 char fw[32];
 
-if(GLOBALS->helpbox_is_active)   
+if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nFetch Size");
         help_text(
@@ -5093,7 +5093,7 @@ if(!*src)
         *siz = 1;
         }
         else
-        {    
+        {
         *src = realloc_2(*src, (*siz + 1) * sizeof(char *));
         (*src)[*siz] = str;
         *siz = *siz + 1;
@@ -5150,7 +5150,7 @@ if(idx)
                 fname = GLOBALS->stem_path_string_table[GLOBALS->istem_struct_base[idx].stem_idx];
 		}
 
-#ifdef __MINGW32__        
+#ifdef __MINGW32__
 	{
         fprintf(stderr, "GTKWAVE | Not supported in Windows!\n");
 	}
@@ -5169,7 +5169,7 @@ if(idx)
 			simplereqbox("Could not open file!", wid, fname, "OK", NULL, NULL, 1);
 			return;
 			}
-		
+
 		fname = wave_alloca(strlen(rp) + 1);
 		strcpy(fname, rp);
 		free_2(rp);
@@ -5201,15 +5201,15 @@ if(idx)
 			const char *delim = " \t";
 			int num_seen = 0;
 			int fn_seen = 0;
-        
+
 			char **ar = NULL;
 			int siz = 0;
-         
+
        			for(str1 = str;;str1 = NULL)
 			        {
 			        token = strtok_r(str1, delim, &saveptr1);
 			        if(!token) break;
-         
+
 			        if(strstr(token, "%d"))
 			                {
 			                sprintf(nbuf, token, lineno);
@@ -5222,7 +5222,7 @@ if(idx)
 					fn_seen = 1;
 			                }
 		                else
-			                {   
+			                {
 			                sd_token = strdup_2(token);
 			                }
 			        grow_array(&ar, &siz, sd_token);
@@ -5245,7 +5245,7 @@ if(idx)
 					sd_token = strdup_2(fname);
 					grow_array(&ar, &siz, sd_token);
 					}
-		
+
 				grow_array(&ar, &siz, NULL);
 
 	                        execvp(ar[0], ar);
@@ -5285,7 +5285,7 @@ if(GLOBALS->helpbox_is_active)
 		        help_text_bold("\n\nOpen Source Instantiation");
 			}
 	        help_text(
-#if WAVE_USE_GTK2   
+#if WAVE_USE_GTK2
                         " opens and selects the appropriate level of hierarchy in the SST"
                         " for the first selected signal and also invokes the editor specified by the"
                         " \"editor\" gtkwaverc variable, that specified by the environment variable $GTKWAVE_EDITOR,"
@@ -5305,7 +5305,7 @@ if(GLOBALS->helpbox_is_active)
 		{
 	        help_text_bold("\n\nOpen Scope");
 	        help_text(
-#if WAVE_USE_GTK2   
+#if WAVE_USE_GTK2
 			" opens and selects the appropriate level of hierarchy in the SST"
 			" for the first selected signal."
 #else
@@ -5316,7 +5316,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-#if WAVE_USE_GTK2   
+#if WAVE_USE_GTK2
 
 if((t=GLOBALS->traces.first))
     	{
@@ -5377,7 +5377,7 @@ if((t=GLOBALS->traces.first))
 						}
 					free_2(tname_copy);
 					}
-	
+
 				free_2(tname);
 				fix=1;
 		      		break;
@@ -5438,7 +5438,7 @@ if(GLOBALS->helpbox_is_active)
 		        help_text_bold("\n\nOpen Source Instantiation");
 			}
 	        help_text(
-#if WAVE_USE_GTK2   
+#if WAVE_USE_GTK2
 			" invokes $GTKWAVE_EDITOR or gedit (if found) on the appropriate source unit."
 #else
 			" is not available with this build.  Please build against GTK 2."
@@ -5449,7 +5449,7 @@ if(GLOBALS->helpbox_is_active)
 		{
 	        help_text_bold("\n\nOpen Scope");
 	        help_text(
-#if WAVE_USE_GTK2   
+#if WAVE_USE_GTK2
 			" opens and selects the appropriate level of hierarchy in the SST"
 			" for the first selected signal."
 #else
@@ -5460,7 +5460,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-#if WAVE_USE_GTK2   
+#if WAVE_USE_GTK2
 
 if((typ == FST_MT_SOURCESTEM) || (typ == FST_MT_SOURCEISTEM))
 	{
@@ -5730,11 +5730,11 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Right Justify-Off");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " vectors with this qualifier will not be displayed right"       
+                " vectors with this qualifier will not be displayed right"
                 " justified."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_RJUSTIFY), 0 );
 }
@@ -5747,12 +5747,12 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Gray Filters-To Gray");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " bits and vectors with this qualifier will be displayed after"       
+                " bits and vectors with this qualifier will be displayed after"
                 " going through normal to gray conversion. This is a filter"
 		" which sits before other Data Format options such as hex, etc."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_GRAYMASK|TR_ANALOGMASK), TR_BINGRAY );
 }
@@ -5765,12 +5765,12 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Gray Filters-From Gray");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " bits and vectors with this qualifier will be displayed after"       
+                " bits and vectors with this qualifier will be displayed after"
                 " going through gray to normal conversion. This is a filter"
                 " which sits before other Data Format options such as hex, etc."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_GRAYMASK|TR_ANALOGMASK), TR_GRAYBIN );
 }
@@ -5784,11 +5784,11 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Gray Filters-None");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " bits and vectors with this qualifier will be displayed with"       
+                " bits and vectors with this qualifier will be displayed with"
                 " normal encoding."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_GRAYMASK|TR_ANALOGMASK), 0 );
 }
@@ -5801,12 +5801,12 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Popcnt-On");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " bits and vectors with this qualifier will be displayed after"       
+                " bits and vectors with this qualifier will be displayed after"
                 " going through a population (one's) count conversion.  This is a filter"
                 " which sits before other Data Format options such as hex, etc."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_POPCNT), TR_POPCNT );
 }
@@ -5823,7 +5823,7 @@ if(GLOBALS->helpbox_is_active)
                 " normal encoding."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_POPCNT), 0 );
 }
@@ -5836,11 +5836,11 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Invert-On");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " bits and vectors with this qualifier will be displayed with"       
+                " bits and vectors with this qualifier will be displayed with"
                 " 1's and 0's inverted."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_INVERT), TR_INVERT );
 }
@@ -5853,11 +5853,11 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Invert-Off");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " bits and vectors with this qualifier will not be displayed with" 
-                " 1's and 0's inverted."                       
+                " bits and vectors with this qualifier will not be displayed with"
+                " 1's and 0's inverted."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_INVERT), 0 );
 }
@@ -5870,11 +5870,11 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Reverse Bits-On");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " vectors with this qualifier will be displayed in" 
-                " reversed bit order."                       
+                " vectors with this qualifier will be displayed in"
+                " reversed bit order."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_REVERSE), TR_REVERSE );
 }
@@ -5890,7 +5890,7 @@ if(GLOBALS->helpbox_is_active)
                 " vectors with this qualifier will not be displayed in"
                 " reversed bit order."
         );
-        return;   
+        return;
         }
 
 dataformat( ~(TR_REVERSE), 0 );
@@ -5921,7 +5921,7 @@ if(GLOBALS->helpbox_is_active)
         help_text(
                 " causes the waveform data for all currently highlighted traces"
                 " to be displayed as normal if the exclude attribute is currently"
-		" set on the highlighted traces."            
+		" set on the highlighted traces."
         );
         return;
         }
@@ -5937,12 +5937,12 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Range Fill With 0s");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " vectors with this qualifier will be displayed as if" 
-                " the bitrange of the MSB or LSB as appropriate goes to zero."                       
+                " vectors with this qualifier will be displayed as if"
+                " the bitrange of the MSB or LSB as appropriate goes to zero."
 		" Zero bits will be filled in for the missing bits."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_ZEROFILL|TR_ONEFILL|TR_ANALOGMASK), TR_ZEROFILL );
 }
@@ -5955,14 +5955,14 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nData Format-Range Fill With 1s");
         help_text(
                 " will step through all highlighted traces and ensure that"
-                " vectors with this qualifier will be displayed as if" 
-                " the bitrange of the MSB or LSB as appropriate goes to zero."                       
+                " vectors with this qualifier will be displayed as if"
+                " the bitrange of the MSB or LSB as appropriate goes to zero."
 		" One bits will be filled in for the missing bits; this is mostly intended"
 		" to be used when viewing values which are inverted in the logic and need"
 		" to be inverted in the viewer."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_ZEROFILL|TR_ONEFILL|TR_ANALOGMASK), TR_ONEFILL );
 }
@@ -5978,7 +5978,7 @@ if(GLOBALS->helpbox_is_active)
 		" normal bitrange displays are used."
         );
         return;
-        }  
+        }
 
 dataformat( ~(TR_ZEROFILL|TR_ONEFILL|TR_ANALOGMASK), 0 );
 }
@@ -5991,7 +5991,7 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nAnalog Off");
         help_text(
                 " causes the waveform data for all currently highlighted traces"
-                " to be displayed as normal."            
+                " to be displayed as normal."
         );
         return;
         }
@@ -6007,7 +6007,7 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nAnalog Step");
         help_text(
                 " causes the waveform data for all currently highlighted traces"
-                " to be displayed as stepwise analog waveform."            
+                " to be displayed as stepwise analog waveform."
         );
         return;
         }
@@ -6023,7 +6023,7 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nAnalog Interpolate");
         help_text(
                 " causes the waveform data for all currently highlighted traces"
-                " to be displayed as interpolated analog waveform."            
+                " to be displayed as interpolated analog waveform."
         );
         return;
         }
@@ -6040,7 +6040,7 @@ if(GLOBALS->helpbox_is_active)
         help_text(
                 " causes the waveform data for all currently highlighted traces"
                 " to be displayed as an interpolated analog waveform annotated"
-		" with the non-interpolated data sampling points that the cursor snaps to."            
+		" with the non-interpolated data sampling points that the cursor snaps to."
         );
         return;
         }
@@ -6057,7 +6057,7 @@ if(GLOBALS->helpbox_is_active)
         help_text(
                 " causes the waveform data for all currently highlighted traces"
                 " to be displayed such that the y-value scaling maximizes the on-screen trace"
-		" data so if fills the whole trace width at all times."            
+		" data so if fills the whole trace width at all times."
         );
         return;
         }
@@ -6070,11 +6070,11 @@ menu_dataformat_analog_resize_all(gpointer null_data, guint callback_action, Gtk
 {
 if(GLOBALS->helpbox_is_active)
         {
-        help_text_bold("\n\nAnalog Resizing All Data"); 
+        help_text_bold("\n\nAnalog Resizing All Data");
         help_text(
                 " causes the waveform data for all currently highlighted traces"
                 " to be displayed such that the y-value scaling maximizes the on-screen trace"
-		" data so if fills the whole trace width only when fully zoomed out."            
+		" data so if fills the whole trace width only when fully zoomed out."
 		" (i.e., the scale used goes across all trace data)"
         );
         return;
@@ -6238,12 +6238,12 @@ if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nCut");
         help_text(
-                " removes highlighted signals from the display and places them" 
+                " removes highlighted signals from the display and places them"
 		" in an offscreen cut/copy buffer for later Paste operations. "
 		" Cut implicitly destroys the previous contents of the cut/copy buffer."
         );
         return;
-        }                
+        }
 
 if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd active */
 
@@ -6279,12 +6279,12 @@ if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nCopy");
         help_text(
-                " copies highlighted signals from the display and places them" 
+                " copies highlighted signals from the display and places them"
 		" in an offscreen cut/copy buffer for later Paste operations. "
 		" Copy implicitly destroys the previous contents of the cut/copy buffer."
         );
         return;
-        }                
+        }
 
 if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd active */
 
@@ -6324,7 +6324,7 @@ if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nPaste");
         help_text(
-                " pastes signals from"       
+                " pastes signals from"
                 " an offscreen cut/copy buffer and places them in a group after"
 		" the last highlighted signal, or at the end of the display"
 		" if no signal is highlighted."
@@ -6502,7 +6502,7 @@ if(GLOBALS->helpbox_is_active)
                 " J = Right Justify\n"
                 " ~ = Invert\n"
                 " V = Reverse\n"
-                " * = Analog Step+Interpolated\n"   
+                " * = Analog Step+Interpolated\n"
                 " S = Analog Step\n"
                 " I = Analog Interpolated\n"
                 " R = Real\n"
@@ -6541,7 +6541,7 @@ GLOBALS->disable_mouseover = !gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM
  * mouse.) The last member is the data to pass to your callback function.
  *
  * ...This has all been changed to use itemfactory stuff which is more
- * powerful.  The only real difference is the final item which tells 
+ * powerful.  The only real difference is the final item which tells
  * the itemfactory just what the item "is".
  */
 #ifdef WAVE_USE_MENU_BLACKOUTS
@@ -6552,7 +6552,7 @@ static gtkwave_mlist_t menu_items[] =
 {
     WAVE_GTKIFE("/File/Open New Window", "<Control>N", menu_new_viewer, WV_MENU_FONV, "<Item>"),
     WAVE_GTKIFE("/File/Open New Tab", "<Control>T", menu_new_viewer_tab, WV_MENU_FONVT, "<Item>"),
-    WAVE_GTKIFE("/File/Reload Waveform", "<Shift><Control>R", menu_reload_waveform, WV_MENU_FRW, "<Item>"),    
+    WAVE_GTKIFE("/File/Reload Waveform", "<Shift><Control>R", menu_reload_waveform, WV_MENU_FRW, "<Item>"),
     WAVE_GTKIFE("/File/Export/Write VCD File As", NULL, menu_write_vcd_file, WV_MENU_WRVCD, "<Item>"),
     WAVE_GTKIFE("/File/Export/Write LXT File As", NULL, menu_write_lxt_file, WV_MENU_WRLXT, "<Item>"),
     WAVE_GTKIFE("/File/Export/Write TIM File As", NULL, menu_write_tim_file, WV_MENU_WRTIM, "<Item>"),
@@ -7009,14 +7009,14 @@ void get_main_menu(GtkWidget *window, GtkWidget ** menubar)
 #endif
 			case WV_MENU_HWV:
 				break;
-	
-			default: 
+
+			default:
 				mw = gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[i].path);
 				if(mw) gtk_widget_set_sensitive(mw, FALSE);
 				break;
 			}
 		}
-	
+
 #ifdef WAVE_USE_MENU_BLACKOUTS
 		for(i=0;i<(sizeof(menu_blackouts)/sizeof(char *));i++)
 			{
@@ -7089,7 +7089,7 @@ void menu_set_sensitive(void)
 #ifdef MAC_INTEGRATION
 		case WV_MENU_HWM:
 #endif
-                case WV_MENU_HWV:  
+                case WV_MENU_HWV:
                         break;
 
                 default:
@@ -7098,8 +7098,8 @@ void menu_set_sensitive(void)
 #else
                         mw = gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[i].path);
 #endif
-                        if(mw) 
-				{ 
+                        if(mw)
+				{
 #ifdef MAC_INTEGRATION
 				if(menu_items[i].callback)
 #endif
@@ -7125,9 +7125,9 @@ if(!GLOBALS->enable_fast_exit)
 	{
 #ifdef __CYGWIN__
 	kill_stems_browser();
-#endif	
+#endif
 	g_print ("WM Destroy\n");
-	gtk_exit(0);	
+	gtk_exit(0);
 	}
 
 return(TRUE); /* keeps "delete_event" from happening...we'll manually destory later if need be */
@@ -7151,7 +7151,7 @@ if(GLOBALS->tcl_running)
 		free_2(name);
 		}
 
-	return(0);	
+	return(0);
 	}
 
 GLOBALS->tcl_running = 1;
@@ -7237,7 +7237,7 @@ while(*accel)
 if(!*accel) return(1);
 
 if(strstr(path, "<separator>")) return(1);
-if(!strcmp(accel, "(null)")) 
+if(!strcmp(accel, "(null)"))
 	{
 	accel = NULL;
 	}
@@ -7363,7 +7363,7 @@ void do_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
 	}
     else
 	{
-        if(!GLOBALS->istem_struct_base) 
+        if(!GLOBALS->istem_struct_base)
 		{
 		nmenu_items--; /* remove "/Open Source Instantiation" if not present */
 		}
@@ -7398,7 +7398,7 @@ void do_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
 #endif
     }
 
-  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
+  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
                   button, event_time);
 }
 
@@ -7428,7 +7428,7 @@ void do_sst_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
     {
     int nmenu_items = sizeof(sst_popmenu_items) / sizeof(sst_popmenu_items[0]);
 
-    if(!GLOBALS->istem_struct_base) 
+    if(!GLOBALS->istem_struct_base)
 	{
 	nmenu_items--; /* remove "/Open Source Instantiation" if not present */
 	}
@@ -7461,7 +7461,7 @@ void do_sst_popup_menu (GtkWidget *my_widget, GdkEventButton *event)
 #endif
     }
 
-  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 
+  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
                   button, event_time);
 }
 
@@ -7554,8 +7554,8 @@ while(*s)
 for(i=0;i<slashcount;i++)
 	{
 	if(i != (slashcount-1)) *(slashes[i+1]) = 0;
-	(*parts)[i] = strdup_2(slashes[i] + 1);	
-	
+	(*parts)[i] = strdup_2(slashes[i] + 1);
+
 	if(i != (slashcount-1)) *(slashes[i+1]) = '/';
 	}
 
@@ -7587,8 +7587,8 @@ if(accel && menuitem && path)
 	GdkModifierType accelerator_mods = 0;
 	char full_path[1024];
 	sprintf(full_path, "<main>%s", path);
-	
-	if(accelerator) 
+
+	if(accelerator)
 		{
 		gtk_accelerator_parse(accelerator, &accelerator_key, &accelerator_mods);
 
@@ -7656,11 +7656,11 @@ while(ptr)
 			{
 			menuitem = gtk_menu_item_new_with_label(ptr->name);
 			}
-	
+
 		if(!ptr->child && mi[ptr->idx].callback)
 			{
 		      	g_signal_connect (menuitem, "activate", G_CALLBACK (mi[ptr->idx].callback), (gpointer)(long)mi[ptr->idx].callback_action);
-			alt_menu_install_accelerator(accel, menuitem, mi[ptr->idx].accelerator, mi[ptr->idx].path); 
+			alt_menu_install_accelerator(accel, menuitem, mi[ptr->idx].accelerator, mi[ptr->idx].path);
 			}
 		}
 
@@ -7702,7 +7702,7 @@ for(i=0;i<nmenu_items;i++)
 
 	decompose_path(mi[i].path, &items, &parts);
 
-	n = mtree;	
+	n = mtree;
 	for(j=0;j<items;j++)
 		{
 		assert(n != NULL); /* scan-build */
@@ -7793,10 +7793,10 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 #endif
 			case WV_MENU_HWV:
 				break;
-	
-			default: 
+
+			default:
 				mw = menu_wlist[i];
-				if(mw) 
+				if(mw)
 					{
 #ifdef MAC_INTEGRATION
 					if(menu_items[i].callback)
@@ -7808,12 +7808,12 @@ if(GLOBALS->loaded_file_type == MISSING_FILE)
 				break;
 			}
 		}
-	
+
 #ifdef WAVE_USE_MENU_BLACKOUTS
 		for(i=0;i<(sizeof(menu_blackouts)/sizeof(char *));i++)
 			{
 			mw = menu_wlist[i];
-			if(mw) 
+			if(mw)
 				{
 				gtk_widget_set_sensitive(mw, FALSE);
 				}
@@ -7867,7 +7867,7 @@ int i;
 for(i=0;i<nmenu_items;i++)
 	{
 	mw = menu_wlist[i];
-	if(mw) 
+	if(mw)
 		{
 		if(menu_items[i].callback)
 			{
@@ -7921,7 +7921,7 @@ if(GLOBALS->loaded_file_type != MISSING_FILE)
 #endif
 			case WV_MENU_HWV:
 				mw = menu_wlist[i];
-				if(mw) 
+				if(mw)
 					{
 #ifdef MAC_INTEGRATION
 					if(menu_items[i].callback)
@@ -7931,8 +7931,8 @@ if(GLOBALS->loaded_file_type != MISSING_FILE)
 						}
 					}
 				break;
-	
-			default: 
+
+			default:
 				break;
 			}
 		}

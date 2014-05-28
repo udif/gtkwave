@@ -25,8 +25,8 @@
 
 /************************ splay ************************/
 
-/* 
- * NOTE: 
+/*
+ * NOTE:
  * a GHW tree's "which" is not the same as a gtkwave "which"
  * in that gtkwave's points to the facs[] array and
  * GHW's functions as an alias handle.  The following
@@ -108,7 +108,7 @@ static ghw_Tree * ghw_insert(void *i, ghw_Tree * t, int val, struct symbol *sym)
 /* Return a pointer to the resulting tree.                 */
     ghw_Tree * n;
     int dir;
-    
+
     n = (ghw_Tree *) calloc_2(1, sizeof (ghw_Tree));
     if (n == NULL) {
 	fprintf(stderr, "ghw_insert: ran out of memory, exiting.\n");
@@ -190,7 +190,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 					GLOBALS->facs[i]->vec_root = root;
 					}
 				}
-			}				
+			}
 			else
 			{
 			if((p1>=0)&&(p1==p2))
@@ -211,7 +211,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 				}
 			}
 		}
-	
+
 	psr = GLOBALS->facs[i];
 	}
 }
@@ -239,12 +239,12 @@ if(t)
 	if(t->child) { recurse_tree_fix_from_whichcache(t->child); }
 	if(t->next) { recurse_tree_fix_from_whichcache(t->next); }
 
-	if(t->t_which >= 0) 
+	if(t->t_which >= 0)
 		{
 		GLOBALS->gwt_ghw_c_1 = ghw_splay(t, GLOBALS->gwt_ghw_c_1);
 		GLOBALS->gwt_corr_ghw_c_1 = ghw_splay(GLOBALS->gwt_ghw_c_1->sym, GLOBALS->gwt_corr_ghw_c_1); /* all facs are in this tree so this is OK */
 
-		t->t_which = GLOBALS->gwt_corr_ghw_c_1->val_old;				
+		t->t_which = GLOBALS->gwt_corr_ghw_c_1->val_old;
 		}
 	}
 }
@@ -264,7 +264,7 @@ free_2(t);
  */
 static void ghw_sortfacs(void)
 {
-int i;  
+int i;
 
 recurse_tree_build_whichcache(GLOBALS->treeroot);
 
@@ -281,7 +281,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
         if((len=strlen(subst))>GLOBALS->longestname) GLOBALS->longestname=len;
 #ifdef WAVE_HIERFIX
         while((ch=(*subst)))
-                { 
+                {
                 if(ch==GLOBALS->hier_delimeter) { *subst=VCDNAM_HIERSORT; } /* forces sort at hier boundaries */
                 subst++;
                 }
@@ -304,7 +304,7 @@ if(GLOBALS->gwt_corr_ghw_c_1)
 	{
 	incinerate_whichcache_tree(GLOBALS->gwt_corr_ghw_c_1); GLOBALS->gwt_corr_ghw_c_1 = NULL;
 	}
- 
+
 #ifdef WAVE_HIERFIX
 for(i=0;i<GLOBALS->numfacs;i++)
         {
@@ -345,7 +345,7 @@ build_hierarchy_array (struct ghw_handler *h, union ghw_type *arr, int dim,
       name = strdup_2(GLOBALS->asbuf);
 
       t = build_hierarchy_type (h, base->el, name, sig);
-      
+
       if (*res != NULL)
 	(*res)->next = t;
       *res = t;
@@ -362,7 +362,7 @@ build_hierarchy_array (struct ghw_handler *h, union ghw_type *arr, int dim,
 	struct ghw_range_i32 *r;
 	/* struct tree *last; */
 	int len;
-	
+
 	/* last = NULL; */
 	r = &arr->sa.rngs[dim]->i32;
 	len = ghw_get_range_length ((union ghw_range *)r);
@@ -392,7 +392,7 @@ build_hierarchy_array (struct ghw_handler *h, union ghw_type *arr, int dim,
 	struct ghw_range_e8 *r;
 	/* struct tree *last; */
 	int len;
-	
+
 	/* last = NULL; */
 	r = &arr->sa.rngs[dim]->e8;
 	len = ghw_get_range_length ((union ghw_range *)r);
@@ -444,15 +444,15 @@ build_hierarchy_type (struct ghw_handler *h, union ghw_type *t,
       s = calloc_2(1, sizeof(struct symbol));
 
         if(!GLOBALS->firstnode)
-                {                                
+                {
                 GLOBALS->firstnode=
-                GLOBALS->curnode=calloc_2(1, sizeof(struct symchain)); 
-                }                                
+                GLOBALS->curnode=calloc_2(1, sizeof(struct symchain));
+                }
                 else
-                {                                
-                GLOBALS->curnode->next=calloc_2(1, sizeof(struct symchain)); 
-                GLOBALS->curnode=GLOBALS->curnode->next; 
-                }                                
+                {
+                GLOBALS->curnode->next=calloc_2(1, sizeof(struct symchain));
+                GLOBALS->curnode=GLOBALS->curnode->next;
+                }
         GLOBALS->curnode->symbol=s;
 
       GLOBALS->nbr_sig_ref_ghw_c_1++;
@@ -532,7 +532,7 @@ build_hierarchy (struct ghw_handler *h, struct ghw_hie *hie)
     		case ghw_hie_instance:		ttype = TREE_VHDL_ST_INSTANCE; break;
     		case ghw_hie_generate_for:	ttype = TREE_VHDL_ST_GENFOR; break;
     		case ghw_hie_generate_if:	ttype = TREE_VHDL_ST_GENIF; break;
-    		case ghw_hie_package:		
+    		case ghw_hie_package:
 		default:
 						ttype = TREE_VHDL_ST_PACKAGE; break;
 		}
@@ -612,7 +612,7 @@ build_hierarchy (struct ghw_handler *h, struct ghw_hie *hie)
 		case ghw_hie_port_out:		ttype = TREE_VHDL_ST_PORTOUT; break;
 		case ghw_hie_port_inout:	ttype = TREE_VHDL_ST_PORTINOUT; break;
 		case ghw_hie_port_buffer:	ttype = TREE_VHDL_ST_BUFFER; break;
-		case ghw_hie_port_linkage:	
+		case ghw_hie_port_linkage:
 		default:
 						ttype = TREE_VHDL_ST_LINKAGE; break;
 		}
@@ -721,7 +721,7 @@ set_fac_name_1 (struct tree *t)
       if(t->name[0]) /* originally (t->name != NULL) when using pointers */
 	{
 	  int len;
-	  
+
 	  len = strlen (t->name) + 1;
 	  if (len + GLOBALS->fac_name_len_ghw_c_1 >= GLOBALS->fac_name_max_ghw_c_1)
 	    {
@@ -899,13 +899,13 @@ add_history (struct ghw_handler *h, struct Node *n, int sig_num)
     case ghdl_rtik_type_i32:
     case ghdl_rtik_type_p32:
       sprintf (GLOBALS->asbuf, GHWLD, sig->val->i32);
-      he->v.h_vector = strdup_2(GLOBALS->asbuf);    
+      he->v.h_vector = strdup_2(GLOBALS->asbuf);
       is_vector = 1;
       break;
     case ghdl_rtik_type_i64:
     case ghdl_rtik_type_p64:
       sprintf (GLOBALS->asbuf, GHWLLD, sig->val->i64);
-      he->v.h_vector = strdup_2(GLOBALS->asbuf);    
+      he->v.h_vector = strdup_2(GLOBALS->asbuf);
       is_vector = 1;
       break;
     default:
@@ -979,14 +979,14 @@ add_tail (struct ghw_handler *h)
 {
   int i;
   TimeType j;
- 
+
   for (j = 1; j>=0 ; j--) /* add two endcaps */
   for (i = 0; i < h->nbr_sigs; i++)
     {
       struct ghw_sig *sig = &h->sigs[i];
       struct Node *n = GLOBALS->nxp_ghw_c_1[i];
       struct HistEnt *he;
-      
+
       if (sig->type == NULL || n == NULL || !n->curr)
 	continue;
 
@@ -1008,9 +1008,9 @@ read_traces (struct ghw_handler *h)
   int *list;
   int i;
   enum ghw_res res;
-  
+
   list = malloc_2((GLOBALS->numfacs + 1) * sizeof (int));
-  
+
   while (1)
     {
       res = ghw_read_sm_hdr (h, list);
@@ -1041,7 +1041,7 @@ read_traces (struct ghw_handler *h)
 		{
 		  if (h->snap_time > GLOBALS->max_time)
 		    GLOBALS->max_time = h->snap_time;
-		  
+
 		  for (i = 0; (sig = list[i]) != 0; i++)
 		    add_history (h, GLOBALS->nxp_ghw_c_1[sig], sig);
 		}
@@ -1089,7 +1089,7 @@ ghw_main(char *fname)
 
  if (ghw_read_base (&handle) < 0)
    {
-     free_2(GLOBALS->asbuf); 
+     free_2(GLOBALS->asbuf);
      GLOBALS->asbuf = NULL;
      fprintf (stderr, "Error in ghw file '%s'.\n", fname);
      return(LLDescriptor(0));        /* look at return code in caller for success status... */
@@ -1113,7 +1113,7 @@ ghw_main(char *fname)
  create_facs (&handle);
  read_traces (&handle);
  add_tail (&handle);
- 
+
  set_fac_name (&handle);
  free_2(GLOBALS->nxp_ghw_c_1); GLOBALS->nxp_ghw_c_1 = NULL;
 

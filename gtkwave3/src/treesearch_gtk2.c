@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tristan Gingold and Tony Bybell 2006-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -54,10 +54,10 @@ struct autocoalesce_free_list *at;
 while(GLOBALS->afl_treesearch_gtk2_c_1)
 	{
 	if(GLOBALS->afl_treesearch_gtk2_c_1->name) free_2(GLOBALS->afl_treesearch_gtk2_c_1->name);
-	at = GLOBALS->afl_treesearch_gtk2_c_1->next;			
+	at = GLOBALS->afl_treesearch_gtk2_c_1->next;
 	free_2(GLOBALS->afl_treesearch_gtk2_c_1);
 	GLOBALS->afl_treesearch_gtk2_c_1 = at;
-	}	
+	}
 }
 
 
@@ -147,7 +147,7 @@ fill_sig_store (void)
 	unsigned int varxt;
 	char *varxt_pnt;
 
-	if(i < 0) 
+	if(i < 0)
 		{
 		t_prev = NULL;
 		continue;
@@ -216,9 +216,9 @@ fill_sig_store (void)
 
 	wrexm = 0;
 	if 	(
-		(GLOBALS->filter_str_treesearch_gtk2_c_1 == NULL) || 
+		(GLOBALS->filter_str_treesearch_gtk2_c_1 == NULL) ||
 		((!GLOBALS->filter_noregex_treesearch_gtk2_c_1) && (wrexm = wave_regex_match(t->name, WAVE_REGEX_TREE)) && (!GLOBALS->filter_matlen_treesearch_gtk2_c_1)) ||
-		(GLOBALS->filter_matlen_treesearch_gtk2_c_1 && (GLOBALS->filter_typ_treesearch_gtk2_c_1 == vardir) && 
+		(GLOBALS->filter_matlen_treesearch_gtk2_c_1 && (GLOBALS->filter_typ_treesearch_gtk2_c_1 == vardir) &&
 			(wrexm || (wrexm = wave_regex_match(t->name, WAVE_REGEX_TREE)))	)
 		)
       		{
@@ -228,7 +228,7 @@ fill_sig_store (void)
 			gtk_list_store_set (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter,
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
-				    TYPE_COLUMN, 
+				    TYPE_COLUMN,
 						(((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
 							(varxt ? varxt_pnt : vardatatype_strings[vardt]) : vartype_strings[vartype]),
 				    DIR_COLUMN, vardir_strings[vardir],
@@ -245,12 +245,12 @@ fill_sig_store (void)
 			struct autocoalesce_free_list *a = calloc_2(1, sizeof(struct autocoalesce_free_list));
 			a->name = s;
 			a->next = GLOBALS->afl_treesearch_gtk2_c_1;
-			GLOBALS->afl_treesearch_gtk2_c_1 = a;			
+			GLOBALS->afl_treesearch_gtk2_c_1 = a;
 
 			gtk_list_store_set (GLOBALS->sig_store_treesearch_gtk2_c_1, &iter,
 				    NAME_COLUMN, s,
 				    TREE_COLUMN, t,
-				    TYPE_COLUMN, 
+				    TYPE_COLUMN,
 						(((GLOBALS->supplemental_datatypes_encountered) && (!GLOBALS->supplemental_vartypes_encountered)) ?
 							(varxt ? varxt_pnt : vardatatype_strings[vardt]) : vartype_strings[vartype]),
 				    DIR_COLUMN, vardir_strings[vardir],
@@ -283,7 +283,7 @@ if(node)
 		{
 		GtkCTree *ctree = GLOBALS->ctree_main;
 		GtkCTreeNode *n = gctr->children;
-	
+
 		gtk_clist_freeze(GTK_CLIST(ctree));
 
 		while(n)
@@ -299,10 +299,10 @@ if(node)
 					maketree2(n, t, 0, n);
 					}
 				}
-	
+
 			n = GTK_CTREE_NODE_NEXT(n);
 			}
-	
+
 		gtk_clist_thaw(GTK_CLIST(ctree));
 		}
 	}
@@ -321,12 +321,12 @@ int force_open_tree_node(char *name, int keep_path_nodes_open, struct tree **t_p
     GtkCTreeNode *node = GLOBALS->any_tree_node;
     GtkCTreeRow *gctr = GTK_CTREE_ROW(node);
     int depth = 1;
-    
+
     strcpy(namecache, name);
     while(gctr->parent)	{
       node = gctr->parent;
       gctr = GTK_CTREE_ROW(node);
-    } 
+    }
     for(;;) {
       struct tree *t = gctr->row.data;
       if(t_pnt) { *t_pnt = t; }
@@ -348,12 +348,12 @@ int force_open_tree_node(char *name, int keep_path_nodes_open, struct tree **t_p
 	  exp1[i--] = 1;
 	  /* now work backwards up to parent getting the node open/close history*/
 	  gctr = GTK_CTREE_ROW(node);
-	  while(gctr->parent) {        
+	  while(gctr->parent) {
 	    node = gctr->parent;
 	    gctr = GTK_CTREE_ROW(node);
 	    nodehist[i] = node;
 	    exp1[i--] = gctr->expanded || (keep_path_nodes_open != 0);
-	  }        
+	  }
 	  gtk_clist_freeze(GTK_CLIST(ctree));
 	  /* fully expand down */
 	  for(i=0;i<depth;i++) {
@@ -416,7 +416,7 @@ if(t->right)
 	}
 }
 
-static void generic_tree_expand_collapse_callback(int is_expand, GtkCTreeNode *node) 
+static void generic_tree_expand_collapse_callback(int is_expand, GtkCTreeNode *node)
 {
 GtkCTreeRow **gctr;
 int depth, i;
@@ -500,8 +500,8 @@ gtk_widget_show(GTK_WIDGET(GLOBALS->tree_treesearch_gtk2_c_1));
 #endif
 #endif
 }
- 
-static void tree_collapse_callback(GtkCTree *ctree, GtkCTreeNode *node, gpointer user_data) 
+
+static void tree_collapse_callback(GtkCTree *ctree, GtkCTreeNode *node, gpointer user_data)
 {
 generic_tree_expand_collapse_callback(0, node);
 #ifdef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND
@@ -533,7 +533,7 @@ if(ctree)
 		{
 		node = gctr->parent;
 		gctr = GTK_CTREE_ROW(node);
-		} 
+		}
 
 	for(;;)
 		{
@@ -604,17 +604,17 @@ if(node)
 
 	hier_suffix[0] = GLOBALS->hier_delimeter;
 	hier_suffix[1] = 0;
-                
+
 	depth = GTK_CTREE_ROW(node)->level;
 	gctr = wave_alloca(depth * sizeof(GtkCTreeRow *));
-         
+
 	for(i=depth-1;i>=0;i--)
 	        {
 	        gctr[i] = GTK_CTREE_ROW(node);
 	        t = gctr[i]->row.data;
 	        len += (strlen(t->name) + 1);
 	        node = gctr[i]->parent;
-	        }        
+	        }
 
 	tstring = wave_alloca(len);
 	memset(tstring, 0, len);
@@ -710,7 +710,7 @@ gboolean filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 						GLOBALS->filter_noregex_treesearch_gtk2_c_1 = 1;
 						}
 					}
-				}			
+				}
 			}
 		}
 
@@ -849,7 +849,7 @@ return(t);
 /* Get the lowest signal from T.  */
 struct tree *fetchlow(struct tree *t)
 {
-if(t->child) 
+if(t->child)
 	{
 	t=t->child;
 
@@ -892,7 +892,7 @@ if(t)
 		}
 		else
 		{
-		add_vector_range(NULL, fetchlow(t)->t_which, 
+		add_vector_range(NULL, fetchlow(t)->t_which,
 			fetchhigh(t)->t_which, direction);
 		}
 	}
@@ -914,10 +914,10 @@ bundle_cleanup_foreach (GtkTreeModel *model,
 
   if(!sel) return;
 
-if(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3) 
+if(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3)
         {
         char *efix;
- 
+
 	if(!strlen(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3))
 		{
 	        DEBUG(printf("Bundle name is not specified--recursing into hierarchy.\n"));
@@ -934,11 +934,11 @@ if(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3)
 	                        }
 	                efix++;
 	                }
-	 
+
 	        DEBUG(printf("Bundle name is: %s\n",GLOBALS->entrybox_text_local_treesearch_gtk2_c_3));
-	        add_vector_range(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3, 
+	        add_vector_range(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3,
 				fetchlow(sel)->t_which,
-				fetchhigh(sel)->t_which, 
+				fetchhigh(sel)->t_which,
 				GLOBALS->bundle_direction_treesearch_gtk2_c_3);
 		}
         free_2(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3);
@@ -952,7 +952,7 @@ if(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3)
 
 static void
 bundle_cleanup(GtkWidget *widget, gpointer data)
-{ 
+{
   gtk_tree_selection_selected_foreach
     (GLOBALS->sig_selection_treesearch_gtk2_c_1, &bundle_cleanup_foreach, NULL);
 
@@ -960,7 +960,7 @@ MaxSignalLength();
 signalarea_configure_event(GLOBALS->signalarea, NULL);
 wavearea_configure_event(GLOBALS->wavearea, NULL);
 }
- 
+
 static void
 bundle_callback_generic(void)
 {
@@ -1021,7 +1021,7 @@ sig_selection_foreach (GtkTreeModel *model,
   for(i=low;i<=high;i++)
         {
 	int len;
-        struct symbol *s, *t;  
+        struct symbol *s, *t;
         s=GLOBALS->facs[i];
 	t=s->vec_root;
 	if((t)&&(GLOBALS->autocoalesce))
@@ -1040,7 +1040,7 @@ sig_selection_foreach (GtkTreeModel *model,
 		}
 		else
 		{
-	        AddNodeUnroll(s->n, NULL);  
+	        AddNodeUnroll(s->n, NULL);
 		}
         }
 }
@@ -1051,7 +1051,7 @@ sig_selection_foreach_finalize (gpointer data)
  const enum cb_action action = (enum cb_action)data;
 
  if (action == ACTION_REPLACE || action == ACTION_INSERT || action == ACTION_PREPEND)
-   { 
+   {
      Trptr tfirst=NULL, tlast=NULL;
      Trptr t;
      Trptr *tp = NULL;
@@ -1095,7 +1095,7 @@ sig_selection_foreach_finalize (gpointer data)
      GLOBALS->traces.buffercount=GLOBALS->tcache_treesearch_gtk2_c_2.buffercount;
      GLOBALS->traces.buffer=GLOBALS->tcache_treesearch_gtk2_c_2.buffer;
      GLOBALS->traces.bufferlast=GLOBALS->tcache_treesearch_gtk2_c_2.bufferlast;
-     
+
      if (action == ACTION_REPLACE)
        {
 	for(it=0;it<numhigh;it++)
@@ -1151,7 +1151,7 @@ sig_selection_foreach_preload_lx2
   /* If signals are vectors, coalesces vectors if so.  */
   for(i=low;i<=high;i++)
         {
-        struct symbol *s;  
+        struct symbol *s;
         s=GLOBALS->facs[i];
 	if(s->vec_root)
 		{
@@ -1370,9 +1370,9 @@ void treebox(char *title, GtkSignalFunc func, GtkWidget *old_window)
 	goto do_tooltips;
 	}
 
-    if(GLOBALS->is_active_treesearch_gtk2_c_6) 
+    if(GLOBALS->is_active_treesearch_gtk2_c_6)
 	{
-	if(GLOBALS->window_treesearch_gtk2_c_12) 
+	if(GLOBALS->window_treesearch_gtk2_c_12)
 		{
 		gdk_window_raise(GLOBALS->window_treesearch_gtk2_c_12->window);
 		}
@@ -1404,7 +1404,7 @@ do_tooltips:
     GLOBALS->treesearch_gtk2_window_vbox = vbox = gtk_vbox_new (FALSE, 1);
     gtk_widget_show (vbox);
 
-    gtkwave_signal_connect(GTK_OBJECT(vbox), "button_press_event",GTK_SIGNAL_FUNC(hier_top_button_press_event_std), NULL); 
+    gtkwave_signal_connect(GTK_OBJECT(vbox), "button_press_event",GTK_SIGNAL_FUNC(hier_top_button_press_event_std), NULL);
 
     vpan = gtk_vpaned_new ();
     gtk_widget_show (vpan);
@@ -1550,9 +1550,9 @@ do_tooltips:
     gtk_box_pack_start (GTK_BOX (filter_hbox), filter_label, FALSE, FALSE, 1);
 
     GLOBALS->filter_entry = gtk_entry_new ();
-    if(GLOBALS->filter_str_treesearch_gtk2_c_1) 
-	{ 
-	gtk_entry_set_text(GTK_ENTRY(GLOBALS->filter_entry), GLOBALS->filter_str_treesearch_gtk2_c_1); 
+    if(GLOBALS->filter_str_treesearch_gtk2_c_1)
+	{
+	gtk_entry_set_text(GTK_ENTRY(GLOBALS->filter_entry), GLOBALS->filter_str_treesearch_gtk2_c_1);
 	}
 
     gtk_widget_show (GLOBALS->filter_entry);
@@ -1592,7 +1592,7 @@ do_tooltips:
     gtk_container_border_width (GTK_CONTAINER (button1), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button1), "clicked",GTK_SIGNAL_FUNC(ok_callback),GTK_OBJECT (GLOBALS->window_treesearch_gtk2_c_12));
     gtk_widget_show (button1);
-    gtk_tooltips_set_tip_2(tooltips, button1, 
+    gtk_tooltips_set_tip_2(tooltips, button1,
 		"Add selected signal hierarchy to end of the display on the main window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox), button1, TRUE, FALSE, 0);
@@ -1601,7 +1601,7 @@ do_tooltips:
     gtk_container_border_width (GTK_CONTAINER (button2), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button2), "clicked",GTK_SIGNAL_FUNC(insert_callback),GTK_OBJECT (GLOBALS->window_treesearch_gtk2_c_12));
     gtk_widget_show (button2);
-    gtk_tooltips_set_tip_2(tooltips, button2, 
+    gtk_tooltips_set_tip_2(tooltips, button2,
 		"Add selected signal hierarchy after last highlighted signal on the main window.",NULL);
     gtk_box_pack_start (GTK_BOX (hbox), button2, TRUE, FALSE, 0);
 
@@ -1611,7 +1611,7 @@ do_tooltips:
     	gtk_container_border_width (GTK_CONTAINER (button3), 3);
     	gtkwave_signal_connect_object (GTK_OBJECT (button3), "clicked",GTK_SIGNAL_FUNC(bundle_callback_up),GTK_OBJECT (GLOBALS->window_treesearch_gtk2_c_12));
     	gtk_widget_show (button3);
-    	gtk_tooltips_set_tip_2(tooltips, button3, 
+    	gtk_tooltips_set_tip_2(tooltips, button3,
 		"Bundle selected signal hierarchy into a single bit "
 		"vector with the topmost signal as the LSB and the "
 		"lowest as the MSB.  Entering a zero length bundle "
@@ -1625,7 +1625,7 @@ do_tooltips:
     	gtk_container_border_width (GTK_CONTAINER (button3a), 3);
     	gtkwave_signal_connect_object (GTK_OBJECT (button3a), "clicked",GTK_SIGNAL_FUNC(bundle_callback_down),GTK_OBJECT (GLOBALS->window_treesearch_gtk2_c_12));
     	gtk_widget_show (button3a);
-    	gtk_tooltips_set_tip_2(tooltips, button3a, 
+    	gtk_tooltips_set_tip_2(tooltips, button3a,
 		"Bundle selected signal hierarchy into a single bit "
 		"vector with the topmost signal as the MSB and the "
 		"lowest as the LSB.  Entering a zero length bundle "
@@ -1640,14 +1640,14 @@ do_tooltips:
     gtk_container_border_width (GTK_CONTAINER (button4), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button4), "clicked",GTK_SIGNAL_FUNC(replace_callback),GTK_OBJECT (GLOBALS->window_treesearch_gtk2_c_12));
     gtk_widget_show (button4);
-    gtk_tooltips_set_tip_2(tooltips, button4, 
+    gtk_tooltips_set_tip_2(tooltips, button4,
 		"Replace highlighted signals on the main window with signals selected above.",NULL);
     gtk_box_pack_start (GTK_BOX (hbox), button4, TRUE, FALSE, 0);
 
     button5 = gtk_button_new_with_label (" Exit ");
     gtk_container_border_width (GTK_CONTAINER (button5), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button5), "clicked",GTK_SIGNAL_FUNC(destroy_callback),GTK_OBJECT (GLOBALS->window_treesearch_gtk2_c_12));
-    gtk_tooltips_set_tip_2(tooltips, button5, 
+    gtk_tooltips_set_tip_2(tooltips, button5,
 		"Do nothing and return to the main window.",NULL);
     gtk_widget_show (button5);
     gtk_box_pack_start (GTK_BOX (hbox), button5, TRUE, FALSE, 0);
@@ -1684,13 +1684,13 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     vbox = gtk_vbox_new (FALSE, 1);
     gtk_widget_show (vbox);
 
-    gtkwave_signal_connect(GTK_OBJECT(vbox), "button_press_event",GTK_SIGNAL_FUNC(hier_top_button_press_event_std), NULL); 
+    gtkwave_signal_connect(GTK_OBJECT(vbox), "button_press_event",GTK_SIGNAL_FUNC(hier_top_button_press_event_std), NULL);
 
     vpan = gtk_vpaned_new (); /* GLOBALS->sst_vpaned is to be used to clone position over during reload */
     GLOBALS->sst_vpaned = (GtkPaned *)vpan;
     if(GLOBALS->vpanedwindow_size_cache)
 	{
-	gtk_paned_set_position(GTK_PANED(GLOBALS->sst_vpaned), GLOBALS->vpanedwindow_size_cache);    
+	gtk_paned_set_position(GTK_PANED(GLOBALS->sst_vpaned), GLOBALS->vpanedwindow_size_cache);
 	GLOBALS->vpanedwindow_size_cache = 0;
 	}
     gtk_widget_show (vpan);
@@ -1869,7 +1869,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     gtk_container_border_width (GTK_CONTAINER (button1), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button1), "clicked", GTK_SIGNAL_FUNC(ok_callback), GTK_OBJECT (GLOBALS->gtk2_tree_frame));
     gtk_widget_show (button1);
-    gtk_tooltips_set_tip_2(tooltips, button1, 
+    gtk_tooltips_set_tip_2(tooltips, button1,
 		"Add selected signal hierarchy to end of the display on the main window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox), button1, TRUE, FALSE, 0);
@@ -1878,7 +1878,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     gtk_container_border_width (GTK_CONTAINER (button2), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button2), "clicked", GTK_SIGNAL_FUNC(insert_callback), GTK_OBJECT (GLOBALS->gtk2_tree_frame));
     gtk_widget_show (button2);
-    gtk_tooltips_set_tip_2(tooltips, button2, 
+    gtk_tooltips_set_tip_2(tooltips, button2,
 		"Add selected signal hierarchy after last highlighted signal on the main window.",NULL);
     gtk_box_pack_start (GTK_BOX (hbox), button2, TRUE, FALSE, 0);
 
@@ -1888,7 +1888,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     	gtk_container_border_width (GTK_CONTAINER (button3), 3);
     	gtkwave_signal_connect_object (GTK_OBJECT (button3), "clicked", GTK_SIGNAL_FUNC(bundle_callback_up), GTK_OBJECT (GLOBALS->gtk2_tree_frame));
     	gtk_widget_show (button3);
-    	gtk_tooltips_set_tip_2(tooltips, button3, 
+    	gtk_tooltips_set_tip_2(tooltips, button3,
 		"Bundle selected signal hierarchy into a single bit "
 		"vector with the topmost signal as the LSB and the "
 		"lowest as the MSB.  Entering a zero length bundle "
@@ -1902,7 +1902,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     	gtk_container_border_width (GTK_CONTAINER (button3a), 3);
     	gtkwave_signal_connect_object (GTK_OBJECT (button3a), "clicked", GTK_SIGNAL_FUNC(bundle_callback_down), GTK_OBJECT (GLOBALS->gtk2_tree_frame));
     	gtk_widget_show (button3a);
-    	gtk_tooltips_set_tip_2(tooltips, button3a, 
+    	gtk_tooltips_set_tip_2(tooltips, button3a,
 		"Bundle selected signal hierarchy into a single bit "
 		"vector with the topmost signal as the MSB and the "
 		"lowest as the LSB.  Entering a zero length bundle "
@@ -1917,7 +1917,7 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
     gtk_container_border_width (GTK_CONTAINER (button4), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button4), "clicked", GTK_SIGNAL_FUNC(replace_callback), GTK_OBJECT (GLOBALS->gtk2_tree_frame));
     gtk_widget_show (button4);
-    gtk_tooltips_set_tip_2(tooltips, button4, 
+    gtk_tooltips_set_tip_2(tooltips, button4,
 		"Replace highlighted signals on the main window with signals selected above.",NULL);
     gtk_box_pack_start (GTK_BOX (hbox), button4, TRUE, FALSE, 0);
 
@@ -1997,7 +1997,7 @@ else
 
 
 if((t=GLOBALS->traces.first))
-        {       
+        {
         while(t)
                 {
                 t->flags&=~TR_HIGHLIGHT;
@@ -2007,8 +2007,8 @@ if((t=GLOBALS->traces.first))
         wavearea_configure_event(GLOBALS->wavearea, NULL);
 	}
 
-trtarget = ((int)y / (int)GLOBALS->fontheight) - 2; 
-if(trtarget < 0) 
+trtarget = ((int)y / (int)GLOBALS->fontheight) - 2;
+if(trtarget < 0)
 	{
 	Trptr tp = GLOBALS->topmost_trace ? GivePrevTrace(GLOBALS->topmost_trace): NULL;
 	trtarget = 0;
@@ -2086,13 +2086,13 @@ static void DNDEndCB(
 	GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
-if((widget == NULL) || (dc == NULL)) 
+if((widget == NULL) || (dc == NULL))
 	{
 	GLOBALS->tree_dnd_begin = VIEW_DRAG_INACTIVE;
 	return;
 	}
 
-if(GLOBALS->tree_dnd_begin == VIEW_DRAG_INACTIVE) 
+if(GLOBALS->tree_dnd_begin == VIEW_DRAG_INACTIVE)
 	{
 	return; /* to keep cut and paste in signalwindow from conflicting */
 	}
@@ -2118,7 +2118,7 @@ GLOBALS->tree_dnd_begin = VIEW_DRAG_INACTIVE;
 
 
 /*
- *	DND "drag_motion" handler, this is called whenever the 
+ *	DND "drag_motion" handler, this is called whenever the
  *	pointer is dragging over the target widget.
  */
 static gboolean DNDDragMotionCB(
@@ -2217,7 +2217,7 @@ else if(widget == GLOBALS->signalarea)
 			int textlen = strlen(text);
 			int text2len = strlen(text2);
 			char *pnt = calloc_2(1, textlen + text2len + 1);
-			
+
 			memcpy(pnt, text, textlen);
 			memcpy(pnt + textlen, text2, text2len);
 
@@ -2373,7 +2373,7 @@ static void DNDDataDeleteCB(
 )
 {
 /* nothing */
-}  
+}
 
 
 /***********************/

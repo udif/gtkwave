@@ -773,7 +773,7 @@ ghw_read_signal (struct ghw_handler *h, unsigned int *sigs, union ghw_type *t)
       {
 	int i;
 	int off;
-	
+
 	off = 0;
 	for (i = 0; i < t->rec.nbr_fields; i++)
 	  {
@@ -1067,7 +1067,7 @@ ghw_disp_hie (struct ghw_handler *h, struct ghw_hie *top)
 
   hie = top;
   indent = 0;
-  
+
   while (1)
     {
       for (i = 0; i < indent; i++)
@@ -1241,7 +1241,7 @@ ghw_read_cycle_cont (struct ghw_handler *h, int *list)
   while (1)
     {
       uint32_t d;
-      
+
       /* Read delta to next signal.  */
       if (ghw_read_uleb128 (h, &d) < 0)
 	return -1;
@@ -1258,13 +1258,13 @@ ghw_read_cycle_cont (struct ghw_handler *h, int *list)
 	  if (h->sigs[i].type != NULL)
 	    d--;
 	}
-      
+
       if (ghw_read_signal_value (h, &h->sigs[i]) < 0)
 	return -1;
       if (list_p)
 	*list_p++ = i;
     }
-  
+
   if (list_p)
     *list_p = 0;
   return 0;
@@ -1419,7 +1419,7 @@ ghw_read_directory (struct ghw_handler *h)
     return -1;
 
   nbr_entries = ghw_get_i32 (h, &hdr[4]);
-  
+
   if (h->flag_verbose)
     printf ("Directory (%d entries):\n", nbr_entries);
 
@@ -1453,7 +1453,7 @@ ghw_read_tailer (struct ghw_handler *h)
     return -1;
 
   pos = ghw_get_i32 (h, &hdr[4]);
-  
+
   if (h->flag_verbose)
     printf ("Tailer: directory at %d\n", pos);
   return 0;
@@ -1487,7 +1487,7 @@ ghw_read_sm_hdr (struct ghw_handler *h, int *list)
       res = ghw_read_cycle_cont (h, list);
       if (res < 0)
 	return res;
-      
+
       return ghw_res_cycle;
     }
   else if (memcmp (hdr, "DIR", 4) == 0)
@@ -1498,7 +1498,7 @@ ghw_read_sm_hdr (struct ghw_handler *h, int *list)
     {
       res = ghw_read_tailer (h);
     }
-  else 
+  else
     {
       fprintf (stderr, "unknown GHW section %c%c%c%c\n",
 	       hdr[0], hdr[1], hdr[2], hdr[3]);
@@ -1541,7 +1541,7 @@ ghw_read_sm (struct ghw_handler *h, enum ghw_sm_type *sm)
 	    printf ("Time is "GHWLLD" fs\n", h->snap_time);
 	  if (0)
 	    ghw_disp_values (h);
-	  
+
 	  res = ghw_read_cycle_next (h);
 	  if (res < 0)
 	    return res;
@@ -1574,13 +1574,13 @@ ghw_read_cycle (struct ghw_handler *h)
       res = ghw_read_cycle_cont (h, NULL);
       if (res < 0)
 	return res;
-      
+
       if (0)
 	printf ("Time is "GHWLLD" fs\n", h->snap_time);
       if (0)
 	ghw_disp_values (h);
-      
-	      
+
+
       res = ghw_read_cycle_next (h);
       if (res < 0)
 	return res;
@@ -1624,7 +1624,7 @@ ghw_read_dump (struct ghw_handler *h)
 	{
 	  res = ghw_read_tailer (h);
 	}
-      else 
+      else
 	{
 	  fprintf (stderr, "unknown GHW section %c%c%c%c\n",
 		   hdr[0], hdr[1], hdr[2], hdr[3]);
@@ -1661,7 +1661,7 @@ ghw_read_section (struct ghw_handler *h)
       else
 	return -1;
     }
-  
+
   for (i = 1; i < sizeof (ghw_sections) / sizeof (*ghw_sections); i++)
     if (memcmp (hdr, ghw_sections[i].name, 4) == 0)
       return i;

@@ -37,7 +37,7 @@ if(GLOBALS->comp_name_judy)
 	        idx[(*(char **)PPValue) - ((char *)NULL)] = pnt;
 		pnt += (slen + 1);
 	    }
-	
+
 	free_2(Index);
 	JudySLFreeArray(&GLOBALS->comp_name_judy, PJE0);
 	GLOBALS->comp_name_judy = NULL;
@@ -91,7 +91,7 @@ if(GLOBALS->comp_name_jrb)
 	        idx[node->val.i] = pnt;
 		pnt += (slen + 1);
 	    }
-	
+
 	jrb_free_tree(GLOBALS->comp_name_jrb);
 	GLOBALS->comp_name_jrb = NULL;
 	}

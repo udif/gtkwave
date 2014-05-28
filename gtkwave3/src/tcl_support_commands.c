@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Yiftach Tzori 2009-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -45,7 +45,7 @@ GtkCTreeNode *SST_find_node_by_path(GtkCTreeRow *root, char *path) {
     *p1 = '\0' ;
   }
   while (gctr)  {
-    if ((p1 = strchr(p, '.'))) 
+    if ((p1 = strchr(p, '.')))
       *p1 = '\0' ;
     t = (struct tree *)(gctr->row.data) ;
     i = 0 ;
@@ -98,7 +98,7 @@ int SST_open_path(GtkCTree *ctree, GtkCTreeNode *node) {
  * Inputs:
  *   char *name :: hierachical path to open
  * Output:
- *   One of: 
+ *   One of:
  *     SST_NODE_FOUND - if path is in the dump file
  *     SST_NODE_NOT_EXIST - is path is not in the dump
  *     SST_TREE_NOT_EXIST - is Tree widget does not exist
@@ -151,12 +151,12 @@ llist_p *llist_new(llist_u v, ll_elem_type type, int arg) {
   case LL_TIMETYPE: p->u.tt = v.tt ; break ;
   case LL_CHAR: p->u.c = v.c ; break ;
   case LL_SHORT: p->u.s = v.s ; break ;
-  case LL_STR: 
+  case LL_STR:
     if(arg == -1)
       p->u.str = strdup_2(v.str) ;
     else {
       p->u.str = (char *)malloc_2(arg) ;
-      strncpy(p->u.str, v.str, arg) ; 
+      strncpy(p->u.str, v.str, arg) ;
       p->u.str[arg] = '\0' ;
     }
     break ;
@@ -194,12 +194,12 @@ llist_p *llist_append(llist_p *head, llist_p *elem, llist_p **tail) {
   }
   return head ;
 }
-/* 
+/*
 * Remove the last element from list whose first member is HEAD
 * if TYPE is LL_STR the memory allocated for this string is freed.
-* if the TYPE is LL_VOID_P that the caller supplied function pointer F() is 
+* if the TYPE is LL_VOID_P that the caller supplied function pointer F() is
 *  is executed (if not NULL)
-* HEAD and TAIL are updated. 
+* HEAD and TAIL are updated.
  */
 
 llist_p *llist_remove_last(llist_p *head, llist_p **tail, ll_elem_type type, void *f(void *) ) {
@@ -207,11 +207,11 @@ llist_p *llist_remove_last(llist_p *head, llist_p **tail, ll_elem_type type, voi
     llist_p *p = tail[0] ;
     switch(type) {
     case LL_STR: free_2(p->u.str) ; break ;
-    case LL_VOID_P: 
+    case LL_VOID_P:
       if (f)
-	f(p->u.p) ; 
+	f(p->u.p) ;
       break ;
-    default:           
+    default:
       fprintf(stderr, "Internal error in llist_remove_last(), type: %d\n", type);
       exit(255);
     }
@@ -235,11 +235,11 @@ void llist_free(llist_p *head, ll_elem_type type, void *f(void *)) {
     p1 = p->next ;
     switch(type) {
     case LL_STR: free_2(p->u.str) ; break ;
-    case LL_VOID_P: 
+    case LL_VOID_P:
       if (f)
-	f(p->u.p) ; 
+	f(p->u.p) ;
       break ;
-    default:           
+    default:
       fprintf(stderr, "Internal error in llist_free(), type: %d\n", type);
       exit(255);
     }
@@ -256,7 +256,7 @@ Trptr BitVector_to_Trptr(bvptr vec) {
   int    n;
 
   GLOBALS->signalwindow_width_dirty=1;
-  
+
   n = vec->nbits;
   t = (Trptr) calloc_2(1, sizeof( TraceEnt ) );
   if( t == NULL ) {
@@ -280,7 +280,7 @@ Trptr BitVector_to_Trptr(bvptr vec) {
 Trptr find_first_highlighted_trace(void) {
   Trptr t=GLOBALS->traces.first;
   while(t) {
-    if(t->flags&TR_HIGHLIGHT) {  
+    if(t->flags&TR_HIGHLIGHT) {
       if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))) {
 	break;
       }
@@ -348,7 +348,7 @@ Trptr Node_to_Trptr(nptr nd)
   if(nd->mv.mvlfac) import_trace(nd);
 
   GLOBALS->signalwindow_width_dirty=1;
-    
+
   if( (t = (Trptr) calloc_2( 1, sizeof( TraceEnt ))) == NULL ) {
     fprintf( stderr, "Out of memory, can't add to analyzer\n" );
     return( 0 );
@@ -364,7 +364,7 @@ Trptr Node_to_Trptr(nptr nd)
     }
 
     nd->numhist=histcount;
-	
+
     if(!(nd->harray=harray=(hptr *)malloc_2(histcount*sizeof(hptr)))) {
       fprintf( stderr, "Out of memory, can't add to analyzer\n" );
       free_2(t);
@@ -381,7 +381,7 @@ Trptr Node_to_Trptr(nptr nd)
 
   if(!GLOBALS->hier_max_level) {
     int flagged = HIER_DEPACK_ALLOC;
-    
+
     t->name = hier_decompress_flagged(nd->nname, &flagged);
     t->is_depacked = (flagged != 0);
   }
@@ -404,8 +404,8 @@ Trptr Node_to_Trptr(nptr nd)
     n = nd->msi - nd->lsi;
     if(n<0)n=-n;
     n++;
-    
-    t->flags = (( n > 3 )||( n < -3 )) ? TR_HEX|TR_RJUSTIFY : 
+
+    t->flags = (( n > 3 )||( n < -3 )) ? TR_HEX|TR_RJUSTIFY :
       TR_BIN|TR_RJUSTIFY;
   }
   else {
@@ -416,7 +416,7 @@ Trptr Node_to_Trptr(nptr nd)
   /* if(tret) *tret = t;		... for expand */
   return t ;
 }
-/* 
+/*
 * Search for the signal named (full path) NAME in the signal data base and
 * create a Trptr structure for it
 * NAME is a full hierarchy name, but may not include range information.
@@ -439,7 +439,7 @@ Trptr sig_name_to_Trptr(char *name) {
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		hfacname = hier_decompress_flagged(GLOBALS->facs[i]->name,  &was_packed);
-		if(!strcmp(name, hfacname) || ((!strncmp(name, hfacname, name_len) && hfacname[name_len] == '['))) 
+		if(!strcmp(name, hfacname) || ((!strncmp(name, hfacname, name_len) && hfacname[name_len] == '[')))
 			{
 			s = GLOBALS->facs[i];
 			if((s2 = s->vec_root))
@@ -460,7 +460,7 @@ Trptr sig_name_to_Trptr(char *name) {
 	                                        lx2_set_fac_process_mask(s2->n);
 	                                        pre_import++;
 	                                        }
-	
+
 					s2 = s2->vec_chain;
 					len++;
 					}
@@ -473,7 +473,7 @@ Trptr sig_name_to_Trptr(char *name) {
 					len++;
 					}
 				}
-	
+
 			if(was_packed) { free_2(hfacname); }
 			break;
 			}
@@ -497,7 +497,7 @@ Trptr sig_name_to_Trptr(char *name) {
 					t = BitVector_to_Trptr(v) ;
 					}
 			                else
-			                { 
+			                {
 			                free_2(b->name);
 			                if(b->attribs) free_2(b->attribs);
 			                free_2(b);
@@ -510,12 +510,12 @@ Trptr sig_name_to_Trptr(char *name) {
 			t = Node_to_Trptr(node) ;
 			}
 		}
-	
+
 	}
 
   return t ;
 }
-  
+
 /* Return the base prefix for the signal value */
 char *signal_value_prefix(int flags) {
   if(flags & TR_BIN) return "0b" ;
@@ -526,7 +526,7 @@ char *signal_value_prefix(int flags) {
 
 /* ===================================================== */
 
-llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time, 
+llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
 		       TimeType end_time, int max_elements) {
   llist_p *l0_head = NULL, *l0_tail = NULL, *l1_head = NULL,*l_elem, *lp ;
   llist_p *l1_tail = NULL ;
@@ -553,7 +553,7 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
     if (!t->vector) {
       hptr h, h1;
       int len = 0  ;
-      /* scan-build : 
+      /* scan-build :
       if(t->n.nd->extvals) {
 	bw = abs(t->n.nd->msi - t->n.nd->lsi) + 1 ;
       }
@@ -604,7 +604,7 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
     lp = (start_time < end_time) ? l0_head : l0_tail ;
     /* now create a linked list of time,value.. */
     while (lp && (nelem++ < max_elements)) {
-      llist_u llp; llp.tt = ((t->vector) ? ((vptr)lp->u.p)->time: ((hptr)lp->u.p)->time); 
+      llist_u llp; llp.tt = ((t->vector) ? ((vptr)lp->u.p)->time: ((hptr)lp->u.p)->time);
       l_elem = llist_new(llp, LL_TIMETYPE, -1) ;
       l1_head = llist_append(l1_head, l_elem, &l1_tail) ;
       if(!l1_tail) l1_tail = l1_head ;
@@ -640,7 +640,7 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
 	  }
 	}
       } else {
-        sprintf(s1, "%s%s", signal_value_prefix(t->flags), 
+        sprintf(s1, "%s%s", signal_value_prefix(t->flags),
 		convert_ascii(t, (vptr)lp->u.p)) ;
         llp.str = s1 ;
 	l_elem = llist_new(llp, LL_STR, -1) ;

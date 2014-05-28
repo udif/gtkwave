@@ -1,6 +1,6 @@
 /**********
 Copyright 1990 Regents of the University of California.  All rights reserved.
-Author: 1985 Wayne A. Christopher, U. C. Berkeley CAD Group 
+Author: 1985 Wayne A. Christopher, U. C. Berkeley CAD Group
 
 Spice is covered now covered by the BSD Copyright:
 
@@ -104,7 +104,7 @@ putinterval (double *poly, int degree, double *nvec, int last, double *nscale,
 }
 
 
-/* Takes n = (degree+1) doubles, and fills in result with the n coefficients 
+/* Takes n = (degree+1) doubles, and fills in result with the n coefficients
  * of the polynomial that will fit them. It also takes a pointer to an
  * array of n ^ 2 + n doubles to use for scratch -- we want to make this
  * fast and avoid doing mallocs for each call.
@@ -248,7 +248,7 @@ ft_polyfit (double *xdata, double *ydata, double *result, int degree,
  * nscale[] = user fills in with new x
  * nlen = user fills in with size of above array
  *
- * note that degree > 2 will result in bumpy curves if the derivatives 
+ * note that degree > 2 will result in bumpy curves if the derivatives
  * are not smooth
  */
 int
@@ -313,7 +313,7 @@ ft_interpolate (double *data, double *ndata, double *oscale, int olen,
 			     nscale, nlen, xdata[i], sign);
     }
 
-  /* Now plot the rest, piece by piece. l is the 
+  /* Now plot the rest, piece by piece. l is the
    * last element under consideration.
    */
   for (l = degree + 1; l < olen; l++)
@@ -332,7 +332,7 @@ ft_interpolate (double *data, double *ndata, double *oscale, int olen,
 	{
 	  if (--degree == 0)
 	    {
-	      /* fprintf(stderr, 
+	      /* fprintf(stderr,
 	         "interpolate: Internal Error.\n"); */
 	      rc = 0;
 	      goto bot;

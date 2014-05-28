@@ -19,7 +19,7 @@ inside_iteration++;
 
 while (gtk_events_pending()) gtk_main_iteration();
 
-inside_iteration--; 
+inside_iteration--;
 }
 
 gboolean in_main_iteration(void)
@@ -58,7 +58,7 @@ if(!GLOBALS->busy_busy_c_1)
 
 	/* now it has been updated to remove keyboard/mouse input */
 
-	switch (event->type) 
+	switch (event->type)
 		{
 		/* more may be needed to be added in the future */
 		case GDK_MOTION_NOTIFY:
@@ -73,7 +73,7 @@ if(!GLOBALS->busy_busy_c_1)
 #endif
 			/* printf("event->type: %d\n", event->type); */
 			break;
-	
+
 		default:
 	            	gtk_main_do_event(event);
 			/* printf("event->type: %d\n", event->type); */
@@ -96,21 +96,21 @@ if(GLOBALS->partial_vcd)
 
 	set_window_busy(NULL);
 
-	while (gtk_events_pending()) 
+	while (gtk_events_pending())
 		{
 		gtk_main_iteration();
 		if(GLOBALS != g_old)
-			{	
+			{
 			/* this should never happen! */
 			/* if it does, the program state is probably screwed */
 			fprintf(stderr, "GTKWAVE | WARNING: globals changed during gtkwave_main_iteration()!\n");
 			gcache = GLOBALS;
 			}
 		}
-	
+
 	set_GLOBALS(g_old);
 	set_window_idle(NULL);
-	
+
 	if(gcache)
 		{
 		set_GLOBALS(gcache);

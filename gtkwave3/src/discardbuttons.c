@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999.
  *
  * This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ pixmapwid1=gtk_pixmap_new(GLOBALS->larrow_pixmap, GLOBALS->larrow_mask);
 gtk_widget_show(pixmapwid1);
 pixmapwid2=gtk_pixmap_new(GLOBALS->rarrow_pixmap, GLOBALS->rarrow_mask);
 gtk_widget_show(pixmapwid2);
-   
+
 /* Create a table to hold the text widget and scrollbars */
 table = gtk_table_new (1, 1, FALSE);
 
@@ -72,4 +72,4 @@ gtk_container_add (GTK_CONTAINER (frame), table2);
 gtk_widget_show(table2);
 return(table);
 }
-   
+

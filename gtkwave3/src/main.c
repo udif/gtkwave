@@ -7,7 +7,7 @@
  * of the License, or (at your option) any later version.
  */
 
-/* AIX may need this for alloca to work */ 
+/* AIX may need this for alloca to work */
 #if defined _AIX
   #pragma alloca
 #endif
@@ -87,7 +87,7 @@ char *gtkwave_argv0_cached = NULL;
 static void switch_page(GtkNotebook     *notebook,
 			GtkNotebookPage *page,
 			guint            page_num,
-			gpointer         user_data) 
+			gpointer         user_data)
 {
 char timestr[32];
 struct Global *g_old = GLOBALS;
@@ -188,7 +188,7 @@ static int plug_destroy (GtkWidget *widget, gpointer data)
 exit(0);
 
 return(FALSE);
-}       
+}
 
 
 #if defined __MINGW32__
@@ -288,7 +288,7 @@ ucase_ext[i] = 0;
 #if defined(WAVE_USE_GTK2)
 #define SLIDEZOOM_OPT "  -z, --slider-zoom          enable horizontal slider stretch zoom\n"
 #else
-#define SLIDEZOOM_OPT 
+#define SLIDEZOOM_OPT
 #endif
 
 printf(
@@ -304,7 +304,7 @@ VCD_GETOPT
 DUAL_GETOPT
 "  -l, --logfile=FILE         specify simulation logfile name for time values\n"
 "  -s, --start=TIME           specify start time for LXT2/VZT block skip\n"
-"  -e, --end=TIME             specify end time for LXT2/VZT block skip\n"  
+"  -e, --end=TIME             specify end time for LXT2/VZT block skip\n"
 STEMS_GETOPT
 WAVE_GETOPT_CPUS
 "  -N, --nowm                 disable window manager for most windows\n"
@@ -318,7 +318,7 @@ RPC_GETOPT3
 INTR_GETOPT
 "  -C, --comphier             use compressed hierarchy names (slower)\n"
 "  -g, --giga                 use gigabyte mempacking when recoding (slower)\n"
-"  -L, --legacy               use legacy VCD mode rather than the VCD recoder\n" 
+"  -L, --legacy               use legacy VCD mode rather than the VCD recoder\n"
 "  -v, --vcd                  use stdin as a VCD dumpfile\n"
 OUTPUT_GETOPT
 SLIDEZOOM_OPT
@@ -345,14 +345,14 @@ exit(0);
 
 
 /*
- * file selection for -n/--nocli flag 
+ * file selection for -n/--nocli flag
  */
 
 static void wave_get_filename_cleanup(GtkWidget *widget, gpointer data) { gtk_main_quit(); /* do nothing but exit gtk loop */ }
 
 static char *wave_get_filename(char *dfile)
 {
-if(dfile) 
+if(dfile)
 	{
 	int len = strlen(dfile);
 	GLOBALS->ftext_main_main_c_1 = malloc_2(strlen(dfile)+2);
@@ -398,7 +398,7 @@ void addPidToExecutableName(int argc, char* argv[], char* argv_mod[])
   strcpy(pos, "_");
   pos = buffer + strlen(buffer);
   sprintf(pos, "%d", getpid());
-	  
+
   argv_mod[0] = buffer;
 }
 
@@ -462,7 +462,7 @@ GdkPixbuf *dock_pb;
 
 WAVE_LOCALE_FIX
 
-/* Initialize the GLOBALS structure for the first time... */ 
+/* Initialize the GLOBALS structure for the first time... */
 
 if(!GLOBALS)
 	{
@@ -522,13 +522,13 @@ if(!GLOBALS)
 	/* timeentry.c */
 	GLOBALS->from_entry = old_g->from_entry;
 	GLOBALS->to_entry = old_g->to_entry;
-	
+
 	/* rc.c */
 	GLOBALS->possibly_use_rc_defaults = old_g->possibly_use_rc_defaults;
 	GLOBALS->ignore_savefile_pane_pos = old_g->ignore_savefile_pane_pos;
 	GLOBALS->ignore_savefile_pos = old_g->ignore_savefile_pos;
 	GLOBALS->ignore_savefile_size = old_g->ignore_savefile_size;
-	
+
 	GLOBALS->color_back = old_g->color_back;
 	GLOBALS->color_baseline = old_g->color_baseline;
 	GLOBALS->color_grid = old_g->color_grid;
@@ -564,7 +564,7 @@ if(!GLOBALS)
 	GLOBALS->color_brkred = old_g->color_brkred;
 	GLOBALS->color_ltblue = old_g->color_ltblue;
 	GLOBALS->color_gmstrd = old_g->color_gmstrd;
-	
+
 	GLOBALS->atomic_vectors = old_g->atomic_vectors;
 	GLOBALS->autoname_bundles = old_g->autoname_bundles;
 	GLOBALS->autocoalesce = old_g->autocoalesce;
@@ -630,7 +630,7 @@ if(!GLOBALS)
 
 	GLOBALS->ruler_origin = old_g->ruler_origin;
 	GLOBALS->ruler_step = old_g->ruler_step;
-	GLOBALS->disable_ae2_alias = old_g->disable_ae2_alias;	
+	GLOBALS->disable_ae2_alias = old_g->disable_ae2_alias;
 
 	GLOBALS->vlist_spill_to_disk = old_g->vlist_spill_to_disk;
 	GLOBALS->vlist_prepack = old_g->vlist_prepack;
@@ -651,7 +651,7 @@ if(!GLOBALS)
 
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->editor_name, &old_g->editor_name);
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_logfile, &old_g->fontname_logfile);
-	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_signals, &old_g->fontname_signals); 
+	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_signals, &old_g->fontname_signals);
 	strcpy2_into_new_context(GLOBALS, &GLOBALS->fontname_waves, &old_g->fontname_waves);
         strcpy2_into_new_context(GLOBALS, &GLOBALS->argvlist, &old_g->argvlist);
 
@@ -707,7 +707,7 @@ if(!gtkwave_argv0_cached) gtkwave_argv0_cached = argv[0]; /* for new window opti
 init_filetrans_data(); /* for file translation splay trees */
 init_proctrans_data(); /* for proc translation structs */
 init_ttrans_data();    /* for transaction proc translation structs */
-if(!mainwindow_already_built) 
+if(!mainwindow_already_built)
 	{
 	atexit(remove_all_proc_filters);
 	atexit(remove_all_ttrans_filters);
@@ -752,10 +752,10 @@ while (1)
                 {"interactive", 0, 0, 'I'},
 		{"giga", 0, 0, 'g'},
 		{"comphier", 0, 0, 'C'},
-                {"legacy", 0, 0, 'L'},  
+                {"legacy", 0, 0, 'L'},
 		{"tcl_init", 1, 0, 'T'},
 		{"wish", 0, 0, 'W'},
-                {"repscript", 1, 0, 'R'},   
+                {"repscript", 1, 0, 'R'},
                 {"repperiod", 1, 0, 'P'},
 		{"output", 1, 0, 'O' },
                 {"slider-zoom", 0, 0, 'z'},
@@ -765,7 +765,7 @@ while (1)
                 {0, 0, 0, 0}
                 };
 
-        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:2:3", long_options, 
+        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:2:3", long_options,
 &option_index);
 
         if (c == -1) break;     /* no more args */
@@ -870,7 +870,7 @@ while (1)
                         break;
 
 #ifdef WAVE_USE_XID
-                case 'X': 
+                case 'X':
                         sscanf(optarg, "%x", &GLOBALS->socket_xid);
 			splash_disable_rc_override = 1;
                         break;
@@ -882,9 +882,9 @@ while (1)
 			break;
 
 		case '2':
-#ifndef _MSC_VER  
+#ifndef _MSC_VER
 			{
-			char *chdir_env = getenv("GTKWAVE_CHDIR"); 
+			char *chdir_env = getenv("GTKWAVE_CHDIR");
 
 			if(chdir_cache)
 				{
@@ -949,7 +949,7 @@ while (1)
 			is_fastload = VCD_FSL_WRITE;
 			is_giga = 1;
 			break;
-			
+
                 case 'a':
 			if(wname) free_2(wname);
 			wname = malloc_2(strlen(optarg)+1);
@@ -966,7 +966,7 @@ while (1)
 			if(GLOBALS->skip_start) free_2(GLOBALS->skip_start);
 			GLOBALS->skip_start = malloc_2(strlen(optarg)+1);
 			strcpy(GLOBALS->skip_start, optarg);
-			break;			
+			break;
 
                 case 'e':
 			if(GLOBALS->skip_end) free_2(GLOBALS->skip_end);
@@ -1038,8 +1038,8 @@ while (1)
                         GLOBALS->repscript_name = malloc_2(strlen(optarg)+1);
                         strcpy(GLOBALS->repscript_name, optarg);
                         break;
-                
-                case 'P':   
+
+                case 'P':
                         {
                         int pd = atoi(optarg);
                         if(pd > 0)
@@ -1056,7 +1056,7 @@ while (1)
 		        {
 			  char* pos;
 			  is_wish = 1;
-			  if(GLOBALS->tcl_init_cmd) 
+			  if(GLOBALS->tcl_init_cmd)
 			    {
 			      int length = strlen(GLOBALS->tcl_init_cmd)+9+strlen(optarg);
 			      char* buffer = malloc_2(strlen(GLOBALS->tcl_init_cmd)+1);
@@ -1115,7 +1115,7 @@ if (optind < argc)
                                 {
                                 break;
                                 }
-                        }   
+                        }
 
 		if(!GLOBALS->loaded_file_name)
 			{
@@ -1139,7 +1139,7 @@ if (optind < argc)
 
 if(is_wish && is_vcd)
 	{
-	fprintf(stderr, 
+	fprintf(stderr,
 		"GTKWAVE | Cannot use --vcd and --wish options together as both use stdin,\n"
 		"GTKWAVE | exiting!\n");
 	exit(255);
@@ -1269,7 +1269,7 @@ if((!wname)&&(GLOBALS->make_vcd_save_file))
 
 if(!GLOBALS->loaded_file_name)
 	{
-	GLOBALS->loaded_file_name = strdup_2("[no file loaded]");	
+	GLOBALS->loaded_file_name = strdup_2("[no file loaded]");
 	is_missing_file = 1;
 	GLOBALS->min_time=LLDescriptor(0);
 	GLOBALS->max_time=LLDescriptor(0);
@@ -1278,7 +1278,7 @@ if(!GLOBALS->loaded_file_name)
 		fprintf(stderr, "GTKWAVE | Use the -h, --help command line flags to display help.\n");
 		}
 	}
-	
+
 /* load either the vcd or aet file depending on suffix then mode setting */
 if(is_vcd)
 	{
@@ -1304,7 +1304,7 @@ strcat(GLOBALS->winname,GLOBALS->loaded_file_name);
 
 loader_check_head:
 
-if(!is_missing_file) 
+if(!is_missing_file)
 	{
 	magic_word_filetype = determine_gtkwave_filetype(GLOBALS->loaded_file_name);
 	}
@@ -1367,7 +1367,7 @@ if((magic_word_filetype == G_FT_LXT) || (magic_word_filetype == G_FT_LXT2) || su
 			fprintf(stderr, "GTKWAVE | Could not initialize '%s'%s.\n", GLOBALS->loaded_file_name, GLOBALS->vcd_jmp_buf ? "" : ", exiting");
 			vcd_exit(255);
 			}
-		}	
+		}
 	}
 else
 if((magic_word_filetype == G_FT_FST) || suffix_check(GLOBALS->loaded_file_name, ".fst"))
@@ -1465,7 +1465,7 @@ load_vcd:
 #if !defined _MSC_VER && !defined __MINGW32__
 	if(opt_vcd) {
                   GLOBALS->unoptimized_vcd_file_name = calloc_2(1,strlen(GLOBALS->loaded_file_name) + 1);
-                  strcpy(GLOBALS->unoptimized_vcd_file_name, GLOBALS->loaded_file_name);  
+                  strcpy(GLOBALS->unoptimized_vcd_file_name, GLOBALS->loaded_file_name);
                   optimize_vcd_file();
                   /* is_vcd = 0; */ /* scan-build */
 		  GLOBALS->optimize_vcd = 1;
@@ -1474,7 +1474,7 @@ load_vcd:
 
 #endif
 
-#if !defined _MSC_VER 
+#if !defined _MSC_VER
 	if(is_interactive)
 		{
 		GLOBALS->loaded_file_type = DUMPLESS_FILE;
@@ -1563,7 +1563,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 					break;
 					}
 				} while(pnt2-- != pnt);
-			}	
+			}
 
 		wname = malloc_2(strlen(pnt) + 6);
 		strcpy(wname, pnt);
@@ -1593,7 +1593,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 	if(!wave)
 	        {
 	        fprintf(stderr, "** WARNING: Error opening save file '%s', skipping.\n",wname);
-	        }	
+	        }
 	        else
 	        {
 	        char *iline;
@@ -1639,7 +1639,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 			        fprintf(stderr, "** WARNING: Error opening save file '%s', skipping.\n",wname);
 				EnsureGroupsMatch();
 				goto savefile_bail;
-			        }	
+			        }
 			}
 
 		read_save_helper_relative_init(wname);
@@ -1672,11 +1672,11 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 	                        if(GLOBALS->strace_ctx->shadow_straces)
 	                                {
 	                                GLOBALS->strace_ctx->shadow_active = 1;
-	
+
 	                                swap_strace_contexts();
 	                                strace_maketimetrace(1);
 	                                swap_strace_contexts();
-	
+
 					GLOBALS->strace_ctx->shadow_active = 0;
 	                                }
 				}
@@ -1725,7 +1725,7 @@ if(!GLOBALS->socket_xid)
 	{
         GLOBALS->mainwindow = gtk_plug_new(GLOBALS->socket_xid);
         gtk_widget_show(GLOBALS->mainwindow);
-                                
+
         gtk_signal_connect(GTK_OBJECT(GLOBALS->mainwindow), "destroy",   /* formerly was "destroy" */GTK_SIGNAL_FUNC(plug_destroy),"Plug destroy");
 	}
 #endif
@@ -1750,7 +1750,7 @@ if(GLOBALS->use_toolbutton_interface)
 		gtk_container_border_width(GTK_CONTAINER(main_vbox), 1);
 		gtk_container_add(GTK_CONTAINER(GLOBALS->mainwindow), main_vbox);
 		gtk_widget_show(main_vbox);
-	
+
 		if(!GLOBALS->disable_menus)
 			{
 #ifdef WAVE_USE_MLIST_T
@@ -1777,7 +1777,7 @@ g_signal_connect(theApp, "NSApplicationOpenFile", G_CALLBACK(deal_with_finder_op
 g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_termination), NULL);
 }
 #endif
-	
+
 			if(GLOBALS->force_toolbars)
 				{
 				toolhandle=gtk_handle_box_new();
@@ -1790,9 +1790,9 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 				gtk_box_pack_start(GTK_BOX(main_vbox), menubar, FALSE, TRUE, 0);
 				}
 			}
-	
+
 		whole_table = gtk_table_new (256, 16, FALSE);
-	
+
 		tb = gtk_toolbar_new();
 		top_table = tb;		/* export this as our top widget rather than a table */
 
@@ -1995,7 +1995,7 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 		gtk_container_border_width(GTK_CONTAINER(main_vbox), 1);
 		gtk_container_add(GTK_CONTAINER(GLOBALS->mainwindow), main_vbox);
 		gtk_widget_show(main_vbox);
-	
+
 		if(!GLOBALS->disable_menus)
 			{
 #ifdef WAVE_USE_MLIST_T
@@ -2035,9 +2035,9 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 				gtk_box_pack_start(GTK_BOX(main_vbox), menubar, FALSE, TRUE, 0);
 				}
 			}
-	
+
 		top_table = gtk_table_new (1, 284, FALSE);
-	
+
 		if(GLOBALS->force_toolbars)
 			{
 			toolhandle=gtk_handle_box_new();
@@ -2046,7 +2046,7 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 			}
 
 		whole_table = gtk_table_new (256, 16, FALSE);
-	
+
 		text1 = create_text ();
 		gtk_table_attach (GTK_TABLE (top_table), text1, 0, 141, 0, 1,
 		                      	GTK_FILL,
@@ -2083,7 +2083,7 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 			                      	GTK_FILL,
 			                      	GTK_SHRINK, 0, 0);
 			gtk_widget_show (discardbuttons);
-		
+
 			shiftbuttons = create_shift_buttons ();
 			gtk_table_attach (GTK_TABLE (top_table), shiftbuttons, 176, 177, 0, 1,
 			                      	GTK_FILL,
@@ -2096,7 +2096,7 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 		                      	GTK_FILL,
 		                      	GTK_SHRINK, 0, 0);
 		gtk_widget_show (edgebuttons);
-	
+
 
 		dummy2=gtk_label_new("");
 		gtk_table_attach (GTK_TABLE (top_table), dummy2, 178, 215, 0, 1,
@@ -2125,24 +2125,24 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 			GtkTooltips *tooltips;
 
 			gtk_widget_show(r_pixmap);
-		
+
 			tooltips=gtk_tooltips_new_2();
 			gtk_tooltips_set_delay_2(tooltips,1500);
 
 			table = gtk_table_new (1, 1, FALSE);
-		
+
 			main_vbox1 = gtk_vbox_new (FALSE, 1);
 			gtk_container_border_width (GTK_CONTAINER (main_vbox1), 1);
 			gtk_container_add (GTK_CONTAINER (table), main_vbox1);
-	
+
 			frame = gtk_frame_new ("Reload ");
 			gtk_box_pack_start (GTK_BOX (main_vbox1), frame, TRUE, TRUE, 0);
-	
+
 			gtk_widget_show (frame);
 			gtk_widget_show (main_vbox1);
 
 			table2 = gtk_table_new (2, 1, FALSE);
-	
+
 			b1 = gtk_button_new();
 			gtk_container_add(GTK_CONTAINER(b1), r_pixmap);
 			gtk_table_attach (GTK_TABLE (table2), b1, 0, 1, 0, 1,
@@ -2156,9 +2156,9 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 			gtk_widget_show(table2);
 
 			gtk_table_attach (GTK_TABLE (top_table), table, 284, 285, 0, 1,
-		                      	0, 
+		                      	0,
 		                      	0, 2, 0);
-	
+
 			gtk_widget_show (table);
 			}
 		} /* of ...if(mainwindow_already_built) */
@@ -2170,7 +2170,7 @@ load_all_fonts(); /* must be done before create_signalwindow() */
 gtk_widget_show(GLOBALS->wavewindow);
 GLOBALS->signalwindow = create_signalwindow();
 
-if(GLOBALS->do_resize_signals) 
+if(GLOBALS->do_resize_signals)
                 {
                 int os;
 
@@ -2228,7 +2228,7 @@ if(GLOBALS->panedwindow_size_cache)
 #ifdef HAVE_PANED_PACK
 if(GLOBALS->paned_pack_semantics)
 	{
-	gtk_paned_pack1(GTK_PANED(panedwindow), GLOBALS->signalwindow, 0, 0); 
+	gtk_paned_pack1(GTK_PANED(panedwindow), GLOBALS->signalwindow, 0, 0);
 	gtk_paned_pack2(GTK_PANED(panedwindow), GLOBALS->wavewindow, ~0, 0);
 	}
 	else
@@ -2335,16 +2335,16 @@ if(!GLOBALS->notebook)
 
 if(!GLOBALS->context_tabposition)
 	{
-	gtk_notebook_append_page(GTK_NOTEBOOK(GLOBALS->notebook), GLOBALS->toppanedwindow ? GLOBALS->toppanedwindow : panedwindow, 
+	gtk_notebook_append_page(GTK_NOTEBOOK(GLOBALS->notebook), GLOBALS->toppanedwindow ? GLOBALS->toppanedwindow : panedwindow,
 		gtk_label_new(GLOBALS->loaded_file_name));
 	}
 	else
 	{
 	char buf[40];
-	
+
 	sprintf(buf, "%d", GLOBALS->num_notebook_pages_cumulative);
 
-	gtk_notebook_append_page(GTK_NOTEBOOK(GLOBALS->notebook), GLOBALS->toppanedwindow ? GLOBALS->toppanedwindow : panedwindow, 
+	gtk_notebook_append_page(GTK_NOTEBOOK(GLOBALS->notebook), GLOBALS->toppanedwindow ? GLOBALS->toppanedwindow : panedwindow,
 		gtk_label_new(buf));
 	}
 
@@ -2369,7 +2369,7 @@ update_markertime(GLOBALS->tims.marker);
 set_window_xypos(GLOBALS->initial_window_xpos, GLOBALS->initial_window_ypos);
 GLOBALS->xy_ignore_main_c_1 = 1;
 
-if(GLOBALS->logfile) 
+if(GLOBALS->logfile)
 	{
 	struct logfile_chain *lprev;
 	char buf[50];
@@ -2473,7 +2473,7 @@ if(GLOBALS->dual_attach_id_main_c_1)
 					if((GLOBALS->tims.marker != -1) && (GLOBALS->dual_ctx[GLOBALS->dual_id].marker == -1))
 						{
 				        	Trptr t;
-  
+
         					for(t=GLOBALS->traces.first;t;t=t->t_next)
                 					{
                 					if(t->asciivalue) { free_2(t->asciivalue); t->asciivalue=NULL; }
@@ -2498,7 +2498,7 @@ if(GLOBALS->dual_attach_id_main_c_1)
 					if((GLOBALS->tims.marker != -1) && (GLOBALS->dual_ctx[GLOBALS->dual_id].marker == -1))
 						{
 				        	Trptr t;
-  
+
         					for(t=GLOBALS->traces.first;t;t=t->t_next)
                 					{
                 					if(t->asciivalue) { free_2(t->asciivalue); t->asciivalue=NULL; }
@@ -2524,7 +2524,7 @@ if(GLOBALS->dual_attach_id_main_c_1)
 
 			        hadj=GTK_ADJUSTMENT(GLOBALS->wave_hslider);
 			        hadj->value=gt;
-        
+
 			        pageinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
 			        if(gt<(GLOBALS->tims.last-pageinc+1))
 			                GLOBALS->tims.timecache=gt;
@@ -2638,7 +2638,7 @@ set_window_size (int x, int y)
 }
 
 
-void 
+void
 get_window_xypos(int *root_x, int *root_y)
 {
 if(!GLOBALS->mainwindow) return;
@@ -2663,7 +2663,7 @@ if(!GLOBALS->initial_window_get_valid)
 #endif
 }
 
-void 
+void
 set_window_xypos(int root_x, int root_y)
 {
 #ifdef MAC_INTEGRATION
@@ -2798,7 +2798,7 @@ if(GLOBALS->stems_type != WAVE_ANNO_NONE)
 			memset(GLOBALS->anno_ctx, 0, sizeof(struct gtkwave_annotate_ipc_t));
 
 			memcpy(GLOBALS->anno_ctx->matchword, WAVE_MATCHWORD, 4);
-			GLOBALS->anno_ctx->aet_type = GLOBALS->stems_type;			
+			GLOBALS->anno_ctx->aet_type = GLOBALS->stems_type;
 			strcpy(GLOBALS->anno_ctx->aet_name, GLOBALS->aet_name);
 			strcpy(GLOBALS->anno_ctx->stems_name, stems_name);
 
@@ -2815,8 +2815,8 @@ if(GLOBALS->stems_type != WAVE_ANNO_NONE)
                                         NULL,
                                         &si,
                                         &pi);
-                                        
-                        if(!rc)  
+
+                        if(!rc)
                         	{
 				UnmapViewOfFile(GLOBALS->anno_ctx);
 				CloseHandle(hMapFile);
@@ -2848,11 +2848,11 @@ if(GLOBALS->stems_type != WAVE_ANNO_NONE)
 			memset(GLOBALS->anno_ctx, 0, sizeof(struct gtkwave_annotate_ipc_t));
 
 			memcpy(GLOBALS->anno_ctx->matchword, WAVE_MATCHWORD, 4);
-			GLOBALS->anno_ctx->aet_type = GLOBALS->stems_type;			
+			GLOBALS->anno_ctx->aet_type = GLOBALS->stems_type;
 			strcpy(GLOBALS->anno_ctx->aet_name, GLOBALS->aet_name);
 			strcpy(GLOBALS->anno_ctx->stems_name, stems_name);
 
-			GLOBALS->anno_ctx->gtkwave_process = getpid();			
+			GLOBALS->anno_ctx->gtkwave_process = getpid();
 			update_markertime(GLOBALS->tims.marker);
 
 #ifdef __linux__
@@ -2861,8 +2861,8 @@ if(GLOBALS->stems_type != WAVE_ANNO_NONE)
 
 		        pid=fork();
 
-		        if(((int)pid) < 0) 
-				{ 
+		        if(((int)pid) < 0)
+				{
 				/* can't do anything about this */
 				}
 				else
@@ -2933,7 +2933,7 @@ if(GLOBALS->stems_type != WAVE_ANNO_NONE)
 
 #if !defined _MSC_VER && !defined __MINGW32__
 void optimize_vcd_file(void) {
-  if(!strcmp("-vcd", GLOBALS->unoptimized_vcd_file_name)) {        
+  if(!strcmp("-vcd", GLOBALS->unoptimized_vcd_file_name)) {
 #ifdef __CYGWIN__
     char *buf = strdup_2("vcd2fst -- - vcd.fst");
     system(buf);
@@ -2956,7 +2956,7 @@ void optimize_vcd_file(void) {
 	  free_2(GLOBALS->loaded_file_name);
 	  GLOBALS->loaded_file_name = buf;
 	  GLOBALS->is_optimized_stdin_vcd = 1;
-	}					
+	}
       }
       else {
         execlp("vcd2fst", "vcd2fst", "--", "-", buf, NULL);
@@ -2978,7 +2978,7 @@ void optimize_vcd_file(void) {
     pid_t pid;
     char *buf = malloc_2(strlen(GLOBALS->unoptimized_vcd_file_name) + 4 + 1);
     sprintf(buf, "%s.fst", GLOBALS->unoptimized_vcd_file_name);
-    pid = fork(); 
+    pid = fork();
     if(((int)pid) < 0) {
       /* can't do anything about this */
     }
@@ -2989,7 +2989,7 @@ void optimize_vcd_file(void) {
         if(rc > 0) {
           free_2(GLOBALS->loaded_file_name);
 	  GLOBALS->loaded_file_name = buf;
-        }					
+        }
       }
       else {
 #ifdef MAC_INTEGRATION
@@ -3016,6 +3016,6 @@ void optimize_vcd_file(void) {
       }
     }
 #endif
-  }	
+  }
 }
 #endif

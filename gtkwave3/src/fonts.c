@@ -66,7 +66,7 @@ static int setup_fonts(void)
   GdkScreen *fonts_screen = gdk_drawable_get_screen (drawable);
   GLOBALS->fonts_renderer = gdk_pango_renderer_get_default (fonts_screen);
   gdk_pango_renderer_set_drawable (GDK_PANGO_RENDERER (GLOBALS->fonts_renderer), drawable);
-  
+
   GLOBALS->fonts_gc = gdk_gc_new (drawable);
   gdk_pango_renderer_set_gc (GDK_PANGO_RENDERER (GLOBALS->fonts_renderer), GLOBALS->fonts_gc);
 
@@ -93,7 +93,7 @@ static void pango_load_all_fonts(void)
   if(!GLOBALS->signalfont)
     {
       if(GLOBALS->use_big_fonts)
-	{ 
+	{
 	  GLOBALS->signalfont=do_font_load(GLOBALS->use_nonprop_fonts ? WAVE_MONOSPACE_12 : WAVE_SANS_12);
 	}
       else
@@ -101,9 +101,9 @@ static void pango_load_all_fonts(void)
 	  GLOBALS->signalfont=do_font_load(GLOBALS->use_nonprop_fonts ? WAVE_MONOSPACE_10 : WAVE_SANS_10);
 	}
     }
-  
+
   GLOBALS->fontheight= my_font_height(GLOBALS->signalfont)+4;
-    
+
   GLOBALS->wavefont=GLOBALS->wavefont_smaller=do_font_load(GLOBALS->fontname_waves);
   if(!GLOBALS->wavefont)
     {
@@ -124,13 +124,13 @@ static void pango_load_all_fonts(void)
       fprintf(stderr, "Signalfont is smaller than wavefont (%d vs %d).  Exiting!\n", my_font_height(GLOBALS->signalfont), my_font_height(GLOBALS->wavefont));
       exit(1);
     }
-  
+
   if(my_font_height(GLOBALS->signalfont)>100)
     {
       fprintf(stderr, "Fonts are too big!  Try fonts with a smaller size.  Exiting!\n");
       exit(1);
     }
-  
+
   GLOBALS->wavecrosspiece=GLOBALS->wavefont->ascent+1;
 }
 #endif
@@ -223,7 +223,7 @@ if((GLOBALS->fontname_signals)&&(strlen(GLOBALS->fontname_signals)))
 	{
 	if(GLOBALS->use_big_fonts)
 	        {
-	        if(!GLOBALS->use_nonprop_fonts) 
+	        if(!GLOBALS->use_nonprop_fonts)
 	                {
 	                GLOBALS->signalfont=font_engine_gdk_font_load("-*-times-*-r-*-*-15-*-*-*-*-*-*-*");
 	                }
@@ -240,7 +240,7 @@ if((GLOBALS->fontname_signals)&&(strlen(GLOBALS->fontname_signals)))
 	        else
 	        {
 	        if(GLOBALS->use_nonprop_fonts)
-	                {   
+	                {
 #ifdef __CYGWIN__
 	                GLOBALS->signalfont=font_engine_gdk_font_load("-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*");
 #else
@@ -252,7 +252,7 @@ if((GLOBALS->fontname_signals)&&(strlen(GLOBALS->fontname_signals)))
 	}
 
 if(!GLOBALS->signalfont)
-        {  
+        {
 #if WAVE_USE_GTK2
         GLOBALS->signalfont=font_engine_gdk_font_load("-*-courier-*-r-*-*-14-*-*-*-*-*-*-*");
 	if(!GLOBALS->signalfont) GLOBALS->signalfont=font_engine_gdk_font_load("-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*");
@@ -260,8 +260,8 @@ if(!GLOBALS->signalfont)
 #else
 	GLOBALS->signalfont= calloc_2(1, sizeof(struct font_engine_font_t));
 	GLOBALS->signalfont->gdkfont = GLOBALS->wavearea->style->font;
-	GLOBALS->signalfont->ascent = GLOBALS->wavearea->style->font->ascent; 
-	GLOBALS->signalfont->descent = GLOBALS->wavearea->style->font->descent; 
+	GLOBALS->signalfont->ascent = GLOBALS->wavearea->style->font->ascent;
+	GLOBALS->signalfont->descent = GLOBALS->wavearea->style->font->descent;
 #endif
         }
 
@@ -301,7 +301,7 @@ if((GLOBALS->fontname_waves)&&(strlen(GLOBALS->fontname_waves)))
 	}
 
 if(!GLOBALS->wavefont)
-        {  
+        {
 #if WAVE_USE_GTK2
         GLOBALS->wavefont=GLOBALS->wavefont_smaller=font_engine_gdk_font_load("-*-courier-*-r-*-*-10-*-*-*-*-*-*-*");
 	if(!GLOBALS->wavefont) GLOBALS->wavefont=GLOBALS->wavefont_smaller=font_engine_gdk_font_load("-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*");

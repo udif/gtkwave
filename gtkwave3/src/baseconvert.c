@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -63,7 +63,7 @@ for(i=0;i<nbits;i++)
 						pnt[i] = pch;
 						}
 					break;
-	
+
 			case AN_1:
 			case AN_H:
 					if(pch == AN_1)
@@ -75,12 +75,12 @@ for(i=0;i<nbits;i++)
 						pnt[i] = AN_L;
 						}
 					break;
-	
+
 			default:
 					kill_state = 1;
-					break;	
+					break;
 			}
-	
+
 		pch = pnt[i];	/* pch is xor accumulator */
 		}
 		else
@@ -111,7 +111,7 @@ for(i=0;i<nbits;i++)
 						pnt[i] = pch;
 						}
 					break;
-	
+
 			case AN_1:
 			case AN_H:
 					if(pch == AN_1)
@@ -123,12 +123,12 @@ for(i=0;i<nbits;i++)
 						pnt[i] = AN_L;
 						}
 					break;
-	
+
 			default:
 					kill_state = 1;
-					break;	
+					break;
 			}
-	
+
 		pch = ch;	/* pch is previous character */
 		}
 		else
@@ -153,11 +153,11 @@ for(i=0;i<nbits;i++)
 		case AN_1:
 		case AN_H:	pop++;
 				break;
-	
+
 		default:
-				break;	
+				break;
 			}
-	
+
 	}
 
 for(i=nbits-1;i>=0;i--) /* always requires less number of bits */
@@ -223,14 +223,14 @@ if(flags&(TR_ZEROFILL|TR_ONEFILL))
 			if(lsi > 0)
 				{
 				pnt=wave_alloca(msi + 1);
-	
+
 				memcpy(pnt, bits, nbits);
-	
+
 	        		for(i=nbits;i<msi+1;i++)
 	                		{
 	                		pnt[i]=whichfill;
 	                		}
-	
+
 				bits = (unsigned char *)pnt;
 				nbits = msi + 1;
 				}
@@ -240,14 +240,14 @@ if(flags&(TR_ZEROFILL|TR_ONEFILL))
 			if(msi > 0)
 				{
 				pnt=wave_alloca(lsi + 1);
-				
+
 	        		for(i=0;i<msi;i++)
 	                		{
 	                		pnt[i]=whichfill;
 	                		}
-	
+
 				memcpy(pnt+i, bits, nbits);
-	
+
 				bits = (unsigned char *)pnt;
 				nbits = lsi + 1;
 				}
@@ -289,9 +289,9 @@ if(flags&TR_REVERSE)
 	}
 
 
-if(flags&TR_ASCII) 
+if(flags&TR_ASCII)
 	{
-	char *parse;	
+	char *parse;
 	int found=0;
 
 	len=(nbits/8)+2+2;		/* $xxxxx */
@@ -313,20 +313,20 @@ if(flags&TR_ASCII)
 			if((parse[j]==AN_X)||(parse[j]==AN_Z)||(parse[j]==AN_W)||(parse[j]==AN_U)||(parse[j]==AN_DASH)) { val=1000; /* arbitrarily large */}
 			if((parse[j]==AN_1)||(parse[j]==AN_H)) { val|=1; }
 			}
-		
+
 
 		if (val) {
 			if (val > 0x7f || !isprint(val)) *pnt++ = '.'; else *pnt++ = val;
 			found=1;
 		}
-		
+
 		parse+=8;
 		}
 	if (!found && !GLOBALS->show_base) {
 		*(pnt++)='"';
 		*(pnt++)='"';
 	}
-		
+
 	if(GLOBALS->show_base) { *(pnt++)='"'; }
 	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
@@ -350,42 +350,42 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
 			{
 			val<<=1;
 
-			if((parse[j]==AN_1)||(parse[j]==AN_H)) 
-				{ 
-				val|=1; 
+			if((parse[j]==AN_1)||(parse[j]==AN_H))
+				{
+				val|=1;
 				}
 			else
-			if((parse[j]==AN_0)||(parse[j]==AN_L)) 
+			if((parse[j]==AN_0)||(parse[j]==AN_L))
 				{
 				}
 			else
 			if(parse[j]==AN_X)
-				{ 
+				{
 				int match = (j==0) || ((parse + i + j) == (newbuff + 3));
 				int k;
 				for(k=j+1;k<4;k++)
 					{
-					if(parse[k]!=AN_X) 
+					if(parse[k]!=AN_X)
 						{
 						char *thisbyt = parse + i + k;
 						char *lastbyt = newbuff + 3 + nbits - 1;
-						if((lastbyt - thisbyt) >= 0) match = 0; 
+						if((lastbyt - thisbyt) >= 0) match = 0;
 						break;
 						}
 					}
-				val = (match) ? 16 : 21; break; 
+				val = (match) ? 16 : 21; break;
 				}
 			else
-			if(parse[j]==AN_Z)    
-				{ 
+			if(parse[j]==AN_Z)
+				{
 				int xover = 0;
 				int match = (j==0) || ((parse + i + j) == (newbuff + 3));
 				int k;
 				for(k=j+1;k<4;k++)
 					{
-					if(parse[k]!=AN_Z) 
+					if(parse[k]!=AN_Z)
 						{
-						if(parse[k]==AN_X) 
+						if(parse[k]==AN_X)
 							{
 							xover = 1;
 							}
@@ -393,27 +393,27 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
 							{
 							char *thisbyt = parse + i + k;
 							char *lastbyt = newbuff + 3 + nbits - 1;
-							if((lastbyt - thisbyt) >= 0) match = 0; 
+							if((lastbyt - thisbyt) >= 0) match = 0;
 							}
 						break;
 						}
 					}
 
 				if(xover) val = 21;
-				else val = (match) ? 17 : 22; 
+				else val = (match) ? 17 : 22;
 				break;
 				}
 			else
-			if(parse[j]==AN_W)    
-				{ 
+			if(parse[j]==AN_W)
+				{
 				int xover = 0;
 				int match = (j==0) || ((parse + i + j) == (newbuff + 3));
 				int k;
 				for(k=j+1;k<4;k++)
 					{
-					if(parse[k]!=AN_W) 
+					if(parse[k]!=AN_W)
 						{
-						if(parse[k]==AN_X) 
+						if(parse[k]==AN_X)
 							{
 							xover = 1;
 							}
@@ -421,27 +421,27 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
 							{
 							char *thisbyt = parse + i + k;
 							char *lastbyt = newbuff + 3 + nbits - 1;
-							if((lastbyt - thisbyt) >= 0) match = 0; 
+							if((lastbyt - thisbyt) >= 0) match = 0;
 							}
 						break;
 						}
 					}
 
 				if(xover) val = 21;
-				else val = (match) ? 18 : 23; 
+				else val = (match) ? 18 : 23;
 				break;
 				}
 			else
 			if(parse[j]==AN_U)
-				{ 
+				{
 				int xover = 0;
 				int match = (j==0) || ((parse + i + j) == (newbuff + 3));
 				int k;
 				for(k=j+1;k<4;k++)
 					{
-					if(parse[k]!=AN_U) 
+					if(parse[k]!=AN_U)
 						{
-						if(parse[k]==AN_X) 
+						if(parse[k]==AN_X)
 							{
 							xover = 1;
 							}
@@ -449,26 +449,26 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
 							{
 							char *thisbyt = parse + i + k;
 							char *lastbyt = newbuff + 3 + nbits - 1;
-							if((lastbyt - thisbyt) >= 0) match = 0; 
+							if((lastbyt - thisbyt) >= 0) match = 0;
 							}
 						break;
 						}
 					}
 
 				if(xover) val = 21;
-				else val = (match) ? 19 : 24; 
+				else val = (match) ? 19 : 24;
 				break;
 				}
 			else
 			if(parse[j]==AN_DASH)
-				{ 
+				{
 				int xover = 0;
 				int k;
 				for(k=j+1;k<4;k++)
 					{
-					if(parse[k]!=AN_DASH) 
+					if(parse[k]!=AN_DASH)
 						{
-						if(parse[k]==AN_X) 
+						if(parse[k]==AN_X)
 							{
 							xover = 1;
 							}
@@ -483,7 +483,7 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
 			}
 
 		*(pnt++)=AN_HEX_STR[val];
-		
+
 		parse+=4;
 		}
 
@@ -521,7 +521,7 @@ else if(flags&TR_OCT)
 			}
 
 		*(pnt++)=AN_OCT_STR[val];
-		
+
 		parse+=3;
 		}
 
@@ -564,12 +564,12 @@ else if(flags&TR_SIGNED)
 		{ val = LLDescriptor(0); }
 	else
 		{ fail = 1; }
-		
+
 	if(!fail)
 	for(i=1;i<nbits;i++)
 		{
 		val<<=1;
-		
+
 		if((parse[i]==AN_1)||(parse[i]==AN_H)) {  val|=LLDescriptor(1); }
 		else if((parse[i]!=AN_0)&&(parse[i]!=AN_L)) { fail=1; break; }
 		}
@@ -621,15 +621,15 @@ else if(flags&TR_REAL)
 rl_go_binary:	len=(nbits/1)+2+1;		/* %xxxxx */
 		os=pnt=(char *)calloc_2(1,len);
 		if(GLOBALS->show_base) { *(pnt++)='%'; }
-	
+
 		parse=newbuff+3;
 		cvt_gray(flags,parse,nbits);
-	
+
 		for(i=0;i<nbits;i++)
 			{
 			*(pnt++)=AN_STR[(int)(*(parse++))];
 			}
-	
+
 		*(pnt)=0x00; /* scan build : remove dead increment */
 		}
 	}
@@ -709,7 +709,7 @@ if(t && (t->flags & TR_REAL2BITS) && d) /* "real2bits" also allows other filters
 
 	if(d)
 		{
-		sprintf(rv,"%.16g",*d);	
+		sprintf(rv,"%.16g",*d);
 		}
 	else
 		{
@@ -751,23 +751,23 @@ nbits++;
 res = AN_1;
 for (i = 0; i < nbits; i++)
 	{
-	switch (*vec) 
+	switch (*vec)
 		{
-		case AN_X:		
+		case AN_X:
 		case 'x':
 		case 'X':
 				return(AN_X);
-		case AN_U:		
+		case AN_U:
 		case 'u':
 		case 'U':
 				an_u_encountered = 1; break;
-		case AN_Z:		
+		case AN_Z:
 		case 'z':
 		case 'Z':
 				if (res == AN_0) return(AN_X); vec++; res = AN_Z; break;
 		default:	if (res == AN_Z) return(AN_X); vec++; res = AN_0; break;
 		}
-	}	
+	}
 
 return(!an_u_encountered ? res : AN_U);
 }
@@ -792,17 +792,17 @@ nbits=t->n.vec->nbits;
 res = AN_1;
 for (i = 0; i < nbits; i++)
 	{
-	switch (*vec) 
+	switch (*vec)
 		{
-		case AN_X:		
+		case AN_X:
 		case 'x':
 		case 'X':
 				return(AN_X);
-		case AN_U:		
+		case AN_U:
 		case 'u':
 		case 'U':
 				an_u_encountered = 1; break;
-		case AN_Z:		
+		case AN_Z:
 		case 'z':
 		case 'Z':
 				if (res == AN_0) return(AN_X); vec++; res = AN_Z; break;
@@ -835,7 +835,7 @@ if(nbits<0)nbits=-nbits;
 nbits++;
 
 if(vec)
-        {  
+        {
         bits=vec;
         if(*vec>AN_MSK)              /* convert as needed */
         for(i=0;i<nbits;i++)
@@ -895,7 +895,7 @@ if((flags&(TR_ZEROFILL|TR_ONEFILL))&&(nbits>1)&&(t->n.nd->msi)&&(t->n.nd->lsi))
 		if(t->n.nd->msi > 0)
 			{
 			pnt=wave_alloca(t->n.nd->lsi + 1);
-			
+
         		for(i=0;i<t->n.nd->msi;i++)
                 		{
                 		pnt[i]=whichfill;
@@ -950,9 +950,9 @@ if(flags&TR_REVERSE)
 	for(i=0;i<3;i++) *(fwdpnt2++)=xfwd[0];
 	}
 
-if(flags&TR_ASCII) 
+if(flags&TR_ASCII)
 	{
-	char *parse;	
+	char *parse;
 	int found=0;
 
 	len=(nbits/8)+2+2;		/* $xxxxx */
@@ -979,14 +979,14 @@ if(flags&TR_ASCII)
 			if (val > 0x7f || !isprint(val)) *pnt++ = '.'; else *pnt++ = val;
 			found=1;
 		}
-		
+
 		parse+=8;
 		}
 	if (!found && !GLOBALS->show_base) {
 		*(pnt++)='"';
 		*(pnt++)='"';
 	}
-		
+
 	if(GLOBALS->show_base) { *(pnt++)='"'; }
 	*(pnt)=0x00; /* scan build : remove dead increment */
 	}
@@ -1010,17 +1010,17 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
 			{
 			val<<=1;
 
-			if((parse[j]==AN_1)||(parse[j]==AN_H)) 
-				{ 
-				val|=1; 
+			if((parse[j]==AN_1)||(parse[j]==AN_H))
+				{
+				val|=1;
 				}
 			else
-			if((parse[j]==AN_0)||(parse[j]==AN_L)) 
+			if((parse[j]==AN_0)||(parse[j]==AN_L))
 				{
 				}
 			else
 			if(parse[j]==AN_X)
-				{ 
+				{
 				int match = (j==0) || ((parse + i + j) == (newbuff + 3));
 				int k;
 				for(k=j+1;k<4;k++)
@@ -1033,11 +1033,11 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
                                                 break;
                                                 }
 					}
-				val = (match) ? 16 : 21; break; 
+				val = (match) ? 16 : 21; break;
 				}
 			else
-			if(parse[j]==AN_Z)    
-				{ 
+			if(parse[j]==AN_Z)
+				{
 				int xover = 0;
 				int match = (j==0) || ((parse + i + j) == (newbuff + 3));
 				int k;
@@ -1060,12 +1060,12 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
                                         }
 
 				if(xover) val = 21;
-				else val = (match) ? 17 : 22; 
+				else val = (match) ? 17 : 22;
 				break;
 				}
 			else
-			if(parse[j]==AN_W)    
-				{ 
+			if(parse[j]==AN_W)
+				{
 				int xover = 0;
 				int match = (j==0) || ((parse + i + j) == (newbuff + 3));
 				int k;
@@ -1079,7 +1079,7 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
                                                         }
                                                         else
                                                         {
-                                                        char *thisbyt = parse + i + k;   
+                                                        char *thisbyt = parse + i + k;
                                                         char *lastbyt = newbuff + 3 + nbits - 1;
                                                         if((lastbyt - thisbyt) >= 0) match = 0;
                                                         }
@@ -1088,12 +1088,12 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
                                         }
 
 				if(xover) val = 21;
-				else val = (match) ? 18 : 23; 
+				else val = (match) ? 18 : 23;
 				break;
 				}
 			else
 			if(parse[j]==AN_U)
-				{ 
+				{
 				int xover = 0;
 				int match = (j==0) || ((parse + i + j) == (newbuff + 3));
 				int k;
@@ -1107,7 +1107,7 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
                                                         }
                                                         else
                                                         {
-                                                        char *thisbyt = parse + i + k;   
+                                                        char *thisbyt = parse + i + k;
                                                         char *lastbyt = newbuff + 3 + nbits - 1;
                                                         if((lastbyt - thisbyt) >= 0) match = 0;
                                                         }
@@ -1116,18 +1116,18 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
                                         }
 
 				if(xover) val = 21;
-				else val = (match) ? 19 : 24; 
+				else val = (match) ? 19 : 24;
 				break;
 				}
 			else
 			if(parse[j]==AN_DASH)
-				{ 
+				{
 				int xover = 0;
 				int k;
                                 for(k=j+1;k<4;k++)
                                         {
                                         if(parse[k]!=AN_DASH)
-                                                {  
+                                                {
                                                 if(parse[k]==AN_X)
                                                         {
                                                         xover = 1;
@@ -1143,7 +1143,7 @@ else if((flags&TR_HEX)||((flags&(TR_DEC|TR_SIGNED))&&(nbits>64)&&(!(flags&TR_POP
 			}
 
 		*(pnt++)=AN_HEX_STR[val];
-		
+
 		parse+=4;
 		}
 
@@ -1218,12 +1218,12 @@ else if(flags&TR_SIGNED)
 
         if((parse[0]==AN_1)||(parse[0]==AN_H))
                 { val = LLDescriptor(-1); }
-        else     
+        else
         if((parse[0]==AN_0)||(parse[0]==AN_L))
                 { val = LLDescriptor(0); }
-        else     
+        else
                 { fail = 1; }
-                 
+
         if(!fail)
 	for(i=1;i<nbits;i++)
 		{
@@ -1280,15 +1280,15 @@ else if(flags&TR_REAL)
 rl_go_binary:	len=(nbits/1)+2+1;		/* %xxxxx */
 		os=pnt=(char *)calloc_2(1,len);
 		if(GLOBALS->show_base) { *(pnt++)='%'; }
-	
+
 		parse=newbuff+3;
 		cvt_gray(flags,parse,nbits);
-	
+
 		for(i=0;i<nbits;i++)
 			{
 			*(pnt++)=AN_STR[(int)(*(parse++))];
 			}
-	
+
 		*(pnt)=0x00; /* scan build : remove dead increment */
 		}
 	}
@@ -1330,7 +1330,7 @@ return(os);
 static char *dofilter(Trptr t, char *s)
 {
 GLOBALS->xl_file_filter[t->f_filter] = xl_splay(s, GLOBALS->xl_file_filter[t->f_filter]);
-	
+
 if(!strcasecmp(s, GLOBALS->xl_file_filter[t->f_filter]->item))
 	{
 	free_2(s);
@@ -1407,7 +1407,7 @@ ex:	buf[n] = 0;
 		s = malloc_2(n + 1);
 		strcpy(s, buf);
 		}
-	}	
+	}
 
 if((*s == '?') && (!GLOBALS->color_active_in_filter))
 	{
@@ -1461,7 +1461,7 @@ if(!t->t_filter_converted)
 	s = strdup_2((char *)v->v);
 
 	if((*s == '?') && (!GLOBALS->color_active_in_filter))
-	        {  
+	        {
 	        char *s2a;
 	        char *s2 = strchr(s+1, '?');
 	        if(s2)
@@ -1471,7 +1471,7 @@ if(!t->t_filter_converted)
 	                strcpy(s2a, s2);
 	                free_2(s);
 	                s = s2a;
-	                }   
+	                }
 	        }
 	}
 
@@ -1518,7 +1518,7 @@ if(nbits<0)nbits=-nbits;
 nbits++;
 
 if(vec)
-        {  
+        {
         bits=vec;
         if(*vec>AN_MSK)              /* convert as needed */
         for(i=0;i<nbits;i++)
@@ -1605,12 +1605,12 @@ if(flags&TR_SIGNED)
 
         if((parse[0]==AN_1)||(parse[0]==AN_H))
                 { val = LLDescriptor(-1); }
-        else     
+        else
         if((parse[0]==AN_0)||(parse[0]==AN_L))
                 { val = LLDescriptor(0); }
-        else     
+        else
                 { fail = 1; }
-                 
+
         if(!fail)
 	for(i=1;i<nbits;i++)
 		{
@@ -1731,12 +1731,12 @@ if(flags&TR_SIGNED)
 		{ val = LLDescriptor(0); }
 	else
 		{ fail = 1; }
-		
+
 	if(!fail)
 	for(i=1;i<nbits;i++)
 		{
 		val<<=1;
-		
+
 		if((parse[i]==AN_1)||(parse[i]==AN_H)) {  val|=LLDescriptor(1); }
 		else if((parse[i]!=AN_0)&&(parse[i]!=AN_L)) { fail=1; break; }
 		}

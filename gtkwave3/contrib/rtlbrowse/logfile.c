@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -170,26 +170,26 @@ static void
 forward_chars_with_skipping (GtkTextIter *iter,
                              gint         count)
 {
-     
+
   gint i;
 
   g_return_if_fail (count >= 0);
-  
+
   i = count;
-        
+
   while (i > 0)
     {
       gboolean ignored = FALSE;
 
       if (gtk_text_iter_get_char (iter) == 0xFFFC)
         ignored = TRUE;
-             
+
       gtk_text_iter_forward_char (iter);
-  
+
       if (!ignored)
         --i;
     }
-}     
+}
 
 static gboolean iter_forward_search_caseins(
                               const GtkTextIter *iter,
@@ -233,7 +233,7 @@ for(;;)
 	found = strstr(line_text, strcaseins);
 	if(found)
 		{
-		gchar cached = *found; 
+		gchar cached = *found;
 		*found = 0;
 		offset = g_utf8_strlen (line_text, -1);
 		*found = cached;
@@ -242,7 +242,7 @@ for(;;)
 	g_free (line_text);
 
 	start = next;
-	} 
+	}
 
 *match_start = start;
 forward_chars_with_skipping (match_start, offset);
@@ -281,7 +281,7 @@ if((tr) && (tr->text))
 		}
 
 
-	if(str) 
+	if(str)
 		{
 		if(!matchcase_active)
 			{
@@ -314,7 +314,7 @@ if((tr) && (tr->text))
 #endif
 		read_insert_position(tr);
 		tr->srch_line = tr->line;
-		tr->srch_offs = tr->offs;		
+		tr->srch_offs = tr->offs;
 
 		/* tm = gtk_text_buffer_get_insert(tb); */ /* scan-build : never read */
 
@@ -395,7 +395,7 @@ if((tr) && (tr->text))
 		gtk_text_iter_backward_char(&iter);
 		}
 
-	if(str) 
+	if(str)
 		{
 		if(!matchcase_active)
 			{
@@ -414,7 +414,7 @@ if((tr) && (tr->text))
 				}
 				else
 				{
-				found = gtk_text_iter_backward_search(&iter, str, GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL);		
+				found = gtk_text_iter_backward_search(&iter, str, GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL);
 				}
 			}
 		}
@@ -428,7 +428,7 @@ if((tr) && (tr->text))
 #endif
 		read_insert_position(tr);
 		tr->srch_line = tr->line;
-		tr->srch_offs = tr->offs;		
+		tr->srch_offs = tr->offs;
 
 		/* tm = gtk_text_buffer_get_insert(tb); */ /* scan-build : never read */
 		gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(tr->text), &match_start, 0.0, TRUE, 0.0, 0.5);
@@ -472,7 +472,7 @@ gboolean find_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 	{
 	}
       else
-        { 
+        {
 	search_string = strdup(t);
         }
 
@@ -487,7 +487,7 @@ matchcase_active = (GTK_TOGGLE_BUTTON(widget)->active != 0);
 tr_search_forward(search_string, TRUE);
 }
 
- 
+
 static
 void press_callback (GtkWidget *widget, gpointer *data)
 {
@@ -521,10 +521,10 @@ void create_toolbar(GtkWidget *table)
     find_label = gtk_label_new ("Find:");
     gtk_widget_show (find_label);
     gtk_box_pack_start (GTK_BOX (hbox), find_label, FALSE, FALSE, 0);
-    
+
     find_entry = gtk_entry_new ();
     gtk_widget_show (find_entry);
-    
+
     gtk_signal_connect(GTK_OBJECT(find_entry), "changed", GTK_SIGNAL_FUNC(press_callback), NULL);
     gtk_signal_connect(GTK_OBJECT (find_entry), "key_press_event", (GtkSignalFunc) find_edit_cb, NULL);
     gtk_box_pack_start (GTK_BOX (hbox), find_entry, FALSE, FALSE, 0);
@@ -548,7 +548,7 @@ void create_toolbar(GtkWidget *table)
     style->xthickness = style->ythickness = 0;
     gtk_widget_set_style (stock, style);
     gtk_widget_show(stock);
-        
+
     stock = gtk_toolbar_insert_stock(GTK_TOOLBAR(tb),
                                                  GTK_STOCK_GO_FORWARD,
                                                  "Search Forward",
@@ -581,7 +581,7 @@ static char *tmpnam_rtlbrowse(char *s, int *fd)
 *fd = -1;
 return(tmpnam(s));
 
-#else    
+#else
 
 char *backpath = "gtkwaveXXXXXX";
 char *tmpspace;
@@ -597,7 +597,7 @@ for(i=0;i<len;i++)
                 break;
                 }
         }
-         
+
 tmpspace = malloc(len + 1 + strlen(backpath) + 1);
 sprintf(tmpspace, "%s%c%s", P_tmpdir, slash, backpath);
 *fd = mkstemp(tmpspace);
@@ -607,7 +607,7 @@ if(*fd<0)
         perror("Why");
         exit(255);
         }
-         
+
 return(tmpspace);
 
 #endif
@@ -626,7 +626,7 @@ static char *hexify(char *s)
 {
 int len = strlen(s);
 
-if(len < 4) 
+if(len < 4)
 	{
 	char *s2 = malloc(len+1+1);
 	int idx;
@@ -693,12 +693,12 @@ if(len < 4)
 
 		if(isx)
 			{
-			*(pnt++) = (isx==4) ? 'x' : 'X';	
+			*(pnt++) = (isx==4) ? 'x' : 'X';
 			}
 		else
 		if(isz)
 			{
-			*(pnt++) = (isz==4) ? 'z' : 'Z';	
+			*(pnt++) = (isz==4) ? 'z' : 'Z';
 			}
 		else
 			{
@@ -741,7 +741,7 @@ for(;;)
 			break;
 		}
 
-	if(c1 != c2) { return(1); } 
+	if(c1 != c2) { return(1); }
 	if(!c1) break;
 
 	s1++; s2++;
@@ -769,7 +769,7 @@ static void DNDBeginCB(
 /* nothing */
 }
 
-static void DNDEndCB(  
+static void DNDEndCB(
         GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
@@ -821,9 +821,9 @@ if(((void *)widget->window) == pressWindow)
 	gtk_text_iter_forward_char(&end);
 	ok = 1;
 #endif
-	} 
-   
-pressWindow = NULL;     
+	}
+
+pressWindow = NULL;
 
 if(ok)
        	{
@@ -871,7 +871,7 @@ if(ok)
 			sel = sel2;
 			sel2 = NULL;
 			}
-                        
+
 		/* gtk_text_buffer_delete_selection (GTK_TEXT_VIEW(text)->buffer, 0, 0); ...no need to delete because of update_ctx_when_idle() */
 		}
 
@@ -894,7 +894,7 @@ if(oe->has_selection)
 	}
 #endif
 
-if(sel) 
+if(sel)
 	{
 	JRB strs, node;
 	int fd;
@@ -910,7 +910,7 @@ if(sel)
         	return;
         	}
 	fprintf(handle, "%s", sel);
-	fclose(handle); 
+	fclose(handle);
 	if(fd>=0) close(fd);
 
 	v_preproc_name = fname;
@@ -935,7 +935,7 @@ if(sel)
 					{
 					jrb_insert_str(strs, strdup(pnt), jv);
 					cnt++;
-					} 
+					}
 				}
                         }
 		else if(lx==V_IGNORE)
@@ -1016,7 +1016,7 @@ if(sel)
 void log_text(GtkWidget *text, GdkFont *font, char *str)
 {
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
-gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &iterx,  
+gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &iterx,
                                  str, -1, mono_tag, size_tag, NULL);
 #else
 gtk_text_insert (GTK_TEXT (text), font, &text->style->black, NULL, str, -1);
@@ -1026,7 +1026,7 @@ gtk_text_insert (GTK_TEXT (text), font, &text->style->black, NULL, str, -1);
 void log_text_bold(GtkWidget *text, GdkFont *font, char *str)
 {
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
-gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &iterx,  
+gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &iterx,
                                  str, -1, bold_tag, mono_tag, size_tag, fwht_tag, blue_tag, NULL);
 #else
 gtk_text_insert (GTK_TEXT (text), font, &text->style->fg[GTK_STATE_SELECTED], &text->style->bg[GTK_STATE_SELECTED], str, -1);
@@ -1210,7 +1210,7 @@ if(oe->has_selection)
 	if(oec->get_chars)
 		{
 	 	sel = oec->get_chars(oe, oe->selection_start_pos, oe->selection_end_pos);
-	
+
 		if(sel)
 			{
 			if(strlen(sel))
@@ -1235,7 +1235,7 @@ if(oe->has_selection)
 					{
 					break;
 					}
-				lft--;				
+				lft--;
 				}
 
 			rgh--;
@@ -1304,7 +1304,7 @@ scroll_event( GtkWidget * widget, GdkEventScroll * event, gpointer text)
 }
 #endif
 
-   
+
 /* Create a scrolled text area that displays a "message" */
 static GtkWidget *create_log_text (GtkWidget **textpnt)
 {
@@ -1331,17 +1331,17 @@ fwht_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "white_fore
 blue_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "blue_background",
 			      "background", "blue", NULL);
 #ifdef MAC_INTEGRATION
-mono_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "monospace", 
+mono_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "monospace",
 					"family", "monospace", NULL);
 size_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "fsiz",
 					"size", 10 * PANGO_SCALE, NULL);
 #else
-mono_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "monospace", 
+mono_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "monospace",
 					"family", "monospace", NULL);
 size_tag = gtk_text_buffer_create_tag (GTK_TEXT_VIEW (text)->buffer, "fsiz",
 					"size", 8 * PANGO_SCALE, NULL);
 #endif
-#else                                  
+#else
 text = gtk_text_new (NULL, NULL);
 #endif
 *textpnt = text;
@@ -1349,8 +1349,8 @@ gtk_table_attach (GTK_TABLE (table), text, 0, 14, 0, 1,
                         GTK_FILL | GTK_EXPAND,
                         GTK_FILL | GTK_SHRINK | GTK_EXPAND, 0, 0);
 gtk_widget_set_usize(GTK_WIDGET(text), 100, 100);
-#if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)  
-gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE); 
+#if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
 #else
 gtk_text_set_editable(GTK_TEXT(text), FALSE);
 #endif
@@ -1360,11 +1360,11 @@ gtk_widget_show (text);
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
 {
 GtkTextViewClass *tc = (GtkTextViewClass*)GTK_OBJECT_GET_CLASS(GTK_OBJECT(text));
- 
+
 tc->set_scroll_adjustments(GTK_TEXT_VIEW (text), NULL, NULL);
-vscrollbar = gtk_vscrollbar_new (GTK_TEXT_VIEW (text)->vadjustment);  
+vscrollbar = gtk_vscrollbar_new (GTK_TEXT_VIEW (text)->vadjustment);
 }
-#else                                  
+#else
 vscrollbar = gtk_vscrollbar_new (GTK_TEXT (text)->vadj);
 #endif
 gtk_table_attach (GTK_TABLE (table), vscrollbar, 15, 16, 0, 1,
@@ -1374,7 +1374,7 @@ gtk_widget_show (vscrollbar);
 /* Add a handler to put a message in the text widget when it is realized */
 gtk_signal_connect (GTK_OBJECT (text), "realize",
                         GTK_SIGNAL_FUNC (log_realize_text), NULL);
-	
+
 gtk_signal_connect(GTK_OBJECT(text), "button_release_event",
                        GTK_SIGNAL_FUNC(button_release_event), NULL);
 
@@ -1389,7 +1389,7 @@ gtk_text_set_line_wrap(GTK_TEXT(text), TRUE);
 #endif
 return(table);
 }
-   
+
 /***********************************************************************************/
 
 static void ok_callback(GtkWidget *widget, struct logfile_context_t *ctx)
@@ -1416,7 +1416,7 @@ if(textview_or_dummy == NULL)
 			{
 			old_marker_set = anno_ctx->marker_set;
 			old_marker = anno_ctx->marker;
-			}	
+			}
 			else
 			{
 			return(TRUE);
@@ -1435,7 +1435,7 @@ while(t)
 		{
 		if(textview_or_dummy != (gpointer)(t->text))
 			{
-			t = t->next; 
+			t = t->next;
 			continue;
 			}
 		}
@@ -1471,7 +1471,7 @@ while(t)
 			vadj->value = vvalue;
 			gtk_signal_emit_by_name (GTK_OBJECT (vadj), "changed");
 			gtk_signal_emit_by_name (GTK_OBJECT (vadj), "value_changed");
-#else			
+#else
 			GtkText *text = GTK_TEXT(t->text);
 			GtkAdjustment *vadj = GTK_TEXT (t->text)->vadj;
 			gdouble vvalue = vadj->value;
@@ -1571,7 +1571,7 @@ if(ctx)
 static gint destroy_via_closebutton_release(GtkWidget *widget, GdkEventButton *event)
 {
 if((event->x<0)||(event->x>=widget->allocation.width)||(event->y<0)||(event->y>=widget->allocation.height))
-	{       
+	{
         /* let gtk take focus from us with focus out event */
         }
 	else
@@ -1611,7 +1611,7 @@ void bwlogbox(char *title, int width, ds_Tree *t, int display_mode)
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
 /* nothing */
 #else
-    if(!fontx) 
+    if(!fontx)
 	{
 	if(fontname_logfile)
 		{
@@ -1656,7 +1656,7 @@ void bwlogbox(char *title, int width, ds_Tree *t, int display_mode)
 
 	window = gtk_hpaned_new();
 	tbox = gtk_hbox_new(FALSE, 0);
-	
+
 	l1 = gtk_label_new(title);
 
 	/* code from gedit... */
@@ -1667,14 +1667,14 @@ void bwlogbox(char *title, int width, ds_Tree *t, int display_mode)
         /* don't allow focus on the close button */
 #ifdef WAVE_USE_GTK_2CURRENT
         gtk_button_set_focus_on_click (GTK_BUTTON (close_button), FALSE);
-#endif        
+#endif
 
         /* make it as small as possible */
         rcstyle = gtk_rc_style_new ();
         rcstyle->xthickness = rcstyle->ythickness = 0;
         gtk_widget_modify_style (close_button, rcstyle);
         gtk_rc_style_unref (rcstyle),
-        
+
         image = gtk_image_new_from_stock (GTK_STOCK_CLOSE,
                                           GTK_ICON_SIZE_MENU);
         gtk_container_add (GTK_CONTAINER (close_button), image);
@@ -1690,7 +1690,7 @@ void bwlogbox(char *title, int width, ds_Tree *t, int display_mode)
 	gtk_widget_show(tbox);
 
 #ifdef WAVE_USE_GTK_2CURRENT
-        pagenum = 
+        pagenum =
 #endif
 		gtk_notebook_append_page_menu  (GTK_NOTEBOOK(notebook), window, tbox, gtk_label_new(title));
 
@@ -1743,7 +1743,7 @@ void bwlogbox(char *title, int width, ds_Tree *t, int display_mode)
                                GTK_SIGNAL_FUNC(ok_callback),
                                ctx);
     gtk_widget_show (button1);
-    gtk_container_add (GTK_CONTAINER (hbox), button1);  
+    gtk_container_add (GTK_CONTAINER (hbox), button1);
     GTK_WIDGET_SET_FLAGS (button1, GTK_CAN_DEFAULT);
     gtk_signal_connect_object (GTK_OBJECT (button1),
                                 "realize",
@@ -1770,10 +1770,10 @@ void bwlogbox(char *title, int width, ds_Tree *t, int display_mode)
         target_entry[0].flags = 0;
         target_entry[0].info = WAVE_DRAG_TAR_INFO_0;
         target_entry[1].target = WAVE_DRAG_TAR_NAME_1;
-        target_entry[1].flags = 0;  
+        target_entry[1].flags = 0;
         target_entry[1].info = WAVE_DRAG_TAR_INFO_1;
         target_entry[2].target = WAVE_DRAG_TAR_NAME_2;
-        target_entry[2].flags = 0;   
+        target_entry[2].flags = 0;
         target_entry[2].info = WAVE_DRAG_TAR_INFO_2;
 
         gtk_drag_source_set(
@@ -1892,12 +1892,12 @@ void bwlogbox_2(struct logfile_context_t *ctx, GtkWidget *window, GtkWidget *but
 	e_line = e_line_find > 0 ? e_line_find : e_line;
 
 	sprintf(buf, " occupies lines %d - %d.\n", s_line, e_line);
-	log_text(text, NULL, buf);        
+	log_text(text, NULL, buf);
 	if(anno_ctx)
 		{
-		sprintf(buf, "Marker time for '%s' is %s.\n", anno_ctx->aet_name, 
-			anno_ctx->marker_set ? anno_ctx->time_string: "not set");		
-		log_text(text, NULL, buf);        
+		sprintf(buf, "Marker time for '%s' is %s.\n", anno_ctx->aet_name,
+			anno_ctx->marker_set ? anno_ctx->time_string: "not set");
+		log_text(text, NULL, buf);
 		}
 
 	log_text(text, NULL, "\n");
@@ -1914,7 +1914,7 @@ void bwlogbox_2(struct logfile_context_t *ctx, GtkWidget *window, GtkWidget *but
 	int numvars = 0;
 
 	/* build up list of potential variables in this module */
-	if(!display_mode && !ctx->varnames) 
+	if(!display_mode && !ctx->varnames)
 		{
 		varnames = make_jrb();
 		while(w)
@@ -1926,7 +1926,7 @@ void bwlogbox_2(struct logfile_context_t *ctx, GtkWidget *window, GtkWidget *but
 					if(strcmp(w->text, design_unit)) /* filter out design unit name */
 						{
 						node = jrb_find_str(varnames, w->text);
-	
+
 						if(!node)
 							{
 							Jval dummy;
@@ -1978,13 +1978,13 @@ void bwlogbox_2(struct logfile_context_t *ctx, GtkWidget *window, GtkWidget *but
 				                case FST_HT_UPSCOPE:
 				                        scp_nam = fstReaderPopScope(fst);
 							new_scope_encountered = 1;
-				                        break;   
+				                        break;
 				                case FST_HT_VAR:
 				                        scp_nam = fstReaderGetCurrentFlatScope(fst);
 							if(!h->u.var.is_alias) fh++;
 							do_brk = 1;
 							break;
-						default: 
+						default:
 							break;
 						}
 					if(do_brk) break;
@@ -2034,13 +2034,13 @@ void bwlogbox_2(struct logfile_context_t *ctx, GtkWidget *window, GtkWidget *but
 							if(!fst_alpha_strcmpeq(h->u.var.name, node->key.s))
 								{
 								struct jrb_chain *jvc = node->jval_chain;
-								if(jvc) { 
+								if(jvc) {
 									while(jvc->next) jvc = jvc->next;
 									jvc->next = calloc(1, sizeof(struct jrb_chain));
 									jvc = jvc->next;
 									}
 									else
-									{ 
+									{
 									jvc = calloc(1, sizeof(struct jrb_chain));
 									node->jval_chain = jvc;
 									}
@@ -2108,14 +2108,14 @@ skip_resolved_fst:
 							jvc = node->jval_chain;
 							rc2 = calloc(1, len+1);
 							rc2[0] = first_char;
-	
+
 							while(jvc)
 								{
 								char rcv[65537];
 								fstReaderGetValueFromHandleAtTime(fst, anno_ctx->marker, jvc->val.i, rcv);
 								rc2[pos++] = *rcv;
 								jvc = jvc->next;
-								}		
+								}
 
 							node->val2.v = hexify(strdup(rc2));
 							free(rc2);
@@ -2184,13 +2184,13 @@ skip_resolved_fst:
 
 									mat = 1;
 
-									if(jvc) { 
+									if(jvc) {
 										while(jvc->next) jvc = jvc->next;
 										jvc->next = calloc(1, sizeof(struct jrb_chain));
 										jvc = jvc->next;
 										}
 										else
-										{ 
+										{
 										jvc = calloc(1, sizeof(struct jrb_chain));
 										node->jval_chain = jvc;
 										}
@@ -2274,13 +2274,13 @@ skip_resolved_vzt:
 							jvc = node->jval_chain;
 							rc2 = calloc(1, len+1);
 							rc2[0] = first_char;
-	
+
 							while(jvc)
 								{
 								char *rcv = vzt_rd_value(vzt, anno_ctx->marker, jvc->val.i);
 								rc2[pos++] = *rcv;
 								jvc = jvc->next;
-								}		
+								}
 
 							node->val2.v = hexify(strdup(rc2));
 							free(rc2);
@@ -2350,9 +2350,9 @@ skip_resolved_vzt:
                                                                 if(!strcmp(fnam+tlen, node->key.s))
                                                                         {
                                                                         struct jrb_chain *jvc = node->jval_chain;
-                                                        
+
                                                                         mat = 1;
-                                                                
+
                                                                         if(jvc) {
                                                                                 while(jvc->next) jvc = jvc->next;
                                                                                 jvc->next = calloc(1, sizeof(struct jrb_chain));
@@ -2435,8 +2435,8 @@ skip_resolved_lxt2:
                                                 char *rc2;
                                                 int len = rc ? strlen(rc) : 0;
                                                 int iter = 1;
-                                                         
-                                                while(jvc)  
+
+                                                while(jvc)
                                                         {
 							srch = jrb_find_int(lx2vals, jvc->val.i);
 							rc = srch ? srch->val.s : NULL;
@@ -2451,22 +2451,22 @@ skip_resolved_lxt2:
                                                         jvc = node->jval_chain;
                                                         rc2 = calloc(1, len+1);
                                                         rc2[0] = first_char;
-                         
+
                                                         while(jvc)
                                                                 {
 								srch = jrb_find_int(lx2vals, jvc->val.i);
 								rc = srch->val.s;
                                                                 rc2[pos++] = *rc;
-                                                                jvc = jvc->next; 
+                                                                jvc = jvc->next;
                                                                 }
-    
+
                                                         node->val2.v = hexify(strdup(rc2));
-                                                        free(rc2);               
+                                                        free(rc2);
                                                         }
                                                         else
-                                                        {               
+                                                        {
                                                         node->val2.v = NULL;
-							}						
+							}
 						}
 					}
 					else
@@ -2494,7 +2494,7 @@ skip_resolved_lxt2:
 			int attempt = 0;
 
 			if(ctx->varnames) goto skip_resolved_ae2;
-			
+
 			pfx = malloc((tlen=strlen(title))+1+1);
 			strcpy(pfx, title);
 			strcat(pfx+tlen, ".");
@@ -2560,7 +2560,7 @@ retry_ae2:		for(i=0;i<numfacs;i++)
 					{
 					char bf[65537];
 					char *fnam = bf;
-	
+
 					ae2_read_symbol_name(ae2, i, bf);
 					jrb_traverse(node, varnames)
 						{
@@ -2574,7 +2574,7 @@ retry_ae2:		for(i=0;i<numfacs;i++)
 								}
 							}
 						}
-					}				
+					}
 				}
 
 resolved_ae2:		free(pfx);
@@ -2640,9 +2640,9 @@ skip_resolved_ae2:
 						{
 						case V_CMT:	log_text_active(text, fontx, w->text); break;
 
-						case V_STRING:	
-						case V_PREPROC:	
-						case V_PREPROC_WS:	
+						case V_STRING:
+						case V_PREPROC:
+						case V_PREPROC_WS:
 						case V_MACRO:	log_text_prelight(text, fontx, w->text); break;
 
 						default:	log_text(text, fontx, w->text); break;

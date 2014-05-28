@@ -27,11 +27,11 @@
 #include <config.h>
 #include <wavealloca.h>
 
-#if defined(__CYGWIN__) || defined(__MINGW32__) 
+#if defined(__CYGWIN__) || defined(__MINGW32__)
 #undef HAVE_RPC_XDR_H
 #endif
 
-#if HAVE_RPC_XDR_H 
+#if HAVE_RPC_XDR_H
 #include <rpc/types.h>
 #include <rpc/xdr.h>
 #endif
@@ -101,7 +101,7 @@ if(lt)
 		{
 		case VZT_WR_IS_GZ:	return(gzdopen(fd, mode));
 		case VZT_WR_IS_BZ2:	return(BZ2_bzdopen(fd, mode));
-		case VZT_WR_IS_LZMA:	
+		case VZT_WR_IS_LZMA:
 		default:
 					return(LZMA_fdopen(fd, mode));
 		}
@@ -118,7 +118,7 @@ if(lt)
 		{
 		case VZT_WR_IS_GZ:	return(gzclose(file));
 		case VZT_WR_IS_BZ2:	BZ2_bzclose(file); return(0);
-		case VZT_WR_IS_LZMA:	
+		case VZT_WR_IS_LZMA:
 		default:
 					LZMA_close(file); return(0);
 		}
@@ -135,7 +135,7 @@ if(lt)
 		{
 		case VZT_WR_IS_GZ:	return(gzflush(file, flush));
 		case VZT_WR_IS_BZ2:	return(BZ2_bzflush(file));
-		case VZT_WR_IS_LZMA:	
+		case VZT_WR_IS_LZMA:
 		default:
 					return(0); /* no real need to do a LZMA_flush(file) as the dictionary is so big */
 		}
@@ -152,7 +152,7 @@ if(lt)
 		{
 		case VZT_WR_IS_GZ:	return(gzwrite(file, buf, len));
 		case VZT_WR_IS_BZ2:	return(BZ2_bzwrite(file, buf, len));
-		case VZT_WR_IS_LZMA:	
+		case VZT_WR_IS_LZMA:
 		default:
 					return(LZMA_write(file, buf, len));
 		}
@@ -226,7 +226,7 @@ static vzt_wr_dsvzt_Tree * vzt_wr_dsvzt_insert(vztint32_t i, vzt_wr_dsvzt_Tree *
 /* Return a pointer to the resulting tree.                 */
     vzt_wr_dsvzt_Tree * n;
     int dir;
-    
+
     n = (vzt_wr_dsvzt_Tree *) calloc (1, sizeof (vzt_wr_dsvzt_Tree));
     if (n == NULL) {
 	fprintf(stderr, "dsvzt_insert: ran out of memory, exiting.\n");
@@ -317,7 +317,7 @@ static vzt2_wr_dsvzt_Tree * vzt2_wr_dsvzt_insert(char *i, vzt2_wr_dsvzt_Tree * t
 /* Return a pointer to the resulting tree.                 */
     vzt2_wr_dsvzt_Tree * n;
     int dir;
-    
+
     n = (vzt2_wr_dsvzt_Tree *) calloc (1, sizeof (vzt2_wr_dsvzt_Tree));
     if (n == NULL) {
 	fprintf(stderr, "dsvzt_insert: ran out of memory, exiting.\n");
@@ -353,7 +353,7 @@ static vzt2_wr_dsvzt_Tree * vzt2_wr_dsvzt_insert(char *i, vzt2_wr_dsvzt_Tree * t
 /*
  * functions which emit various big endian
  * data to a file
- */ 
+ */
 static int vzt_wr_emit_u8(struct vzt_wr_trace *lt, int value)
 {
 unsigned char buf[1];
@@ -412,7 +412,7 @@ return(rc);
  * data to a file.  (lt->position needs to be
  * fixed up on gzclose so the tables don't
  * get out of sync!)
- */ 
+ */
 static int gzwrite_buffered(struct vzt_wr_trace *lt)
 {
 int rc = 1;
@@ -519,7 +519,7 @@ return(rc);
 static int vzt_wr_emit_stringz(struct vzt_wr_trace *lt, char *value)
 {
 int rc=1;
-do  
+do
 	{
         rc&=vzt_wr_emit_u8z(lt, *value);
         } while(*(value++));
@@ -589,7 +589,7 @@ for(p=s;*p;p++)
                 {
                 h=h^(g>>24);
                 h=h^g;
-                }   
+                }
         }
 
 h^=h2;						/* combine the two hashes */
@@ -616,17 +616,17 @@ struct vzt_wr_symbol *temp;
 
 hv=vzt_wr_hash(s);
 if(!(temp=lt->sym[hv])) return(NULL); /* no hash entry, add here wanted to add */
-	
+
 while(temp)
         {
         if(!strcmp(temp->name,s))
                 {
-                return(temp); /* in table already */    
+                return(temp); /* in table already */
                 }
         if(!temp->next) break;
         temp=temp->next;
         }
-	
+
 return(NULL); /* not found, add here if you want to add*/
 }
 
@@ -651,13 +651,13 @@ if(lt->compress_fac_str)
 	vzt_wr_emit_u16z(lt, i);
 	vzt_wr_emit_stringz(lt, str+i);
         free(lt->compress_fac_str);
-        } 
+        }
         else
         {
 	vzt_wr_emit_u16z(lt, 0);
 	vzt_wr_emit_stringz(lt, str);
         }
-         
+
 lt->compress_fac_str = (char *) malloc((lt->compress_fac_len=len)+1);
 strcpy(lt->compress_fac_str, str);
 }
@@ -683,10 +683,10 @@ while(lastch!=s->name)
 
 	if(*lastch=='[')
 		{
-		*lastch=0x00;	
+		*lastch=0x00;
 		return;
 		}
-	lastch--;	
+	lastch--;
 	}
 return;
 }
@@ -713,12 +713,12 @@ if((lt)&&(lt->numfacs))
 			strip_brack(s);
 			s=s->symchain;
 			}
-		else	
+		else
 		for(i=0;i<lt->numfacs;i++)
 			{
 			lt->sorted_facs[lt->numfacs - i - 1] = s;	/* facs were chained backwards so reverse to restore bitslicing */
 			s=s->symchain;
-			}	
+			}
 		wave_msort(lt->sorted_facs, lt->numfacs);
 
 		/* move facs up */
@@ -783,7 +783,7 @@ if((lt)&&(lt->numfacs))
 		free(lt->compress_fac_str); lt->compress_fac_str=NULL;
 		lt->compress_fac_len=0;
 		lt->zfacname_predec_size = lt->zpackcount;
-	
+
 		gzflush_buffered(lt, 1);
 		fseeko(lt->handle, 0L, SEEK_END);
 		lt->position=ftello(lt->handle);
@@ -829,7 +829,7 @@ if((lt)&&(lt->numfacs))
 }
 
 
-/* 
+/*
  * initialize the trace and get back an lt context
  */
 struct vzt_wr_trace *vzt_wr_init(const char *name)
@@ -888,8 +888,8 @@ if(lt)
 /*
  * set initial value of trace (0, 1, x, z) only legal vals
  */
-void vzt_wr_set_initial_value(struct vzt_wr_trace *lt, char value) 
-{ 
+void vzt_wr_set_initial_value(struct vzt_wr_trace *lt, char value)
+{
 if(lt)
 	{
 	switch(value)
@@ -972,7 +972,7 @@ if(!(flags & (VZT_WR_SYM_F_INTEGER|VZT_WR_SYM_F_STRING|VZT_WR_SYM_F_DOUBLE)))
 			s->chg[i] = ~0;
 			}
 		}
-	
+
 	if(lt->multi_state)
 		{
 		if((lt->initial_value == 'x')||(lt->initial_value == 'z'))
@@ -1041,7 +1041,7 @@ return(sa);
 }
 
 
-/* 
+/*
  * set current time/granule updating
  */
 int vzt_wr_inc_time_by_delta(struct vzt_wr_trace *lt, unsigned int timeval)
@@ -1150,7 +1150,7 @@ if(t->child)
 		{
 		for(i=0;i<depth;i++)
 			{
-	 		vztint32_t k = *(bpnt2++); 
+	 		vztint32_t k = *(bpnt2++);
 			vzt_wr_emit_u32rz(lt, k);
 			}
 		}
@@ -1163,7 +1163,7 @@ if(t->child)
 
 		for(i=0;i<depth;i++)
 			{
-	 		vztint32_t k = *(bpnt2++); 
+	 		vztint32_t k = *(bpnt2++);
 			for(j=0;j<32;j++)
 				{
 				if(prev == (k&1))
@@ -1228,7 +1228,7 @@ if(!lt->timegranule)
 	vzt_wr_dsvzt_Tree *t=NULL;
 
 	val = 0;
-	
+
 	for(j=0;j<lt->numfacs;j++)
 		{
 		struct vzt_wr_symbol *s = lt->sorted_facs[j];
@@ -1331,7 +1331,7 @@ if((lt->timegranule >= lt->maxgranule)||(do_finalize))
         do      {
                 fseeko(lt->handle, 0L, SEEK_END);
                 lt->current_chunk=lt->position = ftello(lt->handle);
-  
+
                 if((lt->break_size)&&(attempt_break_state==2)&&(lt->position >= lt->break_size)&&(lt->position != lt->break_header_size))
                         {
                         vzt_wr_emit_do_breakfile(lt);
@@ -1398,7 +1398,7 @@ if((lt->timegranule >= lt->maxgranule)||(do_finalize))
 		struct vzt_wr_symbol *s = lt->sorted_facs[j];
 		for(i=0;i<s->len;i++)
 			{
-			vzt_wr_emit_u32rz(lt, s->prev[i]->val); 
+			vzt_wr_emit_u32rz(lt, s->prev[i]->val);
 			}
 		}
 
@@ -1409,12 +1409,12 @@ if((lt->timegranule >= lt->maxgranule)||(do_finalize))
 			struct vzt_wr_symbol *s = lt->sorted_facs[j];
 			for(i=0;i<s->len;i++)
 				{
-				vzt_wr_emit_u32rz(lt, s->prevx[i]->val); 
+				vzt_wr_emit_u32rz(lt, s->prevx[i]->val);
 				}
 			}
 		lt->use_multi_state = 0;
 		}
-	gzflush_buffered(lt, 0);	
+	gzflush_buffered(lt, 0);
 
 	vzt_wr_emit_uv32z(lt, lt->numstrings);
 	if(lt->numstrings)
@@ -1429,7 +1429,7 @@ if((lt->timegranule >= lt->maxgranule)||(do_finalize))
 	                        fprintf(stderr, "internal error line %d\n", __LINE__);
 	                        exit(255);
 	                        }
-	         
+
 	                vzt_wr_emit_stringz(lt, ds->item);
 	                ds2 = ds->next;
 	                free(ds->item);
@@ -1439,7 +1439,7 @@ if((lt->timegranule >= lt->maxgranule)||(do_finalize))
 	        lt->str_head = lt->str_curr = lt->str = NULL;
 		lt->numstrings = 0;
 		}
-	gzflush_buffered(lt, 1);	
+	gzflush_buffered(lt, 1);
 
         fseeko(lt->handle, 0L, SEEK_END);
         lt->position = ftello(lt->handle);
@@ -1481,7 +1481,7 @@ if(lt)
 				{
 				lt->bumptime = 0;
 
-				if(!lt->flush_valid) 
+				if(!lt->flush_valid)
 					{
 					lt->timepos++;
 					}
@@ -1489,14 +1489,14 @@ if(lt)
 					{
 					lt->flush_valid = 0;
 					}
-	
+
 				if(lt->timepos == VZT_WR_GRANULE_SIZE)
 					{
 					vzt_wr_flush_granule(lt, 0);
 					}
 				}
 
-			lt->timetable[lt->timepos + lt->timegranule * VZT_WR_GRANULE_SIZE] = timeval;			
+			lt->timetable[lt->timepos + lt->timegranule * VZT_WR_GRANULE_SIZE] = timeval;
 			lt->lasttime = timeval;
 			}
 		}
@@ -1505,7 +1505,7 @@ if(lt)
 		lt->timeset = 1;
 		lt->mintime = lt->maxtime = timeval;
 
-		lt->timetable[lt->timepos + lt->timegranule * VZT_WR_GRANULE_SIZE] = timeval;		
+		lt->timetable[lt->timepos + lt->timegranule * VZT_WR_GRANULE_SIZE] = timeval;
 		}
 
 	if( (!lt->timepos) && (!lt->timegranule) )
@@ -1601,7 +1601,7 @@ return(vzt_wr_emit_value_bit_string(lt, s, row, vzt_wr_expand_integer_to_bits(s-
 int vzt_wr_emit_value_double(struct vzt_wr_trace *lt, struct vzt_wr_symbol *s, unsigned int row, double value)
 {
 char xdrdata[8];
-#if HAVE_RPC_XDR_H 
+#if HAVE_RPC_XDR_H
 XDR x;
 #else
 const vztint32_t endian_matchword = 0x12345678;
@@ -1611,7 +1611,7 @@ int i;
 
 if((!lt)||(lt->blackout)||(!s)||(!(s->flags&VZT_WR_SYM_F_DOUBLE))||(row)) return(0);
 
-if(!lt->emitted) 
+if(!lt->emitted)
 	{
 	vzt_wr_emitfacs(lt);
 	lt->emitted = 1;
@@ -1627,7 +1627,7 @@ while(s->aliased_to)	/* find root alias if exists */
 	s=s->aliased_to;
 	}
 
-#if HAVE_RPC_XDR_H 
+#if HAVE_RPC_XDR_H
 xdrmem_create(&x, xdrdata, sizeof(xdrdata), XDR_ENCODE);
 xdr_double(&x, &value);
 #else
@@ -1677,7 +1677,7 @@ int i;
 
 if((!lt)||(lt->blackout)||(!s)||(!value)||(row)) return(rc);
 
-if(!lt->emitted) 
+if(!lt->emitted)
 	{
 	vzt_wr_emitfacs(lt);
 	lt->emitted = 1;
@@ -1694,7 +1694,7 @@ while(s->aliased_to)	/* find root alias if exists */
 	}
 
 lt->str = vzt2_wr_dsvzt_splay (value, lt->str);
-                
+
 if(!vzt2_wr_dsvzt_success)
 	{
         char *vcopy = strdup(value);
@@ -1703,11 +1703,11 @@ if(!vzt2_wr_dsvzt_success)
 	        lt->str = vzt2_wr_dsvzt_insert(strdup(""), NULL, lt->numstrings++); /* zeroth string means no value change in future blocks */
                 lt->str_head =  lt->str_curr = lt->str;
 		}
-        
+
         lt->str = vzt2_wr_dsvzt_insert(vcopy, lt->str, lt->numstrings);
 	lt->str_curr->next = lt->str;
         lt->str_curr = lt->str;
-                        
+
 	idx = lt->numstrings;
         lt->numstrings++;
         }
@@ -1747,7 +1747,7 @@ vztint32_t msk, msk_n;
 
 if((!lt)||(lt->blackout)||(!s)||(!value)||(!*value)||(row)) return(rc);
 
-if(!lt->emitted) 
+if(!lt->emitted)
 	{
 	vzt_wr_emitfacs(lt);
 	lt->emitted = 1;
@@ -1930,7 +1930,7 @@ if(lt)
 		{
 		struct vzt_wr_symbol *s = lt->symchain;
 		struct vzt_wr_symbol *s2;
-		
+
 		while(s)
 			{
 			if(s->name) { free(s->name); }
@@ -1945,7 +1945,7 @@ if(lt)
 
 		lt->symchain = NULL;
 		}
-	
+
 	free(lt->vztname);
 	free(lt->timetable);
 	free(lt->sorted_facs);
@@ -1998,12 +1998,12 @@ if(lt)
 /*
  * time zero offset
  */
-void vzt_wr_set_timezero(struct vzt_wr_trace *lt, vztsint64_t timeval)               
-{           
+void vzt_wr_set_timezero(struct vzt_wr_trace *lt, vztsint64_t timeval)
+{
 if(lt)
-        { 
+        {
         lt->timezero = timeval;
-        }                 
+        }
 }
 
 

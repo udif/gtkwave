@@ -35,13 +35,13 @@
  * since we'll never read a 24-bit int at the very start of a file which
  * means that we'll have a 32-bit word that we can read.
  */
-   
+
 #define lxt2_rd_get_byte(mm,offset)    ((unsigned int)(*((unsigned char *)(mm)+(offset))))
 #define lxt2_rd_get_16(mm,offset)      ((unsigned int)(*((unsigned short *)(((unsigned char *)(mm))+(offset)))))
 #define lxt2_rd_get_32(mm,offset)      (*(unsigned int *)(((unsigned char *)(mm))+(offset)))
 #define lxt2_rd_get_24(mm,offset)      ((lxt2_rd_get_32((mm),(offset)-1)<<8)>>8)
 #define lxt2_rd_get_64(mm,offset)      ((((lxtint64_t)lxt2_rd_get_32((mm),(offset)))<<32)|((lxtint64_t)lxt2_rd_get_32((mm),(offset)+4)))
- 
+
 #else
 
 /*
@@ -119,7 +119,7 @@ return((x * 0x01010101) >> 24);
 
 /*
  * total zero count to the right of the first rightmost one bit
- * encountered.  its intended use is to 
+ * encountered.  its intended use is to
  * "return the bitposition of the least significant 1 in a granmsk_t"
  * (use x &= ~(x&-x) to clear out that bit quickly)
  */
@@ -138,14 +138,14 @@ static char *lxt2_rd_expand_integer_to_bits(int len, unsigned int value)
 {
 static char s[33];
 char *p = s;
-int i;                          
+int i;
 int len2 = len-1;
 
 for(i=0;i<len;i++)
-        {        
+        {
         *(p++) = '0' | ((value & (1<<(len2-i)))!=0);
         }
-*p = 0;  
+*p = 0;
 
 return(s);
 }
@@ -192,7 +192,7 @@ while((top_elem = lt->radix_sort[which_time]))
 		case 1:	vch = lxt2_rd_get_byte(lt->fac_curpos[idx], 0); break;
 		case 2:	vch = lxt2_rd_get_16(lt->fac_curpos[idx], 0); break;
 		case 3:	vch = lxt2_rd_get_24(lt->fac_curpos[idx], 0); break;
-		case 4:	
+		case 4:
 		default:
 			vch = lxt2_rd_get_32(lt->fac_curpos[idx], 0); break;
 		}
@@ -214,33 +214,33 @@ while((top_elem = lt->radix_sort[which_time]))
         	case LXT2_RD_ENC_INV:	for(i=0;i<lt->len[idx];i++) { lt->value[idx][i] ^= 1; } break;
 
         	case LXT2_RD_ENC_LSH0:
-        	case LXT2_RD_ENC_LSH1:	memmove(lt->value[idx], lt->value[idx]+1, lt->len[idx]-1); 
-					lt->value[idx][lt->len[idx]-1] = '0'+(vch-LXT2_RD_ENC_LSH0); 
+        	case LXT2_RD_ENC_LSH1:	memmove(lt->value[idx], lt->value[idx]+1, lt->len[idx]-1);
+					lt->value[idx][lt->len[idx]-1] = '0'+(vch-LXT2_RD_ENC_LSH0);
 					break;
 
         	case LXT2_RD_ENC_RSH0:
-        	case LXT2_RD_ENC_RSH1:	memmove(lt->value[idx]+1, lt->value[idx], lt->len[idx]-1); 
-					lt->value[idx][0] = '0'+(vch-LXT2_RD_ENC_RSH0); 
+        	case LXT2_RD_ENC_RSH1:	memmove(lt->value[idx]+1, lt->value[idx], lt->len[idx]-1);
+					lt->value[idx][0] = '0'+(vch-LXT2_RD_ENC_RSH0);
 					break;
 
 		case LXT2_RD_ENC_ADD1:
 		case LXT2_RD_ENC_ADD2:
 		case LXT2_RD_ENC_ADD3:
-        	case LXT2_RD_ENC_ADD4:	x=lxt2_rd_expand_bits_to_integer(lt->len[idx], lt->value[idx]); x+= (vch-LXT2_RD_ENC_ADD1+1); 
+        	case LXT2_RD_ENC_ADD4:	x=lxt2_rd_expand_bits_to_integer(lt->len[idx], lt->value[idx]); x+= (vch-LXT2_RD_ENC_ADD1+1);
 					memcpy(lt->value[idx], lxt2_rd_expand_integer_to_bits(lt->len[idx], x), lt->len[idx]); break;
 
 		case LXT2_RD_ENC_SUB1:
 		case LXT2_RD_ENC_SUB2:
 		case LXT2_RD_ENC_SUB3:
-        	case LXT2_RD_ENC_SUB4:	x=lxt2_rd_expand_bits_to_integer(lt->len[idx], lt->value[idx]); x-= (vch-LXT2_RD_ENC_SUB1+1); 
+        	case LXT2_RD_ENC_SUB4:	x=lxt2_rd_expand_bits_to_integer(lt->len[idx], lt->value[idx]); x-= (vch-LXT2_RD_ENC_SUB1+1);
 					memcpy(lt->value[idx], lxt2_rd_expand_integer_to_bits(lt->len[idx], x), lt->len[idx]); break;
 
         	case LXT2_RD_ENC_X:	memset(lt->value[idx], 'x', lt->len[idx]); break;
         	case LXT2_RD_ENC_Z:	memset(lt->value[idx], 'z', lt->len[idx]); break;
 
-		case LXT2_RD_ENC_BLACKOUT:	
+		case LXT2_RD_ENC_BLACKOUT:
 					lt->value[idx][0] = 0; break;
-		
+
 		default:		vch -= LXT2_RD_DICT_START;
 					if(vch >= b->num_dict_entries)
 						{
@@ -269,12 +269,12 @@ while((top_elem = lt->radix_sort[which_time]))
 						}
 					else
 						{
-						fprintf(stderr, LXT2_RDLOAD"Internal error "LXT2_RD_LD" ('%s') vs %d ('%s')\n", 
-							lt->len[idx], lt->value[idx], 
+						fprintf(stderr, LXT2_RDLOAD"Internal error "LXT2_RD_LD" ('%s') vs %d ('%s')\n",
+							lt->len[idx], lt->value[idx],
 							b->string_lens[vch], b->string_pointers[vch]);
 						exit(255);
 						}
-					
+
 					break;
 		}
 
@@ -307,7 +307,7 @@ void lxt2_rd_iter_radix0(struct lxt2_rd_trace *lt, struct lxt2_rd_block *b, lxti
 		case 1:	vch = lxt2_rd_get_byte(lt->fac_curpos[idx], 0); break;
 		case 2:	vch = lxt2_rd_get_16(lt->fac_curpos[idx], 0); break;
 		case 3:	vch = lxt2_rd_get_24(lt->fac_curpos[idx], 0); break;
-		case 4:	
+		case 4:
 		default:
 			vch = lxt2_rd_get_32(lt->fac_curpos[idx], 0); break;
 		}
@@ -376,10 +376,10 @@ void lxt2_rd_iter_radix0(struct lxt2_rd_trace *lt, struct lxt2_rd_block *b, lxti
 						}
 					break;
 
-		case LXT2_RD_ENC_BLACKOUT:	
+		case LXT2_RD_ENC_BLACKOUT:
 					if(lt->value[idx])
 						{
-						lt->value[idx][0] = 0; 
+						lt->value[idx][0] = 0;
 						uniq=1;
 						}
 					break;
@@ -442,12 +442,12 @@ void lxt2_rd_iter_radix0(struct lxt2_rd_trace *lt, struct lxt2_rd_block *b, lxti
 						}
 					else
 						{
-						fprintf(stderr, LXT2_RDLOAD"Internal error "LXT2_RD_LD" ('%s') vs %d ('%s')\n", 
-							lt->len[idx], lt->value[idx], 
+						fprintf(stderr, LXT2_RDLOAD"Internal error "LXT2_RD_LD" ('%s') vs %d ('%s')\n",
+							lt->len[idx], lt->value[idx],
 							b->string_lens[vch], b->string_pointers[vch]);
 						exit(255);
 						}
-					
+
 					break;
 		}
 
@@ -499,7 +499,7 @@ for(i=strtfac;i<endfac;i++)
 				lt->fac_map[i] = x;
 				if(!x) continue;
 				}
-		
+
 			offset = lxt2_rd_tzc(x);			/* get "which time" bucket number of new least sig one bit */
 			lt->next_radix[i] = lt->radix_sort[offset];	/* insert item into head of radix sorted "which time" buckets */
 			lt->radix_sort[offset] = &lt->next_radix[i];
@@ -531,7 +531,7 @@ if((lt)&&(lt->process_mask_dirty))
 			{
 			lim = i+LXT2_RD_PARTIAL_SIZE;
 			}
-	
+
 		lt->process_mask_compressed[idx] = 0;
 		for(j=i;j<lim;j++)
 			{
@@ -686,7 +686,7 @@ while(((sect_typ=*pnt) == LXT2_RD_GRAN_SECT_TIME)||(sect_typ == LXT2_RD_GRAN_SEC
 			case 1: mskindx = lxt2_rd_get_byte(pnt, 0); break;
 			case 2: mskindx = lxt2_rd_get_16(pnt, 0); break;
 			case 3: mskindx = lxt2_rd_get_24(pnt, 0); break;
-			case 4: 
+			case 4:
 			default:
 				mskindx = lxt2_rd_get_32(pnt, 0); break;
 			}
@@ -774,7 +774,7 @@ if(!(lt->handle=fopen(name, "rb")))
 	if(!fread(&id, 2, 1, lt->handle)) { id = 0; }
 	if(!fread(&version, 2, 1, lt->handle)) { id = 0; }
 	if(!fread(&lt->granule_size, 1, 1, lt->handle)) { id = 0; }
-	
+
 	if(lxt2_rd_get_16(&id,0) != LXT2_RD_HDRID)
 		{
 		fprintf(stderr, LXT2_RDLOAD"*** Not an lxt file ***\n");
@@ -808,7 +808,7 @@ if(!(lt->handle=fopen(name, "rb")))
 
                 if(!lt->numfacs)
                         {
-                        lxtint32_t num_expansion_bytes;          
+                        lxtint32_t num_expansion_bytes;
 
                         rcf = fread(&num_expansion_bytes, 4, 1, lt->handle); num_expansion_bytes = rcf ? lxt2_rd_get_32(&num_expansion_bytes,0) : 0;
                         rcf = fread(&lt->numfacs, 4, 1, lt->handle); lt->numfacs = rcf ? lxt2_rd_get_32(&lt->numfacs,0) : 0;
@@ -816,12 +816,12 @@ if(!(lt->handle=fopen(name, "rb")))
                                 {
                                 rcf = fread(&lt->timezero, 8, 1, lt->handle); lt->timezero = rcf ? lxt2_rd_get_64(&lt->timezero,0) : 0;
                                 if(num_expansion_bytes > 8)
-                                        {   
+                                        {
                                         /* future version? */
                                         fseeko(lt->handle, num_expansion_bytes - 8, SEEK_CUR);
                                         }
                                 }
-                                else                  
+                                else
                                 {
                                 /* malformed */
                                 fseeko(lt->handle, num_expansion_bytes, SEEK_CUR);
@@ -855,37 +855,37 @@ if(!(lt->handle=fopen(name, "rb")))
 			m=(char *)malloc(lt->zfacname_predec_size);
 			rc=gzread(lt->zhandle, m, lt->zfacname_predec_size);
 			gzclose(lt->zhandle); lt->zhandle=NULL;
-	
+
 			if(rc!=lt->zfacname_predec_size)
 				{
 				fprintf(stderr, LXT2_RDLOAD"*** name section mangled %d (act) vs "LXT2_RD_LD" (exp)\n", rc, lt->zfacname_predec_size);
 				free(m);
-	
+
 				lxt2_rd_close(lt);
 			        lt=NULL;
 				return(lt);
 				}
-	
+
 			lt->zfacnames = m;
 
         	        lt->faccache = calloc(1, sizeof(struct lxt2_rd_facname_cache));
         	        lt->faccache->old_facidx = lt->numfacs;   /* causes lxt2_rd_get_facname to initialize its unroll ptr as this is always invalid */
         	        lt->faccache->bufcurr = malloc(lt->longestname+1);
 	                lt->faccache->bufprev = malloc(lt->longestname+1);
-	
+
 			fseeko(lt->handle, pos = pos+lt->zfacnamesize, SEEK_SET);
 			/* fprintf(stderr, LXT2_RDLOAD"seeking to geometry at %d (0x%08x)\n", pos, pos); */
 			lt->zhandle = gzdopen(dup(fileno(lt->handle)), "rb");
-	
+
 			t = lt->numfacs * 4 * sizeof(lxtint32_t);
-			m=(char *)malloc(t);				
+			m=(char *)malloc(t);
 			rc=gzread(lt->zhandle, m, t);
 			gzclose(lt->zhandle); lt->zhandle=NULL;
 			if(rc!=t)
 				{
 				fprintf(stderr, LXT2_RDLOAD"*** geometry section mangled %d (act) vs %d (exp)\n", rc, t);
 				free(m);
-	
+
 				lxt2_rd_close(lt);
 			        lt=NULL;
 				return(lt);
@@ -907,7 +907,7 @@ if(!(lt->handle=fopen(name, "rb")))
 				lt->msb[i] = lxt2_rd_get_32(m+i*16, 4);
 				lt->lsb[i] = lxt2_rd_get_32(m+i*16, 8);
 				lt->flags[i] = lxt2_rd_get_32(m+i*16, 12);
-	
+
 				if(!(lt->flags[i] & LXT2_RD_SYM_F_INTEGER))
 					{
 					lt->len[i] = (lt->msb[i] <= lt->lsb[i]) ? (lt->lsb[i] - lt->msb[i] + 1) : (lt->msb[i] - lt->lsb[i] + 1);
@@ -939,12 +939,12 @@ if(!(lt->handle=fopen(name, "rb")))
 				fseeko(lt->handle, 0L, SEEK_END);
 				fend=ftello(lt->handle);
 				if(pos>=fend) break;
-	
+
 				fseeko(lt->handle, pos, SEEK_SET);
 				/* fprintf(stderr, LXT2_RDLOAD"seeking to block at %d (0x%08x)\n", pos, pos); */
 
 				b=calloc(1, sizeof(struct lxt2_rd_block));
-		
+
 				rcf = fread(&b->uncompressed_siz, 4, 1, lt->handle);	b->uncompressed_siz = rcf ? lxt2_rd_get_32(&b->uncompressed_siz,0) : 0;
 				rcf = fread(&b->compressed_siz, 4, 1, lt->handle);	b->compressed_siz = rcf ? lxt2_rd_get_32(&b->compressed_siz,0) : 0;
 				rcf = fread(&b->start, 8, 1, lt->handle);		b->start = rcf ? lxt2_rd_get_64(&b->start,0) : 0;
@@ -958,9 +958,9 @@ if(!(lt->handle=fopen(name, "rb")))
 					break;
 					}
 
-				b->filepos = pos; /* mark startpos for later in case we purge it from memory */	
+				b->filepos = pos; /* mark startpos for later in case we purge it from memory */
 				/* fprintf(stderr, LXT2_RDLOAD"un/compressed size: %d/%d\n", b->uncompressed_siz, b->compressed_siz); */
-	
+
 				if((b->uncompressed_siz)&&(b->compressed_siz)&&(b->end))
 					{
 					/* fprintf(stderr, LXT2_RDLOAD"block [%d] %lld / %lld\n", lt->numblocks, b->start, b->end); */
@@ -978,21 +978,21 @@ if(!(lt->handle=fopen(name, "rb")))
 						lt->block_head = lt->block_curr = b;
 						lt->start = b->start;
 						lt->end = b->end;
-						}			
+						}
 					}
 					else
 					{
 					free(b);
 					break;
 					}
-	
+
 				pos+=b->compressed_siz;
 				}
 
 			if(lt->numblocks)
 				{
 				fprintf(stderr, LXT2_RDLOAD"Read %d block header%s OK\n", lt->numblocks, (lt->numblocks!=1) ? "s" : "");
-	
+
 				fprintf(stderr, LXT2_RDLOAD"["LXT2_RD_LLD"] start time\n", lt->start);
 				fprintf(stderr, LXT2_RDLOAD"["LXT2_RD_LLD"] end time\n", lt->end);
 				fprintf(stderr, LXT2_RDLOAD"\n");
@@ -1038,8 +1038,8 @@ if(lt)
 	for(i=0;i<lt->numfacs;i++)
 		{
 		if(lt->value[i])
-			{		
-			free(lt->value[i]); lt->value[i]=NULL; 
+			{
+			free(lt->value[i]); lt->value[i]=NULL;
 			}
 		}
 
@@ -1076,13 +1076,13 @@ if(lt)
 
 	if(lt->zhandle) { gzclose(lt->zhandle); lt->zhandle=NULL; }
 	if(lt->handle) { fclose(lt->handle); lt->handle=NULL; }
-	free(lt);	
+	free(lt);
 	}
 }
 
 /****************************************************************************/
 
-/* 
+/*
  * return number of facs in trace
  */
 _LXT2_RD_INLINE lxtint32_t lxt2_rd_get_num_facs(struct lxt2_rd_trace *lt)
@@ -1098,11 +1098,11 @@ struct lxt2_rd_geometry *lxt2_rd_get_fac_geometry(struct lxt2_rd_trace *lt, lxti
 {
 if((lt)&&(facidx<lt->numfacs))
 	{
-	lt->geometry.rows = lt->rows[facidx];	
-	lt->geometry.msb = lt->msb[facidx];	
-	lt->geometry.lsb = lt->lsb[facidx];	
-	lt->geometry.flags = lt->flags[facidx];	
-	lt->geometry.len = lt->len[facidx];	
+	lt->geometry.rows = lt->rows[facidx];
+	lt->geometry.msb = lt->msb[facidx];
+	lt->geometry.lsb = lt->lsb[facidx];
+	lt->geometry.flags = lt->flags[facidx];
+	lt->geometry.len = lt->len[facidx];
 	return(&lt->geometry);
 	}
 	else
@@ -1199,7 +1199,7 @@ if((lt)&&(facidx<lt->numfacs))
 
 /*
  * time queries
- */ 
+ */
 _LXT2_RD_INLINE lxtint64_t lxt2_rd_get_start_time(struct lxt2_rd_trace *lt)
 {
 return(lt ? lt->start : LXT2_RD_GRAN_0VAL);
@@ -1220,7 +1220,7 @@ return(lt ? lt->timescale : 0);
 
 _LXT2_RD_INLINE lxtsint64_t lxt2_rd_get_timezero(struct lxt2_rd_trace *lt)
 {
-return(lt ? lt->timezero : 0);              
+return(lt ? lt->timezero : 0);
 }
 
 
@@ -1242,8 +1242,8 @@ if(lt)
 		if(!facidx)
 			{
 			lt->faccache->n = lt->zfacnames;
-			lt->faccache->bufcurr[0] = 0;			
-			lt->faccache->bufprev[0] = 0;			
+			lt->faccache->bufcurr[0] = 0;
+			lt->faccache->bufprev[0] = 0;
 			}
 
 		if(facidx!=lt->numfacs)
@@ -1272,7 +1272,7 @@ if(lt)
 		else
 		{
 		if(facidx<lt->numfacs)
-			{		
+			{
 			int strt;
 
 			if(facidx==lt->faccache->old_facidx)
@@ -1293,7 +1293,7 @@ if(lt)
 				{
 				lxt2_rd_get_facname(lt, j);
 				}
-	
+
 			return(lxt2_rd_get_facname(lt, j));
 			}
 		}
@@ -1451,7 +1451,7 @@ return(blk);
  * merely caches the FIRST set of blocks which fit in lt->block_mem_max.
  * n.b., returns number of blocks processed
  */
-int lxt2_rd_iter_blocks(struct lxt2_rd_trace *lt, 
+int lxt2_rd_iter_blocks(struct lxt2_rd_trace *lt,
 	void (*value_change_callback)(struct lxt2_rd_trace **lt, lxtint64_t *time, lxtint32_t *facidx, char **value),
 	void *user_callback_data_pointer)
 {
@@ -1466,7 +1466,7 @@ int i;
 
 if(lt)
 	{
-	lt->value_change_callback = value_change_callback ? value_change_callback : lxt2_rd_null_callback; 
+	lt->value_change_callback = value_change_callback ? value_change_callback : lxt2_rd_null_callback;
 	lt->user_callback_data_pointer = user_callback_data_pointer;
 
 	b = lt->block_head;
@@ -1515,7 +1515,7 @@ if(lt)
 					{
 					size_t rcf;
 
-					clen = unclen = iter = 0;				
+					clen = unclen = iter = 0;
 					rcf = fread(&clen, 4, 1, lt->handle);	clen = rcf ? lxt2_rd_get_32(&clen,0) : 0;
 					rcf = fread(&unclen, 4, 1, lt->handle);	unclen = rcf ? lxt2_rd_get_32(&unclen,0) : 0;
 					rcf = fread(&iter, 4, 1, lt->handle);	iter = rcf ? lxt2_rd_get_32(&iter,0) : 0;
@@ -1629,7 +1629,7 @@ return(blk);
 
 /*
  * callback access to the user callback data pointer (if required)
- */ 
+ */
 _LXT2_RD_INLINE void *lxt2_rd_get_user_callback_data_pointer(struct lxt2_rd_trace *lt)
 {
 if(lt)
@@ -1669,12 +1669,12 @@ if(lt)
 		{
 		switch(state)
 			{
-			case 0: if(b->end >= strt_time) 
+			case 0: if(b->end >= strt_time)
 					{
 					state = 1;
 					if((b->start > strt_time) && (bprev))
 						{
-						bprev->exclude_block = 0;	
+						bprev->exclude_block = 0;
 						blk++;
 						}
 					}

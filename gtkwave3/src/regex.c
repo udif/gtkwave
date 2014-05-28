@@ -38,8 +38,8 @@
 #include "gnu_regex.c"
 #else			/* or for any other compiler that doesn't support POSIX.2 regexs properly like xlc or vc++ */
 #ifdef _MSC_VER
-#include <malloc.h> 
-#define STDC_HEADERS  
+#include <malloc.h>
+#define STDC_HEADERS
 #define alloca _alloca  /* AIX doesn't like this */
 #endif
 #define REGEX_MAY_COMPILE
@@ -117,7 +117,7 @@ return((rc)?0:1);
 }
 
 
-/* 
+/*
  * free it
  */
 void wave_regex_alloc_free(void *pnt)

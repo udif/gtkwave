@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2008.
  *
  * This program is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ for(i=0;i<len;i++)
         	{
 		buf[i] = 0;
                 prefix_idx=i;
-                break;   
+                break;
                 }
 		else
 		{
@@ -79,7 +79,7 @@ strcpy(s, buf);
 
 void update_maxmarker_labels(void)
 {
-if(GLOBALS->use_maxtime_display) 
+if(GLOBALS->use_maxtime_display)
 	{
 	gtk_label_set(GTK_LABEL(GLOBALS->max_or_marker_label_currenttime_c_1),
 		(!GLOBALS->use_toolbutton_interface) ? maxtime_label_text : maxtime_label_text_hpos);
@@ -100,29 +100,29 @@ int i, delta, rc;
 unsigned char ch = dim;
 double d = 0.0;
 const char *offs = NULL, *doffs = NULL;
-                                 
+
 rc = sscanf(s, "%lf %cs", &d, &ch);
 if(rc == 2)
         {
-        ch = tolower(ch);   
+        ch = tolower(ch);
         if(ch=='s') ch = ' ';
         offs=strchr(time_prefix, ch);
         if(offs)
                 {
                 doffs=strchr(time_prefix, (int)dim);
                 if(!doffs) doffs = offs; /* should *never* happen */
-                 
+
                 delta= (doffs-time_prefix) - (offs-time_prefix);
-                
+
                 if(delta<0)
-                        {  
+                        {
                         for(i=delta;i<0;i++)
                                 {
                                 d=d/1000;
                                 }
                         }
                         else
-                        {   
+                        {
                         for(i=0;i<delta;i++)
                                 {
                                 d=d*1000;
@@ -130,7 +130,7 @@ if(rc == 2)
                         }
                 }
         }
-         
+
 return((TimeType)d);
 }
 
@@ -150,7 +150,7 @@ if((pnt=GLOBALS->atoi_cont_ptr))
 		{
 		if((ch==' ')||(ch=='\t')) continue;
 
-		ich=tolower((int)ch);		
+		ich=tolower((int)ch);
 		if(ich=='s') ich=' ';	/* as in plain vanilla seconds */
 
 		offs=strchr(time_prefix, ich);
@@ -219,7 +219,7 @@ if(val < LLDescriptor(0))
         {
         val = -val;
         buf[0] = '-';
-        buf++;              
+        buf++;
         }
 
 pnt=strchr(time_prefix, (int)dim);
@@ -250,7 +250,7 @@ if(val < LLDescriptor(0))
         {
         val = -val;
         buf[0] = '-';
-        buf++;              
+        buf++;
         }
 
 pnt=strchr(time_prefix, (int)dim);
@@ -272,7 +272,7 @@ if(GLOBALS->scale_to_time_dimension)
 		{
 		pnt=strchr(time_prefix, (int)GLOBALS->scale_to_time_dimension);
 		}
-	if(pnt) 
+	if(pnt)
 		{
 		offsetfix = pnt-time_prefix;
 		if(offsetfix != i)
@@ -308,7 +308,7 @@ if(GLOBALS->scale_to_time_dimension)
 				sprintf(buf, "%.9g %cs", gval, GLOBALS->scale_to_time_dimension);
 				}
 
-			return; 
+			return;
 			}
 		}
 	}
@@ -386,7 +386,7 @@ if(GLOBALS->scale_to_time_dimension)
 		{
 		pnt=strchr(time_prefix, (int)GLOBALS->scale_to_time_dimension);
 		}
-	if(pnt) 
+	if(pnt)
 		{
 		offsetfix = pnt-time_prefix;
 		if(offsetfix != i)
@@ -422,7 +422,7 @@ if(GLOBALS->scale_to_time_dimension)
 				sprintf(buf, "%.9g%c%cs", gval, blackout, GLOBALS->scale_to_time_dimension);
 				}
 
-			return; 
+			return;
 			}
 		}
 	}
@@ -500,7 +500,7 @@ if(!GLOBALS->use_maxtime_display)
 					}
 				}
 			}
-		else if(GLOBALS->tims.lmbcache>=0) 
+		else if(GLOBALS->tims.lmbcache>=0)
 			{
 			val-=GLOBALS->tims.lmbcache; /* do delta instead */
 
@@ -591,7 +591,7 @@ if(GLOBALS->tims.baseline<0)
 	}
 }
 
-   
+
 /* Create an entry box */
 GtkWidget *
 create_time_box(void)
@@ -638,7 +638,7 @@ if(!GLOBALS->use_toolbutton_interface)
 	mainbox=gtk_hbox_new(FALSE, 0);
 	}
 
-gtk_widget_show(mainbox);   
+gtk_widget_show(mainbox);
 eventbox=gtk_event_box_new();
 gtk_container_add(GTK_CONTAINER(eventbox), mainbox);
 
@@ -685,7 +685,7 @@ if(!GLOBALS->use_toolbutton_interface)
 
 return(eventbox);
 }
-   
+
 
 
 
@@ -698,7 +698,7 @@ if(GLOBALS->time_trunc_val_currenttime_c_1!=1)
 	t=t*GLOBALS->time_trunc_val_currenttime_c_1;
 	if(t<GLOBALS->tims.first) t=GLOBALS->tims.first;
 	}
- 
+
 return(t);
 }
 
@@ -715,7 +715,7 @@ for(;compar!=1;compar=compar/10,gcompar=gcompar/((gdouble)10.0))
 		return;
 		}
         }
- 
+
 GLOBALS->time_trunc_val_currenttime_c_1=1;
 }
 

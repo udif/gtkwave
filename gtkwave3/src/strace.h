@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2010.
  *
  * This program is free software; you can redistribute it and/or
@@ -41,7 +41,7 @@ struct strace_defer_free
 struct strace_defer_free *next;
 Trptr defer;
 };
-         
+
 struct strace_back
 {
 struct strace *parent;
@@ -50,7 +50,7 @@ int which;
 
 struct strace
 {
-struct strace *next;   
+struct strace *next;
 char *string;           /* unmalloc this when all's done! */
 Trptr trace;
 char value;
@@ -62,7 +62,7 @@ union
         vptr    v;
       	} his;
 
-struct strace_back *back[WAVE_STYPE_COUNT];    /* dealloc these too! */   
+struct strace_back *back[WAVE_STYPE_COUNT];    /* dealloc these too! */
 };
 
 
@@ -88,29 +88,29 @@ struct item_mark_string {
 /* for being able to handle multiple strace sessions at once, context is moved here */
 struct strace_ctx_t
 {
-GtkWidget *ptr_mark_count_label_strace_c_1; 
-struct strace *straces; 
-struct strace *shadow_straces; 
-struct strace_defer_free *strace_defer_free_head; 
-GtkWidget *window_strace_c_10; 
-void (*cleanup_strace_c_7)(void); 
+GtkWidget *ptr_mark_count_label_strace_c_1;
+struct strace *straces;
+struct strace *shadow_straces;
+struct strace_defer_free *strace_defer_free_head;
+GtkWidget *window_strace_c_10;
+void (*cleanup_strace_c_7)(void);
 
-struct mprintf_buff_t *mprintf_buff_head; 
-struct mprintf_buff_t *mprintf_buff_current; 
-char *shadow_string; 
+struct mprintf_buff_t *mprintf_buff_head;
+struct mprintf_buff_t *mprintf_buff_current;
+char *shadow_string;
 
-TimeType *timearray; 
-int timearray_size; 
+TimeType *timearray;
+int timearray_size;
 
-char logical_mutex[6]; 
-char shadow_logical_mutex[6]; 
-char shadow_active; 
-char shadow_encountered_parsewavline; 
-char shadow_type; 
-signed char mark_idx_start; 
-signed char mark_idx_end; 
-signed char shadow_mark_idx_start; 
-signed char shadow_mark_idx_end; 
+char logical_mutex[6];
+char shadow_logical_mutex[6];
+char shadow_active;
+char shadow_encountered_parsewavline;
+char shadow_type;
+signed char mark_idx_start;
+signed char mark_idx_end;
+signed char shadow_mark_idx_start;
+signed char shadow_mark_idx_end;
 };
 
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -267,11 +267,11 @@ enum nodeVarType {
     ND_VCD_SUPPLY0         = 7,
     ND_VCD_SUPPLY1         = 8,
     ND_VCD_TIME            = 9,
-    ND_VCD_TRI             = 10,  
+    ND_VCD_TRI             = 10,
     ND_VCD_TRIAND          = 11,
     ND_VCD_TRIOR           = 12,
     ND_VCD_TRIREG          = 13,
-    ND_VCD_TRI0            = 14,  
+    ND_VCD_TRI0            = 14,
     ND_VCD_TRI1            = 15,
     ND_VCD_WAND            = 16,
     ND_VCD_WIRE            = 17,
@@ -291,11 +291,11 @@ enum nodeVarType {
     ND_SV_ENUM             = 29,
     ND_SV_SHORTREAL        = 30,
 
-    ND_VHDL_SIGNAL         = 31, 
-    ND_VHDL_VARIABLE       = 32, 
-    ND_VHDL_CONSTANT       = 33, 
-    ND_VHDL_FILE           = 34, 
-    ND_VHDL_MEMORY         = 35, 
+    ND_VHDL_SIGNAL         = 31,
+    ND_VHDL_VARIABLE       = 32,
+    ND_VHDL_CONSTANT       = 33,
+    ND_VHDL_FILE           = 34,
+    ND_VHDL_MEMORY         = 35,
 
     ND_GEN_NET		   = 36,    /* used for AE2 */
     ND_GEN_ALIAS	   = 37,
@@ -330,7 +330,7 @@ static const char *vardatatype_strings[] = { \
 
 enum nodeVarDataType {
     ND_VDT_NONE                   = 0,
-    
+
     ND_VDT_VHDL_BOOLEAN           = 1,
     ND_VDT_VHDL_BIT               = 2,
     ND_VDT_VHDL_BIT_VECTOR        = 3,
@@ -347,7 +347,7 @@ enum nodeVarDataType {
     ND_VDT_VHDL_TIME              = 14,
     ND_VDT_VHDL_CHARACTER         = 15,
     ND_VDT_VHDL_STRING            = 16,
-  
+
     ND_VDT_MAX                    = 16
    /* if this exceeds 63, need to update struct Node's "unsigned vardt : 6" declaration */
 };
@@ -394,7 +394,7 @@ typedef struct Bits
     char    *name;		/* name of this vector of bits   */
     int     nnbits;		/* number of bits in this vector */
     baptr attribs;  		/* for keeping track of combined timeshifts and inversions (and for savefile) */
-    
+
     nptr    nodes[];		/* C99 pointers to the bits (nodes)  */
   } Bits;
 
@@ -513,18 +513,18 @@ typedef struct TraceEnt
 
 
 enum TraceEntFlagBits
-{ TR_HIGHLIGHT_B, TR_HEX_B, TR_DEC_B, TR_BIN_B, 
+{ TR_HIGHLIGHT_B, TR_HEX_B, TR_DEC_B, TR_BIN_B,
   TR_OCT_B, TR_RJUSTIFY_B, TR_INVERT_B, TR_REVERSE_B,
-  TR_EXCLUDE_B, TR_BLANK_B, TR_SIGNED_B, TR_ASCII_B, 
-  TR_COLLAPSED_B, TR_FTRANSLATED_B, TR_PTRANSLATED_B, TR_ANALOG_STEP_B, 
-  TR_ANALOG_INTERPOLATED_B, TR_ANALOG_BLANK_STRETCH_B, TR_REAL_B, TR_ANALOG_FULLSCALE_B, 
-  TR_ZEROFILL_B, TR_ONEFILL_B, TR_CLOSED_B, TR_GRP_BEGIN_B, 
+  TR_EXCLUDE_B, TR_BLANK_B, TR_SIGNED_B, TR_ASCII_B,
+  TR_COLLAPSED_B, TR_FTRANSLATED_B, TR_PTRANSLATED_B, TR_ANALOG_STEP_B,
+  TR_ANALOG_INTERPOLATED_B, TR_ANALOG_BLANK_STRETCH_B, TR_REAL_B, TR_ANALOG_FULLSCALE_B,
+  TR_ZEROFILL_B, TR_ONEFILL_B, TR_CLOSED_B, TR_GRP_BEGIN_B,
   TR_GRP_END_B,
   TR_BINGRAY_B, TR_GRAYBIN_B,
   TR_REAL2BITS_B, TR_TTRANSLATED_B,
   TR_POPCNT_B
 };
- 
+
 #define TR_HIGHLIGHT 		(1<<TR_HIGHLIGHT_B)
 #define TR_HEX			(1<<TR_HEX_B)
 #define TR_ASCII		(1<<TR_ASCII_B)
@@ -607,7 +607,7 @@ void updateTraceGroup(Trptr t);
 int GetTraceNumber(Trptr t);
 void EnsureGroupsMatch(void);
 
-#define IsSelected(t)   (t->flags&TR_HIGHLIGHT) 
+#define IsSelected(t)   (t->flags&TR_HIGHLIGHT)
 #define IsGroupBegin(t) (t->flags&TR_GRP_BEGIN)
 #define IsGroupEnd(t)   (t->flags&TR_GRP_END)
 #define IsClosed(t)     (t->flags&TR_CLOSED)

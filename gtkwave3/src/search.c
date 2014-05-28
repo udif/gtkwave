@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -8,7 +8,7 @@
  */
 
 
-/* AIX may need this for alloca to work */ 
+/* AIX may need this for alloca to work */
 #if defined _AIX
   #pragma alloca
 #endif
@@ -30,12 +30,12 @@ static gint
 clist_sigcmp (GtkCList      *clist,
                  gconstpointer  ptr1,
                  gconstpointer  ptr2)
-{  
+{
   char *text1 = NULL;
   char *text2 = NULL;
   int rc;
 
-  GtkCListRow *row1 = (GtkCListRow *) ptr1; 
+  GtkCListRow *row1 = (GtkCListRow *) ptr1;
   GtkCListRow *row2 = (GtkCListRow *) ptr2;
 
   switch (row1->cell[clist->sort_column].type)
@@ -49,7 +49,7 @@ clist_sigcmp (GtkCList      *clist,
     default:
       break;
     }
- 
+
   switch (row2->cell[clist->sort_column].type)
     {
     case GTK_CELL_TEXT:
@@ -61,10 +61,10 @@ clist_sigcmp (GtkCList      *clist,
     default:
       break;
     }
-     
+
   if (!text2)
     return (text1 != NULL);
-    
+
   if (!text1)
     return -1;
 
@@ -170,15 +170,15 @@ static char *regex_name[]={"WRange", "WStrand", "Range", "Strand", "None"};
 static void regex_clicked(GtkWidget *widget, gpointer which)
 {
 int i;
- 
+
 for(i=0;i<5;i++) GLOBALS->regex_mutex_search_c_1[i]=0;
 
 GLOBALS->regex_which_search_c_1=(int)((long)which);
 GLOBALS->regex_mutex_search_c_1[GLOBALS->regex_which_search_c_1] = 1; /* mark our choice */
 
-  
+
 DEBUG(printf("picked: %s\n", regex_name[GLOBALS->regex_which_search_c_1]));
-}  
+}
 
 /***************************************************************************/
 
@@ -188,7 +188,7 @@ DEBUG(printf("picked: %s\n", regex_name[GLOBALS->regex_which_search_c_1]));
 
 static void
 bundle_cleanup(GtkWidget *widget, gpointer data)
-{   
+{
 if(GLOBALS->entrybox_text_local_search_c_2)
 	{
 	char *efix;
@@ -212,7 +212,7 @@ MaxSignalLength();
 signalarea_configure_event(GLOBALS->signalarea, NULL);
 wavearea_configure_event(GLOBALS->wavearea, NULL);
 }
- 
+
 static void
 bundle_callback_generic(void)
 {
@@ -268,7 +268,7 @@ interval = (gfloat)(GLOBALS->num_rows_search_c_2/100.0);
 if(GLOBALS->is_lx2)
 	{
 	int pre_import=0;
-	
+
 	for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 		{
 		struct symbol *s, *t;
@@ -314,7 +314,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 	if(get_s_selected(s))
 		{
 		GLOBALS->pdata->value = i;
-		if(((int)(GLOBALS->pdata->value/interval))!=((int)(GLOBALS->pdata->oldvalue/interval)))		
+		if(((int)(GLOBALS->pdata->value/interval))!=((int)(GLOBALS->pdata->oldvalue/interval)))
 			{
 			gtk_progress_set_value (GTK_PROGRESS (GLOBALS->pdata->pbar), i);
 			gtkwave_main_iteration();
@@ -335,7 +335,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 				if(get_s_selected(t))
 					{
 					if(len) set_s_selected(t, 0);
-					symc_current=(struct symchain *)calloc_2(1,sizeof(struct symchain));	
+					symc_current=(struct symchain *)calloc_2(1,sizeof(struct symchain));
 					symc_current->next=symc;
 					symc_current->symbol=t;
 					symc=symc_current;
@@ -343,7 +343,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 				len++;
 				t=t->vec_chain;
 				}
-			if(len)add_vector_chain(s->vec_root, len);			
+			if(len)add_vector_chain(s->vec_root, len);
 			}
 		}
 	}
@@ -417,7 +417,7 @@ GLOBALS->pdata->oldvalue = -1.0;
 if(GLOBALS->is_lx2)
 	{
 	int pre_import=0;
-	
+
 	for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 		{
 		struct symbol *s, *t;
@@ -483,7 +483,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 				if(get_s_selected(t))
 					{
 					if(len) set_s_selected(t, 0);
-					symc_current=(struct symchain *)calloc_2(1,sizeof(struct symchain));	
+					symc_current=(struct symchain *)calloc_2(1,sizeof(struct symchain));
 					symc_current->next=symc;
 					symc_current->symbol=t;
 					symc=symc_current;
@@ -491,7 +491,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 				len++;
 				t=t->vec_chain;
 				}
-			if(len)add_vector_chain(s->vec_root, len);			
+			if(len)add_vector_chain(s->vec_root, len);
 			}
 		}
 	}
@@ -567,7 +567,7 @@ signalarea_configure_event(GLOBALS->signalarea, NULL);
 wavearea_configure_event(GLOBALS->wavearea, NULL);
 
 gtk_progress_set_value (GTK_PROGRESS (GLOBALS->pdata->pbar), 0.0);
-GLOBALS->pdata->oldvalue = -1.0;  
+GLOBALS->pdata->oldvalue = -1.0;
 
 set_window_idle(widget);
 wave_gtk_grab_remove(widget);
@@ -596,7 +596,7 @@ GLOBALS->pdata->oldvalue = -1.0;
 if(GLOBALS->is_lx2)
 	{
 	int pre_import=0;
-	
+
 	for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 		{
 		struct symbol *s, *t;
@@ -662,7 +662,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 				if(get_s_selected(t))
 					{
 					if(len) set_s_selected(t, 0);
-					symc_current=(struct symchain *)calloc_2(1,sizeof(struct symchain));	
+					symc_current=(struct symchain *)calloc_2(1,sizeof(struct symchain));
 					symc_current->next=symc;
 					symc_current->symbol=t;
 					symc=symc_current;
@@ -670,7 +670,7 @@ for(i=0;i<GLOBALS->num_rows_search_c_2;i++)
 				len++;
 				t=t->vec_chain;
 				}
-			if(len)add_vector_chain(s->vec_root, len);			
+			if(len)add_vector_chain(s->vec_root, len);
 			}
 		}
 	}
@@ -690,10 +690,10 @@ signalarea_configure_event(GLOBALS->signalarea, NULL);
 wavearea_configure_event(GLOBALS->wavearea, NULL);
 
 gtk_progress_set_value (GTK_PROGRESS (GLOBALS->pdata->pbar), 0.0);
-GLOBALS->pdata->oldvalue = -1.0; 
+GLOBALS->pdata->oldvalue = -1.0;
 
 set_window_idle(widget);
-wave_gtk_grab_remove(widget);   
+wave_gtk_grab_remove(widget);
 GLOBALS->is_append_running_search_c_1=0;
 }
 
@@ -778,7 +778,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	int skiprow;
 
 	GLOBALS->pdata->value = i;
-	if(((int)(GLOBALS->pdata->value/interval))!=((int)(GLOBALS->pdata->oldvalue/interval)))		
+	if(((int)(GLOBALS->pdata->value/interval))!=((int)(GLOBALS->pdata->oldvalue/interval)))
 		{
 		gtk_progress_set_value (GTK_PROGRESS (GLOBALS->pdata->pbar), i);
 		gtkwave_main_iteration();
@@ -810,7 +810,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			if(GLOBALS->autocoalesce)
 				{
 				if(GLOBALS->facs[i]->vec_root!=GLOBALS->facs[i]) continue;
-				
+
 				tmp2=makename_chain(GLOBALS->facs[i]);
 				s=(char *)malloc_2(strlen(tmp2)+4);
 				strcpy(s,"[] ");
@@ -828,9 +828,9 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			free_2(s);
 			}
 
-		gtk_clist_set_row_data(cl, row,GLOBALS->facs[i]); 
+		gtk_clist_set_row_data(cl, row,GLOBALS->facs[i]);
 		GLOBALS->num_rows_search_c_2++;
-		if(GLOBALS->num_rows_search_c_2==WAVE_MAX_CLIST_LENGTH) 
+		if(GLOBALS->num_rows_search_c_2==WAVE_MAX_CLIST_LENGTH)
 			{
 			/* if(was_packed) { free_2(hfacname); } ...not needed with HIER_DEPACK_STATIC */
 			break;
@@ -842,8 +842,8 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 free_2(duplicate_row_buffer);
 
-if(depack_cnt) 
-	{ 
+if(depack_cnt)
+	{
 	gtk_clist_set_compare_func(cl, clist_sigcmp);
 	gtk_clist_sort (cl);
 	}
@@ -857,7 +857,7 @@ wave_gtk_grab_remove(widget);
 GLOBALS->is_searching_running_search_c_1=0;
 
 if(do_warning)
-if(GLOBALS->num_rows_search_c_2>=WAVE_MAX_CLIST_LENGTH) 
+if(GLOBALS->num_rows_search_c_2>=WAVE_MAX_CLIST_LENGTH)
 	{
 	char buf[256];
 	sprintf(buf, "Limiting results to first %d entries.", GLOBALS->num_rows_search_c_2);
@@ -912,7 +912,7 @@ void searchbox(char *title, GtkSignalFunc func)
     /* fix problem where ungrab doesn't occur if button pressed + simultaneous accelerator key occurs */
     if(GLOBALS->in_button_press_wavewindow_c_1) { gdk_pointer_ungrab(GDK_CURRENT_TIME); }
 
-    if(GLOBALS->is_active_search_c_4) 
+    if(GLOBALS->is_active_search_c_4)
 	{
 	gdk_window_raise(GLOBALS->window_search_c_7->window);
 	return;
@@ -963,7 +963,7 @@ void searchbox(char *title, GtkSignalFunc func)
     /* Allocate memory for the data that is used later */
     GLOBALS->pdata = calloc_2(1, sizeof(SearchProgressData) );
     GLOBALS->pdata->value = GLOBALS->pdata->oldvalue = 0.0;
-    /* Create a centering alignment object */  
+    /* Create a centering alignment object */
     align = gtk_alignment_new (0.5, 0.5, 0, 0);
     gtk_widget_show(align);
     /* Create a Adjustment object to hold the range of the
@@ -995,7 +995,7 @@ void searchbox(char *title, GtkSignalFunc func)
                         GTK_FILL | GTK_EXPAND | GTK_SHRINK, 1, 1);
 
     GLOBALS->clist_search_c_3=gtk_clist_new_with_titles(1,titles);
-    gtk_clist_column_titles_passive(GTK_CLIST(GLOBALS->clist_search_c_3)); 
+    gtk_clist_column_titles_passive(GTK_CLIST(GLOBALS->clist_search_c_3));
 
     gtk_clist_set_selection_mode(GTK_CLIST(GLOBALS->clist_search_c_3), GTK_SELECTION_EXTENDED);
     gtkwave_signal_connect_object (GTK_OBJECT (GLOBALS->clist_search_c_3), "select_row",GTK_SIGNAL_FUNC(select_row_callback),NULL);
@@ -1034,7 +1034,7 @@ void searchbox(char *title, GtkSignalFunc func)
     gtk_container_border_width (GTK_CONTAINER (button6), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button6), "clicked",GTK_SIGNAL_FUNC(select_all_callback),GTK_OBJECT (GLOBALS->window_search_c_7));
     gtk_widget_show (button6);
-    gtk_tooltips_set_tip_2(tooltips, button6, 
+    gtk_tooltips_set_tip_2(tooltips, button6,
 		"Highlight all signals listed in the match window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox0), button6, TRUE, FALSE, 0);
@@ -1046,7 +1046,7 @@ void searchbox(char *title, GtkSignalFunc func)
 
     small_hbox = gtk_hbox_new (TRUE, 0);
     gtk_widget_show (small_hbox);
-    
+
     for(i=0;i<5;i++)
         {
         GLOBALS->menuitem_search[i] = gtk_radio_menu_item_new_with_label (group, regex_name[i]);
@@ -1056,13 +1056,13 @@ void searchbox(char *title, GtkSignalFunc func)
         gtkwave_signal_connect(GTK_OBJECT (GLOBALS->menuitem_search[i]), "activate", GTK_SIGNAL_FUNC(regex_clicked), (void *)((long)i));
         GLOBALS->regex_mutex_search_c_1[i]=0;
         }
-    
+
         GLOBALS->regex_mutex_search_c_1[0]=1;     /* "range" */
-    
+
         optionmenu = gtk_option_menu_new ();
         gtk_option_menu_set_menu (GTK_OPTION_MENU (optionmenu), menu);
         gtk_box_pack_start (GTK_BOX (small_hbox), optionmenu, TRUE, FALSE, 0);
-        gtk_widget_show (optionmenu);   
+        gtk_widget_show (optionmenu);
 	gtk_tooltips_set_tip_2(tooltips, optionmenu,
 		"You may "
 		"modify the search criteria by selecting ``Range'', ``Strand'', or ``None'' for suffix "
@@ -1072,7 +1072,7 @@ void searchbox(char *title, GtkSignalFunc func)
 		"(addr matches unit.freezeaddr[63:0] for ``Range'' but only unit.addr[63:0] for ``WRange'' since addr has to be on a word boundary.  "
 		"Note that when ``None'' "
 		"is selected, the search string may be located anywhere in the signal name.",NULL);
-    
+
         gtk_box_pack_start (GTK_BOX (hbox0), small_hbox, FALSE, FALSE, 0);
 
 
@@ -1080,7 +1080,7 @@ void searchbox(char *title, GtkSignalFunc func)
     gtk_container_border_width (GTK_CONTAINER (button7), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button7), "clicked",GTK_SIGNAL_FUNC(unselect_all_callback),GTK_OBJECT (GLOBALS->window_search_c_7));
     gtk_widget_show (button7);
-    gtk_tooltips_set_tip_2(tooltips, button7, 
+    gtk_tooltips_set_tip_2(tooltips, button7,
 		"Unhighlight all signals listed in the match window.",NULL);
     gtk_box_pack_start (GTK_BOX (hbox0), button7, TRUE, FALSE, 0);
 
@@ -1102,7 +1102,7 @@ void searchbox(char *title, GtkSignalFunc func)
     gtk_container_border_width (GTK_CONTAINER (button1), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button1), "clicked",GTK_SIGNAL_FUNC(ok_callback),GTK_OBJECT (GLOBALS->window_search_c_7));
     gtk_widget_show (button1);
-    gtk_tooltips_set_tip_2(tooltips, button1, 
+    gtk_tooltips_set_tip_2(tooltips, button1,
 		"Add selected signals to end of the display on the main window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox), button1, TRUE, FALSE, 0);
@@ -1111,7 +1111,7 @@ void searchbox(char *title, GtkSignalFunc func)
     gtk_container_border_width (GTK_CONTAINER (button2), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button2), "clicked",GTK_SIGNAL_FUNC(insert_callback),GTK_OBJECT (GLOBALS->window_search_c_7));
     gtk_widget_show (button2);
-    gtk_tooltips_set_tip_2(tooltips, button2, 
+    gtk_tooltips_set_tip_2(tooltips, button2,
 		"Add selected signals after last highlighted signal on the main window.",NULL);
     gtk_box_pack_start (GTK_BOX (hbox), button2, TRUE, FALSE, 0);
 
@@ -1121,7 +1121,7 @@ void searchbox(char *title, GtkSignalFunc func)
     	gtk_container_border_width (GTK_CONTAINER (button3), 3);
     	gtkwave_signal_connect_object (GTK_OBJECT (button3), "clicked",GTK_SIGNAL_FUNC(bundle_callback_up),GTK_OBJECT (GLOBALS->window_search_c_7));
     	gtk_widget_show (button3);
-    	gtk_tooltips_set_tip_2(tooltips, button3, 
+    	gtk_tooltips_set_tip_2(tooltips, button3,
 		"Bundle selected signals into a single bit vector with the topmost selected signal as the LSB and the lowest as the MSB.",NULL);
     	gtk_box_pack_start (GTK_BOX (hbox), button3, TRUE, FALSE, 0);
 
@@ -1129,7 +1129,7 @@ void searchbox(char *title, GtkSignalFunc func)
     	gtk_container_border_width (GTK_CONTAINER (button3a), 3);
     	gtkwave_signal_connect_object (GTK_OBJECT (button3a), "clicked",GTK_SIGNAL_FUNC(bundle_callback_down),GTK_OBJECT (GLOBALS->window_search_c_7));
     	gtk_widget_show (button3a);
-    	gtk_tooltips_set_tip_2(tooltips, button3a, 
+    	gtk_tooltips_set_tip_2(tooltips, button3a,
 		"Bundle selected signals into a single bit vector with the topmost selected signal as the MSB and the lowest as the LSB.",NULL);
 	gtk_box_pack_start (GTK_BOX (hbox), button3a, TRUE, FALSE, 0);
 	}
@@ -1138,14 +1138,14 @@ void searchbox(char *title, GtkSignalFunc func)
     gtk_container_border_width (GTK_CONTAINER (button4), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button4), "clicked",GTK_SIGNAL_FUNC(replace_callback),GTK_OBJECT (GLOBALS->window_search_c_7));
     gtk_widget_show (button4);
-    gtk_tooltips_set_tip_2(tooltips, button4, 
+    gtk_tooltips_set_tip_2(tooltips, button4,
 		"Replace highlighted signals on the main window with signals selected above.",NULL);
     gtk_box_pack_start (GTK_BOX (hbox), button4, TRUE, FALSE, 0);
 
     button5 = gtk_button_new_with_label (" Exit ");
     gtk_container_border_width (GTK_CONTAINER (button5), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button5), "clicked",GTK_SIGNAL_FUNC(destroy_callback),GTK_OBJECT (GLOBALS->window_search_c_7));
-    gtk_tooltips_set_tip_2(tooltips, button5, 
+    gtk_tooltips_set_tip_2(tooltips, button5,
 		"Do nothing and return to the main window.",NULL);
     gtk_widget_show (button5);
     gtk_box_pack_start (GTK_BOX (hbox), button5, TRUE, FALSE, 0);

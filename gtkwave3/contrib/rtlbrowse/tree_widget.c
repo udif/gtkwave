@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2008.
  *
  * This program is free software; you can redistribute it and/or
@@ -50,7 +50,7 @@ if(t->filename)
 	printf("%s\n", t->fullname);
         printf("%s -> *MISSING*\n\n", t->item);
 	*/
-        }   
+        }
 }
 
 static void unselect_row_callback(GtkWidget *widget, gint row, gint column,
@@ -97,7 +97,7 @@ void treebox(char *title, GtkSignalFunc func, GtkWidget *old_window)
     GtkWidget *hbox;
 #endif
 
-    if(is_active) 
+    if(is_active)
 	{
 	gdk_window_raise(window->window);
 	return;
@@ -126,11 +126,11 @@ void treebox(char *title, GtkSignalFunc func, GtkWidget *old_window)
 
     notebook = gtk_notebook_new();
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
-    gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), ~0); 
+    gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), ~0);
     gtk_notebook_set_show_border(GTK_NOTEBOOK(notebook), ~0);
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(notebook), ~0);
     gtk_notebook_popup_enable(GTK_NOTEBOOK(notebook));
-  
+
     gtk_widget_show(notebook);
     gtk_paned_pack2(GTK_PANED(frame2), notebook, TRUE, TRUE);
 #endif

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2006-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -7,7 +7,7 @@
  * of the License, or (at your option) any later version.
  */
 
-/* AIX may need this for alloca to work */ 
+/* AIX may need this for alloca to work */
 #if defined _AIX
   #pragma alloca
 #endif
@@ -37,7 +37,7 @@ if(!(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
 		{
 		s = strdup_2(t->n.vec->bvname);
 		}
-		else 
+		else
 		{
 		if(!HasAlias(t))
 			{
@@ -66,12 +66,12 @@ if((flags & TR_SIGNED) != 0)
 /* [1] */
 if((flags & TR_HEX) != 0) { ch[pos++] = 'X'; }
 else if ((flags & TR_ASCII) != 0) { ch[pos++] = 'A'; }
-else if ((flags & TR_DEC) != 0) { ch[pos++] = 'D'; }  
-else if ((flags & TR_BIN) != 0) { ch[pos++] = 'B'; }  
-else if ((flags & TR_OCT) != 0) { ch[pos++] = 'O'; }  
-        
+else if ((flags & TR_DEC) != 0) { ch[pos++] = 'D'; }
+else if ((flags & TR_BIN) != 0) { ch[pos++] = 'B'; }
+else if ((flags & TR_OCT) != 0) { ch[pos++] = 'O'; }
+
 /* [2] */
-if((flags & TR_RJUSTIFY) != 0) { ch[pos++] = 'J'; } 
+if((flags & TR_RJUSTIFY) != 0) { ch[pos++] = 'J'; }
 
 /* [3] */
 if((flags & TR_INVERT) != 0) { ch[pos++] = '~'; }
@@ -80,7 +80,7 @@ if((flags & TR_INVERT) != 0) { ch[pos++] = '~'; }
 if((flags & TR_REVERSE) != 0) { ch[pos++] = 'V'; }
 
 /* [5] */
-if((flags & (TR_ANALOG_STEP|TR_ANALOG_INTERPOLATED)) == (TR_ANALOG_STEP|TR_ANALOG_INTERPOLATED)) { ch[pos++] = '*'; } 
+if((flags & (TR_ANALOG_STEP|TR_ANALOG_INTERPOLATED)) == (TR_ANALOG_STEP|TR_ANALOG_INTERPOLATED)) { ch[pos++] = '*'; }
 else if((flags & TR_ANALOG_STEP) != 0) { ch[pos++] = 'S'; }
 else if((flags & TR_ANALOG_INTERPOLATED) != 0) { ch[pos++] = 'I'; }
 
@@ -246,7 +246,7 @@ if(tname)
 
 
 static gint expose_event(GtkWidget *widget, GdkEventExpose *event)
-{       
+{
 gdk_draw_pixmap(widget->window, widget->style->fg_gc[GTK_WIDGET_STATE(widget)],
                 GLOBALS->mo_pixmap_mouseover_c_1,
                 event->area.x, event->area.y,
@@ -285,12 +285,12 @@ if(!GLOBALS->mo_black_mouseover_c_1)   GLOBALS->mo_black_mouseover_c_1   = alloc
 
 gdk_draw_rectangle(GLOBALS->mo_pixmap_mouseover_c_1, GLOBALS->mo_dk_gray_mouseover_c_1,
 		TRUE,
-		0,0, 
+		0,0,
 		GLOBALS->mo_width_mouseover_c_1, GLOBALS->mo_height_mouseover_c_1);
 
 gdk_draw_rectangle(GLOBALS->mo_pixmap_mouseover_c_1, GLOBALS->mo_black_mouseover_c_1,
 		TRUE,
-		1,1, 
+		1,1,
 		GLOBALS->mo_width_mouseover_c_1-2, GLOBALS->mo_height_mouseover_c_1-2);
 
 gtkwave_signal_connect(GTK_OBJECT(GLOBALS->mo_area_mouseover_c_1), "expose_event",GTK_SIGNAL_FUNC(expose_event), NULL);
@@ -346,7 +346,7 @@ if(t && (tname = get_fullname(t)))
 		alternate_name = malloc_2(MOUSEOVER_BREAKSIZE + 1);
 		strcpy(alternate_name, "...");
 		strcpy(alternate_name + 3, flagged_name + name_charlen - (MOUSEOVER_BREAKSIZE - 3));
-	
+
 		nmaxlen=font_engine_string_measure(GLOBALS->wavefont, alternate_name);
 		}
 		else
@@ -416,12 +416,12 @@ if(!GLOBALS->mouseover_mouseover_c_1)
 
 gdk_draw_rectangle(GLOBALS->mo_pixmap_mouseover_c_1, GLOBALS->mo_dk_gray_mouseover_c_1,
 		TRUE,
-		0,0, 
+		0,0,
 		GLOBALS->mo_width_mouseover_c_1, GLOBALS->mo_height_mouseover_c_1);
 
 gdk_draw_rectangle(GLOBALS->mo_pixmap_mouseover_c_1, GLOBALS->mo_black_mouseover_c_1,
 		TRUE,
-		1,1, 
+		1,1,
 		GLOBALS->mo_width_mouseover_c_1-2, GLOBALS->mo_height_mouseover_c_1-2);
 
 font_engine_draw_string(GLOBALS->mo_pixmap_mouseover_c_1, GLOBALS->wavefont, GLOBALS->mo_dk_gray_mouseover_c_1, 4, fh + 2, alternate_name ? alternate_name : flagged_name);

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2011.
  *
  * This program is free software; you can redistribute it and/or
@@ -121,7 +121,7 @@ char *makename_chain(struct symbol *sym);
 
 /* splash screen activation (version >= GTK2 only) */
 void splash_create(void);
-void splash_sync(off_t current, off_t total);  
+void splash_sync(off_t current, off_t total);
 void splash_finalize(void);
 gint splash_button_press_event(GtkWidget *widget, GdkEventExpose *event);
 

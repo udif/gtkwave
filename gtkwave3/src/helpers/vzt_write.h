@@ -3,19 +3,19 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation 
- * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
- * and/or sell copies of the Software, and to permit persons to whom the   
- * Software is furnished to do so, subject to the following conditions: 
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL   
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING   
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
@@ -103,7 +103,7 @@ typedef unsigned __int64        vzttime_t;
  */
 typedef struct vzt_wr_dsvzt_tree_node vzt_wr_dsvzt_Tree;
 struct vzt_wr_dsvzt_tree_node {
-    vzt_wr_dsvzt_Tree * left, * right;  
+    vzt_wr_dsvzt_Tree * left, * right;
     vzt_wr_dsvzt_Tree * child;
     vztint32_t item;
     vztint32_t val;
@@ -111,7 +111,7 @@ struct vzt_wr_dsvzt_tree_node {
 
 /*
  * string splay
- */   
+ */
 typedef struct vzt2_wr_dsvzt_tree_node vzt2_wr_dsvzt_Tree;
 struct vzt2_wr_dsvzt_tree_node {
     vzt2_wr_dsvzt_Tree * left, * right;
@@ -119,7 +119,7 @@ struct vzt2_wr_dsvzt_tree_node {
     unsigned int val;
     vzt2_wr_dsvzt_Tree * next;
 };
-                                        
+
 
 struct vzt_wr_trace
 {
@@ -268,7 +268,7 @@ void			vzt_wr_set_compression_depth(struct vzt_wr_trace *lt, unsigned int depth)
 void			vzt_wr_set_rle(struct vzt_wr_trace *lt, unsigned int mode);
 
 			/* bitplane depth: must call before adding any facilities */
-void 			vzt_wr_force_twostate(struct vzt_wr_trace *lt); 
+void 			vzt_wr_force_twostate(struct vzt_wr_trace *lt);
 
 			/* facility creation */
 void                    vzt_wr_set_initial_value(struct vzt_wr_trace *lt, char value);

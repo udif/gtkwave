@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2009-2013.
  *
  * This program is free software; you can redistribute it and/or
@@ -35,9 +35,9 @@
 #define FST_RDLOAD "FSTLOAD | "
 
 /******************************************************************/
-                
+
 /*
- * doubles going into histent structs are NEVER freed so this is OK.. 
+ * doubles going into histent structs are NEVER freed so this is OK..
  * (we are allocating as many entries that fit in 4k minus the size of the two
  * bookkeeping void* pointers found in the malloc_2/free_2 routines in
  * debug.c)
@@ -46,8 +46,8 @@
 #define FST_DOUBLE_GRANULARITY ( (4*1024) / sizeof(double) )
 #else
 #define FST_DOUBLE_GRANULARITY ( ( (4*1024)-(2*sizeof(void *)) ) / sizeof(double) )
-#endif     
-            
+#endif
+
 #ifndef WAVE_HAS_H_DOUBLE
 static void *double_slab_calloc(void)
 {
@@ -58,7 +58,7 @@ if(GLOBALS->double_curr_fst==GLOBALS->double_fini_fst)
         }
 
 return((void *)(GLOBALS->double_curr_fst++));
-}  
+}
 #endif
 
 /*
@@ -77,7 +77,7 @@ return(i+1);
 
 
 
-/* 
+/*
  * fast itoa for decimal numbers
  */
 static char* itoa_2(int value, char* result)
@@ -193,8 +193,8 @@ while((h = fstReaderIterateHier(xc)))
 				default:			ttype = TREE_UNKNOWN; break;
 				}
 
-			allocate_and_decorate_module_tree_node(ttype, h->u.scope.name, h->u.scope.component, h->u.scope.name_length, h->u.scope.component_length, 
-				GLOBALS->stem_valid ? GLOBALS->stem_struct_base_siz : 0, 
+			allocate_and_decorate_module_tree_node(ttype, h->u.scope.name, h->u.scope.component, h->u.scope.name_length, h->u.scope.component_length,
+				GLOBALS->stem_valid ? GLOBALS->stem_struct_base_siz : 0,
 				GLOBALS->istem_valid ? GLOBALS->istem_struct_base_siz : 0);
 			GLOBALS->stem_valid = GLOBALS->istem_valid = 0;
                         break;
@@ -226,7 +226,7 @@ while((h = fstReaderIterateHier(xc)))
 					*(pntd++) = *pnts;
 					}
 				pnts++;
-				}			
+				}
 			*pntd = 0; *namlen = pntd - s;
 
 			if(!lb_last)
@@ -267,7 +267,7 @@ while((h = fstReaderIterateHier(xc)))
 					{
 					pnt = col_last + 1;
 					acc = 0;
-					while(isdigit((int)(unsigned char)*pnt) || (*pnt == '-'))	
+					while(isdigit((int)(unsigned char)*pnt) || (*pnt == '-'))
 						{
 						if(*pnt != '-')
 							{
@@ -282,15 +282,15 @@ while((h = fstReaderIterateHier(xc)))
 						}
 					*lsb = acc * sgnb;
 					}
-				}			
+				}
 
-			if(lb_last) 
-				{ 
-				*lb_last = 0; 
-				if((lb_last - s) < (*namlen)) 
-					{ 
-					*namlen = lb_last - s; 
-					} 
+			if(lb_last)
+				{
+				*lb_last = 0;
+				if((lb_last - s) < (*namlen))
+					{
+					*namlen = lb_last - s;
+					}
 				}
 			*nam = s;
 
@@ -356,7 +356,7 @@ while((h = fstReaderIterateHier(xc)))
 							{
 							free_2(attr_pnt);
 							}
-						}					
+						}
 
 					svt = h->u.attr.arg >> FST_SDT_SVT_SHIFT_COUNT;
 					sdt = h->u.attr.arg & (FST_SDT_ABS_MAX-1);
@@ -435,7 +435,7 @@ while((h = fstReaderIterateHier(xc)))
 							GLOBALS->stem_path_string_table_alloc *= 2;
 							GLOBALS->stem_path_string_table = realloc_2(GLOBALS->stem_path_string_table, GLOBALS->stem_path_string_table_alloc * sizeof(char *));
 							}
-						
+
 						GLOBALS->stem_path_string_table[GLOBALS->stem_path_string_table_siz] = strdup_2(h->u.attr.name);
 						GLOBALS->stem_path_string_table_siz++;
 						}
@@ -567,7 +567,7 @@ for(activity_idx = 0; activity_idx < num_activity_changes; activity_idx++)
 		bt->bstart = (TimeType)(ct * GLOBALS->time_scale);
 		bt->bend = (TimeType)(GLOBALS->last_cycle_fst_c_3 * GLOBALS->time_scale);
                 bt->next = GLOBALS->blackout_regions;
-  
+
                 GLOBALS->blackout_regions = bt;
 
 		/* activity_idx = activity_idx2; */ /* scan-build says is dead + assigned garbage value , which is true : code does not need to mirror for() loop below */
@@ -577,7 +577,7 @@ for(activity_idx = 0; activity_idx < num_activity_changes; activity_idx++)
 	for(activity_idx2 = activity_idx+1; activity_idx2 < num_activity_changes; activity_idx2++)
 		{
 		uint64_t ct2 = fstReaderGetDumpActivityChangeTime(GLOBALS->fst_fst_c_1, activity_idx2);
-		ac = fstReaderGetDumpActivityChangeValue(GLOBALS->fst_fst_c_1, activity_idx2);		
+		ac = fstReaderGetDumpActivityChangeValue(GLOBALS->fst_fst_c_1, activity_idx2);
 		if((ac == 0) && (activity_idx2 == (num_activity_changes-1)))
 			{
 			ac = 1;
@@ -590,14 +590,14 @@ for(activity_idx = 0; activity_idx < num_activity_changes; activity_idx++)
 			bt->bstart = (TimeType)(ct * GLOBALS->time_scale);
 			bt->bend = (TimeType)(ct2 * GLOBALS->time_scale);
 	                bt->next = GLOBALS->blackout_regions;
-  
+
 	                GLOBALS->blackout_regions = bt;
 
 			activity_idx = activity_idx2;
 			break;
 			}
-		}	
-	
+		}
+
 	}
 
 
@@ -611,7 +611,7 @@ if(!GLOBALS->hier_was_explicitly_set)    /* set default hierarchy split char */
 for(i=0;i<GLOBALS->numfacs;i++)
         {
 	char buf[65537];
-	char *str;	
+	char *str;
 	struct fac *f;
 	int hier_len, name_len, tlen;
 	unsigned char nvt, nvd, ndt;
@@ -671,11 +671,11 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		node_block[i].lsi = 0;
 		}
 		else
-		{	
+		{
 		node_block[i].msi = msb;
 		node_block[i].lsi = lsb;
 		}
-	GLOBALS->mvlfacs_fst_c_3[i].len = h->u.var.length; 
+	GLOBALS->mvlfacs_fst_c_3[i].len = h->u.var.length;
 
 	if(h->u.var.length)
 		{
@@ -736,7 +736,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			case FST_VT_SV_SHORTINT:
 			case FST_VT_SV_LONGINT:
 				GLOBALS->mvlfacs_fst_c_3[i].flags = VZT_RD_SYM_F_INTEGER;
-				break;	
+				break;
 
 			case FST_VT_VCD_REAL:
 			case FST_VT_VCD_REAL_PARAMETER:
@@ -752,7 +752,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 			default:
 				GLOBALS->mvlfacs_fst_c_3[i].flags = VZT_RD_SYM_F_BITS;
-				break;	
+				break;
 			}
 		}
 		else /* convert any variable length records into strings */
@@ -762,7 +762,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		GLOBALS->mvlfacs_fst_c_3[i].flags = VZT_RD_SYM_F_STRING;
 		GLOBALS->mvlfacs_fst_c_3[i].len = 2;
 		}
-	
+
 	if(h->u.var.is_alias)
 		{
 		GLOBALS->mvlfacs_fst_c_3[i].node_alias = h->u.var.handle - 1; /* subtract 1 to scale it with gtkwave-style numbering */
@@ -808,7 +808,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	        symadd_name_exists_sym_exists(s,str,0);
 		prevsymroot = prevsym = NULL;
 
-		if(GLOBALS->fast_tree_sort) 
+		if(GLOBALS->fast_tree_sort)
 			{
 			len = sprintf_2_sdd(buf, nnam,node_block[i].msi, node_block[i].lsi);
 			fst_append_graft_chain(len, buf, i, npar);
@@ -859,7 +859,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 				prevsymroot = prevsym = s;
 				}
 
-			if(GLOBALS->fast_tree_sort) 
+			if(GLOBALS->fast_tree_sort)
 				{
 				len = sprintf_2_sd(buf, nnam,node_block[i].msi);
 				fst_append_graft_chain(len, buf, i, npar);
@@ -894,7 +894,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			s=&sym_block[i];
 		        symadd_name_exists_sym_exists(s,str,0);
 			prevsymroot = prevsym = NULL;
-	
+
 			if(f->flags&VZT_RD_SYM_F_INTEGER)
 				{
 				if(f->len != 0)
@@ -908,16 +908,16 @@ for(i=0;i<GLOBALS->numfacs;i++)
 					node_block[i].msi = 31;
 					node_block[i].lsi = 0;
 					GLOBALS->mvlfacs_fst_c_3[i].len = 32;
-					}	
+					}
 			}
-	
-			if(GLOBALS->fast_tree_sort) 
+
+			if(GLOBALS->fast_tree_sort)
 				{
 				fst_append_graft_chain(strlen(nnam), nnam, i, npar);
 				}
 			}
 		}
-		
+
         if(longest_nam_candidate > GLOBALS->longestname) GLOBALS->longestname = longest_nam_candidate;
 
         GLOBALS->facs[i]=&sym_block[i];
@@ -927,7 +927,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		n->nname = compress_facility((unsigned char *)s->name, longest_nam_candidate);
 		/* free_2(s->name); ...removed as f_name_build_buf is now used */
-		s->name = n->nname;	
+		s->name = n->nname;
 		}
 		else
 		{
@@ -983,7 +983,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		n->extvals = 1;
 		}
-                 
+
         n->head.time=-1;        /* mark 1st node as negative time */
         n->head.v.h_val=AN_X;
         s->n=n;
@@ -1047,33 +1047,33 @@ decorated_module_cleanup(); /* ...also now in gtk2_treesearch.c */
 freeze_facility_pack();
 iter_through_comp_name_table();
 
-fprintf(stderr, FST_RDLOAD"Built %d signal%s and %d alias%s.\n", 
-	numvars, (numvars == 1) ? "" : "s", 
+fprintf(stderr, FST_RDLOAD"Built %d signal%s and %d alias%s.\n",
+	numvars, (numvars == 1) ? "" : "s",
 	numalias, (numalias == 1) ? "" : "es");
 
 GLOBALS->fst_maxhandle = numvars;
 
 if(GLOBALS->fast_tree_sort)
         {
-/* SPLASH */                            splash_sync(2, 5);  
+/* SPLASH */                            splash_sync(2, 5);
         fprintf(stderr, FST_RDLOAD"Building facility hierarchy tree.\n");
 
         init_tree();
         treegraft(&GLOBALS->treeroot);
 
-/* SPLASH */                            splash_sync(3, 5);  
-                                
+/* SPLASH */                            splash_sync(3, 5);
+
         fprintf(stderr, FST_RDLOAD"Sorting facility hierarchy tree.\n");
         treesort(GLOBALS->treeroot, NULL);
-/* SPLASH */                            splash_sync(4, 5);  
+/* SPLASH */                            splash_sync(4, 5);
         order_facs_from_treesort(GLOBALS->treeroot, &GLOBALS->facs);
 
-/* SPLASH */                            splash_sync(5, 5);  
+/* SPLASH */                            splash_sync(5, 5);
         GLOBALS->facs_are_sorted=1;
         }
         else
 	{
-/* SPLASH */                            splash_sync(2, 5);  
+/* SPLASH */                            splash_sync(2, 5);
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *subst, ch;
@@ -1081,7 +1081,7 @@ if(GLOBALS->fast_tree_sort)
 
 	        subst=GLOBALS->facs[i]->name;
 		while((ch=(*subst)))
-			{	
+			{
 #ifdef WAVE_HIERFIX
 	                if(ch==GLOBALS->hier_delimeter) { *subst=(!esc) ? VCDNAM_HIERSORT : VCDNAM_ESCAPE; }    /* forces sort at hier boundaries */
 #else
@@ -1096,14 +1096,14 @@ if(GLOBALS->fast_tree_sort)
 	fprintf(stderr, FST_RDLOAD"Sorting facilities at hierarchy boundaries.\n");
 	wave_heapsort(GLOBALS->facs,GLOBALS->numfacs);
 
-#ifdef WAVE_HIERFIX	
+#ifdef WAVE_HIERFIX
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *subst, ch;
-	
+
 		subst=GLOBALS->facs[i]->name;
 		while((ch=(*subst)))
-			{	
+			{
 			if(ch==VCDNAM_HIERSORT) { *subst=GLOBALS->hier_delimeter; }	/* restore back to normal */
 			subst++;
 			}
@@ -1115,8 +1115,8 @@ if(GLOBALS->fast_tree_sort)
 /* SPLASH */                            splash_sync(4, 5);
 	fprintf(stderr, FST_RDLOAD"Building facility hierarchy tree.\n");
 
-	init_tree();		
-	for(i=0;i<GLOBALS->numfacs;i++)	
+	init_tree();
+	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *nf = GLOBALS->facs[i]->name;
 	        build_tree_from_name(nf, i);
@@ -1137,9 +1137,9 @@ if(GLOBALS->fast_tree_sort)
 	        }
 	treegraft(&GLOBALS->treeroot);
 	treesort(GLOBALS->treeroot, NULL);
-	if(GLOBALS->escaped_names_found_vcd_c_1)  
+	if(GLOBALS->escaped_names_found_vcd_c_1)
 	        {
-	        treenamefix(GLOBALS->treeroot);   
+	        treenamefix(GLOBALS->treeroot);
 	        }
 	}
 
@@ -1205,10 +1205,10 @@ static void evcd_memcpy(char *dst, const char *src, int len)
 {
 static const char *evcd="DUNZduLHXTlh01?FAaBbCcf";
 static const char  *vcd="01xz0101xz0101xzxxxxxxz";
-                                                
+
 char ch;
 int i, j;
-                                                        
+
 for(j=0;j<len;j++)
         {
 	ch=*src;
@@ -1221,7 +1221,7 @@ for(j=0;j<len;j++)
                         }
                 }
         if(i==23) *dst='x';
-        
+
         src++;
         dst++;
         }
@@ -1238,7 +1238,7 @@ struct HistEnt *htemp;
 struct lx2_entry *l2e = GLOBALS->fst_table_fst_c_1+facidx;
 struct fac *f = GLOBALS->mvlfacs_fst_c_3+facidx;
 
-GLOBALS->busycnt_fst_c_2++; 
+GLOBALS->busycnt_fst_c_2++;
 if(GLOBALS->busycnt_fst_c_2==WAVE_BUSY_ITER)
 	{
 	busy_window_refresh();
@@ -1255,7 +1255,7 @@ if(!(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
 		vt = f->working_node->vartype;
 		}
 
-	if(f->len>1)        
+	if(f->len>1)
 	        {
 		char *h_vector = (char *)malloc_2(f->len);
 		if(vt != ND_VCD_PORT)
@@ -1430,7 +1430,7 @@ fst_callback2(user_callback_data_pointer, tim, txidx, value, 0);
  * this is the black magic that handles aliased signals...
  */
 static void fst_resolver(nptr np, nptr resolve)
-{ 
+{
 np->extvals = resolve->extvals;
 np->msi = resolve->msi;
 np->lsi = resolve->lsi;
@@ -1443,8 +1443,8 @@ np->mv.mvlfac=NULL;
 
 
 
-/* 
- * actually import a fst trace but don't do it if it's already been imported 
+/*
+ * actually import a fst trace but don't do it if it's already been imported
  */
 void import_fst_trace(nptr np)
 {
@@ -1457,13 +1457,13 @@ nptr nold = np;
 if(!(f=np->mv.mvlfac)) return;	/* already imported */
 
 txidx = f - GLOBALS->mvlfacs_fst_c_3;
-if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS) 
+if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 	{
 	txidx = GLOBALS->mvlfacs_fst_c_3[txidx].node_alias; /* this is to map to fstHandles, so even non-aliased are remapped */
 	txidx = GLOBALS->mvlfacs_fst_rvs_alias[txidx];
 	np = GLOBALS->mvlfacs_fst_c_3[txidx].working_node;
 
-	if(!(f=np->mv.mvlfac)) 
+	if(!(f=np->mv.mvlfac))
 		{
 		fst_resolver(nold, np);
 		return;	/* already imported */
@@ -1534,7 +1534,7 @@ if(len>1)
 	htemp->v.h_val = AN_X;		/* x */
 	}
 htemp->time = MAX_HISTENT_TIME-1;
-htemp->next = histent_tail;			
+htemp->next = histent_tail;
 
 if(GLOBALS->fst_table_fst_c_1[txidx].histent_curr)
 	{
@@ -1557,7 +1557,7 @@ if(!(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
         else
         {
         np->head.flags = HIST_REAL;
-        if(f->flags&VZT_RD_SYM_F_STRING) 
+        if(f->flags&VZT_RD_SYM_F_STRING)
 		{
 		np->head.flags |= HIST_STRING;
 		}
@@ -1596,7 +1596,7 @@ if(nold!=np)
 }
 
 
-/* 
+/*
  * pre-import many traces at once so function above doesn't have to iterate...
  */
 void fst_set_fac_process_mask(nptr np)
@@ -1607,10 +1607,10 @@ int txidx;
 if(!(f=np->mv.mvlfac)) return;	/* already imported */
 
 txidx = f-GLOBALS->mvlfacs_fst_c_3;
-if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS) 
+if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 	{
 	txidx = GLOBALS->mvlfacs_fst_c_3[txidx].node_alias;
-	txidx = GLOBALS->mvlfacs_fst_rvs_alias[txidx]; 
+	txidx = GLOBALS->mvlfacs_fst_rvs_alias[txidx];
 	np = GLOBALS->mvlfacs_fst_c_3[txidx].working_node;
 
 	if(!(np->mv.mvlfac)) return;	/* already imported */
@@ -1638,7 +1638,7 @@ for(txidxi=0;txidxi<GLOBALS->fst_maxhandle;txidxi++)
 		}
 	}
 
-if(!cnt) 
+if(!cnt)
 	{
 	return;
 	}
@@ -1673,7 +1673,7 @@ for(txidxi=0;txidxi<GLOBALS->fst_maxhandle;txidxi++)
 			htemp->v.h_val = AN_Z;		/* z */
 			}
 		htemp->time = MAX_HISTENT_TIME;
-			
+
 		htemp = histent_calloc();
 		if(len>1)
 			{
@@ -1686,7 +1686,7 @@ for(txidxi=0;txidxi<GLOBALS->fst_maxhandle;txidxi++)
 					}
 					else
 					{
-					htemp->v.h_vector = strdup_2("UNDEF"); 	
+					htemp->v.h_vector = strdup_2("UNDEF");
 					htemp->flags = HIST_REAL|HIST_STRING;
 					}
 				htempx = htemp;
@@ -1694,7 +1694,7 @@ for(txidxi=0;txidxi<GLOBALS->fst_maxhandle;txidxi++)
 				else
 				{
 #ifdef WAVE_HAS_H_DOUBLE
-				htemp->v.h_double = strtod("NaN", NULL);				
+				htemp->v.h_double = strtod("NaN", NULL);
 #else
 				double *d = malloc_2(sizeof(double));
 
@@ -1710,7 +1710,7 @@ for(txidxi=0;txidxi<GLOBALS->fst_maxhandle;txidxi++)
 			htemp->v.h_val = AN_X;		/* x */
 			}
 		htemp->time = MAX_HISTENT_TIME-1;
-		htemp->next = histent_tail;			
+		htemp->next = histent_tail;
 
 		if(GLOBALS->fst_table_fst_c_1[txidx].histent_curr)
 			{
@@ -1733,7 +1733,7 @@ for(txidxi=0;txidxi<GLOBALS->fst_maxhandle;txidxi++)
 		        else
 		        {
 		        np->head.flags = HIST_REAL;
-		        if(f->flags&VZT_RD_SYM_F_STRING) 
+		        if(f->flags&VZT_RD_SYM_F_STRING)
 				{
 				np->head.flags |= HIST_STRING;
 				}

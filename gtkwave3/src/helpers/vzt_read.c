@@ -26,13 +26,13 @@
 #undef HAVE_RPC_XDR_H
 #endif
 
-#if HAVE_RPC_XDR_H 
+#if HAVE_RPC_XDR_H
 #include <rpc/types.h>
 #include <rpc/xdr.h>
 #endif
 #include "vzt_read.h"
 
-#ifdef HAVE_FCNTL_H 
+#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
 
@@ -40,9 +40,9 @@
 
 static int is_big_endian(void)
 {
-union 	
-	{ 
-	vztint32_t u32; 
+union
+	{
+	vztint32_t u32;
 	unsigned char c[sizeof(vztint32_t)];
 	} u;
 
@@ -118,12 +118,12 @@ if(lt->pthreads)
  * of a big-endian integer.  this is for 32-bit PPC so no byte
  * swizzling needs to be done at all.
  */
-   
+
 #define vzt_rd_get_byte(mm,offset)    ((unsigned int)(*((unsigned char *)(mm)+(offset))))
 #define vzt_rd_get_16(mm,offset)      ((unsigned int)(*((unsigned short *)(((unsigned char *)(mm))+(offset)))))
 #define vzt_rd_get_32(mm,offset)      (*(unsigned int *)(((unsigned char *)(mm))+(offset)))
 #define vzt_rd_get_64(mm,offset)      ((((vztint64_t)vzt_rd_get_32((mm),(offset)))<<32)|((vztint64_t)vzt_rd_get_32((mm),(offset)+4)))
- 
+
 #else
 
 /*
@@ -247,7 +247,7 @@ while(*c>=0)
 	val <<= 7;
 	val |= (vztint32_t)*(c--);
 	}
-	
+
 *mm = c;
 return(val);
 }
@@ -269,7 +269,7 @@ return((x * 0x01010101) >> 24);
 
 /*
  * total zero count to the right of the first rightmost one bit
- * encountered.  its intended use is to 
+ * encountered.  its intended use is to
  * "return the bitposition of the least significant 1 in vztint32_t"
  * (use x &= ~(x&-x) to clear out that bit quickly)
  */
@@ -478,9 +478,9 @@ vzt_rd_pthread_mutex_lock(lt, &b->mutex);
 
 if(killed) b->killed = killed;	/* never allocate ever again (in case we prefetch on process kill) */
 
-if((b->rle) && (b->val_dict)) 
-	{ 
-	free(b->val_dict); b->val_dict = NULL; 
+if((b->rle) && (b->val_dict))
+	{
+	free(b->val_dict); b->val_dict = NULL;
 
 	vzt_rd_pthread_mutex_lock(lt, &lt->mutex);
 	lt->block_mem_consumed -= b->num_rle_bytes;
@@ -609,12 +609,12 @@ if(!(lt->flags[facidx]&VZT_RD_SYM_F_SYNVEC))
 		vztint32_t vindex_offset_x = vindex_offset + lt->total_values;
 		vztint32_t *valpnt_x;
 		int which;
-	
+
 		for(i=0;i<len;i++)
 			{
 			valpnt   = val_base + (b->vindex[vindex_offset++] * row_size);
 			valpnt_x = val_base + (b->vindex[vindex_offset_x++] * row_size);
-	
+
 			which = (((*valpnt_x >> bit) & 1) << 1) | ((*valpnt >> bit) & 1);
 			value[i] = "01xz"[which];
 			}
@@ -637,8 +637,8 @@ if(!(lt->flags[facidx]&VZT_RD_SYM_F_SYNVEC))
 		vztint32_t vindex_offset_x;
 		vztint32_t *valpnt_x;
 		int which;
-	
-		for(i=0;i<len;i++)  
+
+		for(i=0;i<len;i++)
 			{
 			if((facidx+i)>=lt->numfacs) break;
 
@@ -647,7 +647,7 @@ if(!(lt->flags[facidx]&VZT_RD_SYM_F_SYNVEC))
 
 			valpnt   = val_base + (b->vindex[vindex_offset] * row_size);
 			valpnt_x = val_base + (b->vindex[vindex_offset_x] * row_size);
-	
+
 			which = (((*valpnt_x >> bit) & 1) << 1) | ((*valpnt >> bit) & 1);
 			value[i] = "01xz"[which];
 			}
@@ -673,7 +673,7 @@ return(1);
 static void vzt_rd_double_xdr(char *pnt, char *buf)
 {
 int j;
-#if HAVE_RPC_XDR_H 
+#if HAVE_RPC_XDR_H
 XDR x;
 #else
 const vztint32_t endian_matchword = 0x12345678;
@@ -695,8 +695,8 @@ for(j=0;j<64;j++)
 		}
 	}
 
-#if HAVE_RPC_XDR_H 
-xdrmem_create(&x, xdrdata, sizeof(xdrdata), XDR_DECODE);						
+#if HAVE_RPC_XDR_H
+xdrmem_create(&x, xdrdata, sizeof(xdrdata), XDR_DECODE);
 xdr_double(&x, &d);
 #else
 /* byte ordering in windows is reverse of XDR (on x86, that is) */
@@ -731,7 +731,7 @@ return(spnt);
 
 
 /*
- * exploit locality of reference for when monotonic time per fac is needed 
+ * exploit locality of reference for when monotonic time per fac is needed
  * (gtkwave) rather than monotonic time ordering over the whole trace
  * (converting to vcd)
  */
@@ -867,7 +867,7 @@ do_vch_0:		if(!(lt->flags[idx] & (VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
                 if(i2)
                         {
                         struct vzt_ncycle_autosort *t = autosort[i2];
-                 
+
                         autofacs[idx].next = t;
                         autosort[i2] = autofacs+idx;
                         }
@@ -883,13 +883,13 @@ do_vch_0:		if(!(lt->flags[idx] & (VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
 for(i = 1; i < b->num_time_ticks; i++)
         {
         struct vzt_ncycle_autosort *t = autosort[i];
-        
+
         if(t)
                 {
                 while(t)
                         {
                         struct vzt_ncycle_autosort *tn = t->next;
-                         
+
                         idx = t-autofacs;
 
 			vzt_rd_fac_value(lt, b, i, idx, pnt);
@@ -912,13 +912,13 @@ for(i = 1; i < b->num_time_ticks; i++)
 					lt->value_change_callback(&lt, &b->times[i], &idx, &msg);
 					}
 				}
-                 
+
 			i2 = vzt_rd_next_value_chg_time(lt, b, i, idx);
- 
+
                         if(i2!=i)
                                 {
                                 struct vzt_ncycle_autosort *ta = autosort[i2];
-                        
+
                                 autofacs[idx].next = ta;
                                 autosort[i2] = autofacs+idx;
                                 }
@@ -926,9 +926,9 @@ for(i = 1; i < b->num_time_ticks; i++)
                                 {
                                 struct vzt_ncycle_autosort *ta = deadlist;
                                 autofacs[idx].next = ta;
-                                deadlist = autofacs+idx;   
+                                deadlist = autofacs+idx;
                                 }
-         
+
                         t = tn;
                         }
                 }
@@ -954,7 +954,7 @@ void vzt_rd_null_callback(struct vzt_rd_trace **lt, vztint64_t *pnt_time, vztint
 
 /****************************************************************************/
 
-/* 
+/*
  * return number of facs in trace
  */
 _VZT_RD_INLINE vztint32_t vzt_rd_get_num_facs(struct vzt_rd_trace *lt)
@@ -970,11 +970,11 @@ struct vzt_rd_geometry *vzt_rd_get_fac_geometry(struct vzt_rd_trace *lt, vztint3
 {
 if((lt)&&(facidx<lt->numfacs))
 	{
-	lt->geometry.rows = lt->rows[facidx];	
-	lt->geometry.msb = lt->msb[facidx];	
-	lt->geometry.lsb = lt->lsb[facidx];	
-	lt->geometry.flags = lt->flags[facidx];	
-	lt->geometry.len = lt->len[facidx];	
+	lt->geometry.rows = lt->rows[facidx];
+	lt->geometry.msb = lt->msb[facidx];
+	lt->geometry.lsb = lt->lsb[facidx];
+	lt->geometry.flags = lt->flags[facidx];
+	lt->geometry.len = lt->len[facidx];
 	return(&lt->geometry);
 	}
 	else
@@ -1071,7 +1071,7 @@ if((lt)&&(facidx<lt->numfacs))
 
 /*
  * time queries
- */ 
+ */
 _VZT_RD_INLINE vztint64_t vzt_rd_get_start_time(struct vzt_rd_trace *lt)
 {
 return(lt ? lt->start : 0);
@@ -1113,8 +1113,8 @@ if(lt)
 		if(!facidx)
 			{
 			lt->faccache->n = lt->zfacnames;
-			lt->faccache->bufcurr[0] = 0;			
-			lt->faccache->bufprev[0] = 0;			
+			lt->faccache->bufcurr[0] = 0;
+			lt->faccache->bufprev[0] = 0;
 			}
 
 		if(facidx!=lt->numfacs)
@@ -1143,7 +1143,7 @@ if(lt)
 		else
 		{
 		if(facidx<lt->numfacs)
-			{		
+			{
 			int strt;
 
 			if(facidx==lt->faccache->old_facidx)
@@ -1164,7 +1164,7 @@ if(lt)
 				{
 				vzt_rd_get_facname(lt, j);
 				}
-	
+
 			return(vzt_rd_get_facname(lt, j));
 			}
 		}
@@ -1357,7 +1357,7 @@ return(VZT_RD_IS_BZ2);
 
 static void vzt_rd_decompress_blk(struct vzt_rd_trace *lt, struct vzt_rd_block *b, int reopen)
 {
-int rc; 
+int rc;
 void *zhandle;
 FILE *handle;
 if(reopen)
@@ -1444,7 +1444,7 @@ vzt_rd_pthread_create(lt, &b->pth, &b->pth_attr, vzt_rd_decompress_blk_pth_actua
  * merely caches the FIRST set of blocks which fit in lt->block_mem_max.
  * n.b., returns number of blocks processed
  */
-int vzt_rd_iter_blocks(struct vzt_rd_trace *lt, 
+int vzt_rd_iter_blocks(struct vzt_rd_trace *lt,
 	void (*value_change_callback)(struct vzt_rd_trace **lt, vztint64_t *time, vztint32_t *facidx, char **value),
 	void *user_callback_data_pointer)
 {
@@ -1455,7 +1455,7 @@ struct vzt_rd_block *bcutoff=NULL, *bfinal=NULL;
 
 if(lt)
 	{
-	lt->value_change_callback = value_change_callback ? value_change_callback : vzt_rd_null_callback; 
+	lt->value_change_callback = value_change_callback ? value_change_callback : vzt_rd_null_callback;
 	lt->user_callback_data_pointer = user_callback_data_pointer;
 
 	b = lt->block_head;
@@ -1490,7 +1490,7 @@ if(lt)
 						}
 					bpre = bpre->next;
 					}
-				}	
+				}
 
 			vzt_rd_decompress_blk(lt, b, 0);
 			bfinal=b;
@@ -1512,7 +1512,7 @@ if(lt)
 				{
 				vztint64_t block_mem_consumed;
 
-				vzt_rd_pthread_mutex_lock(lt, &lt->mutex);			
+				vzt_rd_pthread_mutex_lock(lt, &lt->mutex);
 				block_mem_consumed = lt->block_mem_consumed;
 				vzt_rd_pthread_mutex_unlock(lt, &lt->mutex);
 
@@ -1545,7 +1545,7 @@ return(blk);
 
 /*
  * callback access to the user callback data pointer (if required)
- */ 
+ */
 _VZT_RD_INLINE void *vzt_rd_get_user_callback_data_pointer(struct vzt_rd_trace *lt)
 {
 if(lt)
@@ -1585,12 +1585,12 @@ if(lt)
 		{
 		switch(state)
 			{
-			case 0: if(b->end >= strt_time) 
+			case 0: if(b->end >= strt_time)
 					{
 					state = 1;
 					if((b->start > strt_time) && (bprev))
 						{
-						bprev->exclude_block = 0;	
+						bprev->exclude_block = 0;
 						blk++;
 						}
 					}
@@ -1694,7 +1694,7 @@ if(!(lt->handle=fopen(name, "rb")))
 	if(!fread(&id, 2, 1, lt->handle)) { id = 0; }
 	if(!fread(&version, 2, 1, lt->handle)) { id = 0; }
 	if(!fread(&lt->granule_size, 1, 1, lt->handle)) { id = 0; }
-	
+
 	if(vzt_rd_get_16(&id,0) != VZT_RD_HDRID)
 		{
 		fprintf(stderr, VZT_RDLOAD"*** Not a vzt file ***\n");
@@ -1786,7 +1786,7 @@ if(!(lt->handle=fopen(name, "rb")))
 				rc=LZMA_read(lt->zhandle, m, lt->zfacname_predec_size);
 				LZMA_close(lt->zhandle); lt->zhandle=NULL;
 				break;
-			}  
+			}
 
 		if(rc!=lt->zfacname_predec_size)
 			{
@@ -1813,7 +1813,7 @@ if(!(lt->handle=fopen(name, "rb")))
 			case VZT_RD_IS_GZ:
 				lt->zhandle = gzdopen(dup(fileno(lt->handle)), "rb");
 				t = lt->numfacs * 4 * sizeof(vztint32_t);
-				m=(char *)malloc(t);				
+				m=(char *)malloc(t);
 				rc=gzread(lt->zhandle, m, t);
 				gzclose(lt->zhandle); lt->zhandle=NULL;
 				break;
@@ -1821,7 +1821,7 @@ if(!(lt->handle=fopen(name, "rb")))
 			case VZT_RD_IS_BZ2:
 				lt->zhandle = BZ2_bzdopen(dup(fileno(lt->handle)), "rb");
 				t = lt->numfacs * 4 * sizeof(vztint32_t);
-				m=(char *)malloc(t);				
+				m=(char *)malloc(t);
 				rc=BZ2_bzread(lt->zhandle, m, t);
 				BZ2_bzclose(lt->zhandle); lt->zhandle=NULL;
 				break;
@@ -1830,7 +1830,7 @@ if(!(lt->handle=fopen(name, "rb")))
 			default:
 				lt->zhandle = LZMA_fdopen(dup(fileno(lt->handle)), "rb");
 				t = lt->numfacs * 4 * sizeof(vztint32_t);
-				m=(char *)malloc(t);				
+				m=(char *)malloc(t);
 				rc=LZMA_read(lt->zhandle, m, t);
 				LZMA_close(lt->zhandle); lt->zhandle=NULL;
 				break;
@@ -1913,7 +1913,7 @@ if(!(lt->handle=fopen(name, "rb")))
 
 			b=calloc(1, sizeof(struct vzt_rd_block));
 			b->last_rd_value_idx = ~0;
-		
+
 			rcf = fread(&b->uncompressed_siz, 4, 1, lt->handle);	b->uncompressed_siz = rcf ? vzt_rd_get_32(&b->uncompressed_siz,0) : 0;
 			rcf = fread(&b->compressed_siz, 4, 1, lt->handle);	b->compressed_siz = rcf ? vzt_rd_get_32(&b->compressed_siz,0) : 0;
 			rcf = fread(&b->start, 8, 1, lt->handle);		b->start = rcf ? vzt_rd_get_64(&b->start,0) : 0;
@@ -1935,9 +1935,9 @@ if(!(lt->handle=fopen(name, "rb")))
 				break;
 				}
 
-			b->filepos = pos; /* mark startpos for later in case we purge it from memory */	
+			b->filepos = pos; /* mark startpos for later in case we purge it from memory */
 			/* fprintf(stderr, VZT_RDLOAD"un/compressed size: %d/%d\n", b->uncompressed_siz, b->compressed_siz); */
-	
+
 			if((b->uncompressed_siz)&&(b->compressed_siz)&&(b->end))
 				{
 				/* fprintf(stderr, VZT_RDLOAD"block [%d] %lld / %lld\n", lt->numblocks, b->start, b->end); */
@@ -1949,7 +1949,7 @@ if(!(lt->handle=fopen(name, "rb")))
 					vzt_rd_pthread_mutex_init(lt, &b->mutex, NULL);
 					vzt_rd_decompress_blk_pth(lt, b); /* prefetch first block */
 					}
-				
+
 				if(lt->block_curr)
 					{
 					b->prev = lt->block_curr;
@@ -1962,14 +1962,14 @@ if(!(lt->handle=fopen(name, "rb")))
 					lt->block_head = lt->block_curr = b;
 					lt->start = b->start;
 					lt->end = b->end;
-					}			
+					}
 				}
 				else
 				{
 				free(b);
 				break;
 				}
-	
+
 			pos+=b->compressed_siz;
 			}
 
@@ -2010,7 +2010,7 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 	char *pbuff = malloc(pmxlen+1);
 	char *pname;
 	int plen, plen2;
-	int i;	
+	int i;
 	int pidx;
 	int num_after_combine = lt->numfacs;
 	int num_synvecs = 0;
@@ -2025,12 +2025,12 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 
 		pname = vzt_rd_get_facname(lt, i);
 		plen = strlen(pname);
-		if(plen > pmxlen) 
+		if(plen > pmxlen)
 			{
 			free(pbuff);
 			pbuff = malloc(plen+1);
 			}
-	
+
 		memcpy(pbuff, pname, plen);
 		pbuff[plen] = 0;
 		pidx = lt->msb[i];
@@ -2044,13 +2044,13 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 				i = j-1;
 				break;
 				}
-	
+
 			pidx = lt->msb[j];
 			lt->len[i] += lt->len[j];
 			lt->lsb[i] = lt->lsb[j];
 			lt->len[j] = 0;
 			num_after_combine--;
-	
+
 			if(lt->len[i] > lt->longest_len)
 				{
 				lt->longest_len = lt->len[i];
@@ -2064,9 +2064,9 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 		{
 		if(lt->flags[i] & VZT_RD_SYM_F_ALIAS)	/* not necessary, only for sanity */
 			{
-			int j = vzt_rd_get_alias_root(lt, i);	
+			int j = vzt_rd_get_alias_root(lt, i);
 			int k, l;
-	
+
 			if(lt->len[i])
 				{
 				if((lt->len[i]==1) && (lt->len[j]==1))
@@ -2106,7 +2106,7 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 						for(k=0;k<synvec_chain[j]->num_entries;k++)
 							{
 							vztint32_t idx = synvec_chain[j]->chain[k];
-			
+
 							if(lt->len[i] == lt->len[idx])
 								{
 								for(l=0;l<lt->len[i];l++)
@@ -2131,7 +2131,7 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 							{
 							synvec_chain[j] = realloc(synvec_chain[j], sizeof(struct vzt_synvec_chain) +
 									synvec_chain[j]->num_entries * sizeof(vztint32_t));
-	
+
 							synvec_chain[j]->chain[synvec_chain[j]->num_entries++] = i;
 							lt->flags[i] |= VZT_RD_SYM_F_SYNVEC;
 							lt->flags[i] &= ~VZT_RD_SYM_F_ALIAS;
@@ -2229,7 +2229,7 @@ if(lt)
 		bt=b->next;
 		vzt_rd_block_vch_free(lt, b, 1);
 		vzt_rd_pthread_mutex_destroy(lt, &b->mutex);
-		
+
 		free(b);
 		b=bt;
 		}
@@ -2242,7 +2242,7 @@ if(lt)
 
 	vzt_rd_pthread_mutex_destroy(lt, &lt->mutex);
 
-	free(lt);	
+	free(lt);
 	}
 }
 
@@ -2324,7 +2324,7 @@ if(lt)
 	if((simtime == lt->last_rd_value_simtime) && (lt->last_rd_value_block))
 		{
 		b = lt->last_rd_value_block;
-		goto b_chk;		
+		goto b_chk;
 		}
 		else
 		{
@@ -2363,7 +2363,7 @@ if((b)&&(lt->numblocks > 2))	/* no sense freeing up when not so many blocks */
 	{
 	vztint64_t block_mem_consumed;
 
-	vzt_rd_pthread_mutex_lock(lt, &lt->mutex);			
+	vzt_rd_pthread_mutex_lock(lt, &lt->mutex);
 	block_mem_consumed = lt->block_mem_consumed;
 	vzt_rd_pthread_mutex_unlock(lt, &lt->mutex);
 
@@ -2379,7 +2379,7 @@ if((b)&&(lt->numblocks > 2))	/* no sense freeing up when not so many blocks */
 				vzt_rd_pthread_mutex_unlock(lt, &lt->mutex);
 				vzt_rd_block_vch_free(lt, b2, 0);
 				}
-	
+
 			b2 = b2->next;
 			}
 		}

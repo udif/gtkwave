@@ -10,7 +10,7 @@
 #ifndef WAVE_EDGEBUTTONS_H
 #define WAVE_EDGEBUTTONS_H
 
-void service_left_edge(GtkWidget *text, gpointer data); 
+void service_left_edge(GtkWidget *text, gpointer data);
 void service_right_edge(GtkWidget *text, gpointer data);
 
 #endif

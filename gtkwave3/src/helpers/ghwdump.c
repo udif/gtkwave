@@ -157,7 +157,7 @@ main (int argc, char **argv)
 	    {
 	      int ix;
 	      printf ("String table:\n");
-	      
+
 	      for (ix = 1; ix < hp->nbr_str; ix++)
 		printf (" %s\n", hp->str_table[ix]);
 	    }
@@ -165,7 +165,7 @@ main (int argc, char **argv)
 	    ghw_disp_types (hp);
 	  if (flag_disp_hierarchy)
 	    ghw_disp_hie (hp, hp->hie);
-	  
+
 #if 1
 	  sm = ghw_sm_init;
 	  eof = 0;
@@ -187,7 +187,7 @@ main (int argc, char **argv)
 		  abort ();
 		}
 	    }
-	  
+
 #else
 	  if (ghw_read_dump (hp) < 0)
 	    {

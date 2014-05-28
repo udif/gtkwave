@@ -194,7 +194,7 @@ return(0);
 
 int f_editor(char *str)
 {
-char *path, *pathend; 
+char *path, *pathend;
 
 DEBUG(printf("f_editor(\"%s\")\n",str));
 

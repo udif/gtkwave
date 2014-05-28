@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2001-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -44,27 +44,27 @@ static int lt_emit_u8(FILE *handle, int value)
 {
 unsigned char buf[1];
 int nmemb;
-             
+
 buf[0] = value & 0xff;
 nmemb=fwrite(buf, sizeof(char), 1, handle);
 GLOBALS->fpos_lxt_c_1+=nmemb;
 return(nmemb);
-}   
+}
 
 
 static int lt_emit_u16(FILE *handle, int value)
 {
 unsigned char buf[2];
 int nmemb;
-    
-buf[0] = (value>>8) & 0xff;   
-buf[1] = value & 0xff;   
+
+buf[0] = (value>>8) & 0xff;
+buf[1] = value & 0xff;
 nmemb = fwrite(buf, sizeof(char), 2, handle);
 GLOBALS->fpos_lxt_c_1+=nmemb;
 return(nmemb);
 }
-    
-        
+
+
 static int lt_emit_u24(FILE *handle, int value)
 {
 unsigned char buf[3];
@@ -76,7 +76,7 @@ buf[2] = value & 0xff;
 nmemb=fwrite(buf, sizeof(char), 3, handle);
 GLOBALS->fpos_lxt_c_1+=nmemb;
 return(nmemb);
-}            
+}
 
 
 static int lt_emit_u32(FILE *handle, int value)
@@ -89,7 +89,7 @@ buf[1] = (value>>16) & 0xff;
 buf[2] = (value>>8) & 0xff;
 buf[3] = value & 0xff;
 nmemb=fwrite(buf, sizeof(char), 4, handle);
-GLOBALS->fpos_lxt_c_1+=nmemb; 
+GLOBALS->fpos_lxt_c_1+=nmemb;
 return(nmemb);
 }
 
@@ -145,11 +145,11 @@ return(0);
  * since we'll never read a 24-bit int at the very start of a file which
  * means that we'll have a 32-bit word that we can read.
  */
-   
+
 inline static unsigned int get_byte(offset) {
   return ((unsigned int)(*((unsigned char *)(GLOBALS->mm_lxt_c_1)+(offset))));
 }
- 
+
 inline static unsigned int get_16(offset) {
   return ((unsigned int)(*((unsigned short *)(((unsigned char *)(GLOBALS->mm_lxt_c_1))
                 +(offset)))));
@@ -166,7 +166,7 @@ inline static unsigned int get_24(offset) {
 inline static unsigned int get_64(offset) {
   return ((((UTimeType)get_32(offset))<<32)|((UTimeType)get_32((offset)+4)));
 }
-   
+
 #else
 
 /*
@@ -222,7 +222,7 @@ int i, j;
 static double p = 3.14159;
 
 d= *((double *)((unsigned char *)GLOBALS->mm_lxt_c_1+offset));
-if(p==d) 
+if(p==d)
 	{
 	GLOBALS->double_is_native_lxt_c_1=1;
 	}
@@ -242,7 +242,7 @@ if(p==d)
 				break;
 				}
 			}
-		}	
+		}
 	}
 }
 
@@ -302,14 +302,14 @@ return(rv);
 
 static TimeType bsearch_mvl_timechain(int key)
 {
-GLOBALS->max_compare_time_tc_lxt_c_2=-1; GLOBALS->max_compare_pos_tc_lxt_c_2=-1; 
+GLOBALS->max_compare_time_tc_lxt_c_2=-1; GLOBALS->max_compare_pos_tc_lxt_c_2=-1;
 
 if(bsearch((void *)&key, (void *)GLOBALS->positional_information_lxt_c_1, GLOBALS->total_cycles_lxt_c_2, sizeof(int), compar_mvl_timechain))
 	{
 	/* nothing, all side effects are in bsearch */
 	}
 
-if((GLOBALS->max_compare_pos_tc_lxt_c_2<=0)||(GLOBALS->max_compare_time_tc_lxt_c_2<0)) 
+if((GLOBALS->max_compare_pos_tc_lxt_c_2<=0)||(GLOBALS->max_compare_time_tc_lxt_c_2<0))
         {
         GLOBALS->max_compare_pos_tc_lxt_c_2=0; /* aix bsearch fix */
         }
@@ -364,7 +364,7 @@ decmem = malloc_2(total_mem = GLOBALS->dict_string_mem_required_lxt_c_1);
 
 rc=gzread(zhandle, decmem, total_mem);
 DEBUG(printf(LXTHDR"section offs for name decompression = %08x of len %d\n", offs, GLOBALS->dict_num_entries_lxt_c_1));
-DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));	
+DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));
 if(rc!=total_mem) { fprintf(stderr, LXTHDR"decompression size disparity  %d bytes (vs %d)\n", rc, total_mem); exit(255); }
 
 GLOBALS->dict_string_mem_array_lxt_c_1 = (char **)calloc_2(GLOBALS->dict_num_entries_lxt_c_1, sizeof(char *));
@@ -423,7 +423,7 @@ if(GLOBALS->zfacname_size_lxt_c_1)
 
 	rc=gzread(zhandle, decmem, total_mem);
 	DEBUG(printf(LXTHDR"section offs for name decompression = %08x of len %d\n", offs, GLOBALS->zfacname_size_lxt_c_1));
-	DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));	
+	DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));
 	if(rc!=total_mem) { fprintf(stderr, LXTHDR"decompression size disparity  %d bytes (vs %d)\n", rc, total_mem); exit(255); }
 
 	offs=0;	/* we're in our new memory region now.. */
@@ -481,7 +481,7 @@ if(GLOBALS->zfacgeometry_size_lxt_c_1)
 
 	rc=gzread(zhandle, decmem, total_mem);
 	DEBUG(printf(LXTHDR"section offs for facgeometry decompression = %08x of len %d\n", offs, GLOBALS->zfacgeometry_size_lxt_c_1));
-	DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));	
+	DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));
 	if(rc!=total_mem) { fprintf(stderr, LXTHDR"decompression size disparity  %d bytes (vs %d)\n", rc, total_mem); exit(255); }
 
 	offs=0;	/* we're in our new memory region now.. */
@@ -574,7 +574,7 @@ if(GLOBALS->time_table_offset_lxt_c_1)
 
 		rc=gzread(zhandle, decmem, total_mem);
 		DEBUG(printf(LXTHDR"section offs for timetable decompression = %08x of len %d\n", offs, GLOBALS->ztime_table_size_lxt_c_1));
-		DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));	
+		DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));
 		if(rc!=total_mem) { fprintf(stderr, LXTHDR"decompression size disparity  %d bytes (vs %d)\n", rc, total_mem); exit(255); }
 
 		offs=0;	/* we're in our new memory region now.. */
@@ -589,7 +589,7 @@ if(GLOBALS->time_table_offset_lxt_c_1)
 	GLOBALS->last_cycle_lxt_c_2=get_32(offs+4);
 	DEBUG(printf(LXTHDR"Last cycle: %d\n", GLOBALS->last_cycle_lxt_c_2));
 	DEBUG(printf(LXTHDR"Total cycles (actual): %d\n", GLOBALS->last_cycle_lxt_c_2-GLOBALS->first_cycle_lxt_c_2+1));
-	
+
 	/* rebuild time table from its deltas... */
 
 	GLOBALS->positional_information_lxt_c_1 = (int *)malloc_2(GLOBALS->total_cycles_lxt_c_2 * sizeof(int));
@@ -647,9 +647,9 @@ if(GLOBALS->time_table_offset_lxt_c_1)
 
 		rc=gzread(zhandle, decmem, total_mem);
 		DEBUG(printf(LXTHDR"section offs for timetable decompression = %08x of len %d\n", offs, GLOBALS->ztime_table_size_lxt_c_1));
-		DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));	
+		DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));
 		if(rc!=total_mem) { fprintf(stderr, LXTHDR"decompression size disparity  %d bytes (vs %d)\n", rc, total_mem); exit(255); }
-	
+
 		offs=0;	/* we're in our new memory region now.. */
 		}
 		else
@@ -662,7 +662,7 @@ if(GLOBALS->time_table_offset_lxt_c_1)
 	GLOBALS->last_cycle_lxt_c_2=get_64(offs+8);
 	DEBUG(printf(LXTHDR"Last cycle: %d\n", GLOBALS->last_cycle_lxt_c_2));
 	DEBUG(printf(LXTHDR"Total cycles (actual): %lld\n", GLOBALS->last_cycle_lxt_c_2-GLOBALS->first_cycle_lxt_c_2+1));
-	
+
 	/* rebuild time table from its deltas... */
 
 	GLOBALS->positional_information_lxt_c_1 = (int *)malloc_2(GLOBALS->total_cycles_lxt_c_2 * sizeof(int));
@@ -714,9 +714,9 @@ if(GLOBALS->sync_table_offset_lxt_c_1)
 
 		rc=gzread(zhandle, decmem, total_mem);
 		DEBUG(printf(LXTHDR"section offs for synctable decompression = %08x of len %d\n", offs, GLOBALS->zsync_table_size_lxt_c_1));
-		DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));	
+		DEBUG(printf(LXTHDR"Decompressed size is %d bytes (vs %d)\n", rc, total_mem));
 		if(rc!=total_mem) { fprintf(stderr, LXTHDR"decompression size disparity  %d bytes (vs %d)\n", rc, total_mem); exit(255); }
-	
+
 		offs=0;	/* we're in our new memory region now.. */
 		}
 
@@ -756,7 +756,7 @@ if(GLOBALS->zchg_size_lxt_c_1)
 		int fd2 = open(nam, O_RDONLY);
 		char testbyte[2]={0,0};
 		char is_bz2;
-	
+
 		unlink(nam);
 		if(fd_dummy >=0) close(fd_dummy);
 
@@ -770,32 +770,32 @@ if(GLOBALS->zchg_size_lxt_c_1)
 		if(is_bz2)
 			{
 			zhandle = BZ2_bzdopen(dup(GLOBALS->fd_lxt_c_1), "rb");
-	
+
 			while(len)
 				{
-				int siz = (len>32768) ? 32768 : len; 
-				rc = BZ2_bzread(zhandle, buf, siz);	
+				int siz = (len>32768) ? 32768 : len;
+				rc = BZ2_bzread(zhandle, buf, siz);
 				if(rc!=siz) { fprintf(stderr, LXTHDR"gzread error to tempfile %d (act) vs %d (exp), exiting.\n", rc, siz); exit(255); }
 				if(1 != fwrite(buf, siz, 1, tmp)) { fprintf(stderr, LXTHDR"fwrite error to tempfile, exiting.\n"); exit(255); };
-				len -= siz;		
+				len -= siz;
 				}
-	
+
 			fprintf(stderr, LXTHDR"...expanded %08x into %08x bytes.\n", GLOBALS->zchg_size_lxt_c_1, GLOBALS->zchg_predec_size_lxt_c_1);
 			BZ2_bzclose(zhandle);
 			}
 			else
 			{
 			zhandle = gzdopen(dup(GLOBALS->fd_lxt_c_1), "rb");
-	
+
 			while(len)
 				{
-				int siz = (len>32768) ? 32768 : len; 
-				rc = gzread(zhandle, buf, siz);	
+				int siz = (len>32768) ? 32768 : len;
+				rc = gzread(zhandle, buf, siz);
 				if(rc!=siz) { fprintf(stderr, LXTHDR"gzread error to tempfile %d (act) vs %d (exp), exiting.\n", rc, siz); exit(255); }
 				if(1 != fwrite(buf, siz, 1, tmp)) { fprintf(stderr, LXTHDR"fwrite error to tempfile, exiting.\n"); exit(255); };
-				len -= siz;		
+				len -= siz;
 				}
-	
+
 			fprintf(stderr, LXTHDR"...expanded %08x into %08x bytes.\n", GLOBALS->zchg_size_lxt_c_1, GLOBALS->zchg_predec_size_lxt_c_1);
 			gzclose(zhandle);
 			}
@@ -803,9 +803,9 @@ if(GLOBALS->zchg_size_lxt_c_1)
 		fflush(tmp);
 		fseeko(tmp, 0, SEEK_SET);
 		fclose(tmp);
-	
+
 		GLOBALS->fd_lxt_c_1 = fd2;
-		GLOBALS->mm_lxt_c_1=mmap(NULL, GLOBALS->zchg_predec_size_lxt_c_1, PROT_READ, MAP_SHARED, GLOBALS->fd_lxt_c_1, 0);	
+		GLOBALS->mm_lxt_c_1=mmap(NULL, GLOBALS->zchg_predec_size_lxt_c_1, PROT_READ, MAP_SHARED, GLOBALS->fd_lxt_c_1, 0);
 		GLOBALS->mm_lxt_mmap_addr = GLOBALS->mm_lxt_c_1;
 		GLOBALS->mm_lxt_mmap_len = GLOBALS->zchg_predec_size_lxt_c_1;
 		GLOBALS->mm_lxt_c_1=(void *)((char *)GLOBALS->mm_lxt_c_1-4); /* because header and version don't exist in packed change records */
@@ -828,7 +828,7 @@ if(GLOBALS->zchg_size_lxt_c_1)
 		fwrite(t, GLOBALS->zchg_size_lxt_c_1, 1, tmp); fseek(tmp, 0, SEEK_SET);
 		is_bz2 = (get_byte(GLOBALS->change_field_offset_lxt_c_1)=='B') && (get_byte(GLOBALS->change_field_offset_lxt_c_1+1)=='Z');
 		}
-#else		
+#else
 		if(GLOBALS->change_field_offset_lxt_c_1 != lseek(GLOBALS->fd_lxt_c_1, GLOBALS->change_field_offset_lxt_c_1, SEEK_SET)) { fprintf(stderr, LXTHDR"lseek error at offset %08x\n", (unsigned int)GLOBALS->change_field_offset_lxt_c_1); exit(255); }
 
 		is_bz2 = (read(GLOBALS->fd_lxt_c_1, &testbyte, 2))&&(testbyte[0]=='B')&&(testbyte[1]=='Z');
@@ -839,20 +839,20 @@ if(GLOBALS->zchg_size_lxt_c_1)
 		if(is_bz2)
 			{
 #if defined __MINGW32__ || defined _MSC_VER
-			zhandle = BZ2_bzdopen(dup(fileno(tmp)), "rb");			
+			zhandle = BZ2_bzdopen(dup(fileno(tmp)), "rb");
 #else
 			zhandle = BZ2_bzdopen(dup(GLOBALS->fd_lxt_c_1), "rb");
 #endif
-			
+
 			while(len)
 				{
-				int siz = (len>32768) ? 32768 : len; 
-				rc = BZ2_bzread(zhandle, pnt, siz);	
+				int siz = (len>32768) ? 32768 : len;
+				rc = BZ2_bzread(zhandle, pnt, siz);
 				if(rc!=siz) { fprintf(stderr, LXTHDR"BZ2_bzread error to buffer %d (act) vs %d (exp), exiting.\n", rc, siz); exit(255); }
 				pnt += siz;
-				len -= siz;		
+				len -= siz;
 				}
-	
+
 			fprintf(stderr, LXTHDR"...expanded %08x into %08x bytes.\n", GLOBALS->zchg_size_lxt_c_1, GLOBALS->zchg_predec_size_lxt_c_1);
 			BZ2_bzclose(zhandle);
 			}
@@ -865,13 +865,13 @@ if(GLOBALS->zchg_size_lxt_c_1)
 #endif
 			while(len)
 				{
-				int siz = (len>32768) ? 32768 : len; 
-				rc = gzread(zhandle, pnt, siz);	
+				int siz = (len>32768) ? 32768 : len;
+				rc = gzread(zhandle, pnt, siz);
 				if(rc!=siz) { fprintf(stderr, LXTHDR"gzread error to buffer %d (act) vs %d (exp), exiting.\n", rc, siz); exit(255); }
 				pnt += siz;
-				len -= siz;		
+				len -= siz;
 				}
-	
+
 			fprintf(stderr, LXTHDR"...expanded %08x into %08x bytes.\n", GLOBALS->zchg_size_lxt_c_1, GLOBALS->zchg_predec_size_lxt_c_1);
 			gzclose(zhandle);
 #if defined __MINGW32__ || defined _MSC_VER
@@ -879,11 +879,11 @@ if(GLOBALS->zchg_size_lxt_c_1)
 #endif
 			}
 
-		munmap(GLOBALS->mm_lxt_c_1, GLOBALS->f_len_lxt_c_1); 
+		munmap(GLOBALS->mm_lxt_c_1, GLOBALS->f_len_lxt_c_1);
 #if !defined __MINGW32__ && !defined _MSC_VER
 		close(GLOBALS->fd_lxt_c_1);
 #endif
-		
+
 		GLOBALS->fd_lxt_c_1=-1;
 		GLOBALS->mm_lxt_c_1=buf-4; /* because header and version don't exist in packed change records */
 		}
@@ -908,7 +908,7 @@ if(!GLOBALS->sync_table_offset_lxt_c_1)
 	FILE *tmp;
 	int recfd;
 	int fd_dummy;
-	
+
 	offs = GLOBALS->zchg_predec_size_lxt_c_1 ? 4 : 0;
 	fprintf(stderr, LXTHDR"Linear LXT encountered...\n");
 
@@ -957,9 +957,9 @@ if(!GLOBALS->sync_table_offset_lxt_c_1)
 		num_records++;
 
                 /* remake time vs position table on the fly */
-                if(!positional_kill) 
+                if(!positional_kill)
                         {
-                        if(offs == *positional_compar)  
+                        if(offs == *positional_compar)
                                 {
                                 *positional_compar = GLOBALS->fpos_lxt_c_1;
                                 positional_compar++;
@@ -1006,17 +1006,17 @@ if(!GLOBALS->sync_table_offset_lxt_c_1)
 		height = GLOBALS->mvlfacs_lxt_c_2[facidx].node_alias;
 		if(height)
 			{
-			if(height >= 256*65536)       
+			if(height >= 256*65536)
 			        {
 			        offs += 4;
 			        }
-			else                    
+			else
 			if(height >= 65536)
 			        {
 			        offs += 3;
 			        }
 			else
-			if(height >= 256)     
+			if(height >= 256)
 			        {
 			        offs += 2;
 			        }
@@ -1050,7 +1050,7 @@ if(!GLOBALS->sync_table_offset_lxt_c_1)
 		switch(cmd)
 			{
 			int modlen;
-			case 0x0:	
+			case 0x0:
 			modlen = (!(GLOBALS->mvlfacs_lxt_c_2[facidx].flags&LT_SYM_F_INTEGER)) ? GLOBALS->mvlfacs_lxt_c_2[facidx].len : 32;
 			if((GLOBALS->dict_string_mem_array_lxt_c_1) && (modlen>GLOBALS->dict_width_lxt_c_1))
 				{
@@ -1069,7 +1069,7 @@ if(!GLOBALS->sync_table_offset_lxt_c_1)
 					offs += 3;
 					}
 				else
-					{				
+					{
 					offs += 4;
 					}
 				}
@@ -1182,8 +1182,8 @@ if(!GLOBALS->sync_table_offset_lxt_c_1)
 		free_2((char *)GLOBALS->mm_lxt_c_1+4);
 		}
 
-	GLOBALS->fd_lxt_c_1 = recfd;            
-#if defined __MINGW32__ || defined _MSC_VER	
+	GLOBALS->fd_lxt_c_1 = recfd;
+#if defined __MINGW32__ || defined _MSC_VER
 	win_fname = nam;
 #endif
         GLOBALS->mm_lxt_c_1=mmap(NULL, GLOBALS->fpos_lxt_c_1-4, PROT_READ, MAP_SHARED, recfd, 0);
@@ -1216,7 +1216,7 @@ switch(v2)
 			unsigned int msk;
 			int bitcnt=0;
 			int ch;
-			
+
 			if((GLOBALS->dict_string_mem_array_lxt_c_1) && (l>GLOBALS->dict_width_lxt_c_1))
 				{
 				unsigned int dictpos;
@@ -1239,7 +1239,7 @@ switch(v2)
 					dictpos = get_24(offs);
 					}
 				else
-					{				
+					{
 					dictpos = get_32(offs);
 					}
 
@@ -1390,7 +1390,7 @@ if((GLOBALS->version_lxt_c_1=get_16((off_t)2))>LT_VERSION)
 	{
 	fprintf(stderr, "Version %d of LXT format AETs not supported, exiting.\n", GLOBALS->version_lxt_c_1);
 	vcd_exit(255);
-	}	
+	}
 
 if(get_byte(GLOBALS->f_len_lxt_c_1-1)!=LT_TRLID)
 	{
@@ -1437,7 +1437,7 @@ while((tag=get_byte(tagpnt))!=LT_SECTION_END)
 		case LT_SECTION_TIMEZERO:		GLOBALS->lxt_timezero_offset=offset; DEBUG(printf(LXTHDR"LT_SECTION_TIMEZERO = %08x\n", offset)); break;
 
 		default: fprintf(stderr, "Skipping unknown section tag %02x.\n", tag); break;
-		}	
+		}
 	}
 
 if(GLOBALS->lxt_timezero_offset)
@@ -1519,7 +1519,7 @@ if(GLOBALS->initial_value_offset_lxt_c_1)
 	GLOBALS->initial_value_lxt_c_1 = AN_X;
 	}
 
-	
+
 if(GLOBALS->zdictionary_offset_lxt_c_1)
 	{
 	if(GLOBALS->zdictionary_predec_size_lxt_c_1)
@@ -1551,7 +1551,7 @@ if(!GLOBALS->hier_was_explicitly_set)    /* set default hierarchy split char */
 for(i=0;i<GLOBALS->numfacs;i++)
         {
 	char buf[4096];
-	char *str;	
+	char *str;
 	struct fac *f;
 
 	if(GLOBALS->mvlfacs_lxt_c_2[i].flags&LT_SYM_F_ALIAS)
@@ -1630,7 +1630,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	                s=&sym_block[i];
 	                symadd_name_exists_sym_exists(s,str,0);
 			prevsymroot = prevsym = NULL;
-	
+
 			if(f->flags&LT_SYM_F_INTEGER)
 				{
 				node_block[i].msi=31;
@@ -1639,7 +1639,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 				}
 			}
 		}
-		
+
 	n=&node_block[i];
         n->nname=s->name;
         n->mv.mvlfac = GLOBALS->mvlfacs_lxt_c_2+i;
@@ -1672,7 +1672,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	GLOBALS->facs[i]=&sym_block[i];
         if((len=strlen(subst=GLOBALS->facs[i]->name))>GLOBALS->longestname) GLOBALS->longestname=len;
 	while((ch=(*subst)))
-		{	
+		{
 #ifdef WAVE_HIERFIX
 		if(ch==GLOBALS->hier_delimeter) { *subst=(!esc) ? VCDNAM_HIERSORT : VCDNAM_ESCAPE; }	/* forces sort at hier boundaries */
 #else
@@ -1686,7 +1686,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 fprintf(stderr, LXTHDR"Sorting facilities at hierarchy boundaries...");
 wave_heapsort(GLOBALS->facs,GLOBALS->numfacs);
 fprintf(stderr, "sorted.\n");
-	
+
 #ifdef WAVE_HIERFIX
 for(i=0;i<GLOBALS->numfacs;i++)
 	{
@@ -1694,7 +1694,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 	subst=GLOBALS->facs[i]->name;
 	while((ch=(*subst)))
-		{	
+		{
 		if(ch==VCDNAM_HIERSORT) { *subst=GLOBALS->hier_delimeter; }	/* restore back to normal */
 		subst++;
 		}
@@ -1709,8 +1709,8 @@ GLOBALS->facs_are_sorted=1;
 
 fprintf(stderr, LXTHDR"Building facility hierarchy tree...");
 /* SPLASH */                            splash_sync(4, 5);
-init_tree();		
-for(i=0;i<GLOBALS->numfacs;i++)	
+init_tree();
+for(i=0;i<GLOBALS->numfacs;i++)
 {
 char *nf = GLOBALS->facs[i]->name;
 build_tree_from_name(nf, i);
@@ -1722,14 +1722,14 @@ if(GLOBALS->escaped_names_found_vcd_c_1)
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *subst, ch;
-	
+
 		subst=GLOBALS->facs[i]->name;
 		while((ch=(*subst)))
-			{	
+			{
 			if(ch==VCDNAM_ESCAPE) { *subst=GLOBALS->hier_delimeter; }	/* restore back to normal */
 			subst++;
 			}
-	
+
 #ifdef DEBUG_FACILITIES
 		printf("%-4d %s\n",i,facs[i]->name);
 #endif
@@ -1830,7 +1830,7 @@ if(np->mv.mvlfac->flags&LT_SYM_F_ALIAS)
 			}
 			else
 			{
-			GLOBALS->resolve_lxt_alias_to[f->node_alias] = np; 
+			GLOBALS->resolve_lxt_alias_to[f->node_alias] = np;
 			}
 		}
 	}
@@ -1948,13 +1948,13 @@ while(offs)
 				unsigned int reconstructm3 = 0;
 				unsigned int rle_delta[2];
 				int ix;
-	
+
 				if((vval!=0)&&(vval!=3)&&(vval!=4))
 					{
 					fprintf(stderr, "Unexpected clk compress byte %02x at offset: %08x\n", get_byte(offsminus1), (unsigned int)offsminus1);
 					exit(0);
 					}
-	
+
 				switch(w&3)
 					{
 					case 0:	reps = get_byte(offs+skip); break;
@@ -1962,7 +1962,7 @@ while(offs)
 					case 2: reps = get_24(offs+skip); break;
 					case 3: reps = get_32(offs+skip); break;
 					}
-	
+
 				reps++;
 
 				DEBUG(fprintf(stderr, "!!! reps = %d\n", reps));
@@ -2028,7 +2028,7 @@ while(offs)
 					int k;
 					int jx = (reps - rcnt);
 					unsigned int res = reconstructm1 +
-						((jx/2)+(jx&0))*rle_delta[1] + 
+						((jx/2)+(jx&0))*rle_delta[1] +
 						((jx/2)+(jx&1))*rle_delta[0];
 
 					DEBUG(fprintf(stderr, "!!! %lld -> '%08x'\n", tmval, res));
@@ -2045,13 +2045,13 @@ while(offs)
 					htemp->next = histent_head;
 					histent_head = htemp;
 					np->numhist++;
-	
+
 					tmval-=delta;
 					}
 				}
 				else	/* compress to z on multibit */
 				{
-				int ix;	
+				int ix;
 
 				htemp = histent_calloc();
 				htemp->v.h_vector = (char *)malloc_2(len);
@@ -2073,13 +2073,13 @@ while(offs)
 				int vval = get_byte(offsminus1)&0xF;
 				int reps = 0;
 				int rcnt;
-	
+
 				if((vval<3)||(vval>4))
 					{
 					fprintf(stderr, "Unexpected clk compress byte %02x at offset: %08x\n", get_byte(offsminus1), (unsigned int)offsminus1);
 					exit(0);
 					}
-	
+
 				switch(w&3)
 					{
 					case 0:	reps = get_byte(offs+skip); break;
@@ -2087,11 +2087,11 @@ while(offs)
 					case 2: reps = get_24(offs+skip); break;
 					case 3: reps = get_32(offs+skip); break;
 					}
-	
+
 				reps++;
 				vval = (reps & 1) ^ (vval==4);	/* because x3='0', x4='1' */
 				vval = (vval==0) ? AN_0 : AN_1;
-	
+
 				tmval = time_offsminus1 + (delta * reps);
 				for(rcnt=0;rcnt<reps;rcnt++)
 					{
@@ -2108,7 +2108,7 @@ while(offs)
 						{
 						histent_head->time = tmval;
 						}
-	
+
 					tmval-=delta;
 					vval= (vval==AN_0) ? AN_1: AN_0;
 					}
@@ -2116,7 +2116,7 @@ while(offs)
 				else
 				{
 				int vval=AN_Z;
-	
+
 				if(vval!=histent_head->v.h_val)
 					{
 					htemp = histent_calloc();
@@ -2159,7 +2159,7 @@ while(offs)
                                         case 'l':       val = AN_L; break;
                                         case '-':       val = AN_DASH; break;
 				        }
-	
+
 				if(val!=histent_head->v.h_val)
 					{
 					htemp = histent_calloc();
@@ -2242,18 +2242,18 @@ while(offs)
 		}
 
 	prevtmval = tmval;
-	
+
 /*	v=get_byte(offs); */
 	switch(v&0xF0)
 		{
 		case 0x00:
 			offsdelta=get_byte(offs+1);
 			break;
-	
+
 		case 0x10:
 			offsdelta=get_16(offs+1);
 			break;
-	
+
 		case 0x20:
 			offsdelta=get_24(offs+1);
 			break;
@@ -2290,7 +2290,7 @@ for(j=0;j>-2;j--)
 				{
 				init = AN_X; /* x if unspecified */
 				}
-		
+
 			if(len>1)
 				{
 				char *pnt = htemp->v.h_vector = (char *)malloc_2(len);	/* zeros */
@@ -2310,7 +2310,7 @@ for(j=0;j>-2;j--)
 			htemp->flags = HIST_REAL;
 			if(f->flags&LT_SYM_F_STRING) htemp->flags |= HIST_STRING;
 			}
-	
+
 		htemp->time = GLOBALS->first_cycle_lxt_c_2+j;
 		htemp->next = histent_head;
 		histent_head = htemp;

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -82,9 +82,9 @@ static void draw_slider         (GtkStyle               *style,
 {
 if((GLOBALS)&&(widget == GLOBALS->hscroll_wavewindow_c_2))
 	{
-	GLOBALS->str_wid_x = x - widget->allocation.x; 
+	GLOBALS->str_wid_x = x - widget->allocation.x;
 	GLOBALS->str_wid_width = width;
-	GLOBALS->str_wid_bigw = widget->allocation.width;	
+	GLOBALS->str_wid_bigw = widget->allocation.width;
 	GLOBALS->str_wid_height = height;
 	}
 
@@ -98,15 +98,15 @@ int xi = event->x;
 int xl = GLOBALS->str_wid_x;
 int xr = GLOBALS->str_wid_x + GLOBALS->str_wid_width;
 
-if((xi > (xr-8)) && (xi < (xr+8))) 
+if((xi > (xr-8)) && (xi < (xr+8)))
 	{
-	GLOBALS->str_wid_state = 1; 
-	return(TRUE); 
+	GLOBALS->str_wid_state = 1;
+	return(TRUE);
 	}
-else if((xi < (xl+8)) && (xi > (xl-8))) 
-	{ 
-	GLOBALS->str_wid_state = -1; 
-	return(TRUE); 
+else if((xi < (xl+8)) && (xi > (xl-8)))
+	{
+	GLOBALS->str_wid_state = -1;
+	return(TRUE);
 	}
 
 return(FALSE);
@@ -166,7 +166,7 @@ if(GLOBALS->str_wid_state == 1)
 		if((r_margin > GLOBALS->tims.start) && (r_margin <= GLOBALS->tims.last))
 			{
 			service_dragzoom(GLOBALS->tims.start, r_margin);
-			}	
+			}
 		return(TRUE);
 		}
 	}
@@ -184,7 +184,7 @@ if(GLOBALS->str_wid_state == -1)
 			{
 			if(r_margin > GLOBALS->tims.last) r_margin = GLOBALS->tims.last;
 			service_dragzoom(l_margin, r_margin);
-			}	
+			}
 		return(TRUE);
 		}
 	}
@@ -205,10 +205,10 @@ return(FALSE);
 
 #define WAVE_SEG_BUF_CNT 1024
 
-static int seg_trans_cnt = 0, seg_low_cnt = 0, seg_high_cnt = 0, seg_mid_cnt = 0, seg_x_cnt = 0, seg_vtrans_cnt 
+static int seg_trans_cnt = 0, seg_low_cnt = 0, seg_high_cnt = 0, seg_mid_cnt = 0, seg_x_cnt = 0, seg_vtrans_cnt
 = 0, seg_0_cnt = 0, seg_1_cnt = 0, seg_vbox_cnt = 0;
 
-static GdkSegment seg_trans[WAVE_SEG_BUF_CNT], seg_low[WAVE_SEG_BUF_CNT], seg_high[WAVE_SEG_BUF_CNT], 
+static GdkSegment seg_trans[WAVE_SEG_BUF_CNT], seg_low[WAVE_SEG_BUF_CNT], seg_high[WAVE_SEG_BUF_CNT],
 seg_mid[WAVE_SEG_BUF_CNT], seg_x[WAVE_SEG_BUF_CNT], seg_vtrans[WAVE_SEG_BUF_CNT], seg_0[WAVE_SEG_BUF_CNT],
 seg_1[WAVE_SEG_BUF_CNT], seg_vbox[WAVE_SEG_BUF_CNT];
 
@@ -318,7 +318,7 @@ if(seg_vbox_cnt)
  */
 TimeType cook_markertime(TimeType marker, gint x, gint y)
 {
-int i, num_traces_displayable;                
+int i, num_traces_displayable;
 Trptr t = NULL;
 TimeType lft, rgh;
 char lftinv, rghinv;
@@ -342,13 +342,13 @@ for(i=0;i<26;i++)
 			{
 			if(marker < GLOBALS->named_markers[i])
 				{
-				dlt = GLOBALS->named_markers[i] - marker;			
+				dlt = GLOBALS->named_markers[i] - marker;
 				}
 				else
-				{		
-				dlt = marker - GLOBALS->named_markers[i];			
+				{
+				dlt = marker - GLOBALS->named_markers[i];
 				}
-			
+
 			if(dlt < closest_named)
 				{
 				closest_named = dlt;
@@ -392,7 +392,7 @@ if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if
                                 {
                                 break; /* found it */
                                 }
-                                else 
+                                else
                                 {
                                 tscan = NULL;
                                 }
@@ -488,7 +488,7 @@ if(xrghd<(gdouble)0.0) xrghd = ((gdouble)0.0) - xrghd;
 
 if(xlftd<=xrghd)
 	{
-	if((!lftinv)&&(xlftd<=GLOBALS->cursor_snap)) 
+	if((!lftinv)&&(xlftd<=GLOBALS->cursor_snap))
 		{
 		if(closest_which >= 0)
 		        {
@@ -505,7 +505,7 @@ if(xlftd<=xrghd)
 	}
 	else
 	{
-	if((!rghinv)&&(xrghd<=GLOBALS->cursor_snap)) 
+	if((!rghinv)&&(xrghd<=GLOBALS->cursor_snap))
 		{
 		if(closest_which >= 0)
 		        {
@@ -568,7 +568,7 @@ if((t=GLOBALS->named_markers[i])!=-1)
 				{
 				font_engine_draw_string(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->wavefont_smaller,
 					gc,
-					xl-(font_engine_string_measure(GLOBALS->wavefont_smaller, nbuff)>>1), 
+					xl-(font_engine_string_measure(GLOBALS->wavefont_smaller, nbuff)>>1),
 					GLOBALS->fontheight-2, nbuff);
 				}
 				else
@@ -577,13 +577,13 @@ if((t=GLOBALS->named_markers[i])!=-1)
 				if(blackout) /* blackout background so text is legible if overlaid with other marker labels */
 					{
 					gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_timeb_wavewindow_c_1, TRUE,
-						xl-(width>>1), GLOBALS->fontheight-2-GLOBALS->wavefont_smaller->ascent, 
+						xl-(width>>1), GLOBALS->fontheight-2-GLOBALS->wavefont_smaller->ascent,
 						width, GLOBALS->wavefont_smaller->ascent + GLOBALS->wavefont_smaller->descent);
 					}
 
 				font_engine_draw_string(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->wavefont_smaller,
 					gc,
-					xl-(width>>1), 
+					xl-(width>>1),
 					GLOBALS->fontheight-2, GLOBALS->marker_names[i]);
 				}
 			}
@@ -787,7 +787,7 @@ if(bt)
 			lclip -= lhs;
 			rclip -= lhs;
 			if(rclip>((GLOBALS->wavewidth+1)*GLOBALS->nspx)) rclip = (GLOBALS->wavewidth+1)*(GLOBALS->nspx);
-			
+
 			gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_xfill_wavewindow_c_1, TRUE, (((gdouble)lclip)*GLOBALS->pxns), GLOBALS->fontheight,(((gdouble)(rclip-lclip))*GLOBALS->pxns), GLOBALS->waveheight-GLOBALS->fontheight);
 			}
 
@@ -796,7 +796,7 @@ if(bt)
 	}
 }
 
-static void     
+static void
 service_hslider(GtkWidget *text, gpointer data)
 {
 DEBUG(printf("Wave HSlider Moved\n"));
@@ -827,7 +827,7 @@ if((GLOBALS->wavepixmap_wavewindow_c_1)&&(GLOBALS->wavewidth>1))
 	}
 }
 
-static void     
+static void
 service_vslider(GtkWidget *text, gpointer data)
 {
 GtkAdjustment *sadj, *hadj;
@@ -843,10 +843,10 @@ if(GLOBALS->signalpixmap)
 	trtarget=(int)(sadj->value);
 	DEBUG(printf("Wave VSlider Moved to %d\n",trtarget));
 
-		gdk_draw_rectangle(GLOBALS->signalpixmap, 
+		gdk_draw_rectangle(GLOBALS->signalpixmap,
 			GLOBALS->gc.gc_ltgray, TRUE, 0, 0,
 	            	GLOBALS->signal_fill_width, GLOBALS->signalarea->allocation.height);
-	
+
 		sync_marker();
 		RenderSigs(trtarget,(GLOBALS->old_wvalue==sadj->value)?0:1);
 
@@ -880,7 +880,7 @@ void button_press_release_common(void)
 {
 MaxSignalLength();
 
-gdk_draw_rectangle(GLOBALS->signalpixmap, 
+gdk_draw_rectangle(GLOBALS->signalpixmap,
 	GLOBALS->gc.gc_ltgray, TRUE, 0, 0,
         GLOBALS->signal_fill_width, GLOBALS->signalarea->allocation.height);
 sync_marker();
@@ -906,7 +906,7 @@ if(GLOBALS->signalarea_has_focus)
 	}
 }
 
-static void button_motion_common(gint xin, gint yin, int pressrel, int is_button_2) 
+static void button_motion_common(gint xin, gint yin, int pressrel, int is_button_2)
 {
 gdouble x,offset,pixstep;
 TimeType newcurr;
@@ -944,7 +944,7 @@ if(!is_button_2)
 
 	draw_marker_partitions();
 
-	if((pressrel)||(GLOBALS->constant_marker_update)) 
+	if((pressrel)||(GLOBALS->constant_marker_update))
 		{
 		button_press_release_common();
 		}
@@ -972,7 +972,7 @@ gint xi, yi;
 int dummy_x, dummy_y;
 get_window_xypos(&dummy_x, &dummy_y);
 
-if(event->is_hint)   
+if(event->is_hint)
         {
 	WAVE_GDK_GET_POINTER(event->window, &x, &y, &xi, &yi, &state);
 	WAVE_GDK_GET_POINTER_COPY;
@@ -990,11 +990,11 @@ do
 	if(state&bmask[GLOBALS->in_button_press_wavewindow_c_1]) /* needed for retargeting in AIX/X11 */
 		{
 		if(x<0)
-			{ 
+			{
 			if(GLOBALS->wave_scrolling)
 			if(GLOBALS->tims.start>GLOBALS->tims.first)
 				{
-				if(GLOBALS->nsperframe<10) 
+				if(GLOBALS->nsperframe<10)
 					{
 					GLOBALS->tims.start-=GLOBALS->nsperframe;
 					}
@@ -1004,24 +1004,24 @@ do
 					}
 				if(GLOBALS->tims.start<GLOBALS->tims.first) GLOBALS->tims.start=GLOBALS->tims.first;
 				GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.marker=time_trunc(GLOBALS->tims.timecache=GLOBALS->tims.start);
-	
+
 				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed");
 				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed");
 				scrolled=1;
-				}	
-			x=0; 
+				}
+			x=0;
 			}
 		else
-		if(x>GLOBALS->wavewidth) 
-			{ 
+		if(x>GLOBALS->wavewidth)
+			{
 			if(GLOBALS->wave_scrolling)
 			if(GLOBALS->tims.start!=GLOBALS->tims.last)
 				{
 				gfloat pageinc;
-		
+
 				pageinc=(gfloat)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
-	
-				if(GLOBALS->nsperframe<10) 
+
+				if(GLOBALS->nsperframe<10)
 					{
 					GLOBALS->tims.start+=GLOBALS->nsperframe;
 					}
@@ -1029,22 +1029,22 @@ do
 					{
 					GLOBALS->tims.start+=(GLOBALS->nsperframe/10);
 					}
-	
+
 				if(GLOBALS->tims.start>GLOBALS->tims.last-pageinc+1) GLOBALS->tims.start=time_trunc(GLOBALS->tims.last-pageinc+1);
 				if(GLOBALS->tims.start<GLOBALS->tims.first) GLOBALS->tims.start=GLOBALS->tims.first;
-	
+
 				GLOBALS->tims.marker=time_trunc(GLOBALS->tims.start+pageinc);
 				if(GLOBALS->tims.marker>GLOBALS->tims.last) GLOBALS->tims.marker=GLOBALS->tims.last;
-		
+
 				GTK_ADJUSTMENT(GLOBALS->wave_hslider)->value=GLOBALS->tims.timecache=GLOBALS->tims.start;
-	
+
 				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed");
 				gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed");
 				scrolled=1;
 				}
-			x=GLOBALS->wavewidth-1; 
+			x=GLOBALS->wavewidth-1;
 			}
-		}	
+		}
 	else if((state&GDK_BUTTON2_MASK)&&(GLOBALS->tims.baseline>=0))
 		{
 		button_motion_common(x,y,0,-1); /* neg one says don't clear tims.baseline */
@@ -1056,15 +1056,15 @@ do
 	        {
 	        newcurr++;
 	        }
-	
+
 	if(newcurr>GLOBALS->tims.last) newcurr=GLOBALS->tims.last;
-	
+
 	if(newcurr!=GLOBALS->prevtim_wavewindow_c_1)
 		{
 		update_currenttime(time_trunc(newcurr));
 		GLOBALS->prevtim_wavewindow_c_1=newcurr;
 		}
-	
+
 	if(state&bmask[GLOBALS->in_button_press_wavewindow_c_1])
 		{
 		button_motion_common(x,y,0,0);
@@ -1100,7 +1100,7 @@ do
 		                	delta=GLOBALS->tims.first-GLOBALS->tims.last;
 		                	if(gt<delta) gt=delta;
 		                	}
-		       		else 
+		       		else
 				if(gt>0)
 		                	{
 		                	delta=GLOBALS->tims.last-GLOBALS->tims.first;
@@ -1145,16 +1145,16 @@ static void alternate_y_scroll(int delta)
 GtkAdjustment *wadj=GTK_ADJUSTMENT(GLOBALS->wave_vslider);
 int value = (int)wadj->value;
 int target = value + delta;
-                
+
 int num_traces_displayable=(GLOBALS->signalarea->allocation.height)/(GLOBALS->fontheight);
 num_traces_displayable--;   /* for the time trace that is always there */
-                
+
 if(target > GLOBALS->traces.visible - num_traces_displayable) target = GLOBALS->traces.visible - num_traces_displayable;
 
 if(target < 0) target = 0;
-         
+
 wadj->value = target;
-         
+
 gtk_signal_emit_by_name (GTK_OBJECT (wadj), "changed"); /* force bar update */
 gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /* force text update */
 }
@@ -1165,7 +1165,7 @@ gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /* force text upda
  * TomB 05Feb2012
  */
 
-#define SANE_INCREMENT 0.25 
+#define SANE_INCREMENT 0.25
 /* don't want to increment a whole page thereby completely losing where I am... */
 
 void
@@ -1436,7 +1436,7 @@ static gint button_press_event(GtkWidget *widget, GdkEventButton *event)
 if((event->button==1)||((event->button==3)&&(!GLOBALS->in_button_press_wavewindow_c_1)))
 	{
 	GLOBALS->in_button_press_wavewindow_c_1=event->button;
-	
+
 	DEBUG(printf("Button Press Event\n"));
 	GLOBALS->prev_markertime = GLOBALS->tims.marker;
 	button_motion_common(event->x,event->y,1,0);
@@ -1446,7 +1446,7 @@ if((event->button==1)||((event->button==3)&&(!GLOBALS->in_button_press_wavewindo
 		m_bmask[GLOBALS->in_button_press_wavewindow_c_1] | /* key up on motion for button pressed ONLY */
 		GDK_POINTER_MOTION_HINT_MASK |
 	      	GDK_BUTTON_RELEASE_MASK, NULL, NULL, event->time);
-	
+
 #ifdef MAC_INTEGRATION
 	if ((event->state & GDK_MOD2_MASK) && (event->button==1))
 #else
@@ -1457,7 +1457,7 @@ if((event->button==1)||((event->button==3)&&(!GLOBALS->in_button_press_wavewindo
 
 		while(t)
 			{
-			if((t->flags & TR_HIGHLIGHT)&&(!t->shift_drag_valid))			
+			if((t->flags & TR_HIGHLIGHT)&&(!t->shift_drag_valid))
 				{
 				t->shift_drag = t->shift; /* cache old value */
 				t->shift_drag_valid = 1;
@@ -1499,7 +1499,7 @@ if((event->button)&&(event->button==GLOBALS->in_button_press_wavewindow_c_1))
 #else
 		if(event->state & GDK_CONTROL_MASK)
 #endif
-			{	
+			{
 			TimeType gt, delta;
 
 	          	while ( t )
@@ -1508,23 +1508,23 @@ if((event->button)&&(event->button==GLOBALS->in_button_press_wavewindow_c_1))
 	            			{
 		      			warp++;
 	              			gt = (t->shift_drag_valid ? t-> shift_drag : t->shift) + (GLOBALS->tims.marker - GLOBALS->tims.lmbcache);
-	
+
 			        	if(gt<0)
 	        		        	{
 			                	delta=GLOBALS->tims.first-GLOBALS->tims.last;
 			                	if(gt<delta) gt=delta;
 			                	}
-			       		else 
+			       		else
 					if(gt>0)
 			                	{
 			                	delta=GLOBALS->tims.last-GLOBALS->tims.first;
 			                	if(gt>delta) gt=delta;
 			                	}
 					t->shift = gt;
-	
+
 	              			t->flags &= ( ~TR_HIGHLIGHT );
 	            			}
-	
+
 				t->shift_drag_valid = 0;
 	            		t = t->t_next;
 	          		}
@@ -1627,17 +1627,17 @@ if(!GLOBALS->made_gc_contexts_wavewindow_c_1)
 	{
 	int i;
 
-	GLOBALS->gc.gc_back_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_back, GLOBALS->wavearea->style->white_gc);    
-	GLOBALS->gc.gc_baseline_wavewindow_c_1 = alloc_color(GLOBALS->wavearea, GLOBALS->color_baseline, GLOBALS->wavearea->style->bg_gc[GTK_STATE_SELECTED]);    
+	GLOBALS->gc.gc_back_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_back, GLOBALS->wavearea->style->white_gc);
+	GLOBALS->gc.gc_baseline_wavewindow_c_1 = alloc_color(GLOBALS->wavearea, GLOBALS->color_baseline, GLOBALS->wavearea->style->bg_gc[GTK_STATE_SELECTED]);
 	GLOBALS->gc.gc_grid_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_grid, GLOBALS->wavearea->style->bg_gc[GTK_STATE_PRELIGHT]);
 	GLOBALS->gc.gc_grid2_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_grid2, GLOBALS->wavearea->style->bg_gc[GTK_STATE_ACTIVE]);
 	GLOBALS->gc.gc_time_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_time, GLOBALS->wavearea->style->black_gc);
 	GLOBALS->gc.gc_timeb_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_timeb, GLOBALS->wavearea->style->bg_gc[GTK_STATE_ACTIVE]);
 	GLOBALS->gc.gc_value_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_value, GLOBALS->wavearea->style->black_gc);
-	GLOBALS->gc.gc_low_wavewindow_c_1    = alloc_color(GLOBALS->wavearea, GLOBALS->color_low, GLOBALS->wavearea->style->black_gc);    
-	GLOBALS->gc.gc_high_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_high, GLOBALS->wavearea->style->black_gc);    
-	GLOBALS->gc.gc_trans_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_trans, GLOBALS->wavearea->style->black_gc);    
-	GLOBALS->gc.gc_mid_wavewindow_c_1    = alloc_color(GLOBALS->wavearea, GLOBALS->color_mid, GLOBALS->wavearea->style->black_gc);    
+	GLOBALS->gc.gc_low_wavewindow_c_1    = alloc_color(GLOBALS->wavearea, GLOBALS->color_low, GLOBALS->wavearea->style->black_gc);
+	GLOBALS->gc.gc_high_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_high, GLOBALS->wavearea->style->black_gc);
+	GLOBALS->gc.gc_trans_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_trans, GLOBALS->wavearea->style->black_gc);
+	GLOBALS->gc.gc_mid_wavewindow_c_1    = alloc_color(GLOBALS->wavearea, GLOBALS->color_mid, GLOBALS->wavearea->style->black_gc);
 	GLOBALS->gc.gc_xfill_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_xfill, GLOBALS->wavearea->style->bg_gc[GTK_STATE_PRELIGHT]);
 	GLOBALS->gc.gc_x_wavewindow_c_1      = alloc_color(GLOBALS->wavearea, GLOBALS->color_x, GLOBALS->wavearea->style->black_gc);
 	GLOBALS->gc.gc_vbox_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_vbox, GLOBALS->wavearea->style->black_gc);
@@ -1683,7 +1683,7 @@ if(!GLOBALS->made_gc_contexts_wavewindow_c_1)
 
 	memcpy(&GLOBALS->gccache, &GLOBALS->gc, sizeof(struct wave_gcmaster_t));
 
-	/* add rainbow colors */	
+	/* add rainbow colors */
 	for(i=0;i<WAVE_NUM_RAINBOW;i++)
 		{
 		int col = wave_rgb_rainbow[i];
@@ -1709,7 +1709,7 @@ if(GLOBALS->timestart_from_savefile_valid)
 		GtkAdjustment *hadj = GTK_ADJUSTMENT(GLOBALS->wave_hslider);
 		hadj->value = GLOBALS->timestart_from_savefile;
 		fix_wavehadj();
-		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */ 
+		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */
 		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed"); /* force zoom update */
 		}
 	GLOBALS->timestart_from_savefile_valid = 0;
@@ -1721,14 +1721,14 @@ if(GLOBALS->wavewidth>1)
 		{
 		calczoom(GLOBALS->tims.zoom);
 		fix_wavehadj();
-		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */ 
+		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */
 		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed"); /* force zoom update */
 		}
 		else
 		{
 		GLOBALS->do_initial_zoom_fit_used=1;
 		service_zoom_fit(NULL,NULL);
-		}	
+		}
 	}
 
 /* tims.timecache=tims.laststart; */
@@ -1737,7 +1737,7 @@ return(TRUE);
 
 /*
  * screengrab vs normal rendering gcs...
- */ 
+ */
 void force_screengrab_gcs(void)
 {
 GLOBALS->black_and_white = 1;
@@ -1841,7 +1841,7 @@ gtk_widget_set_events(GLOBALS->wavearea,
 #ifdef WAVE_USE_GTK2
 		GDK_SCROLL_MASK |
 #endif
-                GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK | 
+                GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK |
                 GDK_BUTTON_RELEASE_MASK |
                 GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK
                 );
@@ -1885,15 +1885,15 @@ if(GLOBALS->enable_slider_zoom)
 
 	if(!draw_slider_p)
 		{
-		GtkStyle *gs = gtk_widget_get_style(GLOBALS->hscroll_wavewindow_c_2); 
+		GtkStyle *gs = gtk_widget_get_style(GLOBALS->hscroll_wavewindow_c_2);
 		draw_slider_p = GTK_STYLE_GET_CLASS(gs)->draw_slider;
 		GTK_STYLE_GET_CLASS(gs)->draw_slider = draw_slider;
 		}
-	
+
 	memset(&gvalue, 0, sizeof(GValue));
 	g_value_init(&gvalue, G_TYPE_INT);
 	gtk_widget_style_get_property(GLOBALS->hscroll_wavewindow_c_2, "min-slider-length", &gvalue);
-	
+
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "button_press_event",GTK_SIGNAL_FUNC(slider_bpr), NULL);
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "button_release_event",GTK_SIGNAL_FUNC(slider_brr), NULL);
 	gtkwave_signal_connect(GTK_OBJECT(GLOBALS->hscroll_wavewindow_c_2), "motion_notify_event",GTK_SIGNAL_FUNC(slider_mnr), NULL);
@@ -1912,7 +1912,7 @@ gtk_container_border_width(GTK_CONTAINER(frame),2);
 gtk_container_add(GTK_CONTAINER(frame),table);
 return(frame);
 }
-   
+
 
 /**********************************************/
 
@@ -1930,9 +1930,9 @@ xsrc=(gint)hadj->value;
 num_traces_displayable=GLOBALS->signalarea->allocation.height/(GLOBALS->fontheight);
 num_traces_displayable--;   /* for the time trace that is always there */
 
-gdk_draw_rectangle(GLOBALS->signalpixmap, GLOBALS->gc.gc_mdgray, TRUE, 0, -1, GLOBALS->signal_fill_width, GLOBALS->fontheight); 
+gdk_draw_rectangle(GLOBALS->signalpixmap, GLOBALS->gc.gc_mdgray, TRUE, 0, -1, GLOBALS->signal_fill_width, GLOBALS->fontheight);
 gdk_draw_line(GLOBALS->signalpixmap, GLOBALS->gc_white, 0, GLOBALS->fontheight-1, GLOBALS->signal_fill_width-1, GLOBALS->fontheight-1);
-font_engine_draw_string(GLOBALS->signalpixmap, GLOBALS->signalfont, GLOBALS->gc_black, 
+font_engine_draw_string(GLOBALS->signalpixmap, GLOBALS->signalfont, GLOBALS->gc_black,
 	3+xsrc, GLOBALS->fontheight-4, "Time");
 
 t=GLOBALS->traces.first;
@@ -1962,7 +1962,7 @@ if(t)
 
 if(GLOBALS->signalarea_has_focus)
 	{
-	gdk_draw_rectangle(GLOBALS->signalpixmap, GLOBALS->gc_black, FALSE, 0, 0, GLOBALS->signal_fill_width-1, GLOBALS->signalarea->allocation.height-1); 
+	gdk_draw_rectangle(GLOBALS->signalpixmap, GLOBALS->gc_black, FALSE, 0, 0, GLOBALS->signal_fill_width-1, GLOBALS->signalarea->allocation.height-1);
 	}
 
 if((GLOBALS->wavepixmap_wavewindow_c_1)&&(update_waves))
@@ -1983,7 +1983,7 @@ void populateBuffer (Trptr t, char *altname, char* buf)
 
   if (HasWave(t))
     {
-      if (tname) 
+      if (tname)
 	{
 	  strcpy(ptr, tname);
 	  ptr = ptr + strlen(ptr);
@@ -2023,7 +2023,7 @@ void populateBuffer (Trptr t, char *altname, char* buf)
     }
   else
     {
-      if (tname) 
+      if (tname)
 	{
 
 	  if (IsGroupEnd(t))
@@ -2062,10 +2062,10 @@ int RenderSig(Trptr t, int i, int dobackground)
   GdkGC *clr_group;
   GdkGC *clr_shadowed;
   GdkGC *clr_signal;
-  GdkGC* bg_color;  
+  GdkGC* bg_color;
   GdkGC* text_color;
   unsigned left_justify;
-  char *subname = NULL; 
+  char *subname = NULL;
   bvptr bv = NULL;
 
   buf[0] = 0;
@@ -2144,13 +2144,13 @@ int RenderSig(Trptr t, int i, int dobackground)
   if (dobackground || IsSelected(t))
     {
 
-      gdk_draw_rectangle(GLOBALS->signalpixmap, bg_color, TRUE, 
+      gdk_draw_rectangle(GLOBALS->signalpixmap, bg_color, TRUE,
 			 0, retval,
 			 GLOBALS->signal_fill_width, GLOBALS->fontheight-1);
 
     }
 
-  gdk_draw_line(GLOBALS->signalpixmap, 
+  gdk_draw_line(GLOBALS->signalpixmap,
 		GLOBALS->gc_white,
 		0, liney,
 		GLOBALS->signal_fill_width-1, liney);
@@ -2161,11 +2161,11 @@ int RenderSig(Trptr t, int i, int dobackground)
 			      GLOBALS->signalfont,
 			      text_color,
 			      left_justify?3:3+GLOBALS->max_signal_name_pixel_width-
-			      font_engine_string_measure(GLOBALS->signalfont, buf), 
+			      font_engine_string_measure(GLOBALS->signalfont, buf),
 			      texty,
 			      buf);
 
-      
+
     }
 
   if (HasWave(t) || bv)
@@ -2233,7 +2233,7 @@ while(t)
                         bcnt++; /* bcnt is number of blank traces */
                         }
                 }
-  
+
         if((tscan)&&(tscan->vector))
                 {
                 bv = tscan->n.vec;
@@ -2374,7 +2374,7 @@ while(t)
 						*str2='=';
 						strcpy(str2+1,str);
 
-						free_2(str); 
+						free_2(str);
 
 						vlen=font_engine_string_measure(GLOBALS->signalfont,str2);
 						t->asciivalue=str2;
@@ -2471,7 +2471,7 @@ if(!GLOBALS->in_button_press_wavewindow_c_1)
 				int os;
 				os=rs;
 				os=(os<48)?48:os;
-				gtk_widget_set_usize(GTK_WIDGET(GLOBALS->signalwindow), 
+				gtk_widget_set_usize(GTK_WIDGET(GLOBALS->signalwindow),
 						os+30, -1);
 				}
 				else
@@ -2483,7 +2483,7 @@ if(!GLOBALS->in_button_press_wavewindow_c_1)
 		                        os = GLOBALS->initial_signal_window_width;
 		                        }
 
-				gtk_widget_set_usize(GTK_WIDGET(GLOBALS->signalwindow), 
+				gtk_widget_set_usize(GTK_WIDGET(GLOBALS->signalwindow),
 						os+30, -1);
 				}
 			}
@@ -2503,7 +2503,7 @@ if((t->asciivalue)&&(t->asciitime==GLOBALS->tims.marker))return;
 if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if present... */
         {
         int bcnt = 0;
-        tscan = t;   
+        tscan = t;
         while((tscan) && (tscan = GivePrevTrace(tscan)))
                 {
                 if(!(tscan->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH)))
@@ -2511,12 +2511,12 @@ if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if
                         if(tscan->flags & TR_TTRANSLATED)
                                 {
                                 break; /* found it */
-                                }   
+                                }
                                 else
                                 {
                                 tscan = NULL;
                                 }
-                        }   
+                        }
                         else
                         {
                         bcnt++; /* bcnt is number of blank traces */
@@ -2530,7 +2530,7 @@ if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if
                         {
                         bv = bv->transaction_chain; /* correlate to blank trace */
                         } while(bv && (bcnt--));
-                if(bv)   
+                if(bv)
                         {
 			/* nothing, we just want to set bv */
                         }
@@ -2554,7 +2554,7 @@ if((t->name || bv)&&(bv || !(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))))
 			vptr v;
                         Trptr ts;
                         TraceEnt t_temp;
-         
+
                         if(bv)
                                 {
                                 ts = &t_temp;
@@ -2595,7 +2595,7 @@ if((t->name || bv)&&(bv || !(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))))
 					unsigned char h_val = h_ptr->v.h_val;
 					if(t->n.nd->vartype == ND_VCD_EVENT)
 						{
-						h_val = (h_ptr->time >= GLOBALS->tims.first) && ((GLOBALS->tims.marker-GLOBALS->shift_timebase) == h_ptr->time) ? AN_1 : AN_0; /* generate impulse */ 
+						h_val = (h_ptr->time >= GLOBALS->tims.first) && ((GLOBALS->tims.marker-GLOBALS->shift_timebase) == h_ptr->time) ? AN_1 : AN_0; /* generate impulse */
 						}
 
 					str=(char *)calloc_2(1,3*sizeof(char));
@@ -2731,7 +2731,7 @@ WAVE_STRACE_ITERATOR(s_ctx_iter)
 		}
 	}
 
-gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_grid_wavewindow_c_1,x, 0,x, 
+gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_grid_wavewindow_c_1,x, 0,x,
 	((!timearray_encountered)&&(GLOBALS->display_grid)&&(GLOBALS->enable_vert_grid))?GLOBALS->waveheight:fhminus2);
 
 if(tim==GLOBALS->tims.last) return;
@@ -2754,7 +2754,7 @@ while((hashoffset<GLOBALS->pixelsperframe)&&(x<=rhs)&&(iter<9))
 	dx=dx+GLOBALS->hashstep;
 	if((GLOBALS->pixelsperframe!=200)||(GLOBALS->hashstep!=10.0)) iter++; /* fix any roundoff errors */
 	x = dx;
-	} 
+	}
 
 }
 
@@ -2782,7 +2782,7 @@ WAVE_STRACE_ITERATOR_FWD(s_ctx_iter)
 	GdkGC * gc;
 
 	if(!s_ctx_iter)
-		{ 
+		{
 		gc = GLOBALS->gc.gc_grid_wavewindow_c_1;
 		}
 		else
@@ -2815,7 +2815,7 @@ WAVE_STRACE_ITERATOR_FWD(s_ctx_iter)
 					if(tm<=GLOBALS->tims.end)
 						{
 						x=(tm-GLOBALS->tims.start)*GLOBALS->pxns;
-						if(oldx==x) 
+						if(oldx==x)
 							{
 							pos2=bsearch_timechain(GLOBALS->tims.start+(((gdouble)(x+1))*GLOBALS->nspx));
 							if(pos2>pos) { pos=pos2; goto top; } else continue;
@@ -2832,7 +2832,7 @@ WAVE_STRACE_ITERATOR_FWD(s_ctx_iter)
 			}
 		}
 
-	
+
 	wave_gdk_draw_line_flush(GLOBALS->wavepixmap_wavewindow_c_1); /* clear out state */
 
 	if(s_ctx_iter)
@@ -2856,7 +2856,7 @@ if(GLOBALS->ruler_step && !timearray_encountered)
 	for(iter_x = low_x; iter_x <= high_x; iter_x++)
 		{
 		tm = GLOBALS->ruler_step * iter_x +  GLOBALS->ruler_origin;
-		x=(tm-GLOBALS->tims.start)*GLOBALS->pxns;		
+		x=(tm-GLOBALS->tims.start)*GLOBALS->pxns;
 		if(oldx==x)
 			{
 			gdouble xd,offset,pixstep;
@@ -3005,13 +3005,13 @@ if(GLOBALS->topmost_trace)
 		{
 		if(tback->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))
 			{
-			tback = GivePrevTrace(tback);			
+			tback = GivePrevTrace(tback);
 			iback--;
 			}
 		else if(tback->flags & TR_TTRANSLATED)
 			{
-			if(tback != t) 
-				{ 
+			if(tback != t)
+				{
 				t = tback;
 				i = iback;
 				}
@@ -3035,7 +3035,7 @@ if(GLOBALS->topmost_trace)
 
 				if(!t->n.nd->extvals)
 					{
-					if(i>=0) 
+					if(i>=0)
 						{
 						gc_save(t, &gc_sav);
 						draw_hptr_trace(t,h,i,1,0);
@@ -3044,7 +3044,7 @@ if(GLOBALS->topmost_trace)
 					}
 					else
 					{
-					if(i>=0) 
+					if(i>=0)
 						{
 						gc_save(t, &gc_sav);
 						draw_hptr_trace_vector(t,h,i);
@@ -3060,7 +3060,7 @@ if(GLOBALS->topmost_trace)
 				v=bsearch_vector(bv, GLOBALS->tims.start - t->shift);
 				DEBUG(printf("Vector Trace: %s, %s\n", t->name, bv->bvname));
 				DEBUG(printf("Start time: "TTFormat", Vectorent time: "TTFormat"\n", GLOBALS->tims.start,(v->time+GLOBALS->shift_timebase)));
-				if(i>=0) 
+				if(i>=0)
 					{
 					gc_save(t, &gc_sav);
 					draw_vptr_trace(t,v,i);
@@ -3081,7 +3081,7 @@ if(GLOBALS->topmost_trace)
 							if(i<num_traces_displayable)
 								{
 								v=bsearch_vector(bv, GLOBALS->tims.start - t->shift);
-								if(i>=0) 
+								if(i>=0)
 									{
 									gc_save(t, &gc_sav);
 									draw_vptr_trace(t_orig,v,i);
@@ -3103,7 +3103,7 @@ if(GLOBALS->topmost_trace)
 			if(kill_dodraw_grid)
 				{
 				Trptr tn = GiveNextTrace(t);
-				if(!tn) 
+				if(!tn)
 					{
 					kill_dodraw_grid = 0;
 					}
@@ -3113,8 +3113,8 @@ if(GLOBALS->topmost_trace)
 					kill_dodraw_grid = 0;
 					}
 				}
-			
-			if(i>=0) 
+
+			if(i>=0)
 				{
 				gc_save(t, &gc_sav);
 				draw_hptr_trace(NULL,NULL,i,0,kill_dodraw_grid);
@@ -3162,13 +3162,13 @@ GLOBALS->tims.end-=GLOBALS->shift_timebase;
 liney=((which+2)*GLOBALS->fontheight)-2;
 if(((t)&&(t->flags&TR_INVERT))&&(!is_event))
 	{
-	_y0=((which+1)*GLOBALS->fontheight)+2;	
+	_y0=((which+1)*GLOBALS->fontheight)+2;
 	_y1=liney-2;
 	invert=1;
 	}
 	else
 	{
-	_y1=((which+1)*GLOBALS->fontheight)+2;	
+	_y1=((which+1)*GLOBALS->fontheight)+2;
 	_y0=liney-2;
 	invert=0;
 	}
@@ -3179,8 +3179,8 @@ if((GLOBALS->display_grid)&&(GLOBALS->enable_horiz_grid)&&(!kill_grid))
 	{
 	if((GLOBALS->highlight_wavewindow) && (t) && (t->flags & TR_HIGHLIGHT) && (!GLOBALS->black_and_white))
 		{
-		gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_grid_wavewindow_c_1, 
-			TRUE,0, liney - GLOBALS->fontheight, 
+		gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_grid_wavewindow_c_1,
+			TRUE,0, liney - GLOBALS->fontheight,
 			GLOBALS->wavewidth, GLOBALS->fontheight);
 		}
 		else
@@ -3213,9 +3213,9 @@ tim=(h->time);
 if((tim>GLOBALS->tims.end)||(tim>GLOBALS->tims.last)) break;
 
 _x0=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
-if(_x0<-1) 
-	{ 
-	_x0=-1; 
+if(_x0<-1)
+	{
+	_x0=-1;
 	}
 	else
 if(_x0>GLOBALS->wavewidth)
@@ -3229,9 +3229,9 @@ h2tim=tim=(h2->time);
 if(tim>GLOBALS->tims.last) tim=GLOBALS->tims.last;
 	else if(tim>GLOBALS->tims.end+1) tim=GLOBALS->tims.end+1;
 _x1=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
-if(_x1<-1) 
-	{ 
-	_x1=-1; 
+if(_x1<-1)
+	{
+	_x1=-1;
 	}
 	else
 if(_x1>GLOBALS->wavewidth)
@@ -3245,9 +3245,9 @@ if(_x0!=_x1)
 		{
 		if(h->time >= GLOBALS->tims.first)
 			{
-			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y0, _x0, _y1); 
-			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0+2, _y1+2); 
-			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0-2, _y1+2); 
+			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y0, _x0, _y1);
+			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0+2, _y1+2);
+			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0-2, _y1+2);
 			}
 		h=h->next;
 		continue;
@@ -3281,7 +3281,7 @@ if(_x0!=_x1)
 			default:	wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, c, _x1, _y0, _x1, _y1); break;
 			}
 		break;
-	
+
 		case AN_X: /* X */
 		case AN_W: /* W */
 		case AN_U: /* U */
@@ -3298,11 +3298,11 @@ if(_x0!=_x1)
 
 		if(invert)
 			{
-			gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, gcx, TRUE,_x0+1, _y0, _x1-_x0, _y1-_y0+1); 
+			gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, gcx, TRUE,_x0+1, _y0, _x1-_x0, _y1-_y0+1);
 			}
 			else
 			{
-			gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, gcxf, TRUE,_x0+1, _y1, _x1-_x0, _y0-_y1+1); 
+			gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, gcxf, TRUE,_x0+1, _y1, _x1-_x0, _y0-_y1+1);
 			}
 
 		if(identifier_str[0])
@@ -3323,14 +3323,14 @@ if(_x0!=_x1)
 		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gcx,_x0, _y1,_x1, _y1);
 		if(h2tim<=GLOBALS->tims.end) wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, c, _x1, _y0, _x1, _y1);
 		break;
-		
+
 		case AN_Z: /* Z */
 		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_mid_wavewindow_c_1,_x0, yu,_x1, yu);
 		if(h2tim<=GLOBALS->tims.end)
 		switch(h2val)
 			{
 			case AN_0:
-			case AN_L: 	
+			case AN_L:
 					wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, c, _x1, yu, _x1, _y0); break;
 			case AN_1:
 			case AN_H:
@@ -3338,7 +3338,7 @@ if(_x0!=_x1)
 			default:	wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, c, _x1, _y0, _x1, _y1); break;
 			}
 		break;
-		
+
 		case AN_1: /* 1 */
 		case AN_H: /* 1 */
 		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, (hval==AN_1) ? GLOBALS->gc.gc_1_wavewindow_c_1 : GLOBALS->gc.gc_high_wavewindow_c_1,_x0, _y1,_x1, _y1);
@@ -3348,7 +3348,7 @@ if(_x0!=_x1)
 			case AN_1:
 			case AN_H:	break;
 
-			case AN_0: 	
+			case AN_0:
 			case AN_L:
 					wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, c, _x1, _y1, _x1, _y0); break;
 			case AN_Z:	wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, c, _x1, _y1, _x1, yu); break;
@@ -3364,13 +3364,13 @@ if(_x0!=_x1)
 	{
 	if(!is_event)
 		{
-		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_trans_wavewindow_c_1, _x1, _y0, _x1, _y1);		
+		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_trans_wavewindow_c_1, _x1, _y0, _x1, _y1);
 		}
 		else
 		{
-		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x1, _y0, _x1, _y1);		
-		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0+2, _y1+2); 
-		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0-2, _y1+2); 
+		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x1, _y0, _x1, _y1);
+		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0+2, _y1+2);
+		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_w_wavewindow_c_1, _x0, _y1, _x0-2, _y1+2);
 		}
 	newtime=(((gdouble)(_x1+WAVE_OPT_SKIP))*GLOBALS->nspx)+GLOBALS->tims.start/*+GLOBALS->shift_timebase*/;	/* skip to next pixel */
 	h3=bsearch_node(t->n.nd,newtime);
@@ -3415,7 +3415,7 @@ int skipcnt = 0;
 ci = GLOBALS->gc.gc_baseline_wavewindow_c_1;
 
 liney=((which+2+num_extension)*GLOBALS->fontheight)-2;
-_y1=((which+1)*GLOBALS->fontheight)+2;	
+_y1=((which+1)*GLOBALS->fontheight)+2;
 _y0=liney-2;
 yu=(_y0+_y1)/2;
 
@@ -3427,7 +3427,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
 		for(;;)
 			{
 			if(!h3) break;
-	
+
 			if((h3->time >= GLOBALS->tims.first) && (h3->time <= GLOBALS->tims.last))
 				{
 				tv = mynan;
@@ -3470,7 +3470,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
 				}
 			h3 = h3->next;
 			}
-	
+
 		if (isnan(tmin) || isnan(tmax))
 			{
 			tmin = tmax = 0;
@@ -3507,7 +3507,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
 	}
 	else
 	{
-	h3 = h;	
+	h3 = h;
 	for(;;)
 	{
 	if(!h3) break;
@@ -3602,9 +3602,9 @@ if((tim>GLOBALS->tims.end)||(tim>GLOBALS->tims.last)) break;
 _x0=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
 
 /*
-if(_x0<-1) 
-	{ 
-	_x0=-1; 
+if(_x0<-1)
+	{
+	_x0=-1;
 	}
 	else
 if(_x0>GLOBALS->wavewidth)
@@ -3621,9 +3621,9 @@ if(tim>GLOBALS->tims.last) tim=GLOBALS->tims.last;
 _x1=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
 
 /*
-if(_x1<-1) 
-	{ 
-	_x1=-1; 
+if(_x1<-1)
+	{
+	_x1=-1;
 	}
 	else
 if(_x1>GLOBALS->wavewidth)
@@ -3708,7 +3708,7 @@ if((is_nan2 = isnan(tv2)))
 
 if((_x0!=_x1)||(skipcnt < GLOBALS->analog_redraw_skip_count)) /* lower number = better performance */
 	{
-	if(_x0==_x1) 
+	if(_x0==_x1)
 		{
 		skipcnt++;
 		}
@@ -3717,11 +3717,11 @@ if((_x0!=_x1)||(skipcnt < GLOBALS->analog_redraw_skip_count)) /* lower number = 
 		skipcnt = 0;
 		}
 
-	if(type == AN_0) 
+	if(type == AN_0)
 		{
-		c = GLOBALS->gc.gc_vbox_wavewindow_c_1; 
-		} 
-		else 
+		c = GLOBALS->gc.gc_vbox_wavewindow_c_1;
+		}
+		else
 		{
 		c = GLOBALS->gc.gc_x_wavewindow_c_1;
 		}
@@ -3785,7 +3785,7 @@ if((t->flags & (TR_ANALOG_INTERPOLATED|TR_ANALOG_STEP)) != TR_ANALOG_STEP)
 	if(coords[1] > rect[3]) coords[1] = rect[3];
 	if(coords[3] > rect[3]) coords[3] = rect[3];
 	}
-	
+
 _x0 = coords[0];
 yt0 = coords[1];
 _x1 = coords[2];
@@ -3904,7 +3904,7 @@ GLOBALS->tims.start-=GLOBALS->shift_timebase;
 GLOBALS->tims.end-=GLOBALS->shift_timebase;
 
 liney=((which+2)*GLOBALS->fontheight)-2;
-_y1=((which+1)*GLOBALS->fontheight)+2;	
+_y1=((which+1)*GLOBALS->fontheight)+2;
 _y0=liney-2;
 yu=(_y0+_y1)/2;
 ytext=yu-(GLOBALS->wavefont->ascent/2)+GLOBALS->wavefont->ascent;
@@ -3953,7 +3953,7 @@ if((t->flags & TR_ANALOGMASK) && (!(h->flags&HIST_STRING) || !(h->flags&HIST_REA
 			{
 			break;
 			}
-		}	
+		}
 
  	if((ext) && (GLOBALS->highlight_wavewindow) && (t) && (t->flags & TR_HIGHLIGHT) && (!GLOBALS->black_and_white))
                 {
@@ -3977,9 +3977,9 @@ tim=(h->time);
 if((tim>GLOBALS->tims.end)||(tim>GLOBALS->tims.last)) break;
 
 _x0=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
-if(_x0<-1) 
-	{ 
-	_x0=-1; 
+if(_x0<-1)
+	{
+	_x0=-1;
 	}
 	else
 if(_x0>GLOBALS->wavewidth)
@@ -3993,9 +3993,9 @@ if(!h2) break;
 if(tim>GLOBALS->tims.last) tim=GLOBALS->tims.last;
 	else if(tim>GLOBALS->tims.end+1) tim=GLOBALS->tims.end+1;
 _x1=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
-if(_x1<-1) 
-	{ 
-	_x1=-1; 
+if(_x1<-1)
+	{
+	_x1=-1;
 	}
 	else
 if(_x1>GLOBALS->wavewidth)
@@ -4033,8 +4033,8 @@ if(!(h->flags&(HIST_REAL|HIST_STRING)))
 			{
 			type = AN_X;
 			}
-                }   
-        }       
+                }
+        }
 /* type = (!(h->flags&(HIST_REAL|HIST_STRING))) ? vtype(t,h->v.h_vector) : AN_0; */
 if(_x0>-1) {
 GdkGC *gltype, *gtype;
@@ -4081,31 +4081,31 @@ if(GLOBALS->use_roundcaps)
 	wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gtype,_x0, _y0,_x0, _y1);
 	}
 }
-		
+
 if(_x0!=_x1)
 	{
-	if (type == AN_Z) 
+	if (type == AN_Z)
 		{
 		if(GLOBALS->use_roundcaps)
 			{
 			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_mid_wavewindow_c_1,_x0+1, yu,_x1-1, yu);
-			} 
-			else 
+			}
+			else
 			{
 			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_mid_wavewindow_c_1,_x0, yu,_x1, yu);
 			}
-		} 
-		else 
+		}
+		else
 		{
-		if(type == AN_0) 
+		if(type == AN_0)
 			{
-			c = GLOBALS->gc.gc_vbox_wavewindow_c_1; 
-			} 
-			else 
+			c = GLOBALS->gc.gc_vbox_wavewindow_c_1;
+			}
+			else
 			{
 			c = GLOBALS->gc.gc_x_wavewindow_c_1;
 			}
-	
+
 	if(GLOBALS->use_roundcaps)
 		{
 		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, c,_x0+2, _y0,_x1-2, _y0);
@@ -4153,7 +4153,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 				*srch_for_color = 0;
 				cb = get_gc_from_name(ascii+1);
 				if(cb)
-					{	
+					{
 					ascii2 =  srch_for_color + 1;
 					if(GLOBALS->gc.gc_back_wavewindow_c_1 != GLOBALS->gc_white)
 						{
@@ -4220,7 +4220,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 				*srch_for_color = 0;
 				cb = get_gc_from_name(ascii+1);
 				if(cb)
-					{	
+					{
 					/* ascii2 =  srch_for_color + 1; */ /* scan-build */
 					if(GLOBALS->gc.gc_back_wavewindow_c_1 != GLOBALS->gc_white)
 						{
@@ -4288,14 +4288,14 @@ ci = GLOBALS->gc.gc_baseline_wavewindow_c_1;
 
 h=v;
 liney=((which+2+num_extension)*GLOBALS->fontheight)-2;
-_y1=((which+1)*GLOBALS->fontheight)+2;	
+_y1=((which+1)*GLOBALS->fontheight)+2;
 _y0=liney-2;
 yu=(_y0+_y1)/2;
 
 if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
         {
 	if((!t->minmax_valid)||(t->d_num_ext != num_extension))
-                { 
+                {
                 h3 = t->n.vec->vectors[0];
                 for(;;)
                         {
@@ -4318,7 +4318,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
                                 if(isinf(tv))
                                         {
                                         any_infs = 1;
-                                 
+
                                         if(tv > 0)
                                                 {
                                                 any_infp = 1;
@@ -4338,7 +4338,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
                 if(any_infs)
                         {
 			double tdelta = (tmax - tmin) * WAVE_INF_SCALING;
-                                         
+
                         if(any_infp) tmax = tmax + tdelta;
                         if(any_infm) tmin = tmin - tdelta;
                         }
@@ -4352,7 +4352,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
 			{
 			tmax = (_y1 - _y0) / (tmax - tmin);
 			}
-                               
+
                 t->minmax_valid = 1;
                 t->d_minval = tmin;
                 t->d_maxval = tmax;
@@ -4371,10 +4371,10 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
 	{
 	if(!h3) break;
 	tim=(h3->time);
-	
+
 	if(tim>GLOBALS->tims.end) { endcnt++; if(endcnt==2) break; }
 	if(tim>GLOBALS->tims.last) break;
-	
+
 	_x0=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
 	if((_x0>GLOBALS->wavewidth)&&(endcnt==2))
 	        {
@@ -4390,7 +4390,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
 			tmax = tv;
 		}
         else
-        if(isinf(tv))    
+        if(isinf(tv))
                 {
                 any_infs = 1;
                 if(tv > 0)
@@ -4400,8 +4400,8 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
                         else
                         {
                         any_infm = 1;
-                        }                
-                }   
+                        }
+                }
 
 	h3 = h3->next;
 	}
@@ -4411,7 +4411,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
         if(any_infs)
                 {
 		double tdelta = (tmax - tmin) * WAVE_INF_SCALING;
-                 
+
                 if(any_infp) tmax = tmax + tdelta;
                 if(any_infm) tmin = tmin - tdelta;
                 }
@@ -4426,7 +4426,7 @@ if(t->flags & TR_ANALOG_FULLSCALE) /* otherwise use dynamic */
 		tmax = (_y1 - _y0) / (tmax - tmin);
 		}
 	}
-	
+
 if(GLOBALS->tims.last - GLOBALS->tims.start < GLOBALS->wavewidth)
 	{
 	rmargin=(GLOBALS->tims.last - GLOBALS->tims.start) * GLOBALS->pxns;
@@ -4446,9 +4446,9 @@ if((tim>GLOBALS->tims.end)||(tim>GLOBALS->tims.last)) break;
 _x0=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
 
 /*
-if(_x0<-1) 
-	{ 
-	_x0=-1; 
+if(_x0<-1)
+	{
+	_x0=-1;
 	}
 	else
 if(_x0>GLOBALS->wavewidth)
@@ -4465,9 +4465,9 @@ if(tim>GLOBALS->tims.last) tim=GLOBALS->tims.last;
 _x1=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
 
 /*
-if(_x1<-1) 
-	{ 
-	_x1=-1; 
+if(_x1<-1)
+	{
+	_x1=-1;
 	}
 	else
 if(_x1>GLOBALS->wavewidth)
@@ -4527,17 +4527,17 @@ if((_x0!=_x1)||(skipcnt < GLOBALS->analog_redraw_skip_count)) /* lower number = 
         if(_x0==_x1)
                 {
                 skipcnt++;
-                }  
+                }
                 else
                 {
                 skipcnt = 0;
-                }   
+                }
 
-	if(type == AN_0) 
+	if(type == AN_0)
 		{
-		c = GLOBALS->gc.gc_vbox_wavewindow_c_1; 
-		} 
-		else 
+		c = GLOBALS->gc.gc_vbox_wavewindow_c_1;
+		}
+		else
 		{
 		c = GLOBALS->gc.gc_x_wavewindow_c_1;
 		}
@@ -4601,7 +4601,7 @@ if((t->flags & (TR_ANALOG_INTERPOLATED|TR_ANALOG_STEP)) != TR_ANALOG_STEP)
 	if(coords[1] > rect[3]) coords[1] = rect[3];
 	if(coords[3] > rect[3]) coords[3] = rect[3];
 	}
-	
+
 _x0 = coords[0];
 yt0 = coords[1];
 _x1 = coords[2];
@@ -4723,7 +4723,7 @@ GLOBALS->tims.start-=GLOBALS->shift_timebase;
 GLOBALS->tims.end-=GLOBALS->shift_timebase;
 
 liney=((which+2)*GLOBALS->fontheight)-2;
-_y1=((which+1)*GLOBALS->fontheight)+2;	
+_y1=((which+1)*GLOBALS->fontheight)+2;
 _y0=liney-2;
 yu=(_y0+_y1)/2;
 ytext=yu-(GLOBALS->wavefont->ascent/2)+GLOBALS->wavefont->ascent;
@@ -4810,9 +4810,9 @@ tim=(h->time);
 if((tim>GLOBALS->tims.end)||(tim>GLOBALS->tims.last)) break;
 
 _x0=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
-if(_x0<-1) 
-	{ 
-	_x0=-1; 
+if(_x0<-1)
+	{
+	_x0=-1;
 	}
 	else
 if(_x0>GLOBALS->wavewidth)
@@ -4826,9 +4826,9 @@ if(!h2) break;
 if(tim>GLOBALS->tims.last) tim=GLOBALS->tims.last;
 	else if(tim>GLOBALS->tims.end+1) tim=GLOBALS->tims.end+1;
 _x1=(tim - GLOBALS->tims.start) * GLOBALS->pxns;
-if(_x1<-1) 
-	{ 
-	_x1=-1; 
+if(_x1<-1)
+	{
+	_x1=-1;
 	}
 	else
 if(_x1>GLOBALS->wavewidth)
@@ -4857,30 +4857,30 @@ switch(type)
 
 if(GLOBALS->use_roundcaps)
 	{
-	if (type == AN_Z) 
+	if (type == AN_Z)
 		{
-		if (lasttype != -1) 
+		if (lasttype != -1)
 			{
 			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gltype,_x0-1, _y0,_x0,   yu);
 			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gltype,_x0, yu,_x0-1, _y1);
 			}
-		} 
+		}
 		else
-		if (lasttype==AN_Z) 
+		if (lasttype==AN_Z)
 			{
 			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gtype,_x0+1, _y0,_x0,   yu);
 			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gtype,_x0, yu,_x0+1, _y1);
-			} 
-			else 
+			}
+			else
 			{
-			if (lasttype != type) 
+			if (lasttype != type)
 				{
 				wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gltype,_x0-1, _y0,_x0,   yu);
 				wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gltype,_x0, yu,_x0-1, _y1);
 				wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gtype,_x0+1, _y0,_x0,   yu);
 				wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gtype,_x0, yu,_x0+1, _y1);
-				} 
-				else 
+				}
+				else
 				{
 				wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gtype,_x0-2, _y0,_x0+2, _y1);
 				wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, gtype,_x0+2, _y0,_x0-2, _y1);
@@ -4895,28 +4895,28 @@ if(GLOBALS->use_roundcaps)
 
 if(_x0!=_x1)
 	{
-	if (type == AN_Z) 
+	if (type == AN_Z)
 		{
 		if(GLOBALS->use_roundcaps)
 			{
 			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_mid_wavewindow_c_1,_x0+1, yu,_x1-1, yu);
-			} 
-			else 
+			}
+			else
 			{
 			wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, GLOBALS->gc.gc_mid_wavewindow_c_1,_x0, yu,_x1, yu);
 			}
-		} 
-		else 
+		}
+		else
 		{
-		if(type == AN_0) 
+		if(type == AN_0)
 			{
-			c = GLOBALS->gc.gc_vbox_wavewindow_c_1; 
-			} 
-			else 
+			c = GLOBALS->gc.gc_vbox_wavewindow_c_1;
+			}
+			else
 			{
 			c = GLOBALS->gc.gc_x_wavewindow_c_1;
 			}
-	
+
 	if(GLOBALS->use_roundcaps)
 		{
 		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, c,_x0+2, _y0,_x1-2, _y0);
@@ -4947,7 +4947,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 				*srch_for_color = 0;
 				cb = get_gc_from_name(ascii+1);
 				if(cb)
-					{	
+					{
 					ascii2 =  srch_for_color + 1;
 					if(!GLOBALS->black_and_white) gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, cb, TRUE, _x0+1, _y1+1, width-1, (_y0-1) - (_y1+1) + 1);
 					GLOBALS->fill_in_smaller_rgb_areas_wavewindow_c_1 = 1;
@@ -4994,7 +4994,7 @@ if(_x0<0) _x0=0;	/* fixup left margin */
 				*srch_for_color = 0;
 				cb = get_gc_from_name(ascii+1);
 				if(cb)
-					{	
+					{
 					/* ascii2 =  srch_for_color + 1; */
 					if(GLOBALS->gc.gc_back_wavewindow_c_1 != GLOBALS->gc_white)
 						{

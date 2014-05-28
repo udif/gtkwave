@@ -3,19 +3,19 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation 
- * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
- * and/or sell copies of the Software, and to permit persons to whom the   
- * Software is furnished to do so, subject to the following conditions: 
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL   
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING   
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
@@ -30,7 +30,7 @@
  */
 
 
-/* AIX may need this for alloca to work */ 
+/* AIX may need this for alloca to work */
 #if defined _AIX
   #pragma alloca
 #endif
@@ -85,7 +85,7 @@ static int slisthier_len=0;
 
 enum Tokens   { T_VAR, T_END, T_SCOPE, T_UPSCOPE,
 		T_COMMENT, T_DATE, T_DUMPALL, T_DUMPOFF, T_DUMPON,
-		T_DUMPVARS, T_ENDDEFINITIONS, 
+		T_DUMPVARS, T_ENDDEFINITIONS,
 		T_DUMPPORTS, T_DUMPPORTSOFF, T_DUMPPORTSON, T_DUMPPORTSALL,
 		T_TIMESCALE, T_VERSION, T_VCDCLOSE, T_TIMEZERO,
 		T_EOF, T_STRING, T_UNKNOWN_KEY };
@@ -241,7 +241,7 @@ static void alias_vs_normal_symadd(struct vcdsymbol *v, struct vcdsymbol *root_v
 {
 if(!v) return; /* scan-build : should never happen */
 
-if(!root_v) 
+if(!root_v)
 	{
 	if((v->vartype==V_INTEGER)||(v->vartype==V_REAL))
 		{
@@ -296,19 +296,19 @@ struct vcdsymbol **pnt;
 unsigned int vcd_distance;
 struct vcdsymbol *root_v;
 int i;
-                
+
 if(numsyms)
         {
         vcd_distance = vcd_maxid - vcd_minid + 1;
-                         
+
         if(vcd_distance <= 8 * 1024 * 1024)
                 {
                 indexed = (struct vcdsymbol **)calloc_2(vcd_distance, sizeof(struct vcdsymbol *));
-                        
+
                 printf("%d symbols span ID range of %d, using indexing...\n", numsyms, vcd_distance);
-                        
+
                 v=vcdsymroot;
-                while(v) 
+                while(v)
                         {
                         if(!(root_v=indexed[v->nid - vcd_minid]))
                                 {
@@ -328,9 +328,9 @@ if(numsyms)
                         *(pnt++)=v;
                         v=v->next;
                         }
-                
+
                 qsort(sorted, numsyms, sizeof(struct vcdsymbol *), vcdsymcompare);
-                 
+
                 root_v = NULL;
                 for(i=0;i<numsyms;i++)
                         {
@@ -340,7 +340,7 @@ if(numsyms)
                 }
 
         v=vcdsymroot;
-        while(v) 
+        while(v)
                 {
 		free(v->name); v->name = NULL;
                 v=v->next;
@@ -407,7 +407,7 @@ for(;;)
 	if(ch<=' ') continue;	/* val<=' ' is a quick whitespace check      */
 	break;			/* (take advantage of fact that vcd is text) */
 	}
-if(ch=='$') 
+if(ch=='$')
 	{
 	yytext[len++]=ch;
 	for(;;)
@@ -434,7 +434,7 @@ for(yytext[len++]=ch;;yytext[len++]=ch)
 	}
 yytext[len]=0;	/* terminator */
 
-if(is_string) 
+if(is_string)
 	{
 	yylen=len;
 	return(T_STRING);
@@ -462,7 +462,7 @@ static int get_vartoken_patched(int match_kw)
 {
 int ch;
 int i, len=0;
-        
+
 if(!var_prevch)
         {
         for(;;)
@@ -470,7 +470,7 @@ if(!var_prevch)
                 ch=getch_patched();
                 if(ch<0) { free_2(varsplit); varsplit=NULL; return(V_END); }
                 if((ch==' ')||(ch=='\t')||(ch=='\n')||(ch=='\r')) continue;
-                break;   
+                break;
                 }
         }
         else
@@ -478,11 +478,11 @@ if(!var_prevch)
         ch=var_prevch;
         var_prevch=0;
         }
-                 
+
 if(ch=='[') return(V_LB);
 if(ch==':') return(V_COLON);
 if(ch==']') return(V_RB);
- 
+
 for(yytext[len++]=ch;;yytext[len++]=ch)
         {
         if(len==T_MAX_STR)
@@ -498,7 +498,7 @@ for(yytext[len++]=ch;;yytext[len++]=ch)
                 }
         }
 yytext[len]=0;  /* terminator */
-                
+
 if(match_kw)
 for(i=0;i<NUM_VTOKENS;i++)
         {
@@ -523,11 +523,11 @@ int i, len=0;
 if(varsplit)
         {
         int rc=get_vartoken_patched(match_kw);
-        if(rc!=V_END) return(rc);  
+        if(rc!=V_END) return(rc);
         var_prevch=0;
         }
-                
-if(!var_prevch)  
+
+if(!var_prevch)
         {
         for(;;)
                 {
@@ -542,16 +542,16 @@ if(!var_prevch)
         ch=var_prevch;
         var_prevch=0;
         }
-                 
+
 if(ch=='[') return(V_LB);
 if(ch==':') return(V_COLON);
-if(ch==']') return(V_RB);  
+if(ch==']') return(V_RB);
 
 if(ch=='#')     /* for MTI System Verilog '$var reg 64 >w #implicit-var###VarElem:ram_di[0.0] [63:0] $end' style declarations */
         {       /* debussy simply escapes until the space */
         yytext[len++]= '\\';
         }
-        
+
 for(yytext[len++]=ch;;yytext[len++]=ch)
         {
         if(len==T_MAX_STR)
@@ -600,7 +600,7 @@ if((varsplit)&&(yytext[len-1]==']'))
         {
         varsplit=NULL;
         }
-        
+
 if(match_kw)
 for(i=0;i<NUM_VTOKENS;i++)
         {
@@ -634,7 +634,7 @@ if(!var_prevch)
       ch=var_prevch;
       var_prevch=0;
       }
-      
+
 for(yytext[len++]=ch;;yytext[len++]=ch)
       {
 	if(len==T_MAX_STR)
@@ -661,7 +661,7 @@ for(;;)
 	if((tok==T_END)||(tok==T_EOF)) break;
 	if(hdr) { DEBUG(fprintf(stderr," %s",yytext)); }
 	}
-if(hdr) { DEBUG(fprintf(stderr,"\n")); } 
+if(hdr) { DEBUG(fprintf(stderr,"\n")); }
 }
 
 static char *build_slisthier(void)
@@ -753,7 +753,7 @@ switch(yytext[0])
 	case '-':
 		if(yylen>1)
 			{
-			v=bsearch_vcd(yytext+1, yylen-1);	
+			v=bsearch_vcd(yytext+1, yylen-1);
 			if(!v)
 				{
 				fprintf(stderr,"Near line %d, Unknown VCD identifier: '%s'\n",vcdlineno,yytext+1);
@@ -802,12 +802,12 @@ switch(yytext[0])
 	case 'b':
 	case 'B':
 		/* extract binary number then.. */
-		vector=malloc_2(yylen_cache=yylen); 
+		vector=malloc_2(yylen_cache=yylen);
 		strcpy(vector,yytext+1);
 		vlen=yylen-1;
 
 		get_strtoken();
-		v=bsearch_vcd(yytext, yylen);	
+		v=bsearch_vcd(yytext, yylen);
 		if(!v)
 			{
 			fprintf(stderr,"Near line %d, Unknown identifier: '%s'\n",vcdlineno, yytext);
@@ -822,7 +822,7 @@ switch(yytext[0])
 
 				extend=(vector[0]=='1')?'0':vector[0];
 
-				fill=v->size-vlen;				
+				fill=v->size-vlen;
 				for(i=0;i<fill;i++)
 					{
 					v->value[i]=extend;
@@ -865,20 +865,20 @@ switch(yytext[0])
 				}
 
 			}
-			
+
 		break;
 
 
 	case 'p':
 		/* extract port dump value.. */
-		vector=malloc_2(yylen_cache=yylen); 
+		vector=malloc_2(yylen_cache=yylen);
 		strcpy(vector,yytext+1);
 		vlen=yylen-1;
 
 		get_strtoken();	/* throw away 0_strength_component */
 		get_strtoken(); /* throw away 0_strength_component */
 		get_strtoken(); /* this is the id                  */
-		v=bsearch_vcd(yytext, yylen);	
+		v=bsearch_vcd(yytext, yylen);
 		if(!v)
 			{
 			fprintf(stderr,"Near line %d, Unknown identifier: '%s'\n",vcdlineno, yytext);
@@ -893,7 +893,7 @@ switch(yytext[0])
 
 				extend='0';
 
-				fill=v->size-vlen;				
+				fill=v->size-vlen;
 				for(i=0;i<fill;i++)
 					{
 					v->value[i]=extend;
@@ -947,10 +947,10 @@ switch(yytext[0])
 		*d = 0;
 		sscanf(yytext+1,"%lg",d);
 		errno = 0;
-		
+
 		get_strtoken();
 
-		v=bsearch_vcd(yytext, yylen);	
+		v=bsearch_vcd(yytext, yylen);
 		if(!v)
 			{
 			fprintf(stderr,"Near line %d, Unknown identifier: '%s'\n",vcdlineno, yytext);
@@ -995,7 +995,7 @@ while((ch=*src))
 			*dst=vcd[i];
 			break;
 			}
-		}	
+		}
 	if(i==23) *dst='x';
 
 	src++;
@@ -1058,7 +1058,7 @@ for(;;)
 				{
 				vtok=get_token();
 				if((vtok==T_END)||(vtok==T_EOF)) break;
-				prefix=yytext[0];		
+				prefix=yytext[0];
 				}
 			switch(prefix)
 				{
@@ -1158,7 +1158,7 @@ for(;;)
 					v->size=atoi_64(yytext);
 					if(!v->size) v->size=1;
 					}
-					else 
+					else
 					if(vtok==V_LB)
 					{
 					vtok=get_vartoken(1);
@@ -1244,7 +1244,7 @@ for(;;)
 					v->name=(char *)malloc_2(yylen+1);
 					strcpy(v->name,yytext);
 					}
-				
+
 				vtok=get_vartoken(1);
 				if(vtok==V_END) goto dumpv;
 				if(vtok!=V_LB) goto err;
@@ -1276,14 +1276,14 @@ for(;;)
 			else
 			if((v->size>1)&&(v->msi<=0)&&(v->lsi<=0))
 				{
-				if(v->vartype==V_EVENT) 
+				if(v->vartype==V_EVENT)
 					{
 					v->size=1;
 					}
 					else
 					{
 					/* any criteria for the direction here? */
-					v->msi=v->size-1;	
+					v->msi=v->size-1;
 					v->lsi=0;
 					}
 				}
@@ -1294,7 +1294,7 @@ for(;;)
 				v->size=v->msi-v->lsi+1;
 				}
 			else
-			if((v->lsi>=v->msi)&&((v->lsi-v->msi+1)!=v->size)) 
+			if((v->lsi>=v->msi)&&((v->lsi-v->msi+1)!=v->size))
 				{
 				if(v->vartype!=V_EVENT) goto err;
 				v->size=v->msi-v->lsi+1;
@@ -1321,9 +1321,9 @@ for(;;)
 				struct queuedevent *q;
 				v->ev=q=(struct queuedevent *)calloc_2(1,sizeof(struct queuedevent));
 				q->sym=v;
-				q->last_event_time=-1;		
+				q->last_event_time=-1;
 				q->next=queuedevents;
-				queuedevents=q;		
+				queuedevents=q;
 				}
 
 			if(!vcdsymroot)
@@ -1358,7 +1358,7 @@ for(;;)
 #endif
 
 			DEBUG(fprintf(stderr,"VAR %s %d %s %s[%d:%d]\n",
-				vartypes[v->vartype], v->size, v->id, v->name, 
+				vartypes[v->vartype], v->size, v->id, v->name,
 					v->msi, v->lsi));
 			goto bail;
 			err:
@@ -1396,7 +1396,7 @@ for(;;)
 					{
 					TimeType t_time;
 					t_time=atoi_64(yytext+1);
-					
+
 					if(start_time<0)
 						{
 						start_time=t_time;
@@ -1404,7 +1404,7 @@ for(;;)
 
 					if(t_time < current_time) /* avoid backtracking time counts which can happen on malformed files */
 						{
-						t_time = current_time; 
+						t_time = current_time;
 						}
 
                                         current_time=t_time;
@@ -1431,9 +1431,9 @@ for(;;)
 			break;
 		case T_DUMPVARS:
 		case T_DUMPPORTS:
-                        if(current_time<0)  
+                        if(current_time<0)
                                 { start_time=current_time=end_time=0; lt_set_time(lt, current_time); }
-                        break;  
+                        break;
                 case T_VCDCLOSE:
                         sync_end("VCDCLOSE:");
                         break;  /* next token will be '#' time related followed by $end */
@@ -1491,10 +1491,10 @@ if(ch=='g')	/* real number */
 		he=(struct HistEnt *)calloc_2(1,sizeof(struct HistEnt));
 	        he->time=-1;
 	        he->v.vector=NULL;
-	
+
 		n->curr=he;
 		n->head.next=he;
-	
+
 		add_histent(t_time,n,ch,regadd, vector);
 		}
 		else
@@ -1510,16 +1510,16 @@ if(ch=='g')	/* real number */
 		he=(struct HistEnt *)calloc_2(1,sizeof(struct HistEnt));
 	        he->time=-1;
 	        he->v.vector=NULL;
-	
+
 		n->curr=he;
 		n->head.next=he;
-	
+
 		add_histent(t_time,n,ch,regadd, vector);
 		}
 		else
 		{
 		int i, nlen;
-	
+
 		nlen = strlen(vector);
 		if(nlen)
 			{
@@ -1527,7 +1527,7 @@ if(ch=='g')	/* real number */
 			for(i=0;i<nlen;i++)
 				{
 				if(toupper((int)(unsigned char)vector[i])!=deadchar)
-					{	
+					{
 					n->notdead=1;
 					return;
 					}
@@ -1546,7 +1546,7 @@ static void add_tail_histents(void)
 struct queuedevent *q;
 q=queuedevents;
 while(q)
-	{	
+	{
 	struct vcdsymbol *v;
 
 	v=q->sym;
@@ -1554,7 +1554,7 @@ while(q)
 		{
 		/* dump degating event */
 		DEBUG(fprintf(stderr,"#"TTFormat" %s = '%c' (event)\n",v->ev->last_event_time+1,v->name,'0'));
-		add_histent(v->ev->last_event_time+1,v->narray[0],'0',1, NULL);	
+		add_histent(v->ev->last_event_time+1,v->narray[0],'0',1, NULL);
 		}
 	q=q->next;
 	}
@@ -1571,7 +1571,7 @@ curnode=firstnode;
 for(i=0;i<numfacs;i++)
         {
         char *subst, ch;
-                 
+
         facs[i]=curnode;
 	subst=curnode->name;
         curnode=curnode->nextinaet;
@@ -1586,7 +1586,7 @@ quicksort(facs,0,numfacs-1);
 for(i=0;i<numfacs;i++)
         {
         char *subst, ch;
-         
+
         subst=facs[i]->name;
         while((ch=(*subst)))
                 {
@@ -1596,9 +1596,9 @@ for(i=0;i<numfacs;i++)
 	}
 
 for(i=0;i<numfacs;i++)
-	{        
+	{
 	struct Node *n;
-	int do_indent;	
+	int do_indent;
 
 	if(!facs[i]->n->substnode)
 		{
@@ -1702,10 +1702,10 @@ sym=(struct symbol **)calloc_2(SYMPRIME,sizeof(struct symbol *));
 printf("\nConverting VCD File '%s' to LXT file '%s'...\n\n",(vcd_handle!=stdin)?fname:"from stdin", lxname);
 build_slisthier();
 vcd_parse(linear);
-if(varsplit) 
-	{ 
-	free_2(varsplit); 
-	varsplit=NULL; 
+if(varsplit)
+	{
+	free_2(varsplit);
+	varsplit=NULL;
 	}
 
 add_tail_histents();
@@ -1737,19 +1737,19 @@ if(indexed) { free(indexed); indexed=NULL; }
 if(sorted) { free(sorted); sorted=NULL; }
 
 v=vcdsymroot;
-while(v) 
+while(v)
         {
         if(v->name) { free(v->name); v->name=NULL; }
         if(v->id) { free(v->id); v->id=NULL; }
         if(v->value) { free(v->value); v->value=NULL; }
-        
+
         if(v->narray)
                 {
                 int i;
                 for(i=0;i<v->size;i++)
                         {
                         struct HistEnt *h1, *h2;
-         
+
                         if((h1 = v->narray[i]->head.next))
                                 {
                                 while(h1)
@@ -1762,18 +1762,18 @@ while(v)
 
                         free(v->narray[i]); v->narray[i]=NULL;
                         }
-                
+
                 free(v->narray); v->narray=NULL;
                 }
-         
+
         v2=v->next;
         free(v);
         v=v2;
         }
 vcdsymroot=vcdsymcurr=NULL;
-                    
-free(sym); sym=NULL;  
-                
+
+free(sym); sym=NULL;
+
 if(slisthier) { free(slisthier); slisthier=NULL; }
 
 return(max_time);
@@ -1835,26 +1835,26 @@ struct symbol *temp;
                 if(!temp->next) break;
                 temp=temp->next;
                 }
-  
+
         return(NULL); /* not found, add here if you want to add*/
 }
 
-int sigcmp(char *s1, char *s2)         
+int sigcmp(char *s1, char *s2)
 {
 unsigned char c1, c2;
 int u1, u2;
-                                
+
 for(;;)
         {
         c1=(unsigned char)*(s1++);
         c2=(unsigned char)*(s2++);
-                
+
         if((!c1)&&(!c2)) return(0);
         if((c1<='9')&&(c2<='9')&&(c2>='0')&&(c1>='0'))
                 {
                 u1=(int)(c1&15);
                 u2=(int)(c2&15);
-                
+
                 while(((c2=(unsigned char)*s2)>='0')&&(c2<='9'))
                         {
                         u2*=10;
@@ -1868,7 +1868,7 @@ for(;;)
                         u1+=(unsigned int)(c2&15);
                         s1++;
                         }
-        
+
                 if(u1==u2) continue;
                         else return((int)u1-(int)u2);
                 }
@@ -1876,7 +1876,7 @@ for(;;)
                 {
                 if(c1!=c2) return((int)c1-(int)c2);
                 }
-        }       
+        }
 }
 
 
@@ -1884,11 +1884,11 @@ int partition(struct symbol **a, int p, int r)
 {
 struct symbol *x, *t;
 int i,j;
-                
+
 x=a[p];
 i=p-1;
 j=r+1;
-                 
+
 while(1)
         {
         do
@@ -1899,12 +1899,12 @@ while(1)
         do      {
                 i++;
                 } while(sigcmp(a[i]->name,x->name)<0);
- 
+
         if(i<j)
                 {
                 t=a[i];
                 a[i]=a[j];
-                a[j]=t; 
+                a[j]=t;
                 }
                 else
                 {
@@ -1942,7 +1942,7 @@ if(argc>=3)
 		else if(!strcmp(argv[i], "-clockpack")) doclock = 1;
 		else if(!strcmp(argv[i], "-chgpack")) dochg = 1;
 		else if(!strcmp(argv[i], "-linear")) linear = 1;
-		else if(!strcmp(argv[i], "-dictpack")) 
+		else if(!strcmp(argv[i], "-dictpack"))
 			{
 			if((i!=(argc-1))&&(argv[i+1][0]!='-'))
 				{

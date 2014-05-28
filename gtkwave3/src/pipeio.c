@@ -128,7 +128,7 @@ if((pid=fork()))
 	{
 	dup2(filedes_w[0], 0);
 	dup2(filedes_r[1], 1);
-	
+
 	close(filedes_w[1]);
 	close(filedes_r[0]);
 

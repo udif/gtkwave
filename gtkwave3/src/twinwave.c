@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2006-2009.
  *
  * This program is free software; you can redistribute it and/or
@@ -48,7 +48,7 @@ int quit_callback (GtkWidget *widget, gpointer data)
 fprintf(stderr,"%s\n", (char *)data);
 gtk_exit(0);
 
-return(FALSE); 
+return(FALSE);
 }
 
 
@@ -213,8 +213,8 @@ if(hMapFile != NULL)
 					NULL,
 					&si,
 					&pi);
-			
-				if(!rc) 
+
+				if(!rc)
 					{
 					fprintf(stderr, "Child 0 failed '%s' '%s'\n", arglist[0], mylist);
 					exit(255);
@@ -285,8 +285,8 @@ if(hMapFile != NULL)
 					NULL,
 					&si,
 					&pi);
-			
-				if(!rc) 
+
+				if(!rc)
 					{
 					fprintf(stderr, "Child 1 failed '%s' '%s'\n", arglist[0], mylist);
 					exit(255);
@@ -328,14 +328,14 @@ shmid = shmget(0, 2 * sizeof(struct gtkwave_dual_ipc_t), IPC_CREAT | 0600 );
 if(shmid >=0)
 	{
         struct shmid_ds ds;
-                                 
+
         dual_ctx = shmat(shmid, NULL, 0);
         if(dual_ctx)
                	{
                	memset(dual_ctx, 0, 2 * sizeof(struct gtkwave_dual_ipc_t));
                	memcpy(&dual_ctx[0].matchword, DUAL_MATCHWORD, 4);
                	memcpy(&dual_ctx[1].matchword, DUAL_MATCHWORD, 4);
-	         
+
 #ifdef __linux__
               	shmctl(shmid, IPC_RMID, &ds); /* mark for destroy */
 #endif
@@ -345,7 +345,7 @@ if(shmid >=0)
 			if(fork())
 				{
 				struct timeval tv;
-			
+
 				for(;;)
 					{
 			                tv.tv_sec = 0;
@@ -415,7 +415,7 @@ if(shmid >=0)
 				exit(255);
 				}
 			}
-			else			
+			else
 			{
 			int n_items = argc - split_point + 5;
 			char **arglist = calloc(n_items, sizeof(char *));

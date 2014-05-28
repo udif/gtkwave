@@ -87,8 +87,8 @@ typedef uint64_t	 	vztint64_t;
 typedef int64_t			vztsint64_t;
 typedef int32_t			vztsint32_t;
 #ifndef __MINGW32__
-#define VZT_RD_LLD "%"PRId64      
-#define VZT_RD_LD "%"PRId32      
+#define VZT_RD_LLD "%"PRId64
+#define VZT_RD_LD "%"PRId32
 #else
 #define VZT_RD_LLD "%I64d"
 #define VZT_RD_LD "%d"
@@ -170,7 +170,7 @@ unsigned ztype : 2;		/* 1: gzip, 0: bzip2, 2: lzma */
 unsigned rle : 1;		/* set when end < start which says that an rle depack is necessary */
 
 pthread_t pth;
-pthread_attr_t pth_attr; 
+pthread_attr_t pth_attr;
 pthread_mutex_t mutex;
 
 vztint64_t last_rd_value_simtime;
@@ -186,7 +186,7 @@ vztint32_t flags, len;
 };
 
 
-struct vzt_rd_facname_cache 
+struct vzt_rd_facname_cache
 {
 char *n;
 char *bufprev, *bufcurr;
@@ -278,7 +278,7 @@ _VZT_RD_INLINE int		vzt_rd_set_fac_process_mask_all(struct vzt_rd_trace *lt);
 _VZT_RD_INLINE int		vzt_rd_clr_fac_process_mask_all(struct vzt_rd_trace *lt);
 
 				/* null value_change_callback calls an empty dummy function */
-int 				vzt_rd_iter_blocks(struct vzt_rd_trace *lt, 
+int 				vzt_rd_iter_blocks(struct vzt_rd_trace *lt,
 				void (*value_change_callback)(struct vzt_rd_trace **lt, vztint64_t *time, vztint32_t *facidx, char **value),
 				void *user_callback_data_pointer);
 _VZT_RD_INLINE void *		vzt_rd_get_user_callback_data_pointer(struct vzt_rd_trace *lt);

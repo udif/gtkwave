@@ -86,20 +86,20 @@ if(export_typ != WAVE_EXPORT_TRANS)
 	        if((vmod = (value % 94)))
 	                {
 	                *(pnt++) = (char)(vmod + 32);
-	                }   
+	                }
 	                else
 	                {
 	                *(pnt++) = '~'; value -= 94;
 	                }
-	        value = value / 94;  
+	        value = value / 94;
 	        if(!value) { break; }
 	        }
 
-	*pnt = 0;   
+	*pnt = 0;
 	}
 	else
 	{
-	sprintf(pnt, "%d", value);	
+	sprintf(pnt, "%d", value);
 	}
 
 return(GLOBALS->buf_vcd_saver_c_3);
@@ -216,7 +216,7 @@ static vcdsav_Tree * vcdsav_insert(void *i, vcdsav_Tree * t, int val, unsigned c
 /* Return a pointer to the resulting tree.                 */
     vcdsav_Tree * n;
     int dir;
-    
+
     n = (vcdsav_Tree *) calloc_2(1, sizeof (vcdsav_Tree));
     if (n == NULL) {
 	fprintf(stderr, "vcdsav_insert: ran out of memory, exiting.\n");
@@ -287,7 +287,7 @@ if(vt->right) recurse_build(vt->right, hp);
 }
 
 
-/* 
+/*
  * heapify algorithm...used to grab the next value change
  */
 static void heapify(int i, int heap_size)
@@ -296,16 +296,16 @@ int l, r;
 unsigned int largest;
 vcdsav_Tree *t;
 int maxele=heap_size/2-1;	/* points to where heapswaps don't matter anymore */
-                
+
 for(;;)
         {
         l=2*i+1;
         r=l+1;
-                         
+
         if((l<heap_size)&&(hpcmp(GLOBALS->hp_vcd_saver_c_1[l],GLOBALS->hp_vcd_saver_c_1[i])>0))
                 {
                 largest=l;
-                }   
+                }
                 else
                 {
                 largest=i;
@@ -314,13 +314,13 @@ for(;;)
                 {
                 largest=r;
                 }
-        
+
         if(i!=largest)
                 {
                 t=GLOBALS->hp_vcd_saver_c_1[i];
                 GLOBALS->hp_vcd_saver_c_1[i]=GLOBALS->hp_vcd_saver_c_1[largest];
                 GLOBALS->hp_vcd_saver_c_1[largest]=t;
-                
+
                 if(largest<=maxele)
                         {
                         i=largest;
@@ -328,8 +328,8 @@ for(;;)
                         else
                         {
                         break;
-                        } 
-                }   
+                        }
+                }
                 else
                 {
                 break;
@@ -340,7 +340,7 @@ for(;;)
 
 /*
  * mainline
- */ 
+ */
 int save_nodes_to_export_generic(FILE *trans_file, Trptr trans_head, const char *fname, int export_typ)
 {
 Trptr t = trans_head ? trans_head : GLOBALS->traces.first;
@@ -399,7 +399,7 @@ while(t)
 	{
 	if(!t->vector)
 		{
-		if(t->n.nd) 
+		if(t->n.nd)
 			{
 			n = t->n.nd;
 			if(n->expansion) n = n->expansion->parent;
@@ -417,7 +417,7 @@ while(t)
 				vt = vcdsav_insert(n, vt, ++nodecnt, flags, &n->head);
 				}
 			}
-		}	
+		}
 		else
 		{
 		bvptr b = t->n.vec;
@@ -428,10 +428,10 @@ while(t)
 				{
 				for(i=0;i<bt->nnbits;i++)
 					{
-					if(bt->nodes[i]) 
+					if(bt->nodes[i])
 						{
 						n = bt->nodes[i];
-	
+
 						if(n->expansion) n = n->expansion->parent;
 						vt = vcdsav_splay(n, vt);
 						if(!vt || vt->item != n)
@@ -467,7 +467,7 @@ while(t)
 		{
 		st = st->next;
 		t = st ? st->trace : NULL;
-		if(t) 
+		if(t)
 			{
 			continue;
 			}
@@ -478,13 +478,13 @@ while(t)
 		}
 
 strace_concat:
-	GLOBALS->strace_ctx = &GLOBALS->strace_windows[GLOBALS->strace_current_window = strace_append];	
+	GLOBALS->strace_ctx = &GLOBALS->strace_windows[GLOBALS->strace_current_window = strace_append];
 	strace_append++;
 	if(strace_append == WAVE_NUM_STRACE_WINDOWS) break;
 
 	if(!GLOBALS->strace_ctx->shadow_straces)
 		{
-		goto strace_concat;		
+		goto strace_concat;
 		}
 
 	swap_strace_contexts();
@@ -503,7 +503,7 @@ if(lxt)
 
 	lt_set_chg_compress(lt);
 	lt_set_clock_compress(lt);
-	lt_set_initial_value(lt, 'x');	
+	lt_set_initial_value(lt, 'x');
 	lt_set_time64(lt, 0);
 	lt_symbol_bracket_stripping(lt, 1);
 
@@ -588,7 +588,7 @@ for(i=0;i<nodecnt;i++)
 			msi = GLOBALS->hp_vcd_saver_c_1[i]->item->msi;
 			lsi = GLOBALS->hp_vcd_saver_c_1[i]->item->lsi;
 			}
-		
+
 		if(msi==lsi)
 			{
 			if(lxt)
@@ -639,7 +639,7 @@ if(!lxt)
 
 for(i=(nodecnt/2-1);i>0;i--)        /* build nodes into having heap property */
         {
-        heapify(i,nodecnt);  
+        heapify(i,nodecnt);
         }
 
 for(;;)
@@ -667,7 +667,7 @@ for(;;)
 			}
 		prevtime = GLOBALS->hp_vcd_saver_c_1[0]->hist->time;
 		}
-	
+
 	if(GLOBALS->hp_vcd_saver_c_1[0]->hist->time >= LLDescriptor(0))
 		{
 		if(GLOBALS->hp_vcd_saver_c_1[0]->flags & (HIST_REAL|HIST_STRING))
@@ -722,9 +722,9 @@ for(;;)
 					}
 					else
 					{
-					w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "r%.16g %s\n", value, vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));	
+					w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "r%.16g %s\n", value, vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
 					}
-				}	
+				}
 			}
 		else
 		if(GLOBALS->hp_vcd_saver_c_1[0]->len)
@@ -734,17 +734,17 @@ for(;;)
 				for(i=0;i<GLOBALS->hp_vcd_saver_c_1[0]->len;i++)
 					{
 					row_data[i] = analyzer_demang(lxt, GLOBALS->hp_vcd_saver_c_1[0]->hist->v.h_vector[i]);
-					}				
+					}
 				}
 				else
 				{
 				for(i=0;i<GLOBALS->hp_vcd_saver_c_1[0]->len;i++)
 					{
 					row_data[i] = 'x';
-					}				
+					}
 				}
 			row_data[i] = 0;
-			
+
 			if(lxt)
 				{
 				lt_emit_value_bit_string(lt, GLOBALS->hp_vcd_saver_c_1[0]->handle.p, 0, row_data);
@@ -802,7 +802,7 @@ if(lxt)
 	{
 	if(export_typ != WAVE_EXPORT_TRANS)
 		{
-		fclose(GLOBALS->f_vcd_saver_c_1); 
+		fclose(GLOBALS->f_vcd_saver_c_1);
 		}
 		else
 		{
@@ -848,7 +848,7 @@ struct namehier *nhtemp;
 
 while(GLOBALS->nhold_vcd_saver_c_1)
 	{
-	nhtemp=GLOBALS->nhold_vcd_saver_c_1->next;	
+	nhtemp=GLOBALS->nhold_vcd_saver_c_1->next;
 	free_2(GLOBALS->nhold_vcd_saver_c_1->name);
 	free_2(GLOBALS->nhold_vcd_saver_c_1);
 	GLOBALS->nhold_vcd_saver_c_1=nhtemp;
@@ -940,7 +940,7 @@ pnt=pnt2=name;
 
 for(;;)
 {
-if(*pnt2 == '\\') 
+if(*pnt2 == '\\')
 	{
 	while(*pnt2) pnt2++;
 	}
@@ -1062,7 +1062,7 @@ for(i=0;i<numhist;i++)
 	{
 	if(ha[i]->time < tmin)
 		{
-		h_val = invert ? AN_USTR_INV[ha[i]->v.h_val] : AN_USTR[ha[i]->v.h_val];	
+		h_val = invert ? AN_USTR_INV[ha[i]->v.h_val] : AN_USTR[ha[i]->v.h_val];
 		}
 	else
 	if(ha[i]->time > tmax)
@@ -1094,9 +1094,9 @@ for(i=0;i<numhist;i++)
 					t->name,
 					h_val,
 					edges);
-			first = FALSE;			
+			first = FALSE;
 
-			if(skip_this) 
+			if(skip_this)
 				{
 				continue;
 				}
@@ -1105,7 +1105,7 @@ for(i=0;i<numhist;i++)
 		h_val = invert ? AN_USTR_INV[ha[i]->v.h_val] : AN_USTR[ha[i]->v.h_val];
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "          Edge:               "TTFormat".0 %c\n", ha[i]->time, h_val);
 		}
-	}		
+	}
 
 if(first)
 	{
@@ -1154,17 +1154,17 @@ if((s)&&(*s))
 		/* if(isspace(*s)) *s='_'; ...not needed */
 		s++;
 		}
-	
+
 	if(is_all_z)
 		{
-		*(s_orig++) = 'Z';		
-		*(s_orig) = 0;		
+		*(s_orig++) = 'Z';
+		*(s_orig) = 0;
 		}
 	else
 	if(is_all_x)
 		{
-		*(s_orig++) = 'X';		
-		*(s_orig) = 0;		
+		*(s_orig++) = 'X';
+		*(s_orig) = 0;
 		}
 	}
 }
@@ -1173,7 +1173,7 @@ static char *get_hptr_vector_val(Trptr t, hptr h)
 {
 char *ascii = NULL;
 
-if(h->time < LLDescriptor(0)) 
+if(h->time < LLDescriptor(0))
 	{
 	ascii=strdup_2("X");
 	}
@@ -1181,7 +1181,7 @@ else
 if(h->flags&HIST_REAL)
 	{
         if(!(h->flags&HIST_STRING))
-        	{               
+        	{
 #ifdef WAVE_HAS_H_DOUBLE
                 ascii=convert_ascii_real(t, &h->v.h_double);
 #else
@@ -1191,7 +1191,7 @@ if(h->flags&HIST_REAL)
                 else
                 {
                 ascii=convert_ascii_string((char *)h->v.h_vector);
-                }        
+                }
 	}
         else
         {
@@ -1281,7 +1281,7 @@ for(i=0;i<numhist;i++)
 	{
 	if(ha[i]->time < tmin)
 		{
-		if(h_val) free_2(h_val); 
+		if(h_val) free_2(h_val);
 		h_val = get_hptr_vector_val(t, ha[i]);
 		}
 	else
@@ -1297,7 +1297,7 @@ for(i=0;i<numhist;i++)
 
 			if(skip_this)
 				{
-				if(h_val) free_2(h_val); 
+				if(h_val) free_2(h_val);
 				h_val = get_hptr_vector_val(t, ha[i]);
 				}
 
@@ -1317,19 +1317,19 @@ for(i=0;i<numhist;i++)
 					h_val,
 					vcdsav_dtypes[curtype],
 					edges);
-			first = FALSE;			
+			first = FALSE;
 
-			if(skip_this) 
+			if(skip_this)
 				{
 				continue;
 				}
 			}
 
-		if(h_val) free_2(h_val); 
+		if(h_val) free_2(h_val);
 		h_val = get_hptr_vector_val(t, ha[i]);
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "          Edge:               "TTFormat".0 %s\n", ha[i]->time, h_val);
 		}
-	}		
+	}
 
 if(first)
 	{
@@ -1352,7 +1352,7 @@ if(first)
 			edges);
 	}
 
-if(h_val) free_2(h_val); 
+if(h_val) free_2(h_val);
 (*whichptr)++;
 }
 
@@ -1362,7 +1362,7 @@ static char *get_vptr_vector_val(Trptr t, vptr v)
 {
 char *ascii = NULL;
 
-if(v->time < LLDescriptor(0)) 
+if(v->time < LLDescriptor(0))
 	{
 	ascii=strdup_2("X");
 	}
@@ -1426,7 +1426,7 @@ for(i=0;i<numhist;i++)
 	{
 	if(ha[i]->time < tmin)
 		{
-		if(h_val) free_2(h_val); 
+		if(h_val) free_2(h_val);
 		h_val = get_vptr_vector_val(t, ha[i]);
 		}
 	else
@@ -1442,7 +1442,7 @@ for(i=0;i<numhist;i++)
 
 			if(skip_this)
 				{
-				if(h_val) free_2(h_val); 
+				if(h_val) free_2(h_val);
 				h_val = get_vptr_vector_val(t, ha[i]);
 				}
 
@@ -1462,19 +1462,19 @@ for(i=0;i<numhist;i++)
 					h_val,
 					vcdsav_dtypes[curtype],
 					edges);
-			first = FALSE;			
+			first = FALSE;
 
-			if(skip_this) 
+			if(skip_this)
 				{
 				continue;
 				}
 			}
 
-		if(h_val) free_2(h_val); 
+		if(h_val) free_2(h_val);
 		h_val = get_vptr_vector_val(t, ha[i]);
 		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "          Edge:               "TTFormat".0 %s\n", ha[i]->time, h_val);
 		}
-	}		
+	}
 
 if(first)
 	{
@@ -1497,7 +1497,7 @@ if(first)
 			edges);
 	}
 
-if(h_val) free_2(h_val); 
+if(h_val) free_2(h_val);
 (*whichptr)++;
 }
 
@@ -1530,7 +1530,7 @@ int do_timfile_save(const char *fname)
 {
 const char *time_prefix=WAVE_SI_UNITS;
 const double negpow[] = { 1.0, 1.0e-3, 1.0e-6, 1.0e-9, 1.0e-12, 1.0e-15, 1.0e-18, 1.0e-21 };
-char *pnt;        
+char *pnt;
 int offset;
 Trptr t = GLOBALS->traces.first;
 int i = 1; /* trace index in the .tim file */

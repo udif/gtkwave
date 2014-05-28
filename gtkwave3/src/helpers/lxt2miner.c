@@ -123,7 +123,7 @@ lt=lxt2_rd_init(fname);
 if(lt)
 	{
 	int numfacs;
-	
+
 	numfacs = lxt2_rd_get_num_facs(lt);
 	killed_list = calloc(numfacs, sizeof(char));
 	lxt2_rd_set_fac_process_mask_all(lt);
@@ -147,7 +147,7 @@ return(0);
 
 void print_help(char *nam)
 {
-#ifdef __linux__ 
+#ifdef __linux__
 printf(
 "Usage: %s [OPTION]... [VZTFILE]\n\n"
 "  -d, --dumpfile=FILE        specify LXT2 input dumpfile\n"
@@ -190,7 +190,7 @@ while (1)
         {
 #ifdef __linux__
         int option_index = 0;
-                        
+
         static struct option long_options[] =
                 {
 		{"comprehensive", 0, 0, 'c'},
@@ -199,16 +199,16 @@ while (1)
 		{"hex", 1, 0, 'x'},
 		{"namesonly", 0, 0, 'n'},
                 {"help", 0, 0, 'h'},
-                {0, 0, 0, 0}  
+                {0, 0, 0, 0}
                 };
-                
+
         c = getopt_long (argc, argv, "d:m:x:nch", long_options, &option_index);
 #else
         c = getopt      (argc, argv, "d:m:x:nch");
 #endif
-                        
+
         if (c == -1) break;     /* no more args */
-                        
+
         switch (c)
                 {
 		case 'c':
@@ -275,24 +275,24 @@ while (1)
                 case 'h':
 			print_help(argv[0]);
                         break;
-                        
+
                 case '?':
                         opt_errors_encountered=1;
                         break;
-                        
+
                 default:
                         /* unreachable */
                         break;
                 }
         }
-                        
+
 if(opt_errors_encountered)
         {
         print_help(argv[0]);
         }
 
 if (optind < argc)
-        {               
+        {
         while (optind < argc)
                 {
                 if(!lxname)
@@ -306,7 +306,7 @@ if (optind < argc)
 			}
                 }
         }
-                        
+
 if(!names_only && comprehensive)
 	{
 	killed_value = 0;

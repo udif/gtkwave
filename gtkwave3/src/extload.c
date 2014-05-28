@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2009-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -87,14 +87,14 @@ if(GLOBALS->extload_lastmod)
 		perror("Why");
 		errno = 0;
 		GLOBALS->extload_already_errored = 1;
-		return(0);		
+		return(0);
 		}
 	else
 	if(GLOBALS->extload_lastmod != buf.st_mtime)
 		{
 		fprintf(stderr, EXTLOAD"file '%s' was modified!\n", GLOBALS->loaded_file_name);
 		GLOBALS->extload_already_errored = 1;
-		return(0);		
+		return(0);
 		}
 		else
 		{
@@ -146,12 +146,12 @@ for(;;)
 					{
 					sprintf(rc, "Scope: vcd_struct %s NULL\n", sbuff2);
 					}
-				} 
+				}
 			else
 			if((snp=strstr(rc+1, "Struct End")))
 				{
 				sprintf(rc, "Upscope:\n");
-				} 
+				}
 			}
 		}
 	else
@@ -179,7 +179,7 @@ for(;;)
 			char *vtyp_nam;
 			char *cpyto;
 			char *pntd;
-	
+
 			sscanf(rc + 5, "%s", typ);
 
 			while(*pnt)
@@ -218,7 +218,7 @@ for(;;)
 							}
 						}
 					}
-				
+
 				pnt++;
 				}
 
@@ -235,16 +235,16 @@ for(;;)
 				if(!strcmp("vcd_real", typ))
 					{
 					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_DOUBLE;
-					GLOBALS->extload_node_block[i].msi=0;				
-					GLOBALS->extload_node_block[i].lsi=0;				
+					GLOBALS->extload_node_block[i].msi=0;
+					GLOBALS->extload_node_block[i].lsi=0;
 					GLOBALS->mvlfacs_vzt_c_3[i].len=64;
 					}
 				else
 				if(!strcmp("vcd_integer", typ))
 					{
 					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_INTEGER;
-					GLOBALS->extload_node_block[i].msi=0;				
-					GLOBALS->extload_node_block[i].lsi=0;				
+					GLOBALS->extload_node_block[i].msi=0;
+					GLOBALS->extload_node_block[i].lsi=0;
 					GLOBALS->mvlfacs_vzt_c_3[i].len=32;
 					}
 				else
@@ -263,7 +263,7 @@ for(;;)
 							else
 							{
 							GLOBALS->extload_node_block[i].lsi = GLOBALS->extload_node_block[i].msi;
-							}						
+							}
 
 						len_parse = (GLOBALS->extload_node_block[i].msi > GLOBALS->extload_node_block[i].lsi)
 								? (GLOBALS->extload_node_block[i].msi - GLOBALS->extload_node_block[i].lsi + 1)
@@ -271,25 +271,25 @@ for(;;)
 
 						if(len_parse != GLOBALS->mvlfacs_vzt_c_3[i].len)
 							{
-							GLOBALS->extload_node_block[i].msi=l;				
-							GLOBALS->extload_node_block[i].lsi=r;				
+							GLOBALS->extload_node_block[i].msi=l;
+							GLOBALS->extload_node_block[i].lsi=r;
 							}
 						}
 						else
 						{
 						if(lb && !l && !r) /* fix for stranded signals */
 							{
-							GLOBALS->extload_node_block[i].msi=atoi(lb+1);				
-							GLOBALS->extload_node_block[i].lsi=atoi(lb+1);				
+							GLOBALS->extload_node_block[i].msi=atoi(lb+1);
+							GLOBALS->extload_node_block[i].lsi=atoi(lb+1);
 							}
 							else
 							{
-							GLOBALS->extload_node_block[i].msi=l;				
-							GLOBALS->extload_node_block[i].lsi=r;				
+							GLOBALS->extload_node_block[i].msi=l;
+							GLOBALS->extload_node_block[i].lsi=r;
 							}
 						}
 
-					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_BITS; 
+					GLOBALS->mvlfacs_vzt_c_3[i].flags = VZT_RD_SYM_F_BITS;
 					}
 				}
 
@@ -362,7 +362,7 @@ for(;;)
 					{
 					vt = V_WIRE;
 					}
-	
+
 				*vtp = vt;
 				*pnt = ' ';
 				}
@@ -394,9 +394,9 @@ for(;;)
 						int colon_seen = 0;
 
 						pnt2++;
-						while(*pnt2 && !isspace(*pnt2) && (*pnt2 != '[')) 
-							{ 
-							lastch = *pnt2; pnt2++; 
+						while(*pnt2 && !isspace(*pnt2) && (*pnt2 != '['))
+							{
+							lastch = *pnt2; pnt2++;
 							if(lastch == ':') { colon_seen = 1; }
 							};
 
@@ -512,7 +512,7 @@ unsigned char vd;
 struct Node *n;
 struct symbol *s;
 char buf[65537];
-char *str;	
+char *str;
 struct fac *f;
 char *fnam;
 int flen;
@@ -601,7 +601,7 @@ else
 	        symadd_name_exists_sym_exists(s,str,0);
 		GLOBALS->extload_prevsymroot = GLOBALS->extload_prevsym = NULL;
 		}
-	else if ( 
+	else if (
 			((f->len==1)&&(!(f->flags&(VZT_RD_SYM_F_INTEGER|VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))&&
 			((i!=GLOBALS->numfacs-1)&&(!strcmp(GLOBALS->extload_namecache[i], GLOBALS->extload_namecache[i+1]))))
 			||
@@ -655,7 +655,7 @@ else
 			GLOBALS->mvlfacs_vzt_c_3[i].len=32;
 			}
 		}
-		
+
         n=&GLOBALS->extload_node_block[i];
         n->nname=s->name;
         n->mv.mvlfac = GLOBALS->mvlfacs_vzt_c_3+i;
@@ -665,7 +665,7 @@ else
 		{
 		n->extvals = 1;
 		}
-                 
+
         n->head.time=-1;        /* mark 1st node as negative time */
         n->head.v.h_val=AN_X;
         s->n=n;
@@ -773,7 +773,7 @@ if(GLOBALS->extload_ffr_ctx)
 		GLOBALS->min_time = tim;
 		success_count++;
 		}
-	
+
 	attempt_count++;
 	rv = fsdbReaderGetMaxFsdbTag64(GLOBALS->extload_ffr_ctx, &tim);
 	if(rv)
@@ -852,7 +852,7 @@ for(;;)
 							}
 						pnt++;
 						}
-					
+
 					msk |= 1;
 					}
 				}
@@ -1032,7 +1032,7 @@ fstReaderClose(GLOBALS->extload_xc); /* corresponds to fstReaderOpenForUtilities
 
 #endif
 
-/* SPLASH */                            splash_sync(2, 5);  
+/* SPLASH */                            splash_sync(2, 5);
 GLOBALS->facs=(struct symbol **)malloc_2(GLOBALS->numfacs*sizeof(struct symbol *));
 
 if(GLOBALS->fast_tree_sort)
@@ -1040,26 +1040,26 @@ if(GLOBALS->fast_tree_sort)
         for(i=0;i<GLOBALS->numfacs;i++)
                 {
                 int len;
-                GLOBALS->facs[i]=&GLOBALS->extload_sym_block[i]; 
+                GLOBALS->facs[i]=&GLOBALS->extload_sym_block[i];
                 if((len=strlen(GLOBALS->facs[i]->name))>GLOBALS->longestname) GLOBALS->longestname=len;
                 }
-                                
-/* SPLASH */                            splash_sync(3, 5);  
+
+/* SPLASH */                            splash_sync(3, 5);
         fprintf(stderr, EXTLOAD"Building facility hierarchy tree.\n");
-                                         
+
         init_tree();
         for(i=0;i<GLOBALS->numfacs;i++)
                 {
 		build_tree_from_name(GLOBALS->facs[i]->name, i);
                 }
-/* SPLASH */                            splash_sync(4, 5);  
+/* SPLASH */                            splash_sync(4, 5);
         treegraft(&GLOBALS->treeroot);
-                                
+
         fprintf(stderr, EXTLOAD"Sorting facility hierarchy tree.\n");
         treesort(GLOBALS->treeroot, NULL);
-/* SPLASH */                            splash_sync(5, 5);  
+/* SPLASH */                            splash_sync(5, 5);
         order_facs_from_treesort(GLOBALS->treeroot, &GLOBALS->facs);
-                                
+
         GLOBALS->facs_are_sorted=1;
         }
         else
@@ -1077,43 +1077,43 @@ if(GLOBALS->fast_tree_sort)
 	        if((len=strlen(subst))>GLOBALS->longestname) GLOBALS->longestname=len;
 #ifdef WAVE_HIERFIX
 		while((ch=(*subst)))
-			{	
+			{
 			if(ch==GLOBALS->hier_delimeter) { *subst=VCDNAM_HIERSORT; }	/* forces sort at hier boundaries */
 			subst++;
 			}
 #endif
 		}
 
-/* SPLASH */                            splash_sync(3, 5);  
+/* SPLASH */                            splash_sync(3, 5);
 	fprintf(stderr, EXTLOAD"Sorting facilities at hierarchy boundaries.\n");
 	wave_heapsort(GLOBALS->facs,GLOBALS->numfacs);
-	
+
 #ifdef WAVE_HIERFIX
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *subst, ch;
-	
+
 		subst=GLOBALS->facs[i]->name;
 		while((ch=(*subst)))
-			{	
+			{
 			if(ch==VCDNAM_HIERSORT) { *subst=GLOBALS->hier_delimeter; }	/* restore back to normal */
 			subst++;
 			}
 		}
-#endif	
+#endif
 
 	GLOBALS->facs_are_sorted=1;
 
-/* SPLASH */                            splash_sync(4, 5);  
+/* SPLASH */                            splash_sync(4, 5);
 	fprintf(stderr, EXTLOAD"Building facility hierarchy tree.\n");
 
-	init_tree();		
-	for(i=0;i<GLOBALS->numfacs;i++)	
+	init_tree();
+	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *nf = GLOBALS->facs[i]->name;
 	        build_tree_from_name(nf, i);
 		}
-/* SPLASH */                            splash_sync(5, 5);  
+/* SPLASH */                            splash_sync(5, 5);
 	treegraft(&GLOBALS->treeroot);
 	treesort(GLOBALS->treeroot, NULL);
 	}
@@ -1176,7 +1176,7 @@ struct lx2_entry *l2e = GLOBALS->vzt_table_vzt_c_1+(*facidx);
 struct fac *f = GLOBALS->mvlfacs_vzt_c_3+(*facidx);
 
 
-GLOBALS->busycnt_vzt_c_2++; 
+GLOBALS->busycnt_vzt_c_2++;
 if(GLOBALS->busycnt_vzt_c_2==WAVE_BUSY_ITER)
 	{
 	busy_window_refresh();
@@ -1187,7 +1187,7 @@ if(GLOBALS->busycnt_vzt_c_2==WAVE_BUSY_ITER)
 
 if(!(f->flags&(VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))
 	{
-	if(f->len>1)        
+	if(f->len>1)
 	        {
 	        htemp->v.h_vector = (char *)malloc_2(f->len);
 		memcpy(htemp->v.h_vector, *value, f->len);
@@ -1243,7 +1243,7 @@ l2e->numtrans++;
  * this is the black magic that handles aliased signals...
  */
 static void ext_resolver(nptr np, nptr resolve)
-{ 
+{
 np->extvals = resolve->extvals;
 np->msi = resolve->msi;
 np->lsi = resolve->lsi;
@@ -1256,8 +1256,8 @@ np->mv.mvlfac=NULL;
 
 
 
-/* 
- * actually import a extload trace but don't do it if it's already been imported 
+/*
+ * actually import a extload trace but don't do it if it's already been imported
  */
 void import_extload_trace(nptr np)
 {
@@ -1278,17 +1278,17 @@ txidx_in_trace = GLOBALS->extload_idcodes[txidx];
 if(GLOBALS->extload_inv_idcodes[txidx_in_trace] < 0)
 	{
 	txidx = (-GLOBALS->extload_inv_idcodes[txidx_in_trace]) - 1;
-	
+
 	np = GLOBALS->mvlfacs_vzt_c_3[txidx].working_node;
 
-	if(!(f=np->mv.mvlfac)) 
+	if(!(f=np->mv.mvlfac))
 		{
 		ext_resolver(nold, np);
 		return;	/* already imported */
 		}
 	}
 
-GLOBALS->extload_inv_idcodes[txidx_in_trace] = - (txidx + 1); 
+GLOBALS->extload_inv_idcodes[txidx_in_trace] = - (txidx + 1);
 
 #ifndef WAVE_FSDB_READER_IS_PRESENT
 fprintf(stderr, EXTLOAD"Import: %s\n", np->nname);
@@ -1312,7 +1312,7 @@ void *hdl;
 hdl = fsdbReaderCreateVCTraverseHandle(GLOBALS->extload_ffr_ctx, txidx_in_trace);
 if(fsdbReaderHasIncoreVC(GLOBALS->extload_ffr_ctx, hdl))
 	{
-	TimeType mxt_max = -2; 
+	TimeType mxt_max = -2;
 	TimeType mxt = (TimeType)fsdbReaderGetMinXTag(GLOBALS->extload_ffr_ctx, hdl);
 	int rc_xtag = fsdbReaderGotoXTag(GLOBALS->extload_ffr_ctx, hdl, mxt);
 
@@ -1332,7 +1332,7 @@ if(fsdbReaderHasIncoreVC(GLOBALS->extload_ffr_ctx, hdl))
 			{
 			break;
 			}
-			
+
 		mxt_max = mxt;
 		mxt = (TimeType)fsdbReaderGetXTag(GLOBALS->extload_ffr_ctx, hdl, &rc_xtag);
 		}
@@ -1367,7 +1367,7 @@ if(last_modification_check()) /* place array height check here in an "&&" branch
 				unsigned int lo = 0, hi = 0;
 				sscanf(rc+1, "%u %u", &hi, &lo);
 				tim = (TimeType)((((UTimeType)hi)<<32) + ((UTimeType)lo));
-				
+
 				rc = strchr(rc+1, ')');
 				if(rc)
 					{
@@ -1435,7 +1435,7 @@ if(len>1)
 	htemp->v.h_val = AN_X;		/* x */
 	}
 htemp->time = MAX_HISTENT_TIME-1;
-htemp->next = histent_tail;			
+htemp->next = histent_tail;
 
 if(GLOBALS->vzt_table_vzt_c_1[txidx].histent_curr)
 	{

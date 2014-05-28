@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2005.
  *
  * This program is free software; you can redistribute it and/or
@@ -128,7 +128,7 @@ if(GLOBALS->do_zoom_center)
 	else
 	{
 	GLOBALS->tims.timecache=0;
-	}	
+	}
 
 fix_wavehadj();
 
@@ -186,13 +186,13 @@ if(GLOBALS->tims.zoom<0)		/* otherwise it's ridiculous and can cause */
 		else
 		{
 		GLOBALS->tims.timecache=0;
-		}	
+		}
 
 	fix_wavehadj();
-	
+
 	gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed"); /* force zoom update */
 	gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */
-	
+
 	DEBUG(printf("Zoombuttons in\n"));
 	}
 }
@@ -205,7 +205,7 @@ if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nZoom Undo");
         help_text(
-                " is used to revert to the previous zoom value used.  Undo"  
+                " is used to revert to the previous zoom value used.  Undo"
 		" only works one level deep."
         );
         return;
@@ -253,19 +253,19 @@ if((GLOBALS->tims.baseline>=0)&&(GLOBALS->tims.marker>=0))
 	if(GLOBALS->wavewidth>4) { fixedwidth=GLOBALS->wavewidth-4; } else { fixedwidth=GLOBALS->wavewidth; }
 	estimated=-log(((gdouble)(GLOBALS->tims.last-GLOBALS->tims.first+1))/((gdouble)fixedwidth)*((gdouble)200.0))/log(GLOBALS->zoombase);
 	if(estimated>((gdouble)(0.0))) estimated=((gdouble)(0.0));
-	
+
 	GLOBALS->tims.prevzoom=GLOBALS->tims.zoom;
 	GLOBALS->tims.timecache=0;
-	
+
 	calczoom(estimated);
 	GLOBALS->tims.zoom=estimated;
 
 	fix_wavehadj();
-	
+
 	gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed"); /* force zoom update */
 	gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */
 	}
-	
+
 DEBUG(printf("Zoombuttons Fit\n"));
 }
 
@@ -288,18 +288,18 @@ if(GLOBALS->helpbox_is_active)
 if(GLOBALS->wavewidth>4) { fixedwidth=GLOBALS->wavewidth-4; } else { fixedwidth=GLOBALS->wavewidth; }
 estimated=-log(((gdouble)(GLOBALS->tims.last-GLOBALS->tims.first+1))/((gdouble)fixedwidth)*((gdouble)200.0))/log(GLOBALS->zoombase);
 if(estimated>((gdouble)(0.0))) estimated=((gdouble)(0.0));
-	
+
 GLOBALS->tims.prevzoom=GLOBALS->tims.zoom;
 GLOBALS->tims.timecache=0;
-	
+
 calczoom(estimated);
 GLOBALS->tims.zoom=estimated;
 
 fix_wavehadj();
-	
+
 gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "changed"); /* force zoom update */
 gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "value_changed"); /* force zoom update */
-	
+
 DEBUG(printf("Zoombuttons Full\n"));
 }
 

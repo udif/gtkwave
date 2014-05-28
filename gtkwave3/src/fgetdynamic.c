@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ do
 		{
 		ch=fgetc(handle);
 		if((ch==EOF)||(ch==0x00)||(ch=='\n')||(ch=='\r')) break;
-	
+
 		pnt = (char *)vlist_alloc(&v, 0);
 		*pnt = (char)ch;
 		}
@@ -37,7 +37,7 @@ do
 
 GLOBALS->fgetmalloc_len = vlist_size(v);
 
-if(!GLOBALS->fgetmalloc_len) 
+if(!GLOBALS->fgetmalloc_len)
 	{
 	pnt = NULL;
 	}
@@ -63,7 +63,7 @@ static char *stripspaces(char *s)
 {
 int len;
 
-if(s) 
+if(s)
 	{
 	char *s2 = s + strlen(s) - 1;
 	while(isspace((int)(unsigned char)*s2) && (s2 != s)) { *s2 = 0; s2--; }

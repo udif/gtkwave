@@ -32,7 +32,7 @@
 #define FST_VCD_WRITE_BUF_SIZ (2 * 1024 * 1024)
 
 void print_help(char *nam)
-{ 
+{
 #ifdef __linux__
 printf(
 "Usage: %s [OPTION]... [FSTFILE]\n\n"
@@ -74,23 +74,23 @@ while (1)
         {
 #ifdef __linux__
         int option_index = 0;
-                        
+
         static struct option long_options[] =
                 {
 		{"extensions", 0, 0, 'e'},
 		{"fstname", 1, 0, 'f'},
 		{"output", 1, 0, 'o'},
                 {"help", 0, 0, 'h'},
-                {0, 0, 0, 0}  
+                {0, 0, 0, 0}
                 };
-                
+
         c = getopt_long (argc, argv, "ef:o:h", long_options, &option_index);
 #else
         c = getopt      (argc, argv, "ef:o:h");
 #endif
-                        
+
         if (c == -1) break;     /* no more args */
-                        
+
         switch (c)
                 {
 		case 'e':
@@ -112,24 +112,24 @@ while (1)
                 case 'h':
 			print_help(argv[0]);
                         break;
-                        
+
                 case '?':
                         opt_errors_encountered=1;
                         break;
-                        
+
                 default:
                         /* unreachable */
                         break;
                 }
         }
-                        
+
 if(opt_errors_encountered)
         {
         print_help(argv[0]);
         }
 
 if (optind < argc)
-        {               
+        {
         while (optind < argc)
                 {
                 if(!fstname)
@@ -143,7 +143,7 @@ if (optind < argc)
 			}
                 }
         }
-                        
+
 if(!fstname)
         {
         print_help(argv[0]);
@@ -166,7 +166,7 @@ if(outname)
 		fprintf(stderr, "Could not open '%s', exiting.\n", outname);
 		perror("Why");
 		exit(255);
-		}	
+		}
 	fvbuf = malloc(FST_VCD_WRITE_BUF_SIZ);
 	setvbuf(fv, fvbuf, _IOFBF, FST_VCD_WRITE_BUF_SIZ);
 	}

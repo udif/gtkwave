@@ -50,6 +50,6 @@ pid_t pid;
 
 struct pipe_ctx *pipeio_create(char *execappname, char *arg);
 void pipeio_destroy(struct pipe_ctx *p);
-        
+
 #endif
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -30,7 +30,7 @@
  * MTI SV len=0 is real var     05apr07ajb
  */
 
-/* AIX may need this for alloca to work */ 
+/* AIX may need this for alloca to work */
 #if defined _AIX
   #pragma alloca
 #endif
@@ -103,7 +103,7 @@ return(found);
 
 enum Tokens   { T_VAR, T_END, T_SCOPE, T_UPSCOPE,
 		T_COMMENT, T_DATE, T_DUMPALL, T_DUMPOFF, T_DUMPON,
-		T_DUMPVARS, T_ENDDEFINITIONS, 
+		T_DUMPVARS, T_ENDDEFINITIONS,
 		T_DUMPPORTS, T_DUMPPORTSOFF, T_DUMPPORTSON, T_DUMPPORTSALL,
 		T_TIMESCALE, T_VERSION, T_VCDCLOSE, T_TIMEZERO,
 		T_EOF, T_STRING, T_UNKNOWN_KEY };
@@ -146,25 +146,25 @@ if(GLOBALS->he_curr_vcd_c_1==GLOBALS->he_fini_vcd_c_1)
 	GLOBALS->he_fini_vcd_c_1=GLOBALS->he_curr_vcd_c_1+VCD_HISTENT_GRANULARITY;
 	}
 
-return(GLOBALS->he_curr_vcd_c_1++);	
+return(GLOBALS->he_curr_vcd_c_1++);
 }
 
 /******************************************************************/
 
 
 /******************************************************************/
- 
+
 
 static unsigned int vcdid_hash(char *s, int len)
-{  
+{
 unsigned int val=0;
 int i;
 
 s+=(len-1);
-                 
+
 for(i=0;i<len;i++)
         {
-        val *= 94;				
+        val *= 94;
         val += (((unsigned char)*s) - 32);
         s--;
         }
@@ -210,7 +210,7 @@ if(GLOBALS->indexed_vcd_c_1)
 
 if(GLOBALS->sorted_vcd_c_1)
 	{
-	v=(struct vcdsymbol **)bsearch(key, GLOBALS->sorted_vcd_c_1, GLOBALS->numsyms_vcd_c_1, 
+	v=(struct vcdsymbol **)bsearch(key, GLOBALS->sorted_vcd_c_1, GLOBALS->numsyms_vcd_c_1,
 		sizeof(struct vcdsymbol *), vcdsymbsearchcompare);
 
 	if(v)
@@ -219,7 +219,7 @@ if(GLOBALS->sorted_vcd_c_1)
 			for(;;)
 				{
 				t=*v;
-		
+
 				if((v==GLOBALS->sorted_vcd_c_1)||(strcmp((*(--v))->id, key)))
 					{
 					return(t);
@@ -269,7 +269,7 @@ struct vcdsymbol *v;
 struct vcdsymbol **pnt;
 unsigned int vcd_distance;
 
-if(GLOBALS->sorted_vcd_c_1) 
+if(GLOBALS->sorted_vcd_c_1)
 	{
 	free_2(GLOBALS->sorted_vcd_c_1);	/* this means we saw a 2nd enddefinition chunk! */
 	GLOBALS->sorted_vcd_c_1=NULL;
@@ -288,7 +288,7 @@ if(GLOBALS->numsyms_vcd_c_1)
         if((vcd_distance <= VCD_INDEXSIZ)||(!GLOBALS->vcd_hash_kill))
                 {
                 GLOBALS->indexed_vcd_c_1 = (struct vcdsymbol **)calloc_2(vcd_distance, sizeof(struct vcdsymbol *));
-         
+
 		/* printf("%d symbols span ID range of %d, using indexing...\n", GLOBALS->numsyms_vcd_c_1, vcd_distance); */
 
                 v=GLOBALS->vcdsymroot_vcd_c_1;
@@ -299,7 +299,7 @@ if(GLOBALS->numsyms_vcd_c_1)
                         }
                 }
                 else
-		{	
+		{
 		pnt=GLOBALS->sorted_vcd_c_1=(struct vcdsymbol **)calloc_2(GLOBALS->numsyms_vcd_c_1, sizeof(struct vcdsymbol *));
 		v=GLOBALS->vcdsymroot_vcd_c_1;
 		while(v)
@@ -307,7 +307,7 @@ if(GLOBALS->numsyms_vcd_c_1)
 			*(pnt++)=v;
 			v=v->next;
 			}
-	
+
 		qsort(GLOBALS->sorted_vcd_c_1, GLOBALS->numsyms_vcd_c_1, sizeof(struct vcdsymbol *), vcdsymcompare);
 		}
 	}
@@ -400,7 +400,7 @@ for(;;)
 	if(ch<=' ') continue;	/* val<=' ' is a quick whitespace check      */
 	break;			/* (take advantage of fact that vcd is text) */
 	}
-if(ch=='$') 
+if(ch=='$')
 	{
 	GLOBALS->yytext_vcd_c_1[len++]=ch;
 	for(;;)
@@ -427,7 +427,7 @@ for(GLOBALS->yytext_vcd_c_1[len++]=ch;;GLOBALS->yytext_vcd_c_1[len++]=ch)
 	}
 GLOBALS->yytext_vcd_c_1[len]=0;	/* terminator */
 
-if(is_string) 
+if(is_string)
 	{
 	GLOBALS->yylen_vcd_c_1=len;
 	return(T_STRING);
@@ -471,7 +471,7 @@ if(!GLOBALS->var_prevch_vcd_c_1)
 	ch=GLOBALS->var_prevch_vcd_c_1;
 	GLOBALS->var_prevch_vcd_c_1=0;
 	}
-	
+
 if(ch=='[') return(V_LB);
 if(ch==':') return(V_COLON);
 if(ch==']') return(V_RB);
@@ -534,7 +534,7 @@ if(!GLOBALS->var_prevch_vcd_c_1)
 	ch=GLOBALS->var_prevch_vcd_c_1;
 	GLOBALS->var_prevch_vcd_c_1=0;
 	}
-	
+
 if(ch=='[') return(V_LB);
 if(ch==':') return(V_COLON);
 if(ch==']') return(V_RB);
@@ -626,7 +626,7 @@ if(!GLOBALS->var_prevch_vcd_c_1)
       ch=GLOBALS->var_prevch_vcd_c_1;
       GLOBALS->var_prevch_vcd_c_1=0;
       }
-      
+
 for(GLOBALS->yytext_vcd_c_1[len++]=ch;;GLOBALS->yytext_vcd_c_1[len++]=ch)
       {
 	if(len==GLOBALS->T_MAX_STR_vcd_c_1)
@@ -762,7 +762,7 @@ switch(GLOBALS->yytext_vcd_c_1[0])
 	case '-':
 		if(GLOBALS->yylen_vcd_c_1>1)
 			{
-			v=bsearch_vcd(GLOBALS->yytext_vcd_c_1+1, GLOBALS->yylen_vcd_c_1-1);	
+			v=bsearch_vcd(GLOBALS->yytext_vcd_c_1+1, GLOBALS->yylen_vcd_c_1-1);
 			if(!v)
 				{
 				fprintf(stderr,"Near byte %d, Unknown VCD identifier: '%s'\n",(int)(GLOBALS->vcdbyteno_vcd_c_1+(GLOBALS->vst_vcd_c_1-GLOBALS->vcdbuf_vcd_c_1)),GLOBALS->yytext_vcd_c_1+1);
@@ -786,12 +786,12 @@ switch(GLOBALS->yytext_vcd_c_1[0])
 	case 'B':
 		{
 		/* extract binary number then.. */
-		vector=malloc_2(GLOBALS->yylen_cache_vcd_c_1=GLOBALS->yylen_vcd_c_1); 
+		vector=malloc_2(GLOBALS->yylen_cache_vcd_c_1=GLOBALS->yylen_vcd_c_1);
 		strcpy(vector,GLOBALS->yytext_vcd_c_1+1);
 		vlen=GLOBALS->yylen_vcd_c_1-1;
 
 		get_strtoken();
-		v=bsearch_vcd(GLOBALS->yytext_vcd_c_1, GLOBALS->yylen_vcd_c_1);	
+		v=bsearch_vcd(GLOBALS->yytext_vcd_c_1, GLOBALS->yylen_vcd_c_1);
 		if(!v)
 			{
 			fprintf(stderr,"Near byte %d, Unknown identifier: '%s'\n",(int)(GLOBALS->vcdbyteno_vcd_c_1+(GLOBALS->vst_vcd_c_1-GLOBALS->vcdbuf_vcd_c_1)), GLOBALS->yytext_vcd_c_1);
@@ -806,14 +806,14 @@ switch(GLOBALS->yytext_vcd_c_1[0])
 				char *pnt;
 				char ch;
 				TimeType k=0;
-		
+
 				pnt=vector;
 				while((ch=*(pnt++))) { k=(k<<1)|((ch=='1')?1:0); }
 				free_2(vector);
-			
+
 				d=malloc_2(sizeof(double));
 				*d=(double)k;
-			
+
 				if(!v)
 					{
 					fprintf(stderr,"Near byte %d, Unknown identifier: '%s'\n",(int)(GLOBALS->vcdbyteno_vcd_c_1+(GLOBALS->vst_vcd_c_1-GLOBALS->vcdbuf_vcd_c_1)), GLOBALS->yytext_vcd_c_1);
@@ -834,7 +834,7 @@ switch(GLOBALS->yytext_vcd_c_1[0])
 
 				extend=(vector[0]=='1')?'0':vector[0];
 
-				fill=v->size-vlen;				
+				fill=v->size-vlen;
 				for(i=0;i<fill;i++)
 					{
 					v->value[i]=extend;
@@ -880,14 +880,14 @@ switch(GLOBALS->yytext_vcd_c_1[0])
 
 	case 'p':
 		/* extract port dump value.. */
-		vector=malloc_2(GLOBALS->yylen_cache_vcd_c_1=GLOBALS->yylen_vcd_c_1); 
+		vector=malloc_2(GLOBALS->yylen_cache_vcd_c_1=GLOBALS->yylen_vcd_c_1);
 		strcpy(vector,GLOBALS->yytext_vcd_c_1+1);
 		vlen=GLOBALS->yylen_vcd_c_1-1;
 
 		get_strtoken();	/* throw away 0_strength_component */
 		get_strtoken(); /* throw away 0_strength_component */
 		get_strtoken(); /* this is the id                  */
-		v=bsearch_vcd(GLOBALS->yytext_vcd_c_1, GLOBALS->yylen_vcd_c_1);	
+		v=bsearch_vcd(GLOBALS->yytext_vcd_c_1, GLOBALS->yylen_vcd_c_1);
 		if(!v)
 			{
 			fprintf(stderr,"Near byte %d, Unknown identifier: '%s'\n",(int)(GLOBALS->vcdbyteno_vcd_c_1+(GLOBALS->vst_vcd_c_1-GLOBALS->vcdbuf_vcd_c_1)), GLOBALS->yytext_vcd_c_1);
@@ -902,14 +902,14 @@ switch(GLOBALS->yytext_vcd_c_1[0])
 				char *pnt;
 				char ch;
 				TimeType k=0;
-		
+
 				pnt=vector;
 				while((ch=*(pnt++))) { k=(k<<1)|((ch=='1')?1:0); }
 				free_2(vector);
-			
+
 				d=malloc_2(sizeof(double));
 				*d=(double)k;
-			
+
 				if(!v)
 					{
 					fprintf(stderr,"Near byte %d, Unknown identifier: '%s'\n",(int)(GLOBALS->vcdbyteno_vcd_c_1+(GLOBALS->vst_vcd_c_1-GLOBALS->vcdbuf_vcd_c_1)), GLOBALS->yytext_vcd_c_1);
@@ -930,7 +930,7 @@ switch(GLOBALS->yytext_vcd_c_1[0])
 
 				extend='0';
 
-				fill=v->size-vlen;				
+				fill=v->size-vlen;
 				for(i=0;i<fill;i++)
 					{
 					v->value[i]=extend;
@@ -980,9 +980,9 @@ switch(GLOBALS->yytext_vcd_c_1[0])
 
 		d=malloc_2(sizeof(double));
 		sscanf(GLOBALS->yytext_vcd_c_1+1,"%lg",d);
-		
+
 		get_strtoken();
-		v=bsearch_vcd(GLOBALS->yytext_vcd_c_1, GLOBALS->yylen_vcd_c_1);	
+		v=bsearch_vcd(GLOBALS->yytext_vcd_c_1, GLOBALS->yylen_vcd_c_1);
 		if(!v)
 			{
 			fprintf(stderr,"Near byte %d, Unknown identifier: '%s'\n",(int)(GLOBALS->vcdbyteno_vcd_c_1+(GLOBALS->vst_vcd_c_1-GLOBALS->vcdbuf_vcd_c_1)), GLOBALS->yytext_vcd_c_1);
@@ -1011,7 +1011,7 @@ switch(GLOBALS->yytext_vcd_c_1[0])
 			}
 
 		get_strtoken();
-		v=bsearch_vcd(GLOBALS->yytext_vcd_c_1, GLOBALS->yylen_vcd_c_1);	
+		v=bsearch_vcd(GLOBALS->yytext_vcd_c_1, GLOBALS->yylen_vcd_c_1);
 		if(!v)
 			{
 			fprintf(stderr,"Near byte %d, Unknown identifier: '%s'\n",(int)(GLOBALS->vcdbyteno_vcd_c_1+(GLOBALS->vst_vcd_c_1-GLOBALS->vcdbuf_vcd_c_1)), GLOBALS->yytext_vcd_c_1);
@@ -1048,7 +1048,7 @@ while((ch=*src))
 			*dst=vcd[i];
 			break;
 			}
-		}	
+		}
 	if(i==23) *dst='x';
 
 	src++;
@@ -1080,8 +1080,8 @@ for(;;)
 			break;
                 case T_TIMEZERO:
                         {
-                        int vtok=get_token();    
-                        if((vtok==T_END)||(vtok==T_EOF)) break;   
+                        int vtok=get_token();
+                        if((vtok==T_END)||(vtok==T_EOF)) break;
                         GLOBALS->global_time_offset=atoi_64(GLOBALS->yytext_vcd_c_1);
 
                         DEBUG(fprintf(stderr,"TIMEZERO: "TTFormat"\n",GLOBALS->global_time_offset));
@@ -1111,7 +1111,7 @@ for(;;)
 				{
 				vtok=get_token();
 				if((vtok==T_END)||(vtok==T_EOF)) break;
-				prefix=GLOBALS->yytext_vcd_c_1[0];		
+				prefix=GLOBALS->yytext_vcd_c_1[0];
 				}
 			switch(prefix)
 				{
@@ -1141,7 +1141,7 @@ for(;;)
 			T_GET;
                                 {
                                 switch(GLOBALS->yytext_vcd_c_1[0])
-                                        { 
+                                        {
                                         case 'm':       ttype = TREE_VCD_ST_MODULE; break;
                                         case 't':       ttype = TREE_VCD_ST_TASK; break;
                                         case 'f':       ttype = (GLOBALS->yytext_vcd_c_1[1] == 'u') ? TREE_VCD_ST_FUNCTION : TREE_VCD_ST_FORK; break;
@@ -1277,7 +1277,7 @@ for(;;)
 					v->size=atoi_64(GLOBALS->yytext_vcd_c_1);
 					if(!v->size) v->size=1;
 					}
-					else 
+					else
 					if(vtok==V_LB)
 					{
 					vtok=get_vartoken(1);
@@ -1380,7 +1380,7 @@ for(;;)
 					}
 
                                 if(GLOBALS->pv_vcd_c_1)
-                                        { 
+                                        {
                                         if(!strcmp(GLOBALS->pv_vcd_c_1->name,v->name) && !disable_autocoalesce && (!strchr(v->name, '\\')))
                                                 {
                                                 GLOBALS->pv_vcd_c_1->chain=v;
@@ -1422,7 +1422,7 @@ for(;;)
                                         {
                                         GLOBALS->vcd_hash_kill = 1;
                                         }
-                                
+
                                 if(v->nid < GLOBALS->vcd_minid_vcd_c_1) GLOBALS->vcd_minid_vcd_c_1 = v->nid;
                                 if(v->nid > GLOBALS->vcd_maxid_vcd_c_1) GLOBALS->vcd_maxid_vcd_c_1 = v->nid;
 
@@ -1472,7 +1472,7 @@ for(;;)
 					}
 
                                 if(GLOBALS->pv_vcd_c_1)
-                                        { 
+                                        {
                                         if(!strcmp(GLOBALS->pv_vcd_c_1->name,v->name))
                                                 {
                                                 GLOBALS->pv_vcd_c_1->chain=v;
@@ -1489,7 +1489,7 @@ for(;;)
 					GLOBALS->rootv_vcd_c_1=v;
 					}
                                 GLOBALS->pv_vcd_c_1=v;
-				
+
 				vtok=get_vartoken(1);
 				if(vtok==V_END) goto dumpv;
 				if(vtok!=V_LB) goto err;
@@ -1539,14 +1539,14 @@ for(;;)
 			else
 			if((v->size>1)&&(v->msi<=0)&&(v->lsi<=0))
 				{
-				if(v->vartype==V_EVENT) 
+				if(v->vartype==V_EVENT)
 					{
 					v->size=1;
 					}
 					else
 					{
 					/* any criteria for the direction here? */
-					v->msi=v->size-1;	
+					v->msi=v->size-1;
 					v->lsi=0;
 					}
 				}
@@ -1564,7 +1564,7 @@ for(;;)
                                         }
 				}
 			else
-			if((v->lsi>=v->msi)&&((v->lsi-v->msi+1)!=v->size)) 
+			if((v->lsi>=v->msi)&&((v->lsi-v->msi+1)!=v->size))
 				{
                                 if((v->vartype!=V_EVENT)&&(v->vartype!=V_PARAMETER))
                                         {
@@ -1599,7 +1599,7 @@ for(;;)
 					for(i=0;i<v->size;i++)
 						{
 						v->value[i]='x';
-	
+
 						v->narray[i]=(struct Node *)calloc_2(1,sizeof(struct Node));
 						v->narray[i]->head.time=-1;
 						v->narray[i]->head.v.h_val=AN_X;
@@ -1690,7 +1690,7 @@ for(;;)
 			if(v)
 				{
 				GLOBALS->error_count_vcd_c_1++;
-				if(v->name) 
+				if(v->name)
 					{
 					fprintf(stderr, "Near byte %d, $VAR parse error encountered with '%s'\n", (int)(GLOBALS->vcdbyteno_vcd_c_1+(GLOBALS->vst_vcd_c_1-GLOBALS->vcdbuf_vcd_c_1)), v->name);
 					free_2(v->name);
@@ -1736,7 +1736,7 @@ for(;;)
 					{
 					TimeType tim;
 					tim=atoi_64(GLOBALS->yytext_vcd_c_1+1);
-					
+
 					if(GLOBALS->start_time_vcd_c_1<0)
 						{
 						GLOBALS->start_time_vcd_c_1=tim;
@@ -1842,7 +1842,7 @@ if(!n->curr)
         if((ch=='l')||(ch=='L')) heval=AN_L; else
         /* if(ch=='-') */        heval=AN_DASH;		/* default */
 
-	if((n->curr->v.h_val!=heval)||(tim==GLOBALS->start_time_vcd_c_1)||(n->vartype==ND_VCD_EVENT)||(GLOBALS->vcd_preserve_glitches)) /* same region == go skip */ 
+	if((n->curr->v.h_val!=heval)||(tim==GLOBALS->start_time_vcd_c_1)||(n->vartype==ND_VCD_EVENT)||(GLOBALS->vcd_preserve_glitches)) /* same region == go skip */
         	{
 		if(n->curr->time==tim)
 			{
@@ -1882,23 +1882,23 @@ switch(ch)
 		he->flags=(HIST_STRING|HIST_REAL);
 	        he->time=-1;
 	        he->v.h_vector=NULL;
-	
+
 		n->curr=he;
 		n->head.next=he;
-	
+
 		add_histent(tim,n,ch,regadd, vector);
 		}
 		else
 		{
 		if(regadd) { tim*=(GLOBALS->time_scale); }
-	
+
 			if(n->curr->time==tim)
 				{
 				DEBUG(printf("Warning: String Glitch at time ["TTFormat"] Signal [%p].\n",
 					tim, n));
 				if(n->curr->v.h_vector) free_2(n->curr->v.h_vector);
 				n->curr->v.h_vector=vector;		/* we have a glitch! */
-	
+
 				GLOBALS->num_glitches_vcd_c_2++;
 				if(!(n->curr->flags&HIST_GLITCH))
 					{
@@ -1912,7 +1912,7 @@ switch(ch)
 				he->flags=(HIST_STRING|HIST_REAL);
 	                	he->time=tim;
 	                	he->v.h_vector=vector;
-	
+
 	                	n->curr->next=he;
 				n->curr=he;
 	                	GLOBALS->regions+=regadd;
@@ -1932,16 +1932,16 @@ switch(ch)
 #else
 	        he->v.h_vector=NULL;
 #endif
-	
+
 		n->curr=he;
 		n->head.next=he;
-	
+
 		add_histent(tim,n,ch,regadd, vector);
 		}
 		else
 		{
 		if(regadd) { tim*=(GLOBALS->time_scale); }
-	
+
 		if(
 #ifdef WAVE_HAS_H_DOUBLE
 		  (vector&&(n->curr->v.h_double!=*(double *)vector))
@@ -1953,7 +1953,7 @@ switch(ch)
 			||(!n->curr->v.h_vector)
 #endif
 			||(GLOBALS->vcd_preserve_glitches)||(GLOBALS->vcd_preserve_glitches_real)
-			) /* same region == go skip */ 
+			) /* same region == go skip */
 	        	{
 			if(n->curr->time==tim)
 				{
@@ -1981,7 +1981,7 @@ switch(ch)
 				he->v.h_double = *((double *)vector);
 #else
 	                	he->v.h_vector=vector;
-#endif	
+#endif
 	                	n->curr->next=he;
 				n->curr=he;
 	                	GLOBALS->regions+=regadd;
@@ -2006,22 +2006,22 @@ switch(ch)
 		he=histent_calloc();
 	        he->time=-1;
 	        he->v.h_vector=NULL;
-	
+
 		n->curr=he;
 		n->head.next=he;
-	
+
 		add_histent(tim,n,ch,regadd, vector);
 		}
 		else
 		{
 		if(regadd) { tim*=(GLOBALS->time_scale); }
-	
+
 		if(
 		  (n->curr->v.h_vector&&vector&&(strcmp(n->curr->v.h_vector,vector)))
 			||(tim==GLOBALS->start_time_vcd_c_1)
 			||(!n->curr->v.h_vector)
 			||(GLOBALS->vcd_preserve_glitches)
-			) /* same region == go skip */ 
+			) /* same region == go skip */
 	        	{
 			if(n->curr->time==tim)
 				{
@@ -2029,7 +2029,7 @@ switch(ch)
 					tim, n, AN_STR[n->curr->v.h_val], ch));
 				if(n->curr->v.h_vector) free_2(n->curr->v.h_vector);
 				n->curr->v.h_vector=vector;		/* we have a glitch! */
-	
+
 				GLOBALS->num_glitches_vcd_c_2++;
 				if(!(n->curr->flags&HIST_GLITCH))
 					{
@@ -2042,7 +2042,7 @@ switch(ch)
 	                	he=histent_calloc();
 	                	he->time=tim;
 	                	he->v.h_vector=vector;
-	
+
 	                	n->curr->next=he;
 				n->curr=he;
 	                	GLOBALS->regions+=regadd;
@@ -2213,10 +2213,10 @@ while(v)
 		if(((v->size==1)||(!GLOBALS->atomic_vectors))&&(v->vartype!=V_REAL)&&(v->vartype!=V_STRINGTYPE))
 			{
 			struct symbol *s = NULL;
-	
+
 			for(j=0;j<v->size;j++)
 				{
-				if(v->msi>=0) 
+				if(v->msi>=0)
 					{
 					if(!GLOBALS->vcd_explicit_zero_subscripts)
 						sprintf(str+slen,"%d",msi);
@@ -2250,7 +2250,7 @@ while(v)
 					if(substnode)
 						{
 						struct Node *n, *n2;
-	
+
 						n=s->n;
 						n2=vprime->narray[j];
 						/* nname stays same */
@@ -2259,7 +2259,7 @@ while(v)
 						/* harray calculated later */
 						n->numhist=n2->numhist;
 						}
-	
+
 #ifndef _WAVE_HAVE_JUDY
 					s->n->nname=s->name;
 #endif
@@ -2267,14 +2267,14 @@ while(v)
 					        {
 					        GLOBALS->firstnode=
 					        GLOBALS->curnode=calloc_2(1, sizeof(struct symchain));
-					        }   
-					        else                                     
+					        }
+					        else
 					        {
 					        GLOBALS->curnode->next=calloc_2(1, sizeof(struct symchain));
 					        GLOBALS->curnode=GLOBALS->curnode->next;
 					        }
 					GLOBALS->curnode->symbol=s;
-                                                               	
+
 					GLOBALS->numfacs++;
 					DEBUG(fprintf(stderr,"Added: %s\n",str));
 					}
@@ -2367,8 +2367,8 @@ while(v)
 				        {
 				        GLOBALS->firstnode=
 				        GLOBALS->curnode=calloc_2(1, sizeof(struct symchain));
-				        }   
-				        else                                     
+				        }
+				        else
 				        {
 				        GLOBALS->curnode->next=calloc_2(1, sizeof(struct symchain));
 				        GLOBALS->curnode=GLOBALS->curnode->next;
@@ -2386,10 +2386,10 @@ while(v)
 
 #ifdef _WAVE_HAVE_JUDY
 {
-Pvoid_t  PJArray = GLOBALS->sym_judy;   
+Pvoid_t  PJArray = GLOBALS->sym_judy;
 PPvoid_t PPValue;
 char *Index = calloc_2(1, longest);
-                                
+
 for (PPValue  = JudySLFirst (PJArray, (uint8_t *)Index, PJE0);
          PPValue != (PPvoid_t) NULL;
          PPValue  = JudySLNext  (PJArray, (uint8_t *)Index, PJE0))
@@ -2405,7 +2405,7 @@ free_2(Index);
 
 if(sym_chain)
 	{
-	sym_curr=sym_chain;	
+	sym_curr=sym_chain;
 	while(sym_curr)
 		{
 		sym_curr->val->vec_root= ((struct vcdsymbol *)sym_curr->val->vec_root)->sym_chain;
@@ -2438,7 +2438,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 #endif
         int len;
 	struct symchain *sc;
-                 
+
         GLOBALS->facs[i]=GLOBALS->curnode->symbol;
 	subst=GLOBALS->facs[i]->name;
         if((len=strlen(subst))>GLOBALS->longestname) GLOBALS->longestname=len;
@@ -2462,14 +2462,14 @@ wave_heapsort(GLOBALS->facs,GLOBALS->numfacs);
 for(i=0;i<GLOBALS->numfacs;i++)
         {
         char *subst, ch;
-         
+
         subst=GLOBALS->facs[i]->name;
         while((ch=(*subst)))
                 {
                 if(ch==VCDNAM_HIERSORT) { *subst=GLOBALS->hier_delimeter; } /* restore back to normal */
                 subst++;
                 }
-        
+
 #ifdef DEBUG_FACILITIES
         printf("%-4d %s\n",i,facs[i]->name);
 #endif
@@ -2480,7 +2480,7 @@ GLOBALS->facs_are_sorted=1;
 
 init_tree();
 for(i=0;i<GLOBALS->numfacs;i++)
-{                       
+{
 char *n = GLOBALS->facs[i]->name;
 build_tree_from_name(n, i);
 
@@ -2494,11 +2494,11 @@ if(GLOBALS->escaped_names_found_vcd_c_1)
                 subst++;
                 }
 	}
-}                       
+}
 treegraft(&GLOBALS->treeroot);
 treesort(GLOBALS->treeroot, NULL);
 
-if(GLOBALS->escaped_names_found_vcd_c_1) 
+if(GLOBALS->escaped_names_found_vcd_c_1)
 	{
 	treenamefix(GLOBALS->treeroot);
 	}
@@ -2513,12 +2513,12 @@ struct vcdsymbol *v, *vt;
 
 if(GLOBALS->indexed_vcd_c_1)
 	{
-	free_2(GLOBALS->indexed_vcd_c_1); GLOBALS->indexed_vcd_c_1=NULL; 
+	free_2(GLOBALS->indexed_vcd_c_1); GLOBALS->indexed_vcd_c_1=NULL;
 	}
 
 if(GLOBALS->sorted_vcd_c_1)
 	{
-	free_2(GLOBALS->sorted_vcd_c_1); GLOBALS->sorted_vcd_c_1=NULL; 
+	free_2(GLOBALS->sorted_vcd_c_1); GLOBALS->sorted_vcd_c_1=NULL;
 	}
 
 v=GLOBALS->vcdsymroot_vcd_c_1;
@@ -2633,7 +2633,7 @@ if(!GLOBALS->vcd_handle_vcd_c_1)
 	vcd_exit(255);
 	}
 
-/* SPLASH */				splash_create(); 
+/* SPLASH */				splash_create();
 
 sym_hash_initialize(GLOBALS);
 getch_alloc();		/* alloc membuff for vcd getch buffer */
@@ -2657,7 +2657,7 @@ add_tail_histents();
 if(GLOBALS->vcd_save_handle) { fclose(GLOBALS->vcd_save_handle); GLOBALS->vcd_save_handle = NULL; }
 
 fprintf(stderr, "["TTFormat"] start time.\n["TTFormat"] end time.\n", GLOBALS->start_time_vcd_c_1*GLOBALS->time_scale, GLOBALS->end_time_vcd_c_1*GLOBALS->time_scale);
-if(GLOBALS->num_glitches_vcd_c_2) fprintf(stderr, "Warning: encountered %d glitch%s across %d glitch region%s.\n", 
+if(GLOBALS->num_glitches_vcd_c_2) fprintf(stderr, "Warning: encountered %d glitch%s across %d glitch region%s.\n",
 		GLOBALS->num_glitches_vcd_c_2, (GLOBALS->num_glitches_vcd_c_2!=1)?"es":"",
 		GLOBALS->num_glitch_regions_vcd_c_2, (GLOBALS->num_glitch_regions_vcd_c_2!=1)?"s":"");
 
@@ -2693,10 +2693,10 @@ if(GLOBALS->blackout_regions)
         {
         struct blackout_region_t *bt = GLOBALS->blackout_regions;
         while(bt)
-                {               
+                {
                 bt->bstart *= GLOBALS->time_scale;
                 bt->bend *= GLOBALS->time_scale;
-                bt = bt->next;   
+                bt = bt->next;
                 }
         }
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2004-2011.
  *
  * This program is free software; you can redistribute it and/or
@@ -28,11 +28,11 @@
 #include "busy.h"
 #include "hierpack.h"
 
-/* 
+/*
  * select appropriate entry points based on if aet2
  * support is available
  */
-#ifndef AET2_IS_PRESENT 
+#ifndef AET2_IS_PRESENT
 
 const char *ae2_loader_fail_msg = "Sorry, AET2 support was not compiled into this executable, exiting.\n\n";
 
@@ -95,7 +95,7 @@ if(facidx<GLOBALS->numfacs)
 
 
 static void error_fn(const char *format, ...)
-{ 
+{
 va_list ap;
 va_start(ap, format);
 vfprintf(stderr, format, ap);
@@ -141,12 +141,12 @@ return(ae2_read_find_symbol(GLOBALS->ae2, name, &f2));
 
 
 static void *alloc_fn(size_t size)
-{        
+{
 void *pnt = calloc_2(1, size);
 return(pnt);
 }
 
-        
+
 static void free_fn(void* ptr, size_t size)
 {
 if(ptr)
@@ -218,7 +218,7 @@ if(numTerms)
 		{
 		ADB_TERM *at = &GLOBALS->adb_aliases[idx][i];
 		AE2_FACREF fr2;
-	
+
 		fr2.s = at->id;
 		fr2.row = 0;
 		fr2.row_high = 0;
@@ -270,7 +270,7 @@ if(numTerms)
 		{
 		ADB_TERM *at = &GLOBALS->adb_aliases[idx][i];
 		AE2_FACREF fr2;
-	
+
 		fr2.s = at->id;
 		fr2.row = 0;
 		fr2.row_high = 0;
@@ -284,7 +284,7 @@ if(numTerms)
 			{
 			fr2.length = -(length = at->first - at->last + 1);
 			}
-		
+
 		if(fr2.s)
 			{
 			t_cyc = ae2_read_next_value(handle, &fr2, cycle, value+offs); /* simply want to calculate next value change time */
@@ -634,7 +634,7 @@ if(!GLOBALS->hier_was_explicitly_set)    /* set default hierarchy split char */
 match_idx = 0;
 for(i=0;i<GLOBALS->numfacs;i++)
         {
-	char *str;	
+	char *str;
         int idx;
 	int typ;
 	unsigned long len, clen;
@@ -720,7 +720,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		s = &monolithic_sym[match_idx];
 	        symadd_name_exists_sym_exists(s, str,0);
 		}
-		
+
         mx_row = (GLOBALS->ae2_fr[match_idx].row < 1) ? 1 : GLOBALS->ae2_fr[match_idx].row;
 	mx_row_adjusted = (mx_row < 2) ? 0 : mx_row;
         n=&monolithic_node[mono_row_offset];
@@ -759,7 +759,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 #endif
 			n[row_iter].extvals = 1;
 			}
-                 
+
 	        n[row_iter].head.time=-1;        /* mark 1st node as negative time */
 	        n[row_iter].head.v.h_val=AN_X;
 		}
@@ -788,9 +788,9 @@ if(GLOBALS->fast_tree_sort)
 /* SPLASH */                            splash_sync(3, 5);
 	fprintf(stderr, AET2_RDLOAD"Building facility hierarchy tree.\n");
 
-	init_tree();		
+	init_tree();
 
-	for(i=0;i<GLOBALS->numfacs;i++)	
+	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		int was_packed = HIER_DEPACK_STATIC; /* no need to free_2() afterward then */
 		char *sb = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
@@ -813,43 +813,43 @@ if(GLOBALS->fast_tree_sort)
 		{
 #ifdef WAVE_HIERFIX
 		char *subst;
-		char ch;	
+		char ch;
 #endif
 		GLOBALS->facs[i]=&monolithic_sym[i];
 #ifdef WAVE_HIERFIX
 		while((ch=(*subst)))
-			{	
+			{
 			if(ch==GLOBALS->hier_delimeter) { *subst=VCDNAM_HIERSORT; }	/* forces sort at hier boundaries */
 			subst++;
 			}
 #endif
 		}
-	
+
 /* SPLASH */                            splash_sync(3, 5);
 	fprintf(stderr, AET2_RDLOAD"Sorting facilities at hierarchy boundaries.\n");
 	wave_heapsort(GLOBALS->facs,GLOBALS->numfacs);
-	
+
 #ifdef WAVE_HIERFIX
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *subst, ch;
-	
+
 		subst=GLOBALS->facs[i]->name;
 		while((ch=(*subst)))
-			{	
+			{
 			if(ch==VCDNAM_HIERSORT) { *subst=GLOBALS->hier_delimeter; }	/* restore back to normal */
 			subst++;
 			}
 		}
-#endif	
+#endif
 
 	GLOBALS->facs_are_sorted=1;
 
 /* SPLASH */                            splash_sync(4, 5);
 	fprintf(stderr, AET2_RDLOAD"Building facility hierarchy tree.\n");
 
-	init_tree();		
-	for(i=0;i<GLOBALS->numfacs;i++)	
+	init_tree();
+	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		build_tree_from_name(GLOBALS->facs[i]->name, i);
 		}
@@ -904,20 +904,20 @@ if(skip_start || skip_end)
 			{
 			if(GLOBALS->ae2_time_xlate[lim_idx - first_cycle] <= GLOBALS->min_time)
 				{
-				GLOBALS->ae2_start_limit_cyc = lim_idx;			
+				GLOBALS->ae2_start_limit_cyc = lim_idx;
 				}
-	
+
 			if(GLOBALS->ae2_time_xlate[lim_idx - first_cycle] >= GLOBALS->min_time)
 				{
 				break;
 				}
 			}
-	
+
 		for(; lim_idx <= last_cycle; lim_idx++)
 			{
 			if(GLOBALS->ae2_time_xlate[lim_idx - first_cycle] >= GLOBALS->max_time)
 				{
-				GLOBALS->ae2_end_limit_cyc = lim_idx;			
+				GLOBALS->ae2_end_limit_cyc = lim_idx;
 				break;
 				}
 			}
@@ -950,7 +950,7 @@ if(busycnt==WAVE_BUSY_ITER)
 
 /* fprintf(stderr, "%lld %d %d %s\n", *tim, *facidx, row, *value); */
 
-if(f->length>1)        
+if(f->length>1)
         {
         htemp->v.h_vector = (char *)malloc_2(f->length);
 	memcpy(htemp->v.h_vector, *value, f->length);
@@ -1011,7 +1011,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			{
 			nptr np = GLOBALS->ae2_lx2_table[i][r].np;
 			np->mv.value = calloc_2(1, GLOBALS->ae2_fr[i].length+1);
-			}		
+			}
 		}
 	}
 
@@ -1040,7 +1040,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 			if(nr<2)
 				{
 				nptr np = GLOBALS->ae2_lx2_table[i][0].np;
-	
+
 				ae2_read_value_2(GLOBALS->ae2, GLOBALS->ae2_fr+i, cyc, buf);
 				if(strcmp(np->mv.value, buf))
 					{
@@ -1058,11 +1058,11 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 						{
 			                        for(r=1;r<rows+1;r++)
 			                                {
-							nptr np; 
+							nptr np;
 			                                uint64_t row = ae2_read_ith_sparse_row(GLOBALS->ae2, GLOBALS->ae2_fr[i].s, cyc, r);
-	
+
 			                                GLOBALS->ae2_fr[i].row = row;
-	
+
 							np = GLOBALS->ae2_lx2_table[i][row].np;
 			                                ae2_read_value_2(GLOBALS->ae2, GLOBALS->ae2_fr+i, cyc, buf);
 							if(strcmp(np->mv.value, buf))
@@ -1080,11 +1080,11 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 						{
 			                        for(r=0;r<rows;r++)
 			                                {
-							nptr np; 
+							nptr np;
 			                                uint64_t row = r;
-	
+
 			                                GLOBALS->ae2_fr[i].row = row;
-	
+
 							np = GLOBALS->ae2_lx2_table[i][row].np;
 			                                ae2_read_value_2(GLOBALS->ae2, GLOBALS->ae2_fr+i, cyc, buf);
 							if(strcmp(np->mv.value, buf))
@@ -1131,7 +1131,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 	                                GLOBALS->ae2_fr[i].row = row;
 					/* np = GLOBALS->ae2_lx2_table[i][row].np; */
 					ncyc =	ae2_read_next_value_2(GLOBALS->ae2, GLOBALS->ae2_fr+i, cyc, buf);
-	
+
 					if((ncyc > cyc) && (ncyc < mxcyc)) mxcyc = ncyc;
 					}
 
@@ -1157,7 +1157,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 	                                GLOBALS->ae2_fr[i].row = row;
 					/* np = GLOBALS->ae2_lx2_table[i][row].np; */
 					ncyc =	ae2_read_next_value_2(GLOBALS->ae2, GLOBALS->ae2_fr+i, cyc, buf);
-	
+
 					if((ncyc > cyc) && (ncyc < mxcyc)) mxcyc = ncyc;
 					}
 
@@ -1176,9 +1176,9 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 			{
 			int offset = ncyc-cyc;
 			struct ae2_ncycle_autosort *t = autosort[offset];
-		
+
 			autofacs[i].next = t;
-			autosort[offset] = autofacs+i; 
+			autosort[offset] = autofacs+i;
 			}
 			else
 			{
@@ -1194,7 +1194,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 		struct ae2_ncycle_autosort *t = autosort[offset];
 
 		if(step_cyc > end_cycle) break;
-	
+
 		if(t)
 			{
 			while(t)
@@ -1202,8 +1202,8 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 				uint64_t ncyc;
 				struct ae2_ncycle_autosort *tn = t->next;
 				nptr np;
-				int nr;	
-	
+				int nr;
+
 				i = t-autofacs;
 				nr = ae2_read_symbol_rows_2(GLOBALS->ae2,GLOBALS->ae2_fr[i].s);
 
@@ -1212,7 +1212,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 					np = GLOBALS->ae2_lx2_table[i][0].np;
 
 					ae2_callback(&step_cyc, &i, &np->mv.value, 0);
-		
+
 					ncyc = ae2_read_next_value_2(GLOBALS->ae2, GLOBALS->ae2_fr+i, step_cyc, np->mv.value);
 					}
 					else
@@ -1225,7 +1225,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 
 			                        for(r=1;r<rows+1;r++)
 		        	                        {
-							nptr npr; 
+							nptr npr;
 			                                uint64_t row = ae2_read_ith_sparse_row(GLOBALS->ae2, GLOBALS->ae2_fr[i].s, step_cyc, r);
 
 			                                GLOBALS->ae2_fr[i].row = row;
@@ -1241,7 +1241,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 							ncyc =	ae2_read_next_value_2(GLOBALS->ae2, GLOBALS->ae2_fr+i, step_cyc, buf);
 							if((ncyc > step_cyc) && (ncyc < mxcyc)) mxcyc = ncyc;
 							}
-	
+
 						if(mxcyc != (end_cycle+1))
 							{
 							ncyc = mxcyc;
@@ -1258,7 +1258,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 
 			                        for(r=0;r<rows;r++)
 		        	                        {
-							nptr npr; 
+							nptr npr;
 			                                uint64_t row = r;
 
 			                                GLOBALS->ae2_fr[i].row = row;
@@ -1274,7 +1274,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 							ncyc =	ae2_read_next_value_2(GLOBALS->ae2, GLOBALS->ae2_fr+i, step_cyc, buf);
 							if((ncyc > step_cyc) && (ncyc < mxcyc)) mxcyc = ncyc;
 							}
-	
+
 						if(mxcyc != (end_cycle+1))
 							{
 							ncyc = mxcyc;
@@ -1285,14 +1285,14 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 							}
 						}
 					}
-		
+
 				if(ncyc!=step_cyc)
 					{
 					int offset2 = ncyc-cyc;
 					struct ae2_ncycle_autosort *ta = autosort[offset2];
-				
+
 					autofacs[i].next = ta;
-					autosort[offset2] = autofacs+i; 
+					autosort[offset2] = autofacs+i;
 					}
 					else
 					{
@@ -1320,7 +1320,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 			nptr np = GLOBALS->ae2_lx2_table[i][r].np;
 			free_2(np->mv.value);
 			np->mv.value = NULL;
-			}		
+			}
 		}
 	}
 
@@ -1329,8 +1329,8 @@ return(0);
 }
 
 
-/* 
- * actually import an ae2 trace but don't do it if it's already been imported 
+/*
+ * actually import an ae2 trace but don't do it if it's already been imported
  */
 void import_ae2_trace(nptr np)
 {
@@ -1412,7 +1412,7 @@ for(r = 0; r < nr; r++)
 		htemp->v.h_val = AN_X;		/* x */
 		}
 	htemp->time = MAX_HISTENT_TIME-1;
-	htemp->next = histent_tail;			
+	htemp->next = histent_tail;
 
 	if(GLOBALS->ae2_lx2_table[txidx][r].histent_curr)
 		{
@@ -1433,13 +1433,13 @@ for(r = 0; r < nr; r++)
 
                 {
                 struct HistEnt *htemp2 = histent_calloc();
-                htemp2->time = -1;  
+                htemp2->time = -1;
                 if(len>1)
                 	{
                         htemp2->v.h_vector = htemp->v.h_vector;
                         }
                         else
-                        {  
+                        {
                         htemp2->v.h_val = htemp->v.h_val;
                         }
 		htemp2->next = htemp;
@@ -1457,7 +1457,7 @@ for(r = 0; r < nr; r++)
 }
 
 
-/* 
+/*
  * pre-import many traces at once so function above doesn't have to iterate...
  */
 void ae2_set_fac_process_mask(nptr np)
@@ -1533,7 +1533,7 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 				htemp->v.h_val = AN_Z;		/* z */
 				}
 			htemp->time = MAX_HISTENT_TIME;
-			
+
 			htemp = histent_calloc();
 			if(len>1)
 				{
@@ -1545,8 +1545,8 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 				htemp->v.h_val = AN_X;		/* x */
 				}
 			htemp->time = MAX_HISTENT_TIME-1;
-			htemp->next = histent_tail;			
-	
+			htemp->next = histent_tail;
+
 			if(GLOBALS->ae2_lx2_table[txidx][r].histent_curr)
 				{
 				GLOBALS->ae2_lx2_table[txidx][r].histent_curr->next = htemp;
@@ -1556,13 +1556,13 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 
                         {
                         struct HistEnt *htemp2 = histent_calloc();
-                        htemp2->time = -1;  
+                        htemp2->time = -1;
                         if(len>1)
                                 {
                                 htemp2->v.h_vector = htemp->v.h_vector;
                                 }
                                 else
-                                {  
+                                {
                                 htemp2->v.h_val = htemp->v.h_val;
                                 }
                         htemp2->next = htemp;

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2008
  *
  * This program is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@
 #include "symbol.h"
 #include "currenttime.h"
 
-   
+
 /* Add some text to our text widget - this is a callback that is invoked
 when our window is realized. We could also force our window to be
 realized with gtk_widget_realize, but it would have to be part of
@@ -62,7 +62,7 @@ help_text("Click on any menu item or button that corresponds to a menu item"
 		" for its full description.  Pressing a hotkey for a menu item"
 		" is also allowed.");
 }
-   
+
 /* Create a scrolled text area that displays a "message" */
 static GtkWidget *create_help_text (void)
 {
@@ -70,7 +70,7 @@ GtkWidget *table;
 
 /* Create a table to hold the text widget and scrollbars */
 table = gtk_table_new (1, 16, FALSE);
-   
+
 /* Put a text widget in the upper left hand corner. Note the use of
 * GTK_SHRINK in the y direction */
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
@@ -86,7 +86,7 @@ gtk_text_set_editable(GTK_TEXT(GLOBALS->text_help_c_1), FALSE);
 gtk_table_attach (GTK_TABLE (table), GLOBALS->text_help_c_1, 0, 14, 0, 1,
 		      	GTK_FILL | GTK_EXPAND,
 		      	GTK_FILL | GTK_SHRINK | GTK_EXPAND, 0, 0);
-gtk_widget_set_usize(GTK_WIDGET(GLOBALS->text_help_c_1), 100, 50); 
+gtk_widget_set_usize(GTK_WIDGET(GLOBALS->text_help_c_1), 100, 50);
 gtk_widget_show (GLOBALS->text_help_c_1);
 
 /* And a VScrollbar in the upper right */
@@ -97,16 +97,16 @@ GtkTextViewClass *tc = (GtkTextViewClass*)GTK_OBJECT_GET_CLASS(GTK_OBJECT(GLOBAL
 tc->set_scroll_adjustments(GTK_TEXT_VIEW (GLOBALS->text_help_c_1), NULL, NULL);
 GLOBALS->vscrollbar_help_c_1 = gtk_vscrollbar_new (GTK_TEXT_VIEW (GLOBALS->text_help_c_1)->vadjustment);
 }
-#else 
+#else
 GLOBALS->vscrollbar_help_c_1 = gtk_vscrollbar_new (GTK_TEXT (GLOBALS->text_help_c_1)->vadj);
 #endif
 gtk_table_attach (GTK_TABLE (table), GLOBALS->vscrollbar_help_c_1, 15, 16, 0, 1,GTK_FILL, GTK_FILL | GTK_SHRINK | GTK_EXPAND, 0, 0);
 gtk_widget_show (GLOBALS->vscrollbar_help_c_1);
-   
+
 /* Add a handler to put a message in the text widget when it is realized */
 gtkwave_signal_connect (GTK_OBJECT (GLOBALS->text_help_c_1), "realize", GTK_SIGNAL_FUNC (help_realize_text), NULL);
 
-   
+
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
 gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(GLOBALS->text_help_c_1), GTK_WRAP_WORD);
 #else
@@ -114,7 +114,7 @@ gtk_text_set_word_wrap(GTK_TEXT(GLOBALS->text_help_c_1), TRUE);
 #endif
 return(table);
 }
-   
+
 /***********************************************************************************/
 
 

@@ -78,16 +78,16 @@ for(i=0;i<len;i++)
         }
 
 return(val);
-}  
+}
 
 static char *vcdid_unhash(unsigned int value)
 {
-static char buf[16];  
+static char buf[16];
 char *pnt = buf;
 unsigned int vmod;
 
 /* zero is illegal for a value...it is assumed they start at one */
-for(;;)  
+for(;;)
         {
         if((vmod = (value % 94)))
                 {
@@ -114,19 +114,19 @@ static const char *vcdo="zzzzzz01xz0101xz1x0x01z";
 const char  *vcd = dir ? vcdo : vcdi;
 char ch;
 int i;
-                                 
+
 while((ch=*src))
         {
         for(i=0;i<23;i++)
                 {
-                if(evcd[i]==ch)  
+                if(evcd[i]==ch)
                         {
                         *dst=vcd[i];
                         break;
                         }
                 }
         if(i==23) *dst='x';
-                                
+
         src++;
         dst++;
         }
@@ -254,7 +254,7 @@ while(!feof(f))
 		}
 	else
 	if(!strncmp(buf, "$scope", 6))
-		{	
+		{
 		printf("%s", buf);
 		}
 	else
@@ -276,8 +276,8 @@ while(!feof(f))
                 if(ss == -1)
                         {
                         break;
-                        }  
-                line++;  
+                        }
+                line++;
                 pnt = buf;
 		printf("$timescale\n%s$end\n", pnt);
 		}
@@ -289,8 +289,8 @@ while(!feof(f))
                 if(ss == -1)
                         {
                         break;
-                        }  
-                line++;  
+                        }
+                line++;
                 pnt = buf;
 		printf("$date\n%s$end\n", pnt);
 		}
@@ -302,8 +302,8 @@ while(!feof(f))
                 if(ss == -1)
                         {
                         break;
-                        }  
-                line++;  
+                        }
+                line++;
                 pnt = buf;
 		printf("$version\n%s$end\n", pnt);
 		}
@@ -345,7 +345,7 @@ while(!feof(f))
 				*(pnt++) = pchar = *(src++);
 				}
 			*pnt = 0;
-			
+
 			sp = strchr(bin_fixbuff, ' ');
 			sp = strchr(sp+1, ' ');
 			sp = strchr(sp+1, ' ');
@@ -420,13 +420,13 @@ exit(0);
 
 void print_help(char *nam)
 {
-#ifdef __linux__ 
+#ifdef __linux__
 printf(
 "Usage: %s [OPTION]... [EVCDFILE]\n\n"
 "  -f, --filename=FILE        specify EVCD input filename\n"
 "  -h, --help                 display this help then exit\n\n"
 
-"Note that EVCDFILE is optional provided the --filename\n" 
+"Note that EVCDFILE is optional provided the --filename\n"
 "option is specified.  VCD is emitted to stdout.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #else
@@ -435,7 +435,7 @@ printf(
 "  -f FILE                    specify EVCD input filename\n"
 "  -h                         display this help then exit\n\n"
 
-"Note that EVCDFILE is optional provided the --filename\n" 
+"Note that EVCDFILE is optional provided the --filename\n"
 "option is specified.  VCD is emitted to stdout.\n\n"
 "Report bugs to <"PACKAGE_BUGREPORT">.\n",nam);
 #endif
@@ -456,21 +456,21 @@ while (1)
         {
 #ifdef __linux__
         int option_index = 0;
-                        
+
         static struct option long_options[] =
                 {
 		{"filename", 1, 0, 'f'},
                 {"help", 0, 0, 'h'},
-                {0, 0, 0, 0}  
+                {0, 0, 0, 0}
                 };
-                
+
         c = getopt_long (argc, argv, "f:h", long_options, &option_index);
 #else
         c = getopt      (argc, argv, "f:h");
 #endif
-                        
+
         if (c == -1) break;     /* no more args */
-                        
+
         switch (c)
                 {
 		case 'f':
@@ -482,38 +482,38 @@ while (1)
                 case 'h':
 			print_help(argv[0]);
                         break;
-                        
+
                 case '?':
                         opt_errors_encountered=1;
                         break;
-                        
+
                 default:
                         /* unreachable */
                         break;
                 }
         }
-                        
+
 if(opt_errors_encountered)
         {
         print_help(argv[0]);
         }
 
 if (optind < argc)
-        {               
+        {
         while (optind < argc)
                 {
                 if(!vname)
                         {
                         vname = malloc(strlen(argv[optind])+1);
                         strcpy(vname, argv[optind++]);
-                        } 
+                        }
 			else
 			{
 			break;
 			}
                 }
         }
-                        
+
 if(!vname)
         {
         print_help(argv[0]);
@@ -521,7 +521,7 @@ if(!vname)
 
 evcd_main(vname);
 
-free(vname); 
+free(vname);
 
 return(0);
 }

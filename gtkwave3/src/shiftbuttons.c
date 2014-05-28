@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999.
  *
  * This program is free software; you can redistribute it and/or
@@ -79,7 +79,7 @@ if((hadj->value+inc)<GLOBALS->tims.last) hadj->value=hadj->value+inc;
 pageinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
 
 if((GLOBALS->tims.start+ntinc)<(GLOBALS->tims.last-pageinc+1)) GLOBALS->tims.timecache=GLOBALS->tims.start+ntinc;
-	else 
+	else
 	{
 	GLOBALS->tims.timecache=GLOBALS->tims.last-pageinc+1;
 	if(GLOBALS->tims.timecache<GLOBALS->tims.first) GLOBALS->tims.timecache=GLOBALS->tims.first;
@@ -111,7 +111,7 @@ pixmapwid1=gtk_pixmap_new(GLOBALS->larrow_pixmap, GLOBALS->larrow_mask);
 gtk_widget_show(pixmapwid1);
 pixmapwid2=gtk_pixmap_new(GLOBALS->rarrow_pixmap, GLOBALS->rarrow_mask);
 gtk_widget_show(pixmapwid2);
-   
+
 /* Create a table to hold the text widget and scrollbars */
 table = gtk_table_new (1, 1, FALSE);
 
@@ -149,4 +149,4 @@ gtk_container_add (GTK_CONTAINER (frame), table2);
 gtk_widget_show(table2);
 return(table);
 }
-   
+

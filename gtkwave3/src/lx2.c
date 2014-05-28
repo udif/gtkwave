@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2003-2012.
  *
  * This program is free software; you can redistribute it and/or
@@ -98,7 +98,7 @@ if(GLOBALS->numfacs)
 for(i=0;i<GLOBALS->numfacs;i++)
         {
 	char buf[65537];
-	char *str;	
+	char *str;
 	struct fac *f;
 
 	if(i!=(GLOBALS->numfacs-1))
@@ -152,7 +152,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		{
                 int gatecmp = (f->len==1) && (!(f->flags&(LXT2_RD_SYM_F_INTEGER|LXT2_RD_SYM_F_DOUBLE|LXT2_RD_SYM_F_STRING))) && (node_block[i].msi!=-1) && (node_block[i].lsi!=-1);
                 int revcmp = gatecmp && (i) && (!strcmp(f_name[(i)&F_NAME_MODULUS], f_name[(i-1)&F_NAME_MODULUS]));
-		
+
 		if(gatecmp)
 			{
 			int len = sprintf(buf, "%s[%d]", f_name[(i)&F_NAME_MODULUS],node_block[i].msi);
@@ -193,7 +193,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 	                s=&sym_block[i];
 	                symadd_name_exists_sym_exists(s,str,0);
 			prevsymroot = prevsym = NULL;
-	
+
 			if(f->flags&LXT2_RD_SYM_F_INTEGER)
 				{
 				node_block[i].msi=31;
@@ -202,7 +202,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 				}
 			}
 		}
-		
+
 	n=&node_block[i];
         n->nname=s->name;
         n->mv.mvlfac = GLOBALS->mvlfacs_lx2_c_1+i;
@@ -212,7 +212,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		n->extvals = 1;
 		}
-                 
+
         n->head.time=-1;        /* mark 1st node as negative time */
         n->head.v.h_val=AN_X;
         s->n=n;
@@ -243,8 +243,8 @@ if(GLOBALS->fast_tree_sort)
 	if(numalias)
 		{
 		unsigned int idx_lft = 0;
-		unsigned int idx_lftmax = GLOBALS->numfacs - numalias;  		
-		unsigned int idx_rgh = GLOBALS->numfacs - numalias;  		
+		unsigned int idx_lftmax = GLOBALS->numfacs - numalias;
+		unsigned int idx_rgh = GLOBALS->numfacs - numalias;
 		struct symbol **facs_merge=(struct symbol **)malloc_2(GLOBALS->numfacs*sizeof(struct symbol *));
 
 		fprintf(stderr, LXT2_RDLOAD"Merging in %d aliases.\n", numalias);
@@ -279,24 +279,24 @@ if(GLOBALS->fast_tree_sort)
 
 		free_2(GLOBALS->facs); GLOBALS->facs = facs_merge;
 		}
-                 
+
 /* SPLASH */                            splash_sync(3, 5);
         fprintf(stderr, LXT2_RDLOAD"Building facility hierarchy tree.\n");
-        
+
         init_tree();
         for(i=0;i<GLOBALS->numfacs;i++)
                 {
                 int esc = 0;
                 char *subst = GLOBALS->facs[i]->name;
                 char ch;
-                
+
                 while((ch=(*subst)))
                         {
                         if(ch==GLOBALS->hier_delimeter) { if(esc) *subst = VCDNAM_ESCAPE; }
                         else if(ch=='\\') { esc = 1; GLOBALS->escaped_names_found_vcd_c_1 = 1; }
                         subst++;
                         }
-                
+
                 build_tree_from_name(GLOBALS->facs[i]->name, i);
                 }
 /* SPLASH */                            splash_sync(4, 5);
@@ -314,17 +314,17 @@ if(GLOBALS->fast_tree_sort)
 			}
 	        }
         treegraft(&GLOBALS->treeroot);
-        
+
         fprintf(stderr, LXT2_RDLOAD"Sorting facility hierarchy tree.\n");
         treesort(GLOBALS->treeroot, NULL);
 
 /* SPLASH */                            splash_sync(5, 5);
         order_facs_from_treesort(GLOBALS->treeroot, &GLOBALS->facs);
-	if(GLOBALS->escaped_names_found_vcd_c_1)  
+	if(GLOBALS->escaped_names_found_vcd_c_1)
 	        {
-	        treenamefix(GLOBALS->treeroot);   
+	        treenamefix(GLOBALS->treeroot);
 	        }
-                 
+
         GLOBALS->facs_are_sorted=1;
         }
         else
@@ -338,7 +338,7 @@ if(GLOBALS->fast_tree_sort)
 		GLOBALS->facs[i]=&sym_block[i];
 	        if((len=strlen(subst=GLOBALS->facs[i]->name))>GLOBALS->longestname) GLOBALS->longestname=len;
 		while((ch=(*subst)))
-			{	
+			{
 #ifdef WAVE_HIERFIX
 	                if(ch==GLOBALS->hier_delimeter) { *subst=(!esc) ? VCDNAM_HIERSORT : VCDNAM_ESCAPE; }    /* forces sort at hier boundaries */
 #else
@@ -353,14 +353,14 @@ if(GLOBALS->fast_tree_sort)
 	fprintf(stderr, LXT2_RDLOAD"Sorting facilities at hierarchy boundaries.\n");
 	wave_heapsort(GLOBALS->facs,GLOBALS->numfacs);
 
-#ifdef WAVE_HIERFIX	
+#ifdef WAVE_HIERFIX
 	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *subst, ch;
-	
+
 		subst=GLOBALS->facs[i]->name;
 		while((ch=(*subst)))
-			{	
+			{
 			if(ch==VCDNAM_HIERSORT) { *subst=GLOBALS->hier_delimeter; }	/* restore back to normal */
 			subst++;
 			}
@@ -372,8 +372,8 @@ if(GLOBALS->fast_tree_sort)
 /* SPLASH */                            splash_sync(4, 5);
 	fprintf(stderr, LXT2_RDLOAD"Building facility hierarchy tree.\n");
 
-	init_tree();		
-	for(i=0;i<GLOBALS->numfacs;i++)	
+	init_tree();
+	for(i=0;i<GLOBALS->numfacs;i++)
 		{
 		char *nf = GLOBALS->facs[i]->name;
 	        build_tree_from_name(nf, i);
@@ -394,9 +394,9 @@ if(GLOBALS->fast_tree_sort)
 	        }
 	treegraft(&GLOBALS->treeroot);
 	treesort(GLOBALS->treeroot, NULL);
-	if(GLOBALS->escaped_names_found_vcd_c_1)  
+	if(GLOBALS->escaped_names_found_vcd_c_1)
 	        {
-	        treenamefix(GLOBALS->treeroot);   
+	        treenamefix(GLOBALS->treeroot);
 	        }
 	}
 
@@ -461,7 +461,7 @@ if(GLOBALS->busycnt_lx2_c_1==WAVE_BUSY_ITER)
 
 if(!(f->flags&(LXT2_RD_SYM_F_DOUBLE|LXT2_RD_SYM_F_STRING)))
 	{
-	if(f->len>1)        
+	if(f->len>1)
 	        {
 	        htemp->v.h_vector = (char *)malloc_2(f->len);
 		memcpy(htemp->v.h_vector, *value, f->len);
@@ -518,7 +518,7 @@ l2e->numtrans++;
  * this is the black magic that handles aliased signals...
  */
 static void lx2_resolver(nptr np, nptr resolve)
-{ 
+{
 np->extvals = resolve->extvals;
 np->msi = resolve->msi;
 np->lsi = resolve->lsi;
@@ -531,8 +531,8 @@ np->mv.mvlfac=NULL;
 
 
 
-/* 
- * actually import an lx2 trace but don't do it if it's already been imported 
+/*
+ * actually import an lx2 trace but don't do it if it's already been imported
  */
 void import_lx2_trace(nptr np)
 {
@@ -557,12 +557,12 @@ switch(GLOBALS->is_lx2)
 if(!(f=np->mv.mvlfac)) return;	/* already imported */
 
 txidx = f - GLOBALS->mvlfacs_lx2_c_1;
-if(np->mv.mvlfac->flags&LXT2_RD_SYM_F_ALIAS) 
+if(np->mv.mvlfac->flags&LXT2_RD_SYM_F_ALIAS)
 	{
 	txidx = lxt2_rd_get_alias_root(GLOBALS->lx2_lx2_c_1, txidx);
 	np = GLOBALS->mvlfacs_lx2_c_1[txidx].working_node;
 
-	if(!(f=np->mv.mvlfac)) 
+	if(!(f=np->mv.mvlfac))
 		{
 		lx2_resolver(nold, np);
 		return;	/* already imported */
@@ -604,7 +604,7 @@ if(len>1)
 	htemp->v.h_val = AN_X;		/* x */
 	}
 htemp->time = MAX_HISTENT_TIME-1;
-htemp->next = histent_tail;			
+htemp->next = histent_tail;
 
 if(GLOBALS->lx2_table_lx2_c_1[txidx].histent_curr)
 	{
@@ -640,7 +640,7 @@ if(!(f->flags&(LXT2_RD_SYM_F_DOUBLE|LXT2_RD_SYM_F_STRING)))
                 else
                 {
                 htemp2->v.h_val = htemp->v.h_val;
-                }   
+                }
         htemp2->next = htemp;
         htemp = htemp2;
 	GLOBALS->lx2_table_lx2_c_1[txidx].numtrans++;
@@ -662,7 +662,7 @@ if(nold!=np)
 }
 
 
-/* 
+/*
  * pre-import many traces at once so function above doesn't have to iterate...
  */
 void lx2_set_fac_process_mask(nptr np)
@@ -686,7 +686,7 @@ if(!(f=np->mv.mvlfac)) return;	/* already imported */
 
 txidx = f-GLOBALS->mvlfacs_lx2_c_1;
 
-if(np->mv.mvlfac->flags&LXT2_RD_SYM_F_ALIAS) 
+if(np->mv.mvlfac->flags&LXT2_RD_SYM_F_ALIAS)
 	{
 	txidx = lxt2_rd_get_alias_root(GLOBALS->lx2_lx2_c_1, txidx);
 	np = GLOBALS->mvlfacs_lx2_c_1[txidx].working_node;
@@ -759,7 +759,7 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 			htemp->v.h_val = AN_Z;		/* z */
 			}
 		htemp->time = MAX_HISTENT_TIME;
-			
+
 		htemp = histent_calloc();
 		if(len>1)
 			{
@@ -771,7 +771,7 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 			htemp->v.h_val = AN_X;		/* x */
 			}
 		htemp->time = MAX_HISTENT_TIME-1;
-		htemp->next = histent_tail;			
+		htemp->next = histent_tail;
 
 		if(GLOBALS->lx2_table_lx2_c_1[txidx].histent_curr)
 			{
@@ -807,7 +807,7 @@ for(txidx=0;txidx<GLOBALS->numfacs;txidx++)
 	                else
 	                {
 	                htemp2->v.h_val = htemp->v.h_val;
-	                }   
+	                }
 	        htemp2->next = htemp;
 	        htemp = htemp2;
 	        GLOBALS->lx2_table_lx2_c_1[txidx].numtrans++;

@@ -83,7 +83,7 @@ typedef uint64_t	 	lxtint64_t;
 typedef int32_t			lxtsint32_t;
 typedef int64_t			lxtsint64_t;
 #ifndef __MINGW32__
-#define LXT2_RD_LLD "%"PRId64   
+#define LXT2_RD_LLD "%"PRId64
 #define LXT2_RD_LD "%"PRId32
 #else
 #define LXT2_RD_LLD "%I64d"
@@ -163,7 +163,7 @@ enum LXT2_RD_Encodings {
         LXT2_RD_ENC_SUB4,
 
         LXT2_RD_ENC_X,
-        LXT2_RD_ENC_Z, 
+        LXT2_RD_ENC_Z,
 
 	LXT2_RD_ENC_BLACKOUT,
 
@@ -201,7 +201,7 @@ lxtint32_t flags, len;
 };
 
 
-struct lxt2_rd_facname_cache 
+struct lxt2_rd_facname_cache
 {
 char *n;
 char *bufprev, *bufcurr;
@@ -213,7 +213,7 @@ lxtint32_t old_facidx;
 struct lxt2_rd_trace
 {
 lxtint32_t *rows;
-lxtsint32_t *msb, *lsb; 
+lxtsint32_t *msb, *lsb;
 lxtint32_t *flags, *len;
 char **value;
 
@@ -292,7 +292,7 @@ _LXT2_RD_INLINE int		lxt2_rd_set_fac_process_mask_all(struct lxt2_rd_trace *lt);
 _LXT2_RD_INLINE int		lxt2_rd_clr_fac_process_mask_all(struct lxt2_rd_trace *lt);
 
 				/* null value_change_callback calls an empty dummy function */
-int 				lxt2_rd_iter_blocks(struct lxt2_rd_trace *lt, 
+int 				lxt2_rd_iter_blocks(struct lxt2_rd_trace *lt,
 				void (*value_change_callback)(struct lxt2_rd_trace **lt, lxtint64_t *time, lxtint32_t *facidx, char **value),
 				void *user_callback_data_pointer);
 _LXT2_RD_INLINE void *		lxt2_rd_get_user_callback_data_pointer(struct lxt2_rd_trace *lt);

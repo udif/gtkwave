@@ -12,7 +12,7 @@
 #ifndef WAVE_LXT_H
 #define WAVE_LXT_H
 
-#ifndef HAVE_FSEEKO 
+#ifndef HAVE_FSEEKO
 #define fseeko fseek
 #endif
 
@@ -25,7 +25,7 @@ void import_lxt_trace(nptr np);
 #define LT_SECTION_CHG                          (1)
 #define LT_SECTION_SYNC_TABLE                   (2)
 #define LT_SECTION_FACNAME                      (3)
-#define LT_SECTION_FACNAME_GEOMETRY             (4)   
+#define LT_SECTION_FACNAME_GEOMETRY             (4)
 #define LT_SECTION_TIMESCALE                    (5)
 #define LT_SECTION_TIME_TABLE                   (6)
 #define LT_SECTION_INITIAL_VALUE                (7)

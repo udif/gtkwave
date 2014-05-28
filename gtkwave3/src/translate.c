@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2005-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -75,7 +75,7 @@ xl_Tree * xl_insert(char *i, xl_Tree * t, char *trans) {
 /* Return a pointer to the resulting tree.                 */
     xl_Tree * n;
     int dir;
-    
+
     n = (xl_Tree *) calloc_2(1, sizeof (xl_Tree));
     if (n == NULL) {
 	fprintf(stderr, "xl_insert: ran out of memory, exiting.\n");
@@ -210,7 +210,7 @@ while(!feof(f))
 					{
 					char *xlt = rhs+1;
 					*rhs = 0;
-	
+
 					while(*xlt && isspace((int)(unsigned char)*xlt)) xlt++;
 					if(*xlt)
 						{
@@ -262,7 +262,7 @@ if((which<0)||(which>=(FILE_FILTER_MAX+1)))
 	which = 0;
 	}
 
-if(GLOBALS->traces.first)  
+if(GLOBALS->traces.first)
         {
         Trptr t = GLOBALS->traces.first;
         while(t)
@@ -340,7 +340,7 @@ if(*GLOBALS->fileselbox_text)
 		{
 		if(GLOBALS->filesel_filter[i])
 			{
-			if(!strcmp(GLOBALS->filesel_filter[i], *GLOBALS->fileselbox_text)) 
+			if(!strcmp(GLOBALS->filesel_filter[i], *GLOBALS->fileselbox_text))
 				{
 				status_text("Filter already imported.\n");
 				if(GLOBALS->is_active_translate_c_5) gdk_window_raise(GLOBALS->window_translate_c_11->window);
@@ -399,7 +399,7 @@ void trans_searchbox(char *title)
     GtkWidget *table;
     GtkTooltips *tooltips;
 
-    if(GLOBALS->is_active_translate_c_5) 
+    if(GLOBALS->is_active_translate_c_5)
 	{
 	gdk_window_raise(GLOBALS->window_translate_c_11->window);
 	return;
@@ -434,7 +434,7 @@ void trans_searchbox(char *title)
                         GTK_FILL | GTK_EXPAND | GTK_SHRINK, 1, 1);
 
     GLOBALS->clist_translate_c_4=gtk_clist_new_with_titles(1,titles);
-    gtk_clist_column_titles_passive(GTK_CLIST(GLOBALS->clist_translate_c_4)); 
+    gtk_clist_column_titles_passive(GTK_CLIST(GLOBALS->clist_translate_c_4));
 
     gtk_clist_set_selection_mode(GTK_CLIST(GLOBALS->clist_translate_c_4), GTK_SELECTION_EXTENDED);
     gtkwave_signal_connect_object (GTK_OBJECT (GLOBALS->clist_translate_c_4), "select_row",GTK_SIGNAL_FUNC(select_row_callback),NULL);
@@ -476,7 +476,7 @@ void trans_searchbox(char *title)
     gtk_container_border_width (GTK_CONTAINER (button6), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button6), "clicked",GTK_SIGNAL_FUNC(add_filter_callback),GTK_OBJECT (GLOBALS->window_translate_c_11));
     gtk_widget_show (button6);
-    gtk_tooltips_set_tip_2(tooltips, button6, 
+    gtk_tooltips_set_tip_2(tooltips, button6,
 		"Bring up a file requester to add a filter to the filter select window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox0), button6, TRUE, FALSE, 0);
@@ -497,7 +497,7 @@ void trans_searchbox(char *title)
     gtk_container_border_width (GTK_CONTAINER (button1), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button1), "clicked",GTK_SIGNAL_FUNC(ok_callback),GTK_OBJECT (GLOBALS->window_translate_c_11));
     gtk_widget_show (button1);
-    gtk_tooltips_set_tip_2(tooltips, button1, 
+    gtk_tooltips_set_tip_2(tooltips, button1,
 		"Add selected signals to end of the display on the main window.",NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox), button1, TRUE, FALSE, 0);
@@ -505,7 +505,7 @@ void trans_searchbox(char *title)
     button5 = gtk_button_new_with_label (" Cancel ");
     gtk_container_border_width (GTK_CONTAINER (button5), 3);
     gtkwave_signal_connect_object (GTK_OBJECT (button5), "clicked",GTK_SIGNAL_FUNC(destroy_callback),GTK_OBJECT (GLOBALS->window_translate_c_11));
-    gtk_tooltips_set_tip_2(tooltips, button5, 
+    gtk_tooltips_set_tip_2(tooltips, button5,
 		"Do nothing and return to the main window.",NULL);
     gtk_widget_show (button5);
     gtk_box_pack_start (GTK_BOX (hbox), button5, TRUE, FALSE, 0);
@@ -529,7 +529,7 @@ if(typ)
 	{
 	for(i=1;i<GLOBALS->num_file_filters+1;i++)
 		{
-		if(!strcmp(GLOBALS->filesel_filter[i], name)) { GLOBALS->current_translate_file = i; return; } 
+		if(!strcmp(GLOBALS->filesel_filter[i], name)) { GLOBALS->current_translate_file = i; return; }
 		}
 
 	if(!strcmp(WAVE_TCL_INSTALLED_FILTER, name))

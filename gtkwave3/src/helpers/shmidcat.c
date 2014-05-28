@@ -130,7 +130,7 @@ for(;;)
 			{
 			buf_top += 1 + 4 + blksiz;
 			if(buf_top >= (buf + WAVE_PARTIAL_VCD_RING_BUFFER_SIZE))
-			        {  
+			        {
 			        buf_top -= WAVE_PARTIAL_VCD_RING_BUFFER_SIZE;
 			        }
 			}
@@ -151,14 +151,14 @@ for(;;)
 		{
 		consumed = (l_curr + WAVE_PARTIAL_VCD_RING_BUFFER_SIZE) - l_top;
 		}
-	
+
 	if((consumed + len + 16) > WAVE_PARTIAL_VCD_RING_BUFFER_SIZE) /* just a guardband, it's oversized */
 		{
 #ifdef __MINGW32__
 		Sleep(10);
 #else
 		struct timeval tv;
-	
+
 	        tv.tv_sec = 0;
 	        tv.tv_usec = 1000000 / 100;
 	        select(0, NULL, NULL, NULL, &tv);
@@ -169,7 +169,7 @@ for(;;)
 		{
 		char *ss, *sd;
 		put_32(buf_curr + 1, len);
-		
+
 		sd = buf_curr + 1 + 4;
 		ss = s;
 		while(*ss)
@@ -197,7 +197,7 @@ for(;;)
 /*
  * example driver code.  this merely copies from stdin to the shared memory block.
  * emit_string() will ensure that buffer overruns do not occur; all you have to
- * do is write the block with the provision that the last character in the block is 
+ * do is write the block with the provision that the last character in the block is
  * a newline so that the VCD parser doesn't get lost.  (in effect, when we run out
  * of buffer, gtkwave thinks it's EOF, but we restart again later.  if the last
  * character is a newline, we EOF on a null string which is OK.)
@@ -260,14 +260,14 @@ if(shmid >= 0)
 	while(!feof(f))
 		{
 		char *s = fgets(l_buf+buf_strlen, 32768-buf_strlen, f);
-		
+
 		if(!s)
 			{
 #ifdef __MINGW32__
 			Sleep(200);
 #else
 	                struct timeval tv;
-         
+
 	                tv.tv_sec = 0;
 	                tv.tv_usec = 1000000 / 5;
 	                select(0, NULL, NULL, NULL, &tv);

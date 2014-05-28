@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2006-2014.
  *
  * This program is free software; you can redistribute it and/or
@@ -12,7 +12,7 @@
    clean up histents by using vlist_alloc() to create a growable
    array that doesn't require next pointers per-element, however
    that doesn't seem necessary given the space savings that
-   gzipped dormant vlist entries buys you.  
+   gzipped dormant vlist entries buys you.
 
    the vlists have been modified since the original version in
    two ways: (1) only half as many bytes are allocated as needed
@@ -35,7 +35,7 @@ if(GLOBALS->use_fastload)
 	{
 	char *fname = malloc_2(strlen(GLOBALS->loaded_file_name) + 4 + 1);
 	sprintf(fname, "%s.idx", GLOBALS->loaded_file_name);
-		
+
 	GLOBALS->vlist_handle = fopen(fname, "w+b");
 
 	free_2(fname);
@@ -54,7 +54,7 @@ else
 	char *nam = tmpnam_2(NULL, &fd_dummy);
 
 	GLOBALS->vlist_handle = fopen(nam, "w+b");
-	
+
 	unlink(nam);
 	if(fd_dummy >=0) { close(fd_dummy); free_2(nam); }
 
@@ -68,17 +68,17 @@ void vlist_kill_spillfile(void)
 {
 if(GLOBALS->vlist_handle)
 	{
-	fclose(GLOBALS->vlist_handle); 
+	fclose(GLOBALS->vlist_handle);
 	GLOBALS->vlist_handle = NULL;
 	}
 }
 
 
-/* machine-independent header i/o 
+/* machine-independent header i/o
  */
 static int vlist_fread_hdr(struct vlist_t *vl, FILE *f)
 {
-unsigned long val; 
+unsigned long val;
 unsigned int vali;
 int ch, shamt, rc = 0;
 
@@ -86,7 +86,7 @@ val = 0; shamt = 0;
 do
 	{
 	ch = fgetc(f);
-	if(ch == EOF) goto bail;	
+	if(ch == EOF) goto bail;
 
 	val |= ((unsigned long)(ch & 0x7f)) << shamt;
 	shamt += 7;
@@ -97,7 +97,7 @@ vali = 0; shamt = 0;
 do
 	{
 	ch = fgetc(f);
-	if(ch == EOF) goto bail;	
+	if(ch == EOF) goto bail;
 
 	vali |= ((unsigned int)(ch & 0x7f)) << shamt;
 	shamt += 7;
@@ -108,7 +108,7 @@ vali = 0; shamt = 0;
 do
 	{
 	ch = fgetc(f);
-	if(ch == EOF) goto bail;	
+	if(ch == EOF) goto bail;
 
 	vali |= ((unsigned int)(ch & 0x7f)) << shamt;
 	shamt += 7;
@@ -119,7 +119,7 @@ vali = 0; shamt = 0;
 do
 	{
 	ch = fgetc(f);
-	if(ch == EOF) goto bail;	
+	if(ch == EOF) goto bail;
 
 	vali |= ((unsigned int)(ch & 0x7f)) << shamt;
 	shamt += 7;
@@ -128,7 +128,7 @@ vl->elem_siz = (unsigned int)vali;
 
 rc = 1;
 
-bail: 
+bail:
 return(rc);
 }
 
@@ -148,7 +148,7 @@ while((nxt = val>>7))
         {
         *(pnt++) = (val&0x7f);
         val = nxt;
-        }           
+        }
 *(pnt++) = (val&0x7f) | 0x80;
 
 
@@ -157,7 +157,7 @@ while((nxti = vali>>7))
         {
         *(pnt++) = (vali&0x7f);
         vali = nxti;
-        }           
+        }
 *(pnt++) = (vali&0x7f) | 0x80;
 
 offs_as_int = (int)(vl->offs);
@@ -177,7 +177,7 @@ while((nxti = vali>>7))
         {
         *(pnt++) = (vali&0x7f);
         vali = nxti;
-        }           
+        }
 *(pnt++) = (vali&0x7f) | 0x80;
 
 vali = (unsigned int)(vl->elem_siz);
@@ -185,7 +185,7 @@ while((nxti = vali>>7))
         {
         *(pnt++) = (vali&0x7f);
         vali = nxti;
-        }           
+        }
 *(pnt++) = (vali&0x7f) | 0x80;
 
 rc = fwrite(mem, 1, (len = (pnt - mem)), f);
@@ -245,7 +245,7 @@ if(v->siz > 32)
 	char *dmem = malloc_2(compressBound(v->siz));
 	unsigned long destlen = v->siz;
 	int rc;
-	
+
 	rc = compress2((unsigned char *)dmem, &destlen, (unsigned char *)(v+1), v->siz, GLOBALS->vlist_compression_depth);
 	if( (rc == Z_OK) && ((destlen + sizeof(int)) < v->siz) )
 		{
@@ -253,7 +253,7 @@ if(v->siz > 32)
 
 		vz = malloc_2(*rsiz = sizeof(struct vlist_t) + sizeof(int) + destlen);
 		memcpy(vz, v, sizeof(struct vlist_t));
-	
+
 		ipnt = (unsigned int *)(vz + 1);
 		ipnt[0] = destlen;
 		memcpy(&ipnt[1], dmem, destlen);
@@ -313,13 +313,13 @@ if(GLOBALS->vlist_handle)
 			exit(255);
 			}
 
-		if(vprev) 
+		if(vprev)
 			{
 			vprev->next = vrebuild;
 			}
 			else
 			{
-			*v = vrebuild; 
+			*v = vrebuild;
 			}
 
 		vprev = vrebuild;
@@ -346,25 +346,25 @@ while(vl)
 		sourcelen = (unsigned long)ipnt[0];
 		destlen = (unsigned long)vl->siz;
 
-		rc = uncompress((unsigned char *)(vz+1), &destlen, (unsigned char *)&ipnt[1], sourcelen);	
+		rc = uncompress((unsigned char *)(vz+1), &destlen, (unsigned char *)&ipnt[1], sourcelen);
 		if(rc != Z_OK)
 			{
 			fprintf(stderr, "Error in vlist uncompress(), rc=%d/destlen=%d exiting!\n", rc, (int)destlen);
 			exit(255);
 			}
-	
+
 		free_2(vl);
 		vl = vz;
 
-		if(vprev) 
+		if(vprev)
 			{
 			vprev->next = vz;
 			}
 			else
 			{
-			*v = vz; 
+			*v = vz;
 			}
-		}	
+		}
 
 	vprev = vl;
 	vl = vl->next;
@@ -475,7 +475,7 @@ return((void *)px);
 }
 
 
-/* vlist_size() and vlist_locate() do not work properly on 
+/* vlist_size() and vlist_locate() do not work properly on
    compressed lists...you'll have to call vlist_uncompress() first!
  */
 unsigned int vlist_size(struct vlist_t *v)
@@ -521,7 +521,7 @@ if((vl->elem_siz == 1)&&(siz))
 		v2 = calloc_2(1, sizeof(struct vlist_t) + (vl->siz /* * vl->elem_siz */)); /* scan-build */
 		memcpy(v2, vl, sizeof(struct vlist_t) + (vl->siz/2 /* * vl->elem_siz */)); /* scan-build */
 		free_2(vl);
-	
+
 		*v = v2;
 		vl = *v;
 		}
@@ -613,11 +613,11 @@ unsigned int nxt;
 
 while((nxt = v>>7))
         {
-        vlist_packer_emit_out(p, v&0x7f);  
+        vlist_packer_emit_out(p, v&0x7f);
         v = nxt;
         }
 
-vlist_packer_emit_out(p, (v&0x7f) | 0x80); 
+vlist_packer_emit_out(p, (v&0x7f) | 0x80);
 }
 
 
@@ -638,8 +638,8 @@ buf[idx] = (v&0x7f) | 0x80;
 
 for(i = idx; i >= 0; i--)
 	{
-	vlist_packer_emit_out(p, buf[i]); 
-	} 
+	vlist_packer_emit_out(p, buf[i]);
+	}
 }
 
 
@@ -657,7 +657,7 @@ top:
 		if(p->buf[(p->bufpnt-i) & WAVE_ZIVMASK] == byt)
 			{
 			p->repdist = i;
-			p->repcnt = 1;			
+			p->repcnt = 1;
 
 			p->repdist2 = p->repdist3 = p->repdist4 = 0;
 
@@ -702,7 +702,7 @@ top:
 	p->bufpnt++;
 	p->bufpnt &= WAVE_ZIVMASK;
 	p->buf[p->bufpnt] = byt;
-	vlist_packer_emit_out(p, byt);	
+	vlist_packer_emit_out(p, byt);
 	if(byt==WAVE_ZIVFLAG)
 		{
 		vlist_packer_emit_uv32(p, 0);
@@ -788,21 +788,21 @@ attempt2:
 			{
 			if(p->repcnt == 2)
 				{
-				vlist_packer_emit_out(p, p->buf[(p->bufpnt-1) & WAVE_ZIVMASK]);	
+				vlist_packer_emit_out(p, p->buf[(p->bufpnt-1) & WAVE_ZIVMASK]);
 				if(p->buf[(p->bufpnt-1) & WAVE_ZIVMASK]==WAVE_ZIVFLAG)
 					{
 					vlist_packer_emit_uv32(p, 0);
 					}
 				}
-			
-			vlist_packer_emit_out(p, p->buf[p->bufpnt & WAVE_ZIVMASK]);	
+
+			vlist_packer_emit_out(p, p->buf[p->bufpnt & WAVE_ZIVMASK]);
 			p->repcnt = 0;
 			if(p->buf[p->bufpnt & WAVE_ZIVMASK]==WAVE_ZIVFLAG)
 				{
 				vlist_packer_emit_uv32(p, 0);
 				}
 			}
-		goto top;		
+		goto top;
 		}
 	}
 }
@@ -826,14 +826,14 @@ if(p->repcnt)
 		{
 		if(p->repcnt == 2)
 			{
-			vlist_packer_emit_out(p, p->buf[(p->bufpnt-1) & WAVE_ZIVMASK]);	
+			vlist_packer_emit_out(p, p->buf[(p->bufpnt-1) & WAVE_ZIVMASK]);
 			if(p->buf[(p->bufpnt-1) & WAVE_ZIVMASK]==WAVE_ZIVFLAG)
 				{
 				vlist_packer_emit_uv32(p, 0);
 				}
 			}
-			
-		vlist_packer_emit_out(p, p->buf[p->bufpnt & WAVE_ZIVMASK]);	
+
+		vlist_packer_emit_out(p, p->buf[p->bufpnt & WAVE_ZIVMASK]);
 		p->repcnt = 0;
 		if(p->buf[p->bufpnt & WAVE_ZIVMASK]==WAVE_ZIVFLAG)
 			{
@@ -845,8 +845,8 @@ if(p->repcnt)
 vlist_packer_emit_uv32rvs(p, p->unpacked_bytes); /* for malloc later during decompress */
 
 #ifdef WAVE_VLIST_PACKER_STATS
-pp += p->packed_bytes; 
-upp += p->unpacked_bytes; 
+pp += p->packed_bytes;
+upp += p->unpacked_bytes;
 
 printf("pack:%d orig:%d (%lld %lld %f)\n", p->packed_bytes, p->unpacked_bytes, pp, upp, (float)pp / (float)upp);
 #endif
@@ -886,7 +886,7 @@ for(;;)
 
 	shamt+=7;
 	top_of_packed_size--;
-	} 
+	}
 
 mem = calloc_2(1, WAVE_ZIVWRAP + dec_size);
 dpnt = mem + WAVE_ZIVWRAP;
@@ -914,7 +914,7 @@ for(i=0;i<top_of_packed_size;i++)
 		i++;
 
 		shamt+=7;
-		} 
+		}
 	if(repcnt == 0)
 		{
 		*(dpnt++) = WAVE_ZIVFLAG;
@@ -936,7 +936,7 @@ for(i=0;i<top_of_packed_size;i++)
 		i++;
 
 		shamt+=7;
-		} 
+		}
 
 	for(j=0;j<repcnt;j++)
 		{

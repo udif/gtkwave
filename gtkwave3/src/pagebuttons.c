@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2005.
  *
  * This program is free software; you can redistribute it and/or
@@ -76,7 +76,7 @@ service_right_page(GtkWidget *text, gpointer data)
 	{
 	GLOBALS->tims.timecache=GLOBALS->tims.start+ntfrac;
 	}
-        else 
+        else
 	{
 	GLOBALS->tims.timecache=GLOBALS->tims.last-ntinc+1;
     if(GLOBALS->tims.timecache<GLOBALS->tims.first)
@@ -111,7 +111,7 @@ pixmapwid1=gtk_pixmap_new(GLOBALS->prev_page_pixmap, GLOBALS->prev_page_mask);
 gtk_widget_show(pixmapwid1);
 pixmapwid2=gtk_pixmap_new(GLOBALS->next_page_pixmap, GLOBALS->next_page_mask);
 gtk_widget_show(pixmapwid2);
-   
+
 /* Create a table to hold the text widget and scrollbars */
 table = gtk_table_new (1, 1, FALSE);
 
@@ -119,7 +119,7 @@ main_vbox = gtk_vbox_new (FALSE, 1);
 gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
 gtk_container_add (GTK_CONTAINER (table), main_vbox);
 
-frame = gtk_frame_new ("Page "); 
+frame = gtk_frame_new ("Page ");
 gtk_box_pack_start (GTK_BOX (main_vbox), frame, TRUE, TRUE, 0);
 
 gtk_widget_show (frame);
@@ -149,4 +149,4 @@ gtk_container_add (GTK_CONTAINER (frame), table2);
 gtk_widget_show(table2);
 return(table);
 }
-   
+

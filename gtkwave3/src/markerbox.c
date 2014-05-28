@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2008.
  *
  * This program is free software; you can redistribute it and/or
@@ -23,13 +23,13 @@ int i;
 
 i = ((int) (((long) which) & 31L)) % 26;
 GLOBALS->dirty_markerbox_c_1 = 1;
- 
+
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
 if(entry_text && strlen(entry_text))
 	{
 	if(GLOBALS->shadow_marker_names[i])
 		{
-		free_2(GLOBALS->shadow_marker_names[i]); 
+		free_2(GLOBALS->shadow_marker_names[i]);
 		}
 
 	GLOBALS->shadow_marker_names[i] = strdup_2(entry_text);
@@ -38,7 +38,7 @@ if(entry_text && strlen(entry_text))
 	{
 	if(GLOBALS->shadow_marker_names[i])
 		{
-		free_2(GLOBALS->shadow_marker_names[i]); 
+		free_2(GLOBALS->shadow_marker_names[i]);
 		GLOBALS->shadow_marker_names[i] = NULL;
 		}
 	}
@@ -51,13 +51,13 @@ int i;
 
 i = ((int) (((long) which) & 31L)) % 26;
 GLOBALS->dirty_markerbox_c_1 = 1;
- 
+
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
 if(entry_text && strlen(entry_text))
 	{
 	if(GLOBALS->shadow_marker_names[i])
 		{
-		free_2(GLOBALS->shadow_marker_names[i]); 
+		free_2(GLOBALS->shadow_marker_names[i]);
 		}
 
 	GLOBALS->shadow_marker_names[i] = strdup_2(entry_text);
@@ -69,7 +69,7 @@ if(entry_text && strlen(entry_text))
 	{
 	if(GLOBALS->shadow_marker_names[i])
 		{
-		free_2(GLOBALS->shadow_marker_names[i]); 
+		free_2(GLOBALS->shadow_marker_names[i]);
 		GLOBALS->shadow_marker_names[i] = NULL;
 		}
 	}
@@ -88,7 +88,7 @@ int i;
 int ent_idx;
 
 ent_idx = ((int) (((long) which) & 31L)) % 26;
- 
+
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -105,7 +105,7 @@ if((temp<GLOBALS->tims.start)||(temp>GLOBALS->tims.last)) goto failure;
 
 for(i=0;i<26;i++)
         {
-        if(temp==GLOBALS->shadow_markers_markerbox_c_1[i]) 
+        if(temp==GLOBALS->shadow_markers_markerbox_c_1[i])
 		{
 		if(i!=ent_idx)
 			{
@@ -135,7 +135,7 @@ int i;
 int ent_idx;
 
 ent_idx = ((int) (((long) which) & 31L)) % 26;
- 
+
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -178,7 +178,7 @@ static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 if(GLOBALS->dirty_markerbox_c_1)
 	{
 	int i;
-	for(i=0;i<26;i++) 
+	for(i=0;i<26;i++)
 		{
 		GLOBALS->named_markers[i]=GLOBALS->shadow_markers_markerbox_c_1[i];
 		if(GLOBALS->marker_names[i]) free_2(GLOBALS->marker_names[i]);
@@ -224,7 +224,7 @@ void markerbox(char *title, GtkSignalFunc func)
     GLOBALS->cleanup_markerbox_c_4=func;
     GLOBALS->dirty_markerbox_c_1=0;
 
-    for(i=0;i<26;i++) 
+    for(i=0;i<26;i++)
 	{
 	GLOBALS->shadow_markers_markerbox_c_1[i] = GLOBALS->named_markers[i];
 	GLOBALS->shadow_marker_names[i] = strdup_2(GLOBALS->marker_names[i]);

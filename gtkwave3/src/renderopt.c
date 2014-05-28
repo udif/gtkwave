@@ -80,7 +80,7 @@ FILE *wave;
 if(GLOBALS->filesel_ok)
         {
         DEBUG(printf("PS Print Fini: %s\n", *GLOBALS->fileselbox_text));
-                
+
         if(!(wave=fopen(*GLOBALS->fileselbox_text,"wb")))
                 {
                 fprintf(stderr, "Error opening PS output file '%s' for writing.\n",*GLOBALS->fileselbox_text);
@@ -92,7 +92,7 @@ if(GLOBALS->filesel_ok)
                 print_ps_image(wave,px[GLOBALS->page_size_type_renderopt_c_1],py[GLOBALS->page_size_type_renderopt_c_1]);
                 fclose(wave);
                 }
-        }  
+        }
 }
 
 static void
@@ -104,7 +104,7 @@ FILE *wave2;
 if(GLOBALS->filesel_ok)
         {
         DEBUG(printf("PDF Print Fini: %s\n", *GLOBALS->fileselbox_text));
-                
+
         if(!(wave=fopen(*GLOBALS->fileselbox_text,"wb")))
                 {
                 fprintf(stderr, "Error opening PDF output file '%s' for writing.\n",*GLOBALS->fileselbox_text);
@@ -126,18 +126,18 @@ if(GLOBALS->filesel_ok)
 #endif
 		strcpy(zname+len, ".ps");
 
-		if(!(wave2=fopen(zname,"wb")))		
+		if(!(wave2=fopen(zname,"wb")))
 			{
 	                fprintf(stderr, "Error opening PS output tempfile '%s' for writing.\n",zname);
 	                perror("Why");
 			fclose(wave);
-			unlink(*GLOBALS->fileselbox_text);			
+			unlink(*GLOBALS->fileselbox_text);
 	                errno=0;
 			}
 			else
 			{
 			char *sysname = malloc_2(7 + 1 + len + 3 + 1 + len + 1);
-			int rc;	
+			int rc;
 
 #ifdef MAC_INTEGRATION
 			sprintf(sysname, "pstopdf"	/* 7 */
@@ -164,7 +164,7 @@ if(GLOBALS->filesel_ok)
 
 		free_2(zname);
                 }
-        }  
+        }
 }
 
 static void
@@ -175,7 +175,7 @@ FILE *wave;
 if(GLOBALS->filesel_ok)
         {
         DEBUG(printf("MIF Print Fini: %s\n", *GLOBALS->fileselbox_text));
-                
+
         if(!(wave=fopen(*GLOBALS->fileselbox_text,"wb")))
                 {
                 fprintf(stderr, "Error opening MIF output file '%s' for writing.\n",*GLOBALS->fileselbox_text);
@@ -187,7 +187,7 @@ if(GLOBALS->filesel_ok)
 		print_mif_image(wave,px[GLOBALS->page_size_type_renderopt_c_1],py[GLOBALS->page_size_type_renderopt_c_1]);
                 fclose(wave);
                 }
-        }  
+        }
 }
 
 
@@ -217,7 +217,7 @@ gint gd_rc;
 if(GLOBALS->gprs) { gtk_print_unix_dialog_set_settings(GTK_PRINT_UNIX_DIALOG(ropt), GLOBALS->gprs); }
 if(GLOBALS->gps) { gtk_print_unix_dialog_set_page_setup(GTK_PRINT_UNIX_DIALOG(ropt), GLOBALS->gps); }
 
-gtk_print_unix_dialog_set_manual_capabilities(GTK_PRINT_UNIX_DIALOG(ropt), 
+gtk_print_unix_dialog_set_manual_capabilities(GTK_PRINT_UNIX_DIALOG(ropt),
 	GTK_PRINT_CAPABILITY_GENERATE_PS |
 	GTK_PRINT_CAPABILITY_COPIES
 	);
@@ -246,14 +246,14 @@ if(gd_rc == GTK_RESPONSE_OK)
 	       	if(!(wave=fopen(save_tmpfilename, "r+b")))
 	               	{
 	               	fprintf(stderr, "Error opening PS output file '%s' for writing.\n", save_tmpfilename);
-	               	perror("Why");   
-	               	errno=0;                
+	               	perror("Why");
+	               	errno=0;
 	               	}
-	               	else      
+	               	else
 	               	{
 			if(GLOBALS->gp_tfn) free_2(GLOBALS->gp_tfn);
 			GLOBALS->gp_tfn = strdup_2(save_tmpfilename);
-	
+
                 	print_ps_image(wave,px[GLOBALS->page_size_type_renderopt_c_1],py[GLOBALS->page_size_type_renderopt_c_1]);
 			fflush(wave);
 			fclose(wave);
@@ -262,7 +262,7 @@ if(gd_rc == GTK_RESPONSE_OK)
                                                         &job_error);
 			if(job_stat)
 				{
-				gtk_print_job_send(gpj, wave_GtkPrintJobCompleteFunc, 
+				gtk_print_job_send(gpj, wave_GtkPrintJobCompleteFunc,
 						GLOBALS->gp_tfn,
 						NULL);
 				GLOBALS->gprs = gtk_print_settings_copy(gprs);
@@ -282,7 +282,7 @@ if(gd_rc == GTK_RESPONSE_OK)
 		else
 		{
 		status_text("gtk_printer_accepts_ps() == FALSE, cannot print.");
-		}            
+		}
 	}
 else
 if(gd_rc == GTK_RESPONSE_APPLY)
@@ -335,7 +335,7 @@ static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 void renderbox(char *title)
 {
     GtkWidget *menu, *menuitem, *optionmenu;
-    GSList *group; 
+    GSList *group;
     GtkWidget *vbox, *hbox, *small_hbox;
     GtkWidget *button1, *button2;
     int i;
@@ -376,7 +376,7 @@ void renderbox(char *title)
 			if(!strcmp(s2, page_size[i]))
 				{
 				fprintf(stderr, "GTKWAVE | Print using '%s'\n",  page_size[i]);
-				memset(GLOBALS->page_mutex_renderopt_c_1, 0, 5); GLOBALS->page_mutex_renderopt_c_1[i] = 1; 
+				memset(GLOBALS->page_mutex_renderopt_c_1, 0, 5); GLOBALS->page_mutex_renderopt_c_1[i] = 1;
 				GLOBALS->page_size_type_renderopt_c_1 = i;
 				break;
 				}
@@ -406,7 +406,7 @@ void renderbox(char *title)
 
 
 
-    if(GLOBALS->is_active_renderopt_c_3) 
+    if(GLOBALS->is_active_renderopt_c_3)
 	{
 	if(GLOBALS->window_renderopt_c_6)
 		{
@@ -422,7 +422,7 @@ void renderbox(char *title)
     install_focus_cb(GLOBALS->window_renderopt_c_6, ((char *)&GLOBALS->window_renderopt_c_6) - ((char *)GLOBALS));
 
     gtk_window_set_title(GTK_WINDOW (GLOBALS->window_renderopt_c_6), title);
-    gtk_widget_set_usize( GTK_WIDGET (GLOBALS->window_renderopt_c_6), 420, -1); 
+    gtk_widget_set_usize( GTK_WIDGET (GLOBALS->window_renderopt_c_6), 420, -1);
     gtkwave_signal_connect(GTK_OBJECT (GLOBALS->window_renderopt_c_6), "delete_event",(GtkSignalFunc) destroy_callback, NULL);
     gtk_window_set_policy(GTK_WINDOW(GLOBALS->window_renderopt_c_6), FALSE, FALSE, FALSE);
 
@@ -443,7 +443,7 @@ void renderbox(char *title)
 #ifndef WAVE_GTK_UNIX_PRINT
 	if(i==3)
 		{
-		break;		
+		break;
 		}
 #endif
 

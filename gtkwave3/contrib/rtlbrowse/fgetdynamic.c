@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999.
  *
  * This program is free software; you can redistribute it and/or
@@ -56,7 +56,7 @@ for(;;)
 		}
 	}
 
-if(!fgetmalloc_len) 
+if(!fgetmalloc_len)
 	{
 	return(NULL);
 	}

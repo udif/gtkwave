@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2013.
  *
  * This program is free software; you can redistribute it and/or
@@ -22,12 +22,12 @@
  * complain about certain ops conflict with dnd...
  */
 void dnd_error(void)
-{ 
+{
 status_text("Can't perform that operation when waveform drag and drop is in progress!\n");
-}  
+}
 
 
-static void     
+static void
 service_hslider(GtkWidget *text, gpointer data)
 {
 GtkAdjustment *hadj;
@@ -42,7 +42,7 @@ if(GLOBALS->signalpixmap)
 
 	gdk_draw_rectangle(GLOBALS->signalpixmap, GLOBALS->gc.gc_mdgray, TRUE,
 	        0, -1, GLOBALS->signal_fill_width, GLOBALS->fontheight);
-	gdk_draw_line(GLOBALS->signalpixmap, GLOBALS->gc_white,  
+	gdk_draw_line(GLOBALS->signalpixmap, GLOBALS->gc_white,
 	        0, GLOBALS->fontheight-1, GLOBALS->signal_fill_width-1, GLOBALS->fontheight-1);
 	font_engine_draw_string(GLOBALS->signalpixmap, GLOBALS->signalfont,
 	        GLOBALS->gc_black, 3+xsrc, GLOBALS->fontheight-4, "Time");
@@ -67,7 +67,7 @@ void draw_signalarea_focus(void)
 {
 if(GLOBALS->signalarea_has_focus)
         {
-        gdk_draw_rectangle(GLOBALS->signalarea->window, GLOBALS->gc_black, FALSE, 0, 0, 
+        gdk_draw_rectangle(GLOBALS->signalarea->window, GLOBALS->gc_black, FALSE, 0, 0,
 		GLOBALS->signalarea->allocation.width-1, GLOBALS->signalarea->allocation.height-1);
 	}
 }
@@ -85,7 +85,7 @@ static void DNDBeginCB(
 
 GLOBALS->dnd_state = 1;
 }
- 
+
 /*
  *      DND "drag_end" handler, this is called when a drag and drop has
  *      completed. So this function is the last one to be called in
@@ -102,8 +102,8 @@ GdkModifierType state;
 Trptr t;
 int trwhich, trtarget;
 int must_update_screen = 0;
-        
-#ifdef WAVE_USE_GTK2    
+
+#ifdef WAVE_USE_GTK2
 gint xi, yi;
 #else
 GdkEventMotion event[1];
@@ -148,7 +148,7 @@ if(GLOBALS->std_dnd_tgt_on_signalarea || GLOBALS->std_dnd_tgt_on_wavearea)
 	while(t && t->t_next && IsGroupEnd(t->t_next) && IsCollapsed(t->t_next)) { /* added missing "t &&" because of possible while termination above */
 	  t = t->t_next;
 	}
-        
+
         GLOBALS->cachedtrace=t;
         if(GLOBALS->cachedtrace)
 		{
@@ -183,7 +183,7 @@ success:
 	        	{
 	                GLOBALS->cachedtrace->flags&=~TR_HIGHLIGHT;
 	                }
-   
+
 		GLOBALS->signalwindow_width_dirty=1;
                 MaxSignalLength();
                 signalarea_configure_event(GLOBALS->signalarea, NULL);
@@ -207,7 +207,7 @@ GLOBALS->standard_trace_dnd_degate = 1;
 }
 
 /*
- *	DND "drag_motion" handler, this is called whenever the 
+ *	DND "drag_motion" handler, this is called whenever the
  *	pointer is dragging over the target widget.
  */
 static gboolean DNDDragMotionCB(
@@ -277,8 +277,8 @@ if(GLOBALS->std_dnd_tgt_on_signalarea || GLOBALS->std_dnd_tgt_on_wavearea)
 	GdkModifierType state;
 	Trptr t;
 	int trwhich, trtarget;
-        
-	#ifdef WAVE_USE_GTK2    
+
+	#ifdef WAVE_USE_GTK2
 	gint xi, yi;
 	#else
 	GdkEventMotion event[1];
@@ -315,7 +315,7 @@ if(GLOBALS->std_dnd_tgt_on_signalarea || GLOBALS->std_dnd_tgt_on_wavearea)
 	                {
 	                break;
 	                }
-	        }       
+	        }
 
 	while(t && t->t_next && IsGroupEnd(t->t_next) && IsCollapsed(t->t_next)) {
 	  t = t->t_next;
@@ -354,7 +354,7 @@ if(GLOBALS->std_dnd_tgt_on_signalarea || GLOBALS->std_dnd_tgt_on_wavearea)
 		GLOBALS->dnd_cursor_timer = 1;
 		if((t)&&(which >= -1))
 			{
-			if(which >= GLOBALS->traces.total) { which = GLOBALS->traces.total-1; } 
+			if(which >= GLOBALS->traces.total) { which = GLOBALS->traces.total-1; }
 			ylin = ((which + 2) * GLOBALS->fontheight) - 2;
 
 		        gdk_draw_line(GLOBALS->signalpixmap, GLOBALS->gc_black,
@@ -401,7 +401,7 @@ if(!GLOBALS || !GLOBALS->filter_entry || !event)
 #ifdef MAC_INTEGRATION
 	return (GTK_WIDGET_HAS_FOCUS(GLOBALS->filter_entry));
 #else
-	return (GTK_WIDGET_HAS_FOCUS(GLOBALS->filter_entry) && 
+	return (GTK_WIDGET_HAS_FOCUS(GLOBALS->filter_entry) &&
 	  !(event->state & GDK_CONTROL_MASK) &&
 	  !(event->state & GDK_MOD1_MASK));
 #endif
@@ -421,7 +421,7 @@ gint rc = FALSE;
 int yscroll;
 
 #ifdef FOCUS_DEBUG_MSGS
-printf("focus: %d %08x %08x %08x\n", GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box), 
+printf("focus: %d %08x %08x %08x\n", GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box),
 	GLOBALS->signalarea_event_box, widget, data);
 #endif
 
@@ -492,7 +492,7 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
 					case GDK_Page_Down:
 					case GDK_KP_Page_Down:
 						yscroll = ((event->keyval == GDK_Page_Down) || (event->keyval == GDK_KP_Page_Down)) ? num_traces_displayable : 1;
-			                        target=((int)wadj->value)+yscroll;  
+			                        target=((int)wadj->value)+yscroll;
 			                        which=num_traces_displayable-1;
 
 			                        if(target+which>=(GLOBALS->traces.visible-1)) target=GLOBALS->traces.visible-which-1;
@@ -503,7 +503,7 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
                         			gtk_signal_emit_by_name (GTK_OBJECT (wadj), "changed"); /* force bar update */
                         			gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /* force text update */
 						break;
-				
+
 					case GDK_Up:
 					case GDK_KP_Up:
 					case GDK_Page_Up:
@@ -512,7 +512,7 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
                         			target=((int)wadj->value)-yscroll;
                         			if(target<0) target=0;
                         			wadj->value=target;
-                         
+
 						which=0;
                         			if(GLOBALS->cachedwhich_signalwindow_c_1==which) GLOBALS->cachedwhich_signalwindow_c_1=-1; /* force update */
 
@@ -530,7 +530,7 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
 			service_left_edge(NULL, 0);
 			/*
 			hadj=GTK_ADJUSTMENT(GLOBALS->signal_hslider);
-  
+
 			if(hadj->value < hadj->page_increment)
 			        {
 			        hadj->value = (gfloat)0.0;
@@ -571,7 +571,7 @@ if(GTK_WIDGET_HAS_FOCUS(GLOBALS->signalarea_event_box))
 
 			rc = TRUE;
 			break;
-	
+
 		default:
 #ifdef FOCUS_DEBUG_MSGS
 			printf("key %x, widget: %08x\n", event->keyval, widget);
@@ -647,14 +647,14 @@ if(GLOBALS->dnd_sigview)
  if (ignoreAccelerators(event)) {
    gtk_widget_event(GLOBALS->filter_entry, (GdkEvent *)event);
    /* eat keystroke */
-   rc = TRUE; 
+   rc = TRUE;
  }
 
 return(rc);
 }
 
 #ifdef WAVE_USE_GTK2
-static        gint  
+static        gint
 scroll_event( GtkWidget * widget, GdkEventScroll * event )
 {
   GdkEventKey ev_fake;
@@ -669,7 +669,7 @@ scroll_event( GtkWidget * widget, GdkEventScroll * event )
     case GDK_SCROLL_DOWN:
       ev_fake.keyval = GDK_Down;
       keypress_local(widget, &ev_fake, GLOBALS->signalarea_event_box);
-      
+
     default:
       break;
   }
@@ -713,12 +713,12 @@ static gboolean run_once = FALSE;
 gdouble x,y;
 GdkModifierType state;
 TraceEnt t_trans;
-                 
+
 #ifdef WAVE_USE_GTK2
 gint xi, yi;
 #else
 GdkEventMotion event[1];
-event[0].deviceid = GDK_CORE_POINTER;  
+event[0].deviceid = GDK_CORE_POINTER;
 #endif
 
 if(GLOBALS->button2_debounce_flag)
@@ -742,11 +742,11 @@ if((GLOBALS->dnd_state)||(GLOBALS->tree_dnd_begin)) /* drag scroll on DnD */
                 wadj=GTK_ADJUSTMENT(GLOBALS->wave_vslider);
                 num_traces_displayable=(GLOBALS->signalarea->allocation.height)/(GLOBALS->fontheight);
                 num_traces_displayable--;   /* for the time trace that is always there */
-                      
+
                	if(num_traces_displayable<GLOBALS->traces.visible)
 			{
 			yscroll = 1;
-                        target=((int)wadj->value)+yscroll;  
+                        target=((int)wadj->value)+yscroll;
                         which=num_traces_displayable-1;
 
                         if(target+which>=(GLOBALS->traces.visible-1)) target=GLOBALS->traces.visible-which-1;
@@ -758,20 +758,20 @@ if((GLOBALS->dnd_state)||(GLOBALS->tree_dnd_begin)) /* drag scroll on DnD */
        			gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /* force text update */
 			}
 		}
-	else 
+	else
 	if(y < 0)
 		{
                 wadj=GTK_ADJUSTMENT(GLOBALS->wave_vslider);
                 num_traces_displayable=(GLOBALS->signalarea->allocation.height)/(GLOBALS->fontheight);
                 num_traces_displayable--;   /* for the time trace that is always there */
-                      
+
                	if(num_traces_displayable<GLOBALS->traces.visible)
 			{
 			yscroll = 1;
        			target=((int)wadj->value)-yscroll;
        			if(target<0) target=0;
        			wadj->value=target;
-                         
+
 			which=0;
        			if(GLOBALS->cachedwhich_signalwindow_c_1==which) GLOBALS->cachedwhich_signalwindow_c_1=-1; /* force update */
 
@@ -815,7 +815,7 @@ if(GLOBALS->dnd_helper_quartz)
         DND_helper_quartz(dhq);
         g_free(dhq);
         }
-#endif   
+#endif
 #endif
 
 if(process_finder_names_queued())
@@ -868,7 +868,7 @@ if(run_once == FALSE) /* avoid any race conditions with the toolkit for uninitia
 	return(TRUE);
 	}
 
-if((!GLOBALS->signalarea) || (!GLOBALS->signalarea->window))                 
+if((!GLOBALS->signalarea) || (!GLOBALS->signalarea->window))
 	{
 	return(TRUE);
 	}
@@ -916,12 +916,12 @@ if(GLOBALS->mouseover_counter == 10)
 	        if(!t) goto bot;
 	        t=GiveNextTrace(t);
 	        }
-         
+
 	if(!t) goto bot;
 	if((t->flags&(/*TR_BLANK|*/TR_EXCLUDE))) /* TR_BLANK removed because of transaction handling below... */
 	        {
 	        t = NULL;
-	        goto bot; 
+	        goto bot;
 	        }
 
 if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if present... */
@@ -968,14 +968,14 @@ if(t->flags & (TR_BLANK|TR_ANALOG_BLANK_STRETCH))  /* seek to real xact trace if
                         goto bot; /* is goto process_trace; in wavewindow.c */
                         }
                 }
-        }        
-                
-if((t->flags&TR_BLANK))
-        {                
-        t = NULL;
-        goto bot;       
         }
-	         
+
+if((t->flags&TR_BLANK))
+        {
+        t = NULL;
+        goto bot;
+        }
+
 	if(t->flags & TR_ANALOG_BLANK_STRETCH)  /* seek to real analog trace is present... */
 	        {
 	        while((t) && (t = t->t_prev))
@@ -987,7 +987,7 @@ if((t->flags&TR_BLANK))
 	                                break; /* found it */
 	                                }
 	                                else
-	                                {   
+	                                {
 	                                t = NULL;
 	                                }
 	                        }
@@ -1304,13 +1304,13 @@ if(GLOBALS->signalpixmap)
 	if((GLOBALS->old_signal_fill_width!=GLOBALS->signal_fill_width)||(GLOBALS->old_signal_fill_height!=widget->allocation.height))
 		{
 		gdk_pixmap_unref(GLOBALS->signalpixmap);
-		GLOBALS->signalpixmap=gdk_pixmap_new(widget->window, 
+		GLOBALS->signalpixmap=gdk_pixmap_new(widget->window,
 			GLOBALS->signal_fill_width, widget->allocation.height, -1);
 		}
 	}
 	else
 	{
-	GLOBALS->signalpixmap=gdk_pixmap_new(widget->window, 
+	GLOBALS->signalpixmap=gdk_pixmap_new(widget->window,
 		GLOBALS->signal_fill_width, widget->allocation.height, -1);
 	}
 
@@ -1319,7 +1319,7 @@ if(GLOBALS->signalpixmap)
    if (width < GLOBALS->max_signal_name_pixel_width+15)
      {
        int delta = GLOBALS->max_signal_name_pixel_width+15 - width;
-       
+
 	 if(GLOBALS->signalpixmap)
 	   {
 
@@ -1394,10 +1394,10 @@ if(GLOBALS->traces.scroll_bottom)
 		if((scroll_top > cur_top) && (scroll_bottom <= cur_bottom))
 			{
 			/* nothing */
-			}	
+			}
 			else
 			{
-			if((scroll_bottom - scroll_top + 1) >= num_traces_displayable)			
+			if((scroll_bottom - scroll_top + 1) >= num_traces_displayable)
 				{
 				wadj->value=(gfloat)(scroll_bottom - num_traces_displayable + 1);
 				}
@@ -1472,7 +1472,7 @@ hadj=GTK_ADJUSTMENT(GLOBALS->signal_hslider);
 xsrc=(gint)hadj->value;
 
 gdk_draw_pixmap(widget->window, widget->style->fg_gc[GTK_WIDGET_STATE(widget)],
-		GLOBALS->signalpixmap, 
+		GLOBALS->signalpixmap,
 		xsrc+event->area.x, event->area.y,
 		event->area.x, event->area.y,
 		event->area.width, event->area.height);
@@ -1539,9 +1539,9 @@ GLOBALS->signalarea=gtk_drawing_area_new();
 gtk_widget_show(GLOBALS->signalarea);
 MaxSignalLength();
 
-gtk_widget_set_events(GLOBALS->signalarea, 
-		GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK | 
-		GDK_BUTTON_RELEASE_MASK | 
+gtk_widget_set_events(GLOBALS->signalarea,
+		GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK |
+		GDK_BUTTON_RELEASE_MASK |
 		GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK
 		);
 
@@ -1667,8 +1667,8 @@ if(do_focusing)
 
 gint install_keypress_handler(void)
 {
-gint rc = 
-	gtk_signal_connect(GTK_OBJECT(GLOBALS->mainwindow), 
+gint rc =
+	gtk_signal_connect(GTK_OBJECT(GLOBALS->mainwindow),
 	"key_press_event",GTK_SIGNAL_FUNC(keypress_local), NULL);
 
 return(rc);

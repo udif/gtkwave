@@ -75,15 +75,15 @@ extern JRB jrb_find_gen(JRB root, Jval, int (*func)(Jval, Jval));
 extern JRB jrb_find_gte_str(JRB root, char *key, int *found);
 extern JRB jrb_find_gte_int(JRB root, int ikey, int *found);
 extern JRB jrb_find_gte_vptr(JRB root, void *vkey, int *found);
-extern JRB jrb_find_gte_gen(JRB root, Jval key, 
+extern JRB jrb_find_gte_gen(JRB root, Jval key,
                               int (*func)(Jval, Jval), int *found);
 
 
-/* Creates a node with key key and val val and inserts it into the 
-   tree before/after node nd.  Does not check to ensure that you are 
+/* Creates a node with key key and val val and inserts it into the
+   tree before/after node nd.  Does not check to ensure that you are
    keeping the correct order */
 
-extern void jrb_delete_node(JRB node);  /* Deletes and frees a node (but 
+extern void jrb_delete_node(JRB node);  /* Deletes and frees a node (but
                                               not the key or val) */
 extern void jrb_free_tree(JRB root);  /* Deletes and frees an entire tree */
 
@@ -94,7 +94,7 @@ extern int jrb_nblack(JRB n); /* returns # of black nodes in path from
                                     n to the root */
 int jrb_plength(JRB n);       /* returns the # of nodes in path from
 				    n to the root */
- 
+
 #define jrb_first(n) (n->flink)
 #define jrb_last(n) (n->blink)
 #define jrb_next(n) (n->flink)
@@ -103,12 +103,12 @@ int jrb_plength(JRB n);       /* returns the # of nodes in path from
 #ifndef jrb_nil
 #define jrb_nil(t) (t)
 #endif
- 
+
 #define jrb_traverse(ptr, lst) \
   for(ptr = jrb_first(lst); ptr != jrb_nil(lst); ptr = jrb_next(ptr))
- 
+
 #define jrb_rtraverse(ptr, lst) \
   for(ptr = jrb_last(lst); ptr != jrb_nil(lst); ptr = jrb_prev(ptr))
- 
+
 #endif
 

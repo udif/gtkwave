@@ -113,7 +113,7 @@ for(;;)
 			break;
 
 		default:
-			break;			
+			break;
 		}
 	}
 }
@@ -151,7 +151,7 @@ for(;;)
                         else
                         if(strstr(rc+1, "Struct End"))
                                 {
-                                sprintf(rc, "Upscope:\n");  
+                                sprintf(rc, "Upscope:\n");
                                 }
 			}
 		}
@@ -221,16 +221,16 @@ for(;;)
 					default:	break;
 					}
 				}
-                        else             
+                        else
                         if(!strncmp(vht, "vhdl_", 5))
                                 {
-                                switch(vht[5])   
-                                        {                
+                                switch(vht[5])
+                                        {
                                         case 'a':       mtype = FST_ST_VHDL_ARCHITECTURE; break;
                                         case 'r':       mtype = FST_ST_VHDL_RECORD; break;
                                         case 'b':       mtype = FST_ST_VHDL_BLOCK; break;
                                         case 'g':       mtype = FST_ST_VHDL_GENERATE; break;
-                                        case 'i':       mtype = FST_ST_VHDL_IF_GENERATE; break;  
+                                        case 'i':       mtype = FST_ST_VHDL_IF_GENERATE; break;
                                         case 'f':       mtype = (vht[6] == 'u') ? FST_ST_VHDL_FUNCTION : FST_ST_VHDL_FOR_GENERATE; break;
                                         case 'p':       mtype = (!strncmp(vht+6, "roces", 5)) ? FST_ST_VHDL_PROCESS: FST_ST_VHDL_PROCEDURE; break;
                                         default:        break;
@@ -397,7 +397,7 @@ while(((*wbuf)[*len] != 1) && !feof(f))
 	*wbuf = realloc_2(*wbuf, (*len) * 2 + 1);
 	(*wbuf)[(*len) * 2] = 1;
 
-	fgets_rc = fgets(*wbuf + (*len), (*len) + 1, f);	
+	fgets_rc = fgets(*wbuf + (*len), (*len) + 1, f);
 	*len = 2 * (*len);
 	}
 
@@ -430,7 +430,7 @@ for(i=0;i<len;i++)
         }
 
 return(val);
-}  
+}
 
 int pack_type = FST_WR_PT_LZ4;  /* set to fstWriterPackType */
 int compression_explicitly_set = 0;
@@ -610,7 +610,7 @@ while(!feof(f))
 					vartype = FST_VT_VCD_REALTIME;
 					}
 				break;
-				
+
 			case 'p':
 				if(!strcmp(st, "parameter"))
 					{
@@ -625,12 +625,12 @@ while(!feof(f))
 				break;
 
 			case 'i':
-				if(!strcmp(st, "integer"))		
+				if(!strcmp(st, "integer"))
 					{
 					vartype = FST_VT_VCD_INTEGER;
 					}
 				else
-				if(!strcmp(st, "int"))		
+				if(!strcmp(st, "int"))
 					{
 					vartype = FST_VT_SV_INT;
 					}
@@ -638,12 +638,12 @@ while(!feof(f))
 
 			case 'e':
 				if(!strcmp(st, "event"))
-					{	
+					{
 					vartype = FST_VT_VCD_EVENT;
 					}
 				else
 				if(!strcmp(st, "enum"))
-					{	
+					{
 					vartype = FST_VT_SV_ENUM;
 					}
 				break;
@@ -673,32 +673,32 @@ while(!feof(f))
 				break;
 
 			case 's':
-				if(!strcmp(st, "supply1"))		
+				if(!strcmp(st, "supply1"))
 					{
 					vartype = FST_VT_VCD_SUPPLY1;
 					}
 				else
-				if(!strcmp(st, "supply0"))		
+				if(!strcmp(st, "supply0"))
 					{
 					vartype = FST_VT_VCD_SUPPLY0;
 					}
 				else
-				if(!strcmp(st, "string"))		
+				if(!strcmp(st, "string"))
 					{
 					vartype = FST_VT_GEN_STRING;
 					}
 				else
-				if(!strcmp(st, "shortint"))		
+				if(!strcmp(st, "shortint"))
 					{
 					vartype = FST_VT_SV_SHORTINT;
 					}
 				else
-				if(!strcmp(st, "shortreal"))		
+				if(!strcmp(st, "shortreal"))
 					{
 					vartype = FST_VT_SV_SHORTREAL;
 					}
 				else
-				if(!strcmp(st, "sparray"))		
+				if(!strcmp(st, "sparray"))
 					{
 					vartype = FST_VT_VCD_SPARRAY;
 					}
@@ -742,14 +742,14 @@ while(!feof(f))
 				break;
 
 			default:
-				break;			
+				break;
 			}
 
 		st = strtok(NULL, " \t");
 		len = atoi(st);
 		switch(vartype)
 			{
-			case FST_VT_VCD_PORT: 
+			case FST_VT_VCD_PORT:
 				if(*st == '[') /* VCS extension, so reparse */
 					{
 					int p_hi = atoi(st+1);
@@ -770,11 +770,11 @@ while(!feof(f))
 						}
 					}
 
-				len = (len * 3) + 2; 
+				len = (len * 3) + 2;
 				break;
 			case FST_VT_GEN_STRING: len = 0; break;
 			case FST_VT_VCD_EVENT: len = (len != 0) ? len : 1;  break;
-			default: 
+			default:
 				if(len == 0) { len = 1; }
 				break;
 			}
@@ -805,7 +805,7 @@ while(!feof(f))
 				{
 				*(st-1) = ' ';
 				}
-	
+
 			node = jrb_find_int(vcd_ids, hash);
 			if(!node)
 				{
@@ -1083,7 +1083,7 @@ while(!feof(f))
                                 {
                                 break;
                                 }
-                        line++;             
+                        line++;
 			sscanf(buf, "%"SCNd64, &tzero);
                         }
 
@@ -1167,7 +1167,7 @@ while(!feof(f))
 					else
 					{
 					break;
-					}					
+					}
 				}
 			if(strlen(pnt)) { found = 1; }
 			}
@@ -1184,12 +1184,12 @@ while(!feof(f))
 					else
 					{
 					break;
-					}					
+					}
 				}
 			if(strlen(pnt) > 3) { found = 1; }
 			}
-		
-		if(!found)		
+
+		if(!found)
 			{
 			ss = getline_replace(&wbuf, &buf, &glen, f);
 			if(!ss)
@@ -1223,9 +1223,9 @@ while(!feof(f))
 					else
 					{
 					break;
-					}					
+					}
 				}
-                        }           
+                        }
 			else
 			{
 			ss = getline_replace(&wbuf, &buf, &glen, f);
@@ -1461,7 +1461,7 @@ for(;;) /* was while(!feof(f)) */
 				*(pnt++) = pchar = *(src++);
 				}
 			*pnt = 0;
-			
+
 			sp = strchr(bin_fixbuff, ' ');
 			if(!sp) break;
 			sp = strchr(sp+1, ' ');
@@ -1495,7 +1495,7 @@ for(;;) /* was while(!feof(f)) */
 			hash = vcdid_hash(sp+1, nl - (sp+1));
 			if(!hash_kill)
 				{
-		                sscanf(buf+1,"%lg",&doub); 
+		                sscanf(buf+1,"%lg",&doub);
 				fstWriterEmitValueChange(ctx, hash, &doub);
 				}
 				else
@@ -1503,7 +1503,7 @@ for(;;) /* was while(!feof(f)) */
 				node = jrb_find_int(vcd_ids, hash);
 				if(node)
 					{
-			                sscanf(buf+1,"%lg",&doub); 
+			                sscanf(buf+1,"%lg",&doub);
 					fstWriterEmitValueChange(ctx, node->val.i, &doub);
 					}
 					else
@@ -1587,8 +1587,8 @@ free(bin_fixbuff); bin_fixbuff = NULL;
 free(wbuf); wbuf = NULL;
 free(node_len_array); node_len_array = NULL;
 
-if(f != stdin) 
-	{ 
+if(f != stdin)
+	{
 	if(is_popen)
 		{
 		pclose(f);
@@ -1638,7 +1638,7 @@ for(i=0;i<slen;i++)
 #endif
 
 
-#ifdef __linux__ 
+#ifdef __linux__
 printf(
 "Usage: %s [OPTION]... [VCDFILE] [FSTFILE]\n\n"
 #ifdef VCD2FST_EXTLOADERS_CONV
@@ -1706,7 +1706,7 @@ while (1)
         {
 #ifdef __linux__
         int option_index = 0;
-                        
+
         static struct option long_options[] =
                 {
 		{"vcdname", 1, 0, 'v'},
@@ -1717,16 +1717,16 @@ while (1)
 		{"compress", 0, 0, 'c'},
 		{"parallel", 0, 0, 'p'},
                 {"help", 0, 0, 'h'},
-                {0, 0, 0, 0}  
+                {0, 0, 0, 0}
                 };
-                
+
         c = getopt_long (argc, argv, "v:f:ZF4cph", long_options, &option_index);
 #else
         c = getopt      (argc, argv, "v:f:ZF4cph");
 #endif
-                        
+
         if (c == -1) break;     /* no more args */
-                        
+
         switch (c)
                 {
 		case 'v':
@@ -1767,31 +1767,31 @@ while (1)
                 case 'h':
 			print_help(argv[0]);
                         break;
-                        
+
                 case '?':
                         opt_errors_encountered=1;
                         break;
-                        
+
                 default:
                         /* unreachable */
                         break;
                 }
         }
-                        
+
 if(opt_errors_encountered)
         {
         print_help(argv[0]);
         }
 
 if (optind < argc)
-        {               
+        {
         while (optind < argc)
                 {
                 if(!vname)
                         {
                         vname = malloc(strlen(argv[optind])+1);
                         strcpy(vname, argv[optind++]);
-                        } 
+                        }
                 else if(!lxname)
                         {
                         lxname = malloc(strlen(argv[optind])+1);
@@ -1803,7 +1803,7 @@ if (optind < argc)
 			}
                 }
         }
-                        
+
 if((!vname)||(!lxname))
         {
         print_help(argv[0]);

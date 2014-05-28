@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2011.
  *
  * This program is free software; you can redistribute it and/or
@@ -8,7 +8,7 @@
  */
 
 
-/* AIX may need this for alloca to work */ 
+/* AIX may need this for alloca to work */
 #if defined _AIX
   #pragma alloca
 #endif
@@ -73,15 +73,15 @@ for(;;)
 
 	if(((ch==GLOBALS->hier_delimeter) || (ch == '|')) && (*s)) /* added && null check to allow possible . at end of name */
 		{
-		*(pnt)=0;	
+		*(pnt)=0;
 		GLOBALS->module_len_tree_c_1 = pnt - GLOBALS->module_tree_c_1;
-		return(s);		
+		return(s);
 		}
 
 	if(!(*(pnt++)=ch))
 		{
 		GLOBALS->module_len_tree_c_1 = pnt - GLOBALS->module_tree_c_1;
-		return(NULL);	/* nothing left to extract */		
+		return(NULL);	/* nothing left to extract */
 		}
 	}
 }
@@ -239,7 +239,7 @@ t_allocated:
 		if(GLOBALS->mod_tree_parent->child)
 			{
 			t->next = GLOBALS->mod_tree_parent->child;
-			}					
+			}
 		GLOBALS->mod_tree_parent->child = t;
 		GLOBALS->mod_tree_parent = t;
 		}
@@ -333,7 +333,7 @@ return(1);
 
 /*
  * unswizzle extended names in tree
- */ 
+ */
 void treenamefix_str(char *s)
 {
 while(*s)
@@ -373,7 +373,7 @@ while(t)
 	strcpy(s2,s);
 	strcat(s2,".");
 	strcat(s2,t->name);
-	
+
 	if(t->child)
 		{
 		treedebug(t->child, s2);
@@ -817,7 +817,7 @@ construct:
 				}
 				else				/* make second in chain as it's toplevel */
 				{
-				nt->next = tchain->next;	
+				nt->next = tchain->next;
 				tchain->next = nt;
 				}
 			}
@@ -829,13 +829,13 @@ construct:
 			GLOBALS->terminals_tchain_tree_c_1 = nt;
 			return;
 			}
-	
+
 		/* blindly clone fac from next part of hier on down */
 		t = nt;
 		while(s)
 			{
 			s=get_module_name(s);
-		
+
 			nt=(struct tree *)talloc_2(sizeof(struct tree)+GLOBALS->module_len_tree_c_1 + 1);
 			memcpy(nt->name, GLOBALS->module_tree_c_1, GLOBALS->module_len_tree_c_1);
 
@@ -855,7 +855,7 @@ construct:
 			}
 		}
 	}
-else	
+else
 	{
 	/* blindly create first fac in the tree (only ever called once) */
 	while(s)
@@ -903,8 +903,8 @@ struct tree *t2;
 if(depth > 1) return;
 #endif
 
-/* 
- * TG reworked treesearch widget so there is no need to 
+/*
+ * TG reworked treesearch widget so there is no need to
  * process anything other than nodes.  Leaves are handled
  * in the filtered list below the node expand/contract
  * tree
@@ -913,10 +913,10 @@ t2=t;
 while(t2)
 	{
 #ifndef WAVE_DISABLE_FAST_TREE
-	if(depth < 1) 
+	if(depth < 1)
 #endif
-		{ 
-		t2->children_in_gui = 1; 
+		{
+		t2->children_in_gui = 1;
 		}
 
 	if(t2->child)
@@ -962,7 +962,7 @@ if(!GLOBALS->hier_grouping)
 	t2=t;
 	while(t2)
 		{
-		sibling_test=maketree_nodes(subtree, t2, sibling, MAKETREE_FLATTEN);	
+		sibling_test=maketree_nodes(subtree, t2, sibling, MAKETREE_FLATTEN);
 		sibling=sibling_test?sibling_test:sibling;
 		t2=t2->next;
 		}
@@ -980,7 +980,7 @@ if(!GLOBALS->hier_grouping)
 				maketree(sibling=sibling_test, t2->child);
 				}
 			}
-	
+
 		t2=t2->next;
 		}
 
@@ -995,7 +995,7 @@ if(!GLOBALS->hier_grouping)
 				maketree(sibling=sibling_test, t2->child);
 				}
 			}
-	
+
 		t2=t2->next;
 		}
 	}

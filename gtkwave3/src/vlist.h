@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 2006-8.
  *
  * This program is free software; you can redistribute it and/or
@@ -26,9 +26,9 @@ unsigned int elem_siz;
 };
 
 
-/* experimentation shows that 255 is one of the least common 
+/* experimentation shows that 255 is one of the least common
    bytes found in recoded value change streams */
-#define WAVE_ZIVFLAG (0xff) 
+#define WAVE_ZIVFLAG (0xff)
 
 #define WAVE_ZIVWRAP (1<<7) 		  /* must be power of two because of AND mask */
 #define WAVE_ZIVSRCH (WAVE_ZIVWRAP)	  /* search depth in bytes */

@@ -26,7 +26,7 @@ int wave_lineclip(int *coords, int *rect)
 {
 int msk1, msk2;
 
-/* 
+/*
      these comparisons assume the bounding rectangle is set up as follows:
 
            rx1    rx2
@@ -69,13 +69,13 @@ else
 	if((x1<rx1)&&(x2>=rx1)) { dx1 = rx1; dy1 = m*dx1 + b; }
 	else if((x1>rx2)&&(x2<=rx2)) { dx1 = rx2; dy1 = m*dx1 + b; }
 
-	if((y1<ry1)&&(y2>=ry1)) { dy1 = ry1; dx1 = (dy1 - b) / m; } 
+	if((y1<ry1)&&(y2>=ry1)) { dy1 = ry1; dx1 = (dy1 - b) / m; }
 	else if((y1>ry2)&&(y2<=ry2)) { dy1 = ry2; dx1 = (dy1 - b) / m; }
 
 	if((x2<rx1)&&(x1>=rx1)) { dx2 = rx1; dy2 = m*dx2 + b; }
 	else if((x2>rx2)&&(x1<=rx2)) { dx2 = rx2; dy2 = m*dx2 + b; }
 
-	if((y2<ry1)&&(y1>=ry1)) { dy2 = ry1; dx2 = (dy2 - b) / m; } 
+	if((y2<ry1)&&(y1>=ry1)) { dy2 = ry1; dx2 = (dy2 - b) / m; }
 	else if((y2>ry2)&&(y1<=ry2)) { dy2 = ry2; dx2 = (dy2 - b) / m; }
 
 	x1 = dx1; y1 = dy1;

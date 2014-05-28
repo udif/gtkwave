@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) Tony Bybell 1999-2010.
  *
  * This program is free software; you can redistribute it and/or
@@ -85,7 +85,7 @@ if((GLOBALS->tims.marker<0)||(GLOBALS->tims.marker<GLOBALS->tims.first)||(GLOBAL
         if(GLOBALS->tims.end>GLOBALS->tims.last) GLOBALS->tims.end=GLOBALS->tims.last;
         middle=(GLOBALS->tims.start/2)+(GLOBALS->tims.end/2);
         if((GLOBALS->tims.start&1)&&(GLOBALS->tims.end&1)) middle++;
-        }   
+        }
         else
         {
         middle=GLOBALS->tims.marker;
@@ -113,13 +113,13 @@ gchar *sel;
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
 GtkTextIter start;
 GtkTextIter end;
-                        
+
 if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_VIEW(text)->buffer,
                                          &start, &end))
        {
        if(gtk_text_iter_compare (&start, &end) < 0)
                {
-               sel = gtk_text_buffer_get_text(GTK_TEXT_VIEW(text)->buffer,   
+               sel = gtk_text_buffer_get_text(GTK_TEXT_VIEW(text)->buffer,
                                               &start, &end, FALSE);
 
                if(sel)
@@ -201,7 +201,7 @@ if(oe->has_selection)
 	if(oec->get_chars)
 		{
 	 	sel = oec->get_chars(oe, oe->selection_start_pos, oe->selection_end_pos);
-	
+
 		if(sel)
 			{
 			int slen = strlen(sel);
@@ -273,7 +273,7 @@ if(oe->has_selection)
 
 return(FALSE); /* call remaining handlers... */
 }
-   
+
 /* Create a scrolled text area that displays a "message" */
 static GtkWidget *create_log_text (GtkWidget **textpnt)
 {
@@ -306,7 +306,7 @@ gtk_table_attach (GTK_TABLE (table), text, 0, 14, 0, 1,
                         GTK_FILL | GTK_SHRINK | GTK_EXPAND, 0, 0);
 gtk_widget_set_usize(GTK_WIDGET(text), 100, 100);
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
-gtk_text_view_set_editable(GTK_TEXT_VIEW(text), TRUE);   
+gtk_text_view_set_editable(GTK_TEXT_VIEW(text), TRUE);
 #else
 gtk_text_set_editable(GTK_TEXT(text), TRUE);
 #endif
@@ -316,9 +316,9 @@ gtk_widget_show (text);
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
 {
 GtkTextViewClass *tc = (GtkTextViewClass*)GTK_OBJECT_GET_CLASS(GTK_OBJECT(text));
- 
+
 tc->set_scroll_adjustments(GTK_TEXT_VIEW (text), NULL, NULL);
-vscrollbar = gtk_vscrollbar_new (GTK_TEXT_VIEW (text)->vadjustment);  
+vscrollbar = gtk_vscrollbar_new (GTK_TEXT_VIEW (text)->vadjustment);
 }
 #else
 vscrollbar = gtk_vscrollbar_new (GTK_TEXT (text)->vadj);
@@ -336,11 +336,11 @@ gtk_signal_connect(GTK_OBJECT(text), "button_release_event", GTK_SIGNAL_FUNC(but
 gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_CHAR);
 #else
 gtk_text_set_word_wrap(GTK_TEXT(text), FALSE);
-gtk_text_set_line_wrap(GTK_TEXT(text), TRUE); 
+gtk_text_set_line_wrap(GTK_TEXT(text), TRUE);
 #endif
 return(table);
 }
-   
+
 /***********************************************************************************/
 
 static void ok_callback(GtkWidget *widget, GtkWidget *cached_window)
@@ -410,7 +410,7 @@ void logbox(char *title, int width, char *default_text)
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
 /* nothing */
 #else
-    if(!GLOBALS->font_logfile_c_1) 
+    if(!GLOBALS->font_logfile_c_1)
 	{
 	if(GLOBALS->fontname_logfile)
 		{
@@ -420,11 +420,11 @@ void logbox(char *title, int width, char *default_text)
 	if(!GLOBALS->font_logfile_c_1)
 		{
 #ifndef __CYGWIN__
-		 GLOBALS->font_logfile_c_1=gdk_font_load(GLOBALS->use_big_fonts 
+		 GLOBALS->font_logfile_c_1=gdk_font_load(GLOBALS->use_big_fonts
 				? "-*-courier-*-r-*-*-18-*-*-*-*-*-*-*"
 				: "-*-courier-*-r-*-*-10-*-*-*-*-*-*-*");
 #else
-		 GLOBALS->font_logfile_c_1=gdk_font_load(GLOBALS->use_big_fonts 
+		 GLOBALS->font_logfile_c_1=gdk_font_load(GLOBALS->use_big_fonts
 				? "-misc-fixed-*-*-*-*-18-*-*-*-*-*-*-*"
 				: "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*");
 
@@ -475,7 +475,7 @@ void logbox(char *title, int width, char *default_text)
     gtk_widget_set_usize(button1, 100, -1);
     gtk_signal_connect(GTK_OBJECT (button1), "clicked", GTK_SIGNAL_FUNC(ok_callback), window);
     gtk_widget_show (button1);
-    gtk_container_add (GTK_CONTAINER (hbox), button1);  
+    gtk_container_add (GTK_CONTAINER (hbox), button1);
     GTK_WIDGET_SET_FLAGS (button1, GTK_CAN_DEFAULT);
     gtk_signal_connect_object (GTK_OBJECT (button1), "realize", (GtkSignalFunc) gtk_widget_grab_default, GTK_OBJECT (button1));
 
@@ -561,7 +561,7 @@ static void logbox_reload_single(GtkWidget *window, GtkWidget *text, char *defau
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
     {
     GtkTextIter st_iter, en_iter;
-  
+
     gtk_text_buffer_get_start_iter(GTK_TEXT_VIEW (text)->buffer, &st_iter);
     gtk_text_buffer_get_end_iter(GTK_TEXT_VIEW (text)->buffer, &en_iter);
     gtk_text_buffer_delete(GTK_TEXT_VIEW (text)->buffer, &st_iter, &en_iter);
@@ -573,7 +573,7 @@ static void logbox_reload_single(GtkWidget *window, GtkWidget *text, char *defau
     guint len = gtk_text_get_length(GTK_TEXT(text));
     gtk_text_set_point(GTK_TEXT(text), 0);
 
-    gtk_text_freeze(GTK_TEXT(text)); 
+    gtk_text_freeze(GTK_TEXT(text));
     gtk_text_forward_delete (GTK_TEXT(text), len);
     }
 #endif
