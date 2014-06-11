@@ -379,7 +379,7 @@ static uint64_t fstReaderUint64(FILE *f)
 {
 uint64_t val = 0;
 unsigned char buf[sizeof(uint64_t)];
-int i;
+unsigned int i;
 
 fstFread(buf, sizeof(uint64_t), 1, f);
 for(i=0;i<sizeof(uint64_t);i++)
@@ -1227,7 +1227,7 @@ static void fstWriterFlushContextPrivate(void *ctx)
 #ifdef FST_DEBUG
 int cnt = 0;
 #endif
-int i;
+unsigned int i;
 unsigned char *vchg_mem;
 FILE *f;
 off_t fpos, indxpos, endpos;
@@ -1284,7 +1284,7 @@ for(i=0;i<xc->maxhandle;i++)
 		{
 		uint32_t offs = vm4ip[2];
 		uint32_t next_offs;
-		int wrlen;
+		unsigned int wrlen;
 
 		vm4ip[2] = fpos;
 
@@ -1304,7 +1304,7 @@ for(i=0;i<xc->maxhandle;i++)
 	                                next_offs = fstGetUint32(vchg_mem + offs);
 	                                offs += 4;
 
-	                                time_delta = fstGetVarint32(vchg_mem + offs, &wrlen);
+	                                time_delta = fstGetVarint32(vchg_mem + offs, (int *)&wrlen);
 	                                val = vchg_mem[offs+wrlen];
 					offs = next_offs;
 
@@ -1340,9 +1340,9 @@ for(i=0;i<xc->maxhandle;i++)
 					offs += 4;
 					pnt = vchg_mem + offs;
 					offs = next_offs;
-					time_delta = fstGetVarint32(pnt, &wrlen);
+					time_delta = fstGetVarint32(pnt, (int *)&wrlen);
 					pnt += wrlen;
-					record_len = fstGetVarint32(pnt, &wrlen);
+					record_len = fstGetVarint32(pnt, (int *)&wrlen);
 					pnt += wrlen;
 
 					scratchpnt -= record_len;
@@ -1361,7 +1361,7 @@ for(i=0;i<xc->maxhandle;i++)
 #endif
 			while(offs)
 				{
-				int idx;
+				unsigned int idx;
 				char is_binary = 1;
 				unsigned char *pnt;
 				uint32_t time_delta;
@@ -1369,7 +1369,7 @@ for(i=0;i<xc->maxhandle;i++)
 				next_offs = fstGetUint32(vchg_mem + offs);
 				offs += 4;
 
-				time_delta = fstGetVarint32(vchg_mem + offs, &wrlen);
+				time_delta = fstGetVarint32(vchg_mem + offs, (int *)&wrlen);
 
 				pnt = vchg_mem+offs+wrlen;
 				offs = next_offs;
@@ -1441,7 +1441,7 @@ for(i=0;i<xc->maxhandle;i++)
 			{
 			unsigned long destlen = wrlen;
 			unsigned char *dmem;
-		        int rc;
+		        unsigned int rc;
 
 			if(!xc->fastpack)
 				{
@@ -1744,7 +1744,7 @@ fstWriterFseeko(xc, xc->handle, endpos, SEEK_SET);				/* seek to end of file */
 xc2->section_header_truncpos = endpos;				/* cache in case of need to truncate */
 if(xc->dump_size_limit)
 	{
-	if(endpos >= xc->dump_size_limit)
+	if(endpos >= ((off_t)xc->dump_size_limit))
 		{
 		xc2->skip_writing_section_hdr = 1;
 		xc2->size_limit_locked = 1;
@@ -1793,7 +1793,7 @@ struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc->parallel_enabled)
 	{
 	struct fstWriterContext *xc2 = malloc(sizeof(struct fstWriterContext));
-	int i;
+	unsigned int i;
 
 	pthread_mutex_lock(&xc->mutex);
 	pthread_mutex_unlock(&xc->mutex);
@@ -2542,7 +2542,8 @@ fstHandle fstWriterCreateVar(void *ctx, enum fstVarType vt, enum fstVarDir vd,
         uint32_t len, const char *nam, fstHandle aliasHandle)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
-int i, nlen, is_real;
+unsigned int i;
+int nlen, is_real;
 
 if(xc && nam)
         {
@@ -2893,7 +2894,7 @@ if((xc) && (handle <= xc->maxhandle))
 void fstWriterEmitTimeChange(void *ctx, uint64_t tim)
 {
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
-int i;
+unsigned int i;
 int skip = 0;
 if(xc)
 	{
@@ -3715,7 +3716,7 @@ if(!xc->fh)
 
 		uclen2 = fstGetVarint64(lz4_cmem, &skiplen2);
 		lz4_ucmem2 = malloc(uclen2);
-		pass_status = (uclen2 == LZ4_decompress_safe_partial ((char *)lz4_cmem + skiplen2, (char *)lz4_ucmem2, clen - skiplen2, uclen2, uclen2));
+		pass_status = (uclen2 == (uint64_t)LZ4_decompress_safe_partial ((char *)lz4_cmem + skiplen2, (char *)lz4_ucmem2, clen - skiplen2, uclen2, uclen2));
 		if(pass_status)
 			{
 			pass_status = (uclen == LZ4_decompress_safe_partial ((char *)lz4_ucmem2, (char *)lz4_ucmem, uclen2, uclen, uclen));
@@ -3950,7 +3951,7 @@ int ch, scopetype;
 int vartype;
 uint32_t len, alias;
 /* uint32_t maxvalpos=0; */
-int num_signal_dyn = 65536;
+unsigned int num_signal_dyn = 65536;
 int attrtype, subtype;
 uint64_t attrarg;
 fstHandle maxhandle_scanbuild;
@@ -4416,7 +4417,7 @@ if(gzread_pass_status)
 				uint64_t uclen = fstReaderUint64(xc->f);
 				unsigned char *ucdata = malloc(uclen);
 				unsigned char *pnt = ucdata;
-				int i;
+				unsigned int i;
 
 				xc->contains_geom_section = 1;
 				xc->maxhandle = fstReaderUint64(xc->f);
@@ -4670,7 +4671,7 @@ struct fstReaderContext *xc = (struct fstReaderContext *)ctx;
 uint64_t previous_time = UINT64_MAX;
 uint64_t *time_table = NULL;
 uint64_t tsec_nitems;
-int secnum = 0;
+unsigned int secnum = 0;
 int blocks_skipped = 0;
 off_t blkpos = 0;
 uint64_t seclen, beg_tim;
@@ -4780,7 +4781,7 @@ for(;;)
 	int rc;
 	unsigned char *tpnt;
 	uint64_t tpval;
-	int ti;
+	unsigned int ti;
 
 	if(fstReaderFseeko(xc, xc->f, blkpos + seclen - 24, SEEK_SET) != 0) break;
 	tsec_uclen = fstReaderUint64(xc->f);
@@ -5112,7 +5113,7 @@ for(;;)
 				{
 				uint64_t val = fstGetVarint32(pnt, &skiplen);
 
-				int loopcnt = val >> 1;
+				fstHandle loopcnt = val >> 1;
 				for(i=0;i<loopcnt;i++)
 					{
 					chain_table[idx++] = 0;
@@ -5145,7 +5146,7 @@ for(;;)
 				}
 			else
 				{
-				int loopcnt = val >> 1;
+				fstHandle loopcnt = val >> 1;
 				for(i=0;i<loopcnt;i++)
 					{
 					chain_table[idx++] = 0;
@@ -5217,7 +5218,7 @@ for(;;)
 
 					switch(packtype)
 						{
-						case '4': rc = (destlen == LZ4_decompress_safe_partial((char *)mc, (char *)mu, sourcelen, destlen, destlen)) ? Z_OK : Z_DATA_ERROR;
+						case '4': rc = (destlen == (unsigned long)LZ4_decompress_safe_partial((char *)mc, (char *)mu, sourcelen, destlen, destlen)) ? Z_OK : Z_DATA_ERROR;
 							  break;
 						case 'F': fastlz_decompress(mc, sourcelen, mu, destlen); /* rc appears unreliable */
 							  break;
@@ -5433,7 +5434,7 @@ for(;;)
 						{
 						int byte = 0;
 						int bit;
-						int j;
+						unsigned int j;
 
 						for(j=0;j<len;j++)
 							{
@@ -5691,7 +5692,7 @@ struct fstReaderContext *xc = (struct fstReaderContext *)ctx;
 off_t blkpos = 0, prev_blkpos;
 uint64_t beg_tim, end_tim, beg_tim2, end_tim2;
 int sectype;
-int secnum = 0;
+unsigned int secnum = 0;
 uint64_t seclen;
 uint64_t tsec_uclen = 0, tsec_clen = 0;
 uint64_t tsec_nitems;
@@ -5809,7 +5810,7 @@ unsigned long sourcelen /* = tsec_clen */; /* scan-build */
 int rc;
 unsigned char *tpnt;
 uint64_t tpval;
-int ti;
+unsigned int ti;
 
 fstReaderFseeko(xc, xc->f, blkpos + seclen - 24, SEEK_SET);
 tsec_uclen = fstReaderUint64(xc->f);
@@ -5935,7 +5936,7 @@ do
 		}
 		else
 		{
-		int loopcnt = val >> 1;
+		fstHandle loopcnt = val >> 1;
 		for(i=0;i<loopcnt;i++)
 			{
 			xc->rvat_chain_table[idx++] = 0;
@@ -6040,7 +6041,7 @@ if(!xc->rvat_chain_mem)
 uint32_t tidx = 0, ptidx = 0;
 uint32_t tdelta;
 int skiplen;
-int iprev = xc->rvat_chain_len;
+unsigned int iprev = xc->rvat_chain_len;
 uint32_t pvli = 0;
 int pskip = 0;
 
@@ -6149,7 +6150,7 @@ if(xc->signal_lens[facidx] == 1)
 				{
 				int byte = 0;
 				int bit;
-				int j;
+				unsigned int j;
 
 				for(j=0;j<xc->signal_lens[facidx];j++)
 					{
