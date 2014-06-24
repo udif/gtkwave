@@ -554,8 +554,8 @@ if((t=GLOBALS->named_markers[i])!=-1)
 		xl=((gdouble)(t-GLOBALS->tims.start))/pixstep;     /* snap to integer */
 		if((xl>=0)&&(xl<GLOBALS->wavewidth))
 			{
-			char nbuff[2];
-			nbuff[0]='A'+i; nbuff[1]=0x00;
+			char nbuff[16];
+			make_bijective_marker_id_string(nbuff, i);
 
 			for(y=GLOBALS->fontheight-1;y<=GLOBALS->waveheight-1;y+=8)
 				{

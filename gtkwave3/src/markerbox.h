@@ -10,10 +10,18 @@
 #ifndef WAVE_MARKERBOX_H
 #define WAVE_MARKERBOX_H
 
+/* do not go less than 26! */
 #define WAVE_NUM_NAMED_MARKERS      (26)
-#define WAVE_NUM_NAMED_MARKERS_MASK (31)
+
+/* 702 will go from A-Z, AA-AZ, ... , ZA-ZZ */
+/* this is a bijective name similar to the columns on spreadsheets */
+/* #define WAVE_NUM_NAMED_MARKERS      (702) */
 
 void markerbox(char *title, GtkSignalFunc func);
+
+char *make_bijective_marker_id_string(char *buf, unsigned int value);
+unsigned int bijective_marker_id_string_hash(char *so);
+unsigned int bijective_marker_id_string_len(char *s);
 
 #endif
 

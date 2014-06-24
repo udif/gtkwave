@@ -1173,9 +1173,8 @@ pr_render_individual_named_marker ( pr_context * prc, int i, gdouble gray, int b
 	      xl = ((gdouble) (t - GLOBALS->tims.start)) / pixstep;	/* snap to integer */
 	      if ((xl >= 0) && (xl < GLOBALS->wavewidth))
 		{
-		  char nbuff[2];
-		  nbuff[0] = 'A' + i;
-		  nbuff[1] = 0x00;
+		  char nbuff[16];
+		  make_bijective_marker_id_string(nbuff, i);
 
 		  pr_setgray (prc, gray);
 		  for (y = GLOBALS->fontheight - 1;

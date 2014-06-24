@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2008-2012.
+ * Copyright (c) Tony Bybell 2008-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -329,21 +329,22 @@ static int gtkwavetcl_getNamedMarker(ClientData clientData, Tcl_Interp *interp, 
 if(objc == 2)
 	{
 	char *s = get_Tcl_string(objv[1]);
-	int which;
+	int which = -1;
 
 	if((s[0]>='A')&&(s[0]<='Z'))
 		{
-		TimeType value = GLOBALS->named_markers[s[0] - 'A'];
-		return(gtkwavetcl_printTimeType(clientData, interp, objc, objv, value));
+		which = bijective_marker_id_string_hash(s);
 		}
 	else
 	if((s[0]>='a')&&(s[0]<='z'))
 		{
-		TimeType value = GLOBALS->named_markers[s[0] - 'a'];
-		return(gtkwavetcl_printTimeType(clientData, interp, objc, objv, value));
+		which = bijective_marker_id_string_hash(s);
+		}
+	else
+		{
+		which = atoi(s); 
 		}
 
-	which = atoi(s);
 	if((which >= 0) && (which < WAVE_NUM_NAMED_MARKERS))
 		{
 		TimeType value = GLOBALS->named_markers[which];
@@ -568,12 +569,12 @@ if(objc == 3)
 
 	if((sv[0]>='A')&&(sv[0]<='Z'))
 		{
-		which = sv[0] - 'A';
+		which = bijective_marker_id_string_hash(sv);
 		}
 	else
 	if((sv[0]>='a')&&(sv[0]<='z'))
 		{
-		which = sv[0] - 'a';
+		which = bijective_marker_id_string_hash(sv);
 		}
 	else
 		{
@@ -914,12 +915,12 @@ if((objc == 3)||(objc == 4))
 
         if((s[0]>='A')&&(s[0]<='Z'))
                 {
-                which = s[0] - 'A';
+		which = bijective_marker_id_string_hash(s);
                 }
         else
         if((s[0]>='a')&&(s[0]<='z'))
                 {
-                which = s[0] - 'a';
+		which = bijective_marker_id_string_hash(s);
                 }
 	else
 		{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2008.
+ * Copyright (c) Tony Bybell 1999-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,12 +16,95 @@
 #include "analyzer.h"
 #include "currenttime.h"
 
+static void strrev(char *p)
+{
+char *q = p;
+while(q && *q) ++q;
+for(--q; p < q; ++p, --q)
+        *p = *p ^ *q,
+        *q = *p ^ *q,
+        *p = *p ^ *q;
+}
+
+
+char *make_bijective_marker_id_string(char *buf, unsigned int value)
+{
+char *pnt = buf;
+
+value++; /* bijective values start at one */
+while (value)
+        {
+        value--;
+        *(pnt++) = (char)('A' + value % ('Z'-'A'+1));
+        value = value / ('Z'-'A'+1);
+        }
+
+*pnt = 0;
+strrev(buf);
+return(buf);
+}
+
+
+unsigned int bijective_marker_id_string_hash(char *so)
+{
+unsigned int val=0;
+int i;
+int len = strlen(so);
+char sn[16];
+char *s = sn;
+
+strcpy(sn, so);
+strrev(sn);
+
+s += len;
+for(i=0;i<len;i++)
+        {
+	char c = toupper(*(--s));
+	if((c < 'A') || (c > 'Z')) break;
+        val *= ('Z'-'A'+1);
+        val += ((unsigned char)c) - ('A' - 1);
+        }
+
+val--; /* bijective values start at one so decrement */
+return(val);
+}
+
+
+unsigned int bijective_marker_id_string_len(char *s)
+{
+int len = 0;
+
+while(*s)
+	{
+	char c = toupper(*s);
+	if((c >= 'A') && (c <= 'Z'))
+		{
+		len++;
+		s++;
+		continue;
+		}
+		else
+		{
+		break;
+		}
+	}
+
+return(len);
+}
+
+
 static void str_change_callback(GtkWidget *entry, gpointer which)
 {
 G_CONST_RETURN gchar *entry_text;
 int i;
+uint32_t hashmask =  WAVE_NUM_NAMED_MARKERS;
+hashmask |= hashmask >> 1;   
+hashmask |= hashmask >> 2;
+hashmask |= hashmask >> 4;
+hashmask |= hashmask >> 8;
+hashmask |= hashmask >> 16;
 
-i = ((int) (((long) which) & WAVE_NUM_NAMED_MARKERS_MASK)) % WAVE_NUM_NAMED_MARKERS;
+i = ((int) (((long) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
 GLOBALS->dirty_markerbox_c_1 = 1;
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -48,8 +131,14 @@ static void str_enter_callback(GtkWidget *entry, gpointer which)
 {
 G_CONST_RETURN gchar *entry_text;
 int i;
+uint32_t hashmask =  WAVE_NUM_NAMED_MARKERS;
+hashmask |= hashmask >> 1;   
+hashmask |= hashmask >> 2;
+hashmask |= hashmask >> 4;
+hashmask |= hashmask >> 8;
+hashmask |= hashmask >> 16;
 
-i = ((int) (((long) which) & WAVE_NUM_NAMED_MARKERS_MASK)) % WAVE_NUM_NAMED_MARKERS;
+i = ((int) (((long) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
 GLOBALS->dirty_markerbox_c_1 = 1;
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -86,8 +175,14 @@ G_CONST_RETURN gchar *entry_text;
 char buf[49];
 int i;
 int ent_idx;
+uint32_t hashmask =  WAVE_NUM_NAMED_MARKERS;
+hashmask |= hashmask >> 1;   
+hashmask |= hashmask >> 2;
+hashmask |= hashmask >> 4;
+hashmask |= hashmask >> 8;
+hashmask |= hashmask >> 16;
 
-ent_idx = ((int) (((long) which) & WAVE_NUM_NAMED_MARKERS_MASK)) % WAVE_NUM_NAMED_MARKERS;
+ent_idx = ((int) (((long) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
 
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
@@ -133,8 +228,14 @@ G_CONST_RETURN gchar *entry_text;
 char buf[49];
 int i;
 int ent_idx;
+uint32_t hashmask =  WAVE_NUM_NAMED_MARKERS;
+hashmask |= hashmask >> 1;   
+hashmask |= hashmask >> 2;
+hashmask |= hashmask >> 4;
+hashmask |= hashmask >> 8;
+hashmask |= hashmask >> 16;
 
-ent_idx = ((int) (((long) which) & WAVE_NUM_NAMED_MARKERS_MASK)) % WAVE_NUM_NAMED_MARKERS;
+ent_idx = ((int) (((long) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
 
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
@@ -218,7 +319,7 @@ void markerbox(char *title, GtkSignalFunc func)
     GtkWidget *vbox, *hbox, *vbox_g, *label;
     GtkWidget *button1, *button2, *scrolled_win, *frame, *separator;
     GtkWidget *table;
-    char labtitle[2]={0,0};
+    char labtitle[16];
     int i;
 
     GLOBALS->cleanup_markerbox_c_4=func;
@@ -277,7 +378,8 @@ void markerbox(char *title, GtkSignalFunc func)
         gtk_box_pack_start (GTK_BOX (vbox_g), separator, TRUE, TRUE, 0);
 	}
 
-    labtitle[0]='A'+i;
+
+    make_bijective_marker_id_string(labtitle, i);
     label=gtk_label_new(labtitle);
     gtk_widget_show (label);
     gtk_box_pack_start (GTK_BOX (vbox_g), label, TRUE, TRUE, 0);

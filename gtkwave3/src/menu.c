@@ -4706,7 +4706,7 @@ static void movetotime_cleanup(GtkWidget *widget, gpointer data)
 {
 if(GLOBALS->entrybox_text)
 	{
-	TimeType gt;
+	TimeType gt = GLOBALS->tims.first;
 	char update_string[128];
 	char timval[40];
 	GtkAdjustment *hadj;
@@ -4714,8 +4714,21 @@ if(GLOBALS->entrybox_text)
 
         if((GLOBALS->entrybox_text[0] >= 'A' && GLOBALS->entrybox_text[0] <= 'Z')||(GLOBALS->entrybox_text[0] >= 'a' && GLOBALS->entrybox_text[0] <= 'z'))
                 {
-                int uch = toupper((int)(unsigned char)GLOBALS->entrybox_text[0]);
-                gt=GLOBALS->named_markers[uch - 'A'];
+		char *su = GLOBALS->entrybox_text;
+		int uch;
+		while(*su)
+			{
+			uch = toupper((int)(unsigned char)*su);
+			*su = uch;
+			su++;
+			}
+
+		uch = bijective_marker_id_string_hash(GLOBALS->entrybox_text);
+
+		if((uch >= 0)&&(uch < WAVE_NUM_NAMED_MARKERS))
+			{
+	                gt=GLOBALS->named_markers[uch];
+			}
                 }
                 else
                 {

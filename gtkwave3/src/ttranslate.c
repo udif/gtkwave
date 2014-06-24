@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2010-2012.
+ * Copyright (c) Tony Bybell 2010-2014.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -722,34 +722,40 @@ ex:     			buf[n] = 0;
 				else
 				if((*pnt=='M')||(*pnt=='m'))
 					{
+					int mlen;
 					pnt++;
-					if(((*pnt>='A')&&(*pnt<='Z')) || ((*pnt>='a')&&(*pnt<='z')))
+
+					mlen = bijective_marker_id_string_len(pnt);
+					if(mlen)
 						{
-						int which_marker = ((*pnt>='A')&&(*pnt<='Z')) ? (*pnt - 'A') : (*pnt - 'a');
-						TimeType tim = atoi_64(pnt+1) * GLOBALS->time_scale;
-						int slen;
-						char *sp;
-
-						if(tim < LLDescriptor(0)) tim = LLDescriptor(-1);
-						GLOBALS->named_markers[which_marker] = tim;
-
-						while(*pnt) { if(!isspace((int)(unsigned char)*pnt)) pnt++; else break; }
-						while(*pnt) { if(isspace((int)(unsigned char)*pnt)) pnt++; else break; }
-
-						sp = pnt;
-						slen = strlen(sp);
-
-						if(slen)
+						int which_marker = bijective_marker_id_string_hash(pnt);
+						if((which_marker >= 0) && (which_marker < WAVE_NUM_NAMED_MARKERS))
 							{
-							pnt = sp + slen - 1;
-							do
-								{
-								if(isspace((int)(unsigned char)*pnt)) { *pnt = 0; pnt--; slen--; } else { break; }
-								} while(pnt != (sp-1));
-							}
+							TimeType tim = atoi_64(pnt+mlen) * GLOBALS->time_scale;
+							int slen;
+							char *sp;
 
-	                                	if(GLOBALS->marker_names[which_marker]) free_2(GLOBALS->marker_names[which_marker]);
-	                                	GLOBALS->marker_names[which_marker] = (sp && (*sp) && (tim >= LLDescriptor(0))) ? strdup_2(sp) : NULL;
+							if(tim < LLDescriptor(0)) tim = LLDescriptor(-1);
+							GLOBALS->named_markers[which_marker] = tim;
+
+							while(*pnt) { if(!isspace((int)(unsigned char)*pnt)) pnt++; else break; }
+							while(*pnt) { if(isspace((int)(unsigned char)*pnt)) pnt++; else break; }
+
+							sp = pnt;
+							slen = strlen(sp);
+
+							if(slen)
+								{
+								pnt = sp + slen - 1;
+								do
+									{
+									if(isspace((int)(unsigned char)*pnt)) { *pnt = 0; pnt--; slen--; } else { break; }
+									} while(pnt != (sp-1));
+								}
+
+		                                	if(GLOBALS->marker_names[which_marker]) free_2(GLOBALS->marker_names[which_marker]);
+		                                	GLOBALS->marker_names[which_marker] = (sp && (*sp) && (tim >= LLDescriptor(0))) ? strdup_2(sp) : NULL;
+							}
 						}
 
 					continue;

@@ -198,7 +198,17 @@ void write_save_helper(const char *savnam, FILE *wave) {
 		{
 		if(GLOBALS->marker_names[i])
 			{
-			fprintf(wave, "[markername] %c%s\n", 'A'+i, GLOBALS->marker_names[i]);
+			char mbuf[16];
+
+			make_bijective_marker_id_string(mbuf, i);
+			if(strlen(mbuf)<2)
+				{
+				fprintf(wave, "[markername] %s%s\n", mbuf, GLOBALS->marker_names[i]);
+				}
+				else
+				{
+				fprintf(wave, "[markername_long] %s %s\n", mbuf, GLOBALS->marker_names[i]);
+				}
 			}
 		}
 
@@ -1630,6 +1640,34 @@ else if (*w2 == '[')
 				{
 				if(GLOBALS->marker_names[which]) free_2(GLOBALS->marker_names[which]);
 				GLOBALS->marker_names[which] = strdup_2(pnt);
+				}
+			}
+		}
+	}
+    else if (strcmp (w2, "markername_long") == 0)
+	{
+	char *pnt = w;
+	int which;
+
+	if((*pnt) && (isspace((int)(unsigned char)*pnt))) pnt++;
+
+	if(*pnt)
+		{
+		char *pnt2 = strchr(pnt, ' ');
+		if(pnt2)
+			{
+			*pnt2 = 0;
+			which = bijective_marker_id_string_hash(pnt);
+			if((which >=0) && (which < WAVE_NUM_NAMED_MARKERS))
+				{
+				pnt = pnt2 + 1;
+				if((*pnt) && (isspace((int)(unsigned char)*pnt))) pnt++;
+	
+				if(*pnt)
+					{
+					if(GLOBALS->marker_names[which]) free_2(GLOBALS->marker_names[which]);
+					GLOBALS->marker_names[which] = strdup_2(pnt);
+					}
 				}
 			}
 		}
