@@ -10,12 +10,20 @@
 #ifndef WAVE_MARKERBOX_H
 #define WAVE_MARKERBOX_H
 
-/* do not go less than 26! */
-#define WAVE_NUM_NAMED_MARKERS      (26)
+#ifdef WAVE_MANYMARKERS_MODE
 
 /* 702 will go from A-Z, AA-AZ, ... , ZA-ZZ */
 /* this is a bijective name similar to the columns on spreadsheets */
-/* #define WAVE_NUM_NAMED_MARKERS      (702) */
+/* the upper count is (practically) unbounded */
+#define WAVE_NUM_NAMED_MARKERS      (702)
+
+#else
+
+/* do not go less than 26! */
+#define WAVE_NUM_NAMED_MARKERS      (26)
+
+#endif
+
 
 void markerbox(char *title, GtkSignalFunc func);
 

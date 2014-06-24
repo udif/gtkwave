@@ -229,6 +229,31 @@ else
 fi
 
 
+# check for massive amounts of named markers enabled
+AC_MSG_CHECKING([if manymarkers should be used])
+
+MMC=no
+AC_ARG_ENABLE([manymarkers],
+[  --enable-manymarkers    Expands named marker count from 26 to 702.],
+[
+if test "X$enable_manymarkers" = "Xno" ; then
+	MMC=no
+else
+	MMC=yes
+fi
+],
+[
+MMC=no
+])
+
+if test "X$MMC" = "Xno" ; then
+	AC_MSG_RESULT([no])
+else
+	AC_MSG_RESULT([yes])
+	CPPFLAGS="-DWAVE_MANYMARKERS_MODE $CPPFLAGS"
+fi
+
+
 AC_MSG_CHECKING([if ae2 support should be used])
 
 AE2_CFLAGS=
