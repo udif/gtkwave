@@ -332,7 +332,7 @@ TraceEnt t_trans;
 if(!GLOBALS->cursor_snap) return(marker);
 
 /* potential snapping to a named marker time */
-for(i=0;i<26;i++)
+for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 	{
 	if(GLOBALS->named_markers[i] != -1)
 		{
@@ -597,7 +597,7 @@ int i;
 
 if(!GLOBALS->wavepixmap_wavewindow_c_1) return;
 
-for(i=0;i<26;i++)
+for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 	{
 	if(i != GLOBALS->named_marker_lock_idx)
 		{

@@ -1515,7 +1515,7 @@ if(((GLOBALS->loaded_file_type != FST_FILE) && (GLOBALS->loaded_file_type != AE2
 sym_hash_destroy(GLOBALS);
 
 /* reset/initialize various markers and time values */
-for(i=0;i<26;i++) GLOBALS->named_markers[i]=-1;	/* reset all named markers */
+for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++) GLOBALS->named_markers[i]=-1;	/* reset all named markers */
 
 GLOBALS->tims.last=GLOBALS->max_time;
 GLOBALS->tims.end=GLOBALS->tims.last;		/* until the configure_event of wavearea */

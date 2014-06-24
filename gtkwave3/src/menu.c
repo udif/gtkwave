@@ -164,11 +164,11 @@ if(GLOBALS->helpbox_is_active)
 	return;
 	}
 
-if(ent_idx < 0) ent_idx = 26;
+if(ent_idx < 0) ent_idx = WAVE_NUM_NAMED_MARKERS;
 ent_idx--;
-if(ent_idx < 0) ent_idx = 25;
+if(ent_idx < 0) ent_idx = WAVE_NUM_NAMED_MARKERS-1;
 
-for(i=0;i<26;i++)
+for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 	{
 	if(GLOBALS->named_markers[ent_idx] >= 0)
 		{
@@ -177,7 +177,7 @@ for(i=0;i<26;i++)
 		}
 
 	ent_idx--;
-	if(ent_idx < 0) ent_idx = 25;
+	if(ent_idx < 0) ent_idx = WAVE_NUM_NAMED_MARKERS-1;
 	}
 
 if(!success)
@@ -204,7 +204,7 @@ int success = 0;
 
 if(ent_idx < 0) ent_idx = -1; /* not really necessary */
 ent_idx++;
-if(ent_idx > 25) ent_idx = 0;
+if(ent_idx > (WAVE_NUM_NAMED_MARKERS-1)) ent_idx = 0;
 
 if(GLOBALS->helpbox_is_active)
         {
@@ -221,7 +221,7 @@ if(GLOBALS->helpbox_is_active)
 	return;
 	}
 
-for(i=0;i<26;i++)
+for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 	{
 	if(GLOBALS->named_markers[ent_idx] >= 0)
 		{
@@ -230,7 +230,7 @@ for(i=0;i<26;i++)
 		}
 
 	ent_idx++;
-	if(ent_idx > 25) ent_idx = 0;
+	if(ent_idx > (WAVE_NUM_NAMED_MARKERS-1)) ent_idx = 0;
 	}
 
 if(!success)
@@ -3619,7 +3619,7 @@ if(GLOBALS->helpbox_is_active)
         help_text_bold("\n\nShow-Change Marker Data");
         help_text(
                 " displays and allows the modification of the times for"
-		" all 26 named markers by filling in the leftmost entry boxes.  In addition, optional marker text"
+		" all named markers by filling in the leftmost entry boxes.  In addition, optional marker text"
 		" rather than a generic single letter name may be specified by filling in the rightmost entry boxes."
 		" Note that the time for each marker must be unique."
         );
@@ -3710,7 +3710,7 @@ if(GLOBALS->helpbox_is_active)
 
 DEBUG(printf("collect_all_unnamed_markers()\n"));
 
-for(i=0;i<26;i++)
+for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 	{
 	if(GLOBALS->named_markers[i]!=-1)
 		{
@@ -3750,7 +3750,7 @@ DEBUG(printf("collect_named_marker()\n"));
 
 if(GLOBALS->tims.marker!=-1)
 	{
-	for(i=0;i<26;i++)
+	for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 		{
 		if(GLOBALS->named_markers[i]==GLOBALS->tims.marker)
 			{
@@ -3776,10 +3776,22 @@ int i;
 
 if(GLOBALS->helpbox_is_active)
         {
+	char nm_s[32];
+
+	sprintf(nm_s, "%d", WAVE_NUM_NAMED_MARKERS);
+
         help_text_bold("\n\nDrop Named Marker");
         help_text(
 		" drops a named marker where the current primary (unnamed)"
-		" marker is placed.  A maximum of 26 named markers are allowed"
+		" marker is placed.  A maximum of "
+	);
+
+        help_text(
+		nm_s
+	);
+
+        help_text(
+		" named markers are allowed"
 		" and the times for all must be different."
         );
         return;
@@ -3792,14 +3804,14 @@ if(GLOBALS->tims.marker!=-1)
 	{
 /* only one per slot requirement removed...
 #if 0
-	for(i=0;i<26;i++)
+	for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 		{
 		if(GLOBALS->named_markers[i]==GLOBALS->tims.marker) return;
 		}
 #endif
 ...only one per slot requirement removed */
 
-	for(i=0;i<26;i++)
+	for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 		{
 		if(GLOBALS->named_markers[i]==-1)
 			{

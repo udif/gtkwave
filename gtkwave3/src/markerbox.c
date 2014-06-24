@@ -21,7 +21,7 @@ static void str_change_callback(GtkWidget *entry, gpointer which)
 G_CONST_RETURN gchar *entry_text;
 int i;
 
-i = ((int) (((long) which) & 31L)) % 26;
+i = ((int) (((long) which) & WAVE_NUM_NAMED_MARKERS_MASK)) % WAVE_NUM_NAMED_MARKERS;
 GLOBALS->dirty_markerbox_c_1 = 1;
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -49,7 +49,7 @@ static void str_enter_callback(GtkWidget *entry, gpointer which)
 G_CONST_RETURN gchar *entry_text;
 int i;
 
-i = ((int) (((long) which) & 31L)) % 26;
+i = ((int) (((long) which) & WAVE_NUM_NAMED_MARKERS_MASK)) % WAVE_NUM_NAMED_MARKERS;
 GLOBALS->dirty_markerbox_c_1 = 1;
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -87,7 +87,7 @@ char buf[49];
 int i;
 int ent_idx;
 
-ent_idx = ((int) (((long) which) & 31L)) % 26;
+ent_idx = ((int) (((long) which) & WAVE_NUM_NAMED_MARKERS_MASK)) % WAVE_NUM_NAMED_MARKERS;
 
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
@@ -103,7 +103,7 @@ temp=unformat_time(entry_text, GLOBALS->time_dimension);
 temp -= GLOBALS->global_time_offset;
 if((temp<GLOBALS->tims.start)||(temp>GLOBALS->tims.last)) goto failure;
 
-for(i=0;i<26;i++)
+for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
         {
         if(temp==GLOBALS->shadow_markers_markerbox_c_1[i])
 		{
@@ -134,7 +134,7 @@ char buf[49];
 int i;
 int ent_idx;
 
-ent_idx = ((int) (((long) which) & 31L)) % 26;
+ent_idx = ((int) (((long) which) & WAVE_NUM_NAMED_MARKERS_MASK)) % WAVE_NUM_NAMED_MARKERS;
 
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
@@ -146,7 +146,7 @@ temp=unformat_time(entry_text, GLOBALS->time_dimension);
 temp -= GLOBALS->global_time_offset;
 if((temp<GLOBALS->tims.start)||(temp>GLOBALS->tims.last)) goto failure;
 
-for(i=0;i<26;i++)
+for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
         {
         if(temp==GLOBALS->shadow_markers_markerbox_c_1[i]) goto failure;
         }
@@ -178,7 +178,7 @@ static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 if(GLOBALS->dirty_markerbox_c_1)
 	{
 	int i;
-	for(i=0;i<26;i++)
+	for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 		{
 		GLOBALS->named_markers[i]=GLOBALS->shadow_markers_markerbox_c_1[i];
 		if(GLOBALS->marker_names[i]) free_2(GLOBALS->marker_names[i]);
@@ -200,7 +200,7 @@ if(GLOBALS->dirty_markerbox_c_1)
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
 int i;
-  for(i=0;i<26;i++)
+  for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 	{
 	if(GLOBALS->marker_names[i]) free_2(GLOBALS->marker_names[i]);
   	GLOBALS->marker_names[i] = GLOBALS->shadow_marker_names[i];
@@ -224,7 +224,7 @@ void markerbox(char *title, GtkSignalFunc func)
     GLOBALS->cleanup_markerbox_c_4=func;
     GLOBALS->dirty_markerbox_c_1=0;
 
-    for(i=0;i<26;i++)
+    for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 	{
 	GLOBALS->shadow_markers_markerbox_c_1[i] = GLOBALS->named_markers[i];
 	GLOBALS->shadow_marker_names[i] = strdup_2(GLOBALS->marker_names[i]);
@@ -266,7 +266,7 @@ void markerbox(char *title, GtkSignalFunc func)
     gtk_container_add (GTK_CONTAINER (frame), scrolled_win);
     gtk_container_add (GTK_CONTAINER (vbox), frame);
 
-    for(i=0;i<26;i++)
+    for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
     {
     char buf[49];
 

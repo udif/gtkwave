@@ -589,12 +589,12 @@ NULL, /* ftext_main_main_c_1 226 */
  * markerbox.c
  */
 NULL, /* window_markerbox_c_4 231 */
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, /* entries_markerbox_c_1 232 */
+{0}, /* entries_markerbox_c_1 232 */
 NULL, /* cleanup_markerbox_c_4 233 */
 0, /* dirty_markerbox_c_1 234 */
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, /* shadow_markers_markerbox_c_1 235 */
-{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}, /* marker_names */
-{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}, /* shadow_marker_names */
+{0}, /* shadow_markers_markerbox_c_1 235 */
+{NULL}, /* marker_names */
+{NULL}, /* shadow_marker_names */
 
 
 /*
@@ -1328,7 +1328,7 @@ NULL, /* hscroll_wavewindow_c_2 620 */
 NULL, /* wavepixmap_wavewindow_c_1 621 */
 NULL, /* wave_vslider 622 */
 NULL, /* wave_hslider */
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, /* named_markers 623 */
+{0}, /* named_markers 623 */
 -1, /* named_marker_lock_idx */
 0, /* made_gc_contexts_wavewindow_c_1 624 */
 0, /* which_t_color */

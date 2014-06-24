@@ -187,14 +187,14 @@ void write_save_helper(const char *savnam, FILE *wave) {
 
 	fprintf(wave,"*%f "TTFormat, (float)(GLOBALS->tims.zoom),GLOBALS->tims.marker);
 
-	for(i=0;i<26;i++)
+	for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 		{
 		TimeType nm = GLOBALS->named_markers[i]; /* gcc compiler problem...thinks this is a 'long int' in printf format warning reporting */
 		fprintf(wave," "TTFormat,nm);
 		}
 	fprintf(wave,"\n");
 
-	for(i=0;i<26;i++)
+	for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 		{
 		if(GLOBALS->marker_names[i])
 			{
@@ -1067,7 +1067,7 @@ if(*w2=='*')
 			{
 			case 1:  GLOBALS->tims.marker=ttlocal; break;
 			default:
-				if((which-2)<26) GLOBALS->named_markers[which-2]=ttlocal;
+				if((which-2)<WAVE_NUM_NAMED_MARKERS) GLOBALS->named_markers[which-2]=ttlocal;
 				break;
 			}
 		}
@@ -1622,7 +1622,7 @@ else if (*w2 == '[')
 	if(*pnt)
 		{
 		which = (*pnt) - 'A';
-		if((which >=0) && (which <= 25))
+		if((which >=0) && (which < WAVE_NUM_NAMED_MARKERS))
 			{
 			pnt++;
 

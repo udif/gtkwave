@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2010
+ * Copyright (c) Tony Bybell 2010-2014
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -9,6 +9,9 @@
 
 #ifndef WAVE_MARKERBOX_H
 #define WAVE_MARKERBOX_H
+
+#define WAVE_NUM_NAMED_MARKERS      (26)
+#define WAVE_NUM_NAMED_MARKERS_MASK (31)
 
 void markerbox(char *title, GtkSignalFunc func);
 

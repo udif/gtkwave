@@ -586,12 +586,12 @@ char use_toolbutton_interface; /* from main.c */
  * markerbox.c
  */
 GtkWidget *window_markerbox_c_4; /* from markerbox.c 248 */
-GtkWidget *entries_markerbox_c_1[26]; /* from markerbox.c 249 */
+GtkWidget *entries_markerbox_c_1[WAVE_NUM_NAMED_MARKERS]; /* from markerbox.c 249 */
 void (*cleanup_markerbox_c_4)(void); /* from markerbox.c 250 */
 int dirty_markerbox_c_1; /* from markerbox.c 251 */
-TimeType shadow_markers_markerbox_c_1[26]; /* from markerbox.c 252 */
-char *marker_names[26]; /* from markerbox.c */
-char *shadow_marker_names[26]; /* from markerbox.c */
+TimeType shadow_markers_markerbox_c_1[WAVE_NUM_NAMED_MARKERS]; /* from markerbox.c 252 */
+char *marker_names[WAVE_NUM_NAMED_MARKERS]; /* from markerbox.c */
+char *shadow_marker_names[WAVE_NUM_NAMED_MARKERS]; /* from markerbox.c */
 
 /*
  * menu.c
@@ -1310,7 +1310,7 @@ GtkWidget *hscroll_wavewindow_c_2; /* from wavewindow.c 679 */
 GdkDrawable *wavepixmap_wavewindow_c_1; /* from wavewindow.c 680 */
 GtkObject *wave_vslider; /* from wavewindow.c 681 */
 GtkObject *wave_hslider; /* from wavewindow.c 682 */
-TimeType named_markers[26]; /* from wavewindow.c 683 */
+TimeType named_markers[WAVE_NUM_NAMED_MARKERS]; /* from wavewindow.c 683 */
 int named_marker_lock_idx; /* from menu.c */
 char made_gc_contexts_wavewindow_c_1; /* from wavewindow.c 684 */
 int which_t_color;

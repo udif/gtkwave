@@ -1474,3 +1474,4 @@
 3.3.60	14may14	Fix MinGW tmpfile_open() patch from previous release as it
 		was using the wrong filename.
 		Harden fsdb reader against xtags that move backward in time.
+3.3.61	24jun14	Parameterized number of named markers for future expansion.

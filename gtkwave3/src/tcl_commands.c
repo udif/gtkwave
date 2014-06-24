@@ -344,7 +344,7 @@ if(objc == 2)
 		}
 
 	which = atoi(s);
-	if((which >= 0) && (which < 26))
+	if((which >= 0) && (which < WAVE_NUM_NAMED_MARKERS))
 		{
 		TimeType value = GLOBALS->named_markers[which];
 		return(gtkwavetcl_printTimeType(clientData, interp, objc, objv, value));
@@ -580,7 +580,7 @@ if(objc == 3)
 		which = atoi(sv);
 		}
 
-	if((which >= 0) && (which < 26))
+	if((which >= 0) && (which < WAVE_NUM_NAMED_MARKERS))
 		{
 		char *s = get_Tcl_string(objv[2]);
 		Trptr t = GLOBALS->traces.first;
@@ -926,7 +926,7 @@ if((objc == 3)||(objc == 4))
 	        which = atoi(s);
 		}
 
-        if((which >= 0) && (which < 26))
+        if((which >= 0) && (which < WAVE_NUM_NAMED_MARKERS))
                 {
 	        char *t = get_Tcl_string(objv[2]);
 		TimeType gt=unformat_time(t, GLOBALS->time_dimension);

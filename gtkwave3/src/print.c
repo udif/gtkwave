@@ -1227,7 +1227,7 @@ pr_draw_named_markers (pr_context * prc)
 {
 int i;
 
-for(i=0;i<26;i++)
+for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
         {
         if(i != GLOBALS->named_marker_lock_idx)
                 {
