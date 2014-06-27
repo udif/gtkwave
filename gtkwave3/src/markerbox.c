@@ -16,7 +16,7 @@
 #include "analyzer.h"
 #include "currenttime.h"
 
-static void strrev(char *p)
+static void gtkwave_strrev(char *p)
 {
 char *q = p;
 while(q && *q) ++q;
@@ -40,7 +40,7 @@ while (value)
         }
 
 *pnt = 0;
-strrev(buf);
+gtkwave_strrev(buf);
 return(buf);
 }
 
@@ -54,7 +54,7 @@ char sn[16];
 char *s = sn;
 
 strcpy(sn, so);
-strrev(sn);
+gtkwave_strrev(sn);
 
 s += len;
 for(i=0;i<len;i++)
