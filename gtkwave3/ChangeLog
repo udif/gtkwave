@@ -1474,6 +1474,7 @@
 3.3.60	14may14	Fix MinGW tmpfile_open() patch from previous release as it
 		was using the wrong filename.
 		Harden fsdb reader against xtags that move backward in time.
-3.3.61	24jun14	Parameterized number of named markers, so that
+3.3.61	27jun14	Parameterized number of named markers, so that
 		--enable-manymarkers at configure time allows up to 702
 		named markers instead of 26 (disabled by default).
+		Updated LZ4 for version r118.
