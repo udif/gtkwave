@@ -26,7 +26,6 @@
  * FST_DYNAMIC_ALIAS_DISABLE : dynamic aliases are not processed
  * FST_DYNAMIC_ALIAS2_DISABLE : new encoding for dynamic aliases is not generated
  * FST_WRITEX_DISABLE : fast write I/O routines are disabled
- * FST_DISABLE_DUFFS_DEVICE : only if indirect branches are incredibly bad on host arch
  *
  * possible enables:
  *
@@ -1390,21 +1389,6 @@ for(i=0;i<xc->maxhandle;i++)
                                 if(is_binary)
                                         {
                                         unsigned char acc = 0;
-#ifdef FST_DISABLE_DUFFS_DEVICE
-                                        /* old algorithm */
-                                        int shift = 7 - ((vm4ip[1]-1) & 7);
-                                        for(idx=vm4ip[1]-1;idx>=0;idx--)
-                                                {
-                                                acc |= (pnt[idx] & 1) << shift;
-                                                shift++;
-                                                if(shift == 8)
-                                                        {
-                                                        *(--scratchpnt) = acc;
-                                                        shift = 0;
-                                                        acc = 0;
-                                                        }
-                                                }
-#else
                                         /* new algorithm */
                                         idx = ((vm4ip[1]+7) & ~7);
                                         switch(vm4ip[1] & 7)
@@ -1421,7 +1405,6 @@ for(i=0;i<xc->maxhandle;i++)
                                                                 idx -= 8;
                                                         } while(idx);
                                                 }
-#endif
 
                                         scratchpnt = fstCopyVarint32ToLeft(scratchpnt, (time_delta << 1));
                                         }
@@ -4768,7 +4751,7 @@ for(;;)
         mem_required_for_traversal = fstReaderUint64(xc->f);
         mem_for_traversal = malloc(mem_required_for_traversal + 66); /* add in potential fastlz overhead */
 #ifdef FST_DEBUG
-        fprintf(stderr, "sec: %d seclen: %d begtim: %d endtim: %d\n",
+        fprintf(stderr, "sec: %u seclen: %d begtim: %d endtim: %d\n",
                 secnum, (int)seclen, (int)beg_tim, (int)end_tim);
         fprintf(stderr, "\tmem_required_for_traversal: %d\n", (int)mem_required_for_traversal);
 #endif
@@ -5796,7 +5779,7 @@ mem_required_for_traversal =
         fstReaderUint64(xc->f);
 
 #ifdef FST_DEBUG
-fprintf(stderr, "rvat sec: %d seclen: %d begtim: %d endtim: %d\n",
+fprintf(stderr, "rvat sec: %u seclen: %d begtim: %d endtim: %d\n",
         secnum, (int)seclen, (int)beg_tim, (int)end_tim);
 fprintf(stderr, "\tmem_required_for_traversal: %d\n", (int)mem_required_for_traversal);
 #endif
