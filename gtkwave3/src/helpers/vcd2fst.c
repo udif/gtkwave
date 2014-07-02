@@ -107,7 +107,7 @@ for(;;)
                                 if(pnt)
                                         {
                                         pnt++;
-                                        sscanf(pnt, "%d", &numfacs);
+                                        sscanf(pnt, "%u", &numfacs);
                                         }
                                 }
 			break;

@@ -251,37 +251,37 @@ struct vzt_rd_trace *       	vzt_rd_init(const char *name);
 struct vzt_rd_trace *       	vzt_rd_init_smp(const char *name, unsigned int num_cpus);
 void                    	vzt_rd_close(struct vzt_rd_trace *lt);
 
-_VZT_RD_INLINE vztint64_t	vzt_rd_set_max_block_mem_usage(struct vzt_rd_trace *lt, vztint64_t block_mem_max);
-_VZT_RD_INLINE vztint64_t	vzt_rd_get_block_mem_usage(struct vzt_rd_trace *lt);
-_VZT_RD_INLINE unsigned int	vzt_rd_get_num_blocks(struct vzt_rd_trace *lt);
+vztint64_t			vzt_rd_set_max_block_mem_usage(struct vzt_rd_trace *lt, vztint64_t block_mem_max);
+vztint64_t			vzt_rd_get_block_mem_usage(struct vzt_rd_trace *lt);
+unsigned int			vzt_rd_get_num_blocks(struct vzt_rd_trace *lt);
 unsigned int			vzt_rd_get_num_active_blocks(struct vzt_rd_trace *lt);
 
-_VZT_RD_INLINE vztint32_t	vzt_rd_get_num_facs(struct vzt_rd_trace *lt);
+vztint32_t			vzt_rd_get_num_facs(struct vzt_rd_trace *lt);
 char *				vzt_rd_get_facname(struct vzt_rd_trace *lt, vztint32_t facidx);
 struct vzt_rd_geometry *	vzt_rd_get_fac_geometry(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE vztint32_t	vzt_rd_get_fac_rows(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE vztsint32_t	vzt_rd_get_fac_msb(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE vztsint32_t	vzt_rd_get_fac_lsb(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE vztint32_t	vzt_rd_get_fac_flags(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE vztint32_t	vzt_rd_get_fac_len(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE vztint32_t	vzt_rd_get_alias_root(struct vzt_rd_trace *lt, vztint32_t facidx);
+vztint32_t			vzt_rd_get_fac_rows(struct vzt_rd_trace *lt, vztint32_t facidx);
+vztsint32_t			vzt_rd_get_fac_msb(struct vzt_rd_trace *lt, vztint32_t facidx);
+vztsint32_t			vzt_rd_get_fac_lsb(struct vzt_rd_trace *lt, vztint32_t facidx);
+vztint32_t			vzt_rd_get_fac_flags(struct vzt_rd_trace *lt, vztint32_t facidx);
+vztint32_t			vzt_rd_get_fac_len(struct vzt_rd_trace *lt, vztint32_t facidx);
+vztint32_t			vzt_rd_get_alias_root(struct vzt_rd_trace *lt, vztint32_t facidx);
 
-_VZT_RD_INLINE char		vzt_rd_get_timescale(struct vzt_rd_trace *lt);
-_VZT_RD_INLINE vztint64_t	vzt_rd_get_start_time(struct vzt_rd_trace *lt);
-_VZT_RD_INLINE vztint64_t	vzt_rd_get_end_time(struct vzt_rd_trace *lt);
-_VZT_RD_INLINE vztsint64_t 	vzt_rd_get_timezero(struct vzt_rd_trace *lt);
+char				vzt_rd_get_timescale(struct vzt_rd_trace *lt);
+vztint64_t			vzt_rd_get_start_time(struct vzt_rd_trace *lt);
+vztint64_t			vzt_rd_get_end_time(struct vzt_rd_trace *lt);
+vztsint64_t		 	vzt_rd_get_timezero(struct vzt_rd_trace *lt);
 
-_VZT_RD_INLINE int		vzt_rd_get_fac_process_mask(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE int		vzt_rd_set_fac_process_mask(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE int		vzt_rd_clr_fac_process_mask(struct vzt_rd_trace *lt, vztint32_t facidx);
-_VZT_RD_INLINE int		vzt_rd_set_fac_process_mask_all(struct vzt_rd_trace *lt);
-_VZT_RD_INLINE int		vzt_rd_clr_fac_process_mask_all(struct vzt_rd_trace *lt);
+int				vzt_rd_get_fac_process_mask(struct vzt_rd_trace *lt, vztint32_t facidx);
+int				vzt_rd_set_fac_process_mask(struct vzt_rd_trace *lt, vztint32_t facidx);
+int				vzt_rd_clr_fac_process_mask(struct vzt_rd_trace *lt, vztint32_t facidx);
+int				vzt_rd_set_fac_process_mask_all(struct vzt_rd_trace *lt);
+int				vzt_rd_clr_fac_process_mask_all(struct vzt_rd_trace *lt);
 
 				/* null value_change_callback calls an empty dummy function */
 int 				vzt_rd_iter_blocks(struct vzt_rd_trace *lt,
 				void (*value_change_callback)(struct vzt_rd_trace **lt, vztint64_t *time, vztint32_t *facidx, char **value),
 				void *user_callback_data_pointer);
-_VZT_RD_INLINE void *		vzt_rd_get_user_callback_data_pointer(struct vzt_rd_trace *lt);
+void *				vzt_rd_get_user_callback_data_pointer(struct vzt_rd_trace *lt);
 void 				vzt_rd_process_blocks_linearly(struct vzt_rd_trace *lt, int doit);
 
 				/* time (un)/restricted read ops */
