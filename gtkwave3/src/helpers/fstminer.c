@@ -30,7 +30,7 @@
 #include "wave_locale.h"
 
 static char *match = NULL;
-static int matchlen = 0;
+static uint32_t matchlen = 0;
 static int names_only = 0;
 static char *killed_list = NULL;
 char killed_value = 1;
@@ -252,7 +252,7 @@ char opt_errors_encountered=0;
 char *lxname=NULL;
 int c;
 int rc;
-int i, j, k;
+uint32_t i, j, k;
 int comprehensive = 0;
 
 

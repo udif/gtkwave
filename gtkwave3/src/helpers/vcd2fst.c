@@ -441,7 +441,7 @@ int parallel_mode = 0; /* 0 is is single threaded, 1 is multi-threaded */
 #ifdef VCD2FST_EXTLOADERS_CONV
 static int suffix_check(const char *s, const char *sfx)
 {
-int sfxlen = strlen(sfx);
+size_t sfxlen = strlen(sfx);
 return((strlen(s)>=sfxlen)&&(!strcasecmp(s+strlen(s)-sfxlen,sfx)));
 }
 #endif
@@ -458,7 +458,7 @@ int ss;
 fstHandle returnedhandle;
 JRB node;
 uint64_t prev_tim = 0;
-size_t bin_fixbuff_len = 65537;
+ssize_t bin_fixbuff_len = 65537;
 char *bin_fixbuff = NULL;
 int hash_kill = 0;
 unsigned int hash_max = 0;

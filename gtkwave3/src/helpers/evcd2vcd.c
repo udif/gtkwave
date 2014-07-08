@@ -37,7 +37,7 @@
 #endif
 #include <unistd.h>
 
-size_t getline_replace(char **buf, size_t *len, FILE *f)
+ssize_t getline_replace(char **buf, size_t *len, FILE *f)
 {
 char *fgets_rc;
 
@@ -141,7 +141,7 @@ FILE *f;
 char *buf = NULL;
 size_t glen;
 int line = 0;
-size_t ss;
+ssize_t ss;
 JRB node;
 char bin_fixbuff[32769];
 char bin_fixbuff2[32769];

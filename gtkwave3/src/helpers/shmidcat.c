@@ -94,7 +94,7 @@ int rc;
 if((rc = *consume_ptr))
 	{
 	unsigned int len = get_32(consume_ptr+1);
-	int i;
+	unsigned int i;
 
 	for(i=0;i<len;i++)
 		{
