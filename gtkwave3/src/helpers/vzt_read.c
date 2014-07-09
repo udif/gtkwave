@@ -313,9 +313,9 @@ if((!b->times)&&(b->mem))
 vztint64_t *times=NULL;
 vztint32_t *change_dict=NULL;
 vztint32_t *val_dict=NULL;
-int num_time_ticks, num_sections, num_dict_entries;
+unsigned int num_time_ticks, num_sections, num_dict_entries;
 char *pnt = b->mem;
-int i, j, m, num_dict_words;
+vztint32_t i, j, m, num_dict_words;
 /* vztint32_t *block_end = (vztint32_t *)(pnt + b->uncompressed_siz); */
 vztint32_t *val_tmp;
 unsigned int num_bitplanes;
@@ -499,7 +499,7 @@ return(1);
 
 vztint32_t vzt_rd_next_value_chg_time(struct vzt_rd_trace *lt, struct vzt_rd_block *b, vztint32_t time_offset, vztint32_t facidx)
 {
-int i;
+unsigned int i;
 vztint32_t len = lt->len[facidx];
 vztint32_t vindex_offset = lt->vindex_offset[facidx];
 vztint32_t vindex_offset_x = vindex_offset + lt->total_values;
@@ -589,7 +589,7 @@ return(old_time_offset);
 int vzt_rd_fac_value(struct vzt_rd_trace *lt, struct vzt_rd_block *b, vztint32_t time_offset, vztint32_t facidx, char *value)
 {
 vztint32_t len = lt->len[facidx];
-int i;
+unsigned int i;
 int word = time_offset / 32;
 int bit  = time_offset & 31;
 int row_size = b->num_sections;
@@ -804,7 +804,7 @@ return(1);
  */
 int vzt_rd_process_block(struct vzt_rd_trace *lt, struct vzt_rd_block *b)
 {
-int i, i2;
+unsigned int i, i2;
 vztint32_t idx;
 char *pnt=lt->value_current_sector, *pnt2=lt->value_previous_sector;
 char buf[32];
@@ -949,6 +949,11 @@ return(1);
  */
 void vzt_rd_null_callback(struct vzt_rd_trace **lt, vztint64_t *pnt_time, vztint32_t *pnt_facidx, char **pnt_value)
 {
+(void) lt;
+(void) pnt_time;
+(void) pnt_facidx;
+(void) pnt_value;
+
 /* fprintf(stderr, VZT_RDLOAD"%lld %d %s\n", *pnt_time, *pnt_facidx, *pnt_value); */
 }
 
@@ -1104,7 +1109,7 @@ return(lt ? lt->timezero : 0);
 char *vzt_rd_get_facname(struct vzt_rd_trace *lt, vztint32_t facidx)
 {
 char *pnt;
-int clonecnt, j;
+unsigned int clonecnt, j;
 
 if(lt)
 	{
@@ -1243,7 +1248,7 @@ return(rc);
 _VZT_RD_INLINE int vzt_rd_set_fac_process_mask_all(struct vzt_rd_trace *lt)
 {
 int rc=0;
-int i;
+unsigned int i;
 
 if(lt)
 	{
@@ -1357,7 +1362,7 @@ return(VZT_RD_IS_BZ2);
 
 static void vzt_rd_decompress_blk(struct vzt_rd_trace *lt, struct vzt_rd_block *b, int reopen)
 {
-int rc;
+unsigned int rc;
 void *zhandle;
 FILE *handle;
 if(reopen)
@@ -1670,7 +1675,7 @@ if(lt)
 struct vzt_rd_trace *vzt_rd_init_smp(const char *name, unsigned int num_cpus)
 {
 struct vzt_rd_trace *lt=(struct vzt_rd_trace *)calloc(1, sizeof(struct vzt_rd_trace));
-int i;
+unsigned int i;
 unsigned int vindex_offset;
 
 if(!(lt->handle=fopen(name, "rb")))
@@ -1718,10 +1723,10 @@ if(!(lt->handle=fopen(name, "rb")))
 	else
 		{
 		size_t rcf;
-		int rc;
+		unsigned int rc;
 		char *m;
 		off_t pos, fend;
-		int t;
+		unsigned int t;
 		struct vzt_rd_block *b;
 
 		vzt_rd_pthread_mutex_init(lt, &lt->mutex, NULL);
@@ -2005,12 +2010,12 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 	}
 	else
 	{
-	int old_longest_len = lt->longest_len;
+	unsigned int old_longest_len = lt->longest_len;
 	int pmxlen = 31;
 	char *pbuff = malloc(pmxlen+1);
 	char *pname;
 	int plen, plen2;
-	int i;
+	unsigned int i;
 	int pidx;
 	int num_after_combine = lt->numfacs;
 	int num_synvecs = 0;
@@ -2019,7 +2024,7 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 
 	for(i=0;i<lt->numfacs-1;i++)
 		{
-		int j;
+		unsigned int j;
 
 		if(lt->len[i] != 1) continue;
 
@@ -2064,8 +2069,8 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 		{
 		if(lt->flags[i] & VZT_RD_SYM_F_ALIAS)	/* not necessary, only for sanity */
 			{
-			int j = vzt_rd_get_alias_root(lt, i);
-			int k, l;
+			unsigned int j = vzt_rd_get_alias_root(lt, i);
+			unsigned int k, l;
 
 			if(lt->len[i])
 				{
@@ -2077,7 +2082,7 @@ if((!lt)||(lt->vectorize)||(lt->numfacs<2))
 
 				if(lt->len[i]==lt->len[j])
 					{
-					int nfm1 = lt->numfacs-1;
+					unsigned int nfm1 = lt->numfacs-1;
 					if((i != nfm1) && (j != nfm1))
 						{
 						if(lt->len[i+1] && lt->len[j+1])
@@ -2254,7 +2259,7 @@ if(lt)
  */
 static char *vzt_rd_process_block_single_factime(struct vzt_rd_trace *lt, struct vzt_rd_block *b, vztint64_t simtime, vztint32_t idx)
 {
-int i;
+unsigned int i;
 char *pnt=lt->value_current_sector;	/* convenient workspace mem */
 char *buf = lt->value_previous_sector;  /* convenient workspace mem */
 char *rcval = NULL;
@@ -2262,7 +2267,7 @@ char *rcval = NULL;
 vzt_rd_block_vch_decode(lt, b);
 vzt_rd_pthread_mutex_lock(lt, &b->mutex);
 
-if((b->last_rd_value_simtime == simtime) && (b->last_rd_value_idx != ~0))
+if((b->last_rd_value_simtime == simtime) && (b->last_rd_value_idx != ((vztint32_t)~0)))
 	{
 	i = b->last_rd_value_idx;
 	}

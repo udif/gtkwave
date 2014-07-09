@@ -106,6 +106,8 @@ while((h = fstReaderIterateHier(xc)))
 
 static char *get_facname(void *lt, fstHandle pnt_facidx)
 {
+(void) lt;
+
 if(scope_idx[pnt_facidx] && scope_names[scope_idx[pnt_facidx]])
 	{
 	char *fst_scope_name = scope_names[scope_idx[pnt_facidx]];

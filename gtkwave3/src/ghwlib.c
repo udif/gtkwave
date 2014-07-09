@@ -568,7 +568,7 @@ ghw_read_type (struct ghw_handler *h)
 	      ph->nbr_units = 0;
 	    else
 	      {
-		int ix;
+		unsigned int ix;
 
 		if (ghw_read_uleb128 (h, &ph->nbr_units) != 0)
 			{
@@ -729,6 +729,8 @@ ghw_read_wk_types (struct ghw_handler *h)
 void
 ghw_disp_typename (struct ghw_handler *h, union ghw_type *t)
 {
+(void) h;
+
   printf ("%s", t->common.name);
 }
 
@@ -748,7 +750,7 @@ ghw_read_signal (struct ghw_handler *h, unsigned int *sigs, union ghw_type *t)
 	if (ghw_read_uleb128 (h, &sig_el) < 0)
 	  return -1;
 	*sigs = sig_el;
-	if (sig_el >= h->nbr_sigs)
+	if (((int)sig_el) >= h->nbr_sigs)
 	  abort ();
 	if (h->sigs[sig_el].type == NULL)
 	  h->sigs[sig_el].type = ghw_get_base_type (t);
@@ -1136,6 +1138,8 @@ ghw_disp_hie (struct ghw_handler *h, struct ghw_hie *top)
 int
 ghw_read_eoh (struct ghw_handler *h)
 {
+(void) h;
+
   return 0;
 }
 
@@ -1652,7 +1656,7 @@ int
 ghw_read_section (struct ghw_handler *h)
 {
   unsigned char hdr[4];
-  int i;
+  unsigned int i;
 
   if (fread (hdr, sizeof (hdr), 1, h->stream) != 1)
     {
@@ -1749,7 +1753,7 @@ ghw_disp_type (struct ghw_handler *h, union ghw_type *t)
     case ghdl_rtik_type_p32:
     case ghdl_rtik_type_p64:
       {
-	int i;
+	unsigned int i;
 
 	struct ghw_type_physical *p = &t->ph;
 	printf ("type %s is range <> units\n", p->name);

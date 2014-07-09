@@ -1221,7 +1221,7 @@ void vzt_wr_flush_granule(struct vzt_wr_trace *lt, int do_finalize)
 int i, j;
 vztsint32_t k;
 int val;
-int numticks;
+unsigned int numticks;
 
 if(!lt->timegranule)
 	{
@@ -1363,7 +1363,7 @@ if((lt->timegranule >= lt->maxgranule)||(do_finalize))
 		else
 		{
 	        vzt_wr_emit_uv32z(lt, numticks); /* number of time ticks */
-		for(i=0;i<numticks;i++)
+		for(i=0;i<((int)numticks);i++)
 			{
 		        vzt_wr_emit_uv64z(lt, i ? lt->timetable[i] - lt->timetable[i-1] : lt->timetable[i]); /* emit delta */
 			}
@@ -1424,7 +1424,7 @@ if((lt->timegranule >= lt->maxgranule)||(do_finalize))
 	        for(i=0;i<lt->numstrings;i++)
 	                {
 	                /* fprintf(stderr, "%8d %8d) '%s'\n", ds->val, i, ds->item); */
-	                if(ds->val != i)
+	                if(ds->val != ((vztint32_t)i))
 	                        {
 	                        fprintf(stderr, "internal error line %d\n", __LINE__);
 	                        exit(255);

@@ -185,7 +185,7 @@ while((top_elem = lt->radix_sort[which_time]))
 	{
 	lxtint32_t idx = top_elem - lt->next_radix;
 	unsigned int vch;
-	int i;
+	lxtint32_t i;
 
 	switch(lt->fac_curpos_width)
 		{
@@ -299,7 +299,7 @@ void lxt2_rd_iter_radix0(struct lxt2_rd_trace *lt, struct lxt2_rd_block *b, lxti
 {
 	unsigned int vch;
 	unsigned int which_time;
-	int i;
+	lxtint32_t i;
 	int uniq = 0;
 
 	switch(lt->fac_curpos_width)
@@ -417,7 +417,7 @@ void lxt2_rd_iter_radix0(struct lxt2_rd_trace *lt, struct lxt2_rd_block *b, lxti
 					else
 					if(lt->len[idx] > b->string_lens[vch])
 						{
-						int lendelta = lt->len[idx] - b->string_lens[vch];
+						lxtint32_t lendelta = lt->len[idx] - b->string_lens[vch];
 						int fill = (b->string_pointers[vch][0]!='1') ?  b->string_pointers[vch][0] : '0';
 
 						for(i=0;i<lendelta;i++)
@@ -474,7 +474,7 @@ fini:	if(uniq)
 static void lxt2_rd_build_radix(struct lxt2_rd_trace *lt, struct lxt2_rd_block *b, int granule,
 		lxtint32_t strtfac, lxtint32_t endfac)
 {
-int i;
+lxtint32_t i;
 int offset;
 
 for(i=0;i<LXT2_RD_GRANULE_SIZE+1;i++)	/* +1 because tzc returns 33/65 when its arg == 0 */
@@ -515,7 +515,8 @@ for(i=strtfac;i<endfac;i++)
  */
 static void lxt2_rd_regenerate_process_mask(struct lxt2_rd_trace *lt)
 {
-int i, j, lim, idx;
+lxtint32_t i;
+int j, lim, idx;
 
 if((lt)&&(lt->process_mask_dirty))
 	{
@@ -560,7 +561,7 @@ int lxt2_rd_process_block(struct lxt2_rd_trace *lt, struct lxt2_rd_block *b)
 {
 char vld;
 char *pnt;
-int i;
+lxtint32_t i;
 int granule = 0;
 char sect_typ;
 lxtint32_t strtfac_gran=0;
@@ -744,6 +745,11 @@ return(1);
  */
 void lxt2_rd_null_callback(struct lxt2_rd_trace **lt, lxtint64_t *pnt_time, lxtint32_t *pnt_facidx, char **pnt_value)
 {
+(void) lt;
+(void) pnt_time;
+(void) pnt_facidx;
+(void) pnt_value;
+
 /* fprintf(stderr, LXT2_RDLOAD"%lld %d %s\n", *pnt_time, *pnt_facidx, *pnt_value); */
 }
 
@@ -756,7 +762,7 @@ void lxt2_rd_null_callback(struct lxt2_rd_trace **lt, lxtint64_t *pnt_time, lxti
 struct lxt2_rd_trace *lxt2_rd_init(const char *name)
 {
 struct lxt2_rd_trace *lt=(struct lxt2_rd_trace *)calloc(1, sizeof(struct lxt2_rd_trace));
-int i;
+lxtint32_t i;
 
 if(!(lt->handle=fopen(name, "rb")))
         {
@@ -856,7 +862,7 @@ if(!(lt->handle=fopen(name, "rb")))
 			rc=gzread(lt->zhandle, m, lt->zfacname_predec_size);
 			gzclose(lt->zhandle); lt->zhandle=NULL;
 
-			if(rc!=lt->zfacname_predec_size)
+			if(((lxtint32_t)rc)!=lt->zfacname_predec_size)
 				{
 				fprintf(stderr, LXT2_RDLOAD"*** name section mangled %d (act) vs "LXT2_RD_LD" (exp)\n", rc, lt->zfacname_predec_size);
 				free(m);
@@ -1023,7 +1029,7 @@ void lxt2_rd_close(struct lxt2_rd_trace *lt)
 if(lt)
 	{
 	struct lxt2_rd_block *b, *bt;
-	int i;
+	lxtint32_t i;
 
 	if(lt->process_mask) { free(lt->process_mask); lt->process_mask=NULL; }
 	if(lt->process_mask_compressed) { free(lt->process_mask_compressed); lt->process_mask_compressed=NULL; }
@@ -1233,7 +1239,7 @@ return(lt ? lt->timezero : 0);
 char *lxt2_rd_get_facname(struct lxt2_rd_trace *lt, lxtint32_t facidx)
 {
 char *pnt;
-int clone, j;
+lxtint32_t clone, j;
 
 if(lt)
 	{
@@ -1462,7 +1468,7 @@ struct lxt2_rd_block *bcutoff=NULL, *bfinal=NULL;
 int striped_kill = 0;
 unsigned int real_uncompressed_siz = 0;
 unsigned char gzid[2];
-int i;
+lxtint32_t i;
 
 if(lt)
 	{
@@ -1501,7 +1507,7 @@ if(lt)
 				char *pnt;
 				off_t fspos = b->filepos;
 
-				int zlen = 16;
+				lxtint32_t zlen = 16;
 				char *zbuff=malloc(zlen);
 				struct z_stream_s strm;
 
@@ -1577,7 +1583,7 @@ if(lt)
 				lt->zhandle = gzdopen(dup(fileno(lt->handle)), "rb");
 				rc=gzread(lt->zhandle, b->mem, b->uncompressed_siz);
 				gzclose(lt->zhandle); lt->zhandle=NULL;
-				if(rc!=b->uncompressed_siz)
+				if(((lxtint32_t)rc)!=b->uncompressed_siz)
 					{
 					fprintf(stderr, LXT2_RDLOAD"short read on block %d vs "LXT2_RD_LD" (exp), ignoring\n", rc, b->uncompressed_siz);
 					free(b->mem); b->mem=NULL;

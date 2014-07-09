@@ -158,7 +158,7 @@ vztint64_t *times;
 vztint32_t *change_dict;
 vztint32_t *val_dict;
 char **sindex;
-int num_time_ticks, num_sections, num_dict_entries, num_str_entries;
+unsigned int num_time_ticks, num_sections, num_dict_entries, num_str_entries;
 
 off_t filepos; /* where block starts in file if we have to reload */
 
@@ -238,7 +238,7 @@ void *zhandle;
 vztint64_t block_mem_consumed, block_mem_max;
 pthread_mutex_t mutex;	/* for these */
 
-int pthreads;			/* pthreads are enabled, set to max processor # (starting at zero for a uni) */
+unsigned int pthreads;			/* pthreads are enabled, set to max processor # (starting at zero for a uni) */
 unsigned process_linear : 1;	/* set by gtkwave for read optimization */
 unsigned vectorize : 1;		/* set when coalescing blasted bitvectors */
 };
