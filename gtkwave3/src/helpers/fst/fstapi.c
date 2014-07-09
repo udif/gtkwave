@@ -2234,7 +2234,7 @@ void fstWriterSetFileType(void *ctx, enum fstFileType filetype)
 struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
         {
-        if((filetype >= FST_FT_MIN) && (filetype <= FST_FT_MAX))
+        if(/*(filetype >= FST_FT_MIN) &&*/ (filetype <= FST_FT_MAX))
                 {
                 off_t fpos = ftello(xc->handle);
 
@@ -2631,7 +2631,7 @@ struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
         {
         fputc(FST_ST_VCD_SCOPE, xc->hier_handle);
-        if((scopetype < FST_ST_VCD_MODULE) || (scopetype > FST_ST_MAX)) { scopetype = FST_ST_VCD_MODULE; }
+        if(/*(scopetype < FST_ST_VCD_MODULE) ||*/ (scopetype > FST_ST_MAX)) { scopetype = FST_ST_VCD_MODULE; }
         fputc(scopetype, xc->hier_handle);
         fprintf(xc->hier_handle, "%s%c%s%c",
                 scopename ? scopename : "", 0,
@@ -2672,7 +2672,7 @@ struct fstWriterContext *xc = (struct fstWriterContext *)ctx;
 if(xc)
         {
         fputc(FST_ST_GEN_ATTRBEGIN, xc->hier_handle);
-        if((attrtype < FST_AT_MISC) || (attrtype > FST_AT_MAX)) { attrtype = FST_AT_MISC; subtype = FST_MT_UNKNOWN; }
+        if(/*(attrtype < FST_AT_MISC) ||*/ (attrtype > FST_AT_MAX)) { attrtype = FST_AT_MISC; subtype = FST_MT_UNKNOWN; }
         fputc(attrtype, xc->hier_handle);
 
         switch(attrtype)
