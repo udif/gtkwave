@@ -37,7 +37,7 @@ for(i=0;i<PROC_FILTER_MAX+1;i++)
 void remove_all_proc_filters(void)
 {
 struct Global *GLOBALS_cache = GLOBALS;
-int i, j;
+unsigned int i, j;
 
 for(j=0;j<GLOBALS->num_notebook_pages;j++)
 	{

@@ -213,7 +213,7 @@ static void start_clicked(GtkWidget *widget, gpointer which)
 GET_WV_STRACE_CURWIN(widget);
 
 GLOBALS->strace_ctx->mark_idx_start=((struct item_mark_string*)which)->idx;
-if (GLOBALS->strace_ctx->mark_idx_start<0 || GLOBALS->strace_ctx->mark_idx_start>=(sizeof(item_mark_start_strings)/sizeof(struct item_mark_string)))
+if (GLOBALS->strace_ctx->mark_idx_start<0 || GLOBALS->strace_ctx->mark_idx_start>=(int)(sizeof(item_mark_start_strings)/sizeof(struct item_mark_string)))
 	{
 	fprintf(stderr, "Internal error: GLOBALS->mark_idx_start out of range %d\n", GLOBALS->strace_ctx->mark_idx_start);
 	exit(255);
@@ -226,7 +226,7 @@ static void end_clicked(GtkWidget *widget, gpointer which)
 GET_WV_STRACE_CURWIN(widget);
 
 GLOBALS->strace_ctx->mark_idx_end=((struct item_mark_string*)which)->idx;
-if (GLOBALS->strace_ctx->mark_idx_end<0 || GLOBALS->strace_ctx->mark_idx_end>=(sizeof(item_mark_end_strings)/sizeof(struct item_mark_string)))
+if (GLOBALS->strace_ctx->mark_idx_end<0 || GLOBALS->strace_ctx->mark_idx_end>=(int)(sizeof(item_mark_end_strings)/sizeof(struct item_mark_string)))
 	{
 	fprintf(stderr, "Internal error: GLOBALS->mark_idx_end out of range %d\n",GLOBALS->strace_ctx->mark_idx_end);
 	exit(255);
@@ -496,7 +496,7 @@ void tracesearchbox(const char *title, GtkSignalFunc func, gpointer data)
 
     do		/* add GUI elements for displaying mark count and mark count start/end */
 	{
-	int idx;
+	unsigned int idx;
 	GtkWidget *ptr_mark_start_label, *ptr_mark_end_label;
 	GtkWidget *mark_count_hbox_start,  *mark_count_hbox_end;
 	GtkWidget *count_vbox_left, *count_vbox_right, *count_vbox, *count_hbox;

@@ -2964,7 +2964,7 @@ void import_vcd_trace(nptr np)
 {
 struct vlist_t *v = np->mv.mvlfac_vlist;
 int len = 1;
-int list_size;
+unsigned int list_size;
 unsigned char vlist_type;
 /* unsigned int vartype = 0; */ /* scan-build */
 unsigned int vlist_pos = 0;
@@ -2983,7 +2983,7 @@ vlist_uncompress(&v);
 
 if(GLOBALS->vlist_prepack)
 	{
-	depacked = vlist_packer_decompress(v, (unsigned int *)&list_size);
+	depacked = vlist_packer_decompress(v, &list_size);
 	vlist_destroy(v);
 	}
 	else

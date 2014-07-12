@@ -298,7 +298,7 @@ Trptr find_first_highlighted_trace(void) {
 Trptr is_signal_displayed(char *name) {
   Trptr t=GLOBALS->traces.first ;
   char *p = strchr(name, '['), *p1 ;
-  int len, len1 ;
+  unsigned int len, len1 ;
   if(p)
     *p = '\0' ;
   len = strlen(name) ;
@@ -323,7 +323,7 @@ Trptr is_signal_displayed(char *name) {
 
     if(p) {
       p1 = strchr(p,'[') ;
-      len1 = (p1) ? p1 - p : strlen(p) ;
+      len1 = (p1) ? (unsigned int)(p1 - p) : strlen(p) ;
       cc = ((len == len1) && !strncmp(name, p, len));
       if(was_packed) free_2(p);
       if(cc)

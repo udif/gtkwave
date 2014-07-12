@@ -325,7 +325,8 @@ static void build_dict(void)
 {
 gzFile zhandle;
 off_t offs = GLOBALS->zdictionary_offset_lxt_c_1+24;
-int total_mem, rc, i;
+int total_mem, rc;
+unsigned int i;
 char *decmem=NULL;
 char *pnt;
 #if defined __MINGW32__ || defined _MSC_VER
@@ -948,7 +949,7 @@ if(!GLOBALS->sync_table_offset_lxt_c_1)
 
 	while(offs < vlen)
 		{
-		unsigned int facidx = 0;
+		int facidx = 0;
 		unsigned char cmd;
 		off_t offscache2, offscache3;
 		unsigned int height;
@@ -1049,7 +1050,7 @@ if(!GLOBALS->sync_table_offset_lxt_c_1)
 		if(!cmdkill)
 		switch(cmd)
 			{
-			int modlen;
+			unsigned int modlen;
 			case 0x0:
 			modlen = (!(GLOBALS->mvlfacs_lxt_c_2[facidx].flags&LT_SYM_F_INTEGER)) ? GLOBALS->mvlfacs_lxt_c_2[facidx].len : 32;
 			if((GLOBALS->dict_string_mem_array_lxt_c_1) && (modlen>GLOBALS->dict_width_lxt_c_1))
@@ -1199,8 +1200,10 @@ if(!GLOBALS->sync_table_offset_lxt_c_1)
  */
 static char *parse_offset(struct fac *which, off_t offs)
 {
-int v, v2, j;
-int k, l;
+int v, v2;
+unsigned int j;
+int k;
+unsigned int l;
 char *pnt;
 char repeat;
 
@@ -1214,7 +1217,7 @@ switch(v2)
 	case 0x00:	/* MVL2 */
 			{
 			unsigned int msk;
-			int bitcnt=0;
+			unsigned int bitcnt=0;
 			int ch;
 
 			if((GLOBALS->dict_string_mem_array_lxt_c_1) && (l>GLOBALS->dict_width_lxt_c_1))
@@ -1283,7 +1286,7 @@ switch(v2)
 
 	case 0x01:	/* MVL4 */
 			{
-			int bitcnt=0;
+			unsigned int bitcnt=0;
 			int ch;
 			int rsh;
 
@@ -1305,7 +1308,7 @@ switch(v2)
 
 	case 0x02:	/* MVL9 */
 			{
-			int bitcnt=0;
+			unsigned int bitcnt=0;
 			int ch;
 			int rsh;
 

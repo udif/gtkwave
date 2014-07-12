@@ -16,7 +16,7 @@
 #define HIER_DEPACK_STATIC (1)
 
 void init_facility_pack(void);
-char *compress_facility(unsigned char *key, int len);
+char *compress_facility(unsigned char *key, unsigned int len);
 void freeze_facility_pack(void);
 
 char *hier_decompress_flagged(char *n, int *was_packed);

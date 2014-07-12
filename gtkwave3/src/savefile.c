@@ -2739,7 +2739,7 @@ return(deal_with_rpc_open(path, user_data));
 
 int suffix_check(const char *s, const char *sfx)
 {
-int sfxlen = strlen(sfx);
+unsigned int sfxlen = strlen(sfx);
 return((strlen(s)>=sfxlen)&&(!strcasecmp(s+strlen(s)-sfxlen,sfx)));
 }
 

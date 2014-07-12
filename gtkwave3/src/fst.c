@@ -144,7 +144,7 @@ return(s2 - s);
 /******************************************************************/
 
 
-static struct fstHier *extractNextVar(void *xc, int *msb, int *lsb, char **nam, int *namlen, int *nnam_max)
+static struct fstHier *extractNextVar(void *xc, int *msb, int *lsb, char **nam, int *namlen, unsigned int *nnam_max)
 {
 struct fstHier *h;
 const char *pnts;
@@ -479,8 +479,8 @@ int i;
 struct Node *n;
 struct symbol *s, *prevsymroot=NULL, *prevsym=NULL;
 signed char scale;
-unsigned int numalias = 0;
-unsigned int numvars = 0;
+int numalias = 0;
+int numvars = 0;
 struct symbol *sym_block = NULL;
 struct Node *node_block = NULL;
 struct fstHier *h = NULL;
@@ -491,7 +491,7 @@ struct tree *npar = NULL;
 char **f_name = NULL;
 int   *f_name_len = NULL, *f_name_max_len = NULL;
 int allowed_to_autocoalesce;
-int nnam_max = 0;
+unsigned int nnam_max = 0;
 
 int f_name_build_buf_len = 128;
 char *f_name_build_buf = malloc_2(f_name_build_buf_len + 1);
@@ -1626,7 +1626,8 @@ if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 
 void fst_import_masked(void)
 {
-int txidxi, i, cnt;
+unsigned int txidxi;
+int i, cnt;
 hptr htempx = NULL;
 
 cnt = 0;

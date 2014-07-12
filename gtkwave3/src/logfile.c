@@ -153,7 +153,7 @@ if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_VIEW(text)->buffer,
 						{
 						for(silp=0;silp<silen;silp++)
 							{
-							if(gch == WAVE_SI_UNITS[silp])
+							if((unsigned)gch == (unsigned)WAVE_SI_UNITS[silp])
 								{
 								do_si_append = 1;
 								break;

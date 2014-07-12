@@ -128,7 +128,7 @@ gdk_event_handler_set((GdkEventFunc)GuiDoEvent, NULL, NULL);
 
 void set_window_busy_no_refresh(GtkWidget *w)
 {
-int i;
+unsigned int i;
 
 /* if(GLOBALS->tree_dnd_begin) return; */
 
@@ -155,7 +155,7 @@ busy_window_refresh();
 
 void set_window_idle(GtkWidget *w)
 {
-int i;
+unsigned int i;
 
 /* if(GLOBALS->tree_dnd_begin) return; */
 

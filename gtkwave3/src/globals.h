@@ -1281,7 +1281,7 @@ char use_roundcaps; /* from wavewindow.c 652 */
 char show_base; /* from wavewindow.c 653 */
 char wave_scrolling; /* from wavewindow.c 654 */
 int vector_padding; /* from wavewindow.c 655 */
-int in_button_press_wavewindow_c_1; /* from wavewindow.c 656 */
+unsigned int in_button_press_wavewindow_c_1; /* from wavewindow.c 656 */
 char left_justify_sigs; /* from wavewindow.c 657 */
 char zoom_pow10_snap; /* from wavewindow.c 658 */
 char zoom_dyn; /* from menu.c */

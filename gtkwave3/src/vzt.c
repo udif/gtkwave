@@ -244,9 +244,9 @@ if(GLOBALS->fast_tree_sort)
 
         if(numalias)
                 {
-                unsigned int idx_lft = 0;
-                unsigned int idx_lftmax = GLOBALS->numfacs - numalias;
-                unsigned int idx_rgh = GLOBALS->numfacs - numalias;
+                int idx_lft = 0;
+                int idx_lftmax = GLOBALS->numfacs - numalias;
+                int idx_rgh = GLOBALS->numfacs - numalias;
                 struct symbol **facs_merge=(struct symbol **)malloc_2(GLOBALS->numfacs*sizeof(struct symbol *));
 
 		fprintf(stderr, VZT_RDLOAD"Merging in %d aliases.\n", numalias);

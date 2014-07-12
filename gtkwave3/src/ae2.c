@@ -58,7 +58,7 @@ exit(255);
  */
 int aet2_rd_get_fac_process_mask(unsigned int facidx)
 {
-if(facidx<GLOBALS->numfacs)
+if((int)facidx<GLOBALS->numfacs)
 	{
 	int process_idx = facidx/8;
 	int process_bit = facidx&7;
@@ -72,7 +72,7 @@ return(0);
 
 void aet2_rd_set_fac_process_mask(unsigned int facidx)
 {
-if(facidx<GLOBALS->numfacs)
+if((int)facidx<GLOBALS->numfacs)
 	{
 	int idx = facidx/8;
 	int bitpos = facidx&7;
@@ -84,7 +84,7 @@ if(facidx<GLOBALS->numfacs)
 
 void aet2_rd_clr_fac_process_mask(unsigned int facidx)
 {
-if(facidx<GLOBALS->numfacs)
+if((int)facidx<GLOBALS->numfacs)
 	{
 	int idx = facidx/8;
 	int bitpos = facidx&7;
@@ -423,7 +423,7 @@ return(s2 - s);
  */
 TimeType ae2_main(char *fname, char *skip_start, char *skip_end)
 {
-int i;
+unsigned int i;
 int match_idx;
 struct Node *n;
 struct symbol *s;
@@ -528,8 +528,8 @@ missing = calloc_2(1, (GLOBALS->ae2_num_aliases + 7 + 1) / 8); /* + 1 to mirror 
 for(i=0;i<GLOBALS->ae2_num_aliases;i++)
 	{
 	unsigned long numTerms;
-        int idx = i+1;
-	int ii;
+        unsigned int idx = i+1;
+	unsigned int ii;
 	int midx, mbit;
 	int mcnt;
 
@@ -632,12 +632,12 @@ if(!GLOBALS->hier_was_explicitly_set)    /* set default hierarchy split char */
         }
 
 match_idx = 0;
-for(i=0;i<GLOBALS->numfacs;i++)
+for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
         {
 	char *str;
         int idx;
 	int typ;
-	unsigned long len, clen;
+	long len, clen;
 	int row_iter, mx_row, mx_row_adjusted;
 
 #ifdef AET2_ALIASDB_IS_PRESENT
@@ -780,7 +780,7 @@ GLOBALS->facs=(struct symbol **)malloc_2(GLOBALS->numfacs*sizeof(struct symbol *
 
 if(GLOBALS->fast_tree_sort)
 	{
-	for(i=0;i<GLOBALS->numfacs;i++)
+	for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
 		{
 		GLOBALS->facs[i]=&monolithic_sym[i];
 		}
@@ -790,7 +790,7 @@ if(GLOBALS->fast_tree_sort)
 
 	init_tree();
 
-	for(i=0;i<GLOBALS->numfacs;i++)
+	for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
 		{
 		int was_packed = HIER_DEPACK_STATIC; /* no need to free_2() afterward then */
 		char *sb = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
@@ -809,7 +809,7 @@ if(GLOBALS->fast_tree_sort)
 	}
 	else
 	{
-	for(i=0;i<GLOBALS->numfacs;i++)
+	for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
 		{
 #ifdef WAVE_HIERFIX
 		char *subst;
@@ -849,7 +849,7 @@ if(GLOBALS->fast_tree_sort)
 	fprintf(stderr, AET2_RDLOAD"Building facility hierarchy tree.\n");
 
 	init_tree();
-	for(i=0;i<GLOBALS->numfacs;i++)
+	for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
 		{
 		build_tree_from_name(GLOBALS->facs[i]->name, i);
 		}
@@ -1001,11 +1001,11 @@ char buf[AE2_MAXFACLEN+1];
 
 autofacs = calloc_2(GLOBALS->numfacs, sizeof(struct ae2_ncycle_autosort));
 
-for(i=0;i<GLOBALS->numfacs;i++)
+for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
 	{
 	if(aet2_rd_get_fac_process_mask(i))
 		{
-		int nr = ae2_read_symbol_rows_2(GLOBALS->ae2,GLOBALS->ae2_fr[i].s);
+		unsigned int nr = ae2_read_symbol_rows_2(GLOBALS->ae2,GLOBALS->ae2_fr[i].s);
 		if(!nr) nr = 1;
 		for(r=0;r<nr;r++)
 			{
@@ -1031,7 +1031,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 
 	autosort = calloc_2(ecyc - cyc + 1, sizeof(struct ae2_ncycle_autosort *));
 
-	for(i=0;i<GLOBALS->numfacs;i++)
+	for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
 		{
 		if(aet2_rd_get_fac_process_mask(i))
 			{
@@ -1053,7 +1053,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 				unsigned long sf = ae2_read_symbol_sparse_flag(GLOBALS->ae2, GLOBALS->ae2_fr[i].s);
 				if(sf)
 					{
-					int rows = ae2_read_num_sparse_rows(GLOBALS->ae2, GLOBALS->ae2_fr[i].s, cyc);
+					unsigned int rows = ae2_read_num_sparse_rows(GLOBALS->ae2, GLOBALS->ae2_fr[i].s, cyc);
 					if(rows)
 						{
 			                        for(r=1;r<rows+1;r++)
@@ -1075,7 +1075,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 					}
 					else
 					{
-					int rows = ae2_read_symbol_rows_2(GLOBALS->ae2, GLOBALS->ae2_fr[i].s);
+					unsigned int rows = ae2_read_symbol_rows_2(GLOBALS->ae2, GLOBALS->ae2_fr[i].s);
 					if(rows)
 						{
 			                        for(r=0;r<rows;r++)
@@ -1101,7 +1101,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 
 	deadlist=NULL;
 
-	for(i=0;i<GLOBALS->numfacs;i++)
+	for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
 		{
 		uint64_t ncyc;
 		nptr np;
@@ -1120,7 +1120,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 			unsigned long sf = ae2_read_symbol_sparse_flag(GLOBALS->ae2, GLOBALS->ae2_fr[i].s);
 			if(sf)
 				{
-				int rows = ae2_read_num_sparse_rows(GLOBALS->ae2, GLOBALS->ae2_fr[i].s, cyc);
+				unsigned int rows = ae2_read_num_sparse_rows(GLOBALS->ae2, GLOBALS->ae2_fr[i].s, cyc);
 				uint64_t mxcyc = end_cycle+1;
 
 	                        for(r=1;r<rows+1;r++)
@@ -1146,7 +1146,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 				}
 				else
 				{
-				int rows = ae2_read_symbol_rows_2(GLOBALS->ae2, GLOBALS->ae2_fr[i].s);
+				unsigned int rows = ae2_read_symbol_rows_2(GLOBALS->ae2, GLOBALS->ae2_fr[i].s);
 				uint64_t mxcyc = end_cycle+1;
 
 	                        for(r=0;r<rows;r++)
@@ -1220,7 +1220,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 					unsigned long sf = ae2_read_symbol_sparse_flag(GLOBALS->ae2, GLOBALS->ae2_fr[i].s);
 					if(sf)
 						{
-						int rows = ae2_read_num_sparse_rows(GLOBALS->ae2, GLOBALS->ae2_fr[i].s, step_cyc);
+						unsigned int rows = ae2_read_num_sparse_rows(GLOBALS->ae2, GLOBALS->ae2_fr[i].s, step_cyc);
 						uint64_t mxcyc = end_cycle+1;
 
 			                        for(r=1;r<rows+1;r++)
@@ -1253,7 +1253,7 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 						}
 						else
 						{
-						int rows = ae2_read_symbol_rows_2(GLOBALS->ae2, GLOBALS->ae2_fr[i].s);
+						unsigned int rows = ae2_read_symbol_rows_2(GLOBALS->ae2, GLOBALS->ae2_fr[i].s);
 						uint64_t mxcyc = end_cycle+1;
 
 			                        for(r=0;r<rows;r++)
@@ -1309,11 +1309,11 @@ for(j=0;j<GLOBALS->ae2_num_sections;j++)
 	}
 
 
-for(i=0;i<GLOBALS->numfacs;i++)
+for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
 	{
 	if(aet2_rd_get_fac_process_mask(i))
 		{
-		int nr = ae2_read_symbol_rows_2(GLOBALS->ae2,GLOBALS->ae2_fr[i].s);
+		unsigned int nr = ae2_read_symbol_rows_2(GLOBALS->ae2,GLOBALS->ae2_fr[i].s);
 		if(!nr) nr = 1;
 		for(r=0;r<nr;r++)
 			{

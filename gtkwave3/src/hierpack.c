@@ -82,7 +82,7 @@ if(GLOBALS->do_hier_compress)
 }
 
 
-char *compress_facility(unsigned char *key, int len)
+char *compress_facility(unsigned char *key, unsigned int len)
 {
 size_t mat = 0;
 size_t plen;

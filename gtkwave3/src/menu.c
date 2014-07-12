@@ -7164,7 +7164,7 @@ return(TRUE); /* keeps "delete_event" from happening...we'll manually destory la
  */
 int execute_script(char *name, int dealloc_name)
 {
-int i;
+unsigned int i;
 int nlen = strlen(name);
 
 if(GLOBALS->tcl_running)

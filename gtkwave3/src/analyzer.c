@@ -578,7 +578,7 @@ if(nd->array_height <= 1)
 #ifdef WAVE_ARRAY_SUPPORT
 	else
 	{
-	int i;
+	unsigned int i;
 	int rc = 1;
 
 	for(i=0;i<nd->array_height;i++)

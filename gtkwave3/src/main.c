@@ -172,7 +172,7 @@ struct Global *G = (struct Global *)V;
 #if !defined _MSC_VER
 void kill_stems_browser(void)
 {
-int ix;
+unsigned int ix;
 
 for(ix=0;ix<GLOBALS->num_notebook_pages;ix++)
 	{

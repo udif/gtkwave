@@ -700,7 +700,7 @@ if(stat(path, &buf) == 0)
 		FILE *f = fopen(path, "rb");
 		if(f)
 			{
-			unsigned int hdr[2] = { 0, 0 };
+			int hdr[2] = { 0, 0 };
 			unsigned int magic_word;
 
 			hdr[0] = fgetc(f);
