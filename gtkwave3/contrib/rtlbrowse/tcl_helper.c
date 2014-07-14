@@ -643,6 +643,10 @@ static gboolean DNDDragMotionCB(
         gpointer data
 )
 {
+(void)widget;
+(void)xx;
+(void)yy;
+(void)data;
 #ifdef WAVE_USE_GTK2
 	GdkDragAction suggested_action;
 
@@ -669,6 +673,9 @@ static gboolean DNDDragMotionCB(
         /* All else respond with 0. */
         else
             gdk_drag_status(dc, 0, tt);
+#else
+(void)dc;
+(void)tt;
 #endif
 
 return(FALSE);
@@ -678,12 +685,18 @@ static void DNDBeginCB(
         GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)widget;
+(void)dc;
+(void)data;
 }
 
 static void DNDEndCB(
         GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)widget;
+(void)dc;
+(void)data;
 }
 
 /*
@@ -699,6 +712,10 @@ static void DNDDataReceivedCB(
 	GtkWidget *widget, GdkDragContext *dc,
 	gint x, gint y, GtkSelectionData *selection_data,
 	guint info, guint t, gpointer data) {
+(void)x;
+(void)y;
+(void)t;
+
     gboolean same;
     GtkWidget *source_widget;
 

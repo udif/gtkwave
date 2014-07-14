@@ -118,6 +118,8 @@ return(FALSE);
 
 static gint expose_event_local(GtkWidget *widget, GdkEventExpose *event)
 {
+(void)event;
+
 struct text_find_t *tr = text_root;
 
 while(tr)
@@ -448,12 +450,18 @@ static char *search_string = NULL;
 
 static void search_backward(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 tr_search_backward(search_string);
 }
 
 static gboolean forward_noskip = FALSE;
 static void search_forward(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 tr_search_forward(search_string, forward_noskip);
 }
 
@@ -462,6 +470,8 @@ tr_search_forward(search_string, forward_noskip);
 static
 gboolean find_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 {
+(void)data;
+
   /* Maybe this test is too strong ?  */
   if (ev->keyval == GDK_Return)
     {
@@ -483,6 +493,8 @@ gboolean find_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 
 static void toggle_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 matchcase_active = (GTK_TOGGLE_BUTTON(widget)->active != 0);
 tr_search_forward(search_string, TRUE);
 }
@@ -582,6 +594,7 @@ static char *tmpnam_rtlbrowse(char *s, int *fd)
 return(tmpnam(s));
 
 #else
+(void)s;
 
 char *backpath = "gtkwaveXXXXXX";
 char *tmpspace;
@@ -766,6 +779,10 @@ static void DNDBeginCB(
         GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)widget;
+(void)dc;
+(void)data;
+
 /* nothing */
 }
 
@@ -773,6 +790,10 @@ static void DNDEndCB(
         GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)widget;
+(void)dc;
+(void)data;
+
 /* nothing */
 }
 
@@ -780,6 +801,10 @@ static void DNDDataDeleteCB(
         GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)widget;
+(void)dc;
+(void)data;
+
 /* nothing */
 }
 
@@ -789,6 +814,10 @@ static void DNDDataRequestCB(
         gpointer data
 )
 {
+(void)dc;
+(void)t;
+(void)info;
+
 struct logfile_context_t *ctx = (struct logfile_context_t *)data;
 GtkWidget *text = (GtkWidget *)widget;
 gchar *sel = NULL;
@@ -1016,6 +1045,8 @@ if(sel)
 void log_text(GtkWidget *text, GdkFont *font, char *str)
 {
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+(void)font;
+
 gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &iterx,
                                  str, -1, mono_tag, size_tag, NULL);
 #else
@@ -1026,6 +1057,8 @@ gtk_text_insert (GTK_TEXT (text), font, &text->style->black, NULL, str, -1);
 void log_text_bold(GtkWidget *text, GdkFont *font, char *str)
 {
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+(void)font;
+
 gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &iterx,
                                  str, -1, bold_tag, mono_tag, size_tag, fwht_tag, blue_tag, NULL);
 #else
@@ -1036,6 +1069,8 @@ gtk_text_insert (GTK_TEXT (text), font, &text->style->fg[GTK_STATE_SELECTED], &t
 void log_text_active(GtkWidget *text, GdkFont *font, char *str)
 {
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+(void)font;
+
 gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &iterx,
                                  str, -1, dgray_tag, mono_tag, size_tag, NULL);
 #else
@@ -1046,6 +1081,8 @@ gtk_text_insert (GTK_TEXT (text), font, &text->style->fg[GTK_STATE_ACTIVE], &tex
 void log_text_prelight(GtkWidget *text, GdkFont *font, char *str)
 {
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+(void)font;
+
 gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &iterx,
                                  str, -1, lgray_tag, mono_tag, size_tag, NULL);
 #else
@@ -1056,6 +1093,9 @@ gtk_text_insert (GTK_TEXT (text), font, &text->style->fg[GTK_STATE_PRELIGHT], &t
 static void
 log_realize_text (GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 /* nothing for now */
 }
 
@@ -1065,7 +1105,9 @@ static JRB lx2vals = NULL;
 
 static void lx2_iter_fn(struct lxt2_rd_trace **lt, lxtint64_t *pnt_time, lxtint32_t *pnt_facidx, char **pnt_value)
 {
-if(*pnt_time <= anno_ctx->marker)
+(void)lt;
+
+if(*pnt_time <= (lxtint64_t)anno_ctx->marker)
 	{
 	JRB node = jrb_find_int(lx2vals, *pnt_facidx);
 	Jval jv;
@@ -1123,6 +1165,8 @@ free(s2);
 static gboolean
 button_release_event (GtkWidget *text, GdkEventButton *event)
 {
+(void)event;
+
 gchar *sel;
 
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
@@ -1272,6 +1316,8 @@ return(FALSE); /* call remaining handlers... */
 static        gint
 scroll_event( GtkWidget * widget, GdkEventScroll * event, gpointer text)
 {
+(void)widget;
+
   GtkTextView *text_view = GTK_TEXT_VIEW(text);
   /* GtkAdjustment *hadj = text_view->hadjustment; */
   GtkAdjustment *vadj = text_view->vadjustment;
@@ -1394,6 +1440,8 @@ return(table);
 
 static void ok_callback(GtkWidget *widget, struct logfile_context_t *ctx)
 {
+(void)widget;
+
   bwlogbox(ctx->which->fullname, ctx->width, ctx->which, (ctx->display_mode == 0));
 }
 
@@ -1500,6 +1548,8 @@ return(TRUE);
 
 static void destroy_callback(GtkWidget *widget, gpointer dummy)
 {
+(void)dummy;
+
 struct text_find_t *t = text_root, *tprev = NULL;
 struct logfile_context_t *ctx = NULL;
 int which = (notebook != NULL);

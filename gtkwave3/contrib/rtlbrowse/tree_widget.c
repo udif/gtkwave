@@ -32,6 +32,11 @@ GtkCTree *ctree_main=NULL;
 static void select_row_callback(GtkWidget *widget, gint row, gint column,
         GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)column;
+(void)event;
+(void)data;
+
 ds_Tree *t=(ds_Tree *)gtk_clist_get_row_data(GTK_CLIST(ctree_main), row);
 selectedtree=t;
 
@@ -56,6 +61,12 @@ if(t->filename)
 static void unselect_row_callback(GtkWidget *widget, gint row, gint column,
         GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)row;
+(void)column;
+(void)event;
+(void)data;
+
 /* ds_Tree *t=(ds_Tree *)gtk_clist_get_row_data(GTK_CLIST(ctree_main), row); */
 selectedtree=NULL;
 }
@@ -75,6 +86,9 @@ static GtkSignalFunc cleanup;
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   is_active=0;
   gtk_widget_destroy(window);
   gtk_main_quit();
@@ -87,6 +101,8 @@ static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
  */
 void treebox(char *title, GtkSignalFunc func, GtkWidget *old_window)
 {
+(void)old_window;
+
     GtkWidget *scrolled_win;
     GtkWidget *frame2;
     GtkWidget *table;

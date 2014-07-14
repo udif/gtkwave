@@ -430,6 +430,8 @@ return(pnt);
 
 static void free_fn(void* ptr, size_t size)
 {
+(void)size;
+
 free(ptr);
 }
 
