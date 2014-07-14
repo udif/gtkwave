@@ -165,10 +165,10 @@ if(entry_text && strlen(entry_text))
 }
 
 
-
-
 static void change_callback(GtkWidget *widget, gpointer which)
 {
+(void)widget;
+
 GtkWidget *entry;
 TimeType temp;
 G_CONST_RETURN gchar *entry_text;
@@ -221,6 +221,8 @@ return;
 
 static void enter_callback(GtkWidget *widget, gpointer which)
 {
+(void)widget;
+
 GtkWidget *entry;
 /* TimeType *modify; */ /* scan-build */
 TimeType temp;
@@ -276,6 +278,9 @@ gtk_entry_set_text (GTK_ENTRY (entry), buf);
 
 static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 if(GLOBALS->dirty_markerbox_c_1)
 	{
 	int i;
@@ -300,6 +305,9 @@ if(GLOBALS->dirty_markerbox_c_1)
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 int i;
   for(i=0;i<WAVE_NUM_NAMED_MARKERS;i++)
 	{

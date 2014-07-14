@@ -26,6 +26,10 @@ open_callback(GConfClient* gclient,
                      GConfEntry *entry,
                      gpointer user_data)
 {
+(void)gclient;
+(void)cnxn_id;
+(void)user_data;
+
   if (gconf_entry_get_value (entry) == NULL)
     {
       /* value is unset */
@@ -53,6 +57,10 @@ quit_callback(GConfClient* gclient,
                      GConfEntry *entry,
                      gpointer user_data)
 {
+(void)gclient;
+(void)cnxn_id;
+(void)user_data;
+
   if (gconf_entry_get_value (entry) == NULL)
     {
       /* value is unset */
@@ -81,6 +89,10 @@ reload_callback(GConfClient* gclient,
                      GConfEntry *entry,
                      gpointer user_data)
 {
+(void)gclient;
+(void)cnxn_id;
+(void)user_data;
+
   if (gconf_entry_get_value (entry) == NULL)
     {
       /* value is unset */
@@ -107,6 +119,10 @@ writesave_callback(GConfClient* gclient,
                      GConfEntry *entry,
                      gpointer user_data)
 {
+(void)gclient;
+(void)cnxn_id;
+(void)user_data;
+
   if (gconf_entry_get_value (entry) == NULL)
     {
       /* value is unset */

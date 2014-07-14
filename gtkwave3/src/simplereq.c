@@ -23,6 +23,9 @@
 
 static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   DEBUG(printf("OK\n"));
   wave_gtk_grab_remove(GLOBALS->window_simplereq_c_9);
   gtk_widget_destroy(GLOBALS->window_simplereq_c_9);
@@ -32,6 +35,9 @@ static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   DEBUG(printf("Cancel\n"));
   wave_gtk_grab_remove(GLOBALS->window_simplereq_c_9);
   gtk_widget_destroy(GLOBALS->window_simplereq_c_9);

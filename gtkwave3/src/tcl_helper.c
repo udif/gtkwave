@@ -1863,6 +1863,8 @@ sig_selection_foreach_dnd
                        GtkTreeIter *iter,
                        gpointer data)
 {
+(void)path;
+
   struct tree *sel;
   int i;
   int low, high;
@@ -2554,6 +2556,8 @@ static const char *tclcb_var_inits[] = { WAVE_TCLCB_MACRO_EXPANSION };
 
 static void declare_tclcb_variables(Tcl_Interp *interp)
 {
+(void)interp;
+
 int i = 0 ;
 while(tclcb_var_flags[i] != -1)
 	{
@@ -2750,6 +2754,8 @@ return(s);
 
 void gtkUpdate(ClientData ignore)
 {
+(void)ignore;
+
   while (gtk_events_pending()) { gtk_main_iteration(); }
   Tcl_CreateTimerHandler(50,gtkUpdate, (ClientData) NULL); /* ajb: was 0 period ...caused 100% CPU spike */
 }
@@ -2824,6 +2830,8 @@ int  gtkwaveInterpreterInit(Tcl_Interp *interp) {
 
 static gboolean repscript_timer(gpointer dummy)
 {
+(void)dummy;
+
 static gboolean run_once = FALSE;
 
 if(run_once == FALSE) /* avoid any race conditions with the toolkit for uninitialized data */
@@ -2888,6 +2896,8 @@ void set_globals_interp(char *me, int install_tk)
 	exit(255);
 	}
 #else
+(void)me;
+(void)install_tk;
 GLOBALS->interp = Tcl_CreateInterp();
 #endif
 }

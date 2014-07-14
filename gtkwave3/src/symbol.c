@@ -146,6 +146,8 @@ for(p=s;*p;p++)
 
 h^=h2;						/* combine the two hashes */
 GLOBALS->hashcache=h%SYMPRIME;
+#else
+(void)s;
 #endif
 return(GLOBALS->hashcache);
 }
@@ -160,6 +162,7 @@ struct symbol *symadd(char *name, int hv)
 struct symbol *s=(struct symbol *)calloc_2(1,sizeof(struct symbol));
 
 #ifdef _WAVE_HAVE_JUDY
+(void)hv;
 
 PPvoid_t PPValue = JudySLIns(&GLOBALS->sym_judy, (uint8_t *)name, PJE0);
 *((struct symbol **)PPValue) = s;
@@ -179,6 +182,7 @@ struct symbol *symadd_name_exists(char *name, int hv)
 struct symbol *s=(struct symbol *)calloc_2(1,sizeof(struct symbol));
 
 #ifdef _WAVE_HAVE_JUDY
+(void)hv;
 
 PPvoid_t PPValue = JudySLIns(&GLOBALS->sym_judy, (uint8_t *)name, PJE0);
 *((struct symbol **)PPValue) = s;

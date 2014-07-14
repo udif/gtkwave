@@ -54,6 +54,8 @@
 
 static int gtkwavetcl_badNumArgs(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], int expected)
 {
+(void)clientData;
+
 Tcl_Obj *aobj;
 char reportString[1024];
 
@@ -66,6 +68,11 @@ return(TCL_ERROR);
 
 static int gtkwavetcl_nop(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
+(void)clientData;
+(void)interp;
+(void)objc;
+(void)objv;
+
 /* nothing, this is simply to call gtk's main loop */
 gtkwave_main_iteration();
 return(TCL_OK);
@@ -73,6 +80,10 @@ return(TCL_OK);
 
 static int gtkwavetcl_printInteger(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], int intVal)
 {
+(void)clientData;
+(void)objc;
+(void)objv;
+
 Tcl_Obj *aobj;
 char reportString[33];
 
@@ -86,6 +97,10 @@ return(TCL_OK);
 
 static int gtkwavetcl_printTimeType(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], TimeType ttVal)
 {
+(void)clientData;
+(void)objc;
+(void)objv;
+
 Tcl_Obj *aobj;
 char reportString[65];
 
@@ -99,6 +114,10 @@ return(TCL_OK);
 
 static int gtkwavetcl_printDouble(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], double dVal)
 {
+(void)clientData;
+(void)objc;
+(void)objv;
+
 Tcl_Obj *aobj;
 char reportString[65];
 
@@ -112,6 +131,10 @@ return(TCL_OK);
 
 static int gtkwavetcl_printString(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[], const char *reportString)
 {
+(void)clientData;
+(void)objc;
+(void)objv;
+
 Tcl_Obj *aobj;
 
 aobj = Tcl_NewStringObj(reportString, -1);
@@ -230,6 +253,10 @@ return(gtkwavetcl_printTimeType(clientData, interp, objc, objv, value));
 
 static int gtkwavetcl_getTimeDimension(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
+(void)clientData;
+(void)objc;
+(void)objv;
+
 Tcl_Obj *aobj;
 char reportString[2];
 
@@ -244,6 +271,10 @@ return(TCL_OK);
 
 static int gtkwavetcl_getArgv(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
+(void)clientData;
+(void)objc;
+(void)objv;
+
 if(GLOBALS->argvlist)
 	{
 	Tcl_Obj *aobj = Tcl_NewStringObj(GLOBALS->argvlist, -1);
@@ -279,6 +310,10 @@ return(gtkwavetcl_printTimeType(clientData, interp, objc, objv, value));
 
 static int gtkwavetcl_getDumpType(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
+(void)clientData;
+(void)objc;
+(void)objv;
+
 Tcl_Obj *aobj;
 char *reportString = "UNKNOWN";
 
@@ -1453,6 +1488,8 @@ return(TCL_OK);
 
 static int gtkwavetcl_signalChangeList(ClientData clientData, Tcl_Interp *interp,
 				       int objc, Tcl_Obj *CONST objv[]) {
+(void) clientData;
+
     int dir = STRACE_FORWARD ;
     TimeType start_time = 0 ;
     TimeType end_time = MAX_HISTENT_TIME ;

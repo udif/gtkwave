@@ -52,6 +52,8 @@ a hierarchy first */
 void log_text(GtkWidget *text, GdkFont *font, char *str)
 {
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+(void)font;
+
 gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &GLOBALS->iter_logfile_c_2,
                                  str, -1, GLOBALS->mono_tag_logfile_c_1, GLOBALS->size_tag_logfile_c_1, NULL);
 #else
@@ -62,6 +64,8 @@ gtk_text_insert (GTK_TEXT (text), font, &text->style->black, NULL, str, -1);
 void log_text_bold(GtkWidget *text, GdkFont *font, char *str)
 {
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+(void)font;
+
 gtk_text_buffer_insert_with_tags (GTK_TEXT_VIEW (text)->buffer, &GLOBALS->iter_logfile_c_2,
                                  str, -1, GLOBALS->bold_tag_logfile_c_2, GLOBALS->mono_tag_logfile_c_1, GLOBALS->size_tag_logfile_c_1, NULL);
 #else
@@ -72,6 +76,9 @@ gtk_text_insert (GTK_TEXT (text), font, &text->style->fg[GTK_STATE_SELECTED], &t
 static void
 log_realize_text (GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 /* nothing for now */
 }
 
@@ -108,6 +115,8 @@ gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "va
 static gboolean
 button_release_event (GtkWidget *text, GdkEventButton *event)
 {
+(void)event;
+
 gchar *sel;
 
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
@@ -345,6 +354,8 @@ return(table);
 
 static void ok_callback(GtkWidget *widget, GtkWidget *cached_window)
 {
+(void)widget;
+
 struct logfile_instance_t *l = log_collection;
 struct logfile_instance_t *lprev = NULL;
 
@@ -376,6 +387,8 @@ while(l)
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *cached_window)
 {
+(void)cached_window;
+
 ok_callback(widget, widget);
 }
 
@@ -544,6 +557,8 @@ void logbox(char *title, int width, char *default_text)
 
 static void logbox_reload_single(GtkWidget *window, GtkWidget *text, char *default_text)
 {
+(void)window;
+
     FILE *handle;
     struct wave_logfile_lines_t *wlog_head=NULL, *wlog_curr=NULL;
     int wlog_size = 0;

@@ -445,6 +445,8 @@ return(GLOBALS->max_time);
  */
 static void lx2_callback(struct lxt2_rd_trace **lt, lxtint64_t *tim, lxtint32_t *facidx, char **value)
 {
+(void)lt;
+
 struct HistEnt *htemp = histent_calloc();
 struct lx2_entry *l2e = GLOBALS->lx2_table_lx2_c_1+(*facidx);
 struct fac *f = GLOBALS->mvlfacs_lx2_c_1+(*facidx);

@@ -265,6 +265,8 @@ for(i=0;i<len;i++)
 
 static void forwards_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 GET_WV_STRACE_CURWIN(widget);
 
 /* no cleanup necessary, but do real search */
@@ -274,6 +276,8 @@ strace_search(STRACE_FORWARD);
 
 static void backwards_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 GET_WV_STRACE_CURWIN(widget);
 
 /* no cleanup necessary, but do real search */
@@ -283,6 +287,8 @@ strace_search(STRACE_BACKWARD);
 
 static void mark_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 GET_WV_STRACE_CURWIN(widget);
 
 DEBUG(printf("Marking..\n"));
@@ -301,6 +307,8 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 
 static void clear_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 GET_WV_STRACE_CURWIN(widget);
 
 DEBUG(printf("Clearing..\n"));
@@ -317,6 +325,8 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
   GET_WV_STRACE_CURWIN(widget);
 
   free_straces();

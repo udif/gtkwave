@@ -30,6 +30,8 @@
 #ifndef MAC_INTEGRATION
 static gboolean ffunc (const GtkFileFilterInfo *filter_info, gpointer data)
 {
+(void)data;
+
 const char *rms = strrchr(filter_info->filename, '\\');
 const char *rms2;
 
@@ -57,6 +59,8 @@ if(!strchr(GLOBALS->pFileChooseFilterName, '*') && !strchr(GLOBALS->pFileChooseF
 static
 void filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 {
+(void)ev;
+
 const char *t;
 gchar *folder_filename;
 
@@ -105,6 +109,9 @@ filter_edit_cb (widget, &ev, data);
 
 static void enter_callback(GtkWidget *widget, GtkFileSelection *fw)
 {
+(void)widget;
+(void)fw;
+
 G_CONST_RETURN char *allocbuf;
 int alloclen;
 
@@ -126,6 +133,9 @@ GLOBALS->cleanup_file_c_2();
 
 static void cancel_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 DEBUG(printf("Filesel Entry Cancel\n"));
 wave_gtk_grab_remove(GLOBALS->fs_file_c_1);
 gtk_widget_destroy(GLOBALS->fs_file_c_1);
@@ -135,6 +145,9 @@ if(GLOBALS->bad_cleanup_file_c_1) GLOBALS->bad_cleanup_file_c_1();
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 DEBUG(printf("Filesel Destroy\n"));
 gtkwave_main_iteration();
 if(GLOBALS->bad_cleanup_file_c_1) GLOBALS->bad_cleanup_file_c_1();
@@ -148,6 +161,9 @@ char szFile[260];       /* buffer for file name */
 char szPath[260];       /* buffer for path name */
 char lpstrFilter[260];	/* more than enough room for some patterns */
 BOOL rc;
+#else
+(void)pattn;
+(void)is_writemode;
 #endif
 
 GLOBALS->fileselbox_text=filesel_path;

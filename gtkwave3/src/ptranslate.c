@@ -208,6 +208,9 @@ return(found);
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 GLOBALS->is_active_ptranslate_c_2=0;
 gtk_widget_destroy(GLOBALS->window_ptranslate_c_5);
 GLOBALS->window_ptranslate_c_5 = NULL;
@@ -222,18 +225,33 @@ destroy_callback(widget, nothing);
 static void select_row_callback(GtkWidget *widget, gint row, gint column,
 	GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)row;
+(void)column;
+(void)event;
+(void)data;
+
 GLOBALS->current_filter_ptranslate_c_1 = row + 1;
 }
 
 static void unselect_row_callback(GtkWidget *widget, gint row, gint column,
 	GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)row;
+(void)column;
+(void)event;
+(void)data;
+
 GLOBALS->current_filter_ptranslate_c_1 = 0; /* none */
 }
 
 
 static void add_filter_callback_2(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 int i;
 GtkCList *cl;
 
@@ -280,6 +298,9 @@ if(GLOBALS->is_active_ptranslate_c_2) gdk_window_raise(GLOBALS->window_ptranslat
 
 static void add_filter_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 if(GLOBALS->num_proc_filters == PROC_FILTER_MAX)
 	{
 	status_text("Max number of process filters installed already.\n");

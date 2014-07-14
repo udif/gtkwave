@@ -94,6 +94,8 @@ draw_slider_p(style, window, state_type, shadow_type, area, widget, detail, x, y
 
 static gint slider_bpr(GtkWidget *widget, GdkEventButton *event)
 {
+(void)widget;
+
 int xi = event->x;
 int xl = GLOBALS->str_wid_x;
 int xr = GLOBALS->str_wid_x + GLOBALS->str_wid_width;
@@ -115,6 +117,9 @@ return(FALSE);
 
 static gint slider_brr(GtkWidget *widget, GdkEventButton *event)
 {
+(void)widget;
+(void)event;
+
 GLOBALS->str_wid_state = 0;
 return(FALSE);
 }
@@ -122,6 +127,8 @@ return(FALSE);
 
 static gint slider_mnr(GtkWidget *widget, GdkEventMotion *event)
 {
+(void)widget;
+
 #ifndef WAVE_USE_GTK2
 gdouble x, y;
 #endif
@@ -799,6 +806,9 @@ if(bt)
 static void
 service_hslider(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 DEBUG(printf("Wave HSlider Moved\n"));
 
 if((GLOBALS->wavepixmap_wavewindow_c_1)&&(GLOBALS->wavewidth>1))
@@ -830,6 +840,9 @@ if((GLOBALS->wavepixmap_wavewindow_c_1)&&(GLOBALS->wavewidth>1))
 static void
 service_vslider(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 GtkAdjustment *sadj, *hadj;
 int trtarget;
 int xsrc;
@@ -960,6 +973,8 @@ if(!is_button_2)
 
 static gint motion_notify_event(GtkWidget *widget, GdkEventMotion *event)
 {
+(void)widget;
+
 gdouble x, y, pixstep, offset;
 GdkModifierType state;
 TimeType newcurr;
@@ -1171,6 +1186,9 @@ gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /* force text upda
 void
 alt_move_left(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
   TimeType ntinc, ntfrac;
 
   ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);	/* really don't need this var but the speed of ui code is human dependent.. */
@@ -1190,6 +1208,9 @@ alt_move_left(GtkWidget *text, gpointer data)
 void
 alt_move_right(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
   TimeType ntinc, ntfrac;
 
   ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
@@ -1215,6 +1236,9 @@ alt_move_right(GtkWidget *text, gpointer data)
 
 void alt_zoom_out(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
   TimeType middle=0, width;
   TimeType marker = GLOBALS->cached_currenttimeval_currenttime_c_1;
   /* Zoom on mouse cursor, not marker */
@@ -1268,6 +1292,9 @@ void alt_zoom_out(GtkWidget *text, gpointer data)
 
 void alt_zoom_in(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
   if(GLOBALS->tims.zoom<0)		/* otherwise it's ridiculous and can cause */
   {		/* overflow problems in the scope          */
     TimeType middle=0, width;
@@ -1328,6 +1355,8 @@ void alt_zoom_in(GtkWidget *text, gpointer data)
 static        gint
 scroll_event( GtkWidget * widget, GdkEventScroll * event )
 {
+(void)widget;
+
 int num_traces_displayable=(GLOBALS->signalarea->allocation.height)/(GLOBALS->fontheight);
 num_traces_displayable--;
 
@@ -1481,6 +1510,8 @@ return(TRUE);
 
 static gint button_release_event(GtkWidget *widget, GdkEventButton *event)
 {
+(void)widget;
+
 if((event->button)&&(event->button==GLOBALS->in_button_press_wavewindow_c_1))
 	{
 	GLOBALS->in_button_press_wavewindow_c_1=0;
@@ -1602,6 +1633,8 @@ static const int wave_rgb_rainbow[WAVE_NUM_RAINBOW] = WAVE_RAINBOW_RGB;
 
 gint wavearea_configure_event(GtkWidget *widget, GdkEventConfigure *event)
 {
+(void)event;
+
 if((!widget)||(!widget->window)) return(TRUE);
 
 DEBUG(printf("WaveWin Configure Event h: %d, w: %d\n",widget->allocation.height,

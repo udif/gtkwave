@@ -303,6 +303,9 @@ return(found);
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 GLOBALS->is_active_translate_c_5=0;
 gtk_widget_destroy(GLOBALS->window_translate_c_11);
 GLOBALS->window_translate_c_11 = NULL;
@@ -317,18 +320,33 @@ destroy_callback(widget, nothing);
 static void select_row_callback(GtkWidget *widget, gint row, gint column,
 	GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)row;
+(void)column;
+(void)event;
+(void)data;
+
 GLOBALS->current_filter_translate_c_2 = row + 1;
 }
 
 static void unselect_row_callback(GtkWidget *widget, gint row, gint column,
 	GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)row;
+(void)column;
+(void)event;
+(void)data;
+
 GLOBALS->current_filter_translate_c_2 = 0; /* none */
 }
 
 
 static void add_filter_callback_2(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 int i;
 GtkCList *cl;
 
@@ -375,6 +393,9 @@ if(GLOBALS->is_active_translate_c_5) gdk_window_raise(GLOBALS->window_translate_
 
 static void add_filter_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 if(GLOBALS->num_file_filters == FILE_FILTER_MAX)
 	{
 	status_text("Max number of file filters installed already.\n");

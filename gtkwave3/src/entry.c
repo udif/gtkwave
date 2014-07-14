@@ -23,6 +23,10 @@
 #ifndef WAVE_MAC_USE_ENTRY
 static gint keypress_local(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
+(void)widget;
+(void)event;
+(void)data;
+
 if(GLOBALS->window_entry_c_1)
 	{
 	gdk_window_raise(GLOBALS->window_entry_c_1->window);
@@ -35,6 +39,9 @@ return(FALSE);
 #ifndef WAVE_MAC_USE_ENTRY
 static void enter_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   G_CONST_RETURN gchar *entry_text;
   int len;
   entry_text = gtk_entry_get_text(GTK_ENTRY(GLOBALS->entry_entry_c_1));
@@ -52,6 +59,9 @@ static void enter_callback(GtkWidget *widget, GtkWidget *nothing)
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   DEBUG(printf("Entry Cancel\n"));
   GLOBALS->entrybox_text=NULL;
   wave_gtk_grab_remove(GLOBALS->window_entry_c_1);

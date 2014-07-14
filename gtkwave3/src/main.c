@@ -89,6 +89,10 @@ static void switch_page(GtkNotebook     *notebook,
 			guint            page_num,
 			gpointer         user_data)
 {
+(void)notebook;
+(void)page;
+(void)user_data;
+
 char timestr[32];
 struct Global *g_old = GLOBALS;
 
@@ -185,6 +189,9 @@ for(ix=0;ix<GLOBALS->num_notebook_pages;ix++)
 
 static int plug_destroy (GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 exit(0);
 
 return(FALSE);
@@ -348,7 +355,13 @@ exit(0);
  * file selection for -n/--nocli flag
  */
 
-static void wave_get_filename_cleanup(GtkWidget *widget, gpointer data) { gtk_main_quit(); /* do nothing but exit gtk loop */ }
+static void wave_get_filename_cleanup(GtkWidget *widget, gpointer data) 
+{ 
+(void)widget;
+(void)data;
+
+gtk_main_quit(); /* do nothing but exit gtk loop */ 
+}
 
 static char *wave_get_filename(char *dfile)
 {

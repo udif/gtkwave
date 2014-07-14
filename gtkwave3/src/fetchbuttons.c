@@ -17,6 +17,9 @@
 void
 fetch_left(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 TimeType newlo;
 char fromstr[32];
 
@@ -55,6 +58,9 @@ if(newlo<(GLOBALS->tims.last))
 void
 fetch_right(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 TimeType newhi;
 char tostr[32];
 
@@ -91,6 +97,9 @@ if(newhi>(GLOBALS->tims.first))
 void
 discard_left(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 TimeType newlo;
 char tostr[32];
 
@@ -122,6 +131,9 @@ if(newlo<(GLOBALS->tims.last))
 void
 discard_right(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 TimeType newhi;
 char tostr[32];
 

@@ -512,6 +512,9 @@ for(i=0;i<=i_high_cnt;i++)
 void
 service_left_edge(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nFind Previous Edge");
@@ -530,6 +533,9 @@ DEBUG(printf("Edge Left\n"));
 void
 service_right_edge(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nFind Next Edge");

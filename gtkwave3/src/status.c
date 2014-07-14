@@ -56,6 +56,9 @@ if(!GLOBALS->quiet_checkmenu) /* when gtkwave_mlist_t check menuitems are being 
 void
 realize_text (GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 char buf[128];
 
 if(GLOBALS->is_vcd)

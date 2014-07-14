@@ -1762,6 +1762,8 @@ return(0);
  */
 int maketraces_lx2(char *str, char *alias, int quick_return)
 {
+(void)alias;
+
 char *pnt, *wild;
 char ch, wild_active=0;
 int len;
@@ -2636,6 +2638,8 @@ return(FALSE);
  */
 gboolean deal_with_rpc_open_2(const gchar *path, gpointer user_data, gboolean is_save_file_only)
 {
+(void)user_data;
+
 const char *suffixes[] =
 {
  ".vcd", ".evcd", ".dump",

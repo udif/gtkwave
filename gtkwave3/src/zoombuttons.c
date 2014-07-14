@@ -42,6 +42,9 @@ if(hadj->value+hadj->page_size>hadj->upper)
 
 void service_zoom_left(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 GtkAdjustment *hadj;
 
 if(GLOBALS->helpbox_is_active)
@@ -60,6 +63,9 @@ time_update();
 
 void service_zoom_right(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 GtkAdjustment *hadj;
 TimeType ntinc;
 
@@ -84,6 +90,9 @@ time_update();
 
 void service_zoom_out(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 TimeType middle=0, width;
 
 if(GLOBALS->helpbox_is_active)
@@ -140,6 +149,9 @@ DEBUG(printf("Zoombuttons out\n"));
 
 void service_zoom_in(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nZoom In");
@@ -199,6 +211,9 @@ if(GLOBALS->tims.zoom<0)		/* otherwise it's ridiculous and can cause */
 
 void service_zoom_undo(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 gdouble temp;
 
 if(GLOBALS->helpbox_is_active)
@@ -227,6 +242,9 @@ DEBUG(printf("Zoombuttons Undo\n"));
 
 void service_zoom_fit(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 gdouble estimated;
 int fixedwidth;
 
@@ -271,6 +289,9 @@ DEBUG(printf("Zoombuttons Fit\n"));
 
 void service_zoom_full(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 gdouble estimated;
 int fixedwidth;
 

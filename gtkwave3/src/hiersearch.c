@@ -230,6 +230,9 @@ if((tc=GLOBALS->treechain_hiersearch_c_1))
 
 static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   G_CONST_RETURN gchar *entry_text;
   int len;
   entry_text = gtk_entry_get_text(GTK_ENTRY(GLOBALS->entry_hiersearch_c_2));
@@ -247,6 +250,9 @@ static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
 
 static void destroy_callback_e(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   DEBUG(printf("Entry Cancel\n"));
   GLOBALS->entrybox_text_local_hiersearch_c_1=NULL;
   wave_gtk_grab_remove(GLOBALS->window1_hiersearch_c_1);
@@ -310,6 +316,8 @@ static void entrybox_local(char *title, int width, char *default_text, int maxch
 
 static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 int i;
 
 if(!GLOBALS->h_selectedtree_hiersearch_c_1) return;
@@ -408,6 +416,8 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 
 static void insert_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 Traces tcache;
 int i;
 
@@ -523,6 +533,8 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 
 static void replace_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 Traces tcache;
 int i;
 Trptr tfirst=NULL, tlast=NULL;
@@ -685,6 +697,9 @@ wavearea_configure_event(GLOBALS->wavearea, NULL);
 static void
 bundle_cleanup(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 if(GLOBALS->entrybox_text_local_hiersearch_c_1)
         {
         char *efix;
@@ -744,6 +759,9 @@ if(!GLOBALS->autoname_bundles)
 static void
 bundle_callback_up(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 GLOBALS->bundle_direction_hiersearch_c_1=0;
 bundle_callback_generic();
 }
@@ -751,6 +769,9 @@ bundle_callback_generic();
 static void
 bundle_callback_down(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 GLOBALS->bundle_direction_hiersearch_c_1=1;
 bundle_callback_generic();
 }
@@ -760,6 +781,11 @@ bundle_callback_generic();
 static void select_row_callback(GtkWidget *widget, gint row, gint column,
 	GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)column;
+(void)event;
+(void)data;
+
 struct tree *t;
 
 t=(struct tree *)gtk_clist_get_row_data(GTK_CLIST(GLOBALS->clist_hiersearch_c_1), row);
@@ -835,6 +861,11 @@ if(t)
 static void unselect_row_callback(GtkWidget *widget, gint row, gint column,
 	GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)column;
+(void)event;
+(void)data;
+
 struct tree *t;
 
 t=(struct tree *)gtk_clist_get_row_data(GTK_CLIST(GLOBALS->clist_hiersearch_c_1), row);
@@ -853,6 +884,9 @@ if(t)
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   GLOBALS->is_active_hiersearch_c_1=0;
   gtk_widget_destroy(GLOBALS->window_hiersearch_c_3);
   GLOBALS->window_hiersearch_c_3 = NULL;

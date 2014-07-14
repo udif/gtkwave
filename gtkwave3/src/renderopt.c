@@ -37,6 +37,8 @@ static gdouble py[]={ 8.50,  8.26,  8.50, 6.57, 5.84};
  */
 static void render_clicked(GtkWidget *widget, gpointer which)
 {
+(void)widget;
+
 int i;
 
 for(i=0;i<4;i++) GLOBALS->target_mutex_renderopt_c_1[i]=0;
@@ -49,6 +51,8 @@ DEBUG(printf("picked: %s\n", render_targets[i]));
 
 static void pagesize_clicked(GtkWidget *widget, gpointer which)
 {
+(void)widget;
+
 int i;
 
 for(i=0;i<5;i++) GLOBALS->page_mutex_renderopt_c_1[i]=0;
@@ -61,6 +65,8 @@ DEBUG(printf("picked: %s\n", page_size[GLOBALS->page_size_type_renderopt_c_1]));
 
 static void rendertype_clicked(GtkWidget *widget, gpointer which)
 {
+(void)widget;
+
 int i;
 
 for(i=0;i<3;i++) GLOBALS->render_mutex_renderopt_c_1[i]=0;
@@ -75,6 +81,9 @@ DEBUG(printf("picked: %s\n", render_type[i]));
 static void
 ps_print_cleanup(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 FILE *wave;
 
 if(GLOBALS->filesel_ok)
@@ -98,6 +107,9 @@ if(GLOBALS->filesel_ok)
 static void
 pdf_print_cleanup(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 FILE *wave;
 FILE *wave2;
 
@@ -170,6 +182,9 @@ if(GLOBALS->filesel_ok)
 static void
 mif_print_cleanup(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 FILE *wave;
 
 if(GLOBALS->filesel_ok)
@@ -194,6 +209,9 @@ if(GLOBALS->filesel_ok)
 #ifdef WAVE_GTK_UNIX_PRINT
 static void wave_GtkPrintJobCompleteFunc(GtkPrintJob *print_job, gpointer user_data, GError *error)
 {
+(void)print_job;
+(void)error;
+
 if(user_data)
 	{
 	const char *ban = "Sent print job";
@@ -210,6 +228,9 @@ if(user_data)
 static void
 unix_print_cleanup(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 #ifdef WAVE_GTK_UNIX_PRINT
 GtkWidget *ropt = gtk_print_unix_dialog_new("GTK Print UNIX Options", GTK_WINDOW(GLOBALS->mainwindow));
 gint gd_rc;
@@ -326,6 +347,9 @@ else
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   GLOBALS->is_active_renderopt_c_3=0;
   gtk_widget_destroy(GLOBALS->window_renderopt_c_6);
   GLOBALS->window_renderopt_c_6 = NULL;

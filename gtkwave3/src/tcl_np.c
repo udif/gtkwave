@@ -505,6 +505,8 @@ int NpInitInterp(Tcl_Interp *interp, int install_tk) {
  */
 
 Tcl_Interp *NpCreateMainInterp(char *me, int install_tk) {
+(void)me;
+
   ThreadSpecificData *tsdPtr;
   Tcl_Interp *interp;
 

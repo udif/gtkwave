@@ -1233,6 +1233,8 @@ for(j=0;j<len;j++)
  */
 static void fst_callback2(void *user_callback_data_pointer, uint64_t tim, fstHandle txidx, const unsigned char *value, uint32_t plen)
 {
+(void)user_callback_data_pointer;
+
 fstHandle facidx = GLOBALS->mvlfacs_fst_rvs_alias[--txidx];
 struct HistEnt *htemp;
 struct lx2_entry *l2e = GLOBALS->fst_table_fst_c_1+facidx;

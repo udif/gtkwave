@@ -33,23 +33,34 @@ if(GTK_TOGGLE_BUTTON(widget)->active)
 
 static void toggle1_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 toggle_generic(widget, TR_RJUSTIFY);
 }
 static void toggle2_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 toggle_generic(widget, TR_INVERT);
 }
 static void toggle3_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 toggle_generic(widget, TR_REVERSE);
 }
 static void toggle4_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 toggle_generic(widget, TR_EXCLUDE);
 }
 
 static void enter_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   GLOBALS->flags_showchange_c_1=GLOBALS->flags_showchange_c_1&(~(TR_HIGHLIGHT|TR_NUMMASK));
 
   if(GTK_TOGGLE_BUTTON(GLOBALS->button1_showchange_c_1)->active)
@@ -94,6 +105,9 @@ static void enter_callback(GtkWidget *widget, GtkWidget *nothing)
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   wave_gtk_grab_remove(GLOBALS->window_showchange_c_8);
   gtk_widget_destroy(GLOBALS->window_showchange_c_8);
   GLOBALS->window_showchange_c_8 = NULL;

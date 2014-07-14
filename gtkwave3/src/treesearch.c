@@ -23,6 +23,9 @@
 
 void mkmenu_treesearch_cleanup(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 /* nothing */
 }
 

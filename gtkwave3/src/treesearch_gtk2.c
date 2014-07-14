@@ -490,6 +490,9 @@ if(is_expand)
 
 static void tree_expand_callback(GtkCTree *ctree, GtkCTreeNode *node, gpointer user_data)
 {
+(void)ctree;
+(void)user_data;
+
 create_sst_nodes_if_necessary(node);
 generic_tree_expand_collapse_callback(1, node);
 #ifdef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND
@@ -503,6 +506,9 @@ gtk_widget_show(GTK_WIDGET(GLOBALS->tree_treesearch_gtk2_c_1));
 
 static void tree_collapse_callback(GtkCTree *ctree, GtkCTreeNode *node, gpointer user_data)
 {
+(void)ctree;
+(void)user_data;
+
 generic_tree_expand_collapse_callback(0, node);
 #ifdef WAVE_ALLOW_QUARTZ_FLUSH_WORKAROUND
 #ifdef MAC_INTEGRATION
@@ -591,6 +597,11 @@ if(ctree)
 static void select_row_callback(GtkWidget *widget, gint row, gint column,
         GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)column;
+(void)event;
+(void)data;
+
 struct tree *t;
 GtkCTreeNode* node = gtk_ctree_node_nth(GLOBALS->ctree_main, row);
 
@@ -644,6 +655,11 @@ DEBUG(printf("TS: %08x %s\n",t,t->name));
 static void unselect_row_callback(GtkWidget *widget, gint row, gint column,
         GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)column;
+(void)event;
+(void)data;
+
 struct tree *t;
 
 if(GLOBALS->selected_hierarchy_name)
@@ -669,6 +685,8 @@ DEBUG(printf("TU: %08x %s\n",t,t->name));
 static
 gboolean filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 {
+(void)data;
+
   /* Maybe this test is too strong ?  */
   if (ev->keyval == GDK_Return)
     {
@@ -759,6 +777,9 @@ return(GLOBALS->is_active_treesearch_gtk2_c_6);
 
 static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   G_CONST_RETURN gchar *entry_text;
   int len;
   entry_text = gtk_entry_get_text(GTK_ENTRY(GLOBALS->entry_a_treesearch_gtk2_c_2));
@@ -776,6 +797,9 @@ static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
 
 static void destroy_callback_e(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   DEBUG(printf("Entry Cancel\n"));
   GLOBALS->entrybox_text_local_treesearch_gtk2_c_3=NULL;
   wave_gtk_grab_remove(GLOBALS->window1_treesearch_gtk2_c_3);
@@ -907,6 +931,9 @@ bundle_cleanup_foreach (GtkTreeModel *model,
 			GtkTreeIter *iter,
 			gpointer data)
 {
+(void)path;
+(void)data;
+
   struct tree *sel;
 
   /* Extract the tree.  */
@@ -953,6 +980,9 @@ if(GLOBALS->entrybox_text_local_treesearch_gtk2_c_3)
 static void
 bundle_cleanup(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
   gtk_tree_selection_selected_foreach
     (GLOBALS->sig_selection_treesearch_gtk2_c_1, &bundle_cleanup_foreach, NULL);
 
@@ -981,6 +1011,9 @@ bundle_callback_generic(void)
 static void
 bundle_callback_up(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 GLOBALS->bundle_direction_treesearch_gtk2_c_3=0;
 bundle_callback_generic();
 }
@@ -988,6 +1021,9 @@ bundle_callback_generic();
 static void
 bundle_callback_down(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 GLOBALS->bundle_direction_treesearch_gtk2_c_3=1;
 bundle_callback_generic();
 }
@@ -1004,6 +1040,9 @@ sig_selection_foreach (GtkTreeModel *model,
 		       GtkTreeIter *iter,
 		       gpointer data)
 {
+(void)path;
+(void)data;
+
   struct tree *sel;
   /* const enum cb_action action = (enum cb_action)data; */
   int i;
@@ -1135,6 +1174,9 @@ sig_selection_foreach_preload_lx2
 		       GtkTreeIter *iter,
 		       gpointer data)
 {
+(void)path;
+(void)data;
+
   struct tree *sel;
   /* const enum cb_action action = (enum cb_action)data; */
   int i;
@@ -1234,6 +1276,8 @@ action_callback(enum cb_action action)
 
 static void insert_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
   set_window_busy(widget);
   action_callback (ACTION_INSERT);
   set_window_idle(widget);
@@ -1241,6 +1285,8 @@ static void insert_callback(GtkWidget *widget, GtkWidget *nothing)
 
 static void replace_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
   set_window_busy(widget);
   action_callback (ACTION_REPLACE);
   set_window_idle(widget);
@@ -1248,6 +1294,8 @@ static void replace_callback(GtkWidget *widget, GtkWidget *nothing)
 
 static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
   set_window_busy(widget);
   action_callback (ACTION_APPEND);
   set_window_idle(widget);
@@ -1256,6 +1304,9 @@ static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   GLOBALS->is_active_treesearch_gtk2_c_6=0;
   gtk_widget_destroy(GLOBALS->window_treesearch_gtk2_c_12);
   GLOBALS->window_treesearch_gtk2_c_12 = NULL;
@@ -1281,6 +1332,9 @@ static gboolean
                        gboolean          path_currently_selected,
                        gpointer          userdata)
   {
+(void)selection;
+(void)userdata;
+
     GtkTreeIter iter;
 
     if (gtk_tree_model_get_iter(model, &iter, path))
@@ -1314,6 +1368,8 @@ static gboolean
 
 static gint button_press_event_std(GtkWidget *widget, GdkEventButton *event)
 {
+(void)widget;
+
 if(event->type == GDK_2BUTTON_PRESS)
 	{
 	if(GLOBALS->selected_hierarchy_name && GLOBALS->selected_sig_name)
@@ -1665,6 +1721,8 @@ do_tooltips:
  */
 GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 {
+(void)title;
+
     GtkWidget *scrolled_win, *sig_scroll_win;
     GtkWidget *hbox;
     GtkWidget *button1, *button2, *button3, *button3a, *button4;
@@ -1939,6 +1997,8 @@ static void DNDBeginCB(
 	GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)data;
+
         if((widget == NULL) || (dc == NULL))
 		return;
 
@@ -1965,6 +2025,10 @@ static void DNDEndCB_2(
 	GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)widget;
+(void)dc;
+(void)data;
+
 Trptr t;
 int trwhich, trtarget;
 GdkModifierType state;
@@ -2127,6 +2191,10 @@ static gboolean DNDDragMotionCB(
         gpointer data
 )
 {
+(void)x; 
+(void)y;
+(void)data;
+
 	gboolean same_widget;
 	GdkDragAction suggested_action;
 	GtkWidget *src_widget, *tar_widget;
@@ -2193,6 +2261,11 @@ static void DNDDataRequestCB(
 	gpointer data
 )
 {
+(void)dc;
+(void)info;
+(void)t;
+(void)data;
+
 int upd = 0;
 GLOBALS->tree_dnd_requested = 1;  /* indicate that a request for data occurred... */
 
@@ -2263,6 +2336,10 @@ static void DNDDataReceivedCB(
 	GtkWidget *widget, GdkDragContext *dc,
 	gint x, gint y, GtkSelectionData *selection_data,
 	guint info, guint t, gpointer data) {
+(void)x;
+(void)y;
+(void)t;
+
     gboolean same;
     GtkWidget *source_widget;
 
@@ -2372,6 +2449,10 @@ static void DNDDataDeleteCB(
 	GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)widget;
+(void)dc;
+(void)data;
+
 /* nothing */
 }
 

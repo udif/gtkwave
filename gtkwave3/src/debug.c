@@ -544,6 +544,8 @@ if(!GLOBALS->disable_tooltips)
 
 char *tmpnam_2(char *s, int *fd)
 {
+(void)s;
+
 #if defined _MSC_VER || defined __MINGW32__
 char *fname = NULL;
 TCHAR szTempFileName[MAX_PATH];

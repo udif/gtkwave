@@ -47,6 +47,9 @@ gdk_window_raise(GLOBALS->window_help_c_2->window);
 static void
 help_realize_text (GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
 	help_text("To load a dumpfile into the viewer, either drag the icon"
@@ -120,6 +123,9 @@ return(table);
 
 static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   GLOBALS->helpbox_is_active=0;
   DEBUG(printf("OK\n"));
   gtk_widget_destroy(GLOBALS->window_help_c_2);

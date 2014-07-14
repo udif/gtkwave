@@ -82,6 +82,9 @@ return(GLOBALS->is_active_search_c_4);
 
 static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
   G_CONST_RETURN gchar *entry_text;
   int len;
   char *vname="<Vector>";
@@ -101,6 +104,9 @@ static void enter_callback_e(GtkWidget *widget, GtkWidget *nothing)
 
 static void destroy_callback_e(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 DEBUG(printf("Entry Cancel\n"));
 GLOBALS->entrybox_text_local_search_c_2=NULL;
 wave_gtk_grab_remove(GLOBALS->window1_search_c_2);
@@ -169,6 +175,8 @@ static char *regex_name[]={"WRange", "WStrand", "Range", "Strand", "None"};
 
 static void regex_clicked(GtkWidget *widget, gpointer which)
 {
+(void)widget;
+
 int i;
 
 for(i=0;i<5;i++) GLOBALS->regex_mutex_search_c_1[i]=0;
@@ -189,6 +197,9 @@ DEBUG(printf("picked: %s\n", regex_name[GLOBALS->regex_which_search_c_1]));
 static void
 bundle_cleanup(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 if(GLOBALS->entrybox_text_local_search_c_2)
 	{
 	char *efix;
@@ -226,6 +237,9 @@ if(GLOBALS->selected_rows_search_c_2>0)
 static void
 bundle_callback_up(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 GLOBALS->bundle_direction_search_c_2=0;
 bundle_callback_generic();
 }
@@ -233,12 +247,17 @@ bundle_callback_generic();
 static void
 bundle_callback_down(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 GLOBALS->bundle_direction_search_c_2=1;
 bundle_callback_generic();
 }
 
 static void insert_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 search_insert_callback(widget, 0);	/* native to search */
 }
 
@@ -391,6 +410,8 @@ GLOBALS->is_insert_running_search_c_1=0;
 
 static void replace_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 Traces tcache;
 int i;
 Trptr tfirst, tlast;
@@ -576,6 +597,8 @@ GLOBALS->is_replace_running_search_c_1=0;
 
 static void ok_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)nothing;
+
 int i;
 struct symchain *symc, *symc_current;
 
@@ -700,6 +723,11 @@ GLOBALS->is_append_running_search_c_1=0;
 static void select_row_callback(GtkWidget *widget, gint row, gint column,
 	GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)column;
+(void)event;
+(void)data;
+
 struct symbol *s;
 
 s=(struct symbol *)gtk_clist_get_row_data(GTK_CLIST(GLOBALS->clist_search_c_3), row);
@@ -711,6 +739,11 @@ GLOBALS->selected_rows_search_c_2++;
 static void unselect_row_callback(GtkWidget *widget, gint row, gint column,
 	GdkEventButton *event, gpointer data)
 {
+(void)widget;
+(void)column;
+(void)event;
+(void)data;
+
 struct symbol *s;
 
 s=(struct symbol *)gtk_clist_get_row_data(GTK_CLIST(GLOBALS->clist_search_c_3), row);
@@ -867,6 +900,9 @@ if(GLOBALS->num_rows_search_c_2>=WAVE_MAX_CLIST_LENGTH)
 
 static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 if((!GLOBALS->is_insert_running_search_c_1)&&(!GLOBALS->is_replace_running_search_c_1)&&(!GLOBALS->is_append_running_search_c_1)&&(!GLOBALS->is_searching_running_search_c_1))
 	{
   	GLOBALS->is_active_search_c_4=0;
@@ -879,11 +915,17 @@ if((!GLOBALS->is_insert_running_search_c_1)&&(!GLOBALS->is_replace_running_searc
 
 static void select_all_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 gtk_clist_select_all(GTK_CLIST(GLOBALS->clist_search_c_3));
 }
 
 static void unselect_all_callback(GtkWidget *widget, GtkWidget *nothing)
 {
+(void)widget;
+(void)nothing;
+
 gtk_clist_unselect_all(GTK_CLIST(GLOBALS->clist_search_c_3));
 }
 

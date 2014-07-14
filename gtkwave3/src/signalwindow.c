@@ -30,6 +30,9 @@ status_text("Can't perform that operation when waveform drag and drop is in prog
 static void
 service_hslider(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 GtkAdjustment *hadj;
 gint xsrc;
 
@@ -82,6 +85,9 @@ static void DNDBeginCB(
         GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)widget;
+(void)dc;
+(void)data;
 
 GLOBALS->dnd_state = 1;
 }
@@ -95,6 +101,10 @@ static void DNDEndCB(
         GtkWidget *widget, GdkDragContext *dc, gpointer data
 )
 {
+(void)widget;
+(void)dc;
+(void)data;
+
 GtkWidget *ddest;
 int which;
 gdouble x,y;
@@ -216,6 +226,10 @@ static gboolean DNDDragMotionCB(
         gpointer data
 )
 {
+(void)xx;
+(void)yy;
+(void)data;
+
 	gboolean same_widget;
 	GdkDragAction suggested_action;
 	GtkWidget *src_widget, *tar_widget;
@@ -413,6 +427,9 @@ if(!GLOBALS || !GLOBALS->filter_entry || !event)
  */
 static gint keypress_local(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
+(void)widget;
+(void)data;
+
 GtkAdjustment *wadj;
 int num_traces_displayable;
 int target;
@@ -709,6 +726,8 @@ return(TRUE);
 
 static gboolean mouseover_timer(gpointer dummy)
 {
+(void)dummy;
+
 static gboolean run_once = FALSE;
 gdouble x,y;
 GdkModifierType state;
@@ -1010,6 +1029,8 @@ return(TRUE);
 
 static gint motion_notify_event_std(GtkWidget *widget, GdkEventMotion *event)
 {
+(void)widget;
+
 gdouble x,y;
 GdkModifierType state;
 
@@ -1041,6 +1062,9 @@ return(TRUE);
 
 static gint button_release_event_std(GtkWidget *widget, GdkEventButton *event)
 {
+(void)widget;
+(void)event;
+
 if(GLOBALS->std_collapse_pressed)
 	{
 	GLOBALS->std_collapse_pressed = 0;
@@ -1269,6 +1293,8 @@ return(TRUE);
 
 gint signalarea_configure_event(GtkWidget *widget, GdkEventConfigure *event)
 {
+(void)event;
+
 GtkAdjustment *wadj, *hadj;
 int num_traces_displayable;
 int width;
@@ -1502,7 +1528,12 @@ return(rc);
 static int focus_in_local(GtkWidget *widget, GdkEventFocus *event)
 {
 #ifdef FOCUS_DEBUG_MSGS
+(void)event;
+
 printf("Focus in: %08x %08x\n", widget, GLOBALS->signalarea_event_box);
+#else
+(void)widget;
+(void)event;
 #endif
 
 GLOBALS->signalarea_has_focus = TRUE;
@@ -1515,7 +1546,12 @@ return(FALSE);
 static int focus_out_local(GtkWidget *widget, GdkEventFocus *event)
 {
 #ifdef FOCUS_DEBUG_MSGS
+(void)event;
+
 printf("Focus out: %08x\n", widget);
+#else
+(void)widget;
+(void)event;
 #endif
 
 GLOBALS->signalarea_has_focus = FALSE;

@@ -47,6 +47,8 @@ gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)), "va
 
 void from_entry_callback(GtkWidget *widget, GtkWidget *entry)
 {
+(void)widget;
+
 G_CONST_RETURN gchar *entry_text;
 TimeType newlo;
 char fromstr[40];
@@ -85,6 +87,8 @@ if(newlo<(GLOBALS->tims.last))
 
 void to_entry_callback(GtkWidget *widget, GtkWidget *entry)
 {
+(void)widget;
+
 G_CONST_RETURN gchar *entry_text;
 TimeType newhi;
 char tostr[40];

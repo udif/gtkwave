@@ -1266,9 +1266,6 @@ int len, i;
 struct fac *f;
 int txidx, txidx_in_trace;
 nptr nold = np;
-#ifdef WAVE_FSDB_READER_IS_PRESENT
-void *trans_info;
-#endif
 
 if(!(f=np->mv.mvlfac)) return;	/* already imported */
 

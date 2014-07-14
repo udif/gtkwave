@@ -16,6 +16,9 @@
 void
 service_left_shift(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 GtkAdjustment *hadj;
 gfloat inc;
 TimeType ntinc;
@@ -52,6 +55,9 @@ DEBUG(printf("Left Shift\n"));
 void
 service_right_shift(GtkWidget *text, gpointer data)
 {
+(void)text;
+(void)data;
+
 GtkAdjustment *hadj;
 gfloat inc;
 TimeType ntinc, pageinc;

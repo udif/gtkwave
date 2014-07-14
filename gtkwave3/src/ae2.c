@@ -133,6 +133,8 @@ va_end(ap);
 
 static unsigned long symbol_fn (cchar *name, void *udata)
 {
+(void)udata;
+
 AE2_FACREF f2;
 return(ae2_read_find_symbol(GLOBALS->ae2, name, &f2));
 }
@@ -149,6 +151,8 @@ return(pnt);
 
 static void free_fn(void* ptr, size_t size)
 {
+(void)size;
+
 if(ptr)
 	{
 	free_2(ptr);

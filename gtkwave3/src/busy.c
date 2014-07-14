@@ -36,6 +36,8 @@ return(GLOBALS->splash_is_loading != 0);
 
 static void GuiDoEvent(GdkEvent *event, gpointer data)
 {
+(void)data;
+
 if(!GLOBALS->busy_busy_c_1)
 	{
 	gtk_main_do_event(event);

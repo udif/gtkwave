@@ -690,6 +690,9 @@ return(FALSE);
 
 gint splash_button_press_event(GtkWidget *widget, GdkEventExpose *event)
 {
+(void)widget;
+(void)event;
+
 if(GLOBALS->timeout_tag) { gtk_timeout_remove(GLOBALS->timeout_tag); GLOBALS->timeout_tag = 0; }
 
 if(GLOBALS->wave_splash_pixmap)
@@ -713,6 +716,8 @@ return(FALSE);
 
 gint splash_kill(gpointer dummy)
 {
+(void)dummy;
+
 gulong usec;
 if(GLOBALS && GLOBALS->gt_splash_c_1)
 	{

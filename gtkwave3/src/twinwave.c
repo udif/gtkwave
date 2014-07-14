@@ -29,6 +29,9 @@ static int use_embedded = 1;
 
 static int plug_removed(GtkWidget *widget, gpointer data)
 {
+(void)widget;
+(void)data;
+
 static int cnt = 2;
 
 fprintf(stderr, "GtkPlug removed\n");
@@ -45,6 +48,8 @@ return(FALSE);   /* TRUE would keep xsocket open */
 
 int quit_callback (GtkWidget *widget, gpointer data)
 {
+(void)widget;
+
 fprintf(stderr,"%s\n", (char *)data);
 gtk_exit(0);
 

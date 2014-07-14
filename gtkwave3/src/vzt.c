@@ -447,6 +447,8 @@ return(GLOBALS->max_time);
  */
 static void vzt_callback(struct vzt_rd_trace **lt, lxtint64_t *tim, lxtint32_t *facidx, char **value)
 {
+(void)lt;
+
 struct HistEnt *htemp = histent_calloc();
 struct lx2_entry *l2e = GLOBALS->vzt_table_vzt_c_1+(*facidx);
 struct fac *f = GLOBALS->mvlfacs_vzt_c_3+(*facidx);
