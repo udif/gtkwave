@@ -1527,7 +1527,7 @@ static struct symbol **hp;
 static void heapify(int i, int heap_size)
 {
 int l, r;
-unsigned int largest;
+int largest;
 struct symbol *t;
 int maxele=heap_size/2-1;	/* points to where heapswaps don't matter anymore */
 

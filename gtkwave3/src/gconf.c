@@ -283,15 +283,26 @@ if(dumpfile && savefile && rcfile && wave_pwd && opt_vcd)
 
 void wave_gconf_init(int argc, char **argv)
 {
+(void)argc;
+(void)argv;
 }
 
 gboolean wave_gconf_client_set_string(const gchar *key, const gchar *val)
 {
+(void)key;
+(void)val;
+
 return(FALSE);
 }
 
 void wave_gconf_restore(char **dumpfile, char **savefile, char **rcfile, char **wave_pwd, int *opt_vcd)
 {
+(void)dumpfile;
+(void)savefile;
+(void)rcfile;
+(void)wave_pwd;
+(void)opt_vcd;
+
 /* nothing */
 }
 

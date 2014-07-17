@@ -38,6 +38,10 @@ const char *extload_loader_fail_msg = "Sorry, EXTLOAD support was not compiled i
 
 TimeType extload_main(char *fname, char *skip_start, char *skip_end)
 {
+(void)fname;
+(void)skip_start;
+(void)skip_end;
+
 fprintf(stderr, "%s", extload_loader_fail_msg);
 exit(255);
 
@@ -46,6 +50,8 @@ return(0); /* for vc++ */
 
 void import_extload_trace(nptr np)
 {
+(void)np;
+
 fprintf(stderr, "%s", extload_loader_fail_msg);
 exit(255);
 }
@@ -58,6 +64,8 @@ exit(255);
 
 void fsdb_set_fac_process_mask(nptr np)
 {
+(void)np;
+
 fprintf(stderr, "%s", extload_loader_fail_msg);
 exit(255);
 }
@@ -1519,6 +1527,8 @@ if(GLOBALS->extload_inv_idcodes[txidx_in_trace] > 0)
 
 	fsdbReaderAddToSignalList(GLOBALS->extload_ffr_ctx, txidx_in_trace);
 	}
+#else
+(void)np;
 #endif
 }
 

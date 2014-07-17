@@ -38,6 +38,10 @@ const char *ae2_loader_fail_msg = "Sorry, AET2 support was not compiled into thi
 
 TimeType ae2_main(char *fname, char *skip_start, char *skip_end)
 {
+(void)fname;
+(void)skip_start;
+(void)skip_end;
+
 fprintf(stderr, "%s", ae2_loader_fail_msg);
 exit(255);
 
