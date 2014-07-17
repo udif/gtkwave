@@ -3045,24 +3045,36 @@ return(rc);
 
 void make_tcl_interpreter(char *argv[])
 {
+(void)argv;
+
 /* nothing */
 }
 
 
 const char *gtkwavetcl_setvar(const char *name1, const char *val, int flags)
 {
+(void)name1;
+(void)val;
+(void) flags;
+
 return(NULL);
 }
 
 
 const char *gtkwavetcl_setvar_nonblocking(const char *name1, const char *val, int flags)
 {
+(void) name1;
+(void) val;
+(void) flags;
+
 return(NULL);
 }
 
 
 char *rpc_script_execute(const char *nam)
 {
+(void) nam;
+
 return(strdup_2("--script TCL_ERROR : Tcl support not compiled into gtkwave\n"));
 }
 

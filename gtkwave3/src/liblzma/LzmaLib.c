@@ -141,6 +141,10 @@ if(((lrc == LZMA_OK)||(lrc == LZMA_STREAM_END))&&(strm.total_out<srclen))
 	return(wcnt);
 	}
 #else
+(void)h;
+(void)mem;
+(void)len;
+
 fprintf(stderr, "LZMA support was not compiled into this executable, sorry.\n");
 exit(255);
 #endif
@@ -409,6 +413,10 @@ if(h)
 return(rc);
 
 #else
+(void)handle;
+(void)mem;
+(void)len;
+
 fprintf(stderr, "LZMA support was not compiled into this executable, sorry.\n");
 exit(255);
 #endif
