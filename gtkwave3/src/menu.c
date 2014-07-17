@@ -27,6 +27,7 @@
 #include "lx2.h"
 #include "hierpack.h"
 #include "tcl_helper.h"
+#include <cocoa_misc.h>
 #include <assert.h>
 
 #if !defined __MINGW32__ && !defined _MSC_VER
@@ -8438,7 +8439,6 @@ static GtkWidget *alt_menu_walk(gtkwave_mlist_t *mi, GtkWidget **wlist, struct m
 {
 struct menu_item_t *ptr = lst;
 struct menu_item_t *optr;
-int i;
 GtkWidget *menu;
 GtkWidget *menuitem;
 

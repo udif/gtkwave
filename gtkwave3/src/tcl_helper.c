@@ -2909,7 +2909,9 @@ void make_tcl_interpreter(char *argv[])
   char commandName[32768];
   gtkwave_mlist_t *ife;
   int num_menu_items;
+#if !((defined(__MACH__) && defined(__APPLE__)))
   int n = 0;
+#endif
 
 #ifndef WAVE_TCL_STUBIFY
   Tcl_FindExecutable(argv[0]);

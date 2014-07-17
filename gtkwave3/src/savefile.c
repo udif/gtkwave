@@ -2718,6 +2718,9 @@ return(deal_with_rpc_open_2(path, user_data, FALSE));
  */
 gboolean deal_with_termination(GtkOSXApplication *app, gpointer user_data)
 {
+(void)app;
+(void)user_data;
+
 gboolean do_not_terminate = FALSE; /* future expansion */
 
 if(do_not_terminate)
@@ -2735,6 +2738,8 @@ return(do_not_terminate);
  */
 gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
 {
+(void)app;
+
 return(deal_with_rpc_open(path, user_data));
 }
 

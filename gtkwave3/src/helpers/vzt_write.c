@@ -1107,7 +1107,7 @@ if(!clone)
 for(cnt = 0; cnt < lt->break_header_size; cnt += sizeof(buf))
 	{
 	seg = lt->break_header_size - cnt;
-	if(seg > sizeof(buf))
+	if(seg > (off_t)sizeof(buf))
 		{
 		seg = sizeof(buf);
 		}

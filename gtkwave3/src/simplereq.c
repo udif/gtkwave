@@ -54,6 +54,8 @@ void simplereqbox(char *title, int width, char *default_text,
     GtkWidget *button1, *button2;
     GtkWidget *label, *separator;
     GtkWidget *pixmapwid1;
+#else
+(void)width;
 #endif
 
     if(GLOBALS->window_simplereq_c_9) return; /* only should happen with GtkPlug */

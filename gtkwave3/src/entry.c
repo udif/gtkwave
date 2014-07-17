@@ -13,6 +13,7 @@
 #include "gtk12compat.h"
 #include "menu.h"
 #include "debug.h"
+#include <cocoa_misc.h>
 #include <string.h>
 
 #ifdef MAC_INTEGRATION
@@ -72,9 +73,11 @@ static void destroy_callback(GtkWidget *widget, GtkWidget *nothing)
 
 void entrybox(char *title, int width, char *dflt_text, char *comment, int maxch, GtkSignalFunc func)
 {
+#ifndef WAVE_MAC_USE_ENTRY
     GtkWidget *vbox, *hbox;
     GtkWidget *button1, *button2;
     int height = (comment) ? 75 : 60;
+#endif
 
     GLOBALS->cleanup_entry_c_1=func;
 
@@ -103,7 +106,7 @@ void entrybox(char *title, int width, char *dflt_text, char *comment, int maxch,
 #ifdef WAVE_MAC_USE_ENTRY
 {
 char *out_text_entry = NULL;
-int rc = entrybox_req_bridge(title, width, dflt_text, comment, maxch, &out_text_entry);
+entrybox_req_bridge(title, width, dflt_text, comment, maxch, &out_text_entry);
 if(out_text_entry)
 	{
 	int len=strlen(out_text_entry);

@@ -706,10 +706,6 @@ if(!mainwindow_already_built)
 #endif
 	}
 
-#if defined(__APPLE__)
-do_primary_inits:
-#endif
-
 if(!mainwindow_already_built)
 	{
 	wave_gconf_init(argc, argv);
