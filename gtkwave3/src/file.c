@@ -223,7 +223,52 @@ if (rc==TRUE)
 	{
 	GLOBALS->filesel_ok=1;
         if(*GLOBALS->fileselbox_text) free_2(*GLOBALS->fileselbox_text);
-        *GLOBALS->fileselbox_text=(char *)strdup_2(szFile);
+	if(!is_writemode)
+		{
+	        *GLOBALS->fileselbox_text=(char *)strdup_2(szFile);
+		}
+		else
+		{
+		char *suf_str = NULL;
+		int suf_add = 0;
+		int szlen = 0;
+		int suflen = 0;
+
+		if(pattn)
+			{
+			suf_str = strstr(pattn, "*.");
+			if(suf_str) suf_str++;
+			}
+
+		if(suf_str)
+			{
+			szlen = strlen(szFile);
+			suflen = strlen(suf_str);
+			if(suflen > szlen)
+				{
+				suf_add = 1;
+				}
+				else
+				{
+				if(strcasecmp(szFile + (szlen - suflen), suf_str))
+					{
+					suf_add = 1;
+					}		
+				}
+			}
+
+		if(suf_str && suf_add)
+			{
+			*GLOBALS->fileselbox_text=(char *)malloc_2(szlen + suflen + 1);
+			strcpy(*GLOBALS->fileselbox_text, szFile);
+			strcpy(*GLOBALS->fileselbox_text + szlen, suf_str);
+			}
+			else
+			{
+		        *GLOBALS->fileselbox_text=(char *)strdup_2(szFile);
+			}
+		}
+
 	GLOBALS->cleanup_file_c_2();
 	}
 	else

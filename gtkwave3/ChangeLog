@@ -1478,3 +1478,5 @@
 		--enable-manymarkers at configure time allows up to 702
 		named markers instead of 26 (disabled by default).
 		Updated LZ4 for version r118.
+		Fixed broken VCD/TIM export in Windows (broken by new file
+		requester).

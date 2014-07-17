@@ -17,27 +17,10 @@
 
 static void w32redirect_fprintf(FILE *sfd, const char *format, ...)
 {
-#if !defined _MSC_VER && !defined __MINGW32__
-
 va_list ap;
 va_start(ap, format);
 vfprintf(sfd, format, ap);
 va_end(ap);
-
-#else
-
-char buf[16385];
-BOOL bSuccess;
-DWORD dwWritten;
-
-va_list ap;
-va_start(ap, format);
-buf[0] = 0;
-vsprintf(buf, format, ap);
-bSuccess = WriteFile((HANDLE)sfd, buf, strlen(buf), &dwWritten, NULL);
-va_end(ap);
-
-#endif
 }
 
 /*
