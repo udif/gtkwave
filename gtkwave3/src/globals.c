@@ -1552,11 +1552,13 @@ void reload_into_new_context_2(void)
  FILE *statefile;
  struct Global *new_globals;
  /* gint tree_frame_x = -1; */ /* scan-build */
+#if WAVE_USE_GTK2
  gint tree_frame_y = -1;
  gdouble tree_vadj_value = 0.0;
  gdouble tree_hadj_value = 0.0;
  gdouble treeview_vadj_value = 0.0;
  gdouble treeview_hadj_value = 0.0;
+#endif
  int fix_from_time = 0, fix_to_time = 0;
  TimeType from_time = LLDescriptor(0), to_time = LLDescriptor(0);
  char timestr[32];

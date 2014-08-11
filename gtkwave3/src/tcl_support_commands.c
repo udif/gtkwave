@@ -136,6 +136,7 @@ int SST_open_node(char *name) {
      rv = SST_TREE_NOT_EXIST ;
    }
 #else
+(void)name;
   rv = SST_TREE_NOT_EXIST ;
 #endif
 

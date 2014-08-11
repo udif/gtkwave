@@ -875,6 +875,9 @@ if(GLOBALS->splash_is_loading)
 
 gint splash_button_press_event(GtkWidget *widget, GdkEventExpose *event)
 {
+(void)widget;
+(void)event;
+
 /* do nothing */
 return(FALSE);
 }
@@ -886,6 +889,9 @@ void splash_create(void)
 
 void splash_sync(off_t current, off_t total)
 {
+(void)current;
+(void)total;
+
 /* do nothing */
 }
 

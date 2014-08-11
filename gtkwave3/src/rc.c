@@ -605,6 +605,10 @@ return(0);
 
 int f_use_toolbutton_interface(char *str)
 {
+#ifndef WAVE_USE_GTK2
+(void)str;
+#endif
+
 DEBUG(printf("f_use_toolbutton_interface(\"%s\")\n",str));
 #ifdef WAVE_USE_GTK2
 GLOBALS->use_toolbutton_interface=atoi_64(str)?1:0;

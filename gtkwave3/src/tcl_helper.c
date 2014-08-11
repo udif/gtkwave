@@ -2415,6 +2415,7 @@ return(rc);
  *      GtkwaveFtype
  * ----------------------------------------------------------------------------
  */
+#ifdef WAVE_USE_GTK2
 static int uri_cmp(const void *v1, const void *v2)
 {
 char *s1 = *(char **)v1;
@@ -2441,6 +2442,7 @@ if(!rc)
 
 return(rc);
 }
+#endif
 
 /* ----------------------------------------------------------------------------
  * process_url_list - examines list of URLs and processes if valid files
@@ -2531,6 +2533,8 @@ if(url_list)
 	g_free(url_list);
 	}
 
+#else
+(void)s;
 #endif
 return(is_url);
 }

@@ -187,6 +187,7 @@ for(ix=0;ix<GLOBALS->num_notebook_pages;ix++)
 #endif
 
 
+#ifdef WAVE_USE_XID
 static int plug_destroy (GtkWidget *widget, gpointer data)
 {
 (void)widget;
@@ -196,7 +197,7 @@ exit(0);
 
 return(FALSE);
 }
-
+#endif
 
 #if defined __MINGW32__
 static void close_all_fst_files(void) /* so mingw does delete of reader tempfiles */

@@ -7,7 +7,7 @@
 #include "symbol.h"
 
 #ifndef DEBUG_SHRED
-void DEBUG(char *dummy, ...) { }
+void DEBUG(char *dummy, ...) { (void)dummy; }
 #endif
 
 void **shred_root=NULL, **shred_pnt=NULL;

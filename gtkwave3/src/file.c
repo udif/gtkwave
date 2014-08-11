@@ -300,8 +300,8 @@ wave_gtk_grab_add(GLOBALS->fs_file_c_1);
 void fileselbox(char *title, char **filesel_path, GtkSignalFunc ok_func, GtkSignalFunc notok_func, char *pattn, int is_writemode)
 {
 #ifndef MAC_INTEGRATION
-int can_set_filename = 0;
 #if GTK_CHECK_VERSION(2,4,0)
+int can_set_filename = 0;
 GtkWidget *pFileChoose;
 GtkWidget *pWindowMain;
 GtkFileFilter *filter;

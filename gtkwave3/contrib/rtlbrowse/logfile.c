@@ -83,8 +83,10 @@ gboolean update_ctx_when_idle(gpointer textview_or_dummy);
 
 static struct text_find_t *text_root = NULL;
 static struct text_find_t *selected_text_via_tab = NULL;
+#if defined(WAVE_USE_GTK2)
 static GtkWidget *matchcase_checkbutton = NULL;
 static gboolean matchcase_active = FALSE;
+#endif
 static char *fontname_logfile = NULL;
 
 /* Add some text to our text widget - this is a callback that is invoked
@@ -821,13 +823,13 @@ static void DNDDataRequestCB(
 struct logfile_context_t *ctx = (struct logfile_context_t *)data;
 GtkWidget *text = (GtkWidget *)widget;
 gchar *sel = NULL;
-gchar *sel2 = NULL;
-char ch;
 
 #if defined(WAVE_USE_GTK2) && !defined(GTK_ENABLE_BROKEN)
+gchar *sel2 = NULL;
 GtkTextIter start;
 GtkTextIter end;
 int ok = 0;
+char ch;
 
 if((!text)||(!ctx)) return;
 
@@ -1618,6 +1620,7 @@ if(ctx)
 }
 
 
+#if defined(WAVE_USE_GTK2)
 static gint destroy_via_closebutton_release(GtkWidget *widget, GdkEventButton *event)
 {
 if((event->x<0)||(event->x>=widget->allocation.width)||(event->y<0)||(event->y>=widget->allocation.height))
@@ -1631,8 +1634,7 @@ if((event->x<0)||(event->x>=widget->allocation.width)||(event->y<0)||(event->y>=
 
 return(TRUE);
 }
-
-
+#endif
 
 void bwlogbox(char *title, int width, ds_Tree *t, int display_mode)
 {

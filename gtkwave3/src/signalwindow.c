@@ -229,9 +229,13 @@ static gboolean DNDDragMotionCB(
 (void)xx;
 (void)yy;
 (void)data;
-
+#ifndef WAVE_USE_GTK2
+(void)tt;
+#endif
 	gboolean same_widget;
+#ifdef WAVE_USE_GTK2
 	GdkDragAction suggested_action;
+#endif
 	GtkWidget *src_widget, *tar_widget;
 
         if((widget == NULL) || (dc == NULL))

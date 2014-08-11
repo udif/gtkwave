@@ -1480,6 +1480,8 @@
 		Updated LZ4 for version r118.
 		Fixed broken VCD/TIM export in Windows (broken by new file
 		requester).
-3.3.62	28jul14	Updated LZ4 for version r120.
+3.3.62	10aug14	Updated LZ4 for version r120.
 		Removed /usr/lib64 (from15sep11 change) as it interferes
-		with cross compiles.
+		with cross compiles. { backed out for now as is required
+		on 32/64-bit machines
+		Warnings fixes for gtk+-1.2.

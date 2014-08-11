@@ -5728,6 +5728,7 @@ return(*src);
 }
 
 
+#if WAVE_USE_GTK2
 static void open_index_in_forked_editor(uint32_t idx, int typ)
 {
 if(idx)
@@ -5888,6 +5889,7 @@ if(idx)
 	simplereqbox("Open Source", 400, "Source stem not present!", "OK", NULL, NULL, 1);
 	}
 }
+#endif
 
 
 static void
@@ -5897,9 +5899,11 @@ menu_open_hierarchy_2(gpointer null_data, guint callback_action, GtkWidget *widg
 (void)callback_action;
 (void)widget;
 
+#if WAVE_USE_GTK2
 Trptr t;
 int fix=0;
 struct tree *t_forced = NULL;
+#endif
 
 if(GLOBALS->helpbox_is_active)
         {

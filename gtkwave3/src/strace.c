@@ -20,14 +20,14 @@
 #ifdef WAVE_USE_GTK2
 #define WV_STRACE_CURWIN(x) g_object_set_data(G_OBJECT(x), WV_STRACE_CTX, (gpointer)GLOBALS->strace_ctx)
 #else
-#define WV_STRACE_CURWIN
+#define WV_STRACE_CURWIN(x) do { } while(0 && (x))
 #endif
 
 /* need to do this at top of every entry point function where a signal is connected */
 #ifdef WAVE_USE_GTK2
 #define GET_WV_STRACE_CURWIN(x) GLOBALS->strace_ctx=g_object_get_data(G_OBJECT(x), WV_STRACE_CTX)
 #else
-#define GET_WV_STRACE_CURWIN
+#define GET_WV_STRACE_CURWIN(x) do { } while(0 && (x))
 #endif
 
 static char *logical[]=

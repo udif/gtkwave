@@ -23,7 +23,9 @@
 
 #include "debug.h"
 
+#ifdef WAVE_USE_GTK2
 static int use_embedded = 1;
+#endif
 
 #if !defined _MSC_VER && defined WAVE_USE_GTK2
 
@@ -464,6 +466,9 @@ return(0);
 
 int main(int argc, char **argv)
 {
+(void)argc;
+(void)argv;
+
 #ifndef WAVE_USE_GTK2
 fprintf(stderr, "Sorry, this requires GTK+-2.0 or greater to run!\n");
 #endif
