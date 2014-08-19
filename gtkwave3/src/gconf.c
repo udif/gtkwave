@@ -114,6 +114,36 @@ reload_callback(GConfClient* gclient,
 
 
 static void
+zoomfull_callback(GConfClient* gclient,
+                     guint cnxn_id,
+                     GConfEntry *entry,
+                     gpointer user_data)
+{
+(void)gclient;
+(void)cnxn_id;
+(void)user_data;
+
+  if (gconf_entry_get_value (entry) == NULL)
+    {
+      /* value is unset */
+    }
+  else
+    {
+      if (gconf_entry_get_value (entry)->type == GCONF_VALUE_STRING)
+        {
+	  if(in_main_iteration()) return;
+	  service_zoom_full(NULL, NULL);
+	  gconf_entry_set_value(entry, NULL);
+        }
+      else
+        {
+          /* value is of wrong type */
+        }
+    }
+}
+
+
+static void
 writesave_callback(GConfClient* gclient,
                      guint cnxn_id,
                      GConfEntry *entry,
@@ -220,6 +250,12 @@ if(!client)
 	                          reload_callback,
 	                          NULL, /* user data */
 	                          NULL, NULL);
+
+	strcpy(ks + len, "/zoom_full");
+	gconf_client_notify_add(client, ks,
+	                          zoomfull_callback,
+	                          NULL, /* user data */
+	                          NULL, NULL);
 	}
 }
 
@@ -324,5 +360,7 @@ gconftool-2 --type string --set /com.geda.gtkwave/0/writesave +
 gconftool-2 --type string --set /com.geda.gtkwave/0/quit 0
 
 gconftool-2 --type string --set /com.geda.gtkwave/0/reload 0
+
+gconftool-2 --type string --set /com.geda.gtkwave/0/zoom_full 0
 
 */
