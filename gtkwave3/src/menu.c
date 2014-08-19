@@ -5238,7 +5238,7 @@ sprintf(gt, "%d", GLOBALS->strace_repeat_count);
 entrybox("Repeat Count",300,gt,NULL,20,GTK_SIGNAL_FUNC(strace_repcnt_cleanup));
 }
 /**/
-static void movetotime_cleanup(GtkWidget *widget, gpointer data)
+void movetotime_cleanup(GtkWidget *widget, gpointer data)
 {
 (void)widget;
 (void)data;
@@ -5373,7 +5373,7 @@ reformat_time(fw, GLOBALS->fetchwindow, GLOBALS->time_dimension);
 entrybox("New Fetch Size",200,fw,NULL,20,GTK_SIGNAL_FUNC(fetchsize_cleanup));
 }
 /**/
-static void zoomsize_cleanup(GtkWidget *widget, gpointer data)
+void zoomsize_cleanup(GtkWidget *widget, gpointer data)
 {
 (void)widget;
 (void)data;

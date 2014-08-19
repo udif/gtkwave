@@ -405,6 +405,9 @@ void menu_read_stems_cleanup(GtkWidget *widget, gpointer data);
 void menu_new_viewer_tab_cleanup(GtkWidget *widget, gpointer data);
 int menu_new_viewer_tab_cleanup_2(char *fname, int optimize_vcd);
 
+void movetotime_cleanup(GtkWidget *widget, gpointer data);
+void zoomsize_cleanup(GtkWidget *widget, gpointer data);
+
 
 void set_scale_to_time_dimension_toggles(void);
 

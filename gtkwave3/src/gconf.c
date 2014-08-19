@@ -200,6 +200,84 @@ writesave_callback(GConfClient* gclient,
     }
 }
 
+
+static void
+move_to_time_callback(GConfClient* gclient,
+                     guint cnxn_id,
+                     GConfEntry *entry,
+                     gpointer user_data)
+{
+(void)gclient;
+(void)cnxn_id;
+(void)user_data;
+
+  if (gconf_entry_get_value (entry) == NULL)
+    {
+      /* value is unset */
+    }
+  else
+    {
+      if (gconf_entry_get_value (entry)->type == GCONF_VALUE_STRING)
+        {
+	  const char *str = gconf_value_get_string (gconf_entry_get_value (entry));
+	  if(str && !in_main_iteration())
+		{
+		char *e_copy = GLOBALS->entrybox_text;
+	        GLOBALS->entrybox_text=strdup_2(str);
+
+		movetotime_cleanup(NULL, NULL);
+
+		GLOBALS->entrybox_text = e_copy;
+		}
+
+	  gconf_entry_set_value(entry, NULL);
+        }
+      else
+        {
+          /* value is of wrong type */
+        }
+    }
+}
+
+
+static void
+zoom_size_callback(GConfClient* gclient,
+                     guint cnxn_id,
+                     GConfEntry *entry,
+                     gpointer user_data)
+{
+(void)gclient;
+(void)cnxn_id;
+(void)user_data;
+
+  if (gconf_entry_get_value (entry) == NULL)
+    {
+      /* value is unset */
+    }
+  else
+    {
+      if (gconf_entry_get_value (entry)->type == GCONF_VALUE_STRING)
+        {
+	  const char *str = gconf_value_get_string (gconf_entry_get_value (entry));
+	  if(str && !in_main_iteration())
+		{
+		char *e_copy = GLOBALS->entrybox_text;
+	        GLOBALS->entrybox_text=strdup_2(str);
+
+		zoomsize_cleanup(NULL, NULL);
+
+		GLOBALS->entrybox_text = e_copy;
+		}
+
+	  gconf_entry_set_value(entry, NULL);
+        }
+      else
+        {
+          /* value is of wrong type */
+        }
+    }
+}
+
 /************************************************************/
 
 static void remove_client(void)
@@ -254,6 +332,18 @@ if(!client)
 	strcpy(ks + len, "/zoom_full");
 	gconf_client_notify_add(client, ks,
 	                          zoomfull_callback,
+	                          NULL, /* user data */
+	                          NULL, NULL);
+
+	strcpy(ks + len, "/move_to_time");
+	gconf_client_notify_add(client, ks,
+	                          move_to_time_callback,
+	                          NULL, /* user data */
+	                          NULL, NULL);
+
+	strcpy(ks + len, "/zoom_size");
+	gconf_client_notify_add(client, ks,
+	                          zoom_size_callback,
 	                          NULL, /* user data */
 	                          NULL, NULL);
 	}
@@ -358,9 +448,11 @@ gconftool-2 --type string --set /com.geda.gtkwave/0/writesave /tmp/this.gtkw
 gconftool-2 --type string --set /com.geda.gtkwave/0/writesave +
 
 gconftool-2 --type string --set /com.geda.gtkwave/0/quit 0
-
 gconftool-2 --type string --set /com.geda.gtkwave/0/reload 0
 
 gconftool-2 --type string --set /com.geda.gtkwave/0/zoom_full 0
+gconftool-2 --type string --set /com.geda.gtkwave/0/zoom_size -- -4.6
+gconftool-2 --type string --set /com.geda.gtkwave/0/move_to_time 123ns
+gconftool-2 --type string --set /com.geda.gtkwave/0/move_to_time A
 
 */

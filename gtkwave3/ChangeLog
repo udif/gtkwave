@@ -1485,4 +1485,5 @@
 		with cross compiles. { backed out for now as is required
 		on 32/64-bit machines
 		Warnings fixes for gtk+-1.2.
-		Added zoom_full to dbus interface.
+		Added zoom_full, zoom_size, and move_to_time to the dbus
+		interface.
