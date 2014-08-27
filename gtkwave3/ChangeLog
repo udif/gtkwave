@@ -1480,10 +1480,7 @@
 		Updated LZ4 for version r118.
 		Fixed broken VCD/TIM export in Windows (broken by new file
 		requester).
-3.3.62	19aug14	Updated LZ4 for version r120.
-		Removed /usr/lib64 (from15sep11 change) as it interferes
-		with cross compiles. { backed out for now as is required
-		on 32/64-bit machines
+3.3.62	27aug14	Updated LZ4 for version r120.
 		Warnings fixes for gtk+-1.2.
 		Added zoom_full, zoom_size, and move_to_time to the dbus
 		interface.
