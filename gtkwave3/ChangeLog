@@ -1480,7 +1480,7 @@
 		Updated LZ4 for version r118.
 		Fixed broken VCD/TIM export in Windows (broken by new file
 		requester).
-3.3.62	27aug14	Updated LZ4 for version r120.
-		Warnings fixes for gtk+-1.2.
-		Added zoom_full, zoom_size, and move_to_time to the dbus
-		interface.
+3.3.62	29aug14	Added zoom_full, zoom_size, and move_to_time to the dbus
+		interface (dbus enabled by --with-gconf).
+		Updated LZ4 to version r120 (r121 files are the same).
+		Compiler warnings fixes for gtk+-1.2 (-Wall -Wshadow -Wextra).
