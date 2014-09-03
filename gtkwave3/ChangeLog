@@ -1484,3 +1484,4 @@
 		interface (dbus enabled by --with-gconf).
 		Updated LZ4 to version r120 (r121 files are the same).
 		Compiler warnings fixes for gtk+-1.2 (-Wall -Wshadow -Wextra).
+3.3.63	02sep14	<< new version >>
