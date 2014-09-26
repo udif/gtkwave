@@ -1184,15 +1184,13 @@ gtk_signal_emit_by_name (GTK_OBJECT (wadj), "value_changed"); /* force text upda
 /* don't want to increment a whole page thereby completely losing where I am... */
 
 void
-alt_move_left(GtkWidget *text, gpointer data)
+alt_move_left(gboolean fine_scroll)
 {
-(void)text;
-(void)data;
-
   TimeType ntinc, ntfrac;
 
   ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);	/* really don't need this var but the speed of ui code is human dependent.. */
-  ntfrac=ntinc*GLOBALS->page_divisor*SANE_INCREMENT;
+  ntfrac=ntinc*GLOBALS->page_divisor*(SANE_INCREMENT / (fine_scroll ? 8.0 : 1.0));
+  if(!ntfrac) ntfrac = 1;
 
   if((GLOBALS->tims.start-ntfrac)>GLOBALS->tims.first)
     GLOBALS->tims.timecache=GLOBALS->tims.start-ntfrac;
@@ -1206,15 +1204,13 @@ alt_move_left(GtkWidget *text, gpointer data)
 }
 
 void
-alt_move_right(GtkWidget *text, gpointer data)
+alt_move_right(gboolean fine_scroll)
 {
-(void)text;
-(void)data;
-
   TimeType ntinc, ntfrac;
 
   ntinc=(TimeType)(((gdouble)GLOBALS->wavewidth)*GLOBALS->nspx);
-  ntfrac=ntinc*GLOBALS->page_divisor*SANE_INCREMENT;
+  ntfrac=ntinc*GLOBALS->page_divisor*(SANE_INCREMENT / (fine_scroll ? 8.0 : 1.0));
+  if(!ntfrac) ntfrac = 1;
 
   if((GLOBALS->tims.start+ntfrac)<(GLOBALS->tims.last-ntinc+1))
   {
@@ -1389,9 +1385,9 @@ num_traces_displayable--;
       {
         /* wheel alone - scroll part of a page along */
         if(event->direction == GDK_SCROLL_UP)
-          alt_move_left(NULL, 0);
+          alt_move_left((event->state & GDK_SHIFT_MASK) != 0);  /* finer scroll if shift */
         else if(event->direction == GDK_SCROLL_DOWN)
-          alt_move_right(NULL, 0);
+          alt_move_right((event->state & GDK_SHIFT_MASK) != 0); /* finer scroll if shift */
       }
   }
   else
