@@ -1484,5 +1484,6 @@
 		interface (dbus enabled by --with-gconf).
 		Updated LZ4 to version r120 (r121 files are the same).
 		Compiler warnings fixes for gtk+-1.2 (-Wall -Wshadow -Wextra).
-3.3.63	26sep14	Updated LZ4 for version r122.
-		Added fine horiz scrolling in wavewindow if shift pressed.
+3.3.63	10oct14	Updated LZ4 for version r123.
+		Added fine horiz scrolling in wavewindow (when using the wheel
+		on a mouse) if shift pressed.
