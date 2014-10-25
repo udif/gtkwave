@@ -1101,6 +1101,11 @@ while(!feof(f))
 			{
 			*pnt = 0;
 			num = strchr(buf, '1');
+			if(!num)
+				{
+				num = strchr(buf, '0'); /* verilator */
+				if(num) { *num = '1'; }
+				}
 			}
 
 		if(!num)
