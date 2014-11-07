@@ -1,5 +1,5 @@
 ## -*- makefile
 ##
 
-SUBDIRS= mime icons applications
+SUBDIRS= mime icons applications appdata
 

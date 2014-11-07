@@ -10323,7 +10323,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile doc/Makefile contrib/Makefile contrib/pccts/IBM_VISUAL_AGE_PROJECTS/Makefile contrib/pccts/Makefile contrib/pccts/antlr/Makefile contrib/pccts/dlg/Makefile contrib/pccts/h/Makefile contrib/pccts/sorcerer/Makefile contrib/pccts/sorcerer/h/Makefile contrib/pccts/sorcerer/lib/Makefile contrib/pccts/sorcerer/test/Makefile contrib/pccts/sorcerer/test/test7/Makefile contrib/pccts/sorcerer/testcpp/Makefile contrib/pccts/support/DECmms/Makefile contrib/pccts/support/Makefile contrib/pccts/support/genmk/Makefile contrib/pccts/support/rexpr/Makefile contrib/pccts/support/set/Makefile contrib/pccts/support/sym/Makefile contrib/pccts/testcpp/Makefile contrib/rtlbrowse/Makefile contrib/vermin/Makefile contrib/bundle_for_osx/Makefile contrib/fst_jni/Makefile contrib/wlf2vcd/Makefile contrib/fsdb2vcd/Makefile examples/Makefile man/Makefile src/Makefile src/cocoa/Makefile src/helpers/Makefile src/liblzma/Makefile src/libbz2/Makefile src/libz/Makefile src/helpers/fst/Makefile share/Makefile share/mime/Makefile share/mime/packages/Makefile share/icons/Makefile share/icons/gnome/Makefile share/icons/gnome/16x16/Makefile share/icons/gnome/16x16/mimetypes/Makefile share/icons/gnome/32x32/Makefile share/icons/gnome/32x32/mimetypes/Makefile share/icons/gnome/48x48/Makefile share/icons/gnome/48x48/mimetypes/Makefile share/applications/Makefile"
+ac_config_files="$ac_config_files Makefile doc/Makefile contrib/Makefile contrib/pccts/IBM_VISUAL_AGE_PROJECTS/Makefile contrib/pccts/Makefile contrib/pccts/antlr/Makefile contrib/pccts/dlg/Makefile contrib/pccts/h/Makefile contrib/pccts/sorcerer/Makefile contrib/pccts/sorcerer/h/Makefile contrib/pccts/sorcerer/lib/Makefile contrib/pccts/sorcerer/test/Makefile contrib/pccts/sorcerer/test/test7/Makefile contrib/pccts/sorcerer/testcpp/Makefile contrib/pccts/support/DECmms/Makefile contrib/pccts/support/Makefile contrib/pccts/support/genmk/Makefile contrib/pccts/support/rexpr/Makefile contrib/pccts/support/set/Makefile contrib/pccts/support/sym/Makefile contrib/pccts/testcpp/Makefile contrib/rtlbrowse/Makefile contrib/vermin/Makefile contrib/bundle_for_osx/Makefile contrib/fst_jni/Makefile contrib/wlf2vcd/Makefile contrib/fsdb2vcd/Makefile examples/Makefile man/Makefile src/Makefile src/cocoa/Makefile src/helpers/Makefile src/liblzma/Makefile src/libbz2/Makefile src/libz/Makefile src/helpers/fst/Makefile share/Makefile share/mime/Makefile share/mime/packages/Makefile share/icons/Makefile share/icons/gnome/Makefile share/icons/gnome/16x16/Makefile share/icons/gnome/16x16/mimetypes/Makefile share/icons/gnome/32x32/Makefile share/icons/gnome/32x32/mimetypes/Makefile share/icons/gnome/48x48/Makefile share/icons/gnome/48x48/mimetypes/Makefile share/applications/Makefile share/appdata/Makefile"
 
 
 
@@ -11237,6 +11237,7 @@ do
     "share/icons/gnome/48x48/Makefile") CONFIG_FILES="$CONFIG_FILES share/icons/gnome/48x48/Makefile" ;;
     "share/icons/gnome/48x48/mimetypes/Makefile") CONFIG_FILES="$CONFIG_FILES share/icons/gnome/48x48/mimetypes/Makefile" ;;
     "share/applications/Makefile") CONFIG_FILES="$CONFIG_FILES share/applications/Makefile" ;;
+    "share/appdata/Makefile") CONFIG_FILES="$CONFIG_FILES share/appdata/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

@@ -913,6 +913,7 @@ AC_CONFIG_FILES([Makefile
 		share/icons/gnome/48x48/Makefile
 		share/icons/gnome/48x48/mimetypes/Makefile
 		share/applications/Makefile
+		share/appdata/Makefile
 ])
 
 
