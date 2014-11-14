@@ -320,7 +320,8 @@ if(!*filesel_path) /* if no name specified, hijack loaded file name path */
 	{
 	if(GLOBALS->loaded_file_name)
 		{
-		char *tname = strdup_2(GLOBALS->loaded_file_name);
+		char *can = realpath_2(GLOBALS->loaded_file_name, NULL); /* prevents filechooser from blocking/asking where to save file */
+		char *tname = strdup_2(can ? can : GLOBALS->loaded_file_name);
 		char *delim = strrchr(tname, '/');
 		if(!delim) delim =  strrchr(tname, '\\');
 		if(delim)
@@ -332,6 +333,8 @@ if(!*filesel_path) /* if no name specified, hijack loaded file name path */
 			{
 			free_2(tname);
 			}
+
+		free(can);
 		}
 	}
 
