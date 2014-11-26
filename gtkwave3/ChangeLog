@@ -1489,6 +1489,8 @@
 		on a mouse) if shift pressed.
 		Timescale fix for Verilator where it emits 0ps as a timescale.
 		Added sample gtkwave.appdata.xml file in share/appdata.
-3.3.64	14nov14	Fix to FileChooser to prevent requester from blocking on asking
+3.3.64	25nov14	Fix to FileChooser to prevent requester from blocking on asking
 		for a directory if a dumpfile is loaded without some amount of
 		absolute/relative pathname.
+		Updated LZ4 for version r124.
+		Fix for x-windows OSX compiles.
