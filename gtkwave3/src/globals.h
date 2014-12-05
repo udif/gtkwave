@@ -1049,6 +1049,7 @@ struct tree *sig_root_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 488 */
 struct tree *sst_sig_root_treesearch_gtk2_c_1; /* from treesearch_gtk2.c */
 char *filter_str_treesearch_gtk2_c_1; /* from treesearch_gtk2.c 489 */
 int filter_typ_treesearch_gtk2_c_1;
+int filter_typ_polarity_treesearch_gtk2_c_1;
 int filter_matlen_treesearch_gtk2_c_1;
 unsigned char filter_noregex_treesearch_gtk2_c_1;
 #if defined(WAVE_USE_GTK2)

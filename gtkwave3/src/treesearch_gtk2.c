@@ -218,7 +218,7 @@ fill_sig_store (void)
 	if 	(
 		(GLOBALS->filter_str_treesearch_gtk2_c_1 == NULL) ||
 		((!GLOBALS->filter_noregex_treesearch_gtk2_c_1) && (wrexm = wave_regex_match(t->name, WAVE_REGEX_TREE)) && (!GLOBALS->filter_matlen_treesearch_gtk2_c_1)) ||
-		(GLOBALS->filter_matlen_treesearch_gtk2_c_1 && (GLOBALS->filter_typ_treesearch_gtk2_c_1 == vardir) &&
+		(GLOBALS->filter_matlen_treesearch_gtk2_c_1 && ((GLOBALS->filter_typ_treesearch_gtk2_c_1 == vardir) ^ GLOBALS->filter_typ_polarity_treesearch_gtk2_c_1) &&
 			(wrexm || (wrexm = wave_regex_match(t->name, WAVE_REGEX_TREE)))	)
 		)
       		{
@@ -709,6 +709,7 @@ gboolean filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 	strcpy(GLOBALS->filter_str_treesearch_gtk2_c_1, t);
 
 	GLOBALS->filter_typ_treesearch_gtk2_c_1 = ND_DIR_UNSPECIFIED;
+	GLOBALS->filter_typ_polarity_treesearch_gtk2_c_1 = 0;
 	GLOBALS->filter_matlen_treesearch_gtk2_c_1 = 0;
 	GLOBALS->filter_noregex_treesearch_gtk2_c_1 = 0;
 
@@ -723,6 +724,27 @@ gboolean filter_edit_cb (GtkWidget *widget, GdkEventKey *ev, gpointer *data)
 					{
 					GLOBALS->filter_matlen_treesearch_gtk2_c_1 = tlen + 2;
 					GLOBALS->filter_typ_treesearch_gtk2_c_1 = i;
+					if(GLOBALS->filter_str_treesearch_gtk2_c_1[tlen + 2] == 0)
+						{
+						GLOBALS->filter_noregex_treesearch_gtk2_c_1 = 1;
+						}
+					}
+				}
+			}
+		}
+	else
+	if(GLOBALS->filter_str_treesearch_gtk2_c_1[0] == '-')
+		{
+		for(i=0;i<=ND_DIR_MAX;i++)
+			{
+			int tlen = strlen(vardir_strings[i]);
+			if(!strncasecmp(vardir_strings[i], GLOBALS->filter_str_treesearch_gtk2_c_1 + 1, tlen))
+				{
+				if(GLOBALS->filter_str_treesearch_gtk2_c_1[tlen + 1] == '-')
+					{
+					GLOBALS->filter_matlen_treesearch_gtk2_c_1 = tlen + 2;
+					GLOBALS->filter_typ_treesearch_gtk2_c_1 = i;
+					GLOBALS->filter_typ_polarity_treesearch_gtk2_c_1 = 1; /* invert via XOR with 1 */
 					if(GLOBALS->filter_str_treesearch_gtk2_c_1[tlen + 2] == 0)
 						{
 						GLOBALS->filter_noregex_treesearch_gtk2_c_1 = 1;
@@ -1627,7 +1649,8 @@ do_tooltips:
 	   "Add a POSIX filter. "
 	   "'.*' matches any number of characters,"
 	   " '.' matches any character.  Hit Return to apply."
-	   " The filter may be preceded with the port direction if it exists such as +I+, +O+, +IO+, etc.",
+	   " The filter may be preceded with the port direction if it exists such as ++ (show only non-port), +I+, +O+, +IO+, etc."
+	   " Use -- to exclude all non-ports (i.e., show only all ports), -I- to exclude all input ports, etc.",
 	   NULL);
 
     gtk_box_pack_start (GTK_BOX (filter_hbox), GLOBALS->filter_entry, FALSE, FALSE, 1);
@@ -1906,7 +1929,8 @@ GtkWidget* treeboxframe(char *title, GtkSignalFunc func)
 	   "Add a POSIX filter. "
 	   "'.*' matches any number of characters,"
 	   " '.' matches any character.  Hit Return to apply."
-	   " The filter may be preceded with the port direction if it exists such as +I+, +O+, +IO+, etc.",
+	   " The filter may be preceded with the port direction if it exists such as ++ (show only non-port), +I+, +O+, +IO+, etc."
+	   " Use -- to exclude all non-ports (i.e., show only all ports), -I- to exclude all input ports, etc.",
 	   NULL);
 
     gtk_box_pack_start (GTK_BOX (filter_hbox), GLOBALS->filter_entry, FALSE, FALSE, 1);
