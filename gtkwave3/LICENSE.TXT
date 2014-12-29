@@ -1,14 +1,14 @@
 ##########################################################################
 
-GTKWave 3.3.65 Wave Viewer is Copyright (C) 1999-2014 Tony Bybell.  
-Portions of GTKWave are Copyright (C) 1999-2014 Udi Finkelstein. 
-Context support is Copyright (C) 2007-2014 Kermin Elliott Fleming.
-Trace group support is  Copyright (C) 2009-2014 Donald Baltus.
-GHW and additional GUI support is Copyright (C) 2005-2014 Tristan Gingold.
-Analog support is Copyright (C) 2005-2014 Thomas Sailer.
-External DnD support is Copyright (C) 2008-2014 Concept Engineering GmbH.
-FastLZ is Copyright (C) 2005-2014 Ariya Hidayat.
-LZ4 is Copyright (C) 2011-2014 Yann Collet.
+GTKWave 3.3.65 Wave Viewer is Copyright (C) 1999-2015 Tony Bybell.  
+Portions of GTKWave are Copyright (C) 1999-2015 Udi Finkelstein. 
+Context support is Copyright (C) 2007-2015 Kermin Elliott Fleming.
+Trace group support is  Copyright (C) 2009-2015 Donald Baltus.
+GHW and additional GUI support is Copyright (C) 2005-2015 Tristan Gingold.
+Analog support is Copyright (C) 2005-2015 Thomas Sailer.
+External DnD support is Copyright (C) 2008-2015 Concept Engineering GmbH.
+FastLZ is Copyright (C) 2005-2015 Ariya Hidayat.
+LZ4 is Copyright (C) 2011-2015 Yann Collet.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
@@ -26,7 +26,7 @@ Franklin Street -  Suite 500, Boston, MA 02110-1335, USA.
 
 ##########################################################################
 
-PCCTS 1.33MR is Copyright (C) 1989-2014 Terence Parr, Russell Quong,
+PCCTS 1.33MR is Copyright (C) 1989-2015 Terence Parr, Russell Quong,
 	Will Cohen, Hank Dietz, and Thomas Moog.  It is in the public
 	domain.  Please read contrib/pccts/RIGHTS for more information.
 
