@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2014 Tony Bybell.
+ * Copyright (c) 2003-2015 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -273,7 +273,7 @@ return((x * 0x01010101) >> 24);
  * "return the bitposition of the least significant 1 in vztint32_t"
  * (use x &= ~(x&-x) to clear out that bit quickly)
  */
-_VZT_RD_INLINE vztint32_t
+_VZT_RD_INLINE static vztint32_t
 vzt_rd_tzc(vztint32_t x)
 {
 return (vzt_rd_ones_cnt((x & -x) - 1));
@@ -1290,7 +1290,7 @@ return(rc);
 }
 
 
-_VZT_RD_INLINE vztint64_t vzt_rd_get_block_mem_usage(struct vzt_rd_trace *lt)
+vztint64_t vzt_rd_get_block_mem_usage(struct vzt_rd_trace *lt)
 {
 vztint64_t mem;
 
