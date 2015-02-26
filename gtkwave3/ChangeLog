@@ -1494,7 +1494,9 @@
 		absolute/relative pathname.
 		Updated LZ4 for version r124.
 		Fix for x-windows OSX compiles.
-3.3.65	22feb15	Added --, -I-, etc. option to port filtering in SST.  Using
+3.3.65	26feb15	Added --, -I-, etc. option to port filtering in SST.  Using
 		-- for example filters all non-ports from search results.
 		Updated LZ4 for version r126.
 		Minor warnings fixes.
+                Moved TCL_LDADD/TK_LDADD before	FSDB_LDADD to avoid stale
+                Tcl library version conflicts.

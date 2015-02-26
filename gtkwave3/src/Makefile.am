@@ -52,7 +52,7 @@ gtkwave_SOURCES= \
 	vcd_partial.c vcd_recoder.c vcd_saver.c vcd_saver.h version.h vlist.c vlist.h vzt.c vzt.h wavealloca.h \
 	wavewindow.c zoombuttons.c
 
-gtkwave_LDADD= $(LIBCOCOA_LDADD) $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(FSDB_LDADD) $(TCL_LDADD) $(TK_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS) $(GTK_UNIX_PRINT_LIBS) $(MINGW_LDADD)
+gtkwave_LDADD= $(LIBCOCOA_LDADD) $(GTK_LIBS) $(LIBLZMA_LDADD) $(LIBZ_LDADD) $(LIBBZ2_LDADD) $(LIBFST_LDADD) $(AET2_LDADD) $(TCL_LDADD) $(TK_LDADD) $(FSDB_LDADD) $(LIBJUDY_LDADD) $(GTK_MAC_LIBS) $(GCONF_LIBS) $(GTK_UNIX_PRINT_LIBS) $(MINGW_LDADD)
 gtkwave_LDFLAGS = $(COCOA_GTK_LDFLAGS)
 
 twinwave_SOURCES= twinwave.c
