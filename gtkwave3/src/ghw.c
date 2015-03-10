@@ -227,65 +227,71 @@ for(i=0;i<GLOBALS->numfacs;i++)
 
 static void recurse_tree_build_whichcache(struct tree *t)
 {
-struct tree *t2 = t;
-int i;
-int cnt = 1;
-struct tree **ar;
-
-while((t2 = t2->next)) { cnt++; }
-
-ar = malloc_2(cnt * sizeof(struct tree *));
-t2 = t;
-for(i=0;i<cnt;i++)
+if(t)
 	{
-	ar[i] = t2;
-	if(t2->child) { recurse_tree_build_whichcache(t2->child); }
-	t2 = t2->next;
-	}
-
-for(i=cnt-1;i>=0;i--)
-	{
-	t = ar[i];
-	if(t->t_which >= 0) 
+	struct tree *t2 = t;
+	int i;
+	int cnt = 1;
+	struct tree **ar;
+	
+	while((t2 = t2->next)) { cnt++; }
+	
+	ar = malloc_2(cnt * sizeof(struct tree *));
+	t2 = t;
+	for(i=0;i<cnt;i++)
 		{
-		GLOBALS->gwt_ghw_c_1 = ghw_insert(t, GLOBALS->gwt_ghw_c_1, t->t_which, GLOBALS->facs[t->t_which]);
+		ar[i] = t2;
+		if(t2->child) { recurse_tree_build_whichcache(t2->child); }
+		t2 = t2->next;
 		}
+	
+	for(i=cnt-1;i>=0;i--)
+		{
+		t = ar[i];
+		if(t->t_which >= 0) 
+			{
+			GLOBALS->gwt_ghw_c_1 = ghw_insert(t, GLOBALS->gwt_ghw_c_1, t->t_which, GLOBALS->facs[t->t_which]);
+			}
+		}
+	
+	free_2(ar);
 	}
-
-free_2(ar);
 }
 
 static void recurse_tree_fix_from_whichcache(struct tree *t)
 {
-struct tree *t2 = t;
-int i;
-int cnt = 1;
-struct tree **ar;
-
-while((t2 = t2->next)) { cnt++; }
-
-ar = malloc_2(cnt * sizeof(struct tree *));
-t2 = t;
-for(i=0;i<cnt;i++)
+if(t)
 	{
-	ar[i] = t2;
-	if(t2->child) { recurse_tree_fix_from_whichcache(t2->child); }
-	t2 = t2->next;
-	}
-
-for(i=cnt-1;i>=0;i--)
-	{
-	t = ar[i];
-	if(t->t_which >= 0)
+	struct tree *t2 = t;
+	int i;
+	int cnt = 1;
+	struct tree **ar;
+	
+	while((t2 = t2->next)) { cnt++; }
+	
+	ar = malloc_2(cnt * sizeof(struct tree *));
+	t2 = t;
+	for(i=0;i<cnt;i++)
 		{
-		GLOBALS->gwt_ghw_c_1 = ghw_splay(t, GLOBALS->gwt_ghw_c_1);
-		GLOBALS->gwt_corr_ghw_c_1 = ghw_splay(GLOBALS->gwt_ghw_c_1->sym, GLOBALS->gwt_corr_ghw_c_1); /* all facs are in this tree so this is OK */
-
-		t->t_which = GLOBALS->gwt_corr_ghw_c_1->val_old;
+		ar[i] = t2;
+		if(t2->child) { recurse_tree_fix_from_whichcache(t2->child); }
+		t2 = t2->next;
 		}
+	
+	for(i=cnt-1;i>=0;i--)
+		{
+		t = ar[i];
+		if(t->t_which >= 0)
+			{
+			GLOBALS->gwt_ghw_c_1 = ghw_splay(t, GLOBALS->gwt_ghw_c_1);
+			GLOBALS->gwt_corr_ghw_c_1 = ghw_splay(GLOBALS->gwt_ghw_c_1->sym, GLOBALS->gwt_corr_ghw_c_1); /* all facs are in this tree so this is OK */
+	
+			t->t_which = GLOBALS->gwt_corr_ghw_c_1->val_old;
+			}
+		}
+	
+	free_2(ar);
 	}
-
-free_2(ar);
 }
 
 #else
