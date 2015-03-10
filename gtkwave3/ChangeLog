@@ -1501,3 +1501,5 @@
                 Moved TCL_LDADD/TK_LDADD before	FSDB_LDADD to avoid stale
                 Tcl library version conflicts.
 		Removed appending [31:0] to vcd loaded integer names.
+		Reduced recursion depth in GHW signal loader to prevent
+		stack overflow crashes.
