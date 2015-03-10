@@ -2532,7 +2532,8 @@ while(v)
 			}
 			else	/* atomic vector */
 			{
-			if((v->vartype!=V_REAL)&&(v->vartype!=V_STRINGTYPE))
+			if((v->vartype!=V_REAL)&&(v->vartype!=V_STRINGTYPE)&&(v->vartype!=V_INTEGER)&&(v->vartype!=V_PARAMETER))
+			/* if((v->vartype!=V_REAL)&&(v->vartype!=V_STRINGTYPE)) */
 				{
 				sprintf(str+slen-1,"[%d:%d]",v->msi,v->lsi);
 				}
