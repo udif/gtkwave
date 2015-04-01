@@ -335,6 +335,8 @@ NULL, /* istem_struct_base */
 0, /* istem_struct_base_siz_alloc */
 0, /* stem_valid  */
 0, /* istem_valid */
+NULL, /* fst_synclock_str */
+NULL, /* synclock_jrb */
 
 
 /*
@@ -2023,6 +2025,12 @@ void reload_into_new_context_2(void)
  	jrb_free_tree(GLOBALS->subvar_jrb);
  	GLOBALS->subvar_jrb = NULL;
  	GLOBALS->subvar_jrb_count = 0;
+	}
+
+ if(GLOBALS->synclock_jrb)
+	{
+ 	jrb_free_tree(GLOBALS->synclock_jrb);
+	GLOBALS->synclock_jrb = NULL;
 	}
 
 

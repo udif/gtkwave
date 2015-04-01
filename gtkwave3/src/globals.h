@@ -334,6 +334,8 @@ uint32_t istem_struct_base_siz;
 uint32_t istem_struct_base_siz_alloc;
 unsigned stem_valid : 1;
 unsigned istem_valid : 1;
+char *fst_synclock_str;
+JRB synclock_jrb;
 
 
 /*

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2009-2013.
+ * Copyright (c) Tony Bybell 2009-2015.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -440,6 +440,19 @@ while((h = fstReaderIterateHier(xc)))
 						GLOBALS->stem_path_string_table_siz++;
 						}
 					}
+				else
+				if(h->u.attr.subtype == FST_MT_VALUELIST)
+					{
+					if(h->u.attr.name)
+						{
+						/* format is concatenations of [m b xs xe valstring] */
+						if(GLOBALS->fst_synclock_str) 
+							{
+							free_2(GLOBALS->fst_synclock_str);			
+							}
+						GLOBALS->fst_synclock_str = strdup_2(h->u.attr.name);
+						}
+					}
 				}
 			break;
 
@@ -526,7 +539,7 @@ if(GLOBALS->fst_filetype == FST_FT_VHDL)
 	}
 
 GLOBALS->subvar_jrb = make_jrb(); /* only used for attributes such as generated in VHDL, etc. */
-
+GLOBALS->synclock_jrb = make_jrb(); /* only used for synthetic clocks */
 
 GLOBALS->numfacs=fstReaderGetVarCount(GLOBALS->fst_fst_c_1);
 GLOBALS->mvlfacs_fst_c_3=(struct fac *)calloc_2(GLOBALS->numfacs,sizeof(struct fac));
@@ -625,6 +638,7 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		fstReaderIterateHierRewind(GLOBALS->fst_fst_c_1);
 		h = extractNextVar(GLOBALS->fst_fst_c_1, &msb, &lsb, &nnam, &name_len, &nnam_max);
 		}
+
 	npar = GLOBALS->mod_tree_parent;
 	hier_len = GLOBALS->fst_scope_name ? GLOBALS->fst_scope_name_len : 0;
 	if(hier_len)
@@ -761,6 +775,24 @@ for(i=0;i<GLOBALS->numfacs;i++)
 		nvd = ND_DIR_IMPLICIT;
 		GLOBALS->mvlfacs_fst_c_3[i].flags = VZT_RD_SYM_F_STRING;
 		GLOBALS->mvlfacs_fst_c_3[i].len = 2;
+		}
+
+	if(GLOBALS->fst_synclock_str)
+		{
+		if(GLOBALS->mvlfacs_fst_c_3[i].len == 1) /* currently only for single bit signals */
+			{
+			Jval syn_jv;
+
+			GLOBALS->mvlfacs_fst_c_3[i].flags |= VZT_RD_SYM_F_SYNVEC; /* special meaning for this in FST loader--means synthetic signal! */
+			syn_jv.s = GLOBALS->fst_synclock_str;
+			jrb_insert_int(GLOBALS->synclock_jrb, i, syn_jv);
+			}
+			else
+			{
+			free_2(GLOBALS->fst_synclock_str);
+			}
+
+		GLOBALS->fst_synclock_str = NULL; /* under malloc_2() control for true if() branch, so not lost */
 		}
 
 	if(h->u.var.is_alias)
@@ -1473,17 +1505,20 @@ if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 	}
 
 
-{
-int flagged = HIER_DEPACK_STATIC;
-char *str = hier_decompress_flagged(np->nname, &flagged);
-fprintf(stderr, "Import: %s\n", str);
-}
+if(!(f->flags&VZT_RD_SYM_F_SYNVEC)) /* block debug message for synclk */
+	{
+	int flagged = HIER_DEPACK_STATIC;
+	char *str = hier_decompress_flagged(np->nname, &flagged);
+	fprintf(stderr, "Import: %s\n", str); /* normally this never happens */
+	}
 
 
 /* new stuff */
 len = np->mv.mvlfac->len;
 
 /* check here for array height in future */
+
+if(!(f->flags&VZT_RD_SYM_F_SYNVEC))
 	{
 	fstReaderSetFacProcessMask(GLOBALS->fst_fst_c_1, GLOBALS->mvlfacs_fst_c_3[txidx].node_alias+1);
 	fstReaderIterBlocks2(GLOBALS->fst_fst_c_1, fst_callback, fst_callback2, NULL, NULL);
@@ -1599,6 +1634,63 @@ if(nold!=np)
 
 
 /*
+ * decompress [m b xs xe valstring]... format string into trace
+ */
+static void expand_synvec(int txidx, const char *s)
+{
+char *scopy = NULL;
+char *pnt, *pnt2;
+double m, b;
+uint64_t xs, xe, xi;
+char *vs;
+uint64_t tim;
+int vslen;
+int vspnt;
+unsigned char value[2] = {0, 0};
+
+scopy = strdup_2(s);
+vs = calloc_2(1, strlen(s) + 1); /* will never be as big as original string */
+pnt = scopy;
+
+while(*pnt)
+	{
+	if(*pnt != '[') { pnt++; continue; }
+	pnt++;
+
+	pnt2 = strchr(pnt, ']');
+	if(!pnt2) break;
+	*pnt2 = 0;
+
+	/* printf("PNT: %s\n", pnt); */
+	int rc = sscanf(pnt, "%lg %lg %"SCNu64" %"SCNu64" %s", &m, &b, &xs, &xe, vs);
+	if(rc == 5)
+		{
+		vslen = strlen(vs);
+		vspnt = 0;
+
+		for(xi = xs; xi <= xe; xi++)
+			{
+			tim = (xi * m) + b;
+			/* fprintf(stderr, "#%"PRIu64" '%c'\n", tim, vs[vspnt]); */
+			value[0] = vs[vspnt];
+			fst_callback2(NULL, tim, txidx, value, 0);
+			vspnt++; vspnt = (vspnt == vslen) ? 0 : vspnt; /* modulus on repeating clock */
+			}
+		}
+		else
+		{
+		break;
+		}
+
+	pnt = pnt2 + 1;
+	}
+
+free_2(vs);
+free_2(scopy);
+}
+
+
+/*
  * pre-import many traces at once so function above doesn't have to iterate...
  */
 void fst_set_fac_process_mask(nptr np)
@@ -1609,6 +1701,7 @@ int txidx;
 if(!(f=np->mv.mvlfac)) return;	/* already imported */
 
 txidx = f-GLOBALS->mvlfacs_fst_c_3;
+
 if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 	{
 	txidx = GLOBALS->mvlfacs_fst_c_3[txidx].node_alias;
@@ -1616,6 +1709,17 @@ if(np->mv.mvlfac->flags&VZT_RD_SYM_F_ALIAS)
 	np = GLOBALS->mvlfacs_fst_c_3[txidx].working_node;
 
 	if(!(np->mv.mvlfac)) return;	/* already imported */
+	}
+
+if(np->mv.mvlfac->flags&VZT_RD_SYM_F_SYNVEC)
+	{
+	JRB fi = jrb_find_int(GLOBALS->synclock_jrb, txidx);
+	if(fi)
+		{
+		expand_synvec(txidx+1, fi->val.s);
+		import_fst_trace(np);
+		return; /* import_fst_trace() will construct the trailer */
+		}
 	}
 
 /* check here for array height in future */
