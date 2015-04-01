@@ -1504,3 +1504,4 @@
 		Reduced recursion depth in GHW signal loader to prevent
 		stack overflow crashes.
 		Added support for synthetic clocks in FST file.
+		Update timetrace marking so it runs quicker for large traces.

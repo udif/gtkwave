@@ -1408,8 +1408,8 @@ void strace_maketimetrace(int mode)
 TimeType basetime=GLOBALS->tims.first;
 TimeType endtime =MAX_HISTENT_TIME;
 int i, notfirst=0;
-struct timechain *tchead=NULL, *tc=NULL, *tcnext;
 TimeType *t;
+int t_allocated;
 
 if(GLOBALS->strace_ctx->timearray)
 	{
@@ -1457,6 +1457,9 @@ if(basetime>endtime)
 	endtime     =tmp;
 	}
 
+t_allocated = 1;
+t = malloc_2(sizeof(TimeType) * t_allocated);
+
 while(1)
 	{
 	basetime=strace_timetrace(basetime, notfirst);
@@ -1471,40 +1474,22 @@ while(1)
 		if(basetime>endtime) break; /* formerly was >= which didn't mark the endpoint if true which is incorrect */
 		}			    /* i.e., if start is markable, end should be also */
 
+	t[GLOBALS->strace_ctx->timearray_size] = basetime;
 	GLOBALS->strace_ctx->timearray_size++;
-
-	if(!tc)
+	if(GLOBALS->strace_ctx->timearray_size == t_allocated)
 		{
-		tchead=tc=malloc_2(sizeof(struct timechain));	/* formerly wave_alloca but that dies > 4MB on linux x86! */
+		t_allocated *= 2;
+		t = realloc_2(t, sizeof(TimeType) * t_allocated);
 		}
-		else
-		{
-		tc->next=malloc_2(sizeof(struct timechain));	/* formerly wave_alloca but that dies > 4MB on linux x86! */
-		tc=tc->next;
-		}
-
-	tc->t=basetime;
-	tc->next=NULL;
 	}
 
 if(GLOBALS->strace_ctx->timearray_size)
 	{
-	GLOBALS->strace_ctx->timearray=t=malloc_2(sizeof(TimeType)*GLOBALS->strace_ctx->timearray_size);
-	for(i=0;i<GLOBALS->strace_ctx->timearray_size;i++)
-		{
-		if(!tchead)					/* should never happen */
-			{
-			free_2(GLOBALS->strace_ctx->timearray); GLOBALS->strace_ctx->timearray = NULL;
-			break;
-			}
-		*(t++)=tchead->t;				/* scan-build null pointer deref found here */
-		tcnext=tchead->next;
-		free_2(tchead);					/* need to explicitly free this up now */
-		tchead=tcnext;
-		}
+	GLOBALS->strace_ctx->timearray = realloc_2(t, sizeof(TimeType) * GLOBALS->strace_ctx->timearray_size);
 	}
 	else
 	{
+	free_2(t);
 	GLOBALS->strace_ctx->timearray = NULL;
 	}
 
