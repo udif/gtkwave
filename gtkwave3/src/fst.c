@@ -1644,9 +1644,11 @@ double m, b;
 uint64_t xs, xe, xi;
 char *vs;
 uint64_t tim;
+uint64_t tim_max;
 int vslen;
 int vspnt;
 unsigned char value[2] = {0, 0};
+unsigned char pval = 0;
 
 scopy = strdup_2(s);
 vs = calloc_2(1, strlen(s) + 1); /* will never be as big as original string */
@@ -1668,12 +1670,21 @@ while(*pnt)
 		vslen = strlen(vs);
 		vspnt = 0;
 
+		tim_max = 0;
 		for(xi = xs; xi <= xe; xi++)
 			{
 			tim = (xi * m) + b;
 			/* fprintf(stderr, "#%"PRIu64" '%c'\n", tim, vs[vspnt]); */
 			value[0] = vs[vspnt];
-			fst_callback2(NULL, tim, txidx, value, 0);
+			if(value[0] != pval) /* collapse new == old value transitions so new is ignored */
+				{
+				if((tim >= tim_max) || (xi == xs))
+					{
+					fst_callback2(NULL, tim, txidx, value, 0);
+					tim_max = tim;
+					}
+				pval = value[0];
+				}
 			vspnt++; vspnt = (vspnt == vslen) ? 0 : vspnt; /* modulus on repeating clock */
 			}
 		}
