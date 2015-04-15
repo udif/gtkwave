@@ -1727,7 +1727,7 @@ if(np->mv.mvlfac->flags&VZT_RD_SYM_F_SYNVEC)
 	JRB fi = jrb_find_int(GLOBALS->synclock_jrb, txidx);
 	if(fi)
 		{
-		expand_synvec(txidx+1, fi->val.s);
+		expand_synvec(GLOBALS->mvlfacs_fst_c_3[txidx].node_alias+1, fi->val.s);
 		import_fst_trace(np);
 		return; /* import_fst_trace() will construct the trailer */
 		}
