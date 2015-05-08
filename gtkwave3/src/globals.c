@@ -243,6 +243,8 @@ NULL, /* extload_inv_idcodes */
 0, /* extload_already_errored */
 #endif
 NULL, /* extload_namecache */
+NULL, /* extload_namecache_max */
+NULL, /* extload_namecache_lens */
 NULL, /* extload_sym_block */
 NULL, /* extload_node_block */
 NULL, /* extload_xc */

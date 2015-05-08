@@ -1505,3 +1505,4 @@
 		stack overflow crashes.
 		Added support for synthetic clocks in FST file.
 		Update timetrace marking so it runs quicker for large traces.
+3.3.66	07may15	Faster fsdb initialization.

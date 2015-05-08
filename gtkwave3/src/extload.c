@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2009-2014.
+ * Copyright (c) Tony Bybell 2009-2015.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -71,6 +71,90 @@ exit(255);
 }
 
 #else
+
+/******************************************************************/
+
+/*
+ * reverse equality mem compare
+ */
+static int memrevcmp(int i, const char *s1, const char *s2)
+{
+i--;
+for(;i>=0;i--)
+        {
+        if(s1[i] != s2[i]) break;
+        }
+
+return(i+1);
+}
+
+
+
+/*
+ * fast itoa for decimal numbers
+ */
+static char* itoa_2(int value, char* result)
+{
+char* ptr = result, *ptr1 = result, tmp_char;
+int tmp_value;
+
+do {
+        tmp_value = value;
+        value /= 10;
+        *ptr++ = "9876543210123456789" [9 + (tmp_value - value * 10)];
+} while ( value );
+
+if (tmp_value < 0) *ptr++ = '-';
+result = ptr;
+*ptr-- = '\0';
+while(ptr1 < ptr) {
+        tmp_char = *ptr;
+        *ptr--= *ptr1;
+        *ptr1++ = tmp_char;
+}
+return(result);
+}
+
+
+/*
+ * preformatted sprintf statements which remove parsing latency
+ */
+static int sprintf_2_sd(char *s, char *c, int d)
+{
+char *s2 = s;
+
+while(*c)
+        {
+        *(s2++) = *(c++);
+        }
+*(s2++) = '[';
+s2 = itoa_2(d, s2);
+*(s2++) = ']';
+*s2 = 0;
+
+return(s2 - s);
+}
+
+
+static int sprintf_2_sdd(char *s, char *c, int d, int d2)
+{
+char *s2 = s;
+
+while(*c)
+        {
+        *(s2++) = *(c++);
+        }
+*(s2++) = '[';
+s2 = itoa_2(d, s2);
+*(s2++) = ':';
+s2 = itoa_2(d2, s2);
+*(s2++) = ']';
+*s2 = 0;
+
+return(s2 - s);
+}
+
+/******************************************************************/
 
 #ifndef WAVE_FSDB_READER_IS_PRESENT
 static int last_modification_check(void)
@@ -187,8 +271,15 @@ for(;;)
 			char *vtyp_nam;
 			char *cpyto;
 			char *pntd;
+			char *typ_src = pnt;
+			char *typ_dst = typ;
 
-			sscanf(rc + 5, "%s", typ);
+			/* following code replaces: sscanf(rc + 5, "%s", typ) */
+			while(*typ_src && !isspace(*typ_src))
+				{
+				*(typ_dst++) = *(typ_src++);
+				}
+			*typ_dst = 0;
 
 			while(*pnt)
 				{
@@ -233,9 +324,28 @@ for(;;)
 			if(last_l)
 				{
 				unsigned int l, r;
-				char s1[32];
+				/* char s1[32]; */
 				unsigned int d2;
-				sscanf(last_l+2, "%u r:%u %s %u", &l, &r, s1, &d2);
+				/* sscanf(last_l+2, "%u r:%u %s %u", &l, &r, s1, &d2); */
+					
+				char *ps = last_l+2;
+				char *l_pnt, *r_pnt, *d2_pnt;
+
+				while(*ps &&  isspace(*ps)) { ps++; }
+				l_pnt = ps;
+				while(*ps && !isspace(*ps)) { ps++; }
+				while(*ps &&  isspace(*ps)) { ps++; }
+				r_pnt = ps;					
+				while(*ps && !isspace(*ps)) { ps++; }
+				while(*ps &&  isspace(*ps)) { ps++; }
+				/* s1_pnt = ps;	*/
+				while(*ps && !isspace(*ps)) { ps++; }
+				while(*ps &&  isspace(*ps)) { ps++; }
+				d2_pnt = ps;
+
+				l = atoi(l_pnt);
+				r = atoi(r_pnt+2);
+				d2 = atoi(d2_pnt);
 
 				GLOBALS->extload_idcodes[i] = d2;
 				if(GLOBALS->extload_inv_idcodes[d2] == 0) GLOBALS->extload_inv_idcodes[d2] = i+1; /* root alias */
@@ -524,6 +634,7 @@ char *str;
 struct fac *f;
 char *fnam;
 int flen;
+int sc_len;
 
 i = GLOBALS->extload_i;
 
@@ -535,22 +646,25 @@ if(i<0)
 
 	if(GLOBALS->extload_hlen)
 		{
-		GLOBALS->extload_namecache[0]=malloc_2(GLOBALS->extload_hlen+1+flen+1);
-		strcpy(GLOBALS->extload_namecache[0], GLOBALS->fst_scope_name);
-		*(GLOBALS->extload_namecache[0]+GLOBALS->extload_hlen) = '.';
-		strcpy(GLOBALS->extload_namecache[0]+GLOBALS->extload_hlen+1, fnam);
+		GLOBALS->extload_namecache[0 & F_NAME_MODULUS]=malloc_2(GLOBALS->extload_namecache_max[0 & F_NAME_MODULUS]=GLOBALS->extload_hlen+1+flen+1);
+		memcpy(GLOBALS->extload_namecache[0 & F_NAME_MODULUS], GLOBALS->fst_scope_name, GLOBALS->extload_hlen);
+		*(GLOBALS->extload_namecache[0 & F_NAME_MODULUS]+GLOBALS->extload_hlen) = '.';
+		strcpy(GLOBALS->extload_namecache[0 & F_NAME_MODULUS]+GLOBALS->extload_hlen+1, fnam);
+		GLOBALS->extload_namecache_lens[0 & F_NAME_MODULUS]=GLOBALS->extload_hlen + 1 + flen;
 		}
 	else
 		{
-		GLOBALS->extload_namecache[0]=malloc_2(flen+1);
-		strcpy(GLOBALS->extload_namecache[0], fnam);
+		GLOBALS->extload_namecache[0 & F_NAME_MODULUS]=malloc_2(GLOBALS->extload_namecache_max[0 & F_NAME_MODULUS]=flen+1);
+		strcpy(GLOBALS->extload_namecache[0 & F_NAME_MODULUS], fnam);
+		GLOBALS->extload_namecache_lens[0 & F_NAME_MODULUS] = flen;
 		}
 #else
 	fnam = get_varname(&GLOBALS->extload_vt_prev, &GLOBALS->extload_vd_prev, 0);
 	flen = strlen(fnam);
 
-	GLOBALS->extload_namecache[0]=malloc_2(flen+1);
-	strcpy(GLOBALS->extload_namecache[0], fnam);
+	GLOBALS->extload_namecache[0 & F_NAME_MODULUS]=malloc_2(GLOBALS->extload_namecache_max[0 & F_NAME_MODULUS]=flen+1);
+	strcpy(GLOBALS->extload_namecache[0 & F_NAME_MODULUS], fnam);
+	GLOBALS->extload_namecache_lens[0 & F_NAME_MODULUS] = flen;
 #endif
 	}
 else
@@ -565,36 +679,45 @@ else
 
 		if(GLOBALS->extload_hlen)
 			{
-			GLOBALS->extload_namecache[i+1]=malloc_2(GLOBALS->extload_hlen+1+flen+1);
-			strcpy(GLOBALS->extload_namecache[i+1], GLOBALS->fst_scope_name);
-			*(GLOBALS->extload_namecache[i+1]+GLOBALS->extload_hlen) = '.';
-			strcpy(GLOBALS->extload_namecache[i+1]+GLOBALS->extload_hlen+1, fnam);
+			if(GLOBALS->extload_namecache_max[(i+1)&F_NAME_MODULUS] < (GLOBALS->extload_hlen+1+flen+1))
+				{
+				if(GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS]) free_2(GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS]);
+				GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS]=malloc_2(GLOBALS->extload_namecache_max[(i+1)&F_NAME_MODULUS] = GLOBALS->extload_hlen+1+flen+1);
+				}
+
+			memcpy(GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS], GLOBALS->fst_scope_name, GLOBALS->extload_hlen);
+			*(GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS]+GLOBALS->extload_hlen) = '.';
+			strcpy(GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS]+GLOBALS->extload_hlen+1, fnam);
+			GLOBALS->extload_namecache_lens[(i+1)&F_NAME_MODULUS] = GLOBALS->extload_hlen + 1 + flen;
 			}
 		else
 			{
-			GLOBALS->extload_namecache[i+1]=malloc_2(flen+1);
-			strcpy(GLOBALS->extload_namecache[i+1], fnam);
+			if(GLOBALS->extload_namecache_max[(i+1)&F_NAME_MODULUS] < (flen+1))
+				{
+				if(GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS])free_2(GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS]);
+				GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS]=malloc_2(GLOBALS->extload_namecache_max[(i+1)&F_NAME_MODULUS] = flen+1);
+				}
+			strcpy(GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS], fnam);
+			GLOBALS->extload_namecache_lens[(i+1)&F_NAME_MODULUS] = flen;
 			}
 #else
 		fnam = get_varname(&GLOBALS->extload_vt_prev, &GLOBALS->extload_vd_prev, i+1);
 		flen = strlen(fnam);
 
-		GLOBALS->extload_namecache[i+1]=malloc_2(flen+1);
-		strcpy(GLOBALS->extload_namecache[i+1], fnam);
+		if(GLOBALS->extload_namecache_max[(i+1)&F_NAME_MODULUS] < (flen+1))
+			{
+			GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS]=malloc_2(GLOBALS->extload_namecache_max[(i+1)&F_NAME_MODULUS] = flen+1);
+			}
+		strcpy(GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS], fnam);
+			GLOBALS->extload_namecache_lens[(i+1)&F_NAME_MODULUS] = flen;
 #endif
-		}
-
-	if(i>1)
-		{
-		free_2(GLOBALS->extload_namecache[i-2]);
-		GLOBALS->extload_namecache[i-2] = NULL;
 		}
 
 	f=GLOBALS->mvlfacs_vzt_c_3+i;
 
 	if((f->len>1)&& (!(f->flags&(VZT_RD_SYM_F_INTEGER|VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING))) )
 		{
-		int len=sprintf(buf, "%s[%d:%d]", GLOBALS->extload_namecache[i],GLOBALS->extload_node_block[i].msi, GLOBALS->extload_node_block[i].lsi);
+		int len=sprintf_2_sdd(buf, GLOBALS->extload_namecache[i&F_NAME_MODULUS],GLOBALS->extload_node_block[i].msi, GLOBALS->extload_node_block[i].lsi);
 		str=malloc_2(len+1);
 
 		if(!GLOBALS->alt_hier_delimeter)
@@ -611,13 +734,13 @@ else
 		}
 	else if (
 			((f->len==1)&&(!(f->flags&(VZT_RD_SYM_F_INTEGER|VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING)))&&
-			((i!=GLOBALS->numfacs-1)&&(!strcmp(GLOBALS->extload_namecache[i], GLOBALS->extload_namecache[i+1]))))
+			((i!=GLOBALS->numfacs-1)&&(GLOBALS->extload_namecache_lens[i&F_NAME_MODULUS]==GLOBALS->extload_namecache_lens[(i+1)&F_NAME_MODULUS])&&(!memrevcmp(GLOBALS->extload_namecache_lens[i&F_NAME_MODULUS],GLOBALS->extload_namecache[i&F_NAME_MODULUS], GLOBALS->extload_namecache[(i+1)&F_NAME_MODULUS]))))
 			||
-			(((i!=0)&&(!strcmp(GLOBALS->extload_namecache[i], GLOBALS->extload_namecache[i-1]))) &&
+			(((i!=0)&&(GLOBALS->extload_namecache_lens[i&F_NAME_MODULUS]==GLOBALS->extload_namecache_lens[(i-1)&F_NAME_MODULUS])&&(!memrevcmp(GLOBALS->extload_namecache_lens[i&F_NAME_MODULUS], GLOBALS->extload_namecache[i&F_NAME_MODULUS], GLOBALS->extload_namecache[(i-1)&F_NAME_MODULUS]))) &&
 			(GLOBALS->extload_node_block[i].msi!=-1)&&(GLOBALS->extload_node_block[i].lsi!=-1))
 		)
 		{
-		int len = sprintf(buf, "%s[%d]", GLOBALS->extload_namecache[i],GLOBALS->extload_node_block[i].msi);
+		int len = sprintf_2_sd(buf, GLOBALS->extload_namecache[i&F_NAME_MODULUS],GLOBALS->extload_node_block[i].msi);
 		str=malloc_2(len+1);
 		if(!GLOBALS->alt_hier_delimeter)
 			{
@@ -629,7 +752,7 @@ else
 			}
 		s=&GLOBALS->extload_sym_block[i];
 	        symadd_name_exists_sym_exists(s,str,0);
-		if((GLOBALS->extload_prevsym)&&(i>0)&&(!strcmp(GLOBALS->extload_namecache[i], GLOBALS->extload_namecache[i-1])))	/* allow chaining for search functions.. */
+		if((GLOBALS->extload_prevsym)&&(i>0)&&(GLOBALS->extload_namecache_lens[i&F_NAME_MODULUS]==GLOBALS->extload_namecache_lens[(i-1)&F_NAME_MODULUS])&&(!memrevcmp(GLOBALS->extload_namecache_lens[i&F_NAME_MODULUS], GLOBALS->extload_namecache[i&F_NAME_MODULUS], GLOBALS->extload_namecache[(i-1)&F_NAME_MODULUS])))	/* allow chaining for search functions.. */
 			{
 			GLOBALS->extload_prevsym->vec_root = GLOBALS->extload_prevsymroot;
 			GLOBALS->extload_prevsym->vec_chain = s;
@@ -643,14 +766,14 @@ else
 		}
 		else
 		{
-		str=malloc_2(strlen(GLOBALS->extload_namecache[i])+1);
+		str=malloc_2(strlen(GLOBALS->extload_namecache[i&F_NAME_MODULUS])+1);
 		if(!GLOBALS->alt_hier_delimeter)
 			{
-			strcpy(str, GLOBALS->extload_namecache[i]);
+			strcpy(str, GLOBALS->extload_namecache[i&F_NAME_MODULUS]);
 			}
 			else
 			{
-			strcpy_vcdalt(str, GLOBALS->extload_namecache[i], GLOBALS->alt_hier_delimeter);
+			strcpy_vcdalt(str, GLOBALS->extload_namecache[i&F_NAME_MODULUS], GLOBALS->alt_hier_delimeter);
 			}
 		s=&GLOBALS->extload_sym_block[i];
 	        symadd_name_exists_sym_exists(s,str,0);
@@ -965,7 +1088,9 @@ GLOBALS->max_time *= GLOBALS->time_scale;
 
 GLOBALS->mvlfacs_vzt_c_3=(struct fac *)calloc_2(GLOBALS->numfacs,sizeof(struct fac));
 GLOBALS->vzt_table_vzt_c_1=(struct lx2_entry *)calloc_2(GLOBALS->numfacs, sizeof(struct lx2_entry));
-GLOBALS->extload_namecache=(char **)calloc_2(GLOBALS->numfacs, sizeof(char *));
+GLOBALS->extload_namecache=(char **)calloc_2(F_NAME_MODULUS+1, sizeof(char *));
+GLOBALS->extload_namecache_max=(int *)calloc_2(F_NAME_MODULUS+1, sizeof(int));
+GLOBALS->extload_namecache_lens=(int *)calloc_2(F_NAME_MODULUS+1, sizeof(int));
 GLOBALS->extload_sym_block = (struct symbol *)calloc_2(GLOBALS->numfacs, sizeof(struct symbol));
 GLOBALS->extload_node_block=(struct Node *)calloc_2(GLOBALS->numfacs,sizeof(struct Node));
 GLOBALS->extload_idcodes=(unsigned int *)calloc_2(GLOBALS->numfacs, sizeof(unsigned int));
@@ -989,7 +1114,7 @@ process_extload_variable(NULL); /* flush out final cached variable */
 decorated_module_cleanup(); /* ...also now in gtk2_treesearch.c */
 iter_through_comp_name_table();
 
-for(i=0;((i<2)&&(i<GLOBALS->numfacs));i++)
+for(i=0;i<=F_NAME_MODULUS;i++)
 	{
 	if(GLOBALS->extload_namecache[i])
 		{
@@ -998,6 +1123,8 @@ for(i=0;((i<2)&&(i<GLOBALS->numfacs));i++)
 		}
 	}
 free_2(GLOBALS->extload_namecache); GLOBALS->extload_namecache = NULL;
+free_2(GLOBALS->extload_namecache_max); GLOBALS->extload_namecache_max = NULL;
+free_2(GLOBALS->extload_namecache_lens); GLOBALS->extload_namecache_lens = NULL;
 
 fstReaderClose(GLOBALS->extload_xc); /* corresponds to fstReaderOpenForUtilitiesOnly() */
 
@@ -1025,7 +1152,7 @@ while(get_varname(&GLOBALS->extload_vt_prev, NULL, -1)); /* read through end to 
 decorated_module_cleanup(); /* ...also now in gtk2_treesearch.c */
 iter_through_comp_name_table();
 
-for(i=0;((i<2)&&(i<GLOBALS->numfacs));i++)
+for(i=0;i<=F_NAME_MODULUS;i++)
 	{
 	if(GLOBALS->extload_namecache[i])
 		{
@@ -1034,6 +1161,8 @@ for(i=0;((i<2)&&(i<GLOBALS->numfacs));i++)
 		}
 	}
 free_2(GLOBALS->extload_namecache); GLOBALS->extload_namecache = NULL;
+free_2(GLOBALS->extload_namecache_max); GLOBALS->extload_namecache_max = NULL;
+free_2(GLOBALS->extload_namecache_lens); GLOBALS->extload_namecache_lens = NULL;
 pclose(GLOBALS->extload);
 
 fstReaderClose(GLOBALS->extload_xc); /* corresponds to fstReaderOpenForUtilitiesOnly() */
