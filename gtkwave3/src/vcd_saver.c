@@ -142,7 +142,7 @@ struct vcdsav_tree_node {
 
 static long vcdsav_cmp_l(void *i, void *j)
 {
-long il = (long)i, jl = (long)j;
+intptr_t il = (intptr_t)i, jl = (intptr_t)j;
 return(il - jl);
 }
 

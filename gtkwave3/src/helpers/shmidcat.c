@@ -35,6 +35,15 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#ifndef _MSC_VER
+#ifndef __MINGW32__
+#include <stdint.h>
+#else
+#include <windows.h>
+#endif
+#endif
+
+
 #include "wave_locale.h"
 
 #if !defined _MSC_VER
@@ -118,7 +127,7 @@ return(rc);
 void emit_string(char *s)
 {
 int len = strlen(s);
-long l_top, l_curr;
+uintptr_t l_top, l_curr;
 int consumed;
 int blksiz;
 
@@ -140,8 +149,8 @@ for(;;)
 			}
 		}
 
-	l_top = (long)buf_top;
-	l_curr = (long)buf_curr;
+	l_top = (uintptr_t)buf_top;
+	l_curr = (uintptr_t)buf_curr;
 
 	if(l_curr >= l_top)
 		{

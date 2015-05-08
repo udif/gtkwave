@@ -51,7 +51,7 @@ struct ghw_tree_node {
 
 long ghw_cmp_l(void *i, void *j)
 {
-long il = (long)i, jl = (long)j;
+uintptr_t il = (uintptr_t)i, jl = (uintptr_t)j;
 return(il - jl);
 }
 

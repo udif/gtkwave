@@ -358,7 +358,7 @@ void tracesearchbox(const char *title, GtkSignalFunc func, gpointer data)
     int i;
     int numtraces;
 
-    GLOBALS->strace_current_window = (int)(long)data; /* arg for which search box going in */
+    GLOBALS->strace_current_window = (int)(intptr_t)data; /* arg for which search box going in */
     GLOBALS->strace_ctx = &GLOBALS->strace_windows[GLOBALS->strace_current_window];
 
     /* fix problem where ungrab doesn't occur if button pressed + simultaneous accelerator key occurs */
@@ -1407,7 +1407,7 @@ void strace_maketimetrace(int mode)
 {
 TimeType basetime=GLOBALS->tims.first;
 TimeType endtime =MAX_HISTENT_TIME;
-int i, notfirst=0;
+int notfirst=0;
 TimeType *t;
 int t_allocated;
 

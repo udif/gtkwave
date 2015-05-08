@@ -395,7 +395,7 @@ while(vs)
 	v += vprev;
 	vprev = v;
 
-        n->mv.mvlfac_vlist = (struct vlist_t *)(long)(v);
+        n->mv.mvlfac_vlist = (struct vlist_t *)(intptr_t)(v);
 	vs = vs->next;
 	}
 
@@ -404,7 +404,7 @@ GLOBALS->fastload_depacked = NULL;
 GLOBALS->fastload_current = NULL;
 
 /* now create the time table */
-vl = (struct vlist_t *)(long)time_vlist_vcd_recoder_write;
+vl = (struct vlist_t *)(intptr_t)time_vlist_vcd_recoder_write;
 vlist_uncompress(&vl);
 depacked = pnt = (char *)vlist_packer_decompress(vl, &list_size);
 vlist_destroy(vl);
@@ -504,7 +504,7 @@ do	{
 	shamt += 7;
 	} while(!(ch & 0x80));
 
-vl = (struct vlist_t *)(long)v;
+vl = (struct vlist_t *)(intptr_t)v;
 vlist_uncompress(&vl);
 depacked = vlist_packer_decompress(vl, &list_size);
 vlist_destroy(vl);

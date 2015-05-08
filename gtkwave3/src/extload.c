@@ -634,7 +634,6 @@ char *str;
 struct fac *f;
 char *fnam;
 int flen;
-int sc_len;
 int longest_nam_candidate = 0;
 
 i = GLOBALS->extload_i;
@@ -1245,7 +1244,7 @@ GLOBALS->facs=(struct symbol **)malloc_2(GLOBALS->numfacs*sizeof(struct symbol *
 
 if(GLOBALS->fast_tree_sort)
         {
-        for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
+        for(i=0;i<GLOBALS->numfacs;i++)
                 {
                 GLOBALS->facs[i]=&GLOBALS->extload_sym_block[i];
                 }

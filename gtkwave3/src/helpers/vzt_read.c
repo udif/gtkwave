@@ -319,7 +319,7 @@ vztint32_t i, j, m, num_dict_words;
 /* vztint32_t *block_end = (vztint32_t *)(pnt + b->uncompressed_siz); */
 vztint32_t *val_tmp;
 unsigned int num_bitplanes;
-long padskip;
+uintptr_t padskip;
 
 num_time_ticks = vzt_rd_get_v32(&pnt);
 /* fprintf(stderr, "* num_time_ticks = %d\n", num_time_ticks); */
@@ -350,7 +350,7 @@ if(num_time_ticks != 0)
 
 num_sections = vzt_rd_get_v32(&pnt);
 num_dict_entries = vzt_rd_get_v32(&pnt);
-padskip = ((long)pnt)&3; pnt += (padskip) ? 4-padskip : 0; /* skip pad to next 4 byte boundary */
+padskip = ((uintptr_t)pnt)&3; pnt += (padskip) ? 4-padskip : 0; /* skip pad to next 4 byte boundary */
 
 /* fprintf(stderr, "num_sections: %d, num_dict_entries: %d\n", num_sections, num_dict_entries); */
 
@@ -407,7 +407,7 @@ pnt = (char *)(val_dict + (num_dict_words = num_dict_entries * num_sections));
 bpcalc:
 num_bitplanes = vzt_rd_get_byte(pnt, 0) + 1;	pnt++;
 b->multi_state = (num_bitplanes > 1);
-padskip = ((long)pnt)&3; pnt += (padskip) ? 4-padskip : 0; /* skip pad to next 4 byte boundary */
+padskip = ((uintptr_t)pnt)&3; pnt += (padskip) ? 4-padskip : 0; /* skip pad to next 4 byte boundary */
 b->vindex = (vztint32_t *)(pnt);
 
 if(is_big_endian()) /* have to bswap the value changes on big endian machines... */

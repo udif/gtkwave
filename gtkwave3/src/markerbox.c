@@ -104,7 +104,7 @@ hashmask |= hashmask >> 4;
 hashmask |= hashmask >> 8;
 hashmask |= hashmask >> 16;
 
-i = ((int) (((long) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
+i = ((int) (((intptr_t) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
 GLOBALS->dirty_markerbox_c_1 = 1;
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -138,7 +138,7 @@ hashmask |= hashmask >> 4;
 hashmask |= hashmask >> 8;
 hashmask |= hashmask >> 16;
 
-i = ((int) (((long) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
+i = ((int) (((intptr_t) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
 GLOBALS->dirty_markerbox_c_1 = 1;
 
 entry_text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -182,7 +182,7 @@ hashmask |= hashmask >> 4;
 hashmask |= hashmask >> 8;
 hashmask |= hashmask >> 16;
 
-ent_idx = ((int) (((long) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
+ent_idx = ((int) (((intptr_t) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
 
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
@@ -237,7 +237,7 @@ hashmask |= hashmask >> 4;
 hashmask |= hashmask >> 8;
 hashmask |= hashmask >> 16;
 
-ent_idx = ((int) (((long) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
+ent_idx = ((int) (((intptr_t) which) & hashmask)) % WAVE_NUM_NAMED_MARKERS;
 
 entry=GLOBALS->entries_markerbox_c_1[ent_idx];
 
@@ -396,8 +396,8 @@ void markerbox(char *title, GtkSignalFunc func)
     gtk_widget_show (hbox);
 
     GLOBALS->entries_markerbox_c_1[i]=entry = gtk_entry_new_with_max_length (48);
-    gtkwave_signal_connect(GTK_OBJECT(entry), "activate", GTK_SIGNAL_FUNC(enter_callback), (void *)((long) i));
-    gtkwave_signal_connect(GTK_OBJECT(entry), "changed", GTK_SIGNAL_FUNC(change_callback), (void *)((long) i));
+    gtkwave_signal_connect(GTK_OBJECT(entry), "activate", GTK_SIGNAL_FUNC(enter_callback), (void *)((intptr_t) i));
+    gtkwave_signal_connect(GTK_OBJECT(entry), "changed", GTK_SIGNAL_FUNC(change_callback), (void *)((intptr_t) i));
     if(GLOBALS->shadow_markers_markerbox_c_1[i]==-1)
 	{
 	sprintf(buf,"<None>");
@@ -415,8 +415,8 @@ void markerbox(char *title, GtkSignalFunc func)
     entry = gtk_entry_new_with_max_length (48);
     if(GLOBALS->shadow_marker_names[i]) gtk_entry_set_text (GTK_ENTRY (entry), GLOBALS->shadow_marker_names[i]);
     gtk_widget_show (entry);
-    gtkwave_signal_connect(GTK_OBJECT(entry), "activate", GTK_SIGNAL_FUNC(str_enter_callback), (void *)((long) i));
-    gtkwave_signal_connect(GTK_OBJECT(entry), "changed", GTK_SIGNAL_FUNC(str_change_callback), (void *)((long) i));
+    gtkwave_signal_connect(GTK_OBJECT(entry), "activate", GTK_SIGNAL_FUNC(str_enter_callback), (void *)((intptr_t) i));
+    gtkwave_signal_connect(GTK_OBJECT(entry), "changed", GTK_SIGNAL_FUNC(str_change_callback), (void *)((intptr_t) i));
 
     gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
 

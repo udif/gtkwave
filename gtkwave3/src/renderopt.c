@@ -43,7 +43,7 @@ int i;
 
 for(i=0;i<4;i++) GLOBALS->target_mutex_renderopt_c_1[i]=0;
 
-i = (int)((long)which);
+i = (int)((intptr_t)which);
 GLOBALS->target_mutex_renderopt_c_1[i] = 1; /* mark our choice */
 
 DEBUG(printf("picked: %s\n", render_targets[i]));
@@ -57,7 +57,7 @@ int i;
 
 for(i=0;i<5;i++) GLOBALS->page_mutex_renderopt_c_1[i]=0;
 
-GLOBALS->page_size_type_renderopt_c_1 = (int)((long)which);
+GLOBALS->page_size_type_renderopt_c_1 = (int)((intptr_t)which);
 GLOBALS->page_mutex_renderopt_c_1[GLOBALS->page_size_type_renderopt_c_1] = 1; /* mark our choice */
 
 DEBUG(printf("picked: %s\n", page_size[GLOBALS->page_size_type_renderopt_c_1]));
@@ -71,7 +71,7 @@ int i;
 
 for(i=0;i<3;i++) GLOBALS->render_mutex_renderopt_c_1[i]=0;
 
-i = (int)((long)which);
+i = (int)((intptr_t)which);
 GLOBALS->render_mutex_renderopt_c_1[i] = 1; /* mark our choice */
 
 DEBUG(printf("picked: %s\n", render_type[i]));
@@ -475,7 +475,7 @@ void renderbox(char *title)
     	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
     	gtk_menu_append (GTK_MENU (menu), menuitem);
     	gtk_widget_show (menuitem);
-        gtkwave_signal_connect(GTK_OBJECT (menuitem), "activate", GTK_SIGNAL_FUNC(render_clicked), (void *)((long)i));
+        gtkwave_signal_connect(GTK_OBJECT (menuitem), "activate", GTK_SIGNAL_FUNC(render_clicked), (void *)((intptr_t)i));
 	}
 
 	GLOBALS->target_mutex_renderopt_c_1[0]=1;	/* "ps" */
@@ -494,7 +494,7 @@ void renderbox(char *title)
     	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
     	gtk_menu_append (GTK_MENU (menu), menuitem);
     	gtk_widget_show (menuitem);
-        gtkwave_signal_connect(GTK_OBJECT (menuitem), "activate", GTK_SIGNAL_FUNC(pagesize_clicked), (void *)((long)i));
+        gtkwave_signal_connect(GTK_OBJECT (menuitem), "activate", GTK_SIGNAL_FUNC(pagesize_clicked), (void *)((intptr_t)i));
 	GLOBALS->page_mutex_renderopt_c_1[i]=0;
 	}
 
@@ -517,7 +517,7 @@ void renderbox(char *title)
     	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
     	gtk_menu_append (GTK_MENU (menu), menuitem);
     	gtk_widget_show (menuitem);
-        gtkwave_signal_connect(GTK_OBJECT (menuitem), "activate", GTK_SIGNAL_FUNC(rendertype_clicked), (void *)((long)i));
+        gtkwave_signal_connect(GTK_OBJECT (menuitem), "activate", GTK_SIGNAL_FUNC(rendertype_clicked), (void *)((intptr_t)i));
 	GLOBALS->render_mutex_renderopt_c_1[i]=0;
 	}
 
