@@ -253,6 +253,8 @@ int extload_i;
 int extload_hlen;
 unsigned char extload_vt_prev;
 unsigned char extload_vd_prev;
+int f_name_build_buf_len;
+char *f_name_build_buf;
 
 
 /*

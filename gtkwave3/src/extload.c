@@ -635,6 +635,7 @@ struct fac *f;
 char *fnam;
 int flen;
 int sc_len;
+int longest_nam_candidate = 0;
 
 i = GLOBALS->extload_i;
 
@@ -718,7 +719,20 @@ else
 	if((f->len>1)&& (!(f->flags&(VZT_RD_SYM_F_INTEGER|VZT_RD_SYM_F_DOUBLE|VZT_RD_SYM_F_STRING))) )
 		{
 		int len=sprintf_2_sdd(buf, GLOBALS->extload_namecache[i&F_NAME_MODULUS],GLOBALS->extload_node_block[i].msi, GLOBALS->extload_node_block[i].lsi);
-		str=malloc_2(len+1);
+		longest_nam_candidate = len;
+
+                if(!GLOBALS->do_hier_compress)
+                        {
+                        str=malloc_2(len+1);
+                        }   
+                        else
+                        {
+                        if(len > GLOBALS->f_name_build_buf_len)
+                                {
+                                free_2(GLOBALS->f_name_build_buf); GLOBALS->f_name_build_buf = malloc_2((GLOBALS->f_name_build_buf_len=len)+1);
+                                }
+                        str = GLOBALS->f_name_build_buf;
+                        }
 
 		if(!GLOBALS->alt_hier_delimeter)
 			{
@@ -741,7 +755,21 @@ else
 		)
 		{
 		int len = sprintf_2_sd(buf, GLOBALS->extload_namecache[i&F_NAME_MODULUS],GLOBALS->extload_node_block[i].msi);
-		str=malloc_2(len+1);
+		longest_nam_candidate = len;
+
+                if(!GLOBALS->do_hier_compress)
+                        {
+                        str=malloc_2(len+1);
+                        }
+                        else
+                        {
+                        if(len > GLOBALS->f_name_build_buf_len)
+                                {
+                                free_2(GLOBALS->f_name_build_buf); GLOBALS->f_name_build_buf = malloc_2((GLOBALS->f_name_build_buf_len=len)+1);
+                                }
+                        str = GLOBALS->f_name_build_buf;
+                        }
+
 		if(!GLOBALS->alt_hier_delimeter)
 			{
 			strcpy(str, buf);
@@ -766,7 +794,22 @@ else
 		}
 		else
 		{
-		str=malloc_2(strlen(GLOBALS->extload_namecache[i&F_NAME_MODULUS])+1);
+		int len = GLOBALS->extload_namecache_lens[i&F_NAME_MODULUS];
+
+		longest_nam_candidate = len;
+                if(!GLOBALS->do_hier_compress)
+                        {
+                        str=malloc_2(len+1);
+                        }
+                        else
+                        {   
+                        if(len > GLOBALS->f_name_build_buf_len)
+                                {
+                                free_2(GLOBALS->f_name_build_buf); GLOBALS->f_name_build_buf = malloc_2((GLOBALS->f_name_build_buf_len=len)+1);
+                                }
+                        str = GLOBALS->f_name_build_buf;
+                        }
+
 		if(!GLOBALS->alt_hier_delimeter)
 			{
 			strcpy(str, GLOBALS->extload_namecache[i&F_NAME_MODULUS]);
@@ -788,6 +831,20 @@ else
 		}
 
         n=&GLOBALS->extload_node_block[i];
+
+	if(longest_nam_candidate > GLOBALS->longestname) GLOBALS->longestname = longest_nam_candidate;
+
+        if(GLOBALS->do_hier_compress)
+                {
+                n->nname = compress_facility((unsigned char *)s->name, longest_nam_candidate);
+                /* free_2(s->name); ...removed as GLOBALS->f_name_build_buf is now used */
+                s->name = n->nname;
+                }
+                else
+                {
+                n->nname=s->name;
+                }
+
         n->nname=s->name;
         n->mv.mvlfac = GLOBALS->mvlfacs_vzt_c_3+i;
 	GLOBALS->mvlfacs_vzt_c_3[i].working_node = n;
@@ -1096,6 +1153,17 @@ GLOBALS->extload_node_block=(struct Node *)calloc_2(GLOBALS->numfacs,sizeof(stru
 GLOBALS->extload_idcodes=(unsigned int *)calloc_2(GLOBALS->numfacs, sizeof(unsigned int));
 GLOBALS->extload_inv_idcodes=(int *)calloc_2(max_idcode+1, sizeof(int));
 
+if(!GLOBALS->fast_tree_sort)
+        {
+        GLOBALS->do_hier_compress = 0;
+        }
+
+GLOBALS->f_name_build_buf_len = 128;
+GLOBALS->f_name_build_buf = malloc_2(GLOBALS->f_name_build_buf_len + 1);
+
+init_facility_pack();
+
+
 /* SPLASH */                            splash_sync(1, 5);
 
 #ifdef WAVE_FSDB_READER_IS_PRESENT
@@ -1170,15 +1238,16 @@ fstReaderClose(GLOBALS->extload_xc); /* corresponds to fstReaderOpenForUtilities
 #endif
 
 /* SPLASH */                            splash_sync(2, 5);
+if(GLOBALS->f_name_build_buf) { free_2(GLOBALS->f_name_build_buf); GLOBALS->f_name_build_buf = NULL; }
+freeze_facility_pack();
+
 GLOBALS->facs=(struct symbol **)malloc_2(GLOBALS->numfacs*sizeof(struct symbol *));
 
 if(GLOBALS->fast_tree_sort)
         {
-        for(i=0;i<GLOBALS->numfacs;i++)
+        for(i=0;i<(unsigned int)GLOBALS->numfacs;i++)
                 {
-                int len;
                 GLOBALS->facs[i]=&GLOBALS->extload_sym_block[i];
-                if((len=strlen(GLOBALS->facs[i]->name))>GLOBALS->longestname) GLOBALS->longestname=len;
                 }
 
 /* SPLASH */                            splash_sync(3, 5);
@@ -1187,7 +1256,9 @@ if(GLOBALS->fast_tree_sort)
         init_tree();
         for(i=0;i<GLOBALS->numfacs;i++)
                 {
-		build_tree_from_name(GLOBALS->facs[i]->name, i);
+                int was_packed = HIER_DEPACK_STATIC; /* no need to free_2() afterward then */
+                char *sb = hier_decompress_flagged(GLOBALS->facs[i]->name, &was_packed);
+                build_tree_from_name(sb, i);
                 }
 /* SPLASH */                            splash_sync(4, 5);
         treegraft(&GLOBALS->treeroot);

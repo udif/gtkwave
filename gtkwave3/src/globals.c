@@ -254,6 +254,8 @@ NULL, /* extload_prevsym */
 0, /* extload_hlen */
 0, /* extload_vt_prev */
 0, /* extload_vd_prev */
+0, /* f_name_build_buf_len */
+NULL, /* f_name_build_buf */
 
 
 /*
