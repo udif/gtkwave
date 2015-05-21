@@ -1290,7 +1290,10 @@ process_binary:
 
 				if((v->vartype!=V_REAL) && (v->vartype!=V_STRINGTYPE))
 					{
-					/* ok, typical case */
+                                        if((typ2=='R')||(typ2=='S'))
+                                                {
+                                                typ2 = 'B';     /* ok, typical case...fix as 'r' on bits variable causes recoder crash during trace extraction */
+                                                }
 					}
 					else
 					{

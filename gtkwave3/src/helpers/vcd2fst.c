@@ -570,6 +570,11 @@ while(!feof(f))
 		char *nam;
 		unsigned int hash;
 
+		if(!st)
+			{
+			continue; /* variable declaration not on a single line */
+			}
+
 		vartype = FST_VT_VCD_WIRE;
 		switch(st[0])
 			{

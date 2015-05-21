@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999-2014 Tony Bybell.
+ * Copyright (c) 1999-2015 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -964,8 +964,15 @@ switch(yytext[0])
 			}
 			else
 			{
-			vzt_wr_emit_value_double(lt, v->ltsym, 0, *d);
-			add_histent(current_time, v->narray[0],'g',1,(char *)d);
+			if(v->vartype == V_REAL)
+				{
+				vzt_wr_emit_value_double(lt, v->ltsym, 0, *d);
+				add_histent(current_time, v->narray[0],'g',1,(char *)d);
+				}
+				else
+				{
+				fprintf(stderr,"Near line %d, real value change for non-real '%s'\n",vcdlineno, yytext);
+				}
 			free_2(d);
 			}
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2009 Tony Bybell.
+ * Copyright (c) 2003-2015 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1222,6 +1222,12 @@ int i, j;
 vztsint32_t k;
 int val;
 unsigned int numticks;
+
+if(!lt->emitted) /* only happens if there are no value changes */
+        {
+        vzt_wr_emitfacs(lt);
+        lt->emitted = 1;
+	}
 
 if(!lt->timegranule)
 	{
