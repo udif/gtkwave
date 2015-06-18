@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2013-2014.
+ * Copyright (c) Tony Bybell 2013-2015.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -100,6 +100,13 @@ extern "C" void fsdbReaderAddToSignalList(void *ctx, int i)
 {
 ffrObject *fsdb_obj = (ffrObject *)ctx;
 fsdb_obj->ffrAddToSignalList(i);
+}
+
+
+extern "C" void fsdbReaderResetSignalList(void *ctx)
+{
+ffrObject *fsdb_obj = (ffrObject *)ctx;
+fsdb_obj->ffrResetSignalList();
 }
 
 

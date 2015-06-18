@@ -1721,6 +1721,7 @@ if(GLOBALS->extload_inv_idcodes[txidx_in_trace] > 0)
 	if(!GLOBALS->extload_ffr_import_count)
 		{
 		fsdbReaderUnloadSignals(GLOBALS->extload_ffr_ctx);
+		fsdbReaderResetSignalList(GLOBALS->extload_ffr_ctx);
 		}
 	GLOBALS->extload_ffr_import_count++;
 

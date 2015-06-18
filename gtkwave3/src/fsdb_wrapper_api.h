@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2013-2014.
+ * Copyright (c) Tony Bybell 2013-2015.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,6 +44,7 @@ void fsdbReaderReadScopeVarTree(void *ctx,void (*cb)(void *));
 int fsdbReaderGetMaxVarIdcode(void *ctx);
 struct fsdbReaderGetStatistics_t *fsdbReaderGetStatistics(void *ctx);
 void fsdbReaderAddToSignalList(void *ctx, int i);
+void fsdbReaderResetSignalList(void *ctx);
 void fsdbReaderLoadSignals(void *ctx);
 void *fsdbReaderCreateVCTraverseHandle(void *ctx, int i);
 int fsdbReaderHasIncoreVC(void *ctx, void *hdl);
