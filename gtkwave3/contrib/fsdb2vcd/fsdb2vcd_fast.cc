@@ -1,6 +1,6 @@
 /*
  to compile: 
- g++ -o fsdb2vcd_fast -O2 fsdb2vcd_fast.cc -I /pub/FsdbReader/ /pub/FsdbReader/libnffr.a /pub/FsdbReader/libnsys.a -ldl -lpthread
+ g++ -o fsdb2vcd_fast -O2 fsdb2vcd_fast.cc -I /pub/FsdbReader/ /pub/FsdbReader/libnffr.a /pub/FsdbReader/libnsys.a -ldl -lpthread -lz
 
  Much faster version of fsdb2vcd as compared to one bundled with Verdi.
  Requires libs and headers for FsdbReader.
