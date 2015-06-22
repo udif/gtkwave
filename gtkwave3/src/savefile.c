@@ -2716,7 +2716,7 @@ return(deal_with_rpc_open_2(path, user_data, FALSE));
 /*
  * block termination if in the middle of something important
  */
-gboolean deal_with_termination(GtkOSXApplication *app, gpointer user_data)
+gboolean deal_with_termination(GtkosxApplication *app, gpointer user_data)
 {
 (void)app;
 (void)user_data;
@@ -2736,7 +2736,7 @@ return(do_not_terminate);
  * Integration with Finder...
  * cache name and load in later off a timer (similar to caching DnD for quartz...)
  */
-gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data)
+gboolean deal_with_finder_open(GtkosxApplication *app, gchar *path, gpointer user_data)
 {
 (void)app;
 

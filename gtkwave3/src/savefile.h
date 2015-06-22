@@ -28,8 +28,8 @@ int parsewavline_lx2(char *w, char *alias, int depth);
 char *find_dumpfile(char *orig_save, char *orig_dump, char *this_save);
 
 #ifdef MAC_INTEGRATION
-gboolean deal_with_finder_open(GtkOSXApplication *app, gchar *path, gpointer user_data);
-gboolean deal_with_termination(GtkOSXApplication *app, gpointer user_data);
+gboolean deal_with_finder_open(GtkosxApplication *app, gchar *path, gpointer user_data);
+gboolean deal_with_termination(GtkosxApplication *app, gpointer user_data);
 #endif
 
 gboolean deal_with_rpc_open(const gchar *path, gpointer user_data);

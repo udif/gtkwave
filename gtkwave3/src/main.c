@@ -1782,15 +1782,15 @@ if(GLOBALS->use_toolbutton_interface)
 
 #ifdef MAC_INTEGRATION
 {
-GtkOSXApplication *theApp = g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
+GtkosxApplication *theApp = g_object_new(GTKOSX_TYPE_APPLICATION, NULL);
 gtk_widget_hide(menubar);
-gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
-gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE);
-gtk_osxapplication_ready(theApp);
-gtk_osxapplication_set_dock_icon_pixbuf(theApp, dock_pb);
+gtkosx_application_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
+gtkosx_application_set_use_quartz_accelerators(theApp, TRUE);
+gtkosx_application_ready(theApp);
+gtkosx_application_set_dock_icon_pixbuf(theApp, dock_pb);
 if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
-	gtk_osxapplication_attention_request(theApp, INFO_REQUEST);
+	gtkosx_application_attention_request(theApp, INFO_REQUEST);
 	}
 
 g_signal_connect(theApp, "NSApplicationOpenFile", G_CALLBACK(deal_with_finder_open), NULL);
@@ -2027,15 +2027,15 @@ g_signal_connect(theApp, "NSApplicationBlockTermination", G_CALLBACK(deal_with_t
 
 #ifdef MAC_INTEGRATION
 {
-GtkOSXApplication *theApp = g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
+GtkosxApplication *theApp = g_object_new(GTKOSX_TYPE_APPLICATION, NULL);
 gtk_widget_hide(menubar);
-gtk_osxapplication_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
-gtk_osxapplication_set_use_quartz_accelerators(theApp, TRUE);
-gtk_osxapplication_ready(theApp);
-gtk_osxapplication_set_dock_icon_pixbuf(theApp, dock_pb);
+gtkosx_application_set_menu_bar(theApp, GTK_MENU_SHELL(menubar));
+gtkosx_application_set_use_quartz_accelerators(theApp, TRUE);
+gtkosx_application_ready(theApp);
+gtkosx_application_set_dock_icon_pixbuf(theApp, dock_pb);
 if(GLOBALS->loaded_file_type == MISSING_FILE)
 	{
-	gtk_osxapplication_attention_request(theApp, INFO_REQUEST);
+	gtkosx_application_attention_request(theApp, INFO_REQUEST);
 	}
 
 g_signal_connect(theApp, "NSApplicationOpenFile", G_CALLBACK(deal_with_finder_open), NULL);
@@ -2908,7 +2908,7 @@ if(GLOBALS->stems_type != WAVE_ANNO_NONE)
 					{
 					char buf[64];
 #ifdef MAC_INTEGRATION
-					const gchar *p = quartz_application_get_executable_path();
+					const gchar *p = gtkosx_application_get_executable_path();
 #endif
 					sprintf(buf, "%08x", shmid);
 
@@ -3013,7 +3013,7 @@ void optimize_vcd_file(void) {
       }
       else {
 #ifdef MAC_INTEGRATION
-	const gchar *p = quartz_application_get_executable_path();
+	const gchar *p = gtkosx_application_get_executable_path();
 	if(p && strstr(p, "Contents/"))
 		{
 		const char *xec = "../Resources/bin/vcd2fst";

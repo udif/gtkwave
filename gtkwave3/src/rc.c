@@ -1003,10 +1003,10 @@ if(!(handle=fopen(rcname,"rb")))
 	if(!(handle=fopen(rcpath,"rb")))
 		{
 #ifdef MAC_INTEGRATION
-		const gchar *bundle_id = quartz_application_get_bundle_id();
+		const gchar *bundle_id = gtkosx_application_get_bundle_id();
 		if(bundle_id)
 			{
-			const gchar *rpath = quartz_application_get_resource_path();
+			const gchar *rpath = gtkosx_application_get_resource_path();
 			const char *suf = "/gtkwaverc";
 
 			rcpath = NULL;

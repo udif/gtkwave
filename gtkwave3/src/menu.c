@@ -2250,10 +2250,10 @@ if(GLOBALS->helpbox_is_active)
         }
 	else
 	{
-        const gchar *bundle_id = quartz_application_get_bundle_id();
+        const gchar *bundle_id = gtkosx_application_get_bundle_id();
         if(bundle_id)
                 {
-                const gchar *rpath = quartz_application_get_resource_path();
+                const gchar *rpath = gtkosx_application_get_resource_path();
                 const char *suf = "/doc/gtkwave.pdf";
 		char *pdfpath = NULL;
 		FILE *handle;
@@ -8671,7 +8671,9 @@ if(GLOBALS->loaded_file_type != LXT_FILE)
 gtk_window_add_accel_group(GTK_WINDOW(window), global_accel);
 
 #ifdef MAC_INTEGRATION
+#if defined(HAVE_LIBTCL)
 gtk_widget_hide(menu_wlist[WV_MENU_TCLSEP]);
+#endif
 gtk_widget_hide(menu_wlist[WV_MENU_FQY]);
 #endif
 

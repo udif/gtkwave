@@ -1511,5 +1511,6 @@
 		the value change.
 		Fixed crash in vcd2vzt for vcd files with no value changes
 		(likely a malformed vcd).
-3.3.67	17jun15	Added fsdbReaderResetSignalList() to prevent signals from
+3.3.67	22jun15	Added fsdbReaderResetSignalList() to prevent signals from
 		loading over and over when unnecessary.
+		Compile fixes for renamed functions and defines in gtk osx.
