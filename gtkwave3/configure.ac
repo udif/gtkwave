@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(gtkwave, 3.3.67, bybell@rocketmail.com)
+AC_INIT(gtkwave, 3.3.66, bybell@rocketmail.com)
 AC_CONFIG_SRCDIR([src/vcd.c])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
@@ -356,13 +356,13 @@ FFR=no
 EXTLOAD_CFLAGS=
 
 if test "X$FFR" = "Xyes" ; then
-	AC_CHECK_FILE("$FSDBREADER_LIBS/libnffr.so", FSDB_SO=yes, FSDB_SO=no)
-
-	if test "X$FSDB_SO" = "Xyes" ; then
-		FSDB_CFLAGS="-DFSDB_IS_PRESENT -I$FSDBREADER_HDRS"
-		FSDB_LDADD="$FSDBREADER_LIBS/libnffr.so"
-		EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
-	else
+#	AC_CHECK_FILE("$FSDBREADER_LIBS/libnffr.so", FSDB_SO=yes, FSDB_SO=no)
+#
+#	if test "X$FSDB_SO" = "Xyes" ; then
+#		FSDB_CFLAGS="-DFSDB_IS_PRESENT -I$FSDBREADER_HDRS"
+#		FSDB_LDADD="$FSDBREADER_LIBS/libnffr.so"
+#		EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
+#	else
 
 		AC_CHECK_FILE("$FSDBREADER_LIBS/libnffr.a", FSDB_A=yes, FSDB_A=no)
 		if test "X$FSDB_A" = "Xyes" ; then
@@ -373,15 +373,15 @@ if test "X$FFR" = "Xyes" ; then
 		AC_MSG_WARN([FSDB reader library not found, skipping.])
 
 		fi
-	fi
+#	fi
 
-	AC_CHECK_FILE("$FSDBREADER_LIBS/libnsys.so", AFSDB_SO=yes, AFSDB_SO=no)
-
-	if test "X$AFSDB_SO" = "Xyes" ; then
-		FSDB_CFLAGS="-DFSDB_NSYS_IS_PRESENT $FSDB_CFLAGS"
-		FSDB_LDADD="$FSDBREADER_LIBS/libnsys.so $FSDB_LDADD"
-		EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
-	else
+#	AC_CHECK_FILE("$FSDBREADER_LIBS/libnsys.so", AFSDB_SO=yes, AFSDB_SO=no)
+#
+#	if test "X$AFSDB_SO" = "Xyes" ; then
+#		FSDB_CFLAGS="-DFSDB_NSYS_IS_PRESENT $FSDB_CFLAGS"
+#		FSDB_LDADD="$FSDBREADER_LIBS/libnsys.so $FSDB_LDADD"
+#		EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
+#	else
 
 		AC_CHECK_FILE("$FSDBREADER_LIBS/libnsys.a", AFSDB_A=yes, AFSDB_A=no)
 		if test "X$AFSDB_A" = "Xyes" ; then
@@ -395,7 +395,7 @@ if test "X$FFR" = "Xyes" ; then
 		AC_MSG_WARN([FSDB system library not found, skipping.])
 
 		fi
-	fi
+#	fi
 
 	AC_CHECK_FILE("$FSDBREADER_HDRS/ffrAPI.h", FSDB_SOY=yes, FSDB_SOY=no)
 	if test "X$FSDB_SOY" = "Xno" ; then

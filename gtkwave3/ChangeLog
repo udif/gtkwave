@@ -1505,12 +1505,12 @@
 		stack overflow crashes.
 		Added support for synthetic clocks in FST file.
 		Update timetrace marking so it runs quicker for large traces.
-3.3.66	20may15	Faster fsdb initialization.
+3.3.66	05jul15	Faster fsdb initialization.
 		Fix vcd recoder loader crash for malformed vcd if signal is 
 		declared as bits and a real valued change is encountered for
 		the value change.
 		Fixed crash in vcd2vzt for vcd files with no value changes
 		(likely a malformed vcd).
-3.3.67	22jun15	Added fsdbReaderResetSignalList() to prevent signals from
+		Added fsdbReaderResetSignalList() to prevent signals from
 		loading over and over when unnecessary.
 		Compile fixes for renamed functions and defines in gtk osx.
