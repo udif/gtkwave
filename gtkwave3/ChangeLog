@@ -1514,3 +1514,4 @@
 		Added fsdbReaderResetSignalList() to prevent signals from
 		loading over and over when unnecessary.
 		Compile fixes for renamed functions and defines in gtk osx.
+3.3.67	10sep15	Updated LZ4 for version r131.
