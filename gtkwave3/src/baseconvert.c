@@ -294,11 +294,40 @@ if(flags&TR_ASCII)
 	char *parse;
 	int found=0;
 
+	free_2(newbuff);
+	newbuff=(char *)malloc_2(nbits+14); /* for justify */
+	if(flags&TR_REVERSE)
+		{
+		char *fwdpnt, *revpnt;
+	
+		fwdpnt=(char *)bits;
+		revpnt=newbuff+nbits+14;
+		for(i=0;i<7;i++) *(--revpnt)=xfwd[0];
+		for(i=0;i<nbits;i++)
+			{
+			*(--revpnt)=xtab[(int)(*(fwdpnt++))];
+			}
+		for(i=0;i<7;i++) *(--revpnt)=xfwd[0];
+		}
+		else
+		{
+		char *fwdpnt, *fwdpnt2;
+	
+		fwdpnt=(char *)bits;
+		fwdpnt2=newbuff;
+		for(i=0;i<7;i++) *(fwdpnt2++)=xfwd[0];
+		for(i=0;i<nbits;i++)
+			{
+			*(fwdpnt2++)=xtab[(int)(*(fwdpnt++))];
+			}
+		for(i=0;i<7;i++) *(fwdpnt2++)=xfwd[0];
+		}
+
 	len=(nbits/8)+2+2;		/* $xxxxx */
 	os=pnt=(char *)calloc_2(1,len);
 	if(GLOBALS->show_base) { *(pnt++)='"'; }
 
-	parse=(flags&TR_RJUSTIFY)?(newbuff+((nbits+3)&3)):(newbuff+3);
+	parse=(flags&TR_RJUSTIFY)?(newbuff+((nbits+7)&7)):(newbuff+7);
 	cvt_gray(flags,parse,nbits);
 
 	for(i=0;i<nbits;i+=8)
@@ -955,11 +984,40 @@ if(flags&TR_ASCII)
 	char *parse;
 	int found=0;
 
+	free_2(newbuff);
+	newbuff=(char *)malloc_2(nbits+14); /* for justify */
+	if(flags&TR_REVERSE)
+		{
+		char *fwdpnt, *revpnt;
+	
+		fwdpnt=(char *)bits;
+		revpnt=newbuff+nbits+14;
+		for(i=0;i<7;i++) *(--revpnt)=xfwd[0];
+		for(i=0;i<nbits;i++)
+			{
+			*(--revpnt)=xtab[(int)(*(fwdpnt++))];
+			}
+		for(i=0;i<7;i++) *(--revpnt)=xfwd[0];
+		}
+		else
+		{
+		char *fwdpnt, *fwdpnt2;
+	
+		fwdpnt=(char *)bits;
+		fwdpnt2=newbuff;
+		for(i=0;i<7;i++) *(fwdpnt2++)=xfwd[0];
+		for(i=0;i<nbits;i++)
+			{
+			*(fwdpnt2++)=xtab[(int)(*(fwdpnt++))];
+			}
+		for(i=0;i<7;i++) *(fwdpnt2++)=xfwd[0];
+		}
+
 	len=(nbits/8)+2+2;		/* $xxxxx */
 	os=pnt=(char *)calloc_2(1,len);
 	if(GLOBALS->show_base) { *(pnt++)='"'; }
 
-	parse=(flags&TR_RJUSTIFY)?(newbuff+((nbits+3)&3)):(newbuff+3);
+	parse=(flags&TR_RJUSTIFY)?(newbuff+((nbits+7)&7)):(newbuff+7);
 	cvt_gray(flags,parse,nbits);
 
 	for(i=0;i<nbits;i+=8)
