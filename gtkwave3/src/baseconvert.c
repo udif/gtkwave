@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2014.
+ * Copyright (c) Tony Bybell 1999-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -189,7 +189,7 @@ if(rmsk)
 
 sprintf(dbuf, "%.16g", rfrac);			
 char *dot = strchr(dbuf, '.');
-if(dot)
+if(dot && (dbuf[0] == '0'))
 	{
 	sprintf(bigbuf, TTFormat".%s", lpart, dot+1);
 	strncpy(os, bigbuf, len);
@@ -197,14 +197,14 @@ if(dot)
 	}
 	else
 	{
-	sprintf(os, TTFormat, val);
+	sprintf(os, TTFormat, lpart);
 	}
 }
 
 static void cvt_fpsudec(Trptr t, TimeType val, char *os, int len)
 {
 int shamt = t->t_fpdecshift;
-UTimeType lpart = val >> shamt;
+UTimeType lpart = ((UTimeType)val) >> shamt;
 TimeType rmsk = (1 << shamt);
 TimeType rbit = (val & (rmsk-1));
 double rfrac;
@@ -222,7 +222,7 @@ if(rmsk)
 
 sprintf(dbuf, "%.16g", rfrac);			
 char *dot = strchr(dbuf, '.');
-if(dot)
+if(dot && (dbuf[0] == '0'))
 	{
 	sprintf(bigbuf, UTTFormat".%s", lpart, dot+1);
 	strncpy(os, bigbuf, len);
@@ -230,7 +230,7 @@ if(dot)
 	}
 	else
 	{
-	sprintf(os, UTTFormat, val);
+	sprintf(os, UTTFormat, lpart);
 	}
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2014.
+ * Copyright (c) Tony Bybell 1999-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
