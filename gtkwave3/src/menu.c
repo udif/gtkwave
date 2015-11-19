@@ -6530,6 +6530,118 @@ dataformat( ~(TR_POPCNT), 0 );
 }
 
 void
+menu_dataformat_fpshift_on(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+(void)null_data;
+(void)callback_action;
+(void)widget;
+
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nData Format-Fixed Point Shift-On");
+        help_text(
+                " will step through all highlighted traces and ensure that"
+                " bits and vectors with this qualifier will be right shifted"
+		" prior to being displayed as Signed Decimal or Decimal values."
+        );
+        return;
+        }
+
+dataformat( ~(TR_FPDECSHIFT), TR_FPDECSHIFT );
+}
+
+void
+menu_dataformat_fpshift_off(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+(void)null_data;
+(void)callback_action;
+(void)widget;
+
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nData Format-Fixed Point Shift-Off");
+        help_text(
+                " will step through all highlighted traces and ensure that"
+                " bits and vectors with this qualifier will not be right shifted"
+		" prior to being displayed as Signed Decimal or Decimal values."
+        );
+        return;
+        }
+
+dataformat( ~(TR_FPDECSHIFT), 0 );
+}
+
+
+static void
+menu_dataformat_fpshift_specify_cleanup(GtkWidget *widget, gpointer data)
+{
+(void)widget;
+(void)data;
+
+  Trptr t;
+  int fix=0;
+  int shamt = GLOBALS->entrybox_text ? atoi(GLOBALS->entrybox_text) : 0;
+  int mask = ~(TR_FPDECSHIFT);
+  int patch = TR_FPDECSHIFT;
+
+  if((shamt < 0)||(shamt > 255)) { shamt = 0; patch = 0; }
+
+  if((t=GLOBALS->traces.first))
+    {
+      while(t)
+	{
+	  if(IsSelected(t)&&!IsShadowed(t))
+	    {
+	      t->minmax_valid = 0; /* force analog traces to regenerate if necessary */
+
+	      t->t_fpdecshift = shamt;
+	      t->flags=((t->flags)&mask)|patch;
+	      fix=1;
+	    }
+	  t=t->t_next;
+	}
+      if(fix)
+	{
+	  GLOBALS->signalwindow_width_dirty=1;
+	  MaxSignalLength();
+	  signalarea_configure_event(GLOBALS->signalarea, NULL);
+	  wavearea_configure_event(GLOBALS->wavearea, NULL);
+	}
+    }
+
+if(GLOBALS->entrybox_text) { free_2(GLOBALS->entrybox_text); GLOBALS->entrybox_text=NULL; }
+GLOBALS->signalwindow_width_dirty=1;
+MaxSignalLength();
+signalarea_configure_event(GLOBALS->signalarea, NULL);
+wavearea_configure_event(GLOBALS->wavearea, NULL);
+}
+
+
+void
+menu_dataformat_fpshift_specify(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+(void)null_data;
+(void)callback_action;
+(void)widget;
+
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nData Format-Fixed Point Shift-Specify");
+        help_text(
+		" will open up a requester to specify a shift count then"
+                " will step through all highlighted traces and ensure that"
+                " bits and vectors with this qualifier will be right shifted"
+		" prior to being displayed as Signed Decimal or Decimal values."
+        );
+        return;
+        }
+
+entrybox("Fixed Point Shift Specify",300,"",NULL,128,GTK_SIGNAL_FUNC(menu_dataformat_fpshift_specify_cleanup));
+
+dataformat( ~(TR_FPDECSHIFT), 0 );
+}
+
+void
 menu_dataformat_invert_on(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 (void)null_data;
@@ -7332,6 +7444,7 @@ if(GLOBALS->helpbox_is_active)
 		" P = Process Filter\n"
 		" T = Transaction Filter\n"
 		" p = Population Count\n"
+		" s = Fixed Point Shift (count)\n"
         );
         }
 	else
@@ -7465,6 +7578,9 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Edit/Data Format/Gray Filters/None", NULL, menu_dataformat_nogray,    WV_MENU_GBNONE, "<Item>"),
     WAVE_GTKIFE("/Edit/Data Format/Popcnt/On", NULL, menu_dataformat_popcnt_on, WV_MENU_POPON, "<Item>"),
     WAVE_GTKIFE("/Edit/Data Format/Popcnt/Off", NULL, menu_dataformat_popcnt_off,    WV_MENU_POPOFF, "<Item>"),
+    WAVE_GTKIFE("/Edit/Data Format/Fixed Point Shift/On", NULL, menu_dataformat_fpshift_on, WV_MENU_FPSHIFTON, "<Item>"),
+    WAVE_GTKIFE("/Edit/Data Format/Fixed Point Shift/Off", NULL, menu_dataformat_fpshift_off,    WV_MENU_FPSHIFTOFF, "<Item>"),
+    WAVE_GTKIFE("/Edit/Data Format/Fixed Point Shift/Specify", NULL, menu_dataformat_fpshift_specify,    WV_MENU_FPSHIFTVAL, "<Item>"),
 
     WAVE_GTKIFE("/Edit/Color Format/Normal", NULL, menu_colorformat_0,    WV_MENU_CLRFMT0, "<Item>"),
     WAVE_GTKIFE("/Edit/Color Format/Red", NULL, menu_colorformat_1,    WV_MENU_CLRFMT1, "<Item>"),
@@ -8134,6 +8250,9 @@ static gtkwave_mlist_t popmenu_items[] =
     WAVE_GTKIFE("/Data Format/Gray Filters/None", NULL, menu_dataformat_nogray,    WV_MENU_GBNONE, "<Item>"),
     WAVE_GTKIFE("/Data Format/Popcnt/On", NULL, menu_dataformat_popcnt_on, WV_MENU_POPON, "<Item>"),
     WAVE_GTKIFE("/Data Format/Popcnt/Off", NULL, menu_dataformat_popcnt_off,    WV_MENU_POPOFF, "<Item>"),
+    WAVE_GTKIFE("/Data Format/Fixed Point Shift/On", NULL, menu_dataformat_fpshift_on, WV_MENU_FPSHIFTON, "<Item>"),
+    WAVE_GTKIFE("/Data Format/Fixed Point Shift/Off", NULL, menu_dataformat_fpshift_off,    WV_MENU_FPSHIFTOFF, "<Item>"),
+    WAVE_GTKIFE("/Data Format/Fixed Point Shift/Specify", NULL, menu_dataformat_fpshift_specify,    WV_MENU_FPSHIFTVAL, "<Item>"),
 
     WAVE_GTKIFE("/Color Format/Normal", NULL, menu_colorformat_0,    WV_MENU_CLRFMT0, "<Item>"),
     WAVE_GTKIFE("/Color Format/Red", NULL, menu_colorformat_1,    WV_MENU_CLRFMT1, "<Item>"),

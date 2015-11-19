@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2006-2014.
+ * Copyright (c) Tony Bybell 2006-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,8 +25,9 @@
 
 /************************************************************************************************/
 
-static int determine_trace_flags(unsigned int flags, char *ch)
+static int determine_trace_flags(Trptr t, char *ch)
 {
+unsigned int flags = t->flags;
 int pos = 0;
 
 /* [0] */
@@ -85,7 +86,14 @@ if((flags & TR_TTRANSLATED) != 0) { ch[pos++] = 'T'; }
 /* [14] */
 if((flags & TR_POPCNT) != 0) { ch[pos++] = 'p'; }
 
-/* [15]  (at worst case this needs 16 characters) */
+/* [15] */
+if((flags & TR_FPDECSHIFT) != 0)
+        {       
+        int ln = sprintf(ch+pos, "s(%d)", t->t_fpdecshift);
+        pos += ln;
+        }
+
+/* [16+] */
 ch[pos] = 0;
 
 return(pos);
@@ -289,7 +297,7 @@ if(t)
 	name_charlen = t->name ? strlen(t->name) : 0;
 	if(name_charlen)
 		{
-		int len = determine_trace_flags(t->flags, flag_string);
+		int len = determine_trace_flags(t, flag_string);
 		flagged_name = malloc_2(name_charlen + 1 + len + 1);
 		memcpy(flagged_name, t->name, name_charlen);
 		flagged_name[name_charlen] = ' ';

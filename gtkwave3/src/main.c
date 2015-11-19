@@ -1664,6 +1664,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 
 		read_save_helper_relative_init(wname);
 		GLOBALS->default_flags=TR_RJUSTIFY;
+		GLOBALS->default_fpshift = 0;
 		GLOBALS->shift_timebase_default_for_add=LLDescriptor(0);
 		GLOBALS->strace_current_window = 0; /* in case there are shadow traces */
 		GLOBALS->which_t_color = 0;
@@ -1675,6 +1676,7 @@ if((wname)||(vcd_save_handle_cached)||(is_smartsave))
 	                }
 		GLOBALS->which_t_color = 0;
 		GLOBALS->default_flags=TR_RJUSTIFY;
+		GLOBALS->default_fpshift = 0;
 		GLOBALS->shift_timebase_default_for_add=LLDescriptor(0);
 
 		if(wave_is_compressed) pclose(wave); else fclose(wave);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2008
+ * Copyright (c) Tony Bybell 1999-2016
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -100,7 +100,7 @@ DEBUG(printf("To Entry contents: %s\n",entry_text));
 newhi=unformat_time(entry_text, GLOBALS->time_dimension);
 newhi -= GLOBALS->global_time_offset;
 
-if(newhi>GLOBALS->max_time)
+if((newhi>GLOBALS->max_time) || (!strlen(entry_text))) /* null string makes max time */
 	{
 	newhi=GLOBALS->max_time;
 	}
@@ -150,7 +150,7 @@ gtk_box_pack_start(GTK_BOX(box), label, TRUE, TRUE, 0);
 gtk_widget_show(label);
 gtk_box_pack_start(GTK_BOX(box), GLOBALS->from_entry, TRUE, TRUE, 0);
 gtk_widget_set_usize(GTK_WIDGET(GLOBALS->from_entry), 90, 22);
-gtk_tooltips_set_tip_2(tooltips, GLOBALS->from_entry, "Scroll Lower Bound", NULL);
+gtk_tooltips_set_tip_2(tooltips, GLOBALS->from_entry, "Scroll Lower Bound (use MX for named marker X)", NULL);
 gtk_widget_show(GLOBALS->from_entry);
 
 
@@ -166,7 +166,7 @@ gtk_box_pack_start(GTK_BOX(box2), label2, TRUE, TRUE, 0);
 gtk_widget_show(label2);
 gtk_box_pack_start(GTK_BOX(box2), GLOBALS->to_entry, TRUE, TRUE, 0);
 gtk_widget_set_usize(GTK_WIDGET(GLOBALS->to_entry), 90, 22);
-gtk_tooltips_set_tip_2(tooltips, GLOBALS->to_entry, "Scroll Upper Bound", NULL);
+gtk_tooltips_set_tip_2(tooltips, GLOBALS->to_entry, "Scroll Upper Bound (use MX for named marker X)", NULL);
 gtk_widget_show(GLOBALS->to_entry);
 
 if(!GLOBALS->use_toolbutton_interface)

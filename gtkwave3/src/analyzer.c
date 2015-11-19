@@ -230,6 +230,8 @@ static void AddTrace( Trptr t )
 {
 GLOBALS->traces.dirty = 1;
 
+t->t_fpdecshift = GLOBALS->default_fpshift;
+
 if((GLOBALS->which_t_color > 0) && (GLOBALS->which_t_color <= WAVE_NUM_RAINBOW))
 	{
 	t->t_color = GLOBALS->which_t_color;

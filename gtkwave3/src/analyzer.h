@@ -500,6 +500,7 @@ typedef struct TraceEnt
     int	     t_filter;		/* transaction process filter */
 
     unsigned int t_color;	/* trace color index */
+    unsigned char t_fpdecshift; /* for fixed point decimal */
 
     unsigned is_alias : 1;	/* set when it's an alias (safe to free t->name then) */
     unsigned is_depacked : 1;	/* set when it's been depacked from a compressed entry (safe to free t->name then) */
@@ -522,7 +523,8 @@ enum TraceEntFlagBits
   TR_GRP_END_B,
   TR_BINGRAY_B, TR_GRAYBIN_B,
   TR_REAL2BITS_B, TR_TTRANSLATED_B,
-  TR_POPCNT_B
+  TR_POPCNT_B,
+  TR_FPDECSHIFT_B
 };
 
 #define TR_HIGHLIGHT 		(1<<TR_HIGHLIGHT_B)
@@ -566,6 +568,7 @@ enum TraceEntFlagBits
 #define TR_TTRANSLATED  (1<<TR_TTRANSLATED_B)
 
 #define TR_POPCNT	(1<<TR_POPCNT_B)
+#define TR_FPDECSHIFT   (1<<TR_FPDECSHIFT_B)
 
 #define TR_ANALOGMASK	(TR_ANALOG_STEP|TR_ANALOG_INTERPOLATED)
 

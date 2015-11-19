@@ -896,6 +896,7 @@ match_type_list = calloc_2(c, sizeof(int *));
 most_recent_lbrack_list = calloc_2(c, sizeof(char *));
 
 GLOBALS->default_flags=TR_RJUSTIFY;
+GLOBALS->default_fpshift=0;
 
 GLOBALS->strace_current_window = 0; /* in case there are shadow traces; in reality this should never happen */
 
@@ -1214,6 +1215,7 @@ for(ii=0;ii<c;ii++)
 paste_routine:
 
 GLOBALS->default_flags=TR_RJUSTIFY;
+GLOBALS->default_fpshift=0;
 
 GLOBALS->traces.buffercount=GLOBALS->traces.total;
 GLOBALS->traces.buffer=GLOBALS->traces.first;
@@ -2043,6 +2045,12 @@ char *emit_gtkwave_savefile_formatted_entries_in_tcl_list(Trptr t, gboolean use_
 		if(t->t_color)
 			{
 			one_entry = make_message("[color] %d\n", t->t_color);
+			WAVE_OE_ME
+			}
+
+		if(t->t_fpdecshift)
+			{
+			one_entry = make_message("[fpshift_count] %d\n", t->t_fpdecshift);
 			WAVE_OE_ME
 			}
 

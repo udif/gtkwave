@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2006-2014.
+ * Copyright (c) Tony Bybell 2006-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -112,7 +112,14 @@ if((flags & TR_TTRANSLATED) != 0) { ch[pos++] = 'T'; }
 /* [14] */
 if((flags & TR_POPCNT) != 0) { ch[pos++] = 'p'; }
 
-/* [15]  (at worst case this needs 16 characters) */
+/* [15] */
+if((flags & TR_FPDECSHIFT) != 0) 
+	{ 
+	int ln = sprintf(ch+pos, "s(%d)", t->t_fpdecshift);
+	pos += ln;
+	}
+
+/* [16+] */
 ch[pos] = 0;
 
 if(!t->vector)

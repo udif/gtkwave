@@ -168,6 +168,73 @@ for(i=nbits-1;i>=0;i--) /* always requires less number of bits */
 }
 
 
+static void cvt_fpsdec(Trptr t, TimeType val, char *os, int len)
+{
+int shamt = t->t_fpdecshift;
+TimeType lpart = val >> shamt;
+TimeType rmsk = (1 << shamt);
+TimeType rbit = (val >= 0) ? (val & (rmsk-1)) : ((-val) & (rmsk-1));
+double rfrac;
+char dbuf[32];
+char bigbuf[64];
+
+if(rmsk)
+	{
+	rfrac = (double)rbit / (double)rmsk;
+	}
+	else
+	{
+	rfrac = 0.0;
+	}			
+
+sprintf(dbuf, "%.16g", rfrac);			
+char *dot = strchr(dbuf, '.');
+if(dot)
+	{
+	sprintf(bigbuf, TTFormat".%s", lpart, dot+1);
+	strncpy(os, bigbuf, len);
+	os[len-1] = 0;
+	}
+	else
+	{
+	sprintf(os, TTFormat, val);
+	}
+}
+
+static void cvt_fpsudec(Trptr t, TimeType val, char *os, int len)
+{
+int shamt = t->t_fpdecshift;
+UTimeType lpart = val >> shamt;
+TimeType rmsk = (1 << shamt);
+TimeType rbit = (val & (rmsk-1));
+double rfrac;
+char dbuf[32];
+char bigbuf[64];
+
+if(rmsk)
+	{
+	rfrac = (double)rbit / (double)rmsk;
+	}
+	else
+	{
+	rfrac = 0.0;
+	}			
+
+sprintf(dbuf, "%.16g", rfrac);			
+char *dot = strchr(dbuf, '.');
+if(dot)
+	{
+	sprintf(bigbuf, UTTFormat".%s", lpart, dot+1);
+	strncpy(os, bigbuf, len);
+	os[len-1] = 0;
+	}
+	else
+	{
+	sprintf(os, UTTFormat, val);
+	}
+}
+
+
 /*
  * convert trptr+vptr into an ascii string
  */
@@ -605,7 +672,14 @@ else if(flags&TR_SIGNED)
 
 	if(!fail)
 		{
-		sprintf(os, TTFormat, val);
+		if((flags&TR_FPDECSHIFT)&&(t->t_fpdecshift))
+			{
+			cvt_fpsdec(t, val, os, len);
+			}
+			else
+			{
+			sprintf(os, TTFormat, val);
+			}
 		}
 		else
 		{
@@ -684,7 +758,14 @@ else	/* decimal when all else fails */
 
 	if(!fail)
 		{
-		sprintf(os, UTTFormat, val);
+		if((flags&TR_FPDECSHIFT)&&(t->t_fpdecshift))
+			{
+			cvt_fpsudec(t, val, os, len);
+			}
+			else
+			{
+			sprintf(os, UTTFormat, val);
+			}
 		}
 		else
 		{
@@ -1293,7 +1374,14 @@ else if(flags&TR_SIGNED)
 
 	if(!fail)
 		{
-		sprintf(os, TTFormat, val);
+		if((flags&TR_FPDECSHIFT)&&(t->t_fpdecshift))
+			{
+			cvt_fpsdec(t, val, os, len);
+			}
+			else
+			{
+			sprintf(os, TTFormat, val);
+			}
 		}
 		else
 		{
@@ -1372,7 +1460,14 @@ else	/* decimal when all else fails */
 
 	if(!fail)
 		{
-		sprintf(os, UTTFormat, val);
+		if((flags&TR_FPDECSHIFT)&&(t->t_fpdecshift))
+			{
+			cvt_fpsudec(t, val, os, len);
+			}
+			else
+			{
+			sprintf(os, UTTFormat, val);
+			}
 		}
 		else
 		{

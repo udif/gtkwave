@@ -45,7 +45,7 @@ return(buf);
 }
 
 
-unsigned int bijective_marker_id_string_hash(char *so)
+unsigned int bijective_marker_id_string_hash(const char *so)
 {
 unsigned int val=0;
 int i;
@@ -70,7 +70,7 @@ return(val);
 }
 
 
-unsigned int bijective_marker_id_string_len(char *s)
+unsigned int bijective_marker_id_string_len(const char *s)
 {
 int len = 0;
 

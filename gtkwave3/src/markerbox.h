@@ -28,8 +28,8 @@
 void markerbox(char *title, GtkSignalFunc func);
 
 char *make_bijective_marker_id_string(char *buf, unsigned int value);
-unsigned int bijective_marker_id_string_hash(char *so);
-unsigned int bijective_marker_id_string_len(char *s);
+unsigned int bijective_marker_id_string_hash(const char *so);
+unsigned int bijective_marker_id_string_len(const char *s);
 
 #endif
 

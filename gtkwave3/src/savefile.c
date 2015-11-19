@@ -270,6 +270,10 @@ void write_save_helper(const char *savnam, FILE *wave) {
 				{
 				fprintf(wave, "[color] %d\n", t->t_color);
 				}
+			if(t->flags & TR_FPDECSHIFT)
+				{
+				fprintf(wave, "[fpshift_count] %d\n", t->t_fpdecshift);
+				}
 
 			if(t->flags & TR_FTRANSLATED)
 				{
@@ -810,6 +814,7 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 			}
 
                 GLOBALS->default_flags=TR_RJUSTIFY;
+                GLOBALS->default_fpshift=0;
 		GLOBALS->shift_timebase_default_for_add=LLDescriptor(0);
 		GLOBALS->strace_current_window = 0; /* in case there are shadow traces */
 
@@ -846,6 +851,7 @@ int read_save_helper(char *wname, char **dumpfile, char **savefile, off_t *dumps
 			}
 
                 GLOBALS->default_flags=TR_RJUSTIFY;
+                GLOBALS->default_fpshift=0;
 		GLOBALS->shift_timebase_default_for_add=LLDescriptor(0);
 		update_markertime(GLOBALS->tims.marker);
                 if(wave_is_compressed) pclose(wave); else fclose(wave);
@@ -1568,6 +1574,16 @@ else if (*w2 == '[')
 		{
 		GLOBALS->which_t_color = 0;
 		}
+      }
+    else if (strcmp (w2, "fpshift_count") == 0)
+      {
+      int fpshift_count = 0;
+      sscanf (w, "%d", &fpshift_count);
+      if((fpshift_count<0)||(fpshift_count>255))
+		{
+		fpshift_count = 0;
+		}
+      GLOBALS->default_fpshift = fpshift_count;
       }
     else if (strcmp (w2, "pattern_trace") == 0)
       {

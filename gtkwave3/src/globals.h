@@ -105,6 +105,7 @@ char disable_ae2_alias;
  * analyzer.c
  */
 unsigned int default_flags; /* from analyzer.c 5 */
+unsigned int default_fpshift;
 Times tims; /* from analyzer.c 6 */
 Traces traces; /* from analyzer.c 7 */
 int hier_max_level; /* from analyzer.c 8 */

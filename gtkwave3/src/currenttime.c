@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2008.
+ * Copyright (c) Tony Bybell 1999-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -195,6 +195,22 @@ const char *compar = ".+eE";
 int compar_len = strlen(compar);
 int i;
 char *pnt;
+
+if((*s == 'M')||(*s == 'm'))
+	{
+	if(bijective_marker_id_string_len(s+1))
+		{
+		unsigned int mkv = bijective_marker_id_string_hash(s+1);
+		if(mkv < WAVE_NUM_NAMED_MARKERS)
+			{
+			TimeType mkvt = GLOBALS->named_markers[mkv];
+			if(mkvt != -1)
+				{
+				return(mkvt);
+				}
+			}
+		}
+	}
 
 for(i=0;i<compar_len;i++)
 	{

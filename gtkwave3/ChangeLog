@@ -1516,4 +1516,8 @@
 		Compile fixes for renamed functions and defines in gtk osx.
 3.3.67	24sep15	Updated LZ4 for version r131.
 		Fixed right justify ascii datatype display.
-3.3.68	04nov15	Update copyright date.
+3.3.68	18nov15	Update copyright date.
+		Added named markers capability to From: and To: time value
+		input boxes.
+		Added support for fixed point binary numbers for both signed 
+		and unsigned decimal display types.
