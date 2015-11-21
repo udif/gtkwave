@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(gtkwave, 3.3.68, bybell@rocketmail.com)
+AC_INIT(gtkwave, 3.3.69, bybell@rocketmail.com)
 AC_CONFIG_SRCDIR([src/vcd.c])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADER([config.h])
@@ -368,6 +368,7 @@ if test "X$FFR" = "Xyes" ; then
 		if test "X$FSDB_A" = "Xyes" ; then
 			FSDB_CFLAGS="-DFSDB_IS_PRESENT -I$FSDBREADER_HDRS"
 			FSDB_LDADD="$FSDBREADER_LIBS/libnffr.a"
+			EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 		else
 
 		AC_MSG_WARN([FSDB reader library not found, skipping.])
@@ -387,6 +388,7 @@ if test "X$FFR" = "Xyes" ; then
 		if test "X$AFSDB_A" = "Xyes" ; then
 			FSDB_CFLAGS="-DFSDB_NSYS_IS_PRESENT $FSDB_CFLAGS"
 			FSDB_LDADD="$FSDB_LDADD $FSDBREADER_LIBS/libnsys.a"
+			EXTLOAD_CFLAGS="-DEXTLOAD_SUFFIX=\\\"fsdb\\\""
 		else
 
 		FSDB_CFLAGS=
