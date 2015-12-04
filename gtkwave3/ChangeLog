@@ -1521,6 +1521,7 @@
 		input boxes.
 		Added support for fixed point binary numbers for both signed 
 		and unsigned decimal display types.
-3.3.69	20nov15	Added missing EXTLOAD_CFLAGS declarations in configure.ac for
+3.3.69	04dec15	Added missing EXTLOAD_CFLAGS declarations in configure.ac for
 		FSDB detection when only .a files are present (necessary for
 		Ubuntu).
+		Fixed valgrind warning in fst.c for dead memory allocation.

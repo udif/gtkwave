@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 2009-2015.
+ * Copyright (c) Tony Bybell 2009-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -1021,6 +1021,8 @@ for(i=0;i<GLOBALS->numfacs;i++)
         s->n=n;
         }			/* for(i) of facs parsing */
 
+
+if(f_name_max_len) { free_2(f_name_max_len); f_name_max_len = NULL; }
 if(nnam) { free_2(nnam); nnam = NULL; }
 if(f_name_build_buf) { free_2(f_name_build_buf); f_name_build_buf = NULL; }
 
