@@ -168,12 +168,13 @@ for(i=nbits-1;i>=0;i--) /* always requires less number of bits */
 }
 
 
-static void cvt_fpsdec(Trptr t, TimeType val, char *os, int len)
+static void cvt_fpsdec(Trptr t, TimeType val, char *os, int len, int nbits)
 {
 int shamt = t->t_fpdecshift;
 TimeType lpart = val >> shamt;
 TimeType rmsk = (1 << shamt);
 TimeType rbit = (val >= 0) ? (val & (rmsk-1)) : ((-val) & (rmsk-1));
+int negflag = 0;
 double rfrac;
 char dbuf[32];
 char bigbuf[64];
@@ -181,6 +182,19 @@ char bigbuf[64];
 if(rmsk)
 	{
 	rfrac = (double)rbit / (double)rmsk;
+
+	if(shamt)
+		{
+		if(lpart == -1) 
+			{
+			TimeType lpartm1 = val >> (shamt-1); 
+			if(lpartm1 == -1)
+				{
+				lpart = 0; negflag = 1; 
+				}
+			}
+		}
+
 	}
 	else
 	{
@@ -191,13 +205,13 @@ sprintf(dbuf, "%.16g", rfrac);
 char *dot = strchr(dbuf, '.');
 if(dot && (dbuf[0] == '0'))
 	{
-	sprintf(bigbuf, TTFormat".%s", lpart, dot+1);
+	sprintf(bigbuf, negflag ? "-"TTFormat".%s" : TTFormat".%s", lpart, dot+1);
 	strncpy(os, bigbuf, len);
 	os[len-1] = 0;
 	}
 	else
 	{
-	sprintf(os, TTFormat, lpart);
+	sprintf(os, negflag ? "-"TTFormat : TTFormat, lpart);
 	}
 }
 
@@ -674,7 +688,7 @@ else if(flags&TR_SIGNED)
 		{
 		if((flags&TR_FPDECSHIFT)&&(t->t_fpdecshift))
 			{
-			cvt_fpsdec(t, val, os, len);
+			cvt_fpsdec(t, val, os, len, nbits);
 			}
 			else
 			{
@@ -1376,7 +1390,7 @@ else if(flags&TR_SIGNED)
 		{
 		if((flags&TR_FPDECSHIFT)&&(t->t_fpdecshift))
 			{
-			cvt_fpsdec(t, val, os, len);
+			cvt_fpsdec(t, val, os, len, nbits);
 			}
 			else
 			{
