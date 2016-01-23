@@ -174,45 +174,47 @@ int shamt = t->t_fpdecshift;
 TimeType lpart = val >> shamt;
 TimeType rmsk = (1 << shamt);
 TimeType rbit = (val >= 0) ? (val & (rmsk-1)) : ((-val) & (rmsk-1));
-int negflag = 0;
 double rfrac;
+int negflag = 0;
 char dbuf[32];
 char bigbuf[64];
 
+
 if(rmsk)
-	{
-	rfrac = (double)rbit / (double)rmsk;
+        {
+        rfrac = (double)rbit / (double)rmsk;
 
-	if(shamt)
-		{
-		if(lpart == -1) 
-			{
-			TimeType lpartm1 = val >> (shamt-1); 
-			if(lpartm1 == -1)
-				{
-				lpart = 0; negflag = 1; 
-				}
-			}
-		}
+        if(shamt)
+                {
+                if(lpart < 0)
+                        {
+                        if(rbit)
+                                {
+                                lpart++;
+                                if(!lpart) negflag = 1;
+                                }
+                        }
+                }
 
-	}
-	else
-	{
-	rfrac = 0.0;
-	}			
+        }
+        else
+        {
+        rfrac = 0.0;
+        }
 
-sprintf(dbuf, "%.16g", rfrac);			
+sprintf(dbuf, "%.16g", rfrac);
 char *dot = strchr(dbuf, '.');
+
 if(dot && (dbuf[0] == '0'))
-	{
-	sprintf(bigbuf, negflag ? "-"TTFormat".%s" : TTFormat".%s", lpart, dot+1);
-	strncpy(os, bigbuf, len);
-	os[len-1] = 0;
-	}
-	else
-	{
-	sprintf(os, negflag ? "-"TTFormat : TTFormat, lpart);
-	}
+        {
+	sprintf(bigbuf, "%s"TTFormat".%s", negflag ? "-" : "", lpart, dot+1);
+        strncpy(os, bigbuf, len);
+        os[len-1] = 0;
+        }
+        else
+        {
+	sprintf(os, "%s"TTFormat, negflag ? "-" : "", lpart);
+        }
 }
 
 static void cvt_fpsudec(Trptr t, TimeType val, char *os, int len)
