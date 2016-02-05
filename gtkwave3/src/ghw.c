@@ -492,7 +492,37 @@ build_hierarchy_array (struct ghw_handler *h, union ghw_type *arr, int dim,
 	  }
       }
       return;
+    /* PATCH-BEGIN: */
+    case ghdl_rtik_type_b2:
+      {
+	int32_t v;
+	char *nam;
+	struct ghw_range_b2 *r;
+	/* struct tree *last; */
+	int len;
 
+	/* last = NULL; */
+	r = &arr->sa.rngs[dim]->b2;
+	len = ghw_get_range_length ((union ghw_range *)r);
+	if (len <= 0)
+	  break;
+	v = r->left;
+	while (1)
+	  {
+	    sprintf(GLOBALS->asbuf, "%s%c"GHWLD, pfx, dim == 0 ? '[' : ',', v);
+            nam = strdup_2(GLOBALS->asbuf);
+	    build_hierarchy_array (h, arr, dim + 1, nam, res, sig);
+	    free_2(nam);
+	    if (v == r->right)
+	      break;
+	    if (r->dir == 0)
+	      v++;
+	    else
+	      v--;
+	  }
+      }
+      return;
+      /* PATCH-END: */
     default:
       fprintf (stderr, "build_hierarchy_array: unhandled type %d\n",
 	       idx->kind);

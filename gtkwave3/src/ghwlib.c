@@ -480,7 +480,15 @@ if(!rng) /* scan-build */
       if (rng->e8.dir)
 	return (rng->e8.left - rng->e8.right + 1);
       else
-	return (rng->e8.right - rng->e8.left + 1);
+  return (rng->e8.right - rng->e8.left + 1);
+
+    /* PATCH-BEGIN: */
+    case ghdl_rtik_type_b2:
+      if (rng->b2.dir)
+	return (rng->b2.left - rng->b2.right + 1);
+      else
+	return (rng->b2.right - rng->b2.left + 1);
+    /* PATCH-END: */
 
     default:
       fprintf (stderr, "get_range_length: unhandled kind %d\n", rng->kind);
@@ -1349,12 +1357,19 @@ ghw_disp_value (union ghw_val *val, union ghw_type *type)
 void
 ghw_get_value (char *buf, int len, union ghw_val *val, union ghw_type *type)
 {
-  switch (ghw_get_base_type (type)->kind)
+  /* PATCH-BEGIN: */
+  union ghw_type *base = ghw_get_base_type (type);
+  switch (base->kind)
+  /* switch (ghw_get_base_type (type)->kind) */
+  /* PATCH-END: */
     {
     case ghdl_rtik_type_b2:
       if (val->b2 <= 1)
 	{
-	  strncpy (buf, type->en.lits[val->b2], len - 1);
+    /* PATCH-BEGIN: */
+    strncpy (buf, base->en.lits[val->b2], len - 1);
+	  /* strncpy (buf, type->en.lits[val->b2], len - 1); */
+    /* PATCH-END: */
 	  buf[len - 1] = 0;
 	}
       else
@@ -1363,12 +1378,21 @@ ghw_get_value (char *buf, int len, union ghw_val *val, union ghw_type *type)
 	}
       break;
     case ghdl_rtik_type_e8:
-      if (val->e8 <= type->en.nbr)
+      /* PATCH-BEGIN: */
+      if (val->e8 <= base->en.nbr)
+      /* if (val->e8 <= type->en.nbr) */
+      /* PATCH-END: */
 	{
 	  /* XXX : without the if() is this a programming error? */
-	  if(type->en.lits)
+    /* PATCH-BEGIN: */
+	  if(base->en.lits)
+	  /* if(type->en.lits) */
+    /* PATCH-END: */
 		{
-	  	strncpy (buf, type->en.lits[val->e8], len - 1);
+      /* PATCH-BEGIN: */
+	  	strncpy (buf, base->en.lits[val->e8], len - 1);
+	  	/* strncpy (buf, type->en.lits[val->e8], len - 1); */
+      /* PATCH-END: */
 	  	buf[len - 1] = 0;
 		}
 		else

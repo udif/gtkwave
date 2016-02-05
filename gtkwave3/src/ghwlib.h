@@ -148,6 +148,9 @@ union ghw_range
 {
   unsigned kind : 8;
   struct ghw_range_e8 e8;
+  /* PATCH-BEGIN: */
+  struct ghw_range_b2 b2;
+  /* PATCH-END: */
   struct ghw_range_i32 i32;
   struct ghw_range_i64 i64;
   struct ghw_range_f64 f64;
