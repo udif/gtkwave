@@ -747,7 +747,7 @@ elem = zSplitTclList(s, l);
 
 if(elem)
         {
-        if(strcmp("gtkwave", elem[0]))
+        if((!elem[0]) || strcmp("gtkwave", elem[0])) /* scan-build: elem[0] is NULL */
 		{
 		free_2(elem);
 		elem = NULL;
@@ -784,7 +784,7 @@ elem = zSplitTclList(s, &l);
 
 if(elem)
 	{
-	if((!strcmp("net", elem[0])) || (!strcmp("netBus", elem[0])))
+	if ((elem[0]) &&  ((!strcmp("net", elem[0])) || (!strcmp("netBus", elem[0])))) /* scan-build: elem[0] can be NULL */
 		{
 		char delim_str[2];
 

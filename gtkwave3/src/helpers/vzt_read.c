@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2015 Tony Bybell.
+ * Copyright (c) 2003-2016 Tony Bybell.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -812,7 +812,7 @@ char *bufpnt;
 
 struct vzt_ncycle_autosort **autosort;
 struct vzt_ncycle_autosort *deadlist=NULL;
-struct vzt_ncycle_autosort *autofacs= calloc(lt->numrealfacs, sizeof(struct vzt_ncycle_autosort));
+struct vzt_ncycle_autosort *autofacs= calloc(lt->numrealfacs ? lt->numrealfacs : 1, sizeof(struct vzt_ncycle_autosort)); /* fix for scan-build on lt->numrealfacs */
 
 vzt_rd_block_vch_decode(lt, b);
 vzt_rd_pthread_mutex_lock(lt, &b->mutex);

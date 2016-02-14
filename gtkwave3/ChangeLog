@@ -1528,3 +1528,4 @@
 		Fixed signed fixed point binary number shift for negative
 		numbers.
 		Added ghw patch for missing enum crash in ghw files.
+3.3.70	14feb16	Various warnings fixes from new version of scan-build.
