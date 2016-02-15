@@ -25,7 +25,7 @@ int save_nodes_to_trans(FILE *trans, Trptr t);
 
 /* from helpers/scopenav.c */
 extern void free_hier(void);
-extern char *output_hier(char *name);
+extern char *output_hier(int is_trans, char *name);
 
 #endif
 

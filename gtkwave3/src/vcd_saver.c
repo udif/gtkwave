@@ -15,13 +15,34 @@
 #include "hierpack.h"
 #include <time.h>
 
-static void w32redirect_fprintf(FILE *sfd, const char *format, ...)
+static void w32redirect_fprintf(int is_trans, FILE *sfd, const char *format, ...)
 {
-va_list ap;
-va_start(ap, format);
-vfprintf(sfd, format, ap);
-va_end(ap);
+#if defined _MSC_VER || defined __MINGW32__
+if(is_trans)
+	{
+	char buf[16385];
+	BOOL bSuccess;
+	DWORD dwWritten;
+
+	va_list ap;
+	va_start(ap, format);
+	buf[0] = 0;
+	vsprintf(buf, format, ap);
+	bSuccess = WriteFile((HANDLE)sfd, buf, strlen(buf), &dwWritten, NULL);
+	va_end(ap);
+	}
+	else
+#else
+(void) is_trans;
+#endif
+	{
+	va_list ap;
+	va_start(ap, format);
+	vfprintf(sfd, format, ap);
+	va_end(ap);
+	}
 }
+
 
 /*
  * unconvert trace data back to VCD representation...use strict mode for LXT
@@ -342,6 +363,7 @@ int max_len = 1;
 char *row_data = NULL;
 struct lt_trace *lt = NULL;
 int lxt = (export_typ == WAVE_EXPORT_LXT);
+int is_trans = (export_typ == WAVE_EXPORT_TRANS);
 
 if(export_typ == WAVE_EXPORT_TIM)
 	{
@@ -507,30 +529,30 @@ if(lxt)
 	if(export_typ != WAVE_EXPORT_TRANS)
 		{
 		time(&walltime);
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$date\n");
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "\t%s",asctime(localtime(&walltime)));
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$end\n");
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$version\n\t"WAVE_VERSION_INFO"\n$end\n");
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$timescale\n\t%d%c%s\n$end\n", (int)GLOBALS->time_scale, GLOBALS->time_dimension, (GLOBALS->time_dimension=='s') ? "" : "s");
-		if(GLOBALS->global_time_offset) { w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$timezero\n\t"TTFormat"\n$end\n",GLOBALS->global_time_offset); }
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$date\n");
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "\t%s",asctime(localtime(&walltime)));
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$end\n");
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$version\n\t"WAVE_VERSION_INFO"\n$end\n");
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$timescale\n\t%d%c%s\n$end\n", (int)GLOBALS->time_scale, GLOBALS->time_dimension, (GLOBALS->time_dimension=='s') ? "" : "s");
+		if(GLOBALS->global_time_offset) { w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$timezero\n\t"TTFormat"\n$end\n",GLOBALS->global_time_offset); }
 		}
 		else
 		{
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment data_start %p $end\n", (void *)trans_head); /* arbitrary hex identifier */
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment name %s $end\n", trans_head->name ? trans_head->name : "UNKNOWN");
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$timescale %d%c%s $end\n", (int)GLOBALS->time_scale, GLOBALS->time_dimension, (GLOBALS->time_dimension=='s') ? "" : "s");
-		if(GLOBALS->global_time_offset) { w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$timezero "TTFormat" $end\n",GLOBALS->global_time_offset); }
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment min_time "TTFormat" $end\n", GLOBALS->min_time / GLOBALS->time_scale);
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment max_time "TTFormat" $end\n", GLOBALS->max_time / GLOBALS->time_scale);
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$comment data_start %p $end\n", (void *)trans_head); /* arbitrary hex identifier */
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$comment name %s $end\n", trans_head->name ? trans_head->name : "UNKNOWN");
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$timescale %d%c%s $end\n", (int)GLOBALS->time_scale, GLOBALS->time_dimension, (GLOBALS->time_dimension=='s') ? "" : "s");
+		if(GLOBALS->global_time_offset) { w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$timezero "TTFormat" $end\n",GLOBALS->global_time_offset); }
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$comment min_time "TTFormat" $end\n", GLOBALS->min_time / GLOBALS->time_scale);
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$comment max_time "TTFormat" $end\n", GLOBALS->max_time / GLOBALS->time_scale);
 		}
 	}
 
 if(export_typ == WAVE_EXPORT_TRANS)
 	{
-        w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment max_seqn %d $end\n", nodecnt);
+        w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$comment max_seqn %d $end\n", nodecnt);
 	if(t && t->transaction_args)
 		{
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment args \"%s\" $end\n", t->transaction_args);
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$comment args \"%s\" $end\n", t->transaction_args);
 		}
         }
 
@@ -542,11 +564,11 @@ for(i=0;i<nodecnt;i++)
 	{
 	int was_packed = HIER_DEPACK_STATIC;
 	char *hname = hier_decompress_flagged(GLOBALS->hp_vcd_saver_c_1[i]->item->nname, &was_packed);
-	char *netname = lxt ? hname : output_hier(hname);
+	char *netname = lxt ? hname : output_hier(is_trans, hname);
 
 	if(export_typ == WAVE_EXPORT_TRANS)
 		{
-	        w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment seqn %d %s $end\n", GLOBALS->hp_vcd_saver_c_1[i]->val, hname);
+	        w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$comment seqn %d %s $end\n", GLOBALS->hp_vcd_saver_c_1[i]->val, hname);
 	        }
 
 	if(GLOBALS->hp_vcd_saver_c_1[i]->flags & (HIST_REAL|HIST_STRING))
@@ -559,7 +581,7 @@ for(i=0;i<nodecnt;i++)
 			{
 			const char *typ = (GLOBALS->hp_vcd_saver_c_1[i]->flags & HIST_STRING) ? "string" : "real";
 			int tlen = (GLOBALS->hp_vcd_saver_c_1[i]->flags & HIST_STRING) ? 0 : 1;
-			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$var %s %d %s %s $end\n", typ, tlen, vcdid(GLOBALS->hp_vcd_saver_c_1[i]->val, export_typ), netname);
+			w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$var %s %d %s %s $end\n", typ, tlen, vcdid(GLOBALS->hp_vcd_saver_c_1[i]->val, export_typ), netname);
 			}
 		}
 		else
@@ -585,7 +607,7 @@ for(i=0;i<nodecnt;i++)
 				}
 				else
 				{
-				w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$var wire 1 %s %s $end\n", vcdid(GLOBALS->hp_vcd_saver_c_1[i]->val, export_typ), netname);
+				w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$var wire 1 %s %s $end\n", vcdid(GLOBALS->hp_vcd_saver_c_1[i]->val, export_typ), netname);
 				}
 			}
 			else
@@ -597,7 +619,7 @@ for(i=0;i<nodecnt;i++)
 				}
 				else
 				{
-				w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$var wire %d %s %s $end\n", len, vcdid(GLOBALS->hp_vcd_saver_c_1[i]->val, export_typ), netname);
+				w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$var wire %d %s %s $end\n", len, vcdid(GLOBALS->hp_vcd_saver_c_1[i]->val, export_typ), netname);
 				}
 			GLOBALS->hp_vcd_saver_c_1[i]->len = len;
 			if(len > max_len) max_len = len;
@@ -611,11 +633,11 @@ row_data = malloc_2(max_len + 1);
 
 if(!lxt)
 	{
-	output_hier("");
+	output_hier(is_trans, "");
 	free_hier();
 
-	w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$enddefinitions $end\n");
-	w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$dumpvars\n");
+	w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$enddefinitions $end\n");
+	w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$dumpvars\n");
 	}
 
 /* value changes */
@@ -646,7 +668,7 @@ for(;;)
 			}
 			else
 			{
-			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "#"TTFormat"\n", tnorm);
+			w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "#"TTFormat"\n", tnorm);
 			}
 		prevtime = GLOBALS->hp_vcd_saver_c_1[0]->hist->time;
 		}
@@ -672,11 +694,11 @@ for(;;)
 					vec_escaped[vlen] = 0;
 					if(vlen)
 						{
-						w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "s%s %s\n", vec_escaped, vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
+						w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "s%s %s\n", vec_escaped, vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
 						}
 						else
 						{
-						w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "s\\000 %s\n", vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
+						w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "s\\000 %s\n", vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
 						}
 					free_2(vec_escaped);
 					}
@@ -705,7 +727,7 @@ for(;;)
 					}
 					else
 					{
-					w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "r%.16g %s\n", value, vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
+					w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "r%.16g %s\n", value, vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
 					}
 				}
 			}
@@ -734,7 +756,7 @@ for(;;)
 				}
 				else
 				{
-				w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "b%s %s\n", vcd_truncate_bitvec(row_data), vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
+				w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "b%s %s\n", vcd_truncate_bitvec(row_data), vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
 				}
 			}
 		else
@@ -748,7 +770,7 @@ for(;;)
 				}
 				else
 				{
-				w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "%c%s\n", analyzer_demang(lxt, GLOBALS->hp_vcd_saver_c_1[0]->hist->v.h_val), vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
+				w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "%c%s\n", analyzer_demang(lxt, GLOBALS->hp_vcd_saver_c_1[0]->hist->v.h_val), vcdid(GLOBALS->hp_vcd_saver_c_1[0]->val, export_typ));
 				}
 			}
 		}
@@ -764,7 +786,7 @@ if(prevtime < GLOBALS->max_time)
 		}
 		else
 		{
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "#"TTFormat"\n", GLOBALS->max_time / GLOBALS->time_scale);
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "#"TTFormat"\n", GLOBALS->max_time / GLOBALS->time_scale);
 		}
 	}
 
@@ -789,7 +811,7 @@ if(lxt)
 		}
 		else
 		{
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$comment data_end %p $end\n", (void *)trans_head); /* arbitrary hex identifier */
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$comment data_end %p $end\n", (void *)trans_head); /* arbitrary hex identifier */
 #if !defined _MSC_VER && !defined __MINGW32__
 		fflush(GLOBALS->f_vcd_saver_c_1);
 #endif
@@ -842,7 +864,7 @@ while(GLOBALS->nhold_vcd_saver_c_1)
  * navigate up and down the scope hierarchy and
  * emit the appropriate vcd scope primitives
  */
-static void diff_hier(struct namehier *nh1, struct namehier *nh2)
+static void diff_hier(int is_trans, struct namehier *nh1, struct namehier *nh2)
 {
 /* struct namehier *nhtemp; */ /* scan-build */
 
@@ -850,7 +872,7 @@ if(!nh2)
 	{
 	while((nh1)&&(nh1->not_final))
 		{
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$scope module %s $end\n", nh1->name);
+		w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$scope module %s $end\n", nh1->name);
 		nh1=nh1->next;
 		}
 	return;
@@ -868,7 +890,7 @@ for(;;)
 		/* nhtemp=nh1; */ /* scan-build */
 		while((nh1)&&(nh1->not_final))
 			{
-			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$scope module %s $end\n", nh1->name);
+			w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$scope module %s $end\n", nh1->name);
 			nh1=nh1->next;
 			}
 		break;
@@ -879,7 +901,7 @@ for(;;)
 		/* nhtemp=nh2; */ /* scan-build */
 		while((nh2)&&(nh2->not_final))
 			{
-			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$upscope $end\n");
+			w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$upscope $end\n");
 			nh2=nh2->next;
 			}
 		break;
@@ -890,14 +912,14 @@ for(;;)
 		/* nhtemp=nh2; */ /* prune old hier */ /* scan-build */
 		while((nh2)&&(nh2->not_final))
 			{
-			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$upscope $end\n");
+			w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$upscope $end\n");
 			nh2=nh2->next;
 			}
 
 		/* nhtemp=nh1; */ /* add new hier */ /* scan-build */
 		while((nh1)&&(nh1->not_final))
 			{
-			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "$scope module %s $end\n", nh1->name);
+			w32redirect_fprintf(is_trans, GLOBALS->f_vcd_saver_c_1, "$scope module %s $end\n", nh1->name);
 			nh1=nh1->next;
 			}
 		break;
@@ -912,7 +934,7 @@ for(;;)
 /*
  * output scopedata for a given name if needed, return pointer to name string
  */
-char *output_hier(char *name)
+char *output_hier(int is_trans, char *name)
 {
 char *pnt, *pnt2;
 char *s;
@@ -973,7 +995,7 @@ if(!*pnt2) break;
 pnt=(++pnt2);
 }
 
-diff_hier(nh_head, GLOBALS->nhold_vcd_saver_c_1);
+diff_hier(is_trans, nh_head, GLOBALS->nhold_vcd_saver_c_1);
 free_hier();
 GLOBALS->nhold_vcd_saver_c_1=nh_head;
 
@@ -1063,7 +1085,7 @@ for(i=0;i<numhist;i++)
 				h_val = invert ? AN_USTR_INV[ha[i]->v.h_val] : AN_USTR[ha[i]->v.h_val];
 				}
 
-			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1,
+			w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1,
 				"Digital_Signal\n"
 				"     Position:          %d\n"
 				"     Height:            24\n"
@@ -1086,14 +1108,14 @@ for(i=0;i<numhist;i++)
 			}
 
 		h_val = invert ? AN_USTR_INV[ha[i]->v.h_val] : AN_USTR[ha[i]->v.h_val];
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "          Edge:               "TTFormat".0 %c\n", ha[i]->time, h_val);
+		w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1, "          Edge:               "TTFormat".0 %c\n", ha[i]->time, h_val);
 		}
 	}
 
 if(first)
 	{
 	/* need to emit blank trace */
-	w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1,
+	w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1,
 		"Digital_Signal\n"
 		"     Position:          %d\n"
 		"     Height:            24\n"
@@ -1284,7 +1306,7 @@ for(i=0;i<numhist;i++)
 				h_val = get_hptr_vector_val(t, ha[i]);
 				}
 
-			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1,
+			w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1,
 				"Digital_Bus\n"
 				"     Position:          %d\n"
 				"     Height:            24\n"
@@ -1310,14 +1332,14 @@ for(i=0;i<numhist;i++)
 
 		if(h_val) free_2(h_val);
 		h_val = get_hptr_vector_val(t, ha[i]);
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "          Edge:               "TTFormat".0 %s\n", ha[i]->time, h_val);
+		w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1, "          Edge:               "TTFormat".0 %s\n", ha[i]->time, h_val);
 		}
 	}
 
 if(first)
 	{
 	/* need to emit blank trace */
-	w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1,
+	w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1,
 		"Digital_Bus\n"
 		"     Position:          %d\n"
 		"     Height:            24\n"
@@ -1429,7 +1451,7 @@ for(i=0;i<numhist;i++)
 				h_val = get_vptr_vector_val(t, ha[i]);
 				}
 
-			w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1,
+			w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1,
 				"Digital_Bus\n"
 				"     Position:          %d\n"
 				"     Height:            24\n"
@@ -1455,14 +1477,14 @@ for(i=0;i<numhist;i++)
 
 		if(h_val) free_2(h_val);
 		h_val = get_vptr_vector_val(t, ha[i]);
-		w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1, "          Edge:               "TTFormat".0 %s\n", ha[i]->time, h_val);
+		w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1, "          Edge:               "TTFormat".0 %s\n", ha[i]->time, h_val);
 		}
 	}
 
 if(first)
 	{
 	/* need to emit blank trace */
-	w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1,
+	w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1,
 		"Digital_Bus\n"
 		"     Position:          %d\n"
 		"     Height:            24\n"
@@ -1549,7 +1571,7 @@ if(!GLOBALS->f_vcd_saver_c_1)
 pnt=strchr(time_prefix, (int)GLOBALS->time_dimension);
 if(pnt) { offset=pnt-time_prefix; } else offset=0;
 
-w32redirect_fprintf(GLOBALS->f_vcd_saver_c_1,
+w32redirect_fprintf(0, GLOBALS->f_vcd_saver_c_1,
 	"Timing Analyzer Settings\n"
 	"     Time_Scale:        %E\n"
 	"     Time_Per_Division: %E\n"
