@@ -1531,4 +1531,6 @@
 3.3.70	14feb16	Various warnings fixes from new version of scan-build.
 		Crash fix in Windows for transaction traces (broken since
 		VCD/TIM export in 3.3.61).
-3.3.71	15mar16	Printf format warnings fixes in lxt2_write.c.
+3.3.71	21mar16	Printf format warnings fixes in lxt2_write.c.
+		Added SVG gtkwave icon in
+		share/icons/hicolor/scalable/apps/gtkwave.svg directory.

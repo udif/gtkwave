@@ -1,6 +1,6 @@
 ## -*- makefile -*-
 ##
-SUBDIRS= gnome
+SUBDIRS= gnome hicolor
 
 xdgdatadir=@XDGDATADIR@
 icondir=$(xdgdatadir)/icons
