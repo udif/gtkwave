@@ -6226,7 +6226,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_REAL );
+dataformat( ~(TR_NUMMASK), TR_REAL );
 }
 
 void
@@ -6291,7 +6291,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_HEX );
+dataformat( ~(TR_NUMMASK), TR_HEX );
 }
 
 void
@@ -6312,7 +6312,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_DEC );
+dataformat( ~(TR_NUMMASK), TR_DEC );
 }
 
 void
@@ -6333,7 +6333,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_SIGNED );
+dataformat( ~(TR_NUMMASK), TR_SIGNED );
 }
 
 void
@@ -6354,7 +6354,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_BIN );
+dataformat( ~(TR_NUMMASK), TR_BIN );
 }
 
 void
@@ -6375,7 +6375,7 @@ if(GLOBALS->helpbox_is_active)
         return;
         }
 
-dataformat( ~(TR_NUMMASK|TR_ANALOGMASK), TR_OCT );
+dataformat( ~(TR_NUMMASK), TR_OCT );
 }
 
 void

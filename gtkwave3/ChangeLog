@@ -1531,6 +1531,12 @@
 3.3.70	14feb16	Various warnings fixes from new version of scan-build.
 		Crash fix in Windows for transaction traces (broken since
 		VCD/TIM export in 3.3.61).
-3.3.71	21mar16	Printf format warnings fixes in lxt2_write.c.
+3.3.71	31mar16	Printf format warnings fixes in lxt2_write.c.
 		Added SVG gtkwave icon in
 		share/icons/hicolor/scalable/apps/gtkwave.svg directory.
+		Make gtkwave interpret values as double precision FP for
+		plotting when BitsToReal is enabled. Also keeps analog mode
+		enabled when selecting numerical formats (which allows 
+		enabling/disabling BitsToReal without going out of analog 
+		mode). Disabling analog mode can be done using the
+		existing Analog->Off menu option.
