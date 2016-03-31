@@ -1081,6 +1081,40 @@ Tcl_SetObjResult(interp, aobj);
 return(TCL_OK);
 }
 
+static int gtkwavetcl_processTclList(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+{
+int num_found = 0;
+char reportString[33];
+Tcl_Obj *aobj;
+
+if(objc==2)
+	{
+        char *s = Tcl_GetString(objv[1]); /* do not want to remove braces! */
+	if(s)
+        	{
+		num_found = process_tcl_list(s, FALSE);
+		if(num_found)
+        		{
+        		MaxSignalLength();
+        		signalarea_configure_event(GLOBALS->signalarea, NULL);
+        		wavearea_configure_event(GLOBALS->wavearea, NULL);
+			gtkwave_main_iteration();
+        		}
+                }
+	}
+        else
+        {
+        return(gtkwavetcl_badNumArgs(clientData, interp, objc, objv, 1));
+        }
+
+sprintf(reportString, "%d", num_found);
+
+aobj = Tcl_NewStringObj(reportString, -1);
+Tcl_SetObjResult(interp, aobj);
+
+return(TCL_OK);
+}
+
 static int gtkwavetcl_deleteSignalsFromList(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 int i;
@@ -2141,6 +2175,7 @@ tcl_cmdstruct gtkwave_commands[] =
 	{"showSignal",         			gtkwavetcl_showSignal},
 	{"unhighlightSignalsFromList",		gtkwavetcl_unhighlightSignalsFromList},
 	{"signalChangeList",                    gtkwavetcl_signalChangeList},	/* changed from signal_change_list for consistency! */
+	{"processTclList",			gtkwavetcl_processTclList}, /* not for general-purpose use */
    	{"", 					NULL} /* sentinel */
 	};
 
