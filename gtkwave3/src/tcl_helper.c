@@ -1170,7 +1170,7 @@ for(ii=0;ii<c;ii++)
 
 			if(s->n->lsi > s->n->msi)
 				{
-				for(which=0,cnt=s->n->lsi ; cnt>=s->n->msi ; cnt--,which++)
+				for(which=0,cnt=s->n->msi ; cnt<=s->n->lsi ; cnt++,which++)
 					{
 					if(cnt==bit) break;
 					}
@@ -1182,6 +1182,8 @@ for(ii=0;ii<c;ii++)
 					if(cnt==bit) break;
 					}
 				}
+
+			/* Need to fix this to extract more than a single bit as in the case of a subrange of an existing vector! */
 
 			nexp = ExtractNodeSingleBit(s->n, which);
 			*most_recent_lbrack_list[ii] = '[';
