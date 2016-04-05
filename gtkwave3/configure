@@ -10202,11 +10202,14 @@ if test "X$MACHTYPE" = "Xrs6000" ; then
 fi
 fi
 
-CFLAGS="${CFLAGS} ${STRUCT_PACK} -DFST_WRITER_PARALLEL"
+CFLAGS="${CFLAGS} ${STRUCT_PACK}"
 
 if test "X$OSTYPE" = "Xmsys" ; then
 # add library for common dialog found in file.c
 	MINGW_LDADD="-lcomdlg32"
+	else
+	# there are conflicts with struct timespec in pthreads vs mingw
+	CFLAGS="${CFLAGS} -DFST_WRITER_PARALLEL"
 	fi
 
 if test "X$ETCL" = "Xyes" ; then

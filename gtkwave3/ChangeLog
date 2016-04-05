@@ -1544,3 +1544,6 @@
 		extraction in process_tcl_list().
 		Fixed gtkwave::gtkwave::addSignalsFromList so it can handle
 		subset and forward/reverse extractions on signals.
+		Remove FST_WRITER_PARALLEL from MinGW CFLAGS as some recent
+		versions of MinGW have issues with struct timespec when 
+		pthread.h is included.
