@@ -858,6 +858,115 @@ return(s_new);
  * ----------------------------------------------------------------------------
  */
 
+void process_tcl_list_2(struct symbol *s, int which_msb, int which_lsb)
+{
+Trptr t;
+nptr nexp;
+int i;
+unsigned int default_flags = GLOBALS->default_flags;
+bvptr v;
+
+Trptr    buffer;            /* cut/copy buffer of traces */
+Trptr    bufferlast;        /* last element of bufferchain */
+int      buffercount;       /* number of traces in buffer */
+
+GLOBALS->default_flags = TR_HIGHLIGHT;
+
+buffer = GLOBALS->traces.buffer; /* copy cut buffer to make re-entrant */
+bufferlast = GLOBALS->traces.bufferlast;
+buffercount = GLOBALS->traces.buffercount;
+
+GLOBALS->traces.buffer = NULL;
+GLOBALS->traces.bufferlast = NULL;
+GLOBALS->traces.buffercount = 0;
+
+t=GLOBALS->traces.first;
+while(t)
+        {
+        if(t->flags&TR_HIGHLIGHT)	/* copy TR_HIGHLIGHT->TR_RSVD and clear TR_HIGHLIGHT */
+		{
+	        t->flags&=(~TR_HIGHLIGHT);
+		t->flags|=TR_RSVD;
+		}
+		else
+		{
+	        t->flags&=(~TR_RSVD);
+		}
+
+        t=t->t_next;
+        }
+
+
+if(which_msb <= which_lsb)
+	{
+	for(i=which_msb;i<=which_lsb;i++)
+		{
+	        nexp = ExtractNodeSingleBit(s->n, i);
+	        if(nexp)  
+	 		{
+	                AddNode(nexp, NULL);
+	                }
+	                else
+	                {
+	                AddNodeUnroll(s->n, NULL);
+	                }
+		}
+	}
+	else
+	{
+	for(i=which_msb;i>=which_lsb;i--)
+		{
+	        nexp = ExtractNodeSingleBit(s->n, i);
+	        if(nexp)  
+	 		{
+	                AddNode(nexp, NULL);
+	                }
+	                else
+	                {
+	                AddNodeUnroll(s->n, NULL);
+	                }
+		}
+	}
+
+v = combine_traces(1, NULL); /* down */
+  if (v)
+    	{
+      	AddVector(v, NULL);
+      	free_2(v->bits->name);
+      	v->bits->name=NULL;
+                
+      	t = GLOBALS->traces.last;
+                
+      	RemoveTrace(t, 0);
+
+      	/* t is now the composite signal trace */
+                  
+	create_group("unused_0", t);
+	CloseTrace(t);
+    	}
+
+t=GLOBALS->traces.first;
+while(t)
+        {
+	t->flags &= ~TR_HIGHLIGHT;
+
+        if(t->flags&TR_RSVD) /* copy TR_RSVD->TR_HIGHLIGHT and clear TR_RSVD */
+		{
+	        t->flags|=TR_HIGHLIGHT;
+		t->flags&=(~TR_RSVD);
+		}
+
+        t=t->t_next;
+        }
+
+GLOBALS->traces.buffer = buffer; /* restore cut buffer */
+GLOBALS->traces.bufferlast = bufferlast;
+GLOBALS->traces.buffercount = buffercount;
+
+GLOBALS->default_flags = default_flags;
+}
+
+
 int process_tcl_list(char *sl, gboolean track_mouse_y)
 {
 char *s_new = NULL;
@@ -867,6 +976,7 @@ int c, i, ii;
 char **list;
 char **s_new_list;
 char **most_recent_lbrack_list;
+char **most_recent_colon_list;
 int *match_idx_list;
 int *match_type_list;
 Trptr t = NULL;
@@ -894,6 +1004,7 @@ s_new_list = calloc_2(c, sizeof(char *));
 match_idx_list = calloc_2(c, sizeof(int *));
 match_type_list = calloc_2(c, sizeof(int *));
 most_recent_lbrack_list = calloc_2(c, sizeof(char *));
+most_recent_colon_list = calloc_2(c, sizeof(char *));
 
 GLOBALS->default_flags=TR_RJUSTIFY;
 GLOBALS->default_fpshift=0;
@@ -1022,8 +1133,9 @@ for(ii=0;ii<c;ii++)
 			most_recent_lbrack_list[ii] = chp;
 			lbrack_adj = 1;
 			}
-		}
 
+		most_recent_colon_list[ii]=strchr(most_recent_lbrack_list[ii], ':');
+		}
 
 	unesc_len = strlen(unescaped_str);
 	for(i=0;i<GLOBALS->numfacs;i++)
@@ -1165,35 +1277,64 @@ for(ii=0;ii<c;ii++)
 		if((match_type_list[ii] >= 2)&&(s->n->extvals))
 			{
 			nptr nexp;
-			int bit = atoi(most_recent_lbrack_list[ii]+1 + (match_type_list[ii] == 3)); /* == 3 for adjustment when lbrack is escaped */
-			int which, cnt;
+
+			int bit_msb = atoi(most_recent_lbrack_list[ii]+1 + (match_type_list[ii] == 3)); /* == 3 for adjustment when lbrack is escaped */
+			int bit_lsb = bit_msb;
+			int which_msb, which_lsb, cnt;
 
 			if(s->n->lsi > s->n->msi)
 				{
-				for(which=0,cnt=s->n->msi ; cnt<=s->n->lsi ; cnt++,which++)
+				for(which_msb=0,cnt=s->n->msi ; cnt<=s->n->lsi ; cnt++,which_msb++)
 					{
-					if(cnt==bit) break;
+					if(cnt==bit_msb) break;
 					}
 				}
 				else
 				{
-				for(which=0,cnt=s->n->msi ; cnt>=s->n->lsi ; cnt--,which++)
+				for(which_msb=0,cnt=s->n->msi ; cnt>=s->n->lsi ; cnt--,which_msb++)
 					{
-					if(cnt==bit) break;
+					if(cnt==bit_msb) break;
 					}
 				}
+			which_lsb = which_msb;
 
 			/* Need to fix this to extract more than a single bit as in the case of a subrange of an existing vector! */
+			if(most_recent_colon_list[ii])
+				{
+				bit_lsb = atoi(most_recent_colon_list[ii]+1);
 
-			nexp = ExtractNodeSingleBit(s->n, which);
-			*most_recent_lbrack_list[ii] = '[';
-	                if(nexp)
-	                        {
-	                        AddNode(nexp, NULL);
-	                        }
+				if(s->n->lsi > s->n->msi)
+					{
+					for(which_lsb=0,cnt=s->n->msi ; cnt<=s->n->lsi ; cnt++,which_lsb++)
+						{
+						if(cnt==bit_lsb) break;
+						}
+					}
+					else
+					{
+					for(which_lsb=0,cnt=s->n->msi ; cnt>=s->n->lsi ; cnt--,which_lsb++)
+						{
+						if(cnt==bit_lsb) break;
+						}
+					}
+				}
+
+			if(which_msb == which_lsb)
+				{
+				nexp = ExtractNodeSingleBit(s->n, which_msb);
+				*most_recent_lbrack_list[ii] = '[';
+		                if(nexp)
+		                        {
+		                        AddNode(nexp, NULL);
+		                        }
+					else
+					{
+					AddNodeUnroll(s->n, NULL);
+					}
+				}
 				else
 				{
-				AddNodeUnroll(s->n, NULL);
+				process_tcl_list_2(s, which_msb, which_lsb); /* is complicated, so split out to its own function */
 				}
 			}
 			else
@@ -1255,6 +1396,7 @@ for(ii=0;ii<c;ii++)
 free_2(s_new_list);
 free_2(match_idx_list);
 free_2(match_type_list);
+free_2(most_recent_colon_list);
 free_2(most_recent_lbrack_list);
 free_2(list);
 

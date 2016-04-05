@@ -1531,7 +1531,7 @@
 3.3.70	14feb16	Various warnings fixes from new version of scan-build.
 		Crash fix in Windows for transaction traces (broken since
 		VCD/TIM export in 3.3.61).
-3.3.71	04apr16	Printf format warnings fixes in lxt2_write.c.
+3.3.71	05apr16	Printf format warnings fixes in lxt2_write.c.
 		Added SVG gtkwave icon in
 		share/icons/hicolor/scalable/apps/gtkwave.svg directory.
 		Make gtkwave interpret values as double precision FP for
@@ -1542,3 +1542,5 @@
 		existing Analog->Off menu option.
 		Fix broken non-canonical bit ordering (IBM) single bit
 		extraction in process_tcl_list().
+		Fixed gtkwave::gtkwave::addSignalsFromList so it can handle
+		subset and forward/reverse extractions on signals.

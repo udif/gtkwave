@@ -524,7 +524,9 @@ enum TraceEntFlagBits
   TR_BINGRAY_B, TR_GRAYBIN_B,
   TR_REAL2BITS_B, TR_TTRANSLATED_B,
   TR_POPCNT_B,
-  TR_FPDECSHIFT_B
+  TR_FPDECSHIFT_B,
+
+  TR_RSVD_B /* for use internally such as temporary caching of highlighting, not for use in traces */
 };
 
 #define TR_HIGHLIGHT 		(1<<TR_HIGHLIGHT_B)
@@ -571,6 +573,8 @@ enum TraceEntFlagBits
 #define TR_FPDECSHIFT   (1<<TR_FPDECSHIFT_B)
 
 #define TR_ANALOGMASK	(TR_ANALOG_STEP|TR_ANALOG_INTERPOLATED)
+
+#define TR_RSVD 		(1<<TR_RSVD_B)
 
 Trptr GiveNextTrace(Trptr t);
 Trptr GivePrevTrace(Trptr t);

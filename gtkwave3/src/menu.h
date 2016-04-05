@@ -417,6 +417,7 @@ void set_scale_to_time_dimension_toggles(void);
 void SetTraceScrollbarRowValue(int row, unsigned center);
 
 bvptr combine_traces(int direction, Trptr single_trace_only);
+unsigned create_group (char* name, Trptr t_composite);
 
 /* currently only for OSX to disable OSX menus when grabbed */
 void wave_gtk_grab_add(GtkWidget *w);

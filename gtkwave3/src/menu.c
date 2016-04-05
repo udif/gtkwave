@@ -2563,7 +2563,7 @@ menu_close_group(GtkWidget *widget, gpointer data)
 
 
 
-static unsigned create_group (char* name, Trptr t_composite)
+unsigned create_group (char* name, Trptr t_composite)
 {
   Trptr t, t_prev, t_begin, t_end;
   unsigned dirty = 0;
