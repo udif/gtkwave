@@ -149,6 +149,7 @@ accel "/Edit/Insert Analog Height Extension" (null)
 accel "/Edit/Cut" <Control>X
 accel "/Edit/Copy" <Control>C
 accel "/Edit/Paste" <Control>V
+accel "/Edit/Delete <Control>Delete
 accel "/Edit/<separator>" (null)
 accel "/Edit/Alias Highlighted Trace" <Alt>A
 accel "/Edit/Remove Highlighted Aliases" <Shift><Alt>A

@@ -854,6 +854,82 @@ return(GLOBALS->traces.buffer=first);
 
 
 /*
+ * Delete highlighted traces from the main screen
+ * and throw them away.  Do not affect existing cut buffer...
+ */
+int DeleteBuffer(void)
+{
+Trptr t, tnext;
+Trptr first=NULL, current=NULL;
+Trptr    buffer;            /* cut/copy buffer of traces */
+Trptr    bufferlast;        /* last element of bufferchain */
+int      buffercount;       /* number of traces in buffer */
+int      num_deleted;
+
+GLOBALS->shift_click_trace=NULL;		/* so shift-clicking doesn't explode */
+
+t=GLOBALS->traces.first;
+while(t)
+	{
+	if((t->flags)&(TR_HIGHLIGHT)) break;
+	t=t->t_next;
+	}
+if(!t) return(0);	/* nothing to do */
+
+GLOBALS->signalwindow_width_dirty=1;
+GLOBALS->traces.dirty = 1;
+
+buffer = GLOBALS->traces.buffer; /* copy cut buffer to make re-entrant */
+bufferlast = GLOBALS->traces.bufferlast;
+buffercount = GLOBALS->traces.buffercount;
+
+GLOBALS->traces.buffer = NULL;
+GLOBALS->traces.bufferlast = NULL;
+GLOBALS->traces.buffercount = 0;
+
+t=GLOBALS->traces.first;
+while(t)
+	{
+	tnext=t->t_next;
+	if(IsSelected(t) || (t->t_grp && IsSelected(t->t_grp)))
+	  {
+	    /* members of closed groups may not be highlighted */
+	    /* so propogate highlighting here */
+	    t->flags |= TR_HIGHLIGHT;
+	    GLOBALS->traces.bufferlast=t;
+	    GLOBALS->traces.buffercount++;
+
+	    /* t->flags&=(~TR_HIGHLIGHT); */
+	    RemoveTrace(t, 0);
+	    if(!current)
+	      {
+		first=current=t;
+		t->t_prev=NULL;
+		t->t_next=NULL;
+	      }
+	    else
+	      {
+		current->t_next=t;
+		t->t_prev=current;
+		current=t;
+		t->t_next=NULL;
+	      }
+	  }
+	t=tnext;
+	}
+
+num_deleted = GLOBALS->traces.buffercount;
+FreeCutBuffer();
+
+GLOBALS->traces.buffer = buffer; /* restore cut buffer */
+GLOBALS->traces.bufferlast = bufferlast;
+GLOBALS->traces.buffercount = buffercount;
+
+return(num_deleted);
+}
+
+
+/*
  * Paste the cut buffer into the main display one and
  * mark the cut buffer empty...
  */

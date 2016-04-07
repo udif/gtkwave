@@ -595,6 +595,7 @@ void FreeCutBuffer(void);
 Trptr PasteBuffer(void);
 Trptr PrependBuffer(void);
 int TracesReorder(int mode);
+int DeleteBuffer(void);
 
 void import_trace(nptr np);
 

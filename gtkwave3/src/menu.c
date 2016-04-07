@@ -7171,6 +7171,42 @@ if(cutbuffer)
 }
 
 void
+menu_delete_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+(void)null_data;
+(void)callback_action;
+(void)widget;
+
+int num_cut;
+
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nDelete");
+        help_text(
+                " removes highlighted signals from the display and discards then"
+		" without affecting the previous contents of the cut/copy buffer."
+        );
+        return;
+        }
+
+if(GLOBALS->dnd_state) { dnd_error(); return; } /* don't mess with sigs when dnd active */
+
+DEBUG(printf("Delete Traces\n"));
+
+num_cut = DeleteBuffer();
+if(num_cut)
+	{
+	MaxSignalLength();
+	signalarea_configure_event(GLOBALS->signalarea, NULL);
+	wavearea_configure_event(GLOBALS->wavearea, NULL);
+	}
+	else
+	{
+	must_sel();
+	}
+}
+
+void
 menu_copy_traces(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 (void)null_data;
@@ -7524,10 +7560,12 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/Edit/Cut", NULL, menu_cut_traces, WV_MENU_EC, "<Item>"),
     WAVE_GTKIFE("/Edit/Copy", NULL, menu_copy_traces, WV_MENU_ECY, "<Item>"),
     WAVE_GTKIFE("/Edit/Paste", NULL, menu_paste_traces, WV_MENU_EP, "<Item>"),
+    WAVE_GTKIFE("/Edit/Delete", NULL, menu_delete_traces, WV_MENU_DEL, "<Item>"),
 #else
     WAVE_GTKIFE("/Edit/Cut", "<Control>X", menu_cut_traces, WV_MENU_EC, "<Item>"),
     WAVE_GTKIFE("/Edit/Copy", "<Control>C", menu_copy_traces, WV_MENU_ECY, "<Item>"),
     WAVE_GTKIFE("/Edit/Paste", "<Control>V", menu_paste_traces, WV_MENU_EP, "<Item>"),
+    WAVE_GTKIFE("/Edit/Delete", "<Control>Delete", menu_delete_traces, WV_MENU_DEL, "<Item>"),
 #endif
 
     WAVE_GTKIFE("/Edit/<separator>", NULL, NULL, WV_MENU_SEP3A, "<Separator>"),
@@ -8275,6 +8313,7 @@ static gtkwave_mlist_t popmenu_items[] =
     WAVE_GTKIFE("/Cut", NULL, menu_cut_traces, WV_MENU_EC, "<Item>"),
     WAVE_GTKIFE("/Copy", NULL, menu_copy_traces, WV_MENU_ECY, "<Item>"),
     WAVE_GTKIFE("/Paste", NULL, menu_paste_traces, WV_MENU_EP, "<Item>"),
+    WAVE_GTKIFE("/Delete", NULL, menu_delete_traces, WV_MENU_DEL, "<Item>"),
     WAVE_GTKIFE("/<separator>", NULL, NULL, WV_MENU_SEP4, "<Separator>"),
     WAVE_GTKIFE("/Open Scope", NULL, menu_open_hierarchy, WV_MENU_OPENH, "<Item>")
 #if !defined __MINGW32__ && !defined _MSC_VER
