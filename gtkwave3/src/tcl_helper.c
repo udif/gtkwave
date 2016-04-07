@@ -1279,7 +1279,7 @@ for(ii=0;ii<c;ii++)
 			nptr nexp;
 
 			int bit_msb = atoi(most_recent_lbrack_list[ii]+1 + (match_type_list[ii] == 3)); /* == 3 for adjustment when lbrack is escaped */
-			int bit_lsb = bit_msb;
+			int bit_lsb; /* = bit_msb; scan-build: never read */
 			int which_msb, which_lsb, cnt;
 
 			if(s->n->lsi > s->n->msi)

@@ -860,7 +860,7 @@ return(GLOBALS->traces.buffer=first);
 int DeleteBuffer(void)
 {
 Trptr t, tnext;
-Trptr first=NULL, current=NULL;
+Trptr 	 current=NULL;
 Trptr    buffer;            /* cut/copy buffer of traces */
 Trptr    bufferlast;        /* last element of bufferchain */
 int      buffercount;       /* number of traces in buffer */
@@ -903,7 +903,7 @@ while(t)
 	    RemoveTrace(t, 0);
 	    if(!current)
 	      {
-		first=current=t;
+		current=t;
 		t->t_prev=NULL;
 		t->t_next=NULL;
 	      }
