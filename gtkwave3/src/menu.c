@@ -7183,7 +7183,7 @@ if(GLOBALS->helpbox_is_active)
         {
         help_text_bold("\n\nDelete");
         help_text(
-                " removes highlighted signals from the display and discards then"
+                " removes highlighted signals from the display and discards them"
 		" without affecting the previous contents of the cut/copy buffer."
         );
         return;
