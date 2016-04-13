@@ -1549,3 +1549,5 @@
 		pthread.h is included.
 		Added /Edit/Delete to destroy traces without affecting the
 		existing cut buffer.
+3.3.72		Revert to old gtkwave.appdata.xml as the new one is causing
+		problems with appstream-util validation.
