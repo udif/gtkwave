@@ -16,6 +16,5 @@ The viewer supports both post-mortem viewing of VCD files and interactive viewin
 <screenshots>
 <screenshot type="default">http://gtkwave.sourceforge.net/gtkwave-appdata.png</screenshot>
 </screenshots>
-<icon type="remote">http://gtkwave.sourceforge.net/gtkwave.svg</icon>
 <updatecontact>bybell@rocketmail.com</updatecontact>
 </application>
