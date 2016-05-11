@@ -279,7 +279,13 @@ void write_save_helper(const char *savnam, FILE *wave) {
 				{
 				if(t->f_filter && GLOBALS->filesel_filter[t->f_filter])
 					{
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH || defined __MINGW32__
+			                char *can = realpath_2(GLOBALS->filesel_filter[t->f_filter], NULL);
+					fprintf(wave, "^%d %s\n", t->f_filter, can);
+					free(can);
+#else
 					fprintf(wave, "^%d %s\n", t->f_filter, GLOBALS->filesel_filter[t->f_filter]);
+#endif
 					}
 					else
 					{
@@ -291,7 +297,13 @@ void write_save_helper(const char *savnam, FILE *wave) {
 				{
 				if(t->p_filter && GLOBALS->procsel_filter[t->p_filter])
 					{
+#if defined __USE_BSD || defined __USE_XOPEN_EXTENDED || defined __CYGWIN__ || defined HAVE_REALPATH || defined __MINGW32__
+			                char *can = realpath_2(GLOBALS->procsel_filter[t->p_filter], NULL);
+					fprintf(wave, "^>%d %s\n", t->p_filter, can);
+					free(can);
+#else
 					fprintf(wave, "^>%d %s\n", t->p_filter, GLOBALS->procsel_filter[t->p_filter]);
+#endif
 					}
 					else
 					{
