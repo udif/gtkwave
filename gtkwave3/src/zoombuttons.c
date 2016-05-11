@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2005.
+ * Copyright (c) Tony Bybell 1999-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -332,6 +332,7 @@ int fixedwidth;
 TimeType temp;
 GtkAdjustment *hadj;
 Trptr t;
+int dragzoom_ok = 1;
 
 if(time2<time1)
 	{
@@ -340,7 +341,17 @@ if(time2<time1)
 	time2=temp;
 	}
 
-if(time2>time1)	/* ensure at least 1 tick */
+if(GLOBALS->dragzoom_threshold)
+	{
+	TimeType tdelta = time2 - time1;
+	gdouble x = tdelta * GLOBALS->pxns;
+	if(x<GLOBALS->dragzoom_threshold)
+		{
+		dragzoom_ok = 0;
+		}
+	}
+
+if((time2>time1)&&(dragzoom_ok))	/* ensure at least 1 tick and dragzoom_threshold if set */
 	{
 	if(GLOBALS->wavewidth>4) { fixedwidth=GLOBALS->wavewidth-4; } else { fixedwidth=GLOBALS->wavewidth; }
 	estimated=-log(((gdouble)(time2-time1+1))/((gdouble)fixedwidth)*((gdouble)200.0))/log(GLOBALS->zoombase);

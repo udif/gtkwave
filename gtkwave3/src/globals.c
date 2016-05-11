@@ -883,7 +883,7 @@ NULL, /* signalarea_event_box */
 0, /* cached_mouseover_y */
 0, /* mouseover_counter */
 0, /* button2_debounce_flag */
-
+0, /* dragzoom_threshold */
 
 /*
  * simplereq.c
@@ -1796,6 +1796,7 @@ void reload_into_new_context_2(void)
  new_globals->enable_slider_zoom = GLOBALS->enable_slider_zoom;
  new_globals->context_tabposition = GLOBALS->context_tabposition;
  new_globals->use_standard_clicking = GLOBALS->use_standard_clicking;
+ new_globals->dragzoom_threshold = GLOBALS->dragzoom_threshold;
 
  new_globals->ignore_savefile_pane_pos = 1; /* to keep window from resizing/jumping */
  new_globals->ignore_savefile_pos = 1; /* to keep window from resizing/jumping */

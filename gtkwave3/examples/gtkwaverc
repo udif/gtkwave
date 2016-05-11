@@ -15,6 +15,7 @@
 # For OSX
 # editor "mate -l %d %s"
 
+dragzoom_threshold 0
 
 use_standard_trace_select no
 highlight_wavewindow no

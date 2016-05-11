@@ -178,9 +178,11 @@ A nonzero value indicates that tooltip pop up bubbles should be disabled. A zero
 \fBdo_initial_zoom_fit\fR <\fIvalue\fP>
 A nonzero value indicates that the trace should initially be crunched to fit the screen. A zero value indicates that the initial zoom should be zero (default).
 .TP 
+\fBdragzoom_threshold\fR <\fIvalue\fP>
+A nonzero value indicates the number of pixels in the x direction the marker must move in order for a dragzoom to be triggered.  This is largely to handle noisy input devices.
+.TP 
 \fBdynamic_resizing\fR <\fIvalue\fP>
 A nonzero value indicates that dynamic resizing should be initially enabled (default). A zero value indicates that dynamic resizing should be initially disabled.
-
 .TP
 \fBeditor\fR <\fI"value"\fP>
 This is used to specify a string (quotes mandatory) for when gtkwave invokes a text editor (e.g., Open Source Definition).  Examples are:

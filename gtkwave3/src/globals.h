@@ -880,6 +880,7 @@ gint cached_mouseover_x; /* from signalwindow.c */
 gint cached_mouseover_y; /* from signalwindow.c */
 gint mouseover_counter; /* from signalwindow.c */
 unsigned button2_debounce_flag : 1;
+int dragzoom_threshold;
 
 
 /*

@@ -185,6 +185,13 @@ GLOBALS->do_initial_zoom_fit=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_dragzoom_threshold(char *str)
+{
+DEBUG(printf("f_dragzoom_threshold(\"%s\")\n",str));
+GLOBALS->dragzoom_threshold=atoi_64(str);
+return(0);
+}
+
 int f_dynamic_resizing(char *str)
 {
 DEBUG(printf("f_dynamic_resizing(\"%s\")\n",str));
@@ -843,6 +850,7 @@ static struct rc_entry rcitems[]=
 { "disable_mouseover", f_disable_mouseover },
 { "disable_tooltips", f_disable_tooltips },
 { "do_initial_zoom_fit", f_do_initial_zoom_fit },
+{ "dragzoom_threshold", f_dragzoom_threshold },
 { "dynamic_resizing", f_dynamic_resizing },
 { "editor", f_editor },
 { "enable_fast_exit", f_enable_fast_exit },
