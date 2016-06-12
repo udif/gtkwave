@@ -1549,9 +1549,9 @@
 		pthread.h is included.
 		Added /Edit/Delete to destroy traces without affecting the
 		existing cut buffer.
-3.3.72		Revert to old gtkwave.appdata.xml as the new one is causing
+3.3.72	13apr16	Revert to old gtkwave.appdata.xml as the new one is causing
 		problems with appstream-util validation.
-3.3.73		Added dragzoom_threshold rc variable to accommodate input
+3.3.73	11jun16	Added dragzoom_threshold rc variable to accommodate input
 		devices that have a noisy 3rd mouse button.
 		Fix emission of all filter names so they are emitted in
 		canonical fashion so as to avoid growing strings of ../ in
