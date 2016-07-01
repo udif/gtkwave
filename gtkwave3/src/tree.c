@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2011.
+ * Copyright (c) Tony Bybell 1999-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -681,7 +681,7 @@ order_facs_from_treesort_2(t);
 if(GLOBALS->facs2_pos_tree_c_1>=0)
 	{
 	fprintf(stderr, "Internal Error: GLOBALS->facs2_pos_tree_c_1 = %d\n",GLOBALS->facs2_pos_tree_c_1);
-	fprintf(stderr, "[This is usually the result of multiply defined facilities.]\n");
+	fprintf(stderr, "[This is usually the result of multiply defined facilities such as a hierarchy name also being used as a signal at the same level of scope.]\n");
 	exit(255);
 	}
 
@@ -712,7 +712,7 @@ if(t)
 		{
 rs:		s=get_module_name(s);
 
-		if(t && !strcmp(t->name, GLOBALS->module_tree_c_1))
+		if(s && t && !strcmp(t->name, GLOBALS->module_tree_c_1)) /* ajb 300616 added "s &&" to cover case where we can have hierarchy + final name are same, see A.B.C.D notes elsewhere in this file */
 			{
 			prevt = t;
 			t = t->child;
