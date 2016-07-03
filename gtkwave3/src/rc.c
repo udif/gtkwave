@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2013.
+ * Copyright (c) Tony Bybell 1999-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -971,6 +971,63 @@ f_color_ltblue	        ("5dbebb"); /* light blue    */
 f_color_gmstrd          ("7d8104"); /* green mustard */
 }
 
+int insert_rc_variable(char *str)
+{
+int i;
+int len;
+int ok = 0;
+
+len=strlen(str);
+if(len)
+	{
+	for(i=0;i<len;i++)
+		{
+		int pos;
+		if((str[i]==' ')||(str[i]=='\t')) continue;	/* skip leading ws */
+		if(str[i]=='#') break; 				/* is a comment */
+		for(pos=i;i<len;i++)
+			{
+			if((str[i]==' ')||(str[i]=='\t'))
+				{
+				str[i]=0; /* null term envname */
+
+				for(i=i+1;i<len;i++)
+					{
+					struct rc_entry *r;
+
+					if((str[i]==' ')||(str[i]=='\t')) continue;
+					if((r=bsearch((void *)(str+pos), (void *)rcitems,
+						sizeof(rcitems)/sizeof(struct rc_entry),
+						sizeof(struct rc_entry), rc_compare)))
+						{
+						int j;
+							for(j=len-1;j>=i;j--)
+							{
+							if((str[j]==' ')||(str[j]=='\t')) /* nuke trailing spaces */
+								{
+								str[j]=0;
+								continue;
+								}
+								else
+								{
+								break;
+								}
+							}
+						r->func(str+i); /* call resolution function */
+						ok = 1;
+						}
+					break;
+					}
+				break;	/* added so multiple word values work properly*/
+				}
+			}
+		break;
+		}
+	}
+
+return(ok);
+}
+
 
 void read_rc_file(char *override_rc)
 {
@@ -1085,55 +1142,7 @@ while(!feof(handle))
 	GLOBALS->rc_line_no++;
 	if((str=fgetmalloc(handle)))
 		{
-		int len;
-		len=strlen(str);
-		if(len)
-			{
-			for(i=0;i<len;i++)
-				{
-				int pos;
-				if((str[i]==' ')||(str[i]=='\t')) continue;	/* skip leading ws */
-				if(str[i]=='#') break; 				/* is a comment */
-				for(pos=i;i<len;i++)
-					{
-					if((str[i]==' ')||(str[i]=='\t'))
-						{
-						str[i]=0; /* null term envname */
-
-						for(i=i+1;i<len;i++)
-							{
-							struct rc_entry *r;
-
-							if((str[i]==' ')||(str[i]=='\t')) continue;
-							if((r=bsearch((void *)(str+pos), (void *)rcitems,
-								sizeof(rcitems)/sizeof(struct rc_entry),
-								sizeof(struct rc_entry), rc_compare)))
-								{
-								int j;
-
-								for(j=len-1;j>=i;j--)
-									{
-									if((str[j]==' ')||(str[j]=='\t')) /* nuke trailing spaces */
-										{
-										str[j]=0;
-										continue;
-										}
-										else
-										{
-										break;
-										}
-									}
-								r->func(str+i); /* call resolution function */
-								}
-							break;
-							}
-						break;	/* added so multiple word values work properly*/
-						}
-					}
-				break;
-				}
-
-			}
+		insert_rc_variable(str);
 		free_2(str);
 		}
 	}
@@ -1142,4 +1151,3 @@ fclose(handle);
 errno=0;
 return;
 }
-

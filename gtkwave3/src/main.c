@@ -323,6 +323,7 @@ XID_GETOPT
 RPC_GETOPT
 CHDIR_GETOPT
 RPC_GETOPT3
+"  -4, --rcvar                specify single rc variable values individually\n"
 INTR_GETOPT
 "  -C, --comphier             use compressed hierarchy names (slower)\n"
 "  -g, --giga                 use gigabyte mempacking when recoding (slower)\n"
@@ -473,6 +474,8 @@ int mainwindow_already_built;
 #ifdef MAC_INTEGRATION
 GdkPixbuf *dock_pb;
 #endif
+
+struct rc_override *rc_override_head = NULL, *rc_override_curr = NULL;
 
 WAVE_LOCALE_FIX
 
@@ -779,10 +782,11 @@ while (1)
 		{"rpcid", 1, 0, '1' },
 		{"chdir", 1, 0, '2'},
 		{"restore", 0, 0, '3'},
+                {"rcvar", 1, 0, '4'},
                 {0, 0, 0, 0}
                 };
 
-        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:2:3", long_options,
+        c = getopt_long (argc, argv, "zf:Fon:a:Ar:dl:s:e:c:t:NS:vVhxX:MD:IgCLR:P:O:WT:1:2:34:", long_options,
 &option_index);
 
         if (c == -1) break;     /* no more args */
@@ -977,6 +981,23 @@ while (1)
 			if(override_rc) free_2(override_rc);
 			override_rc = malloc_2(strlen(optarg)+1);
 			strcpy(override_rc, optarg);
+			break;
+
+		case '4':
+			{
+ 			struct rc_override *rco = calloc_2(1, sizeof(struct rc_override));
+			rco->str = strdup_2(optarg);
+
+			if(rc_override_curr)
+				{
+				rc_override_curr->next = rco;
+				rc_override_curr = rco;
+				}
+				else
+				{
+				rc_override_head = rc_override_curr = rco;
+				}
+			}
 			break;
 
                 case 's':
@@ -1268,6 +1289,24 @@ if(output_name)
 	}
 
 fprintf(stderr, "\n%s\n\n",WAVE_VERSION_INFO);
+
+
+if(!old_g) /* copy all variables earlier when old_g is set */
+	{
+	while(rc_override_head)
+		{
+		int rco_succ;
+		char *rco_copy_str = strdup_2(rc_override_head->str);
+		rco_succ = insert_rc_variable(rc_override_head->str);
+		fprintf(stderr, "RCVAR   | '%s' %s\n", rco_copy_str, rco_succ ? "FOUND" : "NOT FOUND");
+		free_2(rco_copy_str);
+		rc_override_curr = rc_override_head->next;
+		free_2(rc_override_head->str);
+		free_2(rc_override_head);
+		rc_override_head = rc_override_curr;
+		}
+	}
+
 if(!is_wish)
 	{
 	if(tcl_interpreter_needs_making)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Tony Bybell 1999-2009.
+ * Copyright (c) Tony Bybell 1999-2016.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +18,14 @@ char *name;
 int (*func)(char *);
 };
 
+struct rc_override /* used for --rcvar command line option */
+{
+struct rc_override *next;
+char *str;
+};
+
 void read_rc_file(char *override_rc);
+int insert_rc_variable(char *str);
 int get_rgb_from_name(char *str);
 GdkGC *get_gc_from_name(char *str);
 
@@ -117,4 +124,3 @@ int  f_zoom_center (char *str);
 int  f_zoom_pow10_snap (char *str);
 
 #endif
-

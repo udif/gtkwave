@@ -1556,5 +1556,9 @@
 		Fix emission of all filter names so they are emitted in
 		canonical fashion so as to avoid growing strings of ../ in
 		savefiles.
-3.3.74	30jun16	Fix for when a signal name is used as a hierarchy name at
-		the same level of scope.  (Affects fsdb.)
+3.3.74	02jul16	Fix for when a signal name is used as a hierarchy name at the
+		same level of scope.  (Affects fsdb.)
+		Added --rcvar command line option to insert rc variable changes
+		individually without needing to point to a configuration file.
+		Change to combine traces down/up routines to handle 2D vector
+		name generation.

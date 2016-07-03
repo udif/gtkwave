@@ -3107,6 +3107,7 @@ static void menu_rename(GtkWidget *widget, gpointer data)
 bvptr combine_traces(int direction, Trptr single_trace_only)
 {
   Trptr t, tmp;
+  Trptr tfirst = NULL;
   int tmpi,dirty=0, attrib_reqd=0;
   nptr bitblast_parent;
   int bitblast_delta=0;
@@ -3184,6 +3185,7 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	t = single_trace_only;
 	}
 
+      tfirst = t;
       while(t)
 	{
 	  if(t->flags&TR_HIGHLIGHT)
@@ -3400,6 +3402,67 @@ bvptr combine_traces(int direction, Trptr single_trace_only)
 	      free_2(aname);
 	      aname = NULL;
 	    }
+
+	  if((!aname) && !single_trace_only) /* ajb 020716: recent add to handle combine down on 2D vectors */
+		{
+		char *t_topname = NULL;
+		char *t_botname = NULL;
+		t = tfirst;
+      		while(t)
+			{
+	  		if(t->flags&TR_HIGHLIGHT)
+	    			{
+	      			if(t->flags&(TR_BLANK|TR_ANALOG_BLANK_STRETCH))
+					{
+		  			/* nothing */
+					}
+	      			else
+					{
+		  			if(t->vector)
+		    				{
+						char *vname = t->n.vec ? t->n.vec->bvname : NULL;
+						if(vname)
+							{
+							if(!t_topname)
+								{
+								t_topname = vname;
+								}
+								else
+								{
+								t_botname = vname;
+								}	
+							}
+						}
+						else
+						{
+						if(!t_topname)
+							{
+							t_topname = t->n.nd->nname;
+							}
+							else
+							{
+							t_botname = t->n.nd->nname;
+							}
+	
+						if(t_topname && t_botname)
+							{
+							char *mat = attempt_vecmatch(t_topname, t_botname);
+							if(!mat) { t_topname = t_botname = NULL; break; } else { free_2(mat); }
+							}
+						}
+					}
+
+				}
+
+		      	t=t->t_next;
+			}
+
+		if(t_topname && t_botname)
+			{
+			aname = direction ? attempt_vecmatch(t_topname, t_botname) : attempt_vecmatch(t_botname, t_topname); /* return this match */
+			}
+		}
+
 
 	  if(!b->attribs)
 	    {
