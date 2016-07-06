@@ -547,7 +547,18 @@ int AddNodeTraceReturn(nptr nd, char *aliasname, Trptr *tret)
       if(n<0)n=-n;
       n++;
 
-      t->flags = (( n > 3 )||( n < -3 )) ? TR_HEX|TR_RJUSTIFY : TR_BIN|TR_RJUSTIFY;
+      switch(nd->vartype)
+	{
+	case ND_VCD_INTEGER:
+	case ND_VCD_PARAMETER:
+	case ND_SV_INT:
+	case ND_SV_SHORTINT:
+	case ND_SV_LONGINT:	t->flags = TR_SIGNED | TR_RJUSTIFY;
+				break;
+
+	default: 		t->flags = (( n > 3 )||( n < -3 )) ? TR_HEX|TR_RJUSTIFY : TR_BIN|TR_RJUSTIFY;
+				break;
+	}
     }
   else
     {
