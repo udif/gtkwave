@@ -20,6 +20,7 @@
 #ifdef __MINGW32__
 #include <windows.h>
 #endif
+#include "fsdb_wrapper_api.h"
 
 /*
 #define WAVE_CRASH_ON_GTK_WARNING
@@ -209,6 +210,22 @@ for(i=0;i<GLOBALS->num_notebook_pages;i++)
 		{
 		fstReaderClose((*GLOBALS->contexts)[i]->fst_fst_c_1);
 		(*GLOBALS->contexts)[i]->fst_fst_c_1 = NULL;
+		}
+        }
+}
+#endif
+
+
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+static void close_all_fsdb_files(void) /* otherwise fsdb can leave around stray files if .gz/.bz2 was in use */
+{
+unsigned int i;
+for(i=0;i<GLOBALS->num_notebook_pages;i++)
+	{
+	if((*GLOBALS->contexts)[i]->extload_ffr_ctx)
+		{
+		fsdbReaderClose((*GLOBALS->contexts)[i]->extload_ffr_ctx);
+		(*GLOBALS->contexts)[i]->extload_ffr_ctx = NULL;
 		}
         }
 }
@@ -470,7 +487,7 @@ int tcl_interpreter_needs_making = 0;
 struct Global *old_g = NULL;
 
 int splash_disable_rc_override = 0;
-int mainwindow_already_built;
+int mainwindow_already_built = 0;
 #ifdef MAC_INTEGRATION
 GdkPixbuf *dock_pb;
 #endif
@@ -727,12 +744,16 @@ if(!gtkwave_argv0_cached) gtkwave_argv0_cached = argv[0]; /* for new window opti
 init_filetrans_data(); /* for file translation splay trees */
 init_proctrans_data(); /* for proc translation structs */
 init_ttrans_data();    /* for transaction proc translation structs */
+
 if(!mainwindow_already_built)
 	{
 	atexit(remove_all_proc_filters);
 	atexit(remove_all_ttrans_filters);
 #if defined __MINGW32__
 	atexit(close_all_fst_files);
+#endif
+#ifdef WAVE_FSDB_READER_IS_PRESENT
+	atexit(close_all_fsdb_files);
 #endif
 	}
 
