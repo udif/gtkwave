@@ -479,7 +479,7 @@ if(!strcmp("-", vname))
 	else
 	{
 #ifdef VCD2FST_EXTLOAD_CONV
-	if(suffix_check(vname, "."EXTLOAD_SUFFIX))
+	if(suffix_check(vname, "."EXTLOAD_SUFFIX) || suffix_check(vname, "."EXTLOAD_SUFFIX".gz") || suffix_check(vname, "."EXTLOAD_SUFFIX".bz2"))
 		{
 		sprintf(bin_fixbuff, EXTCONV_PATH" %s", vname);
 		f = popen(bin_fixbuff, "r");
