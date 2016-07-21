@@ -1556,7 +1556,7 @@
 		Fix emission of all filter names so they are emitted in
 		canonical fashion so as to avoid growing strings of ../ in
 		savefiles.
-3.3.74	06jul16	Fix for when a signal name is used as a hierarchy name at the
+3.3.74	21jul16	Fix for when a signal name is used as a hierarchy name at the
 		same level of scope.  (Affects fsdb.)
 		Added --rcvar command line option to insert rc variable changes
 		individually without needing to point to a configuration file.
@@ -1566,4 +1566,7 @@
 		libnffr loader can handle those.
 		If a variable is declared in the dumpfile as an integer, then
 		it is imported to the waveform display as an integer instead of
-		a hex value.
+		a hex value. This works for dump file formats that show the
+		datatype in the SST window.
+		Added code that should prevent the primary marker from 
+		disappearing unexpectedly.

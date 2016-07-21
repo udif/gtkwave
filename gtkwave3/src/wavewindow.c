@@ -950,9 +950,12 @@ if(newcurr<GLOBALS->tims.start)
 	newcurr=GLOBALS->tims.start;
 	}
 
+newcurr = time_trunc(newcurr);
+if(newcurr < 0) newcurr = GLOBALS->min_time; /* prevents marker from disappearing? */
+
 if(!is_button_2)
 	{
-	update_markertime(GLOBALS->tims.marker=cook_markertime(time_trunc(newcurr), xin, yin));
+	update_markertime(GLOBALS->tims.marker=cook_markertime(newcurr, xin, yin));
 	if(GLOBALS->tims.lmbcache<0) GLOBALS->tims.lmbcache=time_trunc(newcurr);
 
 	draw_marker_partitions();
@@ -964,7 +967,7 @@ if(!is_button_2)
 	}
 	else
 	{
-	GLOBALS->tims.baseline = ((GLOBALS->tims.baseline<0)||(is_button_2<0)) ? cook_markertime(time_trunc(newcurr), xin, yin) : -1;
+	GLOBALS->tims.baseline = ((GLOBALS->tims.baseline<0)||(is_button_2<0)) ? cook_markertime(newcurr, xin, yin) : -1;
 	update_basetime(GLOBALS->tims.baseline);
 	update_markertime(GLOBALS->tims.marker);
 	wavearea_configure_event(GLOBALS->wavearea, NULL);
