@@ -631,6 +631,12 @@ if((GLOBALS->tims.marker==-1)&&(GLOBALS->tims.prevmarker!=-1))
 	GLOBALS->signalwindow_width_dirty=1;
 	}
 GLOBALS->tims.prevmarker=GLOBALS->tims.marker;
+
+/* additional case for race conditions with MaxSignalLength */
+if(((GLOBALS->tims.resizemarker==-1)||(GLOBALS->tims.resizemarker2==-1)) && (GLOBALS->tims.resizemarker!=GLOBALS->tims.resizemarker2))
+	{
+	GLOBALS->signalwindow_width_dirty=1;
+	}
 }
 
 
@@ -896,7 +902,16 @@ MaxSignalLength();
 gdk_draw_rectangle(GLOBALS->signalpixmap,
 	GLOBALS->gc.gc_ltgray, TRUE, 0, 0,
         GLOBALS->signal_fill_width, GLOBALS->signalarea->allocation.height);
+
+{
+char signalwindow_width_dirty = GLOBALS->signalwindow_width_dirty;
 sync_marker();
+if(!signalwindow_width_dirty && GLOBALS->signalwindow_width_dirty)
+	{
+	MaxSignalLength_2(1);
+	}
+}
+
 RenderSigs((int)(GTK_ADJUSTMENT(GLOBALS->wave_vslider)->value),0);
 
 if(GLOBALS->signalarea_has_focus)
@@ -2447,8 +2462,17 @@ if(GLOBALS->tims.marker!=-1)
 	if(GLOBALS->signal_pixmap_width > 32767) GLOBALS->signal_pixmap_width = 32767; /* fixes X11 protocol limitation crash */
 	}
 
+GLOBALS->tims.resizemarker2 = GLOBALS->tims.resizemarker;
+GLOBALS->tims.resizemarker = GLOBALS->tims.marker;
+
 if(GLOBALS->signal_pixmap_width<60) GLOBALS->signal_pixmap_width=60;
 
+MaxSignalLength_2(dirty_kick);
+}
+
+
+void MaxSignalLength_2(char dirty_kick)
+{
 if(!GLOBALS->in_button_press_wavewindow_c_1)
 	{
 	if(!GLOBALS->do_resize_signals)
@@ -2522,6 +2546,7 @@ if(!GLOBALS->in_button_press_wavewindow_c_1)
 		}
 	}
 }
+
 /***************************************************************************/
 
 void UpdateSigValue(Trptr t)

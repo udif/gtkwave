@@ -434,6 +434,8 @@ typedef struct
     TimeType    end;		/* ending time of trace on screen */
     TimeType    marker;
     TimeType    prevmarker;	/* from last drawmarker()	        */
+    TimeType    resizemarker;   /* from last MaxSignalLength()          */
+    TimeType    resizemarker2;  /* from 2nd last MaxSignalLength()      */
     TimeType    lmbcache;	/* initial marker pos                   */
     TimeType    timecache;	/* to get around floating pt limitation */
     TimeType    laststart;      /* caches last set value                */

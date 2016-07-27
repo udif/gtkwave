@@ -13,6 +13,8 @@
 void button_press_release_common(void);
 void UpdateSigValue(Trptr t);
 void MaxSignalLength(void);
+void MaxSignalLength_2(char dirty_kick); /* used to resize but not fully recalculate like MaxSignalLength() */
+
 void RenderSigs(int trtarget, int update_waves);
 int RenderSig(Trptr t, int i, int dobackground);
 void populateBuffer(Trptr t, char *altname, char* buf);
