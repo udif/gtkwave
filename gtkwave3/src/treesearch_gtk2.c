@@ -313,7 +313,7 @@ if(node)
 int force_open_tree_node(char *name, int keep_path_nodes_open, struct tree **t_pnt) {
   GtkCTree *ctree = GLOBALS->ctree_main;
   int rv = 1 ;			/* can possible open */
-  if(ctree) {
+  if(ctree && GLOBALS->any_tree_node) {
     int namlen = strlen(name);
     char *namecache = wave_alloca(namlen+1);
     char *name_end = name + namlen - 1;
@@ -524,7 +524,7 @@ void select_tree_node(char *name)
 {
 GtkCTree *ctree = GLOBALS->ctree_main;
 
-if(ctree)
+if(ctree && GLOBALS->any_tree_node)
 	{
 	int namlen = strlen(name);
 	char *namecache = wave_alloca(namlen+1);
