@@ -1571,3 +1571,4 @@
 		Added code that should prevent the primary marker from 
 		disappearing unexpectedly as well as dynamic resizing being
 		stuck in the unset marker width.
+3.3.75	30jul16	<< version bump >>
