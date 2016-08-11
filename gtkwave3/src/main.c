@@ -2484,7 +2484,11 @@ if(1)	/* here in order to calculate window manager delta if present... window is
 
 init_busy();
 
-if(scriptfile && GLOBALS->interp)
+if(scriptfile
+#if defined(HAVE_LIBTCL)
+        && GLOBALS->interp
+#endif
+)
 	{
 	execute_script(scriptfile, 1); /* deallocate the name in the script because context might swap out from under us! */
 	scriptfile=NULL;
