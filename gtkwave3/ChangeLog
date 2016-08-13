@@ -1572,4 +1572,7 @@
 		disappearing unexpectedly as well as dynamic resizing being
 		stuck in the unset marker width.
 3.3.75	02aug16	Fix crash when -S and -W are used in tandem.
-3.3.76	11aug16	Fix for --disable-tcl in ./configure caused by 3.3.75 fix.
+3.3.76	13aug16	Fix for --disable-tcl in ./configure caused by 3.3.75 fix.
+		Crash fix in fstapi.c on read value at time accessing of
+		FST files that use new dynamic aliases, FastLZ, or LZ4.  This
+		primarily affects rtlbrowse.
