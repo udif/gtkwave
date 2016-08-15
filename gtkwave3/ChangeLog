@@ -1576,3 +1576,4 @@
 		Crash fix in fstapi.c on read value at time accessing of
 		FST files that use new dynamic aliases, FastLZ, or LZ4.  This
 		primarily affects rtlbrowse.
+3.3.77	15aug16	<< prepare for next version >>
