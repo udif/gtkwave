@@ -2092,7 +2092,8 @@ for(;;)
 		case T_DUMPOFF:
 		case T_DUMPPORTSOFF:
 			GLOBALS->dumping_off_vcd_recoder_c_3=1;
-			if((!GLOBALS->blackout_regions)||((GLOBALS->blackout_regions)&&(GLOBALS->blackout_regions->bstart<=GLOBALS->blackout_regions->bend)))
+                        /* if((!GLOBALS->blackout_regions)||((GLOBALS->blackout_regions)&&(GLOBALS->blackout_regions->bstart<=GLOBALS->blackout_regions->bend))) : remove redundant condition */
+                        if((!GLOBALS->blackout_regions)||(GLOBALS->blackout_regions->bstart<=GLOBALS->blackout_regions->bend))
 				{
 				struct blackout_region_t *bt = calloc_2(1, sizeof(struct blackout_region_t));
 

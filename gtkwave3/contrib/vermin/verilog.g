@@ -1130,7 +1130,8 @@ v_module:	( V_MODULE | V_MACROMODULE )
 			v_identifier_nodot  
 			<< {
 				JRB node = jrb_find_str(modname_tree, $2.symbol->name);
-				if((!node)||((node)&&(!node->val.i)))
+				/* if((!node)||((node)&&(!node->val.i))) : redundant condition */
+				if((!node)||(!node->val.i))
 					{
 					add_string_to_tree(modname_tree, $2.symbol->name, TRUE);
 					mod_current_name = strdup($2.symbol->name);
@@ -1297,7 +1298,8 @@ v_udp:		V_PRIMITIVE
 			<< 
 			   {
 				JRB node = jrb_find_str(modname_tree, $2.symbol->name);
-				if((!node)||((node)&&(!node->val.i)))
+				/* if((!node)||((node)&&(!node->val.i))) : redundant condition */
+				if((!node)||(!node->val.i))
 					{
 					add_string_to_tree(modname_tree, $2.symbol->name, TRUE);
 					udp_current_name = strdup($2.symbol->name);
