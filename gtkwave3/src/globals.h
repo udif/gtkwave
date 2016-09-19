@@ -113,6 +113,8 @@ int hier_max_level_shadow; /* from analyzer.c */
 TimeType timestart_from_savefile;
 char timestart_from_savefile_valid;
 int group_depth;
+char hier_ignore_escapes;
+
 
 /*
  * baseconvert.c

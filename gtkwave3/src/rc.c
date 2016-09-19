@@ -300,6 +300,13 @@ GLOBALS->hide_sst=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_hier_ignore_escapes(char *str)
+{
+DEBUG(printf("f_hier_ignore_escapes(\"%s\")\n",str));
+GLOBALS->hier_ignore_escapes=atoi_64(str)?1:0;
+return(0);
+}
+
 int f_keep_xz_colors(char *str)
 {
 DEBUG(printf("f_keep_xz_colors(\"%s\")\n",str));
@@ -865,6 +872,7 @@ static struct rc_entry rcitems[]=
 { "hide_sst", f_hide_sst },
 { "hier_delimeter", f_hier_delimeter },
 { "hier_grouping", f_hier_grouping },
+{ "hier_ignore_escapes", f_hier_ignore_escapes },
 { "hier_max_level", f_hier_max_level },
 { "highlight_wavewindow", f_highlight_wavewindow },
 { "hpane_pack", f_hpane_pack },

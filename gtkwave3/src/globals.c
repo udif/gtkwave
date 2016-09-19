@@ -112,7 +112,7 @@ TR_RJUSTIFY, /* default_flags 5 */
 0, /* timestart_from_savefile */
 0, /* timestart_from_savefile_valid */
 0, /* group_depth */
-
+0, /* hier_ignore_escapes */
 
 /*
  * baseconvert.c
@@ -1900,6 +1900,7 @@ void reload_into_new_context_2(void)
  new_globals->zoombase = GLOBALS->zoombase;
 
  new_globals->disable_ae2_alias = GLOBALS->disable_ae2_alias;
+ new_globals->hier_ignore_escapes = GLOBALS->hier_ignore_escapes;
 
  new_globals->splash_disable = 1; /* to disable splash for reload */
  new_globals->strace_repeat_count = GLOBALS->strace_repeat_count; /* for edgebuttons and also strace */
@@ -2791,6 +2792,8 @@ switch(type)
 							GLOBALS->ignore_savefile_pane_pos = g_old->ignore_savefile_pane_pos;
 							GLOBALS->ignore_savefile_pos = g_old->ignore_savefile_pos;
 							GLOBALS->ignore_savefile_size = g_old->ignore_savefile_size;
+
+							GLOBALS->hier_ignore_escapes = g_old->hier_ignore_escapes;
 
 							gtk_notebook_set_current_page(GTK_NOTEBOOK(GLOBALS->notebook), GLOBALS->this_context_page);
 							}

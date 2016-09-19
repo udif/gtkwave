@@ -50,7 +50,7 @@ len=strlen(pnt);
 if(!len) return(pnt);
 
 if(levels<1) levels=1;
-if((esc=strchr(pnt, '\\')))
+if((!GLOBALS->hier_ignore_escapes) &&(esc=strchr(pnt, '\\')))
 	{
 	return((levels==1) ? esc : pnt); /* shortcut out on escape IDs: level=1, esc char else all */
 	}

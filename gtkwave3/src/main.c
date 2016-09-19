@@ -122,6 +122,7 @@ GLOBALS->keep_xz_colors = g_old->keep_xz_colors;
 GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;
 GLOBALS->zoom_dyn = g_old->zoom_dyn;
 GLOBALS->zoom_dyne = g_old->zoom_dyne;
+GLOBALS->hier_ignore_escapes = g_old->hier_ignore_escapes;
 
 reformat_time(timestr, GLOBALS->tims.first + GLOBALS->global_time_offset, GLOBALS->time_dimension);
 gtk_entry_set_text(GTK_ENTRY(GLOBALS->from_entry),timestr);
@@ -661,6 +662,7 @@ if(!GLOBALS)
 	GLOBALS->zoombase = old_g->zoombase;
 	GLOBALS->splash_disable = old_g->splash_disable;
 	GLOBALS->use_pango_fonts = old_g->use_pango_fonts;
+	GLOBALS->hier_ignore_escapes = old_g->hier_ignore_escapes;
 
 	GLOBALS->ruler_origin = old_g->ruler_origin;
 	GLOBALS->ruler_step = old_g->ruler_step;
