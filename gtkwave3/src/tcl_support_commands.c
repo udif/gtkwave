@@ -612,17 +612,39 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
       if(t->vector == 0) {
 	if(!t->n.nd->extvals) {	/* really single bit */
 	  switch(((hptr)lp->u.p)->v.h_val) {
+	  case '0':
 	  case AN_0: llp.str = "0"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+
+	  case '1':
 	  case AN_1: llp.str = "1"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+
+	  case 'x':
+	  case 'X':
 	  case AN_X: llp.str = "x"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+
+	  case 'z':
+	  case 'Z':
 	  case AN_Z: llp.str = "z"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
 
+	  case 'h':
+	  case 'H':
 	  case AN_H: llp.str = "h"; l_elem = llist_new(llp, LL_STR, -1) ; break ; /* added for GHW... */
+
+	  case 'u':
+	  case 'U':
 	  case AN_U: llp.str = "u"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+
+	  case 'w':
+	  case 'W':
 	  case AN_W: llp.str = "w"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+
+	  case 'l':
+	  case 'L':
 	  case AN_L: llp.str = "l"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
 
+	  case '-':
 	  case AN_DASH: llp.str = "-"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+
 	  default:      llp.str = "?"; l_elem = llist_new(llp, LL_STR, -1) ; break ; /* ...added for GHW */
 	  }
 	} else {		/* this is still an array */
