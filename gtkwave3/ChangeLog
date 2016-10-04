@@ -1582,3 +1582,5 @@
 		condition checks where found in source.
 		Added hier_ignore_escapes rc variable.
 		Dynamic resizing tweaks for when it is turned off.
+		Added HUWL-? value types to signal_change_list() to keep GHW
+		files from crashing Tcl scripts.

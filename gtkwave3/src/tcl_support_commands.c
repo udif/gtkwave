@@ -616,6 +616,14 @@ llist_p *signal_change_list(char *sig_name, int dir, TimeType start_time,
 	  case AN_1: llp.str = "1"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
 	  case AN_X: llp.str = "x"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
 	  case AN_Z: llp.str = "z"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+
+	  case AN_H: llp.str = "h"; l_elem = llist_new(llp, LL_STR, -1) ; break ; /* added for GHW... */
+	  case AN_U: llp.str = "u"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+	  case AN_W: llp.str = "w"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+	  case AN_L: llp.str = "l"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+
+	  case AN_DASH: llp.str = "-"; l_elem = llist_new(llp, LL_STR, -1) ; break ;
+	  default:      llp.str = "?"; l_elem = llist_new(llp, LL_STR, -1) ; break ; /* ...added for GHW */
 	  }
 	} else {		/* this is still an array */
 	  h_ptr = (hptr)lp->u.p ;
