@@ -1576,8 +1576,9 @@
 		Crash fix in fstapi.c on read value at time accessing of
 		FST files that use new dynamic aliases, FastLZ, or LZ4.  This
 		primarily affects rtlbrowse.
-3.3.77	18sep16	Updated documentation to include an appendix on FST 
+3.3.77	03oct16	Updated documentation to include an appendix on FST 
 		implementation details.
 		Removed '!A || (A && B)' is equivalent to '!A || B' redundant
 		condition checks where found in source.
 		Added hier_ignore_escapes rc variable.
+		Dynamic resizing tweaks for when it is turned off.

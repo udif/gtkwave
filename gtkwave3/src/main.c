@@ -2377,6 +2377,18 @@ if(!mainwindow_already_built)
 	gtk_table_attach (GTK_TABLE (whole_table), GLOBALS->force_toolbars?toolhandle:top_table, 0, 16, 0, 1,
 	                      	GTK_FILL | GTK_EXPAND,
 	                      	GTK_FILL | GTK_EXPAND | GTK_SHRINK, 0, 0);
+
+	if(!GLOBALS->do_resize_signals)
+		{
+		int dri;
+        	for(dri=0;dri<2;dri++)
+        	        {
+        	        GLOBALS->signalwindow_width_dirty=1;
+        	        MaxSignalLength();
+        	        signalarea_configure_event(GLOBALS->signalarea, NULL);
+        	        wavearea_configure_event(GLOBALS->wavearea, NULL);
+        	        }
+		}
 	}
 
 

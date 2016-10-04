@@ -2133,6 +2133,7 @@ void menu_enable_dynamic_resize(gpointer null_data, guint callback_action, GtkWi
 (void)null_data;
 (void)callback_action;
 (void)widget;
+int i;
 
 if(GLOBALS->helpbox_is_active)
         {
@@ -2157,10 +2158,14 @@ if(GLOBALS->helpbox_is_active)
 		status_text("Resizing disabled.\n");
 		GLOBALS->do_resize_signals=0;
 		}
-	GLOBALS->signalwindow_width_dirty=1;
-	MaxSignalLength();
-	signalarea_configure_event(GLOBALS->signalarea, NULL);
-	wavearea_configure_event(GLOBALS->wavearea, NULL);
+
+	for(i=0;i<2;i++)
+		{
+		GLOBALS->signalwindow_width_dirty=1;
+		MaxSignalLength();
+		signalarea_configure_event(GLOBALS->signalarea, NULL);
+		wavearea_configure_event(GLOBALS->wavearea, NULL);
+		}
 #else
         GLOBALS->do_resize_signals = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VDR]));
         if(GLOBALS->do_resize_signals)
@@ -2174,10 +2179,13 @@ if(GLOBALS->helpbox_is_active)
 
         if(GLOBALS->signalarea && GLOBALS->wavearea)
                 {
-                GLOBALS->signalwindow_width_dirty=1;
-                MaxSignalLength();
-                signalarea_configure_event(GLOBALS->signalarea, NULL);
-                wavearea_configure_event(GLOBALS->wavearea, NULL);
+		for(i=0;i<2;i++)
+			{
+	                GLOBALS->signalwindow_width_dirty=1;
+	                MaxSignalLength();
+	                signalarea_configure_event(GLOBALS->signalarea, NULL);
+	                wavearea_configure_event(GLOBALS->wavearea, NULL);
+			}
                 }
 #endif
 	}
