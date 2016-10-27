@@ -144,6 +144,25 @@ return(res);
 /*
  * free the straces...
  */
+static int count_active_straces(void)
+{
+int s_ctx_iter;
+int activ = 0;
+
+WAVE_STRACE_ITERATOR_FWD(s_ctx_iter)
+        {
+        struct strace_ctx_t *strace_ctx = &GLOBALS->strace_windows[s_ctx_iter];
+
+	if(strace_ctx->window_strace_c_10) activ++;
+	}
+
+return(activ);
+}
+
+
+/*
+ * free the straces...
+ */
 static void free_straces(void)
 {
 struct strace *s, *skill;
@@ -166,15 +185,20 @@ while(s)
 
 GLOBALS->strace_ctx->straces=NULL;
 
-sd = GLOBALS->strace_ctx->strace_defer_free_head;
 
-while(sd)
+if(count_active_straces() <= 1) /* only free up traces if there is only one pattern search active.  we could splice across multiple strace_ctx but it's not worth the effort here */
 	{
-	FreeTrace(sd->defer);
-	sd2 = sd->next;
-	free_2(sd);
-	sd = sd2;
+	sd = GLOBALS->strace_ctx->strace_defer_free_head;
+
+	while(sd)
+		{
+		FreeTrace(sd->defer);
+		sd2 = sd->next;
+		free_2(sd);
+		sd = sd2;
+		}
 	}
+
 GLOBALS->strace_ctx->strace_defer_free_head = NULL;
 }
 

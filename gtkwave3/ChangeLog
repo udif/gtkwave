@@ -1584,3 +1584,4 @@
 		Dynamic resizing tweaks for when it is turned off.
 		Added HUWL-? value types to signal_change_list() to keep GHW
 		files from crashing Tcl scripts.
+3.3.78	26oct16	Fixed crash when using multiple pattern searches.
