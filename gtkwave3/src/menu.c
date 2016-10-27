@@ -8017,6 +8017,20 @@ GLOBALS->quiet_checkmenu = 0;
 
 
 /*
+ * kill accelerator keys (e.g., if using twinwave as focus is sometimes wrong from parent window)
+ */
+void kill_main_menu_accelerators(void)
+{
+int i;
+
+for(i=0;i<WV_MENU_NUMITEMS;i++)
+	{
+	menu_items[i].accelerator = NULL;
+	}
+}
+
+
+/*
  * create the menu through an itemfactory instance
  */
 #ifndef WAVE_USE_MLIST_T

@@ -1842,6 +1842,10 @@ if(GLOBALS->use_toolbutton_interface)
 
 		if(!GLOBALS->disable_menus)
 			{
+#ifdef WAVE_USE_XID
+			if(GLOBALS->socket_xid) kill_main_menu_accelerators();
+#endif
+
 #ifdef WAVE_USE_MLIST_T
 			menubar = alt_menu_top(GLOBALS->mainwindow);
 #else
