@@ -197,9 +197,9 @@ if(count_active_straces() <= 1) /* only free up traces if there is only one patt
 		free_2(sd);
 		sd = sd2;
 		}
-	}
 
-GLOBALS->strace_ctx->strace_defer_free_head = NULL;
+	GLOBALS->strace_ctx->strace_defer_free_head = NULL; /* moved inside if() so it frees eventually and doesn't stay around until context cleanup */
+	}
 }
 
 /*
