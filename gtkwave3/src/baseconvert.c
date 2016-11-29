@@ -1781,7 +1781,7 @@ if(flags&TR_REAL)
 			}
 		if(!fail)
 			{
-			retval = *(double *)&val;
+			memcpy(&retval, &val, sizeof(double)); /* otherwise strict-aliasing rules problem if retval = *(double *)&val; */
 			}
 		}
 	}
