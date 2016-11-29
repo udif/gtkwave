@@ -275,7 +275,12 @@ char *eclass;
 			if ( q == NULL )
 			{
 				/* if quoted and not an expr look for eclass name */
-				q = (TermEntry *) hash_get(Tname, *((char **)&(e->elem))=StripQuotes((char *)e->elem));
+                                              /* fix to the following to avoid -fstrict-aliasing problems in compiler: */
+					      char *e_ch = StripQuotes((char *)e->elem);
+                                	      e->elem = e_ch;
+					      q = (TermEntry *) hash_get(Tname, *((char **)&(e_ch)) );
+				/* above was: q = (TermEntry *) hash_get(Tname, *((char **)&(e->elem))=StripQuotes((char *)e->elem)); */
+
 				if ( q != NULL ) t = q->token;
 			}
 			else t = q->token;
