@@ -187,6 +187,8 @@ int color_dkblue; /* from color.c 55 */
 int color_brkred;
 int color_ltblue;
 int color_gmstrd;
+int color_highfill;
+int color_1fill;
 
 
 /*
@@ -1342,6 +1344,7 @@ int str_wid_slider;
 int str_wid_height;
 TimeType ruler_origin;
 TimeType ruler_step;
+char fill_waveform;
 
 
 /*

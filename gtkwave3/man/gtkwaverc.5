@@ -51,6 +51,9 @@ trace color when 0.
 \fBcolor_1\fR <\fIvalue\fP>
 trace color when 1.
 .TP 
+\fBcolor_1fill\fR <\fIvalue\fP>
+trace color (inside of box) when 1.
+.TP 
 \fBcolor_back\fR <\fIvalue\fP>
 background color.
 .TP 
@@ -86,6 +89,9 @@ grid color for secondary pattern search.
 .TP 
 \fBcolor_high\fR <\fIvalue\fP>
 trace color when high ("H").
+.TP 
+\fBcolor_highfill\fR <\fIvalue\fP>
+trace color (inside of box) when high ("H").
 .TP
 \fBcolor_low\fR <\fIvalue\fP>
 trace color when low ("L").
@@ -203,6 +209,9 @@ causes the vcd loader to automatically generate a .sav file (vcd_autosave.sav ) 
 .TP 
 \fBenable_vert_grid\fR <\fIvalue\fP>
 A nonzero value indicates that when grid drawing is enabled, vertical lines are to be drawn. This is the default. Note that all possible combinations of enable_horiz_grid and enable_vert_grid values are acceptable.
+.TP 
+\fBfill_waveform\fR <\fIvalue\fP>
+A zero value indicates that the waveform should not be filled for 1/H values. This is the default.
 .TP 
 \fBfontname_logfile\fR <\fIvalue\fP>
 When followed by an argument, this indicates the name of the X11 font that you wish to use for the logfile browser. You may generate appropriate fontnames using the xfontsel program.

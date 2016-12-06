@@ -19,6 +19,7 @@ dragzoom_threshold 0
 
 use_standard_trace_select no
 highlight_wavewindow no
+fill_waveform no
 alt_wheel_mode yes
 vcd_preserve_glitches no
 vcd_preserve_glitches_real no
@@ -86,8 +87,10 @@ color_baseline ffffff
 color_grid   202070
 color_grid2  6a5acd
 color_high   79f6f2
+color_highfill 4ca09d
 color_low    5dbebb
 color_1      00ff00
+color_1fill  004d00
 color_0      008000
 color_trans  00c000
 color_mid    c0c000
@@ -279,6 +282,9 @@ accel "/Markers/Locking/Lock to Lesser Named Marker" Q
 accel "/Markers/Locking/Lock to Greater Named Marker" W
 accel "/Markers/Locking/Unlock from Named Marker" O
 accel "/View/Show Grid" <Alt>G
+accel "/View/<separator>" (null)
+accel "/View/Show Wave Highlight" (null)
+accel "/View/Show Filled High Values" (null)
 accel "/View/<separator>" (null)
 accel "/View/Show Mouseover" (null)
 accel "/View/<separator>" (null)

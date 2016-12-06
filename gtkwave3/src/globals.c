@@ -185,6 +185,8 @@ NULL, /* wave_gcchain */
 -1, /* color_brkred */
 -1, /* color_ltblue */
 -1, /* color_gmstrd */
+-1, /* color_highfill */
+-1, /* color_1fill */
 
 
 /*
@@ -1357,6 +1359,7 @@ WAVE_RAINBOW_INITIALIZER, /* gc_rainbow */
 0, /* str_wid_height */
 0, /* ruler_origin */
 0, /* ruler_step */
+0, /* fill_waveform */
 
 
 /*
@@ -1807,8 +1810,10 @@ void reload_into_new_context_2(void)
  new_globals->color_grid = GLOBALS->color_grid;
  new_globals->color_grid2 = GLOBALS->color_grid2;
  new_globals->color_high = GLOBALS->color_high;
+ new_globals->color_highfill = GLOBALS->color_highfill;
  new_globals->color_low = GLOBALS->color_low;
  new_globals->color_1 = GLOBALS->color_1;
+ new_globals->color_1fill = GLOBALS->color_1fill;
  new_globals->color_0 = GLOBALS->color_0;
  new_globals->color_mark = GLOBALS->color_mark;
  new_globals->color_mid = GLOBALS->color_mid;
@@ -1871,6 +1876,7 @@ void reload_into_new_context_2(void)
  new_globals->show_base = GLOBALS->show_base;
  new_globals->display_grid = GLOBALS->display_grid;
  new_globals->highlight_wavewindow = GLOBALS->highlight_wavewindow;
+ new_globals->fill_waveform = GLOBALS->fill_waveform;
  new_globals->use_standard_trace_select = GLOBALS->use_standard_trace_select;
  new_globals->use_big_fonts = GLOBALS->use_big_fonts;
  new_globals->use_full_precision = GLOBALS->use_full_precision;
@@ -2780,6 +2786,7 @@ switch(type)
 							GLOBALS->show_base = g_old->show_base;
 							GLOBALS->display_grid = g_old->display_grid;
 							GLOBALS->highlight_wavewindow = g_old->highlight_wavewindow;
+							GLOBALS->fill_waveform = g_old->fill_waveform;
 							GLOBALS->use_standard_trace_select = g_old->use_standard_trace_select;
 							GLOBALS->disable_mouseover = g_old->disable_mouseover;
 							GLOBALS->keep_xz_colors = g_old->keep_xz_colors;

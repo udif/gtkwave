@@ -7515,6 +7515,40 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 }
 
 /**/
+void menu_show_filled_high_values(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+(void)null_data;
+(void)callback_action;
+(void)widget;
+
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nShow Filled High Values");
+        help_text(
+		" toggles the drawing of filled in 1/H values in the waveform display."
+        );
+        }
+	else
+	{
+#ifndef WAVE_USE_MLIST_T
+	GLOBALS->fill_waveform=(GLOBALS->fill_waveform)?0:~0;
+#else
+	GLOBALS->fill_waveform = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_FILL1]));
+#endif
+	if(GLOBALS->wave_hslider)
+		{
+		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)),"changed");
+		gtk_signal_emit_by_name (GTK_OBJECT (GTK_ADJUSTMENT(GLOBALS->wave_hslider)),"value_changed");
+		}
+	DEBUG(printf("Show Filled High Values\n"));
+	}
+
+#ifndef WAVE_USE_MLIST_T
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_FILL1].path))->active=(GLOBALS->fill_waveform)?TRUE:FALSE;
+#endif
+}
+
+/**/
 void menu_show_mouseover(gpointer null_data, guint callback_action, GtkWidget *widget)
 {
 (void)null_data;
@@ -7804,6 +7838,7 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/View/Show Grid", "<Alt>G", menu_show_grid, WV_MENU_VSG, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP9, "<Separator>"),
     WAVE_GTKIFE("/View/Show Wave Highlight", NULL, menu_show_wave_highlight, WV_MENU_SHW, "<ToggleItem>"),
+    WAVE_GTKIFE("/View/Show Filled High Values", NULL, menu_show_filled_high_values, WV_MENU_FILL1, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP9B, "<Separator>"),
     WAVE_GTKIFE("/View/Show Mouseover", NULL, menu_show_mouseover, WV_MENU_VSMO, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP9A, "<Separator>"),
@@ -7930,6 +7965,8 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_SHW].path))->active=(GLOBALS->highlight_wavewindow)?TRUE:FALSE;
 
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_FILL1].path))->active=(GLOBALS->fill_waveform)?TRUE:FALSE;
+
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_HSWM].path))->active=(GLOBALS->alt_wheel_mode)?TRUE:FALSE;
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1,menu_items[WV_MENU_VSMO].path))->active=(GLOBALS->disable_mouseover)?FALSE:TRUE;
@@ -7981,6 +8018,7 @@ GLOBALS->quiet_checkmenu = 1;
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VZPS]), GLOBALS->zoom_pow10_snap);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSG]), GLOBALS->display_grid);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_SHW]), GLOBALS->highlight_wavewindow);
+gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_FILL1]), GLOBALS->fill_waveform);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_HSWM]), GLOBALS->alt_wheel_mode);
 
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSMO]), !GLOBALS->disable_mouseover);

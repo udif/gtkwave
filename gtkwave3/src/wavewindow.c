@@ -1682,6 +1682,7 @@ if(!GLOBALS->made_gc_contexts_wavewindow_c_1)
 	GLOBALS->gc.gc_timeb_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_timeb, GLOBALS->wavearea->style->bg_gc[GTK_STATE_ACTIVE]);
 	GLOBALS->gc.gc_value_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_value, GLOBALS->wavearea->style->black_gc);
 	GLOBALS->gc.gc_low_wavewindow_c_1    = alloc_color(GLOBALS->wavearea, GLOBALS->color_low, GLOBALS->wavearea->style->black_gc);
+	GLOBALS->gc.gc_highfill_wavewindow_c_1=alloc_color(GLOBALS->wavearea, GLOBALS->color_highfill, GLOBALS->wavearea->style->bg_gc[GTK_STATE_PRELIGHT]);
 	GLOBALS->gc.gc_high_wavewindow_c_1   = alloc_color(GLOBALS->wavearea, GLOBALS->color_high, GLOBALS->wavearea->style->black_gc);
 	GLOBALS->gc.gc_trans_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_trans, GLOBALS->wavearea->style->black_gc);
 	GLOBALS->gc.gc_mid_wavewindow_c_1    = alloc_color(GLOBALS->wavearea, GLOBALS->color_mid, GLOBALS->wavearea->style->black_gc);
@@ -1707,6 +1708,7 @@ if(!GLOBALS->made_gc_contexts_wavewindow_c_1)
 #endif
 
         GLOBALS->gc.gc_0_wavewindow_c_1      = alloc_color(GLOBALS->wavearea, GLOBALS->color_0, GLOBALS->wavearea->style->black_gc);
+        GLOBALS->gc.gc_1fill_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_1fill, GLOBALS->wavearea->style->bg_gc[GTK_STATE_PRELIGHT]);
         GLOBALS->gc.gc_1_wavewindow_c_1      = alloc_color(GLOBALS->wavearea, GLOBALS->color_1, GLOBALS->wavearea->style->black_gc);
         GLOBALS->gc.gc_ufill_wavewindow_c_1  = alloc_color(GLOBALS->wavearea, GLOBALS->color_ufill, GLOBALS->wavearea->style->bg_gc[GTK_STATE_PRELIGHT]);
         GLOBALS->gc.gc_u_wavewindow_c_1      = alloc_color(GLOBALS->wavearea, GLOBALS->color_u, GLOBALS->wavearea->style->black_gc);
@@ -1717,6 +1719,7 @@ if(!GLOBALS->made_gc_contexts_wavewindow_c_1)
 
 #ifdef WAVE_DOUBLE_LINE_WIDTH_MODE
 	gdk_gc_set_line_attributes(GLOBALS->gc.gc_0_wavewindow_c_1, 2, GDK_LINE_SOLID, GDK_CAP_ROUND, GDK_JOIN_ROUND);
+	gdk_gc_set_line_attributes(GLOBALS->gc.gc_1fill_wavewindow_c_1, 2, GDK_LINE_SOLID, GDK_CAP_ROUND, GDK_JOIN_ROUND);
 	gdk_gc_set_line_attributes(GLOBALS->gc.gc_1_wavewindow_c_1, 2, GDK_LINE_SOLID, GDK_CAP_ROUND, GDK_JOIN_ROUND);
 	gdk_gc_set_line_attributes(GLOBALS->gc.gc_ufill_wavewindow_c_1, 2, GDK_LINE_SOLID, GDK_CAP_ROUND, GDK_JOIN_ROUND);
 	gdk_gc_set_line_attributes(GLOBALS->gc.gc_u_wavewindow_c_1, 2, GDK_LINE_SOLID, GDK_CAP_ROUND, GDK_JOIN_ROUND);
@@ -1805,6 +1808,7 @@ GLOBALS->gc.gc_time_wavewindow_c_1   = GLOBALS->gc_black;
 GLOBALS->gc.gc_timeb_wavewindow_c_1  = GLOBALS->gc_white;
 GLOBALS->gc.gc_value_wavewindow_c_1  = GLOBALS->gc_black;
 GLOBALS->gc.gc_low_wavewindow_c_1    = GLOBALS->gc_black;
+GLOBALS->gc.gc_highfill_wavewindow_c_1= GLOBALS->gc_black;
 GLOBALS->gc.gc_high_wavewindow_c_1   = GLOBALS->gc_black;
 GLOBALS->gc.gc_trans_wavewindow_c_1  = GLOBALS->gc_black;
 GLOBALS->gc.gc_mid_wavewindow_c_1    = GLOBALS->gc_black;
@@ -1815,6 +1819,7 @@ GLOBALS->gc.gc_vtrans_wavewindow_c_1 = GLOBALS->gc_black;
 GLOBALS->gc.gc_mark_wavewindow_c_1   = GLOBALS->gc_black;
 GLOBALS->gc.gc_umark_wavewindow_c_1  = GLOBALS->gc_black;
 GLOBALS->gc.gc_0_wavewindow_c_1      = GLOBALS->gc_black;
+GLOBALS->gc.gc_1fill_wavewindow_c_1  = GLOBALS->gc_black;
 GLOBALS->gc.gc_1_wavewindow_c_1      = GLOBALS->gc_black;
 GLOBALS->gc.gc_ufill_wavewindow_c_1  = GLOBALS->gc_black;
 GLOBALS->gc.gc_u_wavewindow_c_1      = GLOBALS->gc_black;
@@ -3326,6 +3331,15 @@ if(_x0!=_x1)
 		{
 		case AN_0:	/* 0 */
 		case AN_L:	/* L */
+		if(GLOBALS->fill_waveform && invert)
+		{
+			switch(hval)
+				{
+				case AN_0: gcxf = GLOBALS->gc.gc_1fill_wavewindow_c_1; break;
+				case AN_L: gcxf = GLOBALS->gc.gc_highfill_wavewindow_c_1; break;
+				}
+			gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, gcxf, TRUE,_x0+1, _y0, _x1-_x0, _y1-_y0+1);
+		}
 		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, (hval==AN_0) ? GLOBALS->gc.gc_0_wavewindow_c_1 : GLOBALS->gc.gc_low_wavewindow_c_1,_x0, _y0,_x1, _y0);
 
 		if(h2tim<=GLOBALS->tims.end)
@@ -3398,6 +3412,15 @@ if(_x0!=_x1)
 
 		case AN_1: /* 1 */
 		case AN_H: /* 1 */
+		if(GLOBALS->fill_waveform && !invert)
+		{
+			switch(hval)
+				{
+				case AN_1: gcxf = GLOBALS->gc.gc_1fill_wavewindow_c_1; break;
+				case AN_H: gcxf = GLOBALS->gc.gc_highfill_wavewindow_c_1; break;
+				}
+			gdk_draw_rectangle(GLOBALS->wavepixmap_wavewindow_c_1, gcxf, TRUE,_x0+1, _y1, _x1-_x0, _y0-_y1+1);
+		}
 		wave_gdk_draw_line(GLOBALS->wavepixmap_wavewindow_c_1, (hval==AN_1) ? GLOBALS->gc.gc_1_wavewindow_c_1 : GLOBALS->gc.gc_high_wavewindow_c_1,_x0, _y1,_x1, _y1);
 		if(h2tim<=GLOBALS->tims.end)
 		switch(h2val)

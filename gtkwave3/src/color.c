@@ -80,6 +80,8 @@ GLOBALS->gc.gc_vtrans_wavewindow_c_1 = ctx;
 if(!GLOBALS->keep_xz_colors)
 	{
 	GLOBALS->gc.gc_mid_wavewindow_c_1 = ctx;
+	GLOBALS->gc.gc_highfill_wavewindow_c_1 = ctx_fill;
+	GLOBALS->gc.gc_1fill_wavewindow_c_1 = ctx_fill;
 	GLOBALS->gc.gc_xfill_wavewindow_c_1 = ctx_fill;
 	GLOBALS->gc.gc_x_wavewindow_c_1 = ctx;
 	GLOBALS->gc.gc_ufill_wavewindow_c_1 = ctx_fill;

@@ -1300,7 +1300,7 @@ pr_draw_hptr_trace (pr_context * prc, Trptr t, hptr h, int which, int dodraw,
   int _y0, _y1, yu, liney, ytext, ysiz;
   TimeType tim, h2tim;
   hptr h2, h3;
-  char hval, h2val;
+  char hval, h2val, invert;
   char identifier_str[2];
   int is_event = t && t->n.nd && (t->n.nd->vartype == ND_VCD_EVENT);
 
@@ -1312,11 +1312,13 @@ pr_draw_hptr_trace (pr_context * prc, Trptr t, hptr h, int which, int dodraw,
     {
       _y0 = ((which + 1) * GLOBALS->fontheight) + 2;
       _y1 = liney - 2;
+      invert = 1;
     }
   else
     {
       _y1 = ((which + 1) * GLOBALS->fontheight) + 2;
       _y0 = liney - 2;
+      invert = 0;
     }
 
   yu = (_y0 + _y1) / 2;
@@ -1397,6 +1399,10 @@ pr_draw_hptr_trace (pr_context * prc, Trptr t, hptr h, int which, int dodraw,
 	      {
 	      case AN_0:	/* 0 */
 	      case AN_L:	/* 0 */
+                if(GLOBALS->fill_waveform && invert)
+                {
+		pr_draw_box (prc, _x0, _y0, _x1, _y1);
+                }
 		pr_draw_line (prc, _x0, _y0, _x1, _y0);
 
 		if (h2tim <= GLOBALS->tims.end)
@@ -1491,6 +1497,10 @@ pr_draw_hptr_trace (pr_context * prc, Trptr t, hptr h, int which, int dodraw,
 
 	      case AN_1:	/* 1 */
 	      case AN_H:	/* 1 */
+ 		if(GLOBALS->fill_waveform && !invert)
+  		{
+ 			pr_draw_box (prc, _x0, _y1, _x1, _y0);
+  		}
 		pr_draw_line (prc, _x0, _y1, _x1, _y1);
 		if (h2tim <= GLOBALS->tims.end)
 		  switch (h2val)

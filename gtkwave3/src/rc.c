@@ -259,6 +259,13 @@ GLOBALS->enable_vert_grid=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_fill_waveform(char *str)
+{
+DEBUG(printf("f_fill_waveform(\"%s\")\n",str));
+GLOBALS->fill_waveform=atoi_64(str)?1:0;
+return(0);
+}
+
 int f_fontname_logfile(char *str)
 {
 DEBUG(printf("f_fontname_logfile(\"%s\")\n",str));
@@ -767,8 +774,10 @@ color_make(baseline)
 color_make(grid)
 color_make(grid2)
 color_make(high)
+color_make(highfill)
 color_make(low)
 color_make(1)
+color_make(1fill)
 color_make(0)
 color_make(mark)
 color_make(mid)
@@ -815,6 +824,7 @@ static struct rc_entry rcitems[]=
 { "autoname_bundles", f_autoname_bundles },
 { "color_0", f_color_0 },
 { "color_1", f_color_1 },
+{ "color_1fill", f_color_1fill },
 { "color_back", f_color_back },
 { "color_baseline", f_color_baseline },
 { "color_black", f_color_black },
@@ -827,6 +837,7 @@ static struct rc_entry rcitems[]=
 { "color_grid", f_color_grid },
 { "color_grid2", f_color_grid2 },
 { "color_high", f_color_high },
+{ "color_highfill", f_color_highfill },
 { "color_low", f_color_low },
 { "color_ltblue", f_color_ltblue },
 { "color_ltgray", f_color_ltgray },
@@ -865,6 +876,7 @@ static struct rc_entry rcitems[]=
 { "enable_horiz_grid", f_enable_horiz_grid },
 { "enable_vcd_autosave", f_enable_vcd_autosave },
 { "enable_vert_grid", f_enable_vert_grid },
+{ "fill_waveform", f_fill_waveform },
 { "fontname_logfile", f_fontname_logfile },
 { "fontname_signals", f_fontname_signals },
 { "fontname_waves", f_fontname_waves },
@@ -947,8 +959,10 @@ f_color_baseline 	("ffffff"); /* white */
 f_color_grid		("202070"); /* dark dark blue */
 f_color_grid2		("6a5acd"); /* slate blue */
 f_color_high		("79f6f2"); /* light light blue */
+f_color_highfill	("4ca09d"); /* dark dark blue */
 f_color_low		("5dbebb"); /* light blue */
 f_color_1		("00ff00"); /* green */
+f_color_1fill		("004d00"); /* dark dark green */
 f_color_0		("008000"); /* dark green */
 f_color_trans		("00c000"); /* medium green */
 f_color_mid		("c0c000"); /* mustard */
