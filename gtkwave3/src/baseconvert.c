@@ -170,6 +170,8 @@ for(i=nbits-1;i>=0;i--) /* always requires less number of bits */
 
 static void cvt_fpsdec(Trptr t, TimeType val, char *os, int len, int nbits)
 {
+(void)nbits; /* number of bits shouldn't be relevant here as we're going through a fraction */
+
 int shamt = t->t_fpdecshift;
 TimeType lpart = val >> shamt;
 TimeType rmsk = (1 << shamt);

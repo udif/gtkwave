@@ -105,7 +105,7 @@ NULL, /* ae2_time_xlate */
  */
 TR_RJUSTIFY, /* default_flags 5 */
 0, /* default_fpshift */
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0}, /* tims 6 */
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0}, /* tims 6 */
 {0, 0, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0}, /* traces 9 */
 0, /* hier_max_level 8 */
 0, /* hier_max_level_shadow */
@@ -1344,12 +1344,12 @@ NULL, /* wave_hslider */
 0, /* which_t_color */
 NULL, /* gc_white 650 */
 NULL, /* gc_black 651 */
-{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}, /* gc */
+{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}, /* gc */
 WAVE_RAINBOW_INITIALIZER, /* gc_rainbow */
 0, /* made_sgc_contexts_wavewindow_c_1 649 */
 0, /* fill_in_smaller_rgb_areas_wavewindow_c_1 659 */
 -1, /* prev_markertime */
-{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}, /* gccache */
+{NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}, /* gccache */
 20, /* analog_redraw_skip_count */
 0, /* str_wid_x */
 0, /* str_wid_width */
