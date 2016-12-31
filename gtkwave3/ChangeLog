@@ -1585,7 +1585,7 @@
 		Added HUWL-? value types to signal_change_list() to keep GHW
 		files from crashing Tcl scripts.
 3.3.78	26oct16	Fixed crash when using multiple pattern searches.
-3.3.79	11dec16	Disable accelerator keys in twinwave single window mode to
+3.3.79	31dec16	Disable accelerator keys in twinwave single window mode to
 		avoid focus conflicts.
 		Fixes for -fstrict-aliasing and other recent warnings.
 		Added fill_waveform rc variable and corresponding menu option
