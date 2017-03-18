@@ -7602,6 +7602,34 @@ GLOBALS->disable_mouseover = !gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM
 }
 
 /**/
+#ifdef WAVE_USE_GTK2
+void menu_clipboard_mouseover(gpointer null_data, guint callback_action, GtkWidget *widget)
+{
+(void)null_data;
+(void)callback_action;
+(void)widget;
+
+if(GLOBALS->helpbox_is_active)
+        {
+        help_text_bold("\n\nMouseover Copies To Clipboard");
+        help_text(
+		" toggles automatic copying to the clipboard of mouseover values.  Requires that Show Mouseover is enabled.\n"
+        );
+        }
+	else
+	{
+	GLOBALS->clipboard_mouseover=(GLOBALS->clipboard_mouseover)?0:~0;
+	DEBUG(printf("Mouseover Copies To Clipboard\n"));
+	}
+
+#ifndef WAVE_USE_MLIST_T
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VSMC].path))->active=(GLOBALS->clipboard_mouseover)?TRUE:FALSE;
+#else
+GLOBALS->clipboard_mouseover = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSMC]));
+#endif
+}
+#endif
+/**/
 
 
 /* this is the GtkMenuEntry structure used to create new menus.  The
@@ -7841,6 +7869,9 @@ static gtkwave_mlist_t menu_items[] =
     WAVE_GTKIFE("/View/Show Filled High Values", NULL, menu_show_filled_high_values, WV_MENU_FILL1, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP9B, "<Separator>"),
     WAVE_GTKIFE("/View/Show Mouseover", NULL, menu_show_mouseover, WV_MENU_VSMO, "<ToggleItem>"),
+#ifdef WAVE_USE_GTK2
+    WAVE_GTKIFE("/View/Mouseover Copies To Clipboard", NULL, menu_clipboard_mouseover, WV_MENU_VSMC, "<ToggleItem>"),
+#endif
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP9A, "<Separator>"),
     WAVE_GTKIFE("/View/Show Base Symbols", "<Alt>F1", menu_show_base, WV_MENU_VSBS, "<ToggleItem>"),
     WAVE_GTKIFE("/View/<separator>", NULL, NULL, WV_MENU_SEP10, "<Separator>"),
@@ -7971,6 +8002,10 @@ GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, 
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1,menu_items[WV_MENU_VSMO].path))->active=(GLOBALS->disable_mouseover)?FALSE:TRUE;
 
+#ifdef WAVE_USE_GTK2
+GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1,menu_items[WV_MENU_VSMC].path))->active=(GLOBALS->clipboard_mouseover)?TRUE:FALSE;
+#endif
+
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VSBS].path))->active=(GLOBALS->show_base)?TRUE:FALSE;
 
 GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(GLOBALS->item_factory_menu_c_1, menu_items[WV_MENU_VDR].path))->active=(GLOBALS->do_resize_signals)?TRUE:FALSE;
@@ -8022,6 +8057,10 @@ gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_FILL1]), G
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_HSWM]), GLOBALS->alt_wheel_mode);
 
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSMO]), !GLOBALS->disable_mouseover);
+
+#ifdef WAVE_USE_GTK2
+gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSMC]), GLOBALS->clipboard_mouseover);
+#endif
 
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VSBS]), GLOBALS->show_base);
 gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_wlist[WV_MENU_VDR]), GLOBALS->do_resize_signals);

@@ -171,6 +171,13 @@ GLOBALS->disable_mouseover=atoi_64(str)?1:0;
 return(0);
 }
 
+int f_clipboard_mouseover(char *str)
+{
+DEBUG(printf("f_clipboard_mouseover(\"%s\")\n",str));
+GLOBALS->clipboard_mouseover=atoi_64(str)?1:0;
+return(0);
+}
+
 int f_disable_tooltips(char *str)
 {
 DEBUG(printf("f_disable_tooltips(\"%s\")\n",str));
@@ -822,6 +829,7 @@ static struct rc_entry rcitems[]=
 { "autocoalesce", f_autocoalesce },
 { "autocoalesce_reversal", f_autocoalesce_reversal },
 { "autoname_bundles", f_autoname_bundles },
+{ "clipboard_mouseover", f_clipboard_mouseover },
 { "color_0", f_color_0 },
 { "color_1", f_color_1 },
 { "color_1fill", f_color_1fill },

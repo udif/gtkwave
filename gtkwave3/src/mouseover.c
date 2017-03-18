@@ -294,6 +294,15 @@ if(t)
 
 	value_charlen = asciivalue ? strlen(asciivalue) : 0;
 
+#ifdef WAVE_USE_GTK2
+        if(GLOBALS->clipboard_mouseover)
+                {
+                GdkDisplay *g = gdk_display_get_default();
+                GtkClipboard *clip = gtk_clipboard_get_for_display (g, GDK_SELECTION_CLIPBOARD); // GDK_SELECTION_PRIMARY
+                gtk_clipboard_set_text (clip, asciivalue, value_charlen);
+                }
+#endif
+
 	name_charlen = t->name ? strlen(t->name) : 0;
 	if(name_charlen)
 		{

@@ -76,6 +76,7 @@ int  f_color_xfill (char *str);
 int  f_constant_marker_update (char *str);
 int  f_convert_to_reals (char *str);
 int  f_cursor_snap (char *str);
+int  f_clipboard_mouseover (char *str);
 int  f_disable_mouseover (char *str);
 int  f_disable_tooltips (char *str);
 int  f_do_initial_zoom_fit (char *str);

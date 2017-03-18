@@ -1591,3 +1591,6 @@
 		Added fill_waveform rc variable and corresponding menu option
 		(/View/Show Filled High Values) to allow filling in the lower
 		portion of high values for increased visibility.
+3.3.80	17mar17	Added "/View/Mouseover Copies To Clipboard" menu option to
+		allow copying values into the clipboard so they can be pasted
+		into text editors, etc.

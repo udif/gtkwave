@@ -79,6 +79,9 @@ show_base_symbols no
 atomic_vectors yes
 vcd_explicit_zero_subscripts no
 
+disable_mouseover no
+clipboard_mouseover yes
+
 #
 # color additions
 #
@@ -287,6 +290,7 @@ accel "/View/Show Wave Highlight" (null)
 accel "/View/Show Filled High Values" (null)
 accel "/View/<separator>" (null)
 accel "/View/Show Mouseover" (null)
+accel "/View/Mouseover Copies To Clipboard" (null)
 accel "/View/<separator>" (null)
 accel "/View/Show Base Symbols" <Alt>F1
 accel "/View/<separator>" (null)

@@ -640,6 +640,7 @@ GtkWidget *sst_signal_popup_menu; /* from menu.c */
  * mouseover.c
  */
 char disable_mouseover; /* from mouseover.c 271 */
+char clipboard_mouseover; /* from mouseover.c */
 GtkWidget *mouseover_mouseover_c_1; /* from mouseover.c 272 */
 GtkWidget *mo_area_mouseover_c_1; /* from mouseover.c 273 */
 GdkDrawable *mo_pixmap_mouseover_c_1; /* from mouseover.c 274 */

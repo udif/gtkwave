@@ -641,6 +641,7 @@ NULL, /* sst_signal_popup_menu */
  * mouseover.c
  */
 1, /* disable_mouseover 254 */
+0, /* clipboard_mouseover */
 NULL, /* mouseover_mouseover_c_1 255 */
 NULL, /* mo_area_mouseover_c_1 256 */
 NULL, /* mo_pixmap_mouseover_c_1 257 */
@@ -1850,6 +1851,7 @@ void reload_into_new_context_2(void)
  new_globals->constant_marker_update = GLOBALS->constant_marker_update;
  new_globals->convert_to_reals = GLOBALS->convert_to_reals;
  new_globals->disable_mouseover = GLOBALS->disable_mouseover;
+ new_globals->clipboard_mouseover = GLOBALS->clipboard_mouseover;
  new_globals->keep_xz_colors = GLOBALS->keep_xz_colors;
  new_globals->disable_tooltips = GLOBALS->disable_tooltips;
  new_globals->do_hier_compress = GLOBALS->do_hier_compress;
@@ -2789,6 +2791,7 @@ switch(type)
 							GLOBALS->fill_waveform = g_old->fill_waveform;
 							GLOBALS->use_standard_trace_select = g_old->use_standard_trace_select;
 							GLOBALS->disable_mouseover = g_old->disable_mouseover;
+							GLOBALS->clipboard_mouseover = g_old->clipboard_mouseover;
 							GLOBALS->keep_xz_colors = g_old->keep_xz_colors;
 							GLOBALS->zoom_pow10_snap = g_old->zoom_pow10_snap;
 
